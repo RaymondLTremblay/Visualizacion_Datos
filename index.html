@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Analítica</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 52px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.section h2 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.section h3 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.section h4 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.section h5 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.section h6 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">ANALITICA</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Estadística básica
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="E1-Introducción.html">¿Qué es la Estadística?</a>
+    </li>
+    <li>
+      <a href="E2-Historia.html">Historia breve de la estadística cuantitativa</a>
+    </li>
+    <li>
+      <a href="E3-TallerRFE_I.html">Introducción a R, Rstudio y RMarkdown</a>
+    </li>
+    <li>
+      <a href="E4-Graficos.html">Explorando los datos con gráficos</a>
+    </li>
+    <li>
+      <a href="E5-supuestos.html">Los Supuestos de las pruebas paramétricas</a>
+    </li>
+    <li>
+      <a href="E6-TallerRFE_II.html">Regresión simple y ANOVA</a>
+    </li>
+    <li>
+      <a href="E7-TRAvanzado.html">Modelos Lineales</a>
+    </li>
+    <li>
+      <a href="E8-Tipos_de_Datos.html">Tipos de Datos</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Visualización
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="G1-ggplot2.html">Qué es la visualización de datos y ejemplos historicos</a>
+    </li>
+    <li>
+      <a href="G2-Errores-tipicos-en-la-visualizacion.html">Errores típicos en la visualización</a>
+    </li>
+    <li>
+      <a href="G3-Graficos-por-conteos.html">Gráficos para conteos</a>
+    </li>
+    <li>
+      <a href="G4-Grafico-de-puntos-de-Wilkinson.html">Gráficos de puntos de Wilkinson</a>
+    </li>
+    <li>
+      <a href="G5_geom_area_densidad_freqpoly.html">Gráficos de area y densidad</a>
+    </li>
+    <li>
+      <a href="G6_geom_histogram.html">Histogramas</a>
+    </li>
+    <li>
+      <a href="G7_geom_bar.html">Gráficos de barras</a>
+    </li>
+    <li>
+      <a href="G8_geom_boxplot_geom_violin.html">Gráficos de caja y de violín</a>
+    </li>
+    <li>
+      <a href="G9_Facet_Grid.html">Facet Grid</a>
+    </li>
+    <li>
+      <a href="G10_Facet_wrap.html">Facet Wrap</a>
+    </li>
+    <li>
+      <a href="G11_EVALUANDO_SUPUESTOS.html">Evaluando Supuestos</a>
+    </li>
+    <li>
+      <a href="G12_Mapas_Calor.html">Mapas de Calor</a>
+    </li>
+    <li>
+      <a href="G13_geom_line.html">Gráficos con lineas</a>
+    </li>
+    <li>
+      <a href="G14_geom_point_geom_jitter.html">Geom_point y geom_jitter</a>
+    </li>
+    <li>
+      <a href="G15_gganimate.html">Gráficos animados en movimiento</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Sreencasts
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="screencast_t_test.html">t-test Screencast</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Ejercicios
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Plataforma.html">Lo básico de RStudio</a>
+    </li>
+    <li>
+      <a href="RMarkdown.html">Lo básico de RMarkdown</a>
+    </li>
+    <li>
+      <a href="Tendencias_Centrales.html"> Tendencias Centrales</a>
+    </li>
+    <li>
+      <a href="Medidas_Dispersión.html"> Medidas de Dispersión</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Talleres
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Descipción_de_Talleres.html">Tabla de Talleres Futuros</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Los Datos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="HIV.html">Datos sobre HIV</a>
+    </li>
+    <li>
+      <a href="COVID-19.html">COVID-19</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Analítica</h1>
+
+</div>
+
+
+<div id="analítica-fundación" class="section level1">
+<h1>Analítica Fundación</h1>
+<div id="quiénes-somos" class="section level2">
+<h2>Quiénes Somos</h2>
+<p><strong>Analítica Fundación, Inc.</strong>, es una corporación sin fines de lucro incorporada bajo las leyes del Estado Libre Asociado de Puerto Rico en el 2018. Su especialidad es el análisis de datos. Su objetivo principal es proveer todo tipo de servicios educativos, de investigación y capacitación profesional, y el desarrollo de pensamiento crítico en el campo de la analítica.</p>
+<p><strong>Visión</strong>: - Ser un líder en el análisis de datos en el mundo Hispano a través de la práctica y la educación. - Crear una comunidad dinámica de profesionales interesados(as) en los temas del análisis de datos y sus herramientas.</p>
+<p><strong>Misión</strong>:</p>
+<ul>
+<li>Desarrollar profesionales (facultad, estudiantes, empleados) en el campo de la analítica.</li>
+<li>Promover el estudio e investigación de la analítica alrededor del mundo en el lenguaje español (castellano).</li>
+<li>Colaborar en el desarrollo de proyectos de análisis en universidades, centros de investigación, empresas, y organizaciones gubernamentales y no gubernamentales.</li>
+<li>Auspiciar jóvenes estudiantes subgraduados y graduados en la investigación y práctica de la analítica.</li>
+</ul>
+<p><strong>Valores</strong>:</p>
+<ul>
+<li>Liderazgo ético en el análisis de datos.</li>
+<li>Cultivo responsable de la próxima generación de analistas en universidades, empresas y gobiernos.</li>
+<li>Excelencia en la innovación y uso de la tecnología del análisis.</li>
+</ul>
+<p><strong>Metas</strong>: Ser uno de los focos más importantes de discusión, distribución de recursos e información, y promoción del análisis de datos en el mundo Hispano.</p>
+<p><strong>Promoción</strong>: <a href="https://drive.google.com/file/d/1r8imhmhc0WAzC8_XBL7lcEE0ksvJgi4N/view?usp=sharing">Opúsculo</a></p>
+</div>
+<div id="objetivos-específicos" class="section level2">
+<h2>Objetivos específicos</h2>
+<ul>
+<li>Diseño, creación, organización y administración de actividades sobre análisis:
+<ul>
+<li>Talleres</li>
+<li>Seminarios</li>
+<li>Conferencias</li>
+<li>Publicaciones</li>
+<li>Asesoría</li>
+<li>Demostraciones</li>
+<li>Investigación</li>
+</ul></li>
+<li>Ofrecer asistencia en el diseño y ejecución de análisis de datos, publicación de resultados y tareas relacionadas.</li>
+<li>Capacitación y apoyo en el diseño, administración y publicación de estudios cuantitativos y cualitativos.</li>
+<li>Creación y venta de libros y manuales técnicos sobre el uso de herramientas de análisis de datos en español (castellano).</li>
+</ul>
+</div>
+<div id="recursos" class="section level2">
+<h2>Recursos</h2>
+</div>
+<div id="gráficas-verstátiles-con-ggplot2-análisis-visual-de-datos" class="section level2">
+<h2><span style="color: blue;"><strong>Gráficas Verstátiles con ggplot2: Análisis Visual de Datos</strong></span></h2>
+<p>Este libro es sobre la visualización y producción efectiva de gráficos. El énfasis es en el paquete de ggplot2, que está basado en el lenguaje de programación R. Contiene una enorme variedad de representaciones de datos con más de 200 ejemplos.</p>
+<p>La visualización ayuda a entender lo que pueden comunicar los datos. Además, ayuda a expandir el análisis estadístico a través de múltiples métodos y expresar las inferencias de ese análisis. Todo los “scripts” de los gráficos están incluidos para facilitar el aprendizaje y uso del paquete ggplot2.</p>
+<p>Este libro está dirigido a científicos y no científicos, analistas de datos, y estudiantes de todos los niveles y de todas las disciplinas que tengan interés en producir gráficos de alta calidad para visualizar datos, llevar a cabo análisis científicos, extrapolar resultados de experimentos y otros tipos de visualización.</p>
+<pre><code>  Capítulo 1: Breve introducción sobre R, el ambiente RStudio y el paquete ggptlo2.
+  Capítulo 2: Continuación con conceptos mínimos de R y explicación de los datos utilizados en el libro.
+  Capítulo 3: Organización de datos para utilizar en ggplot2.
+  Capítulo 4: ggplot2 y alternativas de visualización.
+  Capítulo 5: Gráficos para conteos.
+  Capítulo 6: Gráficos para variables continuas o discretas (gráficos de puntos, histogramas, gráficos de sectores, etc.).
+  Capítulo 7: Gráficos por categorías (facet_wrap).
+  Capítulo 8: Gráficos en cuadrícula (facet_grid).
+  Capítulo 9: Gráficos para dos variables continuas (geom_point, geom_jitter, transformaciones logarítmicas, etc.).
+  Capítulo 10: Gráficos de líneas (geom_line).
+  Capítulo 11: Gráficos mostrando su distribución (mínima/máxima y error estándar, geom_ribbon).
+  Capítulo 12: Gráficos de línea con categorías.
+  Capítulo 13: Líneas con error estándar (geom_errorbar, geom_errorbarh).
+  Capítulo 14: Gráficos estadísticos (geom_boxplot, geom_violin, etc.).
+  Capítulo 15: Diagrama de alfombra (geom_rug).
+  Capítulo 16: Gráficos de distribución continua.
+  Capítulo 17: Gráficos de distribución espacial (geom_spoke).
+  Capítulo 18: Representación gráfica no lineal (geom_step).
+  Capítulo 19: Gráficos de densidad (geom_density2d, stat_denisity2d).
+  Capítulo 20: Visualización de respuestas de cuestionarios (sjp.likert).
+  Capítulo 21: Evaluación gráfica de supuestos subyacentes.
+  Capítulo 22: Creación de una plantilla para estandarizar la presentación de los gráficos.
+  Capítulo 23: Definición de colores con ggplot2.
+  Capítulo 24: Especificación de la estética en los gráficos con ggpplot2.
+  Capítulo 25: Preparación de un gráfico para una presentación.
+  Capítulo 26: Añadir texto a un gráfico.
+  Capítulo 27: Breve introducción de la transformación y manipulación de datos en R.
+  Capítulo 28: Ejemplos detallados para todas las 35 funciones demostradas en el libro.
+  </code></pre>
+<p>Para todas las demostraciones se ofrecen cientos de “scripts” que se pueden copiar fácilmente y más de 200 ejemplos con los datos originales, incluyendo cómo cambiar las características de los elementos de cada gráfico (colores, escalas, ejes, leyendas, etc.).</p>
+<p>Este libro sobre ggplot2 está disponible en formato Kindle <a href="https://www.amazon.com/Gr%C3%A1ficas-Vers%C3%A1tiles-ggplot2-An%C3%A1lisis-Spanish-ebook/dp/B07P2Q87H2/ref=sr_1_1?dchild=1&amp;keywords=gr%C3%A1ficas+vers%C3%A1tiles&amp;qid=1593970135&amp;sr=8-1">aquí</a>.</p>
+</div>
+<div id="historia" class="section level2">
+<h2>Historia</h2>
+<p>Analíca Fundación, Inc. fue creada para atender de una forma más ágil el auspicio, apoyo, creación y producción de recursos en apoyo al campo del análisis en Puerto Rico e Iberoamérica. Aunque existe una enorme producción de recursos provenientes de instituciones universitarias, normalmente esos recursos están muy atados a las instituciones en donde se generan y no necesariamente logran quedar al alcance del público profesional interesado en temas del análisis. Los fundadores hemos querido servir de enlace al inmenso conocimiento que se genera en la academia, organizaciones en el mundo dedicadas a los temas del análisis, e individuos específicos y todos aquellos que se podrían beneficiar del conocimiento, destrezas y herramientas que continuamente se están creando o que ya existen en el mercado que son en su mayor parte libre de costos.</p>
+<p>Para más información sobre Analítica, favor comunicarse con los oficiales como muestra a continuación o en la sección de contactos (más abajo).</p>
+<p>¡Gracias por su interés!</p>
+<div id="directores" class="section level3">
+<h3>Directores</h3>
+<p><strong>Oficial</strong>: Raymond L. Tremblay, PhD (<a href="mailto:raymond.tremblay@gmail.com" class="email">raymond.tremblay@gmail.com</a>)</p>
+<blockquote>
+<p>Profesor de Evolución y Biometría del Departamento de Biología de la Universidad de Puerto Rico en Humacao y Presidente de Analítica, <a href="https://www.researchgate.net/profile/Raymond_Tremblay">ResearchGate</a></p>
+</blockquote>
+<p><strong>Oficial</strong>: Denny S. Fernández-Del-Viso, PhD (<a href="mailto:dsfernandez@gmail.com" class="email">dsfernandez@gmail.com</a>)</p>
+<blockquote>
+<p>Profesor de Ecología y Biometría del Departamento de Biología de la Universidad de Puerto Rico en Humacao y Secretario de Analítica, <a href="https://www.researchgate.net/profile/Denny_Fernandez2">ResearchGate</a></p>
+</blockquote>
+<p><strong>Oficial</strong>: Julián Hernández-Serrano, PhD (<a href="mailto:julian.hernandez.serrano@protonmail.com" class="email">julian.hernandez.serrano@protonmail.com</a>)</p>
+<blockquote>
+<p>Profesor de Tecnología del Departamento de Administración de Empresas de la Universidad de Puerto Rico en Humacao y Tesorero de Analítica, <a href="https://www.researchgate.net/profile/Julian_Hernandez-Serrano">ResearchGate</a></p>
+</blockquote>
+</div>
+</div>
+</div>
+<div id="servicios" class="section level1">
+<h1>Servicios</h1>
+<div id="capacitación" class="section level3">
+<h3>Capacitación</h3>
+<ul>
+<li>Talleres de estadística y análisis cuantitativo</li>
+<li>Talleres de análisis cualitativo</li>
+<li>Talleres de visualización de datos</li>
+<li>Talleres de introducción a programado y herramientas de análisis, tales como:
+<ul>
+<li>R</li>
+<li>RStudio</li>
+<li>RMarkdown</li>
+<li>Python</li>
+<li>GitHub</li>
+<li>NVivo</li>
+</ul></li>
+</ul>
+</div>
+<div id="análisis-especializados" class="section level3">
+<h3>Análisis Especializados</h3>
+<ul>
+<li>Servicio de análisis de datos existentes para científicos, corporaciones y organizaciones gubernamentales y no gubernamentales
+<ul>
+<li>Diseño de estrategia de análisis</li>
+<li>Recolección de datos</li>
+<li>Preparación para análisis</li>
+<li>Análisis estadístico y aplicación de modelos</li>
+<li>Análisis cualitativo</li>
+<li>Visualización de los datos</li>
+<li>Presentación de resultados</li>
+<li>Recomendaciones</li>
+</ul></li>
+<li>Diseño y organización de actividades de capacitación en el análisis de datos para propuestas locales, federales e internacionales
+<ul>
+<li>Redacción de componentes de análisis de propuestas</li>
+<li>Supervisión y ejecución de la evaluación de programas y proyectos</li>
+<li>Entrega de informe oficial de evaluación intermedia (formativa) y final (sumativa) de metas, procesos y resultados, incluyendo conclusiones y recomendaciones</li>
+</ul></li>
+<li>Colaboración en el análisis de datos existentes
+<ul>
+<li>Subcontratista o asociado para la administración de componentes del análisis de programas o proyectos</li>
+</ul></li>
+<li>Consultoría de análisis para escuelas graduadas y profesionales, y otros centros de investigación
+<ul>
+<li>Por hora o por tarea contratada</li>
+</ul></li>
+</ul>
+</div>
+<div id="evaluación-de-impacto" class="section level3">
+<h3>Evaluación de impacto</h3>
+<ul>
+<li>Conceptualización, diseño, implementación, diseño y administración de un plan de evaluación interna o externa de programas o proyectos que puede incluir:
+<ul>
+<li>Creación o modificación de instrumentos de evaluación (encuestas, depósitos de bases de datos, etc.)</li>
+<li>Dirigir grupos focales y llevar a cabo el análisis (hallazgos y recomendaciones)</li>
+<li>Analisis de documentos o bases de datos existentes</li>
+<li>Creación de pre/postpruebas para evaluación de efectividad de intervenciones educativas</li>
+<li>Entrevistas estructuradas, semiestructuradas o informales a participantes</li>
+<li>Diseño de procesos de rastreo de participantes</li>
+</ul></li>
+</ul>
+</div>
+</div>
+<div id="contactos" class="section level1">
+<h1>Contactos</h1>
+<p><strong>Coreo electrónico</strong>: <a href="mailto:analiticafundacion@gmail.com" class="email">analiticafundacion@gmail.com</a></p>
+<p><strong>Canal en Youtube</strong>: <a href="https://www.youtube.com/channel/UC1gdCGTHxlbbAiY21GHH39A?view_as=subscriber">Analítica Fundación</a></p>
+<p><strong>Twitter</strong>: <span class="citation">@Analitica</span> (<a href="https://twitter.com/AnaliticaF" class="uri">https://twitter.com/AnaliticaF</a>)</p>
+<p><strong>Facebook</strong>: <span class="citation">@analiticafundacion</span> (<a href="https://www.facebook.com/analiticafundacion" class="uri">https://www.facebook.com/analiticafundacion</a>)</p>
+<p><strong>Dirección Postal</strong>:</p>
+<pre><code>      Brisas del Parque I
+      32 Calle Sendero
+      CAGUAS, PR, 00725</code></pre>
+<p><strong>Teléfono</strong>:</p>
+<pre><code>      787-310-4620, 787-214-2448</code></pre>
+<hr />
+<p>TODO lo de abajo tiene que ser movido a la pestaña de Talleres</p>
+<p>ESTO DEBERIA IR EN OTRA SECCION, UNA QUE DAMOS TALLERES</p>
+<div id="libros-posible-para-los-talleres" class="section level2">
+<h2>Libros posible para los talleres</h2>
+<ul>
+<li><a href="https://es.r4ds.hadley.nz">Garrett Grolemund, Hadley Wickham. R para Ciencia de Datos</a> En Español.</li>
+<li><a href="https://r4ds.had.co.nz">Garrett Grolemund, Hadley Wickham. R for Data Science</a> En Ingles.</li>
+<li><a href="https://www.amazon.com/Gráficas-Versátiles-ggplot2-Análisis-Spanish-ebook/dp/B07P2Q87H2/ref=sr_1_1?dchild=1&amp;keywords=Graficas+versatiles&amp;qid=1591404029&amp;sr=8-1">Tremblay y Hernández-Serrano. Graficas Versatiles con ggplot2, 2018</a>.</li>
+</ul>
+<div id="programados-para-talleres" class="section level3">
+<h3>Programados para talleres</h3>
+<ul>
+<li><a href="https://cran.r-project.org/">R- free statistical programming language™</a></li>
+<li><a href="https://rstudio.com">RStudio™</a></li>
+<li>MS Excel™, Numbers™ o Google Sheet™ para ingresar los datos</li>
+</ul>
+</div>
+<div id="faltar-a-talleres-o-actividades" class="section level3">
+<h3>Faltar a talleres o actividades:</h3>
+<p>Los certificados de participación a los talleres serán limitado a los que participan con un porcentaje significativo de ellos. Para cada grupos de talleres la cantitad necesaria para cumplir con un certificado sera indicado y informado a los participantes popr escrito.</p>
+</div>
+<div id="comentario-sobre-grabar-videos-yo-audio-de-los-talleres" class="section level3">
+<h3>Comentario sobre grabar videos y/o audio de los talleres</h3>
+<p>No pueden grabar los talleres por forma de video o audio sin el permiso del instructor. Algunos participantes con necesidades especiales pueden hablar con el instructor para pedir el permiso. Este permiso tiene que ser pedido y aprobado por escrito (por ejemplo por email).</p>
+</div>
+<div id="espacio-libre-de-acoso-sexual" class="section level3">
+<h3>Espacio libre de acoso sexual</h3>
+<p>ANALITICA se compromete a promover un espacio positivo y libre de descrimen.</p>
+</div>
+<div id="protocolo-de-los-talleres" class="section level3">
+<h3>Protocolo de los talleres</h3>
+<p>Recuerda que que se usara computadoras portatiles en cada sesión.</p>
+</div>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

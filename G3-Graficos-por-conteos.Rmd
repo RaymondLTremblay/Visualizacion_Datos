@@ -1,0 +1,326 @@
+---
+title: "Gráficos para conteos"
+author: "RLT"
+date: "6/30/2020"
+output:
+  html_document:
+    theme: spacelab
+    toc: yes
+    toc_float: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Fecha de la ultima revisión
+```{r echo=FALSE}
+
+Sys.Date()
+```
+
+# Gráficos con **geom_point** y **geom_count**
+
+
+***
+
+
+La función *geom_point* se utiliza para hacer gráficos con los datos en forma de puntitos.  La función *geom_count* hace lo mismo, pero da más flexibilidad en la representación de los puntitos.  Con esos gráficos, típicamente tenemos información en los ejes de **X** y de **Y**, de manera que esas funciones proyectan los datos distribuidos en ambos ejes.  
+
+Comenzaremos la demostración de *geom_point* primero y luego la de *geom_count*.  Así podremos apreciar mejor las ventajas de utilizar el gráfico *geom_count*.  
+
+
+```{r, message=FALSE}
+# preparar las librerías primero:
+library(ggversa) # la función "library" activa el packete de **ggversa** donde se encuentra los archivos
+library(ggplot2) # ggplot2 es la librería que se usará para graficar los datos
+library(tidyverse) # una serie de paquetes para organizar y visualizar los datos
+library(gt) # para que las tablas se vean más organizadas
+```
+
+
+
+Para visualizar gráficos con **geom_point** y **geom_count**,  utilizaremos los datos que se encuentran en el archivo **Anolis** en el paquete **ggversa**.  Aquí se muestran las primeras seis filas del archivo. 
+
+
+
+```{r}
+h=head(Anolis) # la función *head* es para visualizar las primeros 6 filas
+h$DATE=as.Date(h$DATE, "%m/%d/%Y %H:%M:%S") # convertir la columna de fecha de tipo caracter a tipo fecha
+
+h%>%
+  gt() %>%
+  tab_header(
+    title = md("Datos lagartija *Anolis* de Puerto Rico"))%>%
+  tab_options(
+    column_labels.font.size = px(10),
+    table.font.size = px(10))%>%
+  tab_style(
+    style = cell_text(style = "italic"),
+    locations = cells_body(
+      columns = vars(SPECIES)
+    ))%>%
+  fmt_date(
+    columns = vars(DATE),
+    date_style = 8
+  )
+
+
+```
+
+
+***
+
+## Creación de subgrupos con **select()** y **filter()** 
+
+Antes de comenzar la demostración, vamos a preparar los datos.  Se usará un subgrupo de los datos de unas de las especies de *Anolis*, el pequeño lagartijo que es nativo de Puerto Rico.  Primero se visualizan las primeras 7 filas del archivo con las dos variables de interés. Específicamente, utilizaremos los datos de los lagartijos con individuos que tienen entre 4 cm y 20 cm de largo. El primer paso es seleccionar las columnas de interés usando la función **select( )**.  El segundo paso es filtrar los datos con la opción *filter* para solo obtener los *Anolis* que tienen un peso menor de 4 cm y un SVL mayor a 20 cm.   
+
+En el primer paso se muestran las filas del 1 al 7 usando **head( )** y se seleccionan las columnas de peso, WEIGHT, de los lagartijos con valor menor de 4 y tamaño SVL mayor a 20.  Note que se utiliza **&** para indicar que cada fila tiene que cumplir con ambas condiciones; o sea, el lagartijo tiene que tener un peso menor de 4 cm y un tamaño mayor de 20 cm (de la cloaca al hocico).  Si una de las dos condiciones no se cumple, no se incluirá ese espécimen en particular, de tal manera que obtendremos un archivo más reducido. 
+
+```{r}
+
+Anolis %>%
+  select(WEIGHT, SVL)%>%  # selecciona
+  filter(WEIGHT<4 & SVL>20)%>%
+  head(n=7)%>%            # solo muestra los primeros siete
+  gt()
+
+```
+
+
+***
+
+
+## Gráfico **geom_point**
+
+
+A continuación, en la **Figura. Gráfico básico con geom_point**, se muestra un gráfico básico.  Como se puede apreciar, los puntos son negros y de un tamaño específico, y los nombres de los ejes de **X** y **Y** son los nombres de las columnas tal como aparecen en el archivo de datos.    
+
+```{r geom point-count}
+
+Anolis %>%
+  select(WEIGHT, SVL)%>%
+  filter(WEIGHT<4 & SVL>20)%>%
+ggplot(aes(SVL, WEIGHT))+
+  geom_point()+
+    labs(title="Figura. Gráfico básico con geom_point")
+```
+
+***
+
+
+### Añadir detalles al gráfico
+
+Al gráfico anterior se le pueden hacer modificaciones a los nombres de los ejes, y el estilo y tamaño de las letras.  Se cambia el nombre de las variables con **xlab** y **ylab**. El tamaño y estilo de las letras de las variables se cambian a itálicas y color rojo con **theme(axis.title=element_text(size=10,face="italic", colour="red")**.  Además, se le puede añadir un título verde y en negrilla con **ggtitle("Nuevo título con tipo/tamaño/aspecto que Ud desee")**, y el tamaño y estilo del título con **theme(title=element_text(size=20,face="bold", colour="green"))**, tal como se muestra en el gráfico siguiente.
+
+
+```{r}
+Anolis %>%
+  select(WEIGHT, SVL)%>%
+  filter(WEIGHT<4 & SVL>20)%>%
+ggplot(aes(SVL, WEIGHT))+
+  geom_point()+
+  ylab("Peso en gramos")+
+  xlab("Tamaño del hocico a la cloaca")+
+  theme(axis.title=element_text(size=10,face="italic", colour="red"))+
+  theme(title=element_text(size=18,face="bold", colour="green"))+
+  ggtitle("Título con tipo/tamaño/aspecto que Ud desee")
+
+```
+
+En este último gráfico tenemos la peculiaridad que hay múltiples lagartijas con el mismo peso y tamaño, por lo que los puntos quedarán solapados.  A consecuencia de esto, uno no necesariamente va a poder apreciar la frecuencia de los datos.  Más adelante se demostrará cómo resolver ese problema.
+
+
+***
+
+## Gráfico **geom_count**
+
+Por otro lado, la función **geom_count** varía el tamaño de los puntos de acuerdo a como varía la frecuencia de una variable. Esta función es una extensión de **geom_point**.  Con **geom_count** veremos que la diferencia es que ahora el tamaño de los puntos está relacionado a su frecuencia en el archivo de datos. El tamaño de cada punto representa la frecuencia o valores de la cantidad de lagartijas; o sea, los puntos más grandes representan especímenes que son más comunes.  Esto se demuestra en la **Figura: Puntos de acuerdo a la frecuencia** a continuación:
+
+```{r geom count1}
+
+Anolis %>%
+  select(WEIGHT, SVL)%>%
+  filter(WEIGHT<4 & SVL>20)%>%
+ggplot(aes(SVL, WEIGHT))+
+  geom_count()+
+  ylab("Peso en gramos")+
+  xlab("Tamaño del hocico a la cloaca")+
+  theme(axis.title=element_text(size=14,face="bold"))+
+  labs(title="Figura. Puntos de acuerdo a la frecuencia")
+
+```
+
+
+***
+
+
+### Tamaño de puntos proporcional a frecuencia
+
+Se puede representar la frecuencia en proporción a los datos.  En el gráfico siguiente, **Figura. Puntos en proporción a la frecuencia**, los tamaños de los puntos están proporcionales a su frecuencia. Note que hay que añadir **(size=..prop.. y group=1)** en la función **geom_count()**.  Note que en este caso la suma de todas las frecuencias es 1.  Tengamos en cuenta que en la figura anterior los puntos representan la frecuencia.  Pero, ahora, los puntos salen en proporción a la frecuencia. La frecuencia en este caso es calculada utilizando como denominador la cantidad total de todos los especímenes en el archivo. 
+
+```{r geom count2}
+
+Anolis %>%
+  select(WEIGHT, SVL)%>%
+  filter(WEIGHT<4 & SVL>20)%>%
+ggplot(aes(SVL, WEIGHT))+
+  geom_count(aes(size=..prop.., group=1))+
+   ylab("Peso en gramos")+
+  xlab("Tamaño del hocico a la cloaca")+
+  theme(axis.title=element_text(size=10,face="bold"))+
+  labs(title="Figura. Puntos en proporción a la frecuencia")
+```
+
+***
+
+
+### Tamaño de puntos proporcional a una variable
+
+En el siguiente gráfico, **Figura. Puntos en proporción a una variable**, las variable WEIGHT, o peso de las lagartijas, se usa para que la suma de la proporción equivalga a 1. Entonces aquí cada grupo en "Y" suma 1. Note que los grupos se forman a base del tamaño del hocico a la cloaca (SVL) utilizando **geom_count(aes(size=..prop.., group=SVL))**. Por ejemplo, en los *Anolis* que tienen el tamaño de 35 hay 4 puntos cada uno con valor 0.25, lo que da una suma de 1 (hay 4 cuatro lagartijas que tienen un SVL de 35cm). Note que la frecuencia en este caso es calculada utilizando como denominador la cantidad total de los valores que corresponden a un valor específico en "X".
+
+```{r geom count2a}
+
+Anolis %>%
+  select(WEIGHT, SVL)%>%
+  filter(WEIGHT<4 & SVL>20)%>%
+ggplot(aes(SVL, WEIGHT))+
+  geom_count(aes(size=..prop.., group=SVL))+
+  ylab("Peso en gramos")+
+  xlab("Tamaño del hocico a la cloaca")+
+  theme(axis.title=element_text(size=14,face="bold"))+
+  labs(title="Figura. Puntos en proporción a una variable")
+```
+
+
+***
+
+
+### Grupos separados por color
+
+Si hay más de un grupo (digamos, muestras tomadas en la época seca del año y las tomadas en la época lluviosa), se puede mostrar la proporción basada en los grupos/factores usando la función **colour** o **color**. En el gráfico **Figura. Grupos con diferentes colores**, vemos el efecto de usar el color.  Del patrón obtenido se puede observar que la mayoría de los *Anolis* pequeños se observa en el periodo lluvioso y los grandes en el periodo seco. Note que aquí se añade la variable que queremos separada por color; o sea, se identifica la estación de tiempo seco o húmedo con la columna *Season*. 
+
+```{r geom count3}
+
+Anolis %>%
+  select(WEIGHT, SVL, SEASON)%>%
+  filter(WEIGHT<4 & SVL>20)%>%
+ggplot(aes(SVL, WEIGHT, colour=SEASON))+
+  geom_count(aes(size=..prop.., group=WEIGHT))+
+  ylab("Peso en gramos")+
+  xlab("Tamaño del hocico a la cloaca")+
+  theme(axis.title=element_text(size=10,face="bold"))+
+  labs(title="Figura. Grupos con diferentes colores")
+
+```
+
+***
+
+
+### Grupos separados por variable discreta
+
+En la siguiente demostración, **Figura. Grupos separados por variable discreta**, se representan dos gráficos separados de acuerdo al sitio de muestreo usando **facet_wrap** y al añadir en **aes(, group=la variable)**.  Aquí se observa que el muestreo en la localidad llamada _Torre Sur_ se hizo solamente en el periodo lluvioso.  Note que para crear los dos gráficos separados por una variable discreta se usa **facet_wrap** con una tilde, "~", seguido del nombre de la variable, que en este caso es la localidad de muestreo, **Survey_Site**. (**facet_wrap** se explica en detalle como un tópico aparte de visualización.)
+
+```{r geom count4}
+names(Anolis) # para mostrar los nombres de las columnas
+
+  
+Anolis %>%
+  select(WEIGHT, SVL, SEASON, Survey_Site)%>%
+  filter(WEIGHT<4 & SVL>20)%>%
+ggplot(aes(SVL, WEIGHT, colour=SEASON))+
+  geom_count(aes(size=..prop.., group=WEIGHT))+
+  ylab("Peso en gramos")+
+  xlab("Tamaño del hocico a la cloaca")+
+  facet_wrap(~Survey_Site)+
+  theme(axis.title=element_text(size=10,face="bold"))+
+  scale_color_manual(values = c("orange", "dodger blue"))+
+  labs(title="Figura. Grupos separados por variable discreta")
+
+
+
+```
+
+
+***
+
+
+### Cambiar la forma de los puntos
+
+La opción de **shape** es para modificar los tipos de símbolo disponibles para representar los puntos. Los símbolos se escogen indicando un número del 0 al 25.  En el gráfico siguiente, **Figura. Cambio en la forma de los puntos**, se cambia la forma de los puntos con esta opción y el número de símbolo 12.  El símbolo típicamente utilizado en los gráficos de **ggplot2** es el 16 (un punto). Cabe mencionar que solamente los números 21 al 25 son símbolos rellenados con color, lo que se hace al utilizar la opción de **fill** e indicando el color deseado, tal como se muestra en la **Figura. Puntos rellenados en amarillo**.
+
+
+
+```{r geom count5.1}
+
+Anolis %>%
+  select(WEIGHT, SVL, SEASON, Survey_Site)%>%
+  filter(WEIGHT<4 & SVL>20)%>%
+ggplot(aes(SVL, WEIGHT, colour=SEASON))+
+  geom_count(shape=12,colour="black",
+             aes(size=..prop.., group=Survey_Site))+
+  ylab("Peso en gramos")+
+  xlab("Tamaño del hocico a la cloaca")+
+  facet_wrap(~Survey_Site)+
+  theme(axis.title=element_text(size=10,face="bold"))+
+  labs(title="Figura. Cambio en la forma de los puntos")
+```
+
+```{r geom count5.2}
+
+Anolis %>%
+  select(WEIGHT, SVL, SEASON, Survey_Site)%>%
+  filter(WEIGHT<4 & SVL>20)%>%
+ggplot(aes(SVL, WEIGHT, colour=SEASON))+
+  geom_count(shape=21, fill="yellow", colour="black",
+             aes(size=..prop.., group=Survey_Site))+
+  ylab("Peso en gramos")+
+  xlab("Tamaño del hocico a la cloaca")+
+  facet_wrap(~Survey_Site)+
+  theme(axis.title=element_text(size=10,face="bold"))+
+  labs(title="Figura. Puntos rellenados en amarillo")
+```
+***
+
+
+### Cambiar las características de los puntos
+
+En el siguiente gráfico, **Figura. Puntos cuadrados con bordes más gruesos**, se cambian la forma de los puntos a un cuadrado con la opción **shape** y el grosor del borde con la opción **stroke**, seguido de la asignación del parámetro correspondiente, en este caso 22 y 2 respectivamente.
+
+```{r geom count6}
+Anolis %>%
+  select(WEIGHT, SVL, SEASON, Survey_Site)%>%
+  filter(WEIGHT<4 & SVL>20)%>%
+ggplot(aes(SVL, WEIGHT, colour=SEASON))+
+  geom_count(shape=22, stroke=2,
+             aes(size=..prop.., group=Survey_Site))+
+  ylab("Peso en gramos")+
+  xlab("Tamaño del hocico a la cloaca")+
+  facet_wrap(~Survey_Site)+
+  theme(axis.title=element_text(size=10,face="bold"))+
+  labs(title="Figura. Puntos cuadrados con bordes más gruesos")
+```
+
+
+## Opciones y parámetros
+
+
+A continuación se resumen las opciones y parámetros más importantes de **geom_point** y **geom_count**:
+
+
+* ggplot(el archivo de datos, aes(x= la variable secuencial, y = la variable secuencial más de un grupo, color= si hay necesidad))
+ * geom_point(x, y, alpha, colour, fill, shape, size, stroke)
+ * geom_count(x, y, alpha, colour, fill, shape, size, stroke)
+ 
+    + alpha: la intensidad de los colores (explicado más adelante)
+    + colour: color de las líneas
+    + fill: para rellenar de color
+    + shape: la forma de los puntos
+    + size: el tamaño de los puntos
+    + stroke: para cambiar el grosor del borde del punto
+
+
+
+
+
+
