@@ -61,4 +61,33 @@ Datos de muchos paises sobre los casos de COVID-19
 Datos de Belgica <https://epistat.wiv-isp.be/covid/>
 
   1. [Belgica.xls](COVID19BE.xlsx)
-  
+
+
+****
+# COVID-19: Base de Datos Mundial
+
+
+  El siguiente archivo es para tener aceso a datos sobre los casos de COVID-19 por día en todo el planeta. El archivo esta mantenido en el siguiente enlace <https://github.com/owid/covid-19-data/tree/master/public/data>   
+
+Para más información vea al website.
+
+Las variables incluido al 4 de agosto son:
+
+iso_code, continent, location, date, total_cases, new_cases, total_deaths, new_deaths, total_cases_per_million, new_cases_per_million, total_deaths_per_million, new_deaths_per_million, total_tests, new_tests, new_tests_smoothed, total_tests_per_thousand, new_tests_per_thousand, new_tests_smoothed_per_thousand, tests_per_case, positive_rate, tests_units, stringency_index, population, population_density, median_age, aged_65_older, aged_70_older, gdp_per_capita, extreme_poverty, cardiovasc_death_rate, diabetes_prevalence, female_smokers, male_smokers, handwashing_facilities, hospital_beds_per_thousand, life_expectancy
+
+Para la descripción de las variables vea este enlace.
+
+
+```{r}
+library(gt)
+codes<-read.csv('https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-codebook.csv')
+gt(codes)
+```
+
+```{r}
+library(data.table)
+mydat<- read.csv('https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv')
+
+gt(head(mydat, n=10))
+```
+
