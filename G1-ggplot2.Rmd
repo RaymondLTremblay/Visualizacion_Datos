@@ -172,18 +172,105 @@ knitr::include_graphics("Graficos/coxcombchart.png")
 
 #Aquí se reconstruye el gráfico con herramientas modernas.  Los datos provienen de la página de Wikipedia **Crimean War**.
 
-País=c("Imperio Otamano", "Imperio Otamano","Francia","Francia", "Reino Unido","Reino Unido", "Cerdeña","Cerdeña", "Rusia y aliados","Rusia y aliados")
+Pais=c("Imperio Otamano", "Imperio Otamano","Francia","Francia", "Reino Unido","Reino Unido", "Cerdeña","Cerdeña", "Rusia y aliados","Rusia y aliados")
 Fatalidad=c("En acción", "Otras enfermedades", "En acción", "Otras enfermedades" ,"En acción", "Otras enfermedades", "En acción", "Otras enfermedades", "En acción", "Otras enfermedades")
 
 Num_soldados=c(20900, 24500,  20240, 75375, 4602, 17580, 28, 2138, 41000,89000)
 
-Coxcomb=data.frame(País, Fatalidad, Num_soldados)
+Coxcomb=data.frame(Pais, Fatalidad, Num_soldados)
 Coxcomb
 ```
 
 ```{r eval=FALSE, include=FALSE}
-ggplot(Coxcomb, aes(x=Num_soldados))+
-  geom_bar(aes(fill=País,  colour="black", width = 1))+
-  coord_polar()
+ggplot(Coxcomb, aes(x=Pais, y=Num_soldados))+
+  geom_bar(aes(fill=País, stat="identity", width = 1))+
+  coord_polar(theta = "y")
+```
+
+
+
+```{r eval=FALSE, include=FALSE}
+night <- read.csv("./Nightinggale.csv")         ## load data
+night <- subset( ## subsetting the data for the demonstration
+  night,
+  Month >= 185404 & Month <= 185503
+)
+night <- within(night, {
+   Month <- factor(Month,             ## define x-axis labels
+    levels = c(
+      185404, 185405, 185406, 185407, 185408, 185409, 185410,
+      185411, 185412, 185501, 185502, 185503, 185504, 185505,
+      185506, 185507, 185508, 185509, 185510, 185511, 185512,
+      185601, 185602, 185603
+    ),
+    labels = c(
+      "April 1854", "May 1854", "June 1854", "July 1854",
+      "August 1854", "September 1854", "October 1854",
+      "November 1854", "December 1854", "January 1855",
+      "February 1855", "March 1855", "April 1855",
+      "May 1855", "June 1855", "July 1855", "August 1855",
+      "September 1855", "October 1855", "November 1855",
+      "December 1855", "January 1856", "February 1856",
+      "March 1856"
+    )
+  )
+  rDis <- sqrt((1000*ZymDis/AvgArmSiz)/pi)## radius disease
+  rWnd <- sqrt((1000*WndInj/AvgArmSiz)/pi)  ## radius wounds
+  rOth <- sqrt((1000*Other/AvgArmSiz)/pi)   ## radius others
+  }
+)
+## --- Plot coxcombe ---------------------------------------
+library(ggplot2)
+library(reshape)
+md.night <- melt(              ## transform data for ggplot2
+  night,
+  id.vars = c("Month"),
+  measure.vars = c("rOth", "rWnd", "rDis")
+)
+detach(package:reshape)
+md.night <- within(md.night, {     ## factor for fill layers
+  fill <- ifelse(variable == "rDis", 1, NA)
+  fill <- ifelse(variable == "rOth", 2, fill)
+  fill <- ifelse(variable == "rWnd", 3, fill)
+    fill <- factor(fill,
+    levels = c(1:3),
+    labels = c(                        ## define legend keys
+      "Preventable or mitigable zymotic diseases",
+      "Other causes",
+      "Wounds"
+    )
+  )
+  }
+)
+colours <- c("#599ad3", "#727272", "#f1595f") # fill palette
+## ---
+p <- ggplot(                        ## define ggplot2 object
+  md.night,
+  aes(x = Month, y = value, fill = fill, order = fill)
+)
+p +
+  geom_bar(                             ## bar chart options
+    stat = "identity",        ## already mapped a value to y
+    position = "identity",        ## begin each segment at 0
+    width = 1,                                 ## flush bars 
+  ) +
+  labs(                                             ## labels
+    x = "", y = "", fill = "Causes of Mortality",
+    title = "Diagram of the Causes of Mortality in the Army in The East
+    \n April 1854 to March 1855",       ## \n start new line
+  ) +
+  scale_fill_manual(      ## manually assign colours to fill
+    values = colours
+  ) +
+  theme_bw(base_size = 12) +
+  theme(                   ## finishing touches to the theme
+    axis.text.y = element_blank(),
+    axis.ticks.y = element_blank(),
+    panel.border = element_blank(),
+    panel.grid = element_blank(),
+    legend.position = "bottom",
+    legend.direction = "horizontal"
+  ) +
+  coord_polar(theta = "x", start = 11) ## transform to 'pie'
 ```
 
