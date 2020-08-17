@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>R_Basico</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/spacelab.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 52px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.section h2 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.section h3 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.section h4 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.section h5 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.section h6 {
+  padding-top: 57px;
+  margin-top: -57px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Visualización de Datos</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="schedule.html">Calendario</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Módulos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="G1-ggplot2.html">Qué es la visualización de datos y ejemplos historicos</a>
+    </li>
+    <li>
+      <a href="G2-Errores-tipicos-en-la-visualizacion.html">Errores típicos en la visualización</a>
+    </li>
+    <li>
+      <a href="G3-Graficos-por-conteos.html">Gráficos para conteos</a>
+    </li>
+    <li>
+      <a href="G4-Grafico-de-puntos-de-Wilkinson.html">Gráficos de puntos de Wilkinson</a>
+    </li>
+    <li>
+      <a href="G5_geom_area_densidad_freqpoly.html">Gráficos de area y densidad</a>
+    </li>
+    <li>
+      <a href="G6_geom_histogram.html">Histogramas</a>
+    </li>
+    <li>
+      <a href="G7_geom_bar.html">Gráficos de barras</a>
+    </li>
+    <li>
+      <a href="G8_geom_boxplot_geom_violin.html">Gráficos de caja y de violín</a>
+    </li>
+    <li>
+      <a href="G9_Facet_Grid.html">Facet Grid</a>
+    </li>
+    <li>
+      <a href="G10_Facet_wrap.html">Facet Wrap</a>
+    </li>
+    <li>
+      <a href="G11_EVALUANDO_SUPUESTOS.html">Evaluando Supuestos</a>
+    </li>
+    <li>
+      <a href="G12_Mapas_Calor.html">Mapas de Calor</a>
+    </li>
+    <li>
+      <a href="G13_geom_line.html">Gráficos con lineas</a>
+    </li>
+    <li>
+      <a href="G14_geom_point_geom_jitter.html">Geom_point y geom_jitter</a>
+    </li>
+    <li>
+      <a href="G15_gganimate.html">Gráficos animados en movimiento</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Sreencasts
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="screencast_t_test.html">t-test Screencast</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Instalación y Introducción básica
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Instalar-R-RStudio.html">Lo básico de RStudio</a>
+    </li>
+    <li>
+      <a href="Introduccion-RMarkdown.html">Lo básico de RMarkdown</a>
+    </li>
+    <li>
+      <a href="Codigos_basicos_en_R.html">R y Cheatsheets</a>
+    </li>
+    <li>
+      <a href="R_basico.html">R Básico #2</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Tareas/Ejercicios
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Primer-ejercicio.html">Primer Ejercicio</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Los Datos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Datos_Generales.html">Datos Generales</a>
+    </li>
+    <li>
+      <a href="COVID-19.html">COVID-19</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">R_Basico</h1>
+
+</div>
+
+
+<p>Fecha de la ultima revisión</p>
+<pre><code>## [1] &quot;2020-08-17&quot;</code></pre>
+<p>En este modulo veremos como se hace cálculos básicos en R. Nota que aquí estamos usando R, como si fuese una calculadora. Realmente para la gran mayoría de los ejemplos aquí no hay ninguna necesidad de utilizar R para los siguientes análisis. Los objetivos son</p>
+<ol style="list-style-type: decimal">
+<li>Familiarizarse con funciones básica.</li>
+<li>Reconocer que las función matemáticas en R son igual como los procesos que aprendieron en escuela elemental.</li>
+<li>Comenzar a aprender unas funciones especializados.</li>
+</ol>
+<div id="matemática-básica" class="section level1">
+<h1>Matemática básica</h1>
+</div>
+<div id="sumar-restar-dividir-y-multiplicar" class="section level1">
+<h1>Sumar, restar, dividir y multiplicar</h1>
+<div id="sumar" class="section level2">
+<h2>Sumar</h2>
+<p>Se suma usando el <strong>+</strong>.</p>
+<pre class="r"><code>1+1</code></pre>
+<pre><code>## [1] 2</code></pre>
+<pre class="r"><code>1+1+3+4</code></pre>
+<pre><code>## [1] 9</code></pre>
+</div>
+<div id="restar" class="section level2">
+<h2>Restar</h2>
+<p>Se resta usando <strong>-</strong></p>
+<pre class="r"><code>1-1</code></pre>
+<pre><code>## [1] 0</code></pre>
+<pre class="r"><code>100-22</code></pre>
+<pre><code>## [1] 78</code></pre>
+</div>
+<div id="multiplicar" class="section level2">
+<h2>Multiplicar</h2>
+<p>Se multiplica usando el "*"</p>
+<pre class="r"><code>1*2</code></pre>
+<pre><code>## [1] 2</code></pre>
+<pre class="r"><code>10*2.46578</code></pre>
+<pre><code>## [1] 24.6578</code></pre>
+</div>
+<div id="división" class="section level2">
+<h2>División</h2>
+<p>Se divide usando <strong>/</strong></p>
+<pre class="r"><code>1/2</code></pre>
+<pre><code>## [1] 0.5</code></pre>
+<pre class="r"><code>6549/76576</code></pre>
+<pre><code>## [1] 0.08552288</code></pre>
+</div>
+<div id="elevar-a-una-potencia" class="section level2">
+<h2>Elevar a una potencia</h2>
+<p>Se eleva un valor usando el <strong>^</strong> es el acento circunflejo</p>
+<pre class="r"><code>2^2  </code></pre>
+<pre><code>## [1] 4</code></pre>
+<pre class="r"><code>4^2.6756</code></pre>
+<pre><code>## [1] 40.81988</code></pre>
+</div>
+<div id="factorial" class="section level2">
+<h2>factorial</h2>
+<p>Se usa la función <strong>factorial</strong>, donde el factorial de 4 es la siguiente multiplicación (4x3x2x1).</p>
+<pre class="r"><code>factorial(4)</code></pre>
+<pre><code>## [1] 24</code></pre>
+</div>
+<div id="la-raiz-cuadrada" class="section level2">
+<h2>La raiz cuadrada</h2>
+<p>La raiz cuadrada es la función <strong>sqrt( )</strong>, que se refiere a <strong>square root</strong></p>
+<pre class="r"><code>sqrt(2)</code></pre>
+<pre><code>## [1] 1.414214</code></pre>
+<pre class="r"><code>sqrt(3.86)</code></pre>
+<pre><code>## [1] 1.964688</code></pre>
+</div>
+<div id="el-orden-de-las-operaciones-matemáticas" class="section level2">
+<h2>El orden de las operaciones matemáticas</h2>
+<p>Este sigue exactamente el mismo orden que se aprendió en sus clases de matemática básicas.</p>
+<pre class="r"><code>6+3^2</code></pre>
+<pre><code>## [1] 15</code></pre>
+<pre class="r"><code>4*(3+2)^4  </code></pre>
+<pre><code>## [1] 2500</code></pre>
+</div>
+</div>
+<div id="asigñar-variables" class="section level1">
+<h1>Asigñar variables</h1>
+<p>La ventaja de los programados de análisis es poder asignar variables a valores individuales o conjuntos de valores. En el primer paso asignamos un valor a la variables “x” e “y”. Nota que cuando se asigna una variable para observar hay que llamar esa variable por su nombre, en este caso “x” e “y”. Los nombres de variables pueden ser cualquier “nombre”, por ejemplo <strong>gato=7</strong>.</p>
+<pre class="r"><code>x=3
+x</code></pre>
+<pre><code>## [1] 3</code></pre>
+<pre class="r"><code>y=5
+y</code></pre>
+<pre><code>## [1] 5</code></pre>
+<pre class="r"><code>gato=7
+gato</code></pre>
+<pre><code>## [1] 7</code></pre>
+<div id="manipulando-variables" class="section level2">
+<h2>Manipulando variables</h2>
+<p>Las variables se pueden restar, multiplicar, dividir, sumar o muchas otras funciones. Por ejemplo aguí se multiplica y se manipula la variable de <strong>y</strong></p>
+<pre class="r"><code>x*log10(y)</code></pre>
+<pre><code>## [1] 2.09691</code></pre>
+</div>
+<div id="conjuntos-de-datos" class="section level2">
+<h2>Conjuntos de datos</h2>
+<p>Para representar un conjunto de datos en una lista con una variable se usa la <strong>c()</strong>. De esta forma uno puede identificar un grupo de datos con un nombre de una variable. Nota que se identifica el primer grupo de datos con el nombre de <em>Largo_de_la_Hoja</em>, Este nombre no es muy practico, ya que es demasiado largo, pero demuestra la capacidad de R de utulizar casi cualquier nombre para identificar datos.</p>
+<pre class="r"><code>Largo_de_la_Hoja=c(1,2,3,4,5,6,7,8,9,9)
+Largo_de_la_Hoja</code></pre>
+<pre><code>##  [1] 1 2 3 4 5 6 7 8 9 9</code></pre>
+<pre class="r"><code>Ancho_de_la_Hoja=c(2,3,4,5,6,7,8,9,9,10)
+suma=Largo_de_la_Hoja+Ancho_de_la_Hoja
+suma</code></pre>
+<pre><code>##  [1]  3  5  7  9 11 13 15 17 18 19</code></pre>
+<pre class="r"><code>Largo_de_la_Hoja*Ancho_de_la_Hoja</code></pre>
+<pre><code>##  [1]  2  6 12 20 30 42 56 72 81 90</code></pre>
+<pre class="r"><code>Largo_de_la_Hoja-Ancho_de_la_Hoja</code></pre>
+<pre><code>##  [1] -1 -1 -1 -1 -1 -1 -1 -1  0 -1</code></pre>
+<pre class="r"><code>Largo_de_la_Hoja^Ancho_de_la_Hoja</code></pre>
+<pre><code>##  [1]          1          8         81       1024      15625     279936
+##  [7]    5764801  134217728  387420489 3486784401</code></pre>
+<div id="count" class="section level3">
+<h3>Count( )</h3>
+<p>Contar cuantos valores en una lista o columna de datos con <strong>count()</strong></p>
+<pre class="r"><code>length(Largo_de_la_Hoja)</code></pre>
+<pre><code>## [1] 10</code></pre>
+<pre class="r"><code>length(Ancho_de_la_Hoja)</code></pre>
+<pre><code>## [1] 10</code></pre>
+</div>
+<div id="calculos-básicos" class="section level3">
+<h3>Calculos básicos</h3>
+<ul>
+<li>Para calcular el promedio se usa la función <strong>mean()</strong></li>
+<li>Para calcular la mediana se usa la función <strong>median()</strong></li>
+</ul>
+<pre class="r"><code>bebe=c(2,2,0,1,7,5,3,14) # El números de bebés que quieren mis estudiantes
+mean(bebe)</code></pre>
+<pre><code>## [1] 4.25</code></pre>
+<pre class="r"><code>median(bebe)</code></pre>
+<pre><code>## [1] 2.5</code></pre>
+</div>
+</div>
+</div>
+<div id="crear-una-lista-con-factores-y-un-data-frame" class="section level1">
+<h1>Crear una lista con factores y un data frame</h1>
+<p>Para crear una lista de factores hay utilizar las comillas <strong>"el factor</strong> para clarificar que son factores Con la función <strong>data.frame( )</strong> se puede unir listas en un data frame.</p>
+<pre class="r"><code>gender=c(&quot;f&quot;,&quot;f&quot;,&quot;m&quot;,&quot;f&quot;,&quot;m&quot;,&quot;m&quot;,&quot;f&quot;,&quot;f&quot;)
+
+bebe</code></pre>
+<pre><code>## [1]  2  2  0  1  7  5  3 14</code></pre>
+<pre class="r"><code>gender</code></pre>
+<pre><code>## [1] &quot;f&quot; &quot;f&quot; &quot;m&quot; &quot;f&quot; &quot;m&quot; &quot;m&quot; &quot;f&quot; &quot;f&quot;</code></pre>
+<pre class="r"><code>ElF_PR=data.frame(bebe, gender)
+ElF_PR</code></pre>
+<pre><code>##   bebe gender
+## 1    2      f
+## 2    2      f
+## 3    0      m
+## 4    1      f
+## 5    7      m
+## 6    5      m
+## 7    3      f
+## 8   14      f</code></pre>
+<pre class="r"><code>mean(ElF_PR$bebe) # este es la manera de calcular el promedio en un data frame</code></pre>
+<pre><code>## [1] 4.25</code></pre>
+<div id="fechas" class="section level2">
+<h2>Fechas</h2>
+<p>Las fechas son un objeto que representa el día desde el 1ro de enero 1970. Para tener un valor númerico se utiliza la función <strong>as.numeric(fecha)</strong>.</p>
+<pre class="r"><code>fecha1=as.Date(&quot;2012-06-28&quot;)
+fecha2=as.Date(&quot;2012-06-30&quot;)
+fecha3=as.Date(&quot;1970-01-01&quot;)
+fechaold=as.Date(&quot;1969-01-01&quot;)
+fecha1</code></pre>
+<pre><code>## [1] &quot;2012-06-28&quot;</code></pre>
+<pre class="r"><code>fecha2</code></pre>
+<pre><code>## [1] &quot;2012-06-30&quot;</code></pre>
+<pre class="r"><code>fecha3</code></pre>
+<pre><code>## [1] &quot;1970-01-01&quot;</code></pre>
+<pre class="r"><code>fechaold</code></pre>
+<pre><code>## [1] &quot;1969-01-01&quot;</code></pre>
+<pre class="r"><code>as.numeric(fecha1)   # El dia cero es el 1ro de enero 1970. </code></pre>
+<pre><code>## [1] 15519</code></pre>
+<pre class="r"><code>as.numeric(fecha2)</code></pre>
+<pre><code>## [1] 15521</code></pre>
+<pre class="r"><code>as.numeric(fecha3)</code></pre>
+<pre><code>## [1] 0</code></pre>
+<pre class="r"><code>as.numeric(fechaold)</code></pre>
+<pre><code>## [1] -365</code></pre>
+<p>La función <strong>as.POSIXct()</strong> convierte los valores de una fecha en segundo y cuando se pide <strong>as.numeric()</strong> uno tiene el número de segundos desde el 1ro de enero del 1970.</p>
+<pre class="r"><code>fecha4=as.POSIXct(&quot;2012-06-28 17:42:00&quot;)
+fecha5=as.POSIXct(&quot;2012-06-30 17:42:01&quot;)
+fecha6=as.POSIXct(&quot;1970-01-01 00:01&quot;)
+fecha4</code></pre>
+<pre><code>## [1] &quot;2012-06-28 17:42:00 AST&quot;</code></pre>
+<pre class="r"><code>fecha5</code></pre>
+<pre><code>## [1] &quot;2012-06-30 17:42:01 AST&quot;</code></pre>
+<pre class="r"><code>fecha6</code></pre>
+<pre><code>## [1] &quot;1970-01-01 00:01:00 AST&quot;</code></pre>
+<pre class="r"><code>as.numeric(fecha4)  # los valores en segundos</code></pre>
+<pre><code>## [1] 1340919720</code></pre>
+<pre class="r"><code>as.numeric(fecha5)</code></pre>
+<pre><code>## [1] 1341092521</code></pre>
+<pre class="r"><code>as.numeric(fecha6)</code></pre>
+<pre><code>## [1] 14460</code></pre>
+</div>
+</div>
+<div id="lógico-true-o-false" class="section level1">
+<h1>Lógico (True o False)</h1>
+<p>Cuando se usa <strong>True</strong> es como decir que es un valor de <strong>1</strong>, True = 1, y si tiene un valor de <strong>False</strong> es un valor de cero, False = 0. Evalúan las siguientes ecuaciones para evaluar los que hace estas funciones.</p>
+<pre class="r"><code>TRUE*5</code></pre>
+<pre><code>## [1] 5</code></pre>
+<pre class="r"><code>FALSE*5</code></pre>
+<pre><code>## [1] 0</code></pre>
+<pre class="r"><code>FALSE+7</code></pre>
+<pre><code>## [1] 7</code></pre>
+<pre class="r"><code>TRUE+7</code></pre>
+<pre><code>## [1] 8</code></pre>
+<div id="la-función" class="section level2">
+<h2>La función <strong>==</strong></h2>
+<p>Esta función evalúa si las variables son iguales.</p>
+<pre class="r"><code># Un ejemplo sencillo
+x=3
+x</code></pre>
+<pre><code>## [1] 3</code></pre>
+<pre class="r"><code>y=5
+y</code></pre>
+<pre><code>## [1] 5</code></pre>
+<pre class="r"><code>x==y</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code># Evaluar dos listas
+m=c(1:10)
+m</code></pre>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+<pre class="r"><code>n=c(1,2,4:11)
+n</code></pre>
+<pre><code>##  [1]  1  2  4  5  6  7  8  9 10 11</code></pre>
+<pre class="r"><code>m</code></pre>
+<pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
+<pre class="r"><code>m==n</code></pre>
+<pre><code>##  [1]  TRUE  TRUE FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE</code></pre>
+</div>
+<div id="la-función-no-es-con" class="section level2">
+<h2>La función “no es” con !</h2>
+<p>Añadiendo el punto de exclamación es el contrario de la función anterior de <strong>==</strong>. Ahora los que son iguales serán <strong>False</strong> y los disimilares serán <strong>True</strong>. Evalúan las siguientes expresiones.</p>
+<pre class="r"><code># Un ejemplo sencillo
+
+2!=3</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code># Comparando listas
+m!=n</code></pre>
+<pre><code>##  [1] FALSE FALSE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE  TRUE</code></pre>
+</div>
+</div>
+<div id="data.frames" class="section level1">
+<h1>data.frames</h1>
+<p>Un <strong>data frame</strong> es muy similar a una hoja de Excel, en que tenemos los datos organizando en filas para los individuos y en columnas para las variables.</p>
+<pre class="r"><code>Edad=10:1
+Edad</code></pre>
+<pre><code>##  [1] 10  9  8  7  6  5  4  3  2  1</code></pre>
+<pre class="r"><code>Distancia_del_trabajo=rnorm(10, 100, 10)
+Distancia_del_trabajo</code></pre>
+<pre><code>##  [1] 108.37891  81.69722 107.31327  86.85557 113.62682 101.52822 101.29424
+##  [8] 110.53646  99.09797 112.23428</code></pre>
+<pre class="r"><code>Ciudad=c(&quot;Fajardo&quot;, &quot;Carolina&quot;, &quot;Luquillo&quot;,&quot;Gurabo&quot;, &quot;Rio_Grande&quot;, &quot;Ceiba&quot;,&quot;Las_Piedras&quot;, &quot;Caguas&quot;,&quot;Maunabo&quot;, &quot;Sturgeon_Falls&quot;)
+Ciudad</code></pre>
+<pre><code>##  [1] &quot;Fajardo&quot;        &quot;Carolina&quot;       &quot;Luquillo&quot;       &quot;Gurabo&quot;        
+##  [5] &quot;Rio_Grande&quot;     &quot;Ceiba&quot;          &quot;Las_Piedras&quot;    &quot;Caguas&quot;        
+##  [9] &quot;Maunabo&quot;        &quot;Sturgeon_Falls&quot;</code></pre>
+<pre class="r"><code>misDatos=data.frame(Edad,Distancia_del_trabajo,Ciudad)  # La función de unir las listas en un data frame
+misDatos</code></pre>
+<pre><code>##    Edad Distancia_del_trabajo         Ciudad
+## 1    10             108.37891        Fajardo
+## 2     9              81.69722       Carolina
+## 3     8             107.31327       Luquillo
+## 4     7              86.85557         Gurabo
+## 5     6             113.62682     Rio_Grande
+## 6     5             101.52822          Ceiba
+## 7     4             101.29424    Las_Piedras
+## 8     3             110.53646         Caguas
+## 9     2              99.09797        Maunabo
+## 10    1             112.23428 Sturgeon_Falls</code></pre>
+</div>
+<div id="funciones-comunes" class="section level1">
+<h1>Funciones comunes</h1>
+<pre class="r"><code>nrow(misDatos) # el número de filas</code></pre>
+<pre><code>## [1] 10</code></pre>
+<pre class="r"><code>ncol(misDatos)  # el número de columnas</code></pre>
+<pre><code>## [1] 3</code></pre>
+<pre class="r"><code>dim(misDatos) # la dimenciones del data frame (num de filas, num. de columnas)</code></pre>
+<pre><code>## [1] 10  3</code></pre>
+<pre class="r"><code>names(misDatos) # el nombre de las columnas</code></pre>
+<pre><code>## [1] &quot;Edad&quot;                  &quot;Distancia_del_trabajo&quot; &quot;Ciudad&quot;</code></pre>
+<pre class="r"><code>names(misDatos)[2:3] # El nombre de la columna 2 y 3</code></pre>
+<pre><code>## [1] &quot;Distancia_del_trabajo&quot; &quot;Ciudad&quot;</code></pre>
+<pre class="r"><code>rownames(misDatos)   # El nombre de las filas</code></pre>
+<pre><code>##  [1] &quot;1&quot;  &quot;2&quot;  &quot;3&quot;  &quot;4&quot;  &quot;5&quot;  &quot;6&quot;  &quot;7&quot;  &quot;8&quot;  &quot;9&quot;  &quot;10&quot;</code></pre>
+<pre class="r"><code>head(misDatos)   # ver las primeras 6 filas </code></pre>
+<pre><code>##   Edad Distancia_del_trabajo     Ciudad
+## 1   10             108.37891    Fajardo
+## 2    9              81.69722   Carolina
+## 3    8             107.31327   Luquillo
+## 4    7              86.85557     Gurabo
+## 5    6             113.62682 Rio_Grande
+## 6    5             101.52822      Ceiba</code></pre>
+<pre class="r"><code>tail(misDatos)   # ver las ultimas 6 filas</code></pre>
+<pre><code>##    Edad Distancia_del_trabajo         Ciudad
+## 5     6             113.62682     Rio_Grande
+## 6     5             101.52822          Ceiba
+## 7     4             101.29424    Las_Piedras
+## 8     3             110.53646         Caguas
+## 9     2              99.09797        Maunabo
+## 10    1             112.23428 Sturgeon_Falls</code></pre>
+<pre class="r"><code>head(misDatos, n=8)   # ver las primeras 8 filas</code></pre>
+<pre><code>##   Edad Distancia_del_trabajo      Ciudad
+## 1   10             108.37891     Fajardo
+## 2    9              81.69722    Carolina
+## 3    8             107.31327    Luquillo
+## 4    7              86.85557      Gurabo
+## 5    6             113.62682  Rio_Grande
+## 6    5             101.52822       Ceiba
+## 7    4             101.29424 Las_Piedras
+## 8    3             110.53646      Caguas</code></pre>
+<pre class="r"><code>class(misDatos) # saber cual tipo de organización de datos </code></pre>
+<pre><code>## [1] &quot;data.frame&quot;</code></pre>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

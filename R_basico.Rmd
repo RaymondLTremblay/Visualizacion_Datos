@@ -1,0 +1,353 @@
+---
+title: "R_Basico"
+output: 
+  html_document: 
+    theme: spacelab
+    toc: yes
+    toc_float: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message = FALSE)
+```
+
+Fecha de la ultima revisión
+```{r echo=FALSE}
+
+Sys.Date()
+```
+
+
+En este modulo veremos como se hace cálculos básicos en R.   Nota que aquí estamos usando R, como si fuese una calculadora.  Realmente para la gran mayoría de los ejemplos aquí no hay ninguna necesidad de utilizar R para los siguientes análisis.  Los objetivos son 
+
+1. Familiarizarse con funciones básica.
+2. Reconocer que las función matemáticas en R son igual como los procesos que aprendieron en escuela elemental.
+3. Comenzar a aprender unas funciones especializados. 
+
+
+
+                        
+# Matemática básica
+
+# Sumar, restar, dividir y multiplicar
+
+## Sumar
+Se suma usando el **+**. 
+
+```{r}
+1+1
+
+1+1+3+4
+```
+
+## Restar
+
+Se resta usando **-**
+
+```{r}
+1-1
+
+100-22
+
+```
+
+## Multiplicar
+
+
+Se multiplica usando el "*"
+
+```{r}
+1*2
+
+10*2.46578
+
+```
+
+
+## División
+Se divide usando **/**
+
+
+```{r}
+
+1/2
+
+6549/76576
+
+```
+
+
+
+## Elevar a una potencia
+
+Se eleva un valor usando el **^** es el acento circunflejo
+
+```{r}
+
+2^2  
+
+
+4^2.6756
+```
+
+
+## factorial
+
+Se usa la función **factorial**, donde el factorial de 4 es la siguiente multiplicación (4x3x2x1). 
+
+```{r}
+
+factorial(4)
+
+
+```
+
+## La raiz cuadrada 
+
+La raiz cuadrada es la función **sqrt( )**, que se refiere a **square root**
+
+```{r}
+sqrt(2)
+
+sqrt(3.86)
+```
+
+
+## El orden de las operaciones matemáticas
+
+Este sigue exactamente el mismo orden que se aprendió en sus clases de matemática básicas.
+
+```{r}
+6+3^2
+
+4*(3+2)^4  
+```
+
+
+# Asigñar variables
+
+
+La ventaja de los programados de análisis es poder asignar variables a valores individuales o conjuntos de valores. En el primer paso asignamos un valor a la variables "x" e "y". Nota que cuando se asigna una variable para observar hay que llamar esa variable por su nombre, en este caso "x" e "y".  Los nombres de variables pueden ser cualquier "nombre", por ejemplo **gato=7**. 
+
+
+
+```{r}
+x=3
+x
+
+y=5
+y
+
+gato=7
+gato
+```
+
+## Manipulando variables
+
+Las variables se pueden restar, multiplicar, dividir, sumar o muchas otras funciones.  Por ejemplo aguí se multiplica y se manipula la variable de **y**
+
+```{r}
+x*log10(y)
+```
+
+## Conjuntos de datos
+
+Para representar un conjunto de datos en una lista con una variable se usa la **c()**. 
+De esta forma uno puede identificar un grupo de datos con un nombre de una variable.  Nota que se identifica el primer grupo de datos con el nombre de *Largo_de_la_Hoja*, Este nombre no es muy practico, ya que es demasiado largo, pero demuestra la capacidad de R de utulizar casi cualquier nombre para identificar datos.  
+
+```{r}
+
+Largo_de_la_Hoja=c(1,2,3,4,5,6,7,8,9,9)
+Largo_de_la_Hoja
+Ancho_de_la_Hoja=c(2,3,4,5,6,7,8,9,9,10)
+suma=Largo_de_la_Hoja+Ancho_de_la_Hoja
+suma
+Largo_de_la_Hoja*Ancho_de_la_Hoja
+Largo_de_la_Hoja-Ancho_de_la_Hoja
+Largo_de_la_Hoja^Ancho_de_la_Hoja
+```
+
+
+### Count( )
+Contar cuantos valores en una lista o columna de datos con **count()** 
+```{r}
+
+
+
+length(Largo_de_la_Hoja)
+length(Ancho_de_la_Hoja)
+```
+
+
+### Calculos básicos
+
++ Para calcular el promedio se usa la función **mean()**
++ Para calcular la mediana se usa la función **median()**
+
+
+
+```{r}
+bebe=c(2,2,0,1,7,5,3,14) # El números de bebés que quieren mis estudiantes
+mean(bebe)
+median(bebe)
+```
+
+
+# Crear una lista con factores y un data frame
+
+Para crear una lista de factores hay utilizar las comillas **"el factor** para clarificar que son factores 
+Con la función **data.frame( )** se puede unir listas en un data frame. 
+
+
+```{r}
+gender=c("f","f","m","f","m","m","f","f")
+
+bebe
+gender
+
+ElF_PR=data.frame(bebe, gender)
+ElF_PR
+
+mean(ElF_PR$bebe) # este es la manera de calcular el promedio en un data frame
+```
+
+
+
+## Fechas
+Las fechas son un objeto que representa el día desde el 1ro de enero 1970.
+Para tener un valor númerico se utiliza la función **as.numeric(fecha)**. 
+
+```{r}
+fecha1=as.Date("2012-06-28")
+fecha2=as.Date("2012-06-30")
+fecha3=as.Date("1970-01-01")
+fechaold=as.Date("1969-01-01")
+fecha1
+fecha2
+fecha3
+fechaold
+as.numeric(fecha1)   # El dia cero es el 1ro de enero 1970. 
+as.numeric(fecha2)
+as.numeric(fecha3)
+as.numeric(fechaold)
+```
+
+La función **as.POSIXct()** convierte los valores de una fecha en segundo y cuando se pide **as.numeric()** uno tiene el número de segundos desde el 1ro de enero del 1970.   
+
+
+```{r}
+fecha4=as.POSIXct("2012-06-28 17:42:00")
+fecha5=as.POSIXct("2012-06-30 17:42:01")
+fecha6=as.POSIXct("1970-01-01 00:01")
+fecha4
+fecha5
+fecha6
+as.numeric(fecha4)  # los valores en segundos
+as.numeric(fecha5)
+as.numeric(fecha6)
+```
+
+
+
+# Lógico (True o False)
+Cuando se usa **True** es como decir que es un valor de **1**, True = 1, y si tiene un valor de **False** es un valor de cero, False = 0. Evalúan las siguientes ecuaciones para evaluar los que hace estas funciones.  
+
+```{r}
+
+TRUE*5
+FALSE*5
+FALSE+7
+TRUE+7
+```
+
+
+##  La función **==**
+
+Esta función evalúa si las variables son iguales.
+
+```{r}
+# Un ejemplo sencillo
+x=3
+x
+y=5
+y
+x==y
+
+
+# Evaluar dos listas
+m=c(1:10)
+m
+n=c(1,2,4:11)
+n
+m
+
+m==n
+
+```
+## La función "no es" con !
+
+Añadiendo el punto de exclamación es el contrario de la función anterior de **==**.  Ahora los que son iguales serán **False** y los disimilares serán **True**. Evalúan las siguientes expresiones.  
+
+
+```{r}
+# Un ejemplo sencillo
+
+2!=3
+
+# Comparando listas
+m!=n
+
+
+
+```
+
+ 
+
+
+
+# data.frames
+
+Un **data frame** es muy similar a una hoja de Excel, en que tenemos los datos organizando en filas para los individuos y en columnas para las variables.  
+
+```{r}
+
+Edad=10:1
+Edad
+Distancia_del_trabajo=rnorm(10, 100, 10)
+Distancia_del_trabajo
+Ciudad=c("Fajardo", "Carolina", "Luquillo","Gurabo", "Rio_Grande", "Ceiba","Las_Piedras", "Caguas","Maunabo", "Sturgeon_Falls")
+Ciudad
+
+misDatos=data.frame(Edad,Distancia_del_trabajo,Ciudad)  # La función de unir las listas en un data frame
+misDatos
+```
+
+# Funciones comunes
+
+```{r}
+nrow(misDatos) # el número de filas
+ncol(misDatos)  # el número de columnas
+
+dim(misDatos) # la dimenciones del data frame (num de filas, num. de columnas)
+
+names(misDatos) # el nombre de las columnas
+
+names(misDatos)[2:3] # El nombre de la columna 2 y 3
+
+rownames(misDatos)   # El nombre de las filas
+
+head(misDatos)   # ver las primeras 6 filas 
+
+tail(misDatos)   # ver las ultimas 6 filas
+
+head(misDatos, n=8)   # ver las primeras 8 filas
+
+class(misDatos) # saber cual tipo de organización de datos 
+```
+
+
+
+
+
+
+
