@@ -43,11 +43,27 @@ library(gt) # para que las tablas se vean más organizadas
 Para visualizar gráficos con **geom_point** y **geom_count**,  utilizaremos los datos que se encuentran en el archivo **Anolis** en el paquete **ggversa**.  Aquí se muestran las primeras seis filas del archivo. 
 
 
+Enlaces para tener información d ecomo cambiar la fechas.  
+
+<https://www.r-bloggers.com/date-formats-in-r/>
+
+<https://www.stat.berkeley.edu/~s133/dates.html>
+
+
+Como convertir fechas a un formato que reconice que son fechas.
+
+
 
 ```{r}
 h=head(Anolis) # la función *head* es para visualizar las primeros 6 filas
-h$DATE=as.Date(h$DATE, "%m/%d/%Y %H:%M:%S") # convertir la columna de fecha de tipo caracter a tipo fecha
+h
+h$DATE=as.Date(h$DATE, "%m/%d/%y") # convertir la columna de fecha de tipo *carácter* a tipo *fecha*
+h
+```
 
+Las funciones para formatear la tabla son del paquete **gt** = graphics of table
+
+```{r}
 h%>%
   gt() %>%
   tab_header(
