@@ -1,0 +1,79 @@
+---
+title: "Ejerc_2_geom_point"
+output:
+  html_document: 
+    theme: spacelab
+    toc: yes
+    toc_float: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+```
+
+
+
+
+This Assignment is to practice doing graphics using geom_point, geom_count and/or geom_histogram.
+
+***
+# Q1. 
+
+Define what is the difference between geom_point, geom_count and geom_histogram.  In other words in what situation would you use each of these alternatives.
+***
+
+# Q2.
+Use the data "Camas_Hospital" in the package **ggversa** and do a graphic with geom_point which relates the population size of countries and the number of hospital beds.
+
+  a. The text of the axis should be in 15 pts. 
+  b. The text of the xis should be in "bold".
+  c. The text of the different axis "x" and "y" should be in different colours. 
+
+```{r geom point-count, eval=FALSE, include=FALSE}
+library(ggversa)
+library(ggplot2)
+#head(Camas_Hospital)
+
+
+
+ggplot(Camas_Hospital,
+       aes(Poblacion, Camas))+
+  geom_point()+
+  xlab("Poblacion")+
+  ylab("Numero de Camas por 100,000")+
+  theme(title=element_text(size=15,face="bold"))+
+  theme(axis.title.x = element_text(colour="red"))+
+  theme(axis.title.y = element_text(colour="blue"))
+
+```
+
+
+***
+
+# Q3. 
+Use the data "Camas_Hospital" in the package **ggversa** and do a graphic with geom_point which relates the population size of countries and the number of hospital beds.
+
+  a. Ahora buscan la función para que el eje de x que sea el logaritmo de los valores en ese eje.
+  
+  No se olvide cambiar la información en el eje de "X" para que representa la información en log.
+
+```{r geom point-count2, eval=FALSE, include=FALSE}
+library(ggversa)
+library(ggplot2)
+#head(Camas_Hospital)
+
+
+
+ggplot(Camas_Hospital,
+       aes(log(Poblacion), Camas))+
+  geom_point()+
+  xlab("log(Poblacion)")+
+  ylab("Numero de Camas por 100,000")+
+  theme(title=element_text(size=15,face="bold"))+
+  theme(axis.title.x = element_text(colour="red"))+
+  theme(axis.title.y = element_text(colour="blue"))
+
+```
+
+

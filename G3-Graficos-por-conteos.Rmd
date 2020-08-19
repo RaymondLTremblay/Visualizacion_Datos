@@ -50,13 +50,16 @@ Enlaces para tener información d ecomo cambiar la fechas.
 <https://www.stat.berkeley.edu/~s133/dates.html>
 
 
-Como convertir fechas a un formato que reconice que son fechas.
+Como convertir fechas a un formato que reconoce que son **fechas**.
 
 
 
 ```{r}
 h=head(Anolis) # la función *head* es para visualizar las primeros 6 filas
-h
+#h
+
+
+
 h$DATE=as.Date(h$DATE, "%m/%d/%y") # convertir la columna de fecha de tipo *carácter* a tipo *fecha*
 h
 ```
@@ -95,15 +98,15 @@ En el primer paso se muestran las filas del 1 al 7 usando **head( )** y se selec
 
 ```{r}
 
-Anolis %>%
+Anolis %>%  # pipe
   select(WEIGHT, SVL)%>%  # selecciona
   filter(WEIGHT<4 & SVL>20)%>%
-  head(n=7)%>%            # solo muestra los primeros siete
+  head()%>%            # solo muestra los primeros seis
   gt()
 
 ```
 
-
+  filter(WEIGHT<4 & SVL>20)%>%
 ***
 
 
@@ -113,13 +116,19 @@ Anolis %>%
 A continuación, en la **Figura. Gráfico básico con geom_point**, se muestra un gráfico básico.  Como se puede apreciar, los puntos son negros y de un tamaño específico, y los nombres de los ejes de **X** y **Y** son los nombres de las columnas tal como aparecen en el archivo de datos.    
 
 ```{r geom point-count}
+Anolis %>%  # pipe
+  select(WEIGHT, SVL)%>%  # selecciona
+  filter(WEIGHT<4 & SVL>20)%>%
+  ggplot(aes(SVL, WEIGHT))+
+  geom_point()
+
 
 Anolis %>%
   select(WEIGHT, SVL)%>%
   filter(WEIGHT<4 & SVL>20)%>%
 ggplot(aes(SVL, WEIGHT))+
   geom_point()+
-    labs(title="Figura. Gráfico básico con geom_point")
+    labs(title="Figura. Relación de SVL y el peso \n de Anolis en El Verde, Yunque, PR")
 ```
 
 ***
@@ -138,7 +147,8 @@ ggplot(aes(SVL, WEIGHT))+
   geom_point()+
   ylab("Peso en gramos")+
   xlab("Tamaño del hocico a la cloaca")+
-  theme(axis.title=element_text(size=10,face="italic", colour="red"))+
+  theme(axis.title.x=element_text(size=10,face="italic", colour="darkorchid4"))+
+  theme(axis.title.y=element_text(size=10,face="bold", colour="darkred"))+
   theme(title=element_text(size=18,face="bold", colour="green"))+
   ggtitle("Título con tipo/tamaño/aspecto que Ud desee")
 
