@@ -106,7 +106,8 @@ Anolis %>%  # pipe
 
 ```
 
-  filter(WEIGHT<4 & SVL>20)%>%
+
+
 ***
 
 
@@ -114,6 +115,8 @@ Anolis %>%  # pipe
 
 
 A continuación, en la **Figura. Gráfico básico con geom_point**, se muestra un gráfico básico.  Como se puede apreciar, los puntos son negros y de un tamaño específico, y los nombres de los ejes de **X** y **Y** son los nombres de las columnas tal como aparecen en el archivo de datos.    
+
+
 
 ```{r geom point-count}
 Anolis %>%  # pipe
@@ -162,6 +165,18 @@ En este último gráfico tenemos la peculiaridad que hay múltiples lagartijas c
 ## Gráfico **geom_count**
 
 Por otro lado, la función **geom_count** varía el tamaño de los puntos de acuerdo a como varía la frecuencia de una variable. Esta función es una extensión de **geom_point**.  Con **geom_count** veremos que la diferencia es que ahora el tamaño de los puntos está relacionado a su frecuencia en el archivo de datos. El tamaño de cada punto representa la frecuencia o valores de la cantidad de lagartijas; o sea, los puntos más grandes representan especímenes que son más comunes.  Esto se demuestra en la **Figura: Puntos de acuerdo a la frecuencia** a continuación:
+
+Primero miramos los datos para entender que es los que la gráfica se construye.
+
+Calculamos la frecuencia de cada par de valores.  ¿Cuantos lagartijas hay en cada combinación de **Peso** y **SVL**? Y posteriormente uno puede evaluar y gráficar la frecuencia de los datos.   
+
+```{r}
+Anolis %>%  # pipe
+  select(WEIGHT, SVL)%>%  # selecciona
+  filter(WEIGHT<4 & SVL>20)%>%
+  count(WEIGHT, SVL)
+```
+
 
 ```{r geom count1}
 
