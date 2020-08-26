@@ -220,13 +220,22 @@ ggplot(aes(SVL, WEIGHT))+
 
 En el siguiente gráfico, **Figura. Puntos en proporción a una variable**, las variable WEIGHT, o peso de las lagartijas, se usa para que la suma de la proporción equivalga a 1. Entonces aquí cada grupo en "Y" suma 1. Note que los grupos se forman a base del tamaño del hocico a la cloaca (SVL) utilizando **geom_count(aes(size=..prop.., group=SVL))**. Por ejemplo, en los *Anolis* que tienen el tamaño de 35 hay 4 puntos cada uno con valor 0.25, lo que da una suma de 1 (hay 4 cuatro lagartijas que tienen un SVL de 35cm). Note que la frecuencia en este caso es calculada utilizando como denominador la cantidad total de los valores que corresponden a un valor específico en "X".
 
+```{r}
+x=c(1,2,3,5,9,15)
+sum(x)
+1/35
+15/35
+```
+
+
+
 ```{r geom count2a}
 
 Anolis %>%
   select(WEIGHT, SVL)%>%
   filter(WEIGHT<4 & SVL>20)%>%
 ggplot(aes(SVL, WEIGHT))+
-  geom_count(aes(size=..prop.., group=SVL))+
+  geom_count(aes(size=..prop.., group=WEIGHT))+
   ylab("Peso en gramos")+
   xlab("Tamaño del hocico a la cloaca")+
   theme(axis.title=element_text(size=14,face="bold"))+
@@ -242,6 +251,7 @@ ggplot(aes(SVL, WEIGHT))+
 Si hay más de un grupo (digamos, muestras tomadas en la época seca del año y las tomadas en la época lluviosa), se puede mostrar la proporción basada en los grupos/factores usando la función **colour** o **color**. En el gráfico **Figura. Grupos con diferentes colores**, vemos el efecto de usar el color.  Del patrón obtenido se puede observar que la mayoría de los *Anolis* pequeños se observa en el periodo lluvioso y los grandes en el periodo seco. Note que aquí se añade la variable que queremos separada por color; o sea, se identifica la estación de tiempo seco o húmedo con la columna *Season*. 
 
 ```{r geom count3}
+unique(Anolis$SEASON)
 
 Anolis %>%
   select(WEIGHT, SVL, SEASON)%>%
@@ -258,6 +268,8 @@ ggplot(aes(SVL, WEIGHT, colour=SEASON))+
 ***
 
 
+
+
 ### Grupos separados por variable discreta
 
 En la siguiente demostración, **Figura. Grupos separados por variable discreta**, se representan dos gráficos separados de acuerdo al sitio de muestreo usando **facet_wrap** y al añadir en **aes(, group=la variable)**.  Aquí se observa que el muestreo en la localidad llamada _Torre Sur_ se hizo solamente en el periodo lluvioso.  Note que para crear los dos gráficos separados por una variable discreta se usa **facet_wrap** con una tilde, "~", seguido del nombre de la variable, que en este caso es la localidad de muestreo, **Survey_Site**. (**facet_wrap** se explica en detalle como un tópico aparte de visualización.)
@@ -267,13 +279,13 @@ names(Anolis) # para mostrar los nombres de las columnas
 
   
 Anolis %>%
-  select(WEIGHT, SVL, SEASON, Survey_Site)%>%
+  select(WEIGHT, SVL, SEASON, Survey_Site, PERCH_SUBSTRATE)%>%
   filter(WEIGHT<4 & SVL>20)%>%
 ggplot(aes(SVL, WEIGHT, colour=SEASON))+
   geom_count(aes(size=..prop.., group=WEIGHT))+
   ylab("Peso en gramos")+
   xlab("Tamaño del hocico a la cloaca")+
-  facet_wrap(~Survey_Site)+
+  facet_wrap(~PERCH_SUBSTRATE)+
   theme(axis.title=element_text(size=10,face="bold"))+
   scale_color_manual(values = c("orange", "dodger blue"))+
   labs(title="Figura. Grupos separados por variable discreta")
