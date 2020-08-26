@@ -56,6 +56,24 @@ a+geom_dotplot(fill="blue", colour="yellow",
   theme(axis.title=element_text(size=10,face="bold"))
 ```
 
+# El eje de Y no representa los datos, solución
+
++
+  scale_y_continuous(NULL, breaks = NULL)
+  
+```{r , message=FALSE, warning=FALSE}
+
+a=ggplot(dipodium, aes(Number_of_fruits))
+
+a+geom_dotplot(fill="blue", colour="yellow",
+                stackratio=.5) +
+  labs(x="Número de Frutos", y="Frecuencia")+
+  theme(axis.title=element_text(size=10,face="bold"))+
+  scale_y_continuous(NULL, breaks = NULL)
+``` 
+
+
+
 ***
 
 ## La posición de los datos con **stackdir**
@@ -68,25 +86,29 @@ a=ggplot(dipodium, aes(Number_of_fruits))
 a=a+geom_dotplot(fill="red", colour="black",
                 stackdir="center", stackratio = 0.5) + 
   labs(x="Número de Frutos", y="Frecuencia")+
-  theme(axis.title=element_text(size=10,face="bold"))
+  theme(axis.title=element_text(size=10,face="bold"))+
+  scale_y_continuous(NULL, breaks = NULL)
 
 b=ggplot(dipodium, aes(Number_of_fruits))
 b=b+geom_dotplot(fill="blue", colour="black",
                 stackdir="centerwhole", stackratio = 0.5) + 
   labs(x="Número de Frutos", y="Frecuencia")+
-  theme(axis.title=element_text(size=10,face="bold"))
+  theme(axis.title=element_text(size=10,face="bold"))+
+  scale_y_continuous(NULL, breaks = NULL)
 
 c=ggplot(dipodium, aes(Number_of_fruits))
 c=c+geom_dotplot(fill="orange", colour="black",
                 stackdir="up", stackratio = 0.5) + 
   labs(x="Número de Frutos", y="Frecuencia")+
-  theme(axis.title=element_text(size=10,face="bold"))
+  theme(axis.title=element_text(size=10,face="bold"))+
+  scale_y_continuous(NULL, breaks = NULL)
 
 d=ggplot(dipodium, aes(Number_of_fruits))
 d=d+geom_dotplot(fill="black", colour="white",
                 stackdir="down", stackratio = 0.5) + 
   labs(x="Número de Frutos", y="Frecuencia")+
-  theme(axis.title=element_text(size=10,face="bold"))
+  theme(axis.title=element_text(size=10,face="bold"))+
+  scale_y_continuous(NULL, breaks = NULL)
 
 
 
@@ -109,14 +131,16 @@ a=ggplot(dipodium, aes(Number_of_fruits))+
   geom_dotplot(fill="blue", colour="black",
                dotsize=3, stackdir="center",  stackratio = 0.2) +
   labs(x="Especie de orquídea", y="Frecuencia")+
-  theme(axis.title=element_text(size=10,face="bold"))
+  theme(axis.title=element_text(size=10,face="bold"))+
+  scale_y_continuous(NULL, breaks = NULL)
 
 
 b=ggplot(dipodium, aes(Number_of_fruits))+
   geom_dotplot(fill="blue", colour="black",
                dotsize=1, stackdir="center",  stackratio = 0.7) +
   labs(x="Especie de orquídea", y="Frecuencia")+
-  theme(axis.title=element_text(size=10,face="bold"))
+  theme(axis.title=element_text(size=10,face="bold"))+
+  scale_y_continuous(NULL, breaks = NULL)
 
 ```
 
@@ -137,14 +161,16 @@ a=ggplot(dipodium, aes(Number_of_fruits, fill=Species_Name))+
   geom_dotplot(binwidth = .3, stackratio = .7, position = "dodge") +
   labs(x="Número de Frutos", y="Frecuencia")+
   theme(axis.title=element_text(size=10,face="bold"))+
-  theme(legend.position = "none")
+  theme(legend.position = "none")+
+  scale_y_continuous(NULL, breaks = NULL)
 
 
 b=ggplot(dipodium, aes(Number_of_fruits, fill=Species_Name))+
 geom_dotplot(binwidth = .3, stackratio = .7, position=position_dodge(width = 0.7)) +
   labs(x="Número de Frutos", y="Frecuencia")+
   theme(axis.title=element_text(size=10,face="bold"))+
-  theme(legend.position = "none")
+  theme(legend.position = "none")+
+  scale_y_continuous(NULL, breaks = NULL)
 ```
 
 ```{r solapamiento, echo=FALSE}
@@ -162,7 +188,8 @@ Ahora veremos cómo ubicar los puntos uno encima de los otros o sea apilar los p
 a=ggplot(dipodium, aes(Number_of_fruits, fill=Species_Name))
 a+geom_dotplot(stackgroups = TRUE, binwidth = .5, method = "histodot", stackratio = 0.5) +
   labs(x="Número de Frutos", y="Frecuencia")+
-  theme(axis.title=element_text(size=10,face="bold"))
+  theme(axis.title=element_text(size=10,face="bold"))+
+  scale_y_continuous(NULL, breaks = NULL)
 ```
 
 ***
@@ -183,7 +210,8 @@ conNA=dipodium%>%
 geom_dotplot(dotsize=.5, stackdir="center", alpha=.5, binaxis = "y") +
   labs(x="Especie de orquídea", y="Número de frutos")+
   theme(axis.title=element_text(size=10,face="bold"))+
-  theme(legend.position = "none")
+  theme(legend.position = "none")+
+  scale_y_continuous(NULL, breaks = NULL)
 
 
 sinNA=dipodium%>%
@@ -193,7 +221,8 @@ sinNA=dipodium%>%
 geom_dotplot(dotsize=.5, stackdir="center", alpha=.9, binaxis = "y") +
   labs(x="Especie de orquídea", y="Número de frutos")+
   theme(axis.title=element_text(size=10,face="bold"))+
-  theme(legend.position = "none")
+  theme(legend.position = "none")+
+  scale_y_continuous(NULL, breaks = NULL)
 ```
 
 ```{r grid dotplot3, echo=FALSE}
@@ -213,13 +242,15 @@ grid.arrange(conNA,sinNA,ncol=2)
 a=ggplot(dipodium, aes(Number_of_fruits))+
   geom_dotplot(binwidth = 2, dotsize=0.1) +
   labs(x="Número de Frutos", y="Frecuencia")+
-  theme(axis.title=element_text(size=10,face="bold"))
+  theme(axis.title=element_text(size=10,face="bold"))+
+  scale_y_continuous(NULL, breaks = NULL)
 
 
 b=ggplot(dipodium, aes(Number_of_fruits))+
   geom_dotplot(binwidth = 1, dotsize=0.1) +
   labs(x="Número de Frutos", y="Frecuencia")+
-  theme(axis.title=element_text(size=10,face="bold"))
+  theme(axis.title=element_text(size=10,face="bold"))+
+  scale_y_continuous(NULL, breaks = NULL)
 ```
 
 
@@ -239,7 +270,8 @@ Otra alternativa para lograr la misma representación de poner los puntos uno en
 a=ggplot(dipodium, aes(Number_of_fruits, fill=Species_Name))
 a+geom_dotplot(stackgroups = TRUE, binwidth = .5, binpositions = "all", dotsize = .5) +
   labs(x="Número de Frutos", y="Frecuencia")+
-  theme(axis.title=element_text(size=10,face="bold"))
+  theme(axis.title=element_text(size=10,face="bold"))+
+  scale_y_continuous(NULL, breaks = NULL)
 ```
 
 
