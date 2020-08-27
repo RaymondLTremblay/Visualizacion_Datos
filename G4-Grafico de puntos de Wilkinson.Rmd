@@ -30,6 +30,12 @@ library(tidyverse) # una serie de paquetes para organizar y visualizar los datos
 library(gt) # Un paquete para que las tablas se vean más organizada. 
 library(gridExtra) # Un paquete para organizar las figuras de ggplot2
 
+
+
+library(janitor)
+dipodium=clean_names(dipodium) # Esta función limpia los nombres de las variables 
+unique(dipodium$tree_species)
+
 gt(head(dipodium)) # la función *head* es para visualizar las primeros 6 filas
 ```
 
@@ -39,18 +45,18 @@ gt(head(dipodium)) # la función *head* es para visualizar las primeros 6 filas
 ## Gráficos de una variable continua o discreta 
 Los gráficos de una variable frecuentemente tienen como objetivo evaluar la dispersión de un conjunto de datos. Estos datos pueden ser continuos (por ejemplo, medidas de largo o ancho, conteos) o discretos (agrupados por categoría).  A continuación se demuestra la producción de gráficos cuando la variable es discreta y después para datos continuos.
 
-
 ## Gráficos de puntos:  Dotplot de Wilkinson con geom_dotplot
 En el gráfico de puntos, conocido como *Wilkinson dotplot*, la posición de los compartimentos (bins), depende de los datos, mientras que la concentración de los puntos determina el ancho máximo de los compartimentos. De forma predeterminada los datos serán agrupados uno por encima de los otros en el eje de *Y*. Esto se demuestra en la siguiente figura utilizando los datos de la orquídea *dipodium* en el archivo de **ggversa**.  Note que se podría haber usado **geom_dotplot** sin parámetros adicional y los puntos quedarían representados de color negro. El parámetro **fill** cambia el color de los puntos y el parámetro **colour o color** cambia el color de la línea que rodea el círculo.
-
 
 ***
 
 ```{r dipodium-puntos, message=FALSE, warning=FALSE}
 
-a=ggplot(dipodium, aes(Number_of_fruits))
-
-a+geom_dotplot(fill="blue", colour="yellow",
+dipodium%>%
+  select(number_of_fruits, species_name, tree_species)%>%
+  filter(species_name=="r")%>%   # r representa la especie de *Dipodium roseum*
+  ggplot(aes(number_of_fruits))+
+  geom_dotplot(fill="blue", colour="yellow",
                 stackratio=.5) +
   labs(x="Número de Frutos", y="Frecuencia")+
   theme(axis.title=element_text(size=10,face="bold"))
@@ -58,18 +64,17 @@ a+geom_dotplot(fill="blue", colour="yellow",
 
 # El eje de Y no representa los datos, solución
 
-+
-  scale_y_continuous(NULL, breaks = NULL)
+
   
 ```{r , message=FALSE, warning=FALSE}
 
-a=ggplot(dipodium, aes(Number_of_fruits))
+a=ggplot(dipodium, aes(number_of_fruits))
 
-a+geom_dotplot(fill="blue", colour="yellow",
-                stackratio=.5) +
-  labs(x="Número de Frutos", y="Frecuencia")+
+a+geom_dotplot(fill="blue", colour="red",
+                stackratio=.7) +
   theme(axis.title=element_text(size=10,face="bold"))+
-  scale_y_continuous(NULL, breaks = NULL)
+  scale_y_continuous(NULL, breaks = NULL)+
+  labs(x="Número de Frutos", y="Frecuencia")
 ``` 
 
 
@@ -78,32 +83,32 @@ a+geom_dotplot(fill="blue", colour="yellow",
 
 ## La posición de los datos con **stackdir**
 
-Con la opción **stackdir** uno puede ubicar los puntos de forma diferente; por ejemplo, centrados al eje de Y como se muestra en la siguiente figura.  Para especificar la dirección en que se quieren ubicar los datos, se indica que los puntos comienzan al centro con el parámetro **center**; si comienzan arriba, con **down**; si abajo, con **up**; y si al centro con los puntos alineados, con **centerwhole** (centralizados, pero con los daos aliñados).
+Con la opción **stackdir** uno puede ubicar los puntos de forma diferente; por ejemplo, centrados al eje de Y como se muestra en la siguiente figura.  Para especificar la dirección en que se quieren ubicar los datos, se indica que los puntos comienzan al centro con el parámetro **center**; si comienzan arriba, con **down**; si abajo, con **up**; y si al centro con los puntos alineados, con **centerwhole** (centralizados, pero con los datos aliñados).
 
 ```{r dipodium-puntos8}
 # Practica cambiando stackdir por las otras alternativas: centerwhole, up, down, center, 
-a=ggplot(dipodium, aes(Number_of_fruits))
+a=ggplot(dipodium, aes(number_of_fruits))
 a=a+geom_dotplot(fill="red", colour="black",
                 stackdir="center", stackratio = 0.5) + 
   labs(x="Número de Frutos", y="Frecuencia")+
   theme(axis.title=element_text(size=10,face="bold"))+
   scale_y_continuous(NULL, breaks = NULL)
 
-b=ggplot(dipodium, aes(Number_of_fruits))
+b=ggplot(dipodium, aes(number_of_fruits))
 b=b+geom_dotplot(fill="blue", colour="black",
                 stackdir="centerwhole", stackratio = 0.5) + 
   labs(x="Número de Frutos", y="Frecuencia")+
   theme(axis.title=element_text(size=10,face="bold"))+
   scale_y_continuous(NULL, breaks = NULL)
 
-c=ggplot(dipodium, aes(Number_of_fruits))
+c=ggplot(dipodium, aes(number_of_fruits))
 c=c+geom_dotplot(fill="orange", colour="black",
                 stackdir="up", stackratio = 0.5) + 
   labs(x="Número de Frutos", y="Frecuencia")+
   theme(axis.title=element_text(size=10,face="bold"))+
   scale_y_continuous(NULL, breaks = NULL)
 
-d=ggplot(dipodium, aes(Number_of_fruits))
+d=ggplot(dipodium, aes(number_of_fruits))
 d=d+geom_dotplot(fill="black", colour="white",
                 stackdir="down", stackratio = 0.5) + 
   labs(x="Número de Frutos", y="Frecuencia")+
@@ -127,15 +132,15 @@ A continuación se demostrará cómo modificar algunas variables utilizando **ge
 
 ```{r dipodium-puntos1, echo=TRUE}
 
-a=ggplot(dipodium, aes(Number_of_fruits))+
+a=ggplot(dipodium, aes(number_of_fruits))+
   geom_dotplot(fill="blue", colour="black",
-               dotsize=3, stackdir="center",  stackratio = 0.2) +
+               dotsize=3, stackdir="center",  stackratio = 0.2, alpha=.5) +
   labs(x="Especie de orquídea", y="Frecuencia")+
   theme(axis.title=element_text(size=10,face="bold"))+
   scale_y_continuous(NULL, breaks = NULL)
 
 
-b=ggplot(dipodium, aes(Number_of_fruits))+
+b=ggplot(dipodium, aes(number_of_fruits))+
   geom_dotplot(fill="blue", colour="black",
                dotsize=1, stackdir="center",  stackratio = 0.7) +
   labs(x="Especie de orquídea", y="Frecuencia")+
@@ -157,16 +162,16 @@ La opción de **stackratio** es para especificar el grado de solapamiento de los
 
 ```{r dipodium-puntos5}
 
-a=ggplot(dipodium, aes(Number_of_fruits, fill=Species_Name))+
-  geom_dotplot(binwidth = .3, stackratio = .7, position = "dodge") +
+a=ggplot(dipodium, aes(number_of_fruits, fill=species_name))+
+  geom_dotplot(binwidth = .5, stackratio = .7, position = "dodge") +
   labs(x="Número de Frutos", y="Frecuencia")+
   theme(axis.title=element_text(size=10,face="bold"))+
   theme(legend.position = "none")+
   scale_y_continuous(NULL, breaks = NULL)
 
 
-b=ggplot(dipodium, aes(Number_of_fruits, fill=Species_Name))+
-geom_dotplot(binwidth = .3, stackratio = .7, position=position_dodge(width = 0.7)) +
+b=ggplot(dipodium, aes(number_of_fruits, fill=species_name))+
+geom_dotplot(binwidth = .3, stackratio = .7, position=position_dodge(width = .7)) +
   labs(x="Número de Frutos", y="Frecuencia")+
   theme(axis.title=element_text(size=10,face="bold"))+
   theme(legend.position = "none")+
@@ -185,7 +190,7 @@ grid.arrange(a,b,ncol=2)
 Ahora veremos cómo ubicar los puntos uno encima de los otros o sea apilar los puntos pero que a la misma vez la cantidad de puntos cambie de acuerdo al grupo.  Continuaremos con el ejemplo anterior de las orquídeas *Dipodium*. En la Figura se usa la opción **stackgroups** en combinación con **binwidth** y **method** para lograr ese efecto, tal como se muestra a continuación:
 
 ```{r dipodium-puntos6}
-a=ggplot(dipodium, aes(Number_of_fruits, fill=Species_Name))
+a=ggplot(dipodium, aes(number_of_fruits, fill=species_name))
 a+geom_dotplot(stackgroups = TRUE, binwidth = .5, method = "histodot", stackratio = 0.5) +
   labs(x="Número de Frutos", y="Frecuencia")+
   theme(axis.title=element_text(size=10,face="bold"))+
@@ -205,8 +210,8 @@ Cuando hay un grupo no indentificado típicamente se usa **NA** en la el archivo
 
 
 conNA=dipodium%>%
-  select(Species_Name, Number_of_fruits)%>%
-  ggplot(aes(Species_Name, Number_of_fruits, fill=Species_Name))+
+  select(species_name, number_of_fruits)%>%
+  ggplot(aes(species_name, number_of_fruits, fill=species_name))+
 geom_dotplot(dotsize=.5, stackdir="center", alpha=.5, binaxis = "y") +
   labs(x="Especie de orquídea", y="Número de frutos")+
   theme(axis.title=element_text(size=10,face="bold"))+
@@ -215,9 +220,9 @@ geom_dotplot(dotsize=.5, stackdir="center", alpha=.5, binaxis = "y") +
 
 
 sinNA=dipodium%>%
-  select(Species_Name, Number_of_fruits)%>%
+  select(species_name, number_of_fruits)%>%
   drop_na()%>%
-  ggplot(aes(Species_Name, Number_of_fruits, fill=Species_Name))+
+  ggplot(aes(species_name, number_of_fruits, fill=species_name))+
 geom_dotplot(dotsize=.5, stackdir="center", alpha=.9, binaxis = "y") +
   labs(x="Especie de orquídea", y="Número de frutos")+
   theme(axis.title=element_text(size=10,face="bold"))+
@@ -239,14 +244,14 @@ grid.arrange(conNA,sinNA,ncol=2)
 
 ```{r dipodium-puntos4}
 
-a=ggplot(dipodium, aes(Number_of_fruits))+
-  geom_dotplot(binwidth = 2, dotsize=0.1) +
+a=ggplot(dipodium, aes(number_of_fruits))+
+  geom_dotplot(binwidth =2, dotsize=0.1) +
   labs(x="Número de Frutos", y="Frecuencia")+
   theme(axis.title=element_text(size=10,face="bold"))+
   scale_y_continuous(NULL, breaks = NULL)
 
 
-b=ggplot(dipodium, aes(Number_of_fruits))+
+b=ggplot(dipodium, aes(number_of_fruits))+
   geom_dotplot(binwidth = 1, dotsize=0.1) +
   labs(x="Número de Frutos", y="Frecuencia")+
   theme(axis.title=element_text(size=10,face="bold"))+
@@ -267,7 +272,7 @@ Otra alternativa para lograr la misma representación de poner los puntos uno en
 
 ```{r dipodium-puntos7}
 
-a=ggplot(dipodium, aes(Number_of_fruits, fill=Species_Name))
+a=ggplot(dipodium, aes(number_of_fruits, fill=species_name))
 a+geom_dotplot(stackgroups = TRUE, binwidth = .5, binpositions = "all", dotsize = .5) +
   labs(x="Número de Frutos", y="Frecuencia")+
   theme(axis.title=element_text(size=10,face="bold"))+

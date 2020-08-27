@@ -31,6 +31,7 @@ Librerías necesarias para producir los gráficos que siguen
 library(ggversa) # paquete con los datos
 library(tidyverse) # paquete que instala múltiples paquetes
 library(gridExtra) # Un paquete para organizar las figuras de ggplot2
+library(janitor)
 ```
 
 
@@ -46,7 +47,8 @@ El gráfico de área es análogo a un histograma o a un gráfico de barras. En l
 ```{r dipodium-area,  echo=TRUE, tidy=FALSE,  warning=FALSE, message=FALSE, fig.align='center'}
 
 DW=dipodium
-a=ggplot(DW, aes(Distance))
+DW=clean_names(DW)
+a=ggplot(DW, aes(distance))
 a+geom_area(stat="bin", fill="aquamarine")+
   labs(x="Distancia", y="Frecuencia")+
   theme(axis.title=element_text(size=10,face="bold"))
@@ -58,7 +60,7 @@ En este siguiente gráfico se cambia el color de linea que sigue el contorno del
 
 ```{r dipodium-area2,  echo=TRUE, tidy=FALSE,  warning=FALSE, message=FALSE}
 
-a=ggplot(DW, aes(Distance))
+a=ggplot(DW, aes(distance))
 a+geom_area(stat="bin", fill="steelblue1",
             linetype=1, color="red", size=2.0, alpha=0.5)+
   labs(x="Distancia", y="Frecuencia")+
@@ -77,7 +79,7 @@ Ahora al gráfico siguiente, se le cambia el color de la línea a negro a la vez
 
 ```{r dipodium-area3,  echo=TRUE, tidy=FALSE,  warning=FALSE, message=FALSE}
 
-a=ggplot(DW, aes(Distance))
+a=ggplot(DW, aes(distance))
 a+geom_area(stat="bin", fill="steelblue1",
             linetype="dotdash", color="black", size=.5, alpha=0.5)+
   labs(x="Distancia", y="Frecuencia")+
@@ -159,7 +161,7 @@ Note que en el gráfico siguiente se usó el parámetro *alpha=0.4*.  Este modif
 ```{r dipodium-densidad, echo=TRUE, fig.pos='H', tidy=FALSE,message=FALSE, warning=FALSE,  fig.align='center'}
 
 
-a=ggplot(DW, aes(Distance))
+a=ggplot(DW, aes(distance))
 a+geom_area(aes(y=..density..),stat="bin", alpha=0.5)+
   geom_density(kernel = c(kernel="gaussian"),
                alpha=0.4, fill="blue")+
@@ -239,7 +241,7 @@ El gráfico de frecuencia de polígono es similar al gráfico de área y de dens
 ```{r dipodium-poligono, echo=TRUE, tidy=FALSE,message=FALSE, warning=FALSE,  fig.align='center'}
 
 
-a=ggplot(DW, aes(Distance))
+a=ggplot(DW, aes(distance))
 a+geom_freqpoly(binwidth=.1, color="steelblue")+
   labs(x="Distancia", y="Frecuencia")+
   theme(axis.title=element_text(size=14,face="bold"))
@@ -253,7 +255,7 @@ Se modifica otras opciones como sigue: intensidad del color con **alpha**, el ti
 
 DW%>%
   drop_na()%>%
-ggplot(aes(Distance, colour=Species_Name))+
+ggplot(aes(distance, colour=species_name))+
 geom_freqpoly(alpha=0.8, size=1.5, binwidth=.1)+
   labs(x="Distancia", y="Frecuencia")+
   theme(axis.title=element_text(size=14,face="bold"))

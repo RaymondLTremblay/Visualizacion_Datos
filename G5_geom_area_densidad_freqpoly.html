@@ -451,6 +451,9 @@ div.tocify {
     <li>
       <a href="Ejerc_2_geom_point.html">Ejercicio geom_point</a>
     </li>
+    <li>
+      <a href="Ejerc_3_Wilkinson.html">Ejercicio Wilkinson</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -495,7 +498,8 @@ div.tocify {
 <p>Librerías necesarias para producir los gráficos que siguen</p>
 <pre class="r"><code>library(ggversa) # paquete con los datos
 library(tidyverse) # paquete que instala múltiples paquetes
-library(gridExtra) # Un paquete para organizar las figuras de ggplot2</code></pre>
+library(gridExtra) # Un paquete para organizar las figuras de ggplot2
+library(janitor)</code></pre>
 <hr />
 </div>
 <div id="gráfico-de-área-con-geom_area" class="section level1">
@@ -504,13 +508,14 @@ library(gridExtra) # Un paquete para organizar las figuras de ggplot2</code></pr
 <h2>Sección Gráfico De Área</h2>
 <p>El gráfico de área es análogo a un histograma o a un gráfico de barras. En la figura a continuación se observa cómo la cantidad en <strong>X</strong> cambia en frecuencia con respecto a <strong>Y</strong> a lo largo del rango de la variable <strong>X</strong>. Se observa a continuación que los datos no están agrupados en barras como cuando se usa <strong>geom_histogram</strong> pero representados como un área continua. Note que en contraste a un histograma, los cambios de frecuencia son suavizados y no discretos.</p>
 <pre class="r"><code>DW=dipodium
-a=ggplot(DW, aes(Distance))
+DW=clean_names(DW)
+a=ggplot(DW, aes(distance))
 a+geom_area(stat=&quot;bin&quot;, fill=&quot;aquamarine&quot;)+
   labs(x=&quot;Distancia&quot;, y=&quot;Frecuencia&quot;)+
   theme(axis.title=element_text(size=10,face=&quot;bold&quot;))</code></pre>
 <p><img src="G5_geom_area_densidad_freqpoly_files/figure-html/dipodium-area-1.png" width="672" style="display: block; margin: auto;" /></p>
 <p>En este siguiente gráfico se cambia el color de linea que sigue el contorno del área. Para hacer este cambio se puede identificar el tipo de linea con <strong>linetype</strong>, el color con <strong>color</strong>, el grosor de la linea con <strong>size</strong> y la intensidad del color con <strong>alpha</strong>.</p>
-<pre class="r"><code>a=ggplot(DW, aes(Distance))
+<pre class="r"><code>a=ggplot(DW, aes(distance))
 a+geom_area(stat=&quot;bin&quot;, fill=&quot;steelblue1&quot;,
             linetype=1, color=&quot;red&quot;, size=2.0, alpha=0.5)+
   labs(x=&quot;Distancia&quot;, y=&quot;Frecuencia&quot;)+
@@ -523,7 +528,7 @@ a+geom_area(stat=&quot;bin&quot;, fill=&quot;steelblue1&quot;,
 <h1>Los tipos de <strong>linetype</strong></h1>
 <p>Vea las alternativas de “linetype” en este enlace <a href="http://sape.inf.usi.ch/quick-reference/ggplot2/linetype">linetype</a>. Algunas de estas lineas se pueden llamar usando un nombre “blank”, “solid”, “dashed”, “dotted”, “dotdash”, “longdash”, “twodash”, o numeración “1F”, “F1”, “4C88C488”, "12345678.</p>
 <p>Ahora al gráfico siguiente, se le cambia el color de la línea a negro a la vez que se le cambia el estilo de la línea con <em>linetype</em> y el grosor de la misma con <em>size</em>.</p>
-<pre class="r"><code>a=ggplot(DW, aes(Distance))
+<pre class="r"><code>a=ggplot(DW, aes(distance))
 a+geom_area(stat=&quot;bin&quot;, fill=&quot;steelblue1&quot;,
             linetype=&quot;dotdash&quot;, color=&quot;black&quot;, size=.5, alpha=0.5)+
   labs(x=&quot;Distancia&quot;, y=&quot;Frecuencia&quot;)+
@@ -587,7 +592,7 @@ Otra alternativa es usar <strong>geom_density(kernel = c(kernel={gaussian})</str
 </ol>
 <p>EL <strong>kernel</strong> es un tipo especial de función de probabilidad de densidad que tiene ciertas propiedades específicas, ya sea que esta no sea negativa y con valores reales de manera tal que el gráfico salga simétrico, y que la suma de la integral sea igual a uno. Se añadio tambien <em>geom_density</em> para comparar el resultado de las dos funciones.</p>
 <p>Note que en el gráfico siguiente se usó el parámetro <em>alpha=0.4</em>. Este modifica la transparencia del color azul del parámetro fill=blue. La intensidad de <strong>alpha=0.4</strong> puede variar de 0 a 1, tal como se ha explicado anteriormente. En el ejemplo a continuación se utilizan los datos de la <em>Dipodium rosea</em> otra vez.</p>
-<pre class="r"><code>a=ggplot(DW, aes(Distance))
+<pre class="r"><code>a=ggplot(DW, aes(distance))
 a+geom_area(aes(y=..density..),stat=&quot;bin&quot;, alpha=0.5)+
   geom_density(kernel = c(kernel=&quot;gaussian&quot;),
                alpha=0.4, fill=&quot;blue&quot;)+
@@ -655,7 +660,7 @@ d=ggplot(d, aes(d))+
 <div id="gráfico-de-frecuencia-de-polígono-con-geom_freqpoly" class="section level2">
 <h2>Gráfico de frecuencia de polígono con <strong>geom_freqpoly</strong></h2>
 <p>El gráfico de frecuencia de polígono es similar al gráfico de área y de densidad, la diferencia es que no se rellena el area con color. También se puede cambiar la cantidad de compartimentos usando <strong>binwidth</strong>. En el gráfico de polígono, es solamente la línea la que gráficamos y no hay parámetro de <strong>fill</strong> del área debajo de la línea.</p>
-<pre class="r"><code>a=ggplot(DW, aes(Distance))
+<pre class="r"><code>a=ggplot(DW, aes(distance))
 a+geom_freqpoly(binwidth=.1, color=&quot;steelblue&quot;)+
   labs(x=&quot;Distancia&quot;, y=&quot;Frecuencia&quot;)+
   theme(axis.title=element_text(size=14,face=&quot;bold&quot;))</code></pre>
@@ -663,7 +668,7 @@ a+geom_freqpoly(binwidth=.1, color=&quot;steelblue&quot;)+
 <p>Se modifica otras opciones como sigue: intensidad del color con <strong>alpha</strong>, el tipo de línea con <strong>linetype</strong> y el grosor de la línea con <strong>size</strong> tal como se muestra a continuación.</p>
 <pre class="r"><code>DW%&gt;%
   drop_na()%&gt;%
-ggplot(aes(Distance, colour=Species_Name))+
+ggplot(aes(distance, colour=species_name))+
 geom_freqpoly(alpha=0.8, size=1.5, binwidth=.1)+
   labs(x=&quot;Distancia&quot;, y=&quot;Frecuencia&quot;)+
   theme(axis.title=element_text(size=14,face=&quot;bold&quot;))</code></pre>

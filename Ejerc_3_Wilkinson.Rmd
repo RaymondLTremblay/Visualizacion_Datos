@@ -1,0 +1,120 @@
+---
+title: "Ejerc_3_Wilkinson"
+output:
+  html_document: 
+    theme: spacelab
+    toc: yes
+    toc_float: yes
+---
+
+```{r}
+library(tidyverse)
+library(gt)
+```
+
+
+
+Usando los datos de COVID-19
+
+```{r}
+library(data.table)
+mydat<- read.csv('https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv')
+
+gt(head(mydat, n=10))
+```
+
+# Ejercicio 1
+5 puntos
+
+
+### Seleccionar variables y filtrar 
+
+ - Selecciona las variables de "location", "new_cases" y "total_death" 
+ - Filtrar para los datos de Puerto Rico solamente. 
+
+
+```{r eval=FALSE, include=FALSE}
+dfPR=mydat%>%
+  select(location, new_deaths, total_deaths)%>%
+  filter(location=="Puerto Rico")
+```
+
+###  Produzca un gráfico de Wilkinson
+
+ - Selecciona un solapamiento de los datos para poder ver toso los puntos
+
+```{r eval=FALSE, include=FALSE}
+dfPR%>%
+  ggplot(aes(new_deaths))+
+  geom_dotplot(stackratio = 0.35, color="white")+
+  scale_y_continuous(NULL, breaks = NULL)
+```
+
+
+# Ejercicio 2 
+5 puntos
+
+
+### Seleccionar variables y filtrar 
+
+ - Selecciona las variables de "location", "new_cases" y "total_death" 
+ - Filtrar para los datos de Puerto Rico y otro país caribeño. Nota que no he enseñado como seleccionar más de un país, mira a ver si encuentra solución en el internet. Si no la encuentra, habla con colegas de la clase. Si todavía no lo encuentra comunicarse conmigo.       
+ 
+ 
+ 
+ 
+```{r eval=FALSE, include=FALSE}
+
+target <- c("Puerto Rico", "Cuba")
+dfPR2=mydat%>%
+  select(location, new_deaths, total_deaths)%>%
+  filter(location %in% target)
+dfPR2
+
+
+# Otra alternativa
+
+dfPR3=mydat%>%
+  select(location, new_deaths, total_deaths)%>%
+  filter(location %in% c("Puerto Rico", "Cuba"))
+dfPR3
+
+
+```
+
+###  Produzca un gráfico de Wilkinson
+
+ - Selecciona un solapamiento de los datos para poder ver toso los puntos y posiciona los datos de los dos países uno al lado del otro. 
+
+
+```{r eval=FALSE, include=FALSE}
+dfPR2%>%
+  ggplot(aes(new_deaths, fill=location))+
+  geom_dotplot(binwidth = .3, stackratio = .3, position=position_dodge(width = .7))+
+  scale_y_continuous(NULL, breaks = NULL)
+```
+
+
+## Bono  
+3 puntos
+
+Selecciona cinco países **pequeños** de Europa y reproduzca la gráfica anterior. Para que la gráfica se puede apreciar tendrán que usar los países con poblaciones más pequeño. 
+
+
+```{r eval=FALSE, include=FALSE}
+#unique(mydat$location)
+
+dfPR3=mydat%>%
+  select(location, new_deaths, total_deaths)%>%
+  filter(location %in% c("San Marino", "Luxembourg","Liechtenstein", "Andorra", "Slovenia" ))
+dfPR3
+
+
+dfPR3%>%
+  ggplot(aes(new_deaths, fill=location))+
+  geom_dotplot(binwidth = .3, stackratio = .09, position=position_dodge(width = .7))+
+  scale_y_continuous(NULL, breaks = NULL)
+```
+
+
+
