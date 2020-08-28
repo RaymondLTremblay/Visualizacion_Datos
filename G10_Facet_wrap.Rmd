@@ -42,6 +42,7 @@ library(lubridate)
 library(tidyverse)
 ```
 
+***
 
 # Gráficos por categoría con **facet_wrap**
 # **Facet_wrap**: Descripción general
@@ -98,6 +99,7 @@ barraC+geom_point()+
   labs(y="Altitud")+
   theme(axis.title=element_text(size=10,face="bold"))
 ```
+
 ***
 
 
@@ -112,6 +114,7 @@ barraC+geom_point()+
   labs(y="Altitud")+
   theme(axis.title=element_text(size=10,face="bold"))
 ```
+
 ***
 
 ## **Facet_wrap**: Con múltiples variables
@@ -125,6 +128,7 @@ barraE+geom_point()+
   labs(y="Altitud")+
   theme(axis.title=element_text(size=10,face="bold"))
 ```
+
 ***
 
 ## **Facet_wrap**: Mostrar los grupos aunque no tengan datos
@@ -138,6 +142,7 @@ barraE+geom_point()+
   labs(y="Altitud")+
   theme(axis.title=element_text(size=10,face="bold"))
 ```
+
 ***
 
 
@@ -205,6 +210,8 @@ ggplot(Anolis, aes(x=SVL, y=HEIGHT, colour=Survey_Site))+
   theme(legend.position="none")
 ```
 
+***
+
 # Demostración con datos climatológicos
 
 **Facet_wrap** se puede usar en combinación con todas las funciones tipo **geom**.  A continuación se demostrará un ejemplo con **geom_line**. Para  visualizar  las  ventajas  de  esa combinación,  utilizaremos  datos sobre las temperaturas  mínimas diurnas de la ciudad de Morelia, Michoacán, México, disponible en CLIMCOM, <http://clicom-mex.cicese.mx>. Los datos del archivo original van de noviembre 1947 a marzo del 2012.  A continuación solo se mostrarán del 1951 hasta el 1959. Note que aparecen todos los años juntos, lo que lo hace un poco difícil de analizar. Para reproducir este gráfico, primero hay que instalar y activar la librería **lubridate** que se usará para manipular los datos relacionados a las fechas. En el paquete **lubridate** se encuentra una serie de funciones para reorganizar y manipular datos de fechas y horas en distintos formatos. El segundo paso es seleccionar solamente los datos de interés con la opción **with**.  El tercer paso es convertir los datos de fecha que estén en tres columnas, **Mes**, **Dia** y **Year** (o **Año**), y crear una columna de fecha donde la organización de la fecha es año-mes-día. El paso final es convertir la fecha al día del año (1-365).
@@ -225,7 +232,7 @@ MM=MORELIA.MICH.Tmin%>%
 
 ```
 
-## Unir columnas de fecha en una variable tde tiempo
+## Unir columnas de fecha en una variable de tiempo
 
 Ahora se define la variable para la fecha con la función **ymd** para indicar que el orden de la fecha es año-mes-día.  También se identifica cuántos dígitos tiene cada elemento de la fecha utilizando **%04** para 4 cifras para el año y **%02** para dos cifras para mes y día.  Subsiguientemente se identifica a cuál columna corresponde ubicar a cada uno.
 
@@ -256,6 +263,8 @@ ggplot(MM, aes(x=diaanual, y=Tmin, color=factor(Year)))+
   ylab("Temperatura mínima")
 ```
 
+***
+
 ## **Facet_wrap** climatológico
 
 Como podemos apreciar en la Figura las líneas que representan las fechas son muy difíciles de analizar debido al solapamiento.  Ahora utilizamos **facet_wrap** para que aparezcan separadas por la categoría de año, **Year**.  Note la tilde en **facet_wrap**, **~**, antes del nombre de la variable categórica, **Year**.
@@ -270,6 +279,8 @@ ggplot(MM, aes(x=diaanual, y=Tmin, color=factor(Year)))+
   ylab("Temperatura mínima")
 ```
 
+***
+
 ## Modificar el orden en que se presentan los gráficos
 
 Por omisión, los gráficos van a la horizontal primero (de izquierda a derecha) y luego hacia abajo.  Si se desea que bajen a la vertical primero (de arriba para abajo) y luego a la izquierda, se usa la opción **dir**.  De esa manera, se puede notar que ahora se llena la primera columna, después la segunda y luego la tercera columna, y así sucesivamente.  Para lograr ese efecto se utilizó la opción **dir=v** en la función **facet_wrap**, **v** de vertical; o sea, que baje a la vertical primero.
@@ -282,6 +293,8 @@ ggplot(MM, aes(x=diaanual, y=Tmin, color=factor(Year)))+
   labs(y="Temperatura mínima", x="Día del año")+
   theme(axis.title=element_text(size=10,face="bold"))
 ```
+
+***
 
 # Opciones y Parametros de **facet_wrap**:
 

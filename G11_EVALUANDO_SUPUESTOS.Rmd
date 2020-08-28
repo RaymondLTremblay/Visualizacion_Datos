@@ -51,6 +51,8 @@ library(gridExtra)
 
 ```
 
+***
+
 La ética en estadística basado en comprobar y cumplir con los supuestos de las pruebas estadística que se usan.  La gran mayoría de las pruebas tradicional asume que los datos cumple con algunos supuestos, algunos típicos son. 
 
 1. distribución normal
@@ -118,6 +120,7 @@ BecasaMar + geom_boxplot(notch=TRUE)+
             xlab("Sexo de las aves")+
             ylab("Razón de consumo")
 ```
+
 ***
 
 
@@ -153,6 +156,8 @@ Lo que observaremos es que la distribución de los residuales luce más o menos 
   ggtitle("Residuales vs. Valores Estimados")
 res
 ```
+
+
 ***
 
 ## Los residuales de Student para detectar valores sesgados
@@ -170,6 +175,7 @@ A continuación se ilustra otro enfoque para evaluar los residuales. En este cas
   ggtitle("Residuales vs. Valores Estimados")
 ResEst
 ```
+
 ***
 
 ## Valores sesgados con la Distancia de Cook, Di
@@ -193,6 +199,7 @@ Para hacer una ilustración, continuaremos con el modelo **modelflower** usando 
         ylab("Distancia de Cook")+
         ggtitle("Distancia de Cook")
 ```
+
 ***
 
 
@@ -205,12 +212,15 @@ Los valores que parecen sesgados pueden ser normal de la población estudiada, y
 * los valores fueron entrado incorrectamente en la hoja de datos
 * los valores recolectado tienen diferente dimensiones, por ejemplo algunos fueron recolectados en cm y otros en mm para la misma variable. 
  
+***
 
 ## Supuesto de normalidad 
 
 Hay muchas pruebas estadísticas que asumen que los datos provienen de una distribución normal. Pero no todas las pruebas tienen que satisfacer ese supuesto.  Por ejemplo, un Análisis de Componentes Principales o ACP (en inglés, PCA o Principle Component Analysis) o la prueba de t asumen distribución normal.  Por el contrario, las pruebas no paramétricas como Wilcoxon, Mann-Whitney, Kruskall Wallis y otras no asumen ese supuesto.
 
 Una alternativa tradicional para comprobar la normalidad de los datos es mirar el gráfico de QQ; o sea, una visualización para comparar las probabilidades de dos variables en las que se gráfican los cuartiles (recordemos que **Q** viene de cuartil). Si las distribuciones de las dos variables son similares, los puntos aparecerán nítidamente en el gráfico de QQ sobre la línea de **X-Y**. Eso se demostrará a continuación.
+
+***
 
 ## qplot
 
@@ -311,6 +321,7 @@ b= ggplot(Godwits, aes(mgconsumed)) +
 
 grid.arrange(a,b,ncol=1)
 ```
+
 ***
 
 ## stat_function 
@@ -348,6 +359,7 @@ b=ggplot(Sparrows, aes(wt)) +
 
 grid.arrange(a,b,ncol=2)
 ```
+
 ***
 
 ## Visualizando la distribuciones con **geom_density**
@@ -380,6 +392,7 @@ b= ggplot(Sparrows, aes(wt))+
 
 grid.arrange(a,b,ncol=1)
 ```
+
 ***
 
 
@@ -404,6 +417,7 @@ Otra alternativa es hacer el análisis de correlación de muchas variables en co
 kable(signif(cor(dipodium[,c(3, 8, 9)],
  use="pairwise.complete.obs"),2))
 ```
+
 ***
 
 ### Tabla de correlación de Kendall
@@ -431,6 +445,7 @@ En esas tres tablas podemos apreciar un patrón consistente entre todos los mét
 
 Brevemente recapitulamos, si los datos no siguen una distribución normal, se deberían utilizar los métodos Kendall o Spearman.  Si se tienen pocos datos,  Kendall tiende a ser una mejor alternativa para determinar el indice de correlación.  Se le advierte, sin embargo, que consulte libros de estadística sobre este tema antes que realice un análisis de este tipo ya que la decisión de seleccionar una alternativa sobre otra no es tan sencilla. 
 
+***
 
 ## Seleción de parametros pra correlaciones cuando hay NA
 
@@ -438,6 +453,8 @@ Brevemente recapitulamos, si los datos no siguen una distribución normal, se de
 Además, los analísis anteriores utilizados emplearon el parámetro **pairwise.complete.obs**, ya que obviaría los **NA** en las columnas que se utilizan para calcular la correlación. Por lo tanto, la cantidad de pares de datos utilizados para calcular las diferentes correlaciones entre variables puede variar si hay **NA** en el archivo.  Tome en consideración que hay otras cuatro alternativas para analizar los datos cuando tenemos **NA** presentes: **everything**, **all.obs**, **complete.obs** y **na.or.complete**.  No vamos a discutir esas alternativas en el presente libro.  Sería bueno que busque información en R para sus usos. Estas alternativas se discutiran en otros modulos.  
 
 Finalmente, también se utilizó el comando **kable** ya que es una manera efectiva de organizar los resultados en una tabla.
+
+***
 
 ## Uso de GGally para ver correlaciones
 
