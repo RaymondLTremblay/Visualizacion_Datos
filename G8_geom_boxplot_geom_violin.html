@@ -9,14 +9,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="RLT" />
 
 
 <title>Gráficos de caja y de violin con geom_boxplot and geom_violin</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
@@ -24,25 +23,102 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+
 
 <style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 <style type="text/css">
   pre:not([class]) {
     background-color: white;
   }
 </style>
-<script type="text/javascript">
-if (window.hljs) {
-  hljs.configure({languages: []});
-  hljs.initHighlightingOnLoad();
-  if (document.readyState && document.readyState === "complete") {
-    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
-  }
-}
-</script>
-
 
 
 <style type="text/css">
@@ -72,6 +148,7 @@ h6 {
 }
 </style>
 
+<link rel="stylesheet" href="tutorial.css" type="text/css" />
 
 
 
@@ -106,33 +183,33 @@ summary {
 <style type="text/css">
 /* padding for bootstrap navbar */
 body {
-  padding-top: 51px;
+  padding-top: 41px;
   padding-bottom: 40px;
 }
 /* offset scroll position for anchor links (for fixed navbar)  */
 .section h1 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 46px;
+  margin-top: -46px;
 }
 .section h2 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 46px;
+  margin-top: -46px;
 }
 .section h3 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 46px;
+  margin-top: -46px;
 }
 .section h4 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 46px;
+  margin-top: -46px;
 }
 .section h5 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 46px;
+  margin-top: -46px;
 }
 .section h6 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 46px;
+  margin-top: -46px;
 }
 .dropdown-submenu {
   position: relative;
@@ -484,53 +561,51 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Gráficos de caja y de violin con <strong>geom_boxplot</strong> and <strong>geom_violin</strong></h1>
-<h4 class="author">RLT</h4>
-<h4 class="date">6/30/2020</h4>
 
 </div>
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2020-08-26&quot;</code></pre>
-<pre class="r"><code>library(tidyverse)
-library(ggversa)
-library(gridExtra) # Para organizar múltiples gráficos juntos</code></pre>
+<pre><code>## [1] &quot;2020-08-27&quot;</code></pre>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="kw">library</span>(ggversa)</span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="kw">library</span>(gridExtra) <span class="co"># Para organizar múltiples gráficos juntos</span></span></code></pre></div>
 <div id="diagrama-de-caja-con-geom_boxplot" class="section level1">
 <h1>Diagrama de caja con geom_boxplot</h1>
 <p>Para datos que no tienen una distribución normal, típicamente se usa un diagrama de caja para visualizar la distribución de los datos. El diagrama de caja distribuye los datos basándose en el rango del orden de tamaño o valor numérico. Primeramente, los datos son ordenados de menor a mayor. Los valores en el gráfico correspondiente representan los cuartiles 25, 50 y 75. Los bigotes (las líneas que se extienden de las cajas) representan 1.5 veces multiplicado por el rango intercuartil (RIC), o la distancia entre el primer cuartil (25) y el tercer cuartil (75). Los datos que están fuera de ese rango se representan con puntos. Los gráficos que usan muescas, o <strong>notch</strong>, las calculan de acuerdo a la siguiente fórmula: (1.58 x RIC) / (raíz cuadrada de la muestra). Utilizaremos nuevamente los datos de la orquídea <strong>Dipodium</strong> en los siguientes ejemplos, particularmente representando la cantidad de flores y el número de frutos.</p>
 <p>En el primer gráfico a continuación, Fig. 1 (arriba a la izquierda), se muestra un diagrama de caja básico. Note que la variable en la primera <strong>x</strong> tiene valor de 1, lo que significa que hay un solo grupo. En el segundo gráfico, Fig. 2 (arriba a la derecha), se modifica con la opción de <strong>notch</strong>. En el tercer gráfico, Figura Fig. 3 (abajo a la izquierda), se cambió el color de la caja, la forma o <strong>shape</strong> de los valores atípicos o <strong>outliers</strong>, y su tamaño. En los tres primeros gráficos, se usan todos los datos en un mismo diagrama de caja. En el cuarto gráfico, Fig. 4 (abajo a la derecha), observamos la distribución de la cantidad de flores por el número de frutos observado por planta. Note que para este último caso en particular, hay más de un grupo.</p>
-<pre class="r"><code>boxplot1 &lt;- ggplot(dipodium, aes(Number_of_fruits, x=1))+ 
-  geom_boxplot()+
-           annotate(&quot;text&quot;, x= 0.7,y= 7, label=&quot;Fig. 1&quot;)+
-  labs(x=&quot;1&quot;, y=&quot;Cantidad de Frutos&quot;)+
-  theme(axis.title=element_text(size=10,face=&quot;bold&quot;))
-
-
-boxplot2 &lt;- ggplot(dipodium, aes(Number_of_fruits, x=1))+
-  geom_boxplot(notch=TRUE) +
-           annotate(&quot;text&quot;, x= 0.7,y= 7, label=&quot;Fig. 2&quot;)+
-  labs(x=&quot;1&quot;, y=&quot;Cantidad de Frutos&quot;)+
-  theme(axis.title=element_text(size=10,face=&quot;bold&quot;))
-
-boxplot3 &lt;- ggplot(dipodium, aes(Number_of_fruits, x=1))+ 
-  geom_boxplot(notch=TRUE,
-           fill=&quot;blue&quot;, alpha=0.5, outlier.shape=17,
-           outlier.color=&quot;red&quot;, outlier.size=5)+
-           annotate(&quot;text&quot;, x= 0.7,y= 7, label=&quot;Fig. 3&quot;)+
-  labs(x=&quot;1&quot;, y=&quot;Cantidad de Frutos&quot;)+
-  theme(axis.title=element_text(size=10,face=&quot;bold&quot;))
-
-boxplot4 &lt;- ggplot(na.omit(dipodium[,c(&quot;Number_of_fruits&quot;,
-      &quot;Number_of_Flowers&quot;)]),
-       aes(factor(Number_of_Flowers), Number_of_fruits))+ 
-  geom_boxplot(notch=FALSE)+
-           annotate(&quot;text&quot;, x= 2,y= 10, label=&quot;Fig. 4&quot;)+
-  labs(y=&quot;Cantidad de Frutos&quot;, x=&quot;Cantidad de Flores&quot;)+
-  theme(axis.title=element_text(size=10,face=&quot;bold&quot;))+
-   theme(axis.text.x = element_text(angle = 90))
-  
-
-grid.arrange(boxplot1,boxplot2, boxplot3, boxplot4,ncol=2)</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>boxplot1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(dipodium, <span class="kw">aes</span>(Number_of_fruits, <span class="dt">x=</span><span class="dv">1</span>))<span class="op">+</span><span class="st"> </span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="st">  </span><span class="kw">geom_boxplot</span>()<span class="op">+</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="st">           </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x=</span> <span class="fl">0.7</span>,<span class="dt">y=</span> <span class="dv">7</span>, <span class="dt">label=</span><span class="st">&quot;Fig. 1&quot;</span>)<span class="op">+</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;1&quot;</span>, <span class="dt">y=</span><span class="st">&quot;Cantidad de Frutos&quot;</span>)<span class="op">+</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span>
+<span id="cb3-6"><a href="#cb3-6"></a></span>
+<span id="cb3-7"><a href="#cb3-7"></a></span>
+<span id="cb3-8"><a href="#cb3-8"></a>boxplot2 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(dipodium, <span class="kw">aes</span>(Number_of_fruits, <span class="dt">x=</span><span class="dv">1</span>))<span class="op">+</span></span>
+<span id="cb3-9"><a href="#cb3-9"></a><span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">notch=</span><span class="ot">TRUE</span>) <span class="op">+</span></span>
+<span id="cb3-10"><a href="#cb3-10"></a><span class="st">           </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x=</span> <span class="fl">0.7</span>,<span class="dt">y=</span> <span class="dv">7</span>, <span class="dt">label=</span><span class="st">&quot;Fig. 2&quot;</span>)<span class="op">+</span></span>
+<span id="cb3-11"><a href="#cb3-11"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;1&quot;</span>, <span class="dt">y=</span><span class="st">&quot;Cantidad de Frutos&quot;</span>)<span class="op">+</span></span>
+<span id="cb3-12"><a href="#cb3-12"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span>
+<span id="cb3-13"><a href="#cb3-13"></a></span>
+<span id="cb3-14"><a href="#cb3-14"></a>boxplot3 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(dipodium, <span class="kw">aes</span>(Number_of_fruits, <span class="dt">x=</span><span class="dv">1</span>))<span class="op">+</span><span class="st"> </span></span>
+<span id="cb3-15"><a href="#cb3-15"></a><span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">notch=</span><span class="ot">TRUE</span>,</span>
+<span id="cb3-16"><a href="#cb3-16"></a>           <span class="dt">fill=</span><span class="st">&quot;blue&quot;</span>, <span class="dt">alpha=</span><span class="fl">0.5</span>, <span class="dt">outlier.shape=</span><span class="dv">17</span>,</span>
+<span id="cb3-17"><a href="#cb3-17"></a>           <span class="dt">outlier.color=</span><span class="st">&quot;red&quot;</span>, <span class="dt">outlier.size=</span><span class="dv">5</span>)<span class="op">+</span></span>
+<span id="cb3-18"><a href="#cb3-18"></a><span class="st">           </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x=</span> <span class="fl">0.7</span>,<span class="dt">y=</span> <span class="dv">7</span>, <span class="dt">label=</span><span class="st">&quot;Fig. 3&quot;</span>)<span class="op">+</span></span>
+<span id="cb3-19"><a href="#cb3-19"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;1&quot;</span>, <span class="dt">y=</span><span class="st">&quot;Cantidad de Frutos&quot;</span>)<span class="op">+</span></span>
+<span id="cb3-20"><a href="#cb3-20"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span>
+<span id="cb3-21"><a href="#cb3-21"></a></span>
+<span id="cb3-22"><a href="#cb3-22"></a>boxplot4 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">na.omit</span>(dipodium[,<span class="kw">c</span>(<span class="st">&quot;Number_of_fruits&quot;</span>,</span>
+<span id="cb3-23"><a href="#cb3-23"></a>      <span class="st">&quot;Number_of_Flowers&quot;</span>)]),</span>
+<span id="cb3-24"><a href="#cb3-24"></a>       <span class="kw">aes</span>(<span class="kw">factor</span>(Number_of_Flowers), Number_of_fruits))<span class="op">+</span><span class="st"> </span></span>
+<span id="cb3-25"><a href="#cb3-25"></a><span class="st">  </span><span class="kw">geom_boxplot</span>(<span class="dt">notch=</span><span class="ot">FALSE</span>)<span class="op">+</span></span>
+<span id="cb3-26"><a href="#cb3-26"></a><span class="st">           </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x=</span> <span class="dv">2</span>,<span class="dt">y=</span> <span class="dv">10</span>, <span class="dt">label=</span><span class="st">&quot;Fig. 4&quot;</span>)<span class="op">+</span></span>
+<span id="cb3-27"><a href="#cb3-27"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Cantidad de Frutos&quot;</span>, <span class="dt">x=</span><span class="st">&quot;Cantidad de Flores&quot;</span>)<span class="op">+</span></span>
+<span id="cb3-28"><a href="#cb3-28"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))<span class="op">+</span></span>
+<span id="cb3-29"><a href="#cb3-29"></a><span class="st">   </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">90</span>))</span>
+<span id="cb3-30"><a href="#cb3-30"></a>  </span>
+<span id="cb3-31"><a href="#cb3-31"></a></span>
+<span id="cb3-32"><a href="#cb3-32"></a><span class="kw">grid.arrange</span>(boxplot1,boxplot2, boxplot3, boxplot4,<span class="dt">ncol=</span><span class="dv">2</span>)</span></code></pre></div>
 <p><img src="G8_geom_boxplot_geom_violin_files/figure-html/boxplot-1.png" width="672" /></p>
 </div>
 <div id="opciones-y-parametros-de-geom_boxplot" class="section level1">
@@ -555,28 +630,28 @@ grid.arrange(boxplot1,boxplot2, boxplot3, boxplot4,ncol=2)</code></pre>
 <h1>Diagrama de violín con <strong>geom_violin</strong></h1>
 <p>El gráfico de violín es similar al gráfico de caja, pero la caja es curvada para dar una apreciación de la densidad de los datos. Si la distribución de los datos sigue una curva normal, saldrá entonces como una curva de campana orientada verticalmente. Para los ejemplos a continuación, utilizaremos los datos de la orquídea terestre australiana <em>Caladenia valida</em>.</p>
 <p>El modelo básico del gráfico de violín se muestra en la Figura, Note que, tal como ocurre con <strong>geom_boxplot</strong>, si se tiene solamente un grupo, se tiene que incluir <strong>x=1</strong>. Lo que uno observa es que la mayoria de la información encuentre cerca del valor 5 y 10</p>
-<pre class="r"><code>library(ggplot2)
-CalVal=caladeniavalida 
-violinplot1 &lt;- ggplot(CalVal, aes(DCL, x=1))
-violinplot1 +
-  geom_violin()+
-  annotate(&quot;text&quot;, x= 0.75,y= 19, size=8,
-           label=&quot;&quot;, na.rm=TRUE)+
-  theme(axis.title=element_text(size=10,face=&quot;bold&quot;))+
-  ylab(&quot;EL largo del apendizaje dorsal&quot;)</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb4-2"><a href="#cb4-2"></a>CalVal=caladeniavalida </span>
+<span id="cb4-3"><a href="#cb4-3"></a>violinplot1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(CalVal, <span class="kw">aes</span>(DCL, <span class="dt">x=</span><span class="dv">1</span>))</span>
+<span id="cb4-4"><a href="#cb4-4"></a>violinplot1 <span class="op">+</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="st">  </span><span class="kw">geom_violin</span>()<span class="op">+</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a><span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x=</span> <span class="fl">0.75</span>,<span class="dt">y=</span> <span class="dv">19</span>, <span class="dt">size=</span><span class="dv">8</span>,</span>
+<span id="cb4-7"><a href="#cb4-7"></a>           <span class="dt">label=</span><span class="st">&quot;&quot;</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)<span class="op">+</span></span>
+<span id="cb4-8"><a href="#cb4-8"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))<span class="op">+</span></span>
+<span id="cb4-9"><a href="#cb4-9"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;EL largo del apendizaje dorsal&quot;</span>)</span></code></pre></div>
 <p><img src="G8_geom_boxplot_geom_violin_files/figure-html/geomviolin1-1.png" width="672" /></p>
 <hr />
 <div id="geom_violin-con-múltiples-grupos" class="section level2">
 <h2><strong>Geom_violin</strong> con múltiples grupos</h2>
 <p>A continuación vamos a producir el gráfico de violín por diferentes factores o grupos de acuerdo al año, a la vez que se le añade color azul a los violines y se le cambia la intensidad al color con <strong>alpha=()</strong>.</p>
-<pre class="r"><code>violinplot2 &lt;- ggplot(CalVal, aes(y=LCL, x=factor(Year)))
-violinplot2 +
-  geom_violin(fill=&quot;blue&quot;, alpha=0.5)+
-  annotate(&quot;text&quot;, x=2,y= 19, size=8,
-           label=&quot;&quot;, na.rm=TRUE)+
-  labs(x=&quot;Año&quot;, y=&quot;LCL&quot;)+
-  theme(axis.title=element_text(size=10,face=&quot;bold&quot;))+
-  ylab(&quot;EL largo del apendizaje lateral&quot;)</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>violinplot2 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(CalVal, <span class="kw">aes</span>(<span class="dt">y=</span>LCL, <span class="dt">x=</span><span class="kw">factor</span>(Year)))</span>
+<span id="cb5-2"><a href="#cb5-2"></a>violinplot2 <span class="op">+</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="st">  </span><span class="kw">geom_violin</span>(<span class="dt">fill=</span><span class="st">&quot;blue&quot;</span>, <span class="dt">alpha=</span><span class="fl">0.5</span>)<span class="op">+</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x=</span><span class="dv">2</span>,<span class="dt">y=</span> <span class="dv">19</span>, <span class="dt">size=</span><span class="dv">8</span>,</span>
+<span id="cb5-5"><a href="#cb5-5"></a>           <span class="dt">label=</span><span class="st">&quot;&quot;</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)<span class="op">+</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Año&quot;</span>, <span class="dt">y=</span><span class="st">&quot;LCL&quot;</span>)<span class="op">+</span></span>
+<span id="cb5-7"><a href="#cb5-7"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))<span class="op">+</span></span>
+<span id="cb5-8"><a href="#cb5-8"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;EL largo del apendizaje lateral&quot;</span>)</span></code></pre></div>
 <p><img src="G8_geom_boxplot_geom_violin_files/figure-html/geomviolin2-1.png" width="672" /></p>
 <hr />
 </div>
@@ -584,50 +659,50 @@ violinplot2 +
 <h2><strong>Geom_violin</strong> utilizado con <strong>geom_point</strong> y <strong>geom_jitter</strong></h2>
 <p>Al gráfico anterior se le pueden añadir los datos para visualizar mejor la distribución. Los datos de altura de la planta <strong>OH</strong> fueron recolectado de forma discreta en unidades de 5 cm, por lo que todos los valores similares aparecerán solapados unos sobre otros. Debido a esta situación particular de ese tipo de datos, añadirle puntos para visualizarlos con la función <strong>geom_point</strong> realmente no ayuda mucho a entender su distribución. Esto es debido a que no se puede apreciar la cantidad de datos utilizados para construir los violines. Por otro lado, uno puedo utilizar <strong>geom_jitter</strong> y tener una mejor apreciación de su distribución.</p>
 <p>Es importante tomar en consideración que si se le añade <strong>geom_point</strong> antes de <strong>geom_violin</strong>, los puntos podrían quedar escondidos detrás del violín.</p>
-<pre class="r"><code>violingp=violinplot3a &lt;- ggplot(CalVal, aes(y=OH, x=factor(Year)))+
-  geom_violin()+
-  geom_point()+  # Note que los puntos serán sobrepuestos sobre el violín 
-  annotate(&quot;text&quot;, x=2,y= 20, size=8,
-           label=&quot;&quot;, na.rm=TRUE)+
-  labs(x=&quot;Año&quot;, y=&quot;OH&quot;)+
-  theme(axis.title=element_text(size=10,face=&quot;bold&quot;))
-
-violingv=violinplot3a +
-  geom_violin()+
-  geom_jitter(position = position_jitter(width = .2))+ # Note que los puntos serán sobrepuestos sobre el violín pero no solapan uno encima del otro.    
-  annotate(&quot;text&quot;, x=2,y= 20, size=8,
-           label=&quot;&quot;, na.rm=TRUE)+
-  labs(x=&quot;Año&quot;, y=&quot;OH&quot;)+
-  theme(axis.title=element_text(size=10,face=&quot;bold&quot;))
-
-grid.arrange(violingp, violingv, ncol=2)</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>violingp=violinplot3a &lt;-<span class="st"> </span><span class="kw">ggplot</span>(CalVal, <span class="kw">aes</span>(<span class="dt">y=</span>OH, <span class="dt">x=</span><span class="kw">factor</span>(Year)))<span class="op">+</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="st">  </span><span class="kw">geom_violin</span>()<span class="op">+</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="st">  </span><span class="kw">geom_point</span>()<span class="op">+</span><span class="st">  </span><span class="co"># Note que los puntos serán sobrepuestos sobre el violín </span></span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x=</span><span class="dv">2</span>,<span class="dt">y=</span> <span class="dv">20</span>, <span class="dt">size=</span><span class="dv">8</span>,</span>
+<span id="cb6-5"><a href="#cb6-5"></a>           <span class="dt">label=</span><span class="st">&quot;&quot;</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)<span class="op">+</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Año&quot;</span>, <span class="dt">y=</span><span class="st">&quot;OH&quot;</span>)<span class="op">+</span></span>
+<span id="cb6-7"><a href="#cb6-7"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span>
+<span id="cb6-8"><a href="#cb6-8"></a></span>
+<span id="cb6-9"><a href="#cb6-9"></a>violingv=violinplot3a <span class="op">+</span></span>
+<span id="cb6-10"><a href="#cb6-10"></a><span class="st">  </span><span class="kw">geom_violin</span>()<span class="op">+</span></span>
+<span id="cb6-11"><a href="#cb6-11"></a><span class="st">  </span><span class="kw">geom_jitter</span>(<span class="dt">position =</span> <span class="kw">position_jitter</span>(<span class="dt">width =</span> <span class="fl">.2</span>))<span class="op">+</span><span class="st"> </span><span class="co"># Note que los puntos serán sobrepuestos sobre el violín pero no solapan uno encima del otro.    </span></span>
+<span id="cb6-12"><a href="#cb6-12"></a><span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x=</span><span class="dv">2</span>,<span class="dt">y=</span> <span class="dv">20</span>, <span class="dt">size=</span><span class="dv">8</span>,</span>
+<span id="cb6-13"><a href="#cb6-13"></a>           <span class="dt">label=</span><span class="st">&quot;&quot;</span>, <span class="dt">na.rm=</span><span class="ot">TRUE</span>)<span class="op">+</span></span>
+<span id="cb6-14"><a href="#cb6-14"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Año&quot;</span>, <span class="dt">y=</span><span class="st">&quot;OH&quot;</span>)<span class="op">+</span></span>
+<span id="cb6-15"><a href="#cb6-15"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span>
+<span id="cb6-16"><a href="#cb6-16"></a></span>
+<span id="cb6-17"><a href="#cb6-17"></a><span class="kw">grid.arrange</span>(violingp, violingv, <span class="dt">ncol=</span><span class="dv">2</span>)</span></code></pre></div>
 <p><img src="G8_geom_boxplot_geom_violin_files/figure-html/geomviolin3-1.png" width="672" /></p>
 <hr />
 </div>
 <div id="geom_jitter-y-solapamiento-de-geom" class="section level2">
 <h2>geom_jitter y solapamiento de <strong>geom</strong></h2>
 <p>En el próximo gráfico, se invocó <strong>geom_jitter</strong> antes que <strong>geom_violin</strong>, pero a la misma vez se le cambió la intensidad del color para que se vean mejor los puntos. Vemos que algunos de los puntos que antes están medio escondidos y los que no solapan el violin se revelan sobre mejor.</p>
-<pre class="r"><code>violinplot3 &lt;- ggplot(CalVal, aes(y=OH, x=factor(Year)))
-violinplot3 +
-  geom_jitter(position = position_jitter(width = .2))+
-  geom_violin(fill=&quot;yellow&quot;, alpha=0.3)+
-  annotate(&quot;text&quot;, x=2,y= 20, size=8,
-           label=&quot;&quot;)+
-  labs(x=&quot;Año&quot;, y=&quot;OH&quot;)+
-  theme(axis.title=element_text(size=10,face=&quot;bold&quot;))</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>violinplot3 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(CalVal, <span class="kw">aes</span>(<span class="dt">y=</span>OH, <span class="dt">x=</span><span class="kw">factor</span>(Year)))</span>
+<span id="cb7-2"><a href="#cb7-2"></a>violinplot3 <span class="op">+</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="st">  </span><span class="kw">geom_jitter</span>(<span class="dt">position =</span> <span class="kw">position_jitter</span>(<span class="dt">width =</span> <span class="fl">.2</span>))<span class="op">+</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="st">  </span><span class="kw">geom_violin</span>(<span class="dt">fill=</span><span class="st">&quot;yellow&quot;</span>, <span class="dt">alpha=</span><span class="fl">0.3</span>)<span class="op">+</span></span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x=</span><span class="dv">2</span>,<span class="dt">y=</span> <span class="dv">20</span>, <span class="dt">size=</span><span class="dv">8</span>,</span>
+<span id="cb7-6"><a href="#cb7-6"></a>           <span class="dt">label=</span><span class="st">&quot;&quot;</span>)<span class="op">+</span></span>
+<span id="cb7-7"><a href="#cb7-7"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Año&quot;</span>, <span class="dt">y=</span><span class="st">&quot;OH&quot;</span>)<span class="op">+</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G8_geom_boxplot_geom_violin_files/figure-html/geomviolin4-1.png" width="672" /></p>
 <hr />
 </div>
 <div id="los-cuartiles-y-geom_violin" class="section level2">
 <h2>Los cuartiles y geom_violin</h2>
 <p>Ahora se muestran el cuartil 25, la mediana (50) y el cuartil 75 en el mismo gráfico de violín con líneas horizontales.</p>
-<pre class="r"><code>violinplot3 &lt;- ggplot(CalVal, aes(y=OH, x=factor(Year)))
-violinplot3 +
-  geom_violin(draw_quantiles = c(0.25, 0.35,0.5, 0.65,0.75))+
-  annotate(&quot;text&quot;, x=2,y= 20, size=8,
-           label=&quot;&quot;)+
-  labs(x=&quot;Año&quot;, y=&quot;OH&quot;)+
-  theme(axis.title=element_text(size=10,face=&quot;bold&quot;))</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>violinplot3 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(CalVal, <span class="kw">aes</span>(<span class="dt">y=</span>OH, <span class="dt">x=</span><span class="kw">factor</span>(Year)))</span>
+<span id="cb8-2"><a href="#cb8-2"></a>violinplot3 <span class="op">+</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="st">  </span><span class="kw">geom_violin</span>(<span class="dt">draw_quantiles =</span> <span class="kw">c</span>(<span class="fl">0.25</span>, <span class="fl">0.35</span>,<span class="fl">0.5</span>, <span class="fl">0.65</span>,<span class="fl">0.75</span>))<span class="op">+</span></span>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x=</span><span class="dv">2</span>,<span class="dt">y=</span> <span class="dv">20</span>, <span class="dt">size=</span><span class="dv">8</span>,</span>
+<span id="cb8-5"><a href="#cb8-5"></a>           <span class="dt">label=</span><span class="st">&quot;&quot;</span>)<span class="op">+</span></span>
+<span id="cb8-6"><a href="#cb8-6"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Año&quot;</span>, <span class="dt">y=</span><span class="st">&quot;OH&quot;</span>)<span class="op">+</span></span>
+<span id="cb8-7"><a href="#cb8-7"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G8_geom_boxplot_geom_violin_files/figure-html/geomviolin5-1.png" width="672" /></p>
 <hr />
 </div>
@@ -635,59 +710,59 @@ violinplot3 +
 <div id="añadiendo-color-al-contorno-del-violin" class="section level1">
 <h1>Añadiendo color al contorno del violin</h1>
 <p>En esta figura se le añade color al contorno de los violines y las líneas de los cuartiles.</p>
-<pre class="r"><code>violinplot3 &lt;- ggplot(CalVal, aes(y=OH, x=factor(Year)))
-violinplot3 +
-  geom_violin(colour=&quot;red&quot;, alpha=.2, draw_quantiles = c(0.25, 0.5, 0.75))+
-  annotate(&quot;text&quot;, x=2,y= 20, size=8,
-           label=&quot;&quot;)+
-  labs(x=&quot;Año&quot;, y=&quot;OH&quot;)+
-  theme(axis.title=element_text(size=10,face=&quot;bold&quot;))</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>violinplot3 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(CalVal, <span class="kw">aes</span>(<span class="dt">y=</span>OH, <span class="dt">x=</span><span class="kw">factor</span>(Year)))</span>
+<span id="cb9-2"><a href="#cb9-2"></a>violinplot3 <span class="op">+</span></span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="st">  </span><span class="kw">geom_violin</span>(<span class="dt">colour=</span><span class="st">&quot;red&quot;</span>, <span class="dt">alpha=</span>.<span class="dv">2</span>, <span class="dt">draw_quantiles =</span> <span class="kw">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>))<span class="op">+</span></span>
+<span id="cb9-4"><a href="#cb9-4"></a><span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x=</span><span class="dv">2</span>,<span class="dt">y=</span> <span class="dv">20</span>, <span class="dt">size=</span><span class="dv">8</span>,</span>
+<span id="cb9-5"><a href="#cb9-5"></a>           <span class="dt">label=</span><span class="st">&quot;&quot;</span>)<span class="op">+</span></span>
+<span id="cb9-6"><a href="#cb9-6"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Año&quot;</span>, <span class="dt">y=</span><span class="st">&quot;OH&quot;</span>)<span class="op">+</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G8_geom_boxplot_geom_violin_files/figure-html/geomviolin6-1.png" width="672" /></p>
 <div id="geom_violin-por-categoría-o-factor" class="section level2">
 <h2>Geom_violin por categoría o factor</h2>
 <p>En la Figura se cambia el color de cada grupo, <strong>Year</strong>. Para lograr ese efecto se le añade otra variable para representar los grupos (o categorías) por color; en este caso, la distribución de los tamaños de las plantas en términos de si produjeron frutos o no.</p>
-<pre class="r"><code>violinplot3 &lt;- ggplot(na.omit(CalVal), aes(y=OH, x=factor(Year)))
-violinplot3 +
-  geom_violin(aes(fill=(factor(Fruit_not))),
-              draw_quantiles = c(0.25, 0.5, 0.75))+
-  annotate(&quot;text&quot;, x=2,y= 20, size=8,
-           label=&quot;&quot;)+
-  labs(x=&quot;Año&quot;, y=&quot;OH&quot;)+
-  theme(axis.title=element_text(size=10,face=&quot;bold&quot;))+
-  ylab(&quot;Altura de la planta&quot;)</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>violinplot3 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(<span class="kw">na.omit</span>(CalVal), <span class="kw">aes</span>(<span class="dt">y=</span>OH, <span class="dt">x=</span><span class="kw">factor</span>(Year)))</span>
+<span id="cb10-2"><a href="#cb10-2"></a>violinplot3 <span class="op">+</span></span>
+<span id="cb10-3"><a href="#cb10-3"></a><span class="st">  </span><span class="kw">geom_violin</span>(<span class="kw">aes</span>(<span class="dt">fill=</span>(<span class="kw">factor</span>(Fruit_not))),</span>
+<span id="cb10-4"><a href="#cb10-4"></a>              <span class="dt">draw_quantiles =</span> <span class="kw">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>))<span class="op">+</span></span>
+<span id="cb10-5"><a href="#cb10-5"></a><span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x=</span><span class="dv">2</span>,<span class="dt">y=</span> <span class="dv">20</span>, <span class="dt">size=</span><span class="dv">8</span>,</span>
+<span id="cb10-6"><a href="#cb10-6"></a>           <span class="dt">label=</span><span class="st">&quot;&quot;</span>)<span class="op">+</span></span>
+<span id="cb10-7"><a href="#cb10-7"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Año&quot;</span>, <span class="dt">y=</span><span class="st">&quot;OH&quot;</span>)<span class="op">+</span></span>
+<span id="cb10-8"><a href="#cb10-8"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))<span class="op">+</span></span>
+<span id="cb10-9"><a href="#cb10-9"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Altura de la planta&quot;</span>)</span></code></pre></div>
 <p><img src="G8_geom_boxplot_geom_violin_files/figure-html/geomviolin7-1.png" width="672" /></p>
 </div>
 <div id="geom_violin-en-proporción-al-tamaño-de-la-muestra" class="section level2">
 <h2>Geom_violin en proporción al tamaño de la muestra</h2>
 <p>En la Figura se modifica el mismo gráfico para que tome en consideración el tamaño de muestra utilizando la opción de <strong>scale</strong> con el parámetro <strong>count</strong>. En otras palabras, los violines van a quedar modificados para incluir el tamaño de la muestra; o sea, la escala máxima del ancho es proporcional al tamaño de la muestra. Entonces, en este caso vemos el año donde hubo mayor (2007) y menor (2008) tamaño de muestra de acuerdo al ancho que se muestra para cada violín.</p>
-<pre class="r"><code>violinplot3 &lt;- ggplot(CalVal, aes(y=OH, x=factor(Year)))
-violinplot3 +
-  geom_violin(scale = &quot;count&quot;,
-              draw_quantiles = c(0.25, 0.5, 0.75))+
-  labs(x=&quot;Año&quot;, y=&quot;OH&quot;)+
-  theme(axis.title=element_text(size=10,face=&quot;bold&quot;))</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>violinplot3 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(CalVal, <span class="kw">aes</span>(<span class="dt">y=</span>OH, <span class="dt">x=</span><span class="kw">factor</span>(Year)))</span>
+<span id="cb11-2"><a href="#cb11-2"></a>violinplot3 <span class="op">+</span></span>
+<span id="cb11-3"><a href="#cb11-3"></a><span class="st">  </span><span class="kw">geom_violin</span>(<span class="dt">scale =</span> <span class="st">&quot;count&quot;</span>,</span>
+<span id="cb11-4"><a href="#cb11-4"></a>              <span class="dt">draw_quantiles =</span> <span class="kw">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>))<span class="op">+</span></span>
+<span id="cb11-5"><a href="#cb11-5"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Año&quot;</span>, <span class="dt">y=</span><span class="st">&quot;OH&quot;</span>)<span class="op">+</span></span>
+<span id="cb11-6"><a href="#cb11-6"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G8_geom_boxplot_geom_violin_files/figure-html/geomviolin8-1.png" width="672" /></p>
 </div>
 <div id="geom_violin-no-en-proporción-al-tamaño-de-la-muestra" class="section level2">
 <h2>Geom_violin no en proporción al tamaño de la muestra</h2>
 <p>En la Figura se modifica el ancho del violín a 1 en la escala del eje de <strong>X</strong>. En otras palabras, en este caso el ancho <strong>width</strong> del violín para el primer año va de 2003.5 al 2004.5, para el segundo violín de 2004.5 a 2005.5 y así sucesivamente en forma consecutiva para los demás años. Este enfoque crea una grado de uniformidad para cada ancho. En este caso el ancho no esta relacionado con el tamaño de muestra como el ejemplo anterior.</p>
-<pre class="r"><code>violinplot3 &lt;- ggplot(CalVal, aes(y=OH, x=factor(Year)))
-violinplot3 +
-  geom_violin(scale = &quot;width&quot;,
-              draw_quantiles = c(0.25, 0.5, 0.75))+
-  labs(x=&quot;Año&quot;, y=&quot;OH&quot;)+
-  theme(axis.title=element_text(size=10,face=&quot;bold&quot;))</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>violinplot3 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(CalVal, <span class="kw">aes</span>(<span class="dt">y=</span>OH, <span class="dt">x=</span><span class="kw">factor</span>(Year)))</span>
+<span id="cb12-2"><a href="#cb12-2"></a>violinplot3 <span class="op">+</span></span>
+<span id="cb12-3"><a href="#cb12-3"></a><span class="st">  </span><span class="kw">geom_violin</span>(<span class="dt">scale =</span> <span class="st">&quot;width&quot;</span>,</span>
+<span id="cb12-4"><a href="#cb12-4"></a>              <span class="dt">draw_quantiles =</span> <span class="kw">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>))<span class="op">+</span></span>
+<span id="cb12-5"><a href="#cb12-5"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Año&quot;</span>, <span class="dt">y=</span><span class="st">&quot;OH&quot;</span>)<span class="op">+</span></span>
+<span id="cb12-6"><a href="#cb12-6"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G8_geom_boxplot_geom_violin_files/figure-html/geomviolin9-1.png" width="672" /></p>
 </div>
 <div id="geom_violin-y-el-cambio-de-orientación" class="section level2">
 <h2>Geom_violin y el cambio de orientación</h2>
 <p>En la Figura cambiamos la orientación de los gráficos anteriores utilizando la opción <strong>coord_flip()</strong>.</p>
-<pre class="r"><code>violinplot3 &lt;- ggplot(CalVal, aes(y=OH, x=factor(Year)))
-violinplot3 +
-  geom_violin()+
-  coord_flip()+
-  labs(x=&quot;Año&quot;, y=&quot;OH&quot;)+
-  theme(axis.title=element_text(size=10,face=&quot;bold&quot;))</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>violinplot3 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(CalVal, <span class="kw">aes</span>(<span class="dt">y=</span>OH, <span class="dt">x=</span><span class="kw">factor</span>(Year)))</span>
+<span id="cb13-2"><a href="#cb13-2"></a>violinplot3 <span class="op">+</span></span>
+<span id="cb13-3"><a href="#cb13-3"></a><span class="st">  </span><span class="kw">geom_violin</span>()<span class="op">+</span></span>
+<span id="cb13-4"><a href="#cb13-4"></a><span class="st">  </span><span class="kw">coord_flip</span>()<span class="op">+</span></span>
+<span id="cb13-5"><a href="#cb13-5"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Año&quot;</span>, <span class="dt">y=</span><span class="st">&quot;OH&quot;</span>)<span class="op">+</span></span>
+<span id="cb13-6"><a href="#cb13-6"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G8_geom_boxplot_geom_violin_files/figure-html/geomviolin10-1.png" width="672" /></p>
 </div>
 </div>

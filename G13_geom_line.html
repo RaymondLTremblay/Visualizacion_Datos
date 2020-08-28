@@ -15,7 +15,7 @@
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
@@ -23,25 +23,102 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+
 
 <style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 <style type="text/css">
   pre:not([class]) {
     background-color: white;
   }
 </style>
-<script type="text/javascript">
-if (window.hljs) {
-  hljs.configure({languages: []});
-  hljs.initHighlightingOnLoad();
-  if (document.readyState && document.readyState === "complete") {
-    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
-  }
-}
-</script>
-
 
 
 <style type="text/css">
@@ -71,6 +148,7 @@ h6 {
 }
 </style>
 
+<link rel="stylesheet" href="tutorial.css" type="text/css" />
 
 
 
@@ -105,33 +183,33 @@ summary {
 <style type="text/css">
 /* padding for bootstrap navbar */
 body {
-  padding-top: 51px;
+  padding-top: 41px;
   padding-bottom: 40px;
 }
 /* offset scroll position for anchor links (for fixed navbar)  */
 .section h1 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 46px;
+  margin-top: -46px;
 }
 .section h2 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 46px;
+  margin-top: -46px;
 }
 .section h3 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 46px;
+  margin-top: -46px;
 }
 .section h4 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 46px;
+  margin-top: -46px;
 }
 .section h5 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 46px;
+  margin-top: -46px;
 }
 .section h6 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 46px;
+  margin-top: -46px;
 }
 .dropdown-submenu {
   position: relative;
@@ -488,10 +566,10 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2020-08-26&quot;</code></pre>
-<pre class="r"><code>library(ggversa)
-library(ggplot2)
-library(gt)</code></pre>
+<pre><code>## [1] &quot;2020-08-27&quot;</code></pre>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">library</span>(ggversa)</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="kw">library</span>(gt)</span></code></pre></div>
 <div id="gráficos-de-línea" class="section level2">
 <h2>Gráficos de línea</h2>
 </div>
@@ -503,15 +581,15 @@ library(gt)</code></pre>
 <p>subconjunto del_archivo[which( el_archivo$la_variable == “la variable de interés”),]</p>
 <p>Note que la variable de interés es un conjunto de valores en “la_variable” o es una categoría, como en este caso, nuevos casos (o “New Cases”). El símbolo “==” significa “que sea exactamente igual a…”</p>
 <p>Aquí vemos parte de los datos originales:</p>
-<pre class="r"><code>library(ggversa)
-
-subTiroide=Tiroide[which(Tiroide$Cases==&quot;New Cases&quot;),]
-gt(head(subTiroide))</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">library</span>(ggversa)</span>
+<span id="cb3-2"><a href="#cb3-2"></a></span>
+<span id="cb3-3"><a href="#cb3-3"></a>subTiroide=Tiroide[<span class="kw">which</span>(Tiroide<span class="op">$</span>Cases<span class="op">==</span><span class="st">&quot;New Cases&quot;</span>),]</span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="kw">gt</span>(<span class="kw">head</span>(subTiroide))</span></code></pre></div>
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#cyzksqvyly .gt_table {
+#hjuzjgwrjy .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -536,7 +614,7 @@ gt(head(subTiroide))</code></pre>
   border-left-color: #D3D3D3;
 }
 
-#cyzksqvyly .gt_heading {
+#hjuzjgwrjy .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -548,7 +626,7 @@ gt(head(subTiroide))</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#cyzksqvyly .gt_title {
+#hjuzjgwrjy .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -558,7 +636,7 @@ gt(head(subTiroide))</code></pre>
   border-bottom-width: 0;
 }
 
-#cyzksqvyly .gt_subtitle {
+#hjuzjgwrjy .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -568,13 +646,13 @@ gt(head(subTiroide))</code></pre>
   border-top-width: 0;
 }
 
-#cyzksqvyly .gt_bottom_border {
+#hjuzjgwrjy .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#cyzksqvyly .gt_col_headings {
+#hjuzjgwrjy .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -589,7 +667,7 @@ gt(head(subTiroide))</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#cyzksqvyly .gt_col_heading {
+#hjuzjgwrjy .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -609,7 +687,7 @@ gt(head(subTiroide))</code></pre>
   overflow-x: hidden;
 }
 
-#cyzksqvyly .gt_column_spanner_outer {
+#hjuzjgwrjy .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -621,15 +699,15 @@ gt(head(subTiroide))</code></pre>
   padding-right: 4px;
 }
 
-#cyzksqvyly .gt_column_spanner_outer:first-child {
+#hjuzjgwrjy .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#cyzksqvyly .gt_column_spanner_outer:last-child {
+#hjuzjgwrjy .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#cyzksqvyly .gt_column_spanner {
+#hjuzjgwrjy .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -641,7 +719,7 @@ gt(head(subTiroide))</code></pre>
   width: 100%;
 }
 
-#cyzksqvyly .gt_group_heading {
+#hjuzjgwrjy .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -663,7 +741,7 @@ gt(head(subTiroide))</code></pre>
   vertical-align: middle;
 }
 
-#cyzksqvyly .gt_empty_group_heading {
+#hjuzjgwrjy .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -678,15 +756,15 @@ gt(head(subTiroide))</code></pre>
   vertical-align: middle;
 }
 
-#cyzksqvyly .gt_from_md > :first-child {
+#hjuzjgwrjy .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#cyzksqvyly .gt_from_md > :last-child {
+#hjuzjgwrjy .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#cyzksqvyly .gt_row {
+#hjuzjgwrjy .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -705,7 +783,7 @@ gt(head(subTiroide))</code></pre>
   overflow-x: hidden;
 }
 
-#cyzksqvyly .gt_stub {
+#hjuzjgwrjy .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -717,7 +795,7 @@ gt(head(subTiroide))</code></pre>
   padding-left: 12px;
 }
 
-#cyzksqvyly .gt_summary_row {
+#hjuzjgwrjy .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -727,7 +805,7 @@ gt(head(subTiroide))</code></pre>
   padding-right: 5px;
 }
 
-#cyzksqvyly .gt_first_summary_row {
+#hjuzjgwrjy .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -737,7 +815,7 @@ gt(head(subTiroide))</code></pre>
   border-top-color: #D3D3D3;
 }
 
-#cyzksqvyly .gt_grand_summary_row {
+#hjuzjgwrjy .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -747,7 +825,7 @@ gt(head(subTiroide))</code></pre>
   padding-right: 5px;
 }
 
-#cyzksqvyly .gt_first_grand_summary_row {
+#hjuzjgwrjy .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -757,11 +835,11 @@ gt(head(subTiroide))</code></pre>
   border-top-color: #D3D3D3;
 }
 
-#cyzksqvyly .gt_striped {
+#hjuzjgwrjy .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#cyzksqvyly .gt_table_body {
+#hjuzjgwrjy .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -770,7 +848,7 @@ gt(head(subTiroide))</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#cyzksqvyly .gt_footnotes {
+#hjuzjgwrjy .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -784,13 +862,13 @@ gt(head(subTiroide))</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#cyzksqvyly .gt_footnote {
+#hjuzjgwrjy .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#cyzksqvyly .gt_sourcenotes {
+#hjuzjgwrjy .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -804,46 +882,46 @@ gt(head(subTiroide))</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#cyzksqvyly .gt_sourcenote {
+#hjuzjgwrjy .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#cyzksqvyly .gt_left {
+#hjuzjgwrjy .gt_left {
   text-align: left;
 }
 
-#cyzksqvyly .gt_center {
+#hjuzjgwrjy .gt_center {
   text-align: center;
 }
 
-#cyzksqvyly .gt_right {
+#hjuzjgwrjy .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#cyzksqvyly .gt_font_normal {
+#hjuzjgwrjy .gt_font_normal {
   font-weight: normal;
 }
 
-#cyzksqvyly .gt_font_bold {
+#hjuzjgwrjy .gt_font_bold {
   font-weight: bold;
 }
 
-#cyzksqvyly .gt_font_italic {
+#hjuzjgwrjy .gt_font_italic {
   font-style: italic;
 }
 
-#cyzksqvyly .gt_super {
+#hjuzjgwrjy .gt_super {
   font-size: 65%;
 }
 
-#cyzksqvyly .gt_footnote_marks {
+#hjuzjgwrjy .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="cyzksqvyly" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+<div id="hjuzjgwrjy" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
   
   <thead class="gt_col_headings">
     <tr>
@@ -888,14 +966,14 @@ gt(head(subTiroide))</code></pre>
   
 </table></div>
 <p>El procedimiento para preparar el gráfico de tiroides se presenta a continuación:</p>
-<pre class="r"><code>ggplot(subTiroide, aes(x=as.integer(Year), y=Rate))+
-  geom_line(size=2)+
-  annotate(&quot;text&quot;, x= 1990,y= 12, size= 4,
-           label=&quot;Nuevos \n casos&quot;, color=&quot;red&quot;)+
-  guides(color=&quot;none&quot;)+
-    ylab(&quot;Números de nuevos casos\n por 100,000 habitantes&quot;)+
-    xlab(&quot;Años&quot;)+
-  theme(axis.title=element_text(size=10,face=&quot;bold&quot;))</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">ggplot</span>(subTiroide, <span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">as.integer</span>(Year), <span class="dt">y=</span>Rate))<span class="op">+</span></span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">size=</span><span class="dv">2</span>)<span class="op">+</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x=</span> <span class="dv">1990</span>,<span class="dt">y=</span> <span class="dv">12</span>, <span class="dt">size=</span> <span class="dv">4</span>,</span>
+<span id="cb4-4"><a href="#cb4-4"></a>           <span class="dt">label=</span><span class="st">&quot;Nuevos </span><span class="ch">\n</span><span class="st"> casos&quot;</span>, <span class="dt">color=</span><span class="st">&quot;red&quot;</span>)<span class="op">+</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="st">  </span><span class="kw">guides</span>(<span class="dt">color=</span><span class="st">&quot;none&quot;</span>)<span class="op">+</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a><span class="st">    </span><span class="kw">ylab</span>(<span class="st">&quot;Números de nuevos casos</span><span class="ch">\n</span><span class="st"> por 100,000 habitantes&quot;</span>)<span class="op">+</span></span>
+<span id="cb4-7"><a href="#cb4-7"></a><span class="st">    </span><span class="kw">xlab</span>(<span class="st">&quot;Años&quot;</span>)<span class="op">+</span></span>
+<span id="cb4-8"><a href="#cb4-8"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G13_geom_line_files/figure-html/graficalinea1-1.png" width="672" /></p>
 <p>Note que se utilizó la función <strong>annonate</strong> para escribir información sobre el gráfico. Esta función será discutida con más detalle más adelante.</p>
 <hr />
@@ -903,82 +981,82 @@ gt(head(subTiroide))</code></pre>
 <div id="gráfico-con-múltiples-líneas-con-geom_line" class="section level2">
 <h2>Gráfico con múltiples líneas con geom_line</h2>
 <p>A veces es importante comparar dos o más secuencias de datos. Eso se mostrará en la Figura continuando con el mismo ejemplo de tiroides anterior pero esta vez se le añadirá la razón de mortandad por tiroidismo en EEUU en el mismo gráfico. Usando la función <strong>group=</strong> identifica cual son los grupos, si hubiese más de dos grupos hubiese una linea para cada grupo. Lo que se observa es que aunque hay mucha más gente que es diagnosticada con cáncer de la tiroides, la proporción de gente que muere de este tipo de cáncer es consistente a través del tiempo.</p>
-<pre class="r"><code>ggplot(Tiroide, aes(x=as.integer(Year),
-                    y=Rate, group=Cases, color=Cases))+
-  geom_line(size=2)+
-  annotate(&quot;text&quot;, x= 1990,y= 8, size=4,
-           label=&quot;Nuevos casos&quot;)+
-  annotate(&quot;text&quot;, x= 2000,y= 1, size= 4,
-           label=&quot;Mortandad&quot;)+
-  guides(color=&quot;none&quot;)+
-  ylab(&quot;Números de nuevos casos\n por 100,000 habitantes&quot;)+
-  xlab(&quot;Años&quot;)+
-  theme(axis.title=element_text(size=10,face=&quot;bold&quot;))</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">ggplot</span>(Tiroide, <span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">as.integer</span>(Year),</span>
+<span id="cb5-2"><a href="#cb5-2"></a>                    <span class="dt">y=</span>Rate, <span class="dt">group=</span>Cases, <span class="dt">color=</span>Cases))<span class="op">+</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">size=</span><span class="dv">2</span>)<span class="op">+</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x=</span> <span class="dv">1990</span>,<span class="dt">y=</span> <span class="dv">8</span>, <span class="dt">size=</span><span class="dv">4</span>,</span>
+<span id="cb5-5"><a href="#cb5-5"></a>           <span class="dt">label=</span><span class="st">&quot;Nuevos casos&quot;</span>)<span class="op">+</span></span>
+<span id="cb5-6"><a href="#cb5-6"></a><span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x=</span> <span class="dv">2000</span>,<span class="dt">y=</span> <span class="dv">1</span>, <span class="dt">size=</span> <span class="dv">4</span>,</span>
+<span id="cb5-7"><a href="#cb5-7"></a>           <span class="dt">label=</span><span class="st">&quot;Mortandad&quot;</span>)<span class="op">+</span></span>
+<span id="cb5-8"><a href="#cb5-8"></a><span class="st">  </span><span class="kw">guides</span>(<span class="dt">color=</span><span class="st">&quot;none&quot;</span>)<span class="op">+</span></span>
+<span id="cb5-9"><a href="#cb5-9"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Números de nuevos casos</span><span class="ch">\n</span><span class="st"> por 100,000 habitantes&quot;</span>)<span class="op">+</span></span>
+<span id="cb5-10"><a href="#cb5-10"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Años&quot;</span>)<span class="op">+</span></span>
+<span id="cb5-11"><a href="#cb5-11"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G13_geom_line_files/figure-html/graficalinea2-1.png" width="672" /></p>
 <p>La función <strong>annonate</strong> nos permitió añadir la descripción <strong>Mortandad</strong> a la línea inferior en forma de texto <strong>text</strong> a la altura del punto 2000 en el eje de <strong>X</strong> y a la altura del punto 1 en el eje de <strong>Y</strong>. De igual manera se hizo con la descripción <strong>Nuevos Casos</strong> en la coordenada (1990, 8).</p>
 </div>
 <div id="gráfico-de-líneas-con-ejes-expandidos-con-geom_line" class="section level2">
 <h2>Gráfico de líneas con ejes expandidos con <strong>geom_line</strong></h2>
 <p>Muchas veces el intervalo de la escala de los ejes no es el óptimo. Continuando con el ejemplo anterior, modificamos el eje de <strong>X</strong> en la Figura para que incluya el último año (el último valor de la secuencia en el eje de <strong>X</strong>). Para ello se indica en el mismo código que el límite de <strong>X</strong> en el eje se vea a intervalos de 10 años con la función <strong>xlim</strong>. Note que para expandir el eje de <strong>Y</strong> se usaría la misma técnica.</p>
-<pre class="r"><code>ggplot(Tiroide, aes(x=as.integer(Year), y=Rate,
-                    group=Cases, color=Cases))+
-  geom_line(size=2)+
-  annotate(&quot;text&quot;, x= 1990,y= 10, size=4,
-           label=&quot;Nuevos casos&quot;)+
-  annotate(&quot;text&quot;, x= 1995,y= 1, size= 4,
-           label=&quot;Mortandad&quot;)+
-  guides(color=&quot;none&quot;)+
-  ylab(&quot;Razón&quot;)+
-  xlab(&quot;Años&quot;)+
-  xlim(min(Tiroide$Year-5), max(Tiroide$Year+6))+
-  theme(axis.title=element_text(size=14,face=&quot;bold&quot;))</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">ggplot</span>(Tiroide, <span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">as.integer</span>(Year), <span class="dt">y=</span>Rate,</span>
+<span id="cb6-2"><a href="#cb6-2"></a>                    <span class="dt">group=</span>Cases, <span class="dt">color=</span>Cases))<span class="op">+</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">size=</span><span class="dv">2</span>)<span class="op">+</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x=</span> <span class="dv">1990</span>,<span class="dt">y=</span> <span class="dv">10</span>, <span class="dt">size=</span><span class="dv">4</span>,</span>
+<span id="cb6-5"><a href="#cb6-5"></a>           <span class="dt">label=</span><span class="st">&quot;Nuevos casos&quot;</span>)<span class="op">+</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x=</span> <span class="dv">1995</span>,<span class="dt">y=</span> <span class="dv">1</span>, <span class="dt">size=</span> <span class="dv">4</span>,</span>
+<span id="cb6-7"><a href="#cb6-7"></a>           <span class="dt">label=</span><span class="st">&quot;Mortandad&quot;</span>)<span class="op">+</span></span>
+<span id="cb6-8"><a href="#cb6-8"></a><span class="st">  </span><span class="kw">guides</span>(<span class="dt">color=</span><span class="st">&quot;none&quot;</span>)<span class="op">+</span></span>
+<span id="cb6-9"><a href="#cb6-9"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Razón&quot;)+</span></span>
+<span id="cb6-10"><a href="#cb6-10"></a><span class="st">  xlab(&quot;</span>Años<span class="st">&quot;)+</span></span>
+<span id="cb6-11"><a href="#cb6-11"></a><span class="st">  xlim(min(Tiroide$Year-5), max(Tiroide$Year+6))+</span></span>
+<span id="cb6-12"><a href="#cb6-12"></a><span class="st">  theme(axis.title=element_text(size=14,face=&quot;</span>bold<span class="st">&quot;))</span></span></code></pre></div>
 <p><img src="G13_geom_line_files/figure-html/graficalinea-1.png" width="672" /></p>
 </div>
 <div id="gráfico-de-líneas-con-los-puntos-añadidos-con-geom_line" class="section level2">
 <h2>Gráfico de líneas con los puntos añadidos con <strong>geom_line</strong></h2>
 <p>A veces nos interesa que la línea muestre los puntos que la componen. En el próximo ejemplo, lo mostraremos nuevamente utilizando el ejemplo anterior de tiroides. A continuación el código modificado que muestra ese efecto añadiendo <strong>geom_point</strong>:</p>
-<pre class="r"><code>ggplot(Tiroide, aes(x=as.integer(Year), y=Rate, 
-                    group=Cases,
-                    color=Cases))+
-  geom_line(size=1)+
-  annotate(&quot;text&quot;, x= 1990,y= 8, size=4,
-           label=&quot;Nuevos casos&quot;)+
-  annotate(&quot;text&quot;, x= 2000,y= 2, size=4,
-           label=&quot;Mortandad&quot;)+
-  guides(color=&quot;none&quot;)+
-  ylab(&quot;Razón&quot;)+
-  xlab(&quot;Años&quot;)+
-  geom_point(color=&quot;black&quot;, size=2)+
-  theme(axis.title=element_text(size=10,face=&quot;bold&quot;))</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">ggplot</span>(Tiroide, <span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">as.integer</span>(Year), <span class="dt">y=</span>Rate, </span>
+<span id="cb7-2"><a href="#cb7-2"></a>                    <span class="dt">group=</span>Cases,</span>
+<span id="cb7-3"><a href="#cb7-3"></a>                    <span class="dt">color=</span>Cases))<span class="op">+</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">size=</span><span class="dv">1</span>)<span class="op">+</span></span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x=</span> <span class="dv">1990</span>,<span class="dt">y=</span> <span class="dv">8</span>, <span class="dt">size=</span><span class="dv">4</span>,</span>
+<span id="cb7-6"><a href="#cb7-6"></a>           <span class="dt">label=</span><span class="st">&quot;Nuevos casos&quot;</span>)<span class="op">+</span></span>
+<span id="cb7-7"><a href="#cb7-7"></a><span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x=</span> <span class="dv">2000</span>,<span class="dt">y=</span> <span class="dv">2</span>, <span class="dt">size=</span><span class="dv">4</span>,</span>
+<span id="cb7-8"><a href="#cb7-8"></a>           <span class="dt">label=</span><span class="st">&quot;Mortandad&quot;</span>)<span class="op">+</span></span>
+<span id="cb7-9"><a href="#cb7-9"></a><span class="st">  </span><span class="kw">guides</span>(<span class="dt">color=</span><span class="st">&quot;none&quot;</span>)<span class="op">+</span></span>
+<span id="cb7-10"><a href="#cb7-10"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Razón&quot;)+</span></span>
+<span id="cb7-11"><a href="#cb7-11"></a><span class="st">  xlab(&quot;</span>Años<span class="st">&quot;)+</span></span>
+<span id="cb7-12"><a href="#cb7-12"></a><span class="st">  geom_point(color=&quot;</span>black<span class="st">&quot;, size=2)+</span></span>
+<span id="cb7-13"><a href="#cb7-13"></a><span class="st">  theme(axis.title=element_text(size=10,face=&quot;</span>bold<span class="st">&quot;))</span></span></code></pre></div>
 <p><img src="G13_geom_line_files/figure-html/graficalinea4-1.png" width="672" /></p>
 </div>
 <div id="gráfico-de-línea-con-los-puntos-en-otro-estilo-con-geom_line" class="section level2">
 <h2>Gráfico de línea con los puntos en otro estilo con <strong>geom_line</strong></h2>
 <p>Para cambiar el estilo de los puntos en un gráfico de línea se usan los parámetros <strong>size, shape, color</strong> y <strong>fill</strong>. Como ya habrá notado, estas alternativas para modificar la apariencia de los gráficos son comunes en casi todos los tipos de gráficos en <strong>ggplot2</strong>. La forma <strong>shape</strong> de los puntos predeterminada es un círculo con tamaño de 2, <strong>size=2</strong>. La opción de <strong>fill</strong> (para rellenar el punto con un color específico) es aplicable solamente al parámetro <strong>shape</strong> con valor de 21 al 25.</p>
 <p>Un punto importante que hay que observar es que si las líneas y los puntos son de diferentes colores, se tienen que especificar los puntos con <strong>geom_point</strong> después de la línea con <strong>geom_line</strong> ya que ggplot funciona con capas de información. En otras palabras, lo que se especifica primero, sale primero.</p>
-<pre class="r"><code>ggplot(Tiroide, aes(x=as.integer(Year), y=Rate,
-                    group=Cases, color=Cases))+
-  geom_line(size=3)+
-  annotate(&quot;text&quot;, x= 1990, y= 10, label=&quot;Nuevos casos&quot;)+
-  annotate(&quot;text&quot;, x= 1990, y= 2, label=&quot;Mortandad&quot;)+
-  guides(color=&quot;none&quot;)+
-  ylab(&quot;Razón&quot;)+
-  xlab(&quot;Años&quot;)+
-  geom_point(shape=22, size=3, colour=&quot;blue&quot;, fill=&quot;white&quot;)+
-  theme(axis.title=element_text(size=10,face=&quot;bold&quot;))</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">ggplot</span>(Tiroide, <span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">as.integer</span>(Year), <span class="dt">y=</span>Rate,</span>
+<span id="cb8-2"><a href="#cb8-2"></a>                    <span class="dt">group=</span>Cases, <span class="dt">color=</span>Cases))<span class="op">+</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">size=</span><span class="dv">3</span>)<span class="op">+</span></span>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x=</span> <span class="dv">1990</span>, <span class="dt">y=</span> <span class="dv">10</span>, <span class="dt">label=</span><span class="st">&quot;Nuevos casos&quot;</span>)<span class="op">+</span></span>
+<span id="cb8-5"><a href="#cb8-5"></a><span class="st">  </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x=</span> <span class="dv">1990</span>, <span class="dt">y=</span> <span class="dv">2</span>, <span class="dt">label=</span><span class="st">&quot;Mortandad&quot;</span>)<span class="op">+</span></span>
+<span id="cb8-6"><a href="#cb8-6"></a><span class="st">  </span><span class="kw">guides</span>(<span class="dt">color=</span><span class="st">&quot;none&quot;</span>)<span class="op">+</span></span>
+<span id="cb8-7"><a href="#cb8-7"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Razón&quot;)+</span></span>
+<span id="cb8-8"><a href="#cb8-8"></a><span class="st">  xlab(&quot;</span>Años<span class="st">&quot;)+</span></span>
+<span id="cb8-9"><a href="#cb8-9"></a><span class="st">  geom_point(shape=22, size=3, colour=&quot;</span>blue<span class="st">&quot;, fill=&quot;</span>white<span class="st">&quot;)+</span></span>
+<span id="cb8-10"><a href="#cb8-10"></a><span class="st">  theme(axis.title=element_text(size=10,face=&quot;</span>bold<span class="st">&quot;))</span></span></code></pre></div>
 <p><img src="G13_geom_line_files/figure-html/graficalinea5-1.png" width="672" /></p>
 <div id="ejemplo-de-modificar-el-orden-de-capas" class="section level3">
 <h3>Ejemplo de modificar el orden de capas</h3>
 <p>Nuevamente, si las líneas y los puntos son de diferentes colores, se tienen que especificar los puntos <strong>geom_point</strong> después de la función <strong>geom_line</strong>. Por ejemplo,se puede ver el resultado cuando <strong>geom_point</strong> se específica antes de la línea. Los puntos están debajo de la línea, lo que los hace difícil de apreciar. Recordemos entonces que el orden de las funciones puede tener un impacto muy importante en la producción de un gráfico.</p>
-<pre class="r"><code>ggplot(Tiroide, aes(x=as.integer(Year), y=Rate,
-                    group=Cases, color=Cases))+
-  geom_point(shape=22, size=4, color=&quot;blue&quot;, fill=&quot;white&quot;)+
-  geom_line(size=3)+
-  guides(color=&quot;none&quot;)+
-  ylab(&quot;Razón&quot;)+
-  xlab(&quot;Años&quot;)+
-  scale_x_continuous(limits=c(2000, 2010))+
-  theme(axis.title=element_text(size=10,face=&quot;bold&quot;))</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">ggplot</span>(Tiroide, <span class="kw">aes</span>(<span class="dt">x=</span><span class="kw">as.integer</span>(Year), <span class="dt">y=</span>Rate,</span>
+<span id="cb9-2"><a href="#cb9-2"></a>                    <span class="dt">group=</span>Cases, <span class="dt">color=</span>Cases))<span class="op">+</span></span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">shape=</span><span class="dv">22</span>, <span class="dt">size=</span><span class="dv">4</span>, <span class="dt">color=</span><span class="st">&quot;blue&quot;</span>, <span class="dt">fill=</span><span class="st">&quot;white&quot;</span>)<span class="op">+</span></span>
+<span id="cb9-4"><a href="#cb9-4"></a><span class="st">  </span><span class="kw">geom_line</span>(<span class="dt">size=</span><span class="dv">3</span>)<span class="op">+</span></span>
+<span id="cb9-5"><a href="#cb9-5"></a><span class="st">  </span><span class="kw">guides</span>(<span class="dt">color=</span><span class="st">&quot;none&quot;</span>)<span class="op">+</span></span>
+<span id="cb9-6"><a href="#cb9-6"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Razón&quot;)+</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a><span class="st">  xlab(&quot;</span>Años<span class="st">&quot;)+</span></span>
+<span id="cb9-8"><a href="#cb9-8"></a><span class="st">  scale_x_continuous(limits=c(2000, 2010))+</span></span>
+<span id="cb9-9"><a href="#cb9-9"></a><span class="st">  theme(axis.title=element_text(size=10,face=&quot;</span>bold<span class="st">&quot;))</span></span></code></pre></div>
 <p><img src="G13_geom_line_files/figure-html/graficalinea6-1.png" width="672" /></p>
 </div>
 </div>

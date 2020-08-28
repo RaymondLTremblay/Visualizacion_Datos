@@ -15,7 +15,7 @@
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
@@ -23,25 +23,102 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
-<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+
 
 <style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
 <style type="text/css">
   pre:not([class]) {
     background-color: white;
   }
 </style>
-<script type="text/javascript">
-if (window.hljs) {
-  hljs.configure({languages: []});
-  hljs.initHighlightingOnLoad();
-  if (document.readyState && document.readyState === "complete") {
-    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
-  }
-}
-</script>
-
 
 
 <style type="text/css">
@@ -71,6 +148,7 @@ h6 {
 }
 </style>
 
+<link rel="stylesheet" href="tutorial.css" type="text/css" />
 
 
 
@@ -105,33 +183,33 @@ summary {
 <style type="text/css">
 /* padding for bootstrap navbar */
 body {
-  padding-top: 51px;
+  padding-top: 41px;
   padding-bottom: 40px;
 }
 /* offset scroll position for anchor links (for fixed navbar)  */
 .section h1 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 46px;
+  margin-top: -46px;
 }
 .section h2 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 46px;
+  margin-top: -46px;
 }
 .section h3 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 46px;
+  margin-top: -46px;
 }
 .section h4 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 46px;
+  margin-top: -46px;
 }
 .section h5 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 46px;
+  margin-top: -46px;
 }
 .section h6 {
-  padding-top: 56px;
-  margin-top: -56px;
+  padding-top: 46px;
+  margin-top: -46px;
 }
 .dropdown-submenu {
   position: relative;
@@ -488,37 +566,37 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2020-08-26&quot;</code></pre>
-<pre class="r"><code>library(ggplot2)
-library(ggversa)
-library(gt)
-library(gridExtra)</code></pre>
+<pre><code>## [1] &quot;2020-08-27&quot;</code></pre>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="kw">library</span>(ggversa)</span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="kw">library</span>(gt)</span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="kw">library</span>(gridExtra)</span></code></pre></div>
 <hr />
 <div id="gráficos-de-puntos-con-geom_point" class="section level1">
 <h1>Gráficos de puntos con geom_point</h1>
 <p>El tipo de gráfico básico de puntos que relaciona dos variables continuas se puede hacer en ggplot2 con <strong>geom_point</strong>. Es probablemente el gráfico más utilizado. A continuación en el gráfico de la Figura apreciamos la producción básica de este tipo de gráfico combinando a <strong>ggplot (el archivo, aes(x, y))</strong> y a <strong>geom_point()</strong>. Este produce unos puntos negros para demostrar la relación. Se puede cambiar la descripción de los nombres de los ejes <strong>labels</strong> utilizando <strong>labs</strong>, al nombrar cada uno de ellos <strong>x=Altura de la inflorescencia</strong>, y <strong>y={Número de Flores</strong>.</p>
 <p>Para este gráfico se representa la altura de las inflorescencias y la cantidad de flores de una orquídea terrestre de <em>Dipodium roseum</em>. En general, el patrón demuestra que las plantas con inflorescencias más larga tienen más flores.</p>
-<pre class="r"><code>library(ggplot2)
-
-ggplot(dipodium, aes(Height_Inflo, Number_of_Flowers))+
-  geom_point()+
-  labs(x=&quot;Altura de la inflorescencia&quot;,
-       y=&quot;Número de Flores&quot;)+
-  theme(axis.title=element_text(size=10,face=&quot;bold&quot;))</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb3-2"><a href="#cb3-2"></a></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="kw">ggplot</span>(dipodium, <span class="kw">aes</span>(Height_Inflo, Number_of_Flowers))<span class="op">+</span></span>
+<span id="cb3-4"><a href="#cb3-4"></a><span class="st">  </span><span class="kw">geom_point</span>()<span class="op">+</span></span>
+<span id="cb3-5"><a href="#cb3-5"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Altura de la inflorescencia&quot;</span>,</span>
+<span id="cb3-6"><a href="#cb3-6"></a>       <span class="dt">y=</span><span class="st">&quot;Número de Flores&quot;</span>)<span class="op">+</span></span>
+<span id="cb3-7"><a href="#cb3-7"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G14_geom_point_geom_jitter_files/figure-html/graficadepuntos-1.png" width="672" /> *** ## Añadir una tercera variable con color en los puntos</p>
 <p>En el gráfico se sobrepuso información adicional. Ahora el objetivo es visualizar si las inflorescencias más altas y con muchas flores también se pueden relacionar a más frutos. Dos pasos son necesarios. A este nuevo gráfico se le añadió la tercera variable, la cantidad de frutos, con una escala continua. Con el siguiente primer paso,</p>
 <p>ggplot(dipodium, aes(Height_Inflo, Number_of_Flowers, color=Number_of_fruits)),</p>
 <p>se le añade la variable que se desea salga en color,</p>
 <p>color=Number_of_fruits.</p>
 <p>Para este gráfico, los colores serán asignados automáticamente. En la Figura podemos ver que van del negro al azul claro. A pesar de que no se seleccionaron esos colores específicamente, en ggplot2 casi todo se puede modificar (incluyendo esos colores) tal como se verá en la próxima sección.</p>
-<pre class="r"><code>m=ggplot(na.omit(dipodium), aes(Height_Inflo, factor(Number_of_Flowers),
-                       colour=Number_of_fruits))
-
-m+geom_point()+
-  labs(x=&quot;Altura de la inflorescencia&quot;,
-       y=&quot;Número de Flores&quot;)+
-  labs(color=&quot;Cantidad de\n Frutos&quot;)+
-  theme(axis.title=element_text(size=10,face=&quot;bold&quot;))</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>m=<span class="kw">ggplot</span>(<span class="kw">na.omit</span>(dipodium), <span class="kw">aes</span>(Height_Inflo, <span class="kw">factor</span>(Number_of_Flowers),</span>
+<span id="cb4-2"><a href="#cb4-2"></a>                       <span class="dt">colour=</span>Number_of_fruits))</span>
+<span id="cb4-3"><a href="#cb4-3"></a></span>
+<span id="cb4-4"><a href="#cb4-4"></a>m<span class="op">+</span><span class="kw">geom_point</span>()<span class="op">+</span></span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Altura de la inflorescencia&quot;</span>,</span>
+<span id="cb4-6"><a href="#cb4-6"></a>       <span class="dt">y=</span><span class="st">&quot;Número de Flores&quot;</span>)<span class="op">+</span></span>
+<span id="cb4-7"><a href="#cb4-7"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">color=</span><span class="st">&quot;Cantidad de</span><span class="ch">\n</span><span class="st"> Frutos&quot;</span>)<span class="op">+</span></span>
+<span id="cb4-8"><a href="#cb4-8"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G14_geom_point_geom_jitter_files/figure-html/graficadepuntosA-1.png" width="672" /> ***</p>
 <div id="modificar-el-rango-de-colores-de-los-puntos" class="section level2">
 <h2>Modificar el rango de colores de los puntos</h2>
@@ -527,15 +605,15 @@ m+geom_point()+
 mid= {yellow},<br />
 midpoint=4)</p>
 <p>Note que el valor <strong>midpoint</strong> identifica el valor en el medio del rango para que salga en amarillo. Ahora las plantas que tengan cuatro frutos tendrán asignado el color amarillo. Note que la descripción de la leyenda, <strong>Cantidad de Frutos</strong>, se hizo usando <strong>labs(color={Cantidad de Frutos})</strong>. Note además que aparece a la derecha. Más adelante veremos cómo posicionar la leyenda en otra ubicación.</p>
-<pre class="r"><code>m+geom_point()+
-  labs(x=&quot;Altura de la inflorescencia&quot;,
-       y=&quot;Número de Flores&quot;)+
-  scale_colour_gradient2(low=&quot;blue&quot;,
-                         high=&quot;red&quot;,
-                         mid=&quot;yellow&quot;,
-                         midpoint=4)+
-  labs(color=&quot;Cantidad de Frutos&quot;)+
-  theme(axis.title=element_text(size=10,face=&quot;bold&quot;))</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>m<span class="op">+</span><span class="kw">geom_point</span>()<span class="op">+</span></span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Altura de la inflorescencia&quot;</span>,</span>
+<span id="cb5-3"><a href="#cb5-3"></a>       <span class="dt">y=</span><span class="st">&quot;Número de Flores&quot;</span>)<span class="op">+</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="st">  </span><span class="kw">scale_colour_gradient2</span>(<span class="dt">low=</span><span class="st">&quot;blue&quot;</span>,</span>
+<span id="cb5-5"><a href="#cb5-5"></a>                         <span class="dt">high=</span><span class="st">&quot;red&quot;</span>,</span>
+<span id="cb5-6"><a href="#cb5-6"></a>                         <span class="dt">mid=</span><span class="st">&quot;yellow&quot;</span>,</span>
+<span id="cb5-7"><a href="#cb5-7"></a>                         <span class="dt">midpoint=</span><span class="dv">4</span>)<span class="op">+</span></span>
+<span id="cb5-8"><a href="#cb5-8"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">color=</span><span class="st">&quot;Cantidad de Frutos&quot;</span>)<span class="op">+</span></span>
+<span id="cb5-9"><a href="#cb5-9"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G14_geom_point_geom_jitter_files/figure-html/graficadepuntosA1-1.png" width="672" /> ***</p>
 </div>
 <div id="modificar-la-posición-de-la-leyenda" class="section level2">
@@ -543,41 +621,41 @@ midpoint=4)</p>
 <p>Para posicionar la leyenda dentro del gráfico, como se muestra en la Figura, se usa la opción</p>
 <p>theme(legend.position=c(0,1), legend.justification=c(0,1))</p>
 <p>El centro del gráfico tiene las coordinadas de (0.5, 0.5), las que ubicarían la leyenda en el centro mismo. La posición (0,0) es la coordenada izquierda inferior, la (1,1) es la derecha superior, la (0,1) es la izquierda superior, y la (1,0) es la derecha inferior. Para información más detallada sobre la ubicación de la leyenda dentro de un gráfico.</p>
-<pre class="r"><code># para incluir la leyenda dentro del gráfico
-m+geom_point()+
-  labs(x=&quot;Altura de la inflorescencia&quot;,
-       y=&quot;Número de Flores&quot;)+
-  scale_colour_gradient2(low=&quot;blue&quot;,
-                         high=&quot;red&quot;,mid=&quot;yellow&quot;,
-                         midpoint=4)+
-  labs(color=&quot;Cantidad de Frutos&quot;)+
-  theme(legend.position=c(0,1),
-        legend.justification=c(0,1),
-        legend.background = element_blank())+
-  theme(axis.title=element_text(size=10,face=&quot;bold&quot;))</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co"># para incluir la leyenda dentro del gráfico</span></span>
+<span id="cb6-2"><a href="#cb6-2"></a>m<span class="op">+</span><span class="kw">geom_point</span>()<span class="op">+</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Altura de la inflorescencia&quot;</span>,</span>
+<span id="cb6-4"><a href="#cb6-4"></a>       <span class="dt">y=</span><span class="st">&quot;Número de Flores&quot;</span>)<span class="op">+</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="st">  </span><span class="kw">scale_colour_gradient2</span>(<span class="dt">low=</span><span class="st">&quot;blue&quot;</span>,</span>
+<span id="cb6-6"><a href="#cb6-6"></a>                         <span class="dt">high=</span><span class="st">&quot;red&quot;</span>,<span class="dt">mid=</span><span class="st">&quot;yellow&quot;</span>,</span>
+<span id="cb6-7"><a href="#cb6-7"></a>                         <span class="dt">midpoint=</span><span class="dv">4</span>)<span class="op">+</span></span>
+<span id="cb6-8"><a href="#cb6-8"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">color=</span><span class="st">&quot;Cantidad de Frutos&quot;</span>)<span class="op">+</span></span>
+<span id="cb6-9"><a href="#cb6-9"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</span>
+<span id="cb6-10"><a href="#cb6-10"></a>        <span class="dt">legend.justification=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</span>
+<span id="cb6-11"><a href="#cb6-11"></a>        <span class="dt">legend.background =</span> <span class="kw">element_blank</span>())<span class="op">+</span></span>
+<span id="cb6-12"><a href="#cb6-12"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G14_geom_point_geom_jitter_files/figure-html/graficadepuntosA2-1.png" width="672" /></p>
 <hr />
 </div>
 <div id="geom_point-y-la-mortandad-infantil" class="section level2">
 <h2>Geom_point y la mortandad infantil</h2>
 <p>Visualicemos ahora otro gráfico utilizando datos sobre la mortandad infantil (NMI) y su relación con la mortandad maternal (NMP) durante el parto. En el ejemplo de la Figura  se observa esta relación. A continuación le añadimos una columna que identifica en qué continente se encuentra el país. Seleccionamos solamente dos grupos geográficos identificados como América=AM y Unión Europea=EU. Las variables fueron transformadas con la función logarítmica {log}. Para seleccionar solamente las dos regiones geográficas, se usó la función de {subset}. La barra {|} quiere decir que se seleccionaron solamente las filas que cumplen con las dos condiciones; en nuestro caso, los países de América y de la Unión Europea. Eso se demuestra a continuación:</p>
-<pre class="r"><code># log(1)
-
-Parto=PartosInfantes
-Parto$logNMI=log(Parto$NMI+1)
-Parto$logNMP=log(Parto$NMP+1)
-Parto$logGSPC=log(Parto$GSPC+1)
-Parto$sumaalgo=Parto$NMI+Parto$NMP*sqrt(Parto$GSPC)^2
-
-
-Partosub=subset(Parto, Grupo==&quot;AM&quot;|Grupo==&quot;EU&quot;|Grupo==&quot;AF&quot;)
-
-gt(head(Partosub))</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># log(1)</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a></span>
+<span id="cb7-3"><a href="#cb7-3"></a>Parto=PartosInfantes</span>
+<span id="cb7-4"><a href="#cb7-4"></a>Parto<span class="op">$</span>logNMI=<span class="kw">log</span>(Parto<span class="op">$</span>NMI<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb7-5"><a href="#cb7-5"></a>Parto<span class="op">$</span>logNMP=<span class="kw">log</span>(Parto<span class="op">$</span>NMP<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb7-6"><a href="#cb7-6"></a>Parto<span class="op">$</span>logGSPC=<span class="kw">log</span>(Parto<span class="op">$</span>GSPC<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb7-7"><a href="#cb7-7"></a>Parto<span class="op">$</span>sumaalgo=Parto<span class="op">$</span>NMI<span class="op">+</span>Parto<span class="op">$</span>NMP<span class="op">*</span><span class="kw">sqrt</span>(Parto<span class="op">$</span>GSPC)<span class="op">^</span><span class="dv">2</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a></span>
+<span id="cb7-9"><a href="#cb7-9"></a></span>
+<span id="cb7-10"><a href="#cb7-10"></a>Partosub=<span class="kw">subset</span>(Parto, Grupo<span class="op">==</span><span class="st">&quot;AM&quot;</span><span class="op">|</span>Grupo<span class="op">==</span><span class="st">&quot;EU&quot;</span><span class="op">|</span>Grupo<span class="op">==</span><span class="st">&quot;AF&quot;</span>)</span>
+<span id="cb7-11"><a href="#cb7-11"></a></span>
+<span id="cb7-12"><a href="#cb7-12"></a><span class="kw">gt</span>(<span class="kw">head</span>(Partosub))</span></code></pre></div>
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#tnmxjazbrb .gt_table {
+#myqlwesubw .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -602,7 +680,7 @@ gt(head(Partosub))</code></pre>
   border-left-color: #D3D3D3;
 }
 
-#tnmxjazbrb .gt_heading {
+#myqlwesubw .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -614,7 +692,7 @@ gt(head(Partosub))</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#tnmxjazbrb .gt_title {
+#myqlwesubw .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -624,7 +702,7 @@ gt(head(Partosub))</code></pre>
   border-bottom-width: 0;
 }
 
-#tnmxjazbrb .gt_subtitle {
+#myqlwesubw .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -634,13 +712,13 @@ gt(head(Partosub))</code></pre>
   border-top-width: 0;
 }
 
-#tnmxjazbrb .gt_bottom_border {
+#myqlwesubw .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#tnmxjazbrb .gt_col_headings {
+#myqlwesubw .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -655,7 +733,7 @@ gt(head(Partosub))</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#tnmxjazbrb .gt_col_heading {
+#myqlwesubw .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -675,7 +753,7 @@ gt(head(Partosub))</code></pre>
   overflow-x: hidden;
 }
 
-#tnmxjazbrb .gt_column_spanner_outer {
+#myqlwesubw .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -687,15 +765,15 @@ gt(head(Partosub))</code></pre>
   padding-right: 4px;
 }
 
-#tnmxjazbrb .gt_column_spanner_outer:first-child {
+#myqlwesubw .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#tnmxjazbrb .gt_column_spanner_outer:last-child {
+#myqlwesubw .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#tnmxjazbrb .gt_column_spanner {
+#myqlwesubw .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -707,7 +785,7 @@ gt(head(Partosub))</code></pre>
   width: 100%;
 }
 
-#tnmxjazbrb .gt_group_heading {
+#myqlwesubw .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -729,7 +807,7 @@ gt(head(Partosub))</code></pre>
   vertical-align: middle;
 }
 
-#tnmxjazbrb .gt_empty_group_heading {
+#myqlwesubw .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -744,15 +822,15 @@ gt(head(Partosub))</code></pre>
   vertical-align: middle;
 }
 
-#tnmxjazbrb .gt_from_md > :first-child {
+#myqlwesubw .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#tnmxjazbrb .gt_from_md > :last-child {
+#myqlwesubw .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#tnmxjazbrb .gt_row {
+#myqlwesubw .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -771,7 +849,7 @@ gt(head(Partosub))</code></pre>
   overflow-x: hidden;
 }
 
-#tnmxjazbrb .gt_stub {
+#myqlwesubw .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -783,7 +861,7 @@ gt(head(Partosub))</code></pre>
   padding-left: 12px;
 }
 
-#tnmxjazbrb .gt_summary_row {
+#myqlwesubw .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -793,7 +871,7 @@ gt(head(Partosub))</code></pre>
   padding-right: 5px;
 }
 
-#tnmxjazbrb .gt_first_summary_row {
+#myqlwesubw .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -803,7 +881,7 @@ gt(head(Partosub))</code></pre>
   border-top-color: #D3D3D3;
 }
 
-#tnmxjazbrb .gt_grand_summary_row {
+#myqlwesubw .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -813,7 +891,7 @@ gt(head(Partosub))</code></pre>
   padding-right: 5px;
 }
 
-#tnmxjazbrb .gt_first_grand_summary_row {
+#myqlwesubw .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -823,11 +901,11 @@ gt(head(Partosub))</code></pre>
   border-top-color: #D3D3D3;
 }
 
-#tnmxjazbrb .gt_striped {
+#myqlwesubw .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#tnmxjazbrb .gt_table_body {
+#myqlwesubw .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -836,7 +914,7 @@ gt(head(Partosub))</code></pre>
   border-bottom-color: #D3D3D3;
 }
 
-#tnmxjazbrb .gt_footnotes {
+#myqlwesubw .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -850,13 +928,13 @@ gt(head(Partosub))</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#tnmxjazbrb .gt_footnote {
+#myqlwesubw .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#tnmxjazbrb .gt_sourcenotes {
+#myqlwesubw .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -870,46 +948,46 @@ gt(head(Partosub))</code></pre>
   border-right-color: #D3D3D3;
 }
 
-#tnmxjazbrb .gt_sourcenote {
+#myqlwesubw .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#tnmxjazbrb .gt_left {
+#myqlwesubw .gt_left {
   text-align: left;
 }
 
-#tnmxjazbrb .gt_center {
+#myqlwesubw .gt_center {
   text-align: center;
 }
 
-#tnmxjazbrb .gt_right {
+#myqlwesubw .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#tnmxjazbrb .gt_font_normal {
+#myqlwesubw .gt_font_normal {
   font-weight: normal;
 }
 
-#tnmxjazbrb .gt_font_bold {
+#myqlwesubw .gt_font_bold {
   font-weight: bold;
 }
 
-#tnmxjazbrb .gt_font_italic {
+#myqlwesubw .gt_font_italic {
   font-style: italic;
 }
 
-#tnmxjazbrb .gt_super {
+#myqlwesubw .gt_super {
   font-size: 65%;
 }
 
-#tnmxjazbrb .gt_footnote_marks {
+#myqlwesubw .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="tnmxjazbrb" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+<div id="myqlwesubw" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
   
   <thead class="gt_col_headings">
     <tr>
@@ -996,11 +1074,11 @@ gt(head(Partosub))</code></pre>
   
 </table></div>
 <p>Ahora veamos el resultado en la Figura a continuación.</p>
-<pre class="r"><code>ggplot(Partosub, aes(logNMP, log(NMI+1), colour=Grupo))+
-geom_point()+
-  xlab(&quot;Mortandad durante el parto (log)&quot;)+
-  ylab(&quot;Mortandad infantil (log)&quot;)+
-  theme(axis.title=element_text(size=10,face=&quot;bold&quot;))</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">ggplot</span>(Partosub, <span class="kw">aes</span>(logNMP, <span class="kw">log</span>(NMI<span class="op">+</span><span class="dv">1</span>), <span class="dt">colour=</span>Grupo))<span class="op">+</span></span>
+<span id="cb8-2"><a href="#cb8-2"></a><span class="kw">geom_point</span>()<span class="op">+</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Mortandad durante el parto (log)&quot;</span>)<span class="op">+</span></span>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Mortandad infantil (log)&quot;</span>)<span class="op">+</span></span>
+<span id="cb8-5"><a href="#cb8-5"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G14_geom_point_geom_jitter_files/figure-html/graficadepuntosDemo2-1.png" width="672" /></p>
 </div>
 <div id="opciones-y-parametros-de-geom_point" class="section level2">
@@ -1021,42 +1099,42 @@ geom_point()+
 <h2>Gráfico de puntos con jitter y con <strong>geom_jitter</strong></h2>
 <p>Con frecuencia hacemos representaciones gráficas en que aparecen muchos datos que se solapan unos sobre otros, lo que no permite visualizar y apreciar la cantidad de datos que se están representando. Podemos mejorar la representación con la opción geom_jitter. Esta forma de graficar es muy similar al gráfico de puntos y sumamente efectiva cuando tenemos demasiados datos aglomerados. La diferencia más importante es que los datos no están exactamente en las coordenadas tal como se especifica en los datos de la tabla o archivo CSV; más bien están levemente desplazados.</p>
 <p>En el siguiente ejemplo, se usan los mismos datos de la orquídea <em>Dipodium</em> para la generación de los dos gráficos: una con <strong>geom_point</strong> y la otra con <strong>geom_jitter</strong>. En el gráfico de la Figura (a), los puntos están posicionados exactamente de acuerdo a los valores como aparece en la hoja de cálculo. A consecuencia de eso, los datos iguales estarán completamente solapados. Por otro lado, en el gráfico de <strong>jitter</strong> en la Figura (b), los valores se han desplazado un poco. En este último caso, ya que los datos no están completamente solapados, eso ayuda a visualizar mejor la cantidad de datos del análisis.</p>
-<pre class="r"><code>a=ggplot(dipodium, aes(Height_Inflo, Number_of_fruits))+
-  geom_point(size=3,shape=23,fill=&quot;red&quot;, color=&quot;red&quot;)+
-  labs(x=&quot;Altura de la inflorescencia&quot;, y=&quot;Cantidad de Frutos&quot;)+
-  theme(axis.title=element_text(size=10,face=&quot;bold&quot;))
-
-b= ggplot(dipodium, aes(Height_Inflo, Number_of_fruits))+
-  geom_jitter(size=2,shape=23,fill=&quot;blue&quot;, color=&quot;blue&quot;)+
-  labs(x=&quot;Altura de la inflorescencia&quot;, y=&quot;Cantidad de Frutos&quot;)+
-  theme(axis.title=element_text(size=10,face=&quot;bold&quot;))
-
-grid.arrange(a,b,ncol=2)</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>a=<span class="kw">ggplot</span>(dipodium, <span class="kw">aes</span>(Height_Inflo, Number_of_fruits))<span class="op">+</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size=</span><span class="dv">3</span>,<span class="dt">shape=</span><span class="dv">23</span>,<span class="dt">fill=</span><span class="st">&quot;red&quot;</span>, <span class="dt">color=</span><span class="st">&quot;red&quot;</span>)<span class="op">+</span></span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Altura de la inflorescencia&quot;</span>, <span class="dt">y=</span><span class="st">&quot;Cantidad de Frutos&quot;</span>)<span class="op">+</span></span>
+<span id="cb9-4"><a href="#cb9-4"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span>
+<span id="cb9-5"><a href="#cb9-5"></a></span>
+<span id="cb9-6"><a href="#cb9-6"></a>b=<span class="st"> </span><span class="kw">ggplot</span>(dipodium, <span class="kw">aes</span>(Height_Inflo, Number_of_fruits))<span class="op">+</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a><span class="st">  </span><span class="kw">geom_jitter</span>(<span class="dt">size=</span><span class="dv">2</span>,<span class="dt">shape=</span><span class="dv">23</span>,<span class="dt">fill=</span><span class="st">&quot;blue&quot;</span>, <span class="dt">color=</span><span class="st">&quot;blue&quot;</span>)<span class="op">+</span></span>
+<span id="cb9-8"><a href="#cb9-8"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Altura de la inflorescencia&quot;</span>, <span class="dt">y=</span><span class="st">&quot;Cantidad de Frutos&quot;</span>)<span class="op">+</span></span>
+<span id="cb9-9"><a href="#cb9-9"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span>
+<span id="cb9-10"><a href="#cb9-10"></a></span>
+<span id="cb9-11"><a href="#cb9-11"></a><span class="kw">grid.arrange</span>(a,b,<span class="dt">ncol=</span><span class="dv">2</span>)</span></code></pre></div>
 <p><img src="G14_geom_point_geom_jitter_files/figure-html/graficajitter-1.png" width="672" /></p>
 <p>Veamos un ejemplo más contundente de la utilidad de <strong>geom_jitter</strong>. En el próximo ejemplo a continuación, Figura (a), el gráfico nuevamente tiene los datos posicionados exactamente en las coordenadas como aparece en el archivo de datos. La variables son la altura de la inflorescencia y el valor de presencia o ausencia de frutos. Por ende, en el eje de <strong>Y</strong> hay solamente dos valores: 0 = sin frutos, o 1 = con frutos, y eso es sin importar la frecuencia de los eventos; en otras palabras, solo indica <strong>sí</strong> o <strong>no</strong>. En el segundo gráfico, Figura (b), la opción de geom_jitter es aplicada y uno puede apreciar mejor la cantidad de datos en el archivo dado el grado de dispersión.</p>
 <p>Se podría argumentar que de hecho la dispersión de los datos es exagerada y no está suficientemente concentrada alrededor de los valores originales de 0 y 1. En tal caso, para reducir la dispersión alrededor de las categorías, en la Figura (c) se le asigna la cantidad de dispersión usando <strong>geom_jitter(width = x.xx, height = x.xx)</strong>; <strong>width</strong> es para controlar el <strong>jitter</strong> (o dispersión) en el eje de <strong>X</strong>, y <strong>height</strong> es para controlarla en el eje de <strong>Y</strong>. En el tercer gráfico, Figura (c), se redujo la dispersión de 0.5 a 0.10, lo que hace que los puntos estén dispersados entre los valores de -0.10 a 0.10 dentro de las categorías 0 y 1 en el eje de <strong>Y</strong>. Tengamos en cuenta que la dispersión de {jitter} por omisión es de 40% de la resolución hacia lo ancho <strong>width</strong> y hacia lo alto <strong>height</strong>. Entonces, eso quiere decir que <strong>jitter</strong> usará 80% del espacio del compartimento, o <strong>bin</strong>; o sea, el espacio que le toca dentro del gráfico. Esto se aprecia mejor en el gráfico de la Figura (b), donde se ve que los datos están demasiado dispersos entre -0.5 y 0.5 alrededor del cero. Pero sin duda este gráfico permite apreciar mucho mejor la cantidad de datos que contiene.</p>
-<pre class="r"><code>a=ggplot(dipodium, aes(Height_Inflo, Frutos_si_o_no))+
-  geom_point(size=1,shape=23,
-             fill=&quot;red&quot;, color=&quot;red&quot;)+
-  labs(x=&quot;Altura de la inflorescencia&quot;,
-       y=&quot;Número de Frutos&quot;)+
-  theme(axis.title=element_text(size=10,face=&quot;bold&quot;))
-
-b= ggplot(dipodium, aes(Height_Inflo, Frutos_si_o_no))+
-  geom_jitter(size=0.5,shape=23,
-              fill=&quot;blue&quot;, color=&quot;blue&quot;)+
-  labs(x=&quot;Altura de la inflorescencia&quot;,
-       y=&quot;Número de Frutos&quot;)+
-  theme(axis.title=element_text(size=10,face=&quot;bold&quot;))
-
-c= ggplot(dipodium, aes(Height_Inflo, Frutos_si_o_no))+
-  geom_jitter(height =0.05,size=.5,shape=7,
-              fill=&quot;white&quot;, color=&quot;blue&quot;, stroke=.5)+
-  labs(x=&quot;Altura de la inflorescencia&quot;,
-       y=&quot;Número de Frutos&quot;)+
-  theme(axis.title=element_text(size=10,face=&quot;bold&quot;))
-
-grid.arrange(a,b,c,ncol=3)</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>a=<span class="kw">ggplot</span>(dipodium, <span class="kw">aes</span>(Height_Inflo, Frutos_si_o_no))<span class="op">+</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size=</span><span class="dv">1</span>,<span class="dt">shape=</span><span class="dv">23</span>,</span>
+<span id="cb10-3"><a href="#cb10-3"></a>             <span class="dt">fill=</span><span class="st">&quot;red&quot;</span>, <span class="dt">color=</span><span class="st">&quot;red&quot;</span>)<span class="op">+</span></span>
+<span id="cb10-4"><a href="#cb10-4"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Altura de la inflorescencia&quot;</span>,</span>
+<span id="cb10-5"><a href="#cb10-5"></a>       <span class="dt">y=</span><span class="st">&quot;Número de Frutos&quot;</span>)<span class="op">+</span></span>
+<span id="cb10-6"><a href="#cb10-6"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span>
+<span id="cb10-7"><a href="#cb10-7"></a></span>
+<span id="cb10-8"><a href="#cb10-8"></a>b=<span class="st"> </span><span class="kw">ggplot</span>(dipodium, <span class="kw">aes</span>(Height_Inflo, Frutos_si_o_no))<span class="op">+</span></span>
+<span id="cb10-9"><a href="#cb10-9"></a><span class="st">  </span><span class="kw">geom_jitter</span>(<span class="dt">size=</span><span class="fl">0.5</span>,<span class="dt">shape=</span><span class="dv">23</span>,</span>
+<span id="cb10-10"><a href="#cb10-10"></a>              <span class="dt">fill=</span><span class="st">&quot;blue&quot;</span>, <span class="dt">color=</span><span class="st">&quot;blue&quot;</span>)<span class="op">+</span></span>
+<span id="cb10-11"><a href="#cb10-11"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Altura de la inflorescencia&quot;</span>,</span>
+<span id="cb10-12"><a href="#cb10-12"></a>       <span class="dt">y=</span><span class="st">&quot;Número de Frutos&quot;</span>)<span class="op">+</span></span>
+<span id="cb10-13"><a href="#cb10-13"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span>
+<span id="cb10-14"><a href="#cb10-14"></a></span>
+<span id="cb10-15"><a href="#cb10-15"></a>c=<span class="st"> </span><span class="kw">ggplot</span>(dipodium, <span class="kw">aes</span>(Height_Inflo, Frutos_si_o_no))<span class="op">+</span></span>
+<span id="cb10-16"><a href="#cb10-16"></a><span class="st">  </span><span class="kw">geom_jitter</span>(<span class="dt">height =</span><span class="fl">0.05</span>,<span class="dt">size=</span>.<span class="dv">5</span>,<span class="dt">shape=</span><span class="dv">7</span>,</span>
+<span id="cb10-17"><a href="#cb10-17"></a>              <span class="dt">fill=</span><span class="st">&quot;white&quot;</span>, <span class="dt">color=</span><span class="st">&quot;blue&quot;</span>, <span class="dt">stroke=</span>.<span class="dv">5</span>)<span class="op">+</span></span>
+<span id="cb10-18"><a href="#cb10-18"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Altura de la inflorescencia&quot;</span>,</span>
+<span id="cb10-19"><a href="#cb10-19"></a>       <span class="dt">y=</span><span class="st">&quot;Número de Frutos&quot;</span>)<span class="op">+</span></span>
+<span id="cb10-20"><a href="#cb10-20"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span>
+<span id="cb10-21"><a href="#cb10-21"></a></span>
+<span id="cb10-22"><a href="#cb10-22"></a><span class="kw">grid.arrange</span>(a,b,c,<span class="dt">ncol=</span><span class="dv">3</span>)</span></code></pre></div>
 <p><img src="G14_geom_point_geom_jitter_files/figure-html/graficajitter2-1.png" width="672" /></p>
 </div>
 <div id="opciones-y-parametros-de-geom_jitter" class="section level2">
