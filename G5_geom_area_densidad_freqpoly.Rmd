@@ -88,8 +88,12 @@ a+geom_area(stat="bin", fill="steelblue1",
   theme(axis.title=element_text(size=10,face="bold"))
 ```
 
+***
 
-Finalmente, en el siguiente gráfico, se muestran los datos de la frecuencia de camas en hospitales por cada 1000 habitantes.  
+## geom_area con múltiples grupos
+
+
+Finalmente, en el siguiente gráfico, se muestran los datos de la frecuencia de camas en hospitales por cada 1000 habitantes en diferentes años.  
 
 ```{r dipodium-area4,  echo=TRUE, tidy=FALSE,  warning=FALSE, message=FALSE, fig.align='center'}
 head(Camas_Hospital, n=2)
@@ -105,9 +109,11 @@ a+geom_area(stat="bin", alpha=0.5)+
 
 ```
 
+***
+
 ## La función densidad **aes(y=..density..)**
 
-Uno puede utilizar la opción **stat** a la vez que identifica el eje de **Y** como la densidad con la siguiente modificación **aes(y=..density..)** para visualizar el gráfico de densidad en los datos en vez de mostrar el conteo/frecuencia para cada grupo. Si uno compara las dos gráficas anteriores a estas nuevas gráficas uno observa que la densidad de camas en hospitales por 100,000 cambio con los años habitantes, que hubo un aumento en densidad (proporcionalmente más camas en 2006). Nota que no hay un pico cerca de uno.     
+Uno puede utilizar la opción **stat** a la vez que identifica el eje de **Y** para visualizar la densidad y no la frecuencia de los datos con la siguiente modificación **aes(y=..density..)**. Esto modifica la visualizar del gráfico a densidad en los datos en vez de mostrar el conteo/frecuencia para cada grupo. Si uno compara las dos gráficas anteriores a estas nuevas gráficas uno observa que la densidad de camas en hospitales por 100,000 cambio con los años habitantes, hubo un aumento en densidad (proporcionalmente más camas en 2006 por habitantes). Nota que no hay un pico cerca de uno en 1996, pero en 2006 la distribución esta más dispersado entre los valores y no concentrado cerca de uno.     
 
 ```{r dipodium-area5,  echo=TRUE, tidy=FALSE,  warning=FALSE, message=FALSE, fig.align='center'}
 
@@ -146,17 +152,16 @@ Un gráfico de densidad, también conocido como una función de probabilidad de 
 Estimar la densidad de los datos en un gráfico requiere seleccionar un parámetro, un **kernel**, para suavizar la distribución.  El más utilizado es el **gaussian**, que representa la distribución normal o conocida comúnmente como distribución de forma de campana. Si no se especifica cuál **kernel** utilizar, la distribución normal es la predeterminada; por ejemplo, cuando se especifica **geom_density()** sin ninguna otra opción.  
 Otra alternativa es usar **geom_density(kernel = c(kernel={gaussian})**, u otras alternativas.  Otros parámetros para **kernel** son: 
 
-
-1. rectangular, 
-2. triangular, 
-3. epanechnikov,
-4. biweight, 
-5. cosine, 
-6. optcosine,
-7. gaussian
+ - rectangular, 
+ - triangular, 
+ - epanechnikov,
+ - biweight, 
+ - cosine, 
+ - optcosine,
+ - gaussian
  
 
-EL **kernel** es un tipo especial de función de probabilidad de densidad que tiene ciertas propiedades específicas, ya sea que esta no sea negativa y con valores reales de manera tal que el gráfico salga simétrico, y que la suma de la integral sea igual a uno. Se añadio tambien *geom_density* para comparar el resultado de las dos funciones. 
+EL **kernel** es un tipo especial de función de probabilidad de densidad que tiene ciertas propiedades específicas, ya sea que esta no sea negativa y con valores reales de manera tal que el gráfico salga simétrico, y que la suma de la integral sea igual a uno. Se añadió también *geom_density* para comparar el resultado de las dos funciones. 
 
 Note que en el gráfico siguiente se usó el parámetro *alpha=0.4*.  Este modifica la transparencia del color azul del parámetro fill=blue.  La intensidad de **alpha=0.4** puede variar de 0 a 1, tal como se ha explicado anteriormente.  En el ejemplo a continuación se utilizan los datos de la *Dipodium rosea* otra vez.  
 
@@ -171,6 +176,11 @@ a+geom_area(aes(y=..density..),stat="bin", alpha=0.5)+
   theme(axis.title=element_text(size=10,face="bold"))
   
 ```
+
+
+***
+
+# geom_density y datos simulados
 
 La función de **geom_density** se puede entender mejor si se evalúa con datos simulados. Vamos a continuación a simular datos con diferentes tamaños de muestra para visualizar las densidades. En la simulación a continuación se crean 4 data frame con 2000, 500, 50 y 10 datos respectivamente con la función **rnorm**. Naturalmente, lo que se observa es que si los datos provienen de una distribución normal, entre más datos se incluyan, la distribución correspondiente se acerca más a como debe lucir una distribución normal.  Pero, lo contrario es que con pocos datos, es probable que la densidad no se asemeje a la distribución teórica (normal).
 
@@ -238,7 +248,7 @@ grid.arrange(a,b,c,d,ncol=2)
 
 ## Gráfico de frecuencia de polígono con **geom_freqpoly**
 
-El gráfico de frecuencia de polígono es similar al gráfico de área y de densidad, la diferencia es que no se rellena el area con color.  También se puede cambiar la cantidad de compartimentos usando **binwidth**.  En el gráfico de polígono, es solamente la línea la que gráficamos y no hay parámetro de **fill** del área debajo de la línea. 
+El gráfico de frecuencia de polígono es similar al gráfico de área y de densidad, la diferencia es que no se rellena el área con color.  También se puede cambiar la cantidad de compartimentos usando **binwidth**.  En el gráfico de polígono, es solamente la línea la que gráficamos y no hay parámetro de **fill** del área debajo de la línea. 
 
 ```{r dipodium-poligono, echo=TRUE, tidy=FALSE,message=FALSE, warning=FALSE,  fig.align='center'}
 
@@ -249,6 +259,8 @@ a+geom_freqpoly(binwidth=.1, color="steelblue")+
   theme(axis.title=element_text(size=14,face="bold"))
 
 ```
+
+***
 
 Se modifica otras opciones como sigue: intensidad del color con **alpha**, el tipo de línea con **linetype** y el grosor de la línea con **size** tal como se muestra a continuación.
 
