@@ -64,7 +64,7 @@ En este siguiente gráfico se cambia el color de linea que sigue el contorno del
 
 a=ggplot(DW, aes(distance))
 a+geom_area(stat="bin", fill="steelblue1",
-            linetype=1, color="red", size=2.0, alpha=0.5)+
+            linetype=5, color="black", size=1.0, alpha=0.5)+
   labs(x="Distancia", y="Frecuencia")+
   theme(axis.title=element_text(size=10,face="bold"))
 ```
@@ -83,7 +83,7 @@ Ahora al gráfico siguiente, se le cambia el color de la línea a negro a la vez
 
 a=ggplot(DW, aes(distance))
 a+geom_area(stat="bin", fill="steelblue1",
-            linetype="dotdash", color="black", size=.5, alpha=0.5)+
+            linetype="F1", color="black", size=.5, alpha=0.5)+
   labs(x="Distancia", y="Frecuencia")+
   theme(axis.title=element_text(size=10,face="bold"))
 ```
@@ -96,7 +96,7 @@ a+geom_area(stat="bin", fill="steelblue1",
 Finalmente, en el siguiente gráfico, se muestran los datos de la frecuencia de camas en hospitales por cada 1000 habitantes en diferentes años.  
 
 ```{r dipodium-area4,  echo=TRUE, tidy=FALSE,  warning=FALSE, message=FALSE, fig.align='center'}
-head(Camas_Hospital, n=2)
+head(Camas_Hospital, n=6)
 
 a=ggplot(Camas_Hospital, aes(Camas, fill=factor(Year)))
 a+geom_area(stat="bin", alpha=0.5)+
@@ -124,6 +124,10 @@ a+geom_area(aes(y=..density..),stat="bin", alpha=0.5)+
   theme(axis.title=element_text(size=10,face="bold"))
 
 ```
+
+
+
+
 
 ***
 
@@ -174,7 +178,9 @@ a+geom_area(aes(y=..density..),stat="bin", alpha=0.5)+
                alpha=0.4, fill="blue")+
   labs(x="Distancia", y="Densidad")+
   theme(axis.title=element_text(size=10,face="bold"))
-  
+ 
+
+ggsave("Distance_to_tree.jpeg") #.tiff, .png
 ```
 
 
@@ -226,6 +232,11 @@ d=ggplot(d, aes(d))+
 ```{r grid dotplot, echo=FALSE}
 grid.arrange(a,b,c,d,ncol=2)
 ```
+
+
+
+
+
 
 ***
 
