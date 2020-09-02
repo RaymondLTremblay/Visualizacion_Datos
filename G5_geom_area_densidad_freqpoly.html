@@ -566,7 +566,7 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2020-08-30&quot;</code></pre>
+<pre><code>## [1] &quot;2020-09-02&quot;</code></pre>
 <div id="gráficos-de-área-densidad-y-histograma-de-linea-con-geom_dotplot-geom_density-y-geom-freqpoly" class="section level1">
 <h1>Gráficos de área, densidad y histograma de linea con <strong>geom_dotplot</strong>, <strong>geom_density</strong> y <strong>geom-freqpoly</strong></h1>
 <hr />
@@ -592,7 +592,7 @@ div.tocify {
 <p>En este siguiente gráfico se cambia el color de linea que sigue el contorno del área. Para hacer este cambio se puede identificar el tipo de linea con <strong>linetype</strong>, el color con <strong>color</strong>, el grosor de la linea con <strong>size</strong> y la intensidad del color con <strong>alpha</strong>.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>a=<span class="kw">ggplot</span>(DW, <span class="kw">aes</span>(distance))</span>
 <span id="cb4-2"><a href="#cb4-2"></a>a<span class="op">+</span><span class="kw">geom_area</span>(<span class="dt">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="dt">fill=</span><span class="st">&quot;steelblue1&quot;</span>,</span>
-<span id="cb4-3"><a href="#cb4-3"></a>            <span class="dt">linetype=</span><span class="dv">1</span>, <span class="dt">color=</span><span class="st">&quot;red&quot;</span>, <span class="dt">size=</span><span class="fl">2.0</span>, <span class="dt">alpha=</span><span class="fl">0.5</span>)<span class="op">+</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a>            <span class="dt">linetype=</span><span class="dv">5</span>, <span class="dt">color=</span><span class="st">&quot;black&quot;</span>, <span class="dt">size=</span><span class="fl">1.0</span>, <span class="dt">alpha=</span><span class="fl">0.5</span>)<span class="op">+</span></span>
 <span id="cb4-4"><a href="#cb4-4"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Distancia&quot;</span>, <span class="dt">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="op">+</span></span>
 <span id="cb4-5"><a href="#cb4-5"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G5_geom_area_densidad_freqpoly_files/figure-html/dipodium-area2-1.png" width="672" /></p>
@@ -605,7 +605,7 @@ div.tocify {
 <p>Ahora al gráfico siguiente, se le cambia el color de la línea a negro a la vez que se le cambia el estilo de la línea con <em>linetype</em> y el grosor de la misma con <em>size</em>.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>a=<span class="kw">ggplot</span>(DW, <span class="kw">aes</span>(distance))</span>
 <span id="cb5-2"><a href="#cb5-2"></a>a<span class="op">+</span><span class="kw">geom_area</span>(<span class="dt">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="dt">fill=</span><span class="st">&quot;steelblue1&quot;</span>,</span>
-<span id="cb5-3"><a href="#cb5-3"></a>            <span class="dt">linetype=</span><span class="st">&quot;dotdash&quot;</span>, <span class="dt">color=</span><span class="st">&quot;black&quot;</span>, <span class="dt">size=</span>.<span class="dv">5</span>, <span class="dt">alpha=</span><span class="fl">0.5</span>)<span class="op">+</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a>            <span class="dt">linetype=</span><span class="st">&quot;F1&quot;</span>, <span class="dt">color=</span><span class="st">&quot;black&quot;</span>, <span class="dt">size=</span>.<span class="dv">5</span>, <span class="dt">alpha=</span><span class="fl">0.5</span>)<span class="op">+</span></span>
 <span id="cb5-4"><a href="#cb5-4"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Distancia&quot;</span>, <span class="dt">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="op">+</span></span>
 <span id="cb5-5"><a href="#cb5-5"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G5_geom_area_densidad_freqpoly_files/figure-html/dipodium-area3-1.png" width="672" /></p>
@@ -613,10 +613,14 @@ div.tocify {
 <div id="geom_area-con-múltiples-grupos" class="section level2">
 <h2>geom_area con múltiples grupos</h2>
 <p>Finalmente, en el siguiente gráfico, se muestran los datos de la frecuencia de camas en hospitales por cada 1000 habitantes en diferentes años.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">head</span>(Camas_Hospital, <span class="dt">n=</span><span class="dv">2</span>)</span></code></pre></div>
-<pre><code>##        Pais Year Poblacion Camas
-## 1   Armenia 1996   3173425  7.13
-## 2 Australia 1996  18311000  8.50</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">head</span>(Camas_Hospital, <span class="dt">n=</span><span class="dv">6</span>)</span></code></pre></div>
+<pre><code>##           Pais Year Poblacion Camas
+## 1      Armenia 1996   3173425  7.13
+## 2    Australia 1996  18311000  8.50
+## 3      Austria 1996   7959017  9.30
+## 4   Azerbaijan 1996   7763000  9.81
+## 5 Bahamas, The 1996    283792  3.94
+## 6     Barbados 1996    265940  7.56</code></pre>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>a=<span class="kw">ggplot</span>(Camas_Hospital, <span class="kw">aes</span>(Camas, <span class="dt">fill=</span><span class="kw">factor</span>(Year)))</span>
 <span id="cb8-2"><a href="#cb8-2"></a>a<span class="op">+</span><span class="kw">geom_area</span>(<span class="dt">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="dt">alpha=</span><span class="fl">0.5</span>)<span class="op">+</span></span>
 <span id="cb8-3"><a href="#cb8-3"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Número de camas por </span><span class="ch">\n</span><span class="st"> cada 1000 habitantes&quot;</span>)<span class="op">+</span></span>
@@ -679,6 +683,7 @@ Otra alternativa es usar <strong>geom_density(kernel = c(kernel={gaussian})</str
 <span id="cb10-5"><a href="#cb10-5"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Distancia&quot;</span>, <span class="dt">y=</span><span class="st">&quot;Densidad&quot;</span>)<span class="op">+</span></span>
 <span id="cb10-6"><a href="#cb10-6"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G5_geom_area_densidad_freqpoly_files/figure-html/dipodium-densidad-1.png" width="672" style="display: block; margin: auto;" /></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">ggsave</span>(<span class="st">&quot;Distance_to_tree.jpeg&quot;</span>) <span class="co">#.tiff, .png</span></span></code></pre></div>
 <hr />
 </div>
 </div>
@@ -686,40 +691,40 @@ Otra alternativa es usar <strong>geom_density(kernel = c(kernel={gaussian})</str
 <div id="geom_density-y-datos-simulados" class="section level1">
 <h1>geom_density y datos simulados</h1>
 <p>La función de <strong>geom_density</strong> se puede entender mejor si se evalúa con datos simulados. Vamos a continuación a simular datos con diferentes tamaños de muestra para visualizar las densidades. En la simulación a continuación se crean 4 data frame con 2000, 500, 50 y 10 datos respectivamente con la función <strong>rnorm</strong>. Naturalmente, lo que se observa es que si los datos provienen de una distribución normal, entre más datos se incluyan, la distribución correspondiente se acerca más a como debe lucir una distribución normal. Pero, lo contrario es que con pocos datos, es probable que la densidad no se asemeje a la distribución teórica (normal).</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>a=<span class="kw">rnorm</span>(<span class="dv">20000</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb11-2"><a href="#cb11-2"></a>a=<span class="kw">as.data.frame</span>(a)</span>
-<span id="cb11-3"><a href="#cb11-3"></a>a=<span class="kw">ggplot</span>(a, <span class="kw">aes</span>(a))<span class="op">+</span></span>
-<span id="cb11-4"><a href="#cb11-4"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">kernel =</span> <span class="kw">c</span>(<span class="dt">kernel=</span><span class="st">&quot;gaussian&quot;</span>),</span>
-<span id="cb11-5"><a href="#cb11-5"></a>               <span class="dt">alpha=</span><span class="fl">0.4</span>, <span class="dt">fill=</span><span class="st">&quot;yellow&quot;</span>)<span class="op">+</span></span>
-<span id="cb11-6"><a href="#cb11-6"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Densidad&quot;</span>)<span class="op">+</span></span>
-<span id="cb11-7"><a href="#cb11-7"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span>
-<span id="cb11-8"><a href="#cb11-8"></a></span>
-<span id="cb11-9"><a href="#cb11-9"></a></span>
-<span id="cb11-10"><a href="#cb11-10"></a>b=<span class="kw">rnorm</span>(<span class="dv">500</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb11-11"><a href="#cb11-11"></a>b=<span class="kw">as.data.frame</span>(b)</span>
-<span id="cb11-12"><a href="#cb11-12"></a>b=<span class="kw">ggplot</span>(b, <span class="kw">aes</span>(b))<span class="op">+</span></span>
-<span id="cb11-13"><a href="#cb11-13"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">kernel =</span> <span class="kw">c</span>(<span class="dt">kernel=</span><span class="st">&quot;gaussian&quot;</span>),</span>
-<span id="cb11-14"><a href="#cb11-14"></a>               <span class="dt">alpha=</span><span class="fl">0.4</span>, <span class="dt">fill=</span><span class="st">&quot;red&quot;</span>)<span class="op">+</span></span>
-<span id="cb11-15"><a href="#cb11-15"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Densidad&quot;</span>)<span class="op">+</span></span>
-<span id="cb11-16"><a href="#cb11-16"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span>
-<span id="cb11-17"><a href="#cb11-17"></a></span>
-<span id="cb11-18"><a href="#cb11-18"></a></span>
-<span id="cb11-19"><a href="#cb11-19"></a>c=<span class="kw">rnorm</span>(<span class="dv">50</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb11-20"><a href="#cb11-20"></a>c=<span class="kw">as.data.frame</span>(c)</span>
-<span id="cb11-21"><a href="#cb11-21"></a>c=<span class="kw">ggplot</span>(c, <span class="kw">aes</span>(c))<span class="op">+</span></span>
-<span id="cb11-22"><a href="#cb11-22"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">kernel =</span> <span class="kw">c</span>(<span class="dt">kernel=</span><span class="st">&quot;gaussian&quot;</span>),</span>
-<span id="cb11-23"><a href="#cb11-23"></a>               <span class="dt">alpha=</span><span class="fl">0.4</span>, <span class="dt">fill=</span><span class="st">&quot;blue&quot;</span>)<span class="op">+</span></span>
-<span id="cb11-24"><a href="#cb11-24"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Densidad&quot;</span>)<span class="op">+</span></span>
-<span id="cb11-25"><a href="#cb11-25"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span>
-<span id="cb11-26"><a href="#cb11-26"></a></span>
-<span id="cb11-27"><a href="#cb11-27"></a></span>
-<span id="cb11-28"><a href="#cb11-28"></a>d=<span class="kw">rnorm</span>(<span class="dv">10</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb11-29"><a href="#cb11-29"></a>d=<span class="kw">as.data.frame</span>(d)</span>
-<span id="cb11-30"><a href="#cb11-30"></a>d=<span class="kw">ggplot</span>(d, <span class="kw">aes</span>(d))<span class="op">+</span></span>
-<span id="cb11-31"><a href="#cb11-31"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">kernel =</span> <span class="kw">c</span>(<span class="dt">kernel=</span><span class="st">&quot;gaussian&quot;</span>),</span>
-<span id="cb11-32"><a href="#cb11-32"></a>               <span class="dt">alpha=</span><span class="fl">0.4</span>, <span class="dt">fill=</span><span class="st">&quot;grey&quot;</span>)<span class="op">+</span></span>
-<span id="cb11-33"><a href="#cb11-33"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Densidad&quot;</span>)<span class="op">+</span></span>
-<span id="cb11-34"><a href="#cb11-34"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>a=<span class="kw">rnorm</span>(<span class="dv">20000</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb12-2"><a href="#cb12-2"></a>a=<span class="kw">as.data.frame</span>(a)</span>
+<span id="cb12-3"><a href="#cb12-3"></a>a=<span class="kw">ggplot</span>(a, <span class="kw">aes</span>(a))<span class="op">+</span></span>
+<span id="cb12-4"><a href="#cb12-4"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">kernel =</span> <span class="kw">c</span>(<span class="dt">kernel=</span><span class="st">&quot;gaussian&quot;</span>),</span>
+<span id="cb12-5"><a href="#cb12-5"></a>               <span class="dt">alpha=</span><span class="fl">0.4</span>, <span class="dt">fill=</span><span class="st">&quot;yellow&quot;</span>)<span class="op">+</span></span>
+<span id="cb12-6"><a href="#cb12-6"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Densidad&quot;</span>)<span class="op">+</span></span>
+<span id="cb12-7"><a href="#cb12-7"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span>
+<span id="cb12-8"><a href="#cb12-8"></a></span>
+<span id="cb12-9"><a href="#cb12-9"></a></span>
+<span id="cb12-10"><a href="#cb12-10"></a>b=<span class="kw">rnorm</span>(<span class="dv">500</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb12-11"><a href="#cb12-11"></a>b=<span class="kw">as.data.frame</span>(b)</span>
+<span id="cb12-12"><a href="#cb12-12"></a>b=<span class="kw">ggplot</span>(b, <span class="kw">aes</span>(b))<span class="op">+</span></span>
+<span id="cb12-13"><a href="#cb12-13"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">kernel =</span> <span class="kw">c</span>(<span class="dt">kernel=</span><span class="st">&quot;gaussian&quot;</span>),</span>
+<span id="cb12-14"><a href="#cb12-14"></a>               <span class="dt">alpha=</span><span class="fl">0.4</span>, <span class="dt">fill=</span><span class="st">&quot;red&quot;</span>)<span class="op">+</span></span>
+<span id="cb12-15"><a href="#cb12-15"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Densidad&quot;</span>)<span class="op">+</span></span>
+<span id="cb12-16"><a href="#cb12-16"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span>
+<span id="cb12-17"><a href="#cb12-17"></a></span>
+<span id="cb12-18"><a href="#cb12-18"></a></span>
+<span id="cb12-19"><a href="#cb12-19"></a>c=<span class="kw">rnorm</span>(<span class="dv">50</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb12-20"><a href="#cb12-20"></a>c=<span class="kw">as.data.frame</span>(c)</span>
+<span id="cb12-21"><a href="#cb12-21"></a>c=<span class="kw">ggplot</span>(c, <span class="kw">aes</span>(c))<span class="op">+</span></span>
+<span id="cb12-22"><a href="#cb12-22"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">kernel =</span> <span class="kw">c</span>(<span class="dt">kernel=</span><span class="st">&quot;gaussian&quot;</span>),</span>
+<span id="cb12-23"><a href="#cb12-23"></a>               <span class="dt">alpha=</span><span class="fl">0.4</span>, <span class="dt">fill=</span><span class="st">&quot;blue&quot;</span>)<span class="op">+</span></span>
+<span id="cb12-24"><a href="#cb12-24"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Densidad&quot;</span>)<span class="op">+</span></span>
+<span id="cb12-25"><a href="#cb12-25"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span>
+<span id="cb12-26"><a href="#cb12-26"></a></span>
+<span id="cb12-27"><a href="#cb12-27"></a></span>
+<span id="cb12-28"><a href="#cb12-28"></a>d=<span class="kw">rnorm</span>(<span class="dv">10</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb12-29"><a href="#cb12-29"></a>d=<span class="kw">as.data.frame</span>(d)</span>
+<span id="cb12-30"><a href="#cb12-30"></a>d=<span class="kw">ggplot</span>(d, <span class="kw">aes</span>(d))<span class="op">+</span></span>
+<span id="cb12-31"><a href="#cb12-31"></a><span class="st">  </span><span class="kw">geom_density</span>(<span class="dt">kernel =</span> <span class="kw">c</span>(<span class="dt">kernel=</span><span class="st">&quot;gaussian&quot;</span>),</span>
+<span id="cb12-32"><a href="#cb12-32"></a>               <span class="dt">alpha=</span><span class="fl">0.4</span>, <span class="dt">fill=</span><span class="st">&quot;grey&quot;</span>)<span class="op">+</span></span>
+<span id="cb12-33"><a href="#cb12-33"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Densidad&quot;</span>)<span class="op">+</span></span>
+<span id="cb12-34"><a href="#cb12-34"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G5_geom_area_densidad_freqpoly_files/figure-html/grid%20dotplot-1.png" width="672" /></p>
 <hr />
 </div>
@@ -744,19 +749,19 @@ Otra alternativa es usar <strong>geom_density(kernel = c(kernel={gaussian})</str
 <div id="gráfico-de-frecuencia-de-polígono-con-geom_freqpoly" class="section level2">
 <h2>Gráfico de frecuencia de polígono con <strong>geom_freqpoly</strong></h2>
 <p>El gráfico de frecuencia de polígono es similar al gráfico de área y de densidad, la diferencia es que no se rellena el área con color. También se puede cambiar la cantidad de compartimentos usando <strong>binwidth</strong>. En el gráfico de polígono, es solamente la línea la que gráficamos y no hay parámetro de <strong>fill</strong> del área debajo de la línea.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>a=<span class="kw">ggplot</span>(DW, <span class="kw">aes</span>(distance))</span>
-<span id="cb12-2"><a href="#cb12-2"></a>a<span class="op">+</span><span class="kw">geom_freqpoly</span>(<span class="dt">binwidth=</span>.<span class="dv">1</span>, <span class="dt">color=</span><span class="st">&quot;steelblue&quot;</span>)<span class="op">+</span></span>
-<span id="cb12-3"><a href="#cb12-3"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Distancia&quot;</span>, <span class="dt">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="op">+</span></span>
-<span id="cb12-4"><a href="#cb12-4"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">14</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>a=<span class="kw">ggplot</span>(DW, <span class="kw">aes</span>(distance))</span>
+<span id="cb13-2"><a href="#cb13-2"></a>a<span class="op">+</span><span class="kw">geom_freqpoly</span>(<span class="dt">binwidth=</span>.<span class="dv">1</span>, <span class="dt">color=</span><span class="st">&quot;steelblue&quot;</span>)<span class="op">+</span></span>
+<span id="cb13-3"><a href="#cb13-3"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Distancia&quot;</span>, <span class="dt">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="op">+</span></span>
+<span id="cb13-4"><a href="#cb13-4"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">14</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G5_geom_area_densidad_freqpoly_files/figure-html/dipodium-poligono-1.png" width="672" style="display: block; margin: auto;" /></p>
 <hr />
 <p>Se modifica otras opciones como sigue: intensidad del color con <strong>alpha</strong>, el tipo de línea con <strong>linetype</strong> y el grosor de la línea con <strong>size</strong> tal como se muestra a continuación.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>DW<span class="op">%&gt;%</span></span>
-<span id="cb13-2"><a href="#cb13-2"></a><span class="st">  </span><span class="kw">drop_na</span>()<span class="op">%&gt;%</span></span>
-<span id="cb13-3"><a href="#cb13-3"></a><span class="kw">ggplot</span>(<span class="kw">aes</span>(distance, <span class="dt">colour=</span>species_name))<span class="op">+</span></span>
-<span id="cb13-4"><a href="#cb13-4"></a><span class="kw">geom_freqpoly</span>(<span class="dt">alpha=</span><span class="fl">0.8</span>, <span class="dt">size=</span><span class="fl">1.5</span>, <span class="dt">binwidth=</span>.<span class="dv">1</span>)<span class="op">+</span></span>
-<span id="cb13-5"><a href="#cb13-5"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Distancia&quot;</span>, <span class="dt">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="op">+</span></span>
-<span id="cb13-6"><a href="#cb13-6"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">14</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>DW<span class="op">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="st">  </span><span class="kw">drop_na</span>()<span class="op">%&gt;%</span></span>
+<span id="cb14-3"><a href="#cb14-3"></a><span class="kw">ggplot</span>(<span class="kw">aes</span>(distance, <span class="dt">colour=</span>species_name))<span class="op">+</span></span>
+<span id="cb14-4"><a href="#cb14-4"></a><span class="kw">geom_freqpoly</span>(<span class="dt">alpha=</span><span class="fl">0.8</span>, <span class="dt">size=</span><span class="fl">1.5</span>, <span class="dt">binwidth=</span>.<span class="dv">1</span>)<span class="op">+</span></span>
+<span id="cb14-5"><a href="#cb14-5"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Distancia&quot;</span>, <span class="dt">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="op">+</span></span>
+<span id="cb14-6"><a href="#cb14-6"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">14</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G5_geom_area_densidad_freqpoly_files/figure-html/dipodium-poligono2-1.png" width="672" style="display: block; margin: auto;" /></p>
 <hr />
 </div>
@@ -774,6 +779,15 @@ Otra alternativa es usar <strong>geom_density(kernel = c(kernel={gaussian})</str
 </ul></li>
 </ul>
 <hr />
+<ol style="list-style-type: decimal">
+<li>Actividad Usar el data set “dipodium” en el paquete “ggversa”. Presenta un gráfico de la frecuencia de flores por planta con <em>geom_freqpoly</em>.
+<ul>
+<li>Cambia el color de la linea</li>
+<li>La información de los ejes</li>
+<li>la intensidad de color</li>
+<li>el tipo de linea</li>
+</ul></li>
+</ol>
 </div>
 
 
