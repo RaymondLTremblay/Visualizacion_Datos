@@ -25,6 +25,7 @@ Sys.Date()
 ```{r}
 library(ggversa)
 library(ggplot2)
+library(janitor)
 ```
 
 ***
@@ -42,10 +43,10 @@ En el segundo caso, para mostrar menos barras y ver la agrupación por grupos de
 
 ```{r dipodium-histograma, echo=TRUE, warning=FALSE}
 
-
-DW=dipodium # este archivo de datos se encuentra en el paquete "ggversa"
-
-a=ggplot(DW, aes(Distance))
+library(janitor)
+DW=clean_names(dipodium) # este archivo de datos se encuentra en el paquete "ggversa"
+names(DW)
+a=ggplot(DW, aes(distance))
 a+geom_histogram(color="white", fill="blue")+
   labs(x="Distancia", y="Frecuencia")+
   theme(axis.title=element_text(size=10,face="bold"))
@@ -61,7 +62,7 @@ Este histograma demuestra las distancias de las orquídeas *Dipodium roseum* a l
 
 ```{r, warning=FALSE}
 DW=dipodium
-a=ggplot(DW, aes(Distance))
+a=ggplot(DW, aes(distance))
 a+geom_histogram(binwidth=1,color="white", fill="blue")+
   labs(x="Distancia", y="Frecuencia")+
   theme(axis.title=element_text(size=10,face="bold"))
@@ -77,8 +78,8 @@ En el siguiente gráfico, vemos la frecuencia de número de camas de hospital po
 
 ```{r dipodium-histogram2}
 
-#Camas_Hospital
-head(Camas_Hospital, n=2)
+
+head(Camas_Hospital, n=6)
 
 a=ggplot(Camas_Hospital, aes(Camas, fill=factor(Year)))
 a+geom_histogram(stat="bin")+
