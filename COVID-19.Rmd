@@ -20,10 +20,13 @@ Fecha de la ultima revisión
 Sys.Date()
 ```
 
+***
+
 # Descargo de responsabilidad
 
-Los datos siguientes son archivos públicos disponible en el web. En ningún momento uno se responsabiliza de la calidad de los datos.  Los datos en este curso son para fin de entender el proceso de hacer gráficos de calidad.   En cada archivo se pone el enlace donde se consiguió la información.  No hay garantiza que estos enlaces sean activos en el futuro. 
+Los datos siguientes son archivos públicos disponible en el web. En ningún momento uno se responsabiliza de la calidad de los datos.  Los datos en este curso son para fin de entender el proceso de hacer gráficos de calidad.   En cada archivo se pone el enlace donde se consiguió la información.  No hay garantía que estos enlaces sean activos en el futuro. 
 
+***
 
 ## CDC
 
@@ -33,6 +36,7 @@ Aquí encontrarán datos sobre bases de datos del CDC, Centers for Disease Contr
 
 <https://www.cdc.gov/library/researchguides/2019novelcoronavirus/datastatistics.html>
 
+***
 
 ## WHO
 Enlace de WHO, World Health Organization.  
@@ -41,6 +45,10 @@ Enlace de WHO, World Health Organization.
 En este sitio se encuentra muchos diferentes tipos de datos.
 
 En el enlace son los datos de tuberculosis en diferentes paises del mundo.
+
+***
+
+## Tuberculosis
 
 Tuberculosis entre 2001-2018 global
 
@@ -83,13 +91,23 @@ Para la descripción de las variables vea este enlace.
 ```{r}
 library(gt)
 codes<-read.csv('https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-codebook.csv')
-gt(codes)
+
+
+c=codes%>%
+  gt()%>%
+   tab_options(table.font.size = 10)
+c
 ```
 
 ```{r}
 library(data.table)
 mydat<- read.csv('https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv')
 
-gt(head(mydat, n=10))
+
+t=mydat%>%
+  head(mydat, n=10)%>%
+  gt()%>%
+   tab_options(table.font.size = 10)
+t
 ```
 
