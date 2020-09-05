@@ -517,7 +517,7 @@ div.tocify {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Tareas/Ejercicios
+    Tareas y Ejercicios
      
     <span class="caret"></span>
   </a>
@@ -531,6 +531,9 @@ div.tocify {
     <li>
       <a href="Ejerc_3_Wilkinson.html">Ejercicio Wilkinson</a>
     </li>
+    <li>
+      <a href="Ejerc_4_point_count.html">Ejercicio de gráficos de puntos, conteos y histograma</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -541,7 +544,7 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="Datos_Generales.html">Datos Generales</a>
+      <a href="Archivos_de_Datos.html">Archivos de Datos</a>
     </li>
     <li>
       <a href="COVID-19.html">COVID-19</a>
@@ -566,33 +569,29 @@ div.tocify {
 
 
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(tidyverse)</span></code></pre></div>
-<pre><code>## ── Attaching packages ────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
-<pre><code>## ✓ ggplot2 3.3.2     ✓ purrr   0.3.4
-## ✓ tibble  3.0.3     ✓ dplyr   1.0.2
-## ✓ tidyr   1.1.1     ✓ stringr 1.4.0
-## ✓ readr   1.3.1     ✓ forcats 0.5.0</code></pre>
-<pre><code>## ── Conflicts ───────────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
-## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()</code></pre>
+<pre><code>## ── Attaching packages ───────────────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.2     ✓ dplyr   1.0.2
+## ✓ tibble  3.0.3     ✓ stringr 1.4.0
+## ✓ tidyr   1.1.2     ✓ forcats 0.5.0
+## ✓ purrr   0.3.4</code></pre>
+<pre><code>## ── Conflicts ──────────────────────── tidyverse_conflicts() ──
+## x dplyr::between()   masks data.table::between()
+## x dplyr::filter()    masks stats::filter()
+## x dplyr::first()     masks data.table::first()
+## x dplyr::lag()       masks stats::lag()
+## x dplyr::last()      masks data.table::last()
+## x purrr::transpose() masks data.table::transpose()</code></pre>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">library</span>(gt)</span></code></pre></div>
 <p>Usando los datos de COVID-19</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">library</span>(data.table)</span></code></pre></div>
-<pre><code>## 
-## Attaching package: &#39;data.table&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:dplyr&#39;:
-## 
-##     between, first, last</code></pre>
-<pre><code>## The following object is masked from &#39;package:purrr&#39;:
-## 
-##     transpose</code></pre>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>mydat&lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv&#39;</span>)</span>
-<span id="cb10-2"><a href="#cb10-2"></a></span>
-<span id="cb10-3"><a href="#cb10-3"></a><span class="kw">gt</span>(<span class="kw">head</span>(mydat, <span class="dt">n=</span><span class="dv">10</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">library</span>(data.table)</span>
+<span id="cb6-2"><a href="#cb6-2"></a>mydat&lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv&#39;</span>)</span>
+<span id="cb6-3"><a href="#cb6-3"></a></span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="kw">gt</span>(<span class="kw">head</span>(mydat, <span class="dt">n=</span><span class="dv">10</span>))</span></code></pre></div>
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#drechwrsox .gt_table {
+#wputgflwxq .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -617,7 +616,7 @@ div.tocify {
   border-left-color: #D3D3D3;
 }
 
-#drechwrsox .gt_heading {
+#wputgflwxq .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -629,7 +628,7 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#drechwrsox .gt_title {
+#wputgflwxq .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -639,7 +638,7 @@ div.tocify {
   border-bottom-width: 0;
 }
 
-#drechwrsox .gt_subtitle {
+#wputgflwxq .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -649,13 +648,13 @@ div.tocify {
   border-top-width: 0;
 }
 
-#drechwrsox .gt_bottom_border {
+#wputgflwxq .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#drechwrsox .gt_col_headings {
+#wputgflwxq .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -670,7 +669,7 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#drechwrsox .gt_col_heading {
+#wputgflwxq .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -690,7 +689,7 @@ div.tocify {
   overflow-x: hidden;
 }
 
-#drechwrsox .gt_column_spanner_outer {
+#wputgflwxq .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -702,15 +701,15 @@ div.tocify {
   padding-right: 4px;
 }
 
-#drechwrsox .gt_column_spanner_outer:first-child {
+#wputgflwxq .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#drechwrsox .gt_column_spanner_outer:last-child {
+#wputgflwxq .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#drechwrsox .gt_column_spanner {
+#wputgflwxq .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -722,7 +721,7 @@ div.tocify {
   width: 100%;
 }
 
-#drechwrsox .gt_group_heading {
+#wputgflwxq .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -744,7 +743,7 @@ div.tocify {
   vertical-align: middle;
 }
 
-#drechwrsox .gt_empty_group_heading {
+#wputgflwxq .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -759,15 +758,15 @@ div.tocify {
   vertical-align: middle;
 }
 
-#drechwrsox .gt_from_md > :first-child {
+#wputgflwxq .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#drechwrsox .gt_from_md > :last-child {
+#wputgflwxq .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#drechwrsox .gt_row {
+#wputgflwxq .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -786,7 +785,7 @@ div.tocify {
   overflow-x: hidden;
 }
 
-#drechwrsox .gt_stub {
+#wputgflwxq .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -798,7 +797,7 @@ div.tocify {
   padding-left: 12px;
 }
 
-#drechwrsox .gt_summary_row {
+#wputgflwxq .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -808,7 +807,7 @@ div.tocify {
   padding-right: 5px;
 }
 
-#drechwrsox .gt_first_summary_row {
+#wputgflwxq .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -818,7 +817,7 @@ div.tocify {
   border-top-color: #D3D3D3;
 }
 
-#drechwrsox .gt_grand_summary_row {
+#wputgflwxq .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -828,7 +827,7 @@ div.tocify {
   padding-right: 5px;
 }
 
-#drechwrsox .gt_first_grand_summary_row {
+#wputgflwxq .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -838,11 +837,11 @@ div.tocify {
   border-top-color: #D3D3D3;
 }
 
-#drechwrsox .gt_striped {
+#wputgflwxq .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#drechwrsox .gt_table_body {
+#wputgflwxq .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -851,7 +850,7 @@ div.tocify {
   border-bottom-color: #D3D3D3;
 }
 
-#drechwrsox .gt_footnotes {
+#wputgflwxq .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -865,13 +864,13 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#drechwrsox .gt_footnote {
+#wputgflwxq .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#drechwrsox .gt_sourcenotes {
+#wputgflwxq .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -885,46 +884,46 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#drechwrsox .gt_sourcenote {
+#wputgflwxq .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#drechwrsox .gt_left {
+#wputgflwxq .gt_left {
   text-align: left;
 }
 
-#drechwrsox .gt_center {
+#wputgflwxq .gt_center {
   text-align: center;
 }
 
-#drechwrsox .gt_right {
+#wputgflwxq .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#drechwrsox .gt_font_normal {
+#wputgflwxq .gt_font_normal {
   font-weight: normal;
 }
 
-#drechwrsox .gt_font_bold {
+#wputgflwxq .gt_font_bold {
   font-weight: bold;
 }
 
-#drechwrsox .gt_font_italic {
+#wputgflwxq .gt_font_italic {
   font-style: italic;
 }
 
-#drechwrsox .gt_super {
+#wputgflwxq .gt_super {
   font-size: 65%;
 }
 
-#drechwrsox .gt_footnote_marks {
+#wputgflwxq .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="drechwrsox" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+<div id="wputgflwxq" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
   
   <thead class="gt_col_headings">
     <tr>
@@ -1432,6 +1431,171 @@ div.tocify {
 <h2>Bono</h2>
 <p>3 puntos</p>
 <p>Selecciona cinco países <strong>pequeños</strong> de Europa y reproduzca la gráfica anterior. Para que la gráfica se puede apreciar tendrán que usar los países con poblaciones más pequeño.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>mydat<span class="op">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="st">  </span><span class="kw">select</span>(location, new_deaths, total_deaths)<span class="op">%&gt;%</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="st">  </span><span class="kw">filter</span>(location<span class="op">==</span><span class="st">&quot;Puerto Rico&quot;</span>)</span></code></pre></div>
+<pre><code>##        location new_deaths total_deaths
+## 1   Puerto Rico          2            2
+## 2   Puerto Rico          1            3
+## 3   Puerto Rico          2            5
+## 4   Puerto Rico          1            6
+## 5   Puerto Rico          2            8
+## 6   Puerto Rico          3           11
+## 7   Puerto Rico          1           12
+## 8   Puerto Rico          3           15
+## 9   Puerto Rico          3           18
+## 10  Puerto Rico          2           20
+## 11  Puerto Rico          1           21
+## 12  Puerto Rico          2           23
+## 13  Puerto Rico          1           24
+## 14  Puerto Rico          9           33
+## 15  Puerto Rico          6           39
+## 16  Puerto Rico          3           42
+## 17  Puerto Rico          2           44
+## 18  Puerto Rico          1           45
+## 19  Puerto Rico          0           45
+## 20  Puerto Rico          6           51
+## 21  Puerto Rico          5           56
+## 22  Puerto Rico          2           58
+## 23  Puerto Rico          2           60
+## 24  Puerto Rico          2           62
+## 25  Puerto Rico          1           63
+## 26  Puerto Rico          0           63
+## 27  Puerto Rico          1           64
+## 28  Puerto Rico          5           69
+## 29  Puerto Rico          8           77
+## 30  Puerto Rico          6           83
+## 31  Puerto Rico          1           84
+## 32  Puerto Rico          0           84
+## 33  Puerto Rico          2           86
+## 34  Puerto Rico          0           86
+## 35  Puerto Rico          6           92
+## 36  Puerto Rico          2           94
+## 37  Puerto Rico          1           95
+## 38  Puerto Rico          2           97
+## 39  Puerto Rico          0           97
+## 40  Puerto Rico          2           99
+## 41  Puerto Rico          0           99
+## 42  Puerto Rico          3          102
+## 43  Puerto Rico          5          107
+## 44  Puerto Rico          1          108
+## 45  Puerto Rico          3          111
+## 46  Puerto Rico          2          113
+## 47  Puerto Rico          1          114
+## 48  Puerto Rico          1          115
+## 49  Puerto Rico          2          117
+## 50  Puerto Rico          5          122
+## 51  Puerto Rico          0          122
+## 52  Puerto Rico          1          123
+## 53  Puerto Rico          1          124
+## 54  Puerto Rico          0          124
+## 55  Puerto Rico          1          125
+## 56  Puerto Rico          1          126
+## 57  Puerto Rico          0          126
+## 58  Puerto Rico          1          127
+## 59  Puerto Rico          0          127
+## 60  Puerto Rico          2          129
+## 61  Puerto Rico          0          129
+## 62  Puerto Rico          0          129
+## 63  Puerto Rico          2          131
+## 64  Puerto Rico          1          132
+## 65  Puerto Rico          1          133
+## 66  Puerto Rico          3          136
+## 67  Puerto Rico          0          136
+## 68  Puerto Rico          2          138
+## 69  Puerto Rico          2          140
+## 70  Puerto Rico          0          140
+## 71  Puerto Rico          1          141
+## 72  Puerto Rico          1          142
+## 73  Puerto Rico          0          142
+## 74  Puerto Rico          0          142
+## 75  Puerto Rico          0          142
+## 76  Puerto Rico          1          143
+## 77  Puerto Rico          1          144
+## 78  Puerto Rico          2          146
+## 79  Puerto Rico          0          146
+## 80  Puerto Rico          1          147
+## 81  Puerto Rico          0          147
+## 82  Puerto Rico          0          147
+## 83  Puerto Rico          0          147
+## 84  Puerto Rico          0          147
+## 85  Puerto Rico          0          147
+## 86  Puerto Rico          0          147
+## 87  Puerto Rico          2          149
+## 88  Puerto Rico          0          149
+## 89  Puerto Rico          0          149
+## 90  Puerto Rico          0          149
+## 91  Puerto Rico          2          151
+## 92  Puerto Rico          0          151
+## 93  Puerto Rico          1          152
+## 94  Puerto Rico          1          153
+## 95  Puerto Rico          0          153
+## 96  Puerto Rico          0          153
+## 97  Puerto Rico          0          153
+## 98  Puerto Rico          0          153
+## 99  Puerto Rico          1          154
+## 100 Puerto Rico          1          155
+## 101 Puerto Rico          0          155
+## 102 Puerto Rico          0          155
+## 103 Puerto Rico          2          157
+## 104 Puerto Rico          2          159
+## 105 Puerto Rico          0          159
+## 106 Puerto Rico          0          159
+## 107 Puerto Rico          8          167
+## 108 Puerto Rico          0          167
+## 109 Puerto Rico          0          167
+## 110 Puerto Rico          2          169
+## 111 Puerto Rico          2          171
+## 112 Puerto Rico          1          172
+## 113 Puerto Rico          5          177
+## 114 Puerto Rico          1          178
+## 115 Puerto Rico          0          178
+## 116 Puerto Rico          2          180
+## 117 Puerto Rico          0          180
+## 118 Puerto Rico          5          185
+## 119 Puerto Rico          3          188
+## 120 Puerto Rico          3          191
+## 121 Puerto Rico         10          201
+## 122 Puerto Rico          0          201
+## 123 Puerto Rico          0          201
+## 124 Puerto Rico          8          209
+## 125 Puerto Rico          2          211
+## 126 Puerto Rico          3          214
+## 127 Puerto Rico          5          219
+## 128 Puerto Rico          6          225
+## 129 Puerto Rico          5          230
+## 130 Puerto Rico          0          230
+## 131 Puerto Rico          7          237
+## 132 Puerto Rico          9          246
+## 133 Puerto Rico         12          258
+## 134 Puerto Rico          7          265
+## 135 Puerto Rico          9          274
+## 136 Puerto Rico          5          279
+## 137 Puerto Rico          0          279
+## 138 Puerto Rico          8          287
+## 139 Puerto Rico          8          295
+## 140 Puerto Rico         11          306
+## 141 Puerto Rico          5          311
+## 142 Puerto Rico         18          329
+## 143 Puerto Rico          6          335
+## 144 Puerto Rico          0          335
+## 145 Puerto Rico         11          346
+## 146 Puerto Rico         10          356
+## 147 Puerto Rico         11          367
+## 148 Puerto Rico          7          374
+## 149 Puerto Rico          7          381
+## 150 Puerto Rico          9          390
+## 151 Puerto Rico          0          390
+## 152 Puerto Rico          5          395
+## 153 Puerto Rico          9          404
+## 154 Puerto Rico          8          412
+## 155 Puerto Rico         12          424
+## 156 Puerto Rico          4          428
+## 157 Puerto Rico          6          434
+## 158 Puerto Rico          0          434
+## 159 Puerto Rico          1          435
+## 160 Puerto Rico          8          443
+## 161 Puerto Rico          5          448</code></pre>
 </div>
 </div>
 

@@ -53,7 +53,7 @@ Para este gráfico se representa la altura de las inflorescencias y la cantidad 
 ```{r graficadepuntos} 
 library(ggplot2)
 
-ggplot(dipodium, aes(Height_Inflo, Number_of_Flowers))+
+ggplot(dipodium, aes(height_inflo, number_of_flowers))+
   geom_point()+
   labs(x="Altura de la inflorescencia",
        y="Número de Flores")+
@@ -78,8 +78,8 @@ color=Number_of_fruits.
 Para este gráfico, los colores serán asignados automáticamente.  En la Figura podemos ver que van del negro al azul claro. A pesar de que no se seleccionaron esos colores específicamente, en ggplot2 casi todo se puede modificar (incluyendo esos colores) tal como se verá en la próxima sección.
 
 ```{r graficadepuntosA} 
-m=ggplot(na.omit(dipodium), aes(Height_Inflo, factor(Number_of_Flowers),
-                       colour=Number_of_fruits))
+m=ggplot(na.omit(dipodium), aes(height_inflo, factor(number_of_flowers),
+                       colour=number_of_fruits))
 
 m+geom_point()+
   labs(x="Altura de la inflorescencia",
@@ -206,12 +206,13 @@ Con frecuencia hacemos representaciones gráficas en que aparecen muchos datos q
 En el siguiente ejemplo, se usan los mismos datos de la orquídea *Dipodium* para la generación de los dos gráficos: una con **geom_point** y la otra con **geom_jitter**.   En el gráfico de la Figura (a), los puntos están posicionados exactamente de acuerdo a los valores como aparece en la hoja de cálculo.  A consecuencia de eso, los datos iguales estarán completamente solapados.  Por otro lado, en el gráfico de **jitter** en la Figura (b), los valores se han desplazado un poco. En este último caso, ya que los datos no están completamente solapados, eso ayuda a visualizar mejor la cantidad de datos del análisis.
 
 ```{r graficajitter} 
-a=ggplot(dipodium, aes(Height_Inflo, Number_of_fruits))+
+
+a=ggplot(dipodium, aes(height_inflo, number_of_fruits))+
   geom_point(size=3,shape=23,fill="red", color="red")+
   labs(x="Altura de la inflorescencia", y="Cantidad de Frutos")+
   theme(axis.title=element_text(size=10,face="bold"))
 
-b= ggplot(dipodium, aes(Height_Inflo, Number_of_fruits))+
+b= ggplot(dipodium, aes(height_inflo, number_of_fruits))+
   geom_jitter(size=2,shape=23,fill="blue", color="blue")+
   labs(x="Altura de la inflorescencia", y="Cantidad de Frutos")+
   theme(axis.title=element_text(size=10,face="bold"))
@@ -224,21 +225,21 @@ Veamos un ejemplo más contundente de la utilidad de **geom_jitter**.  En el pr�
 Se podría argumentar que de hecho la dispersión de los datos es exagerada y no está suficientemente concentrada alrededor de los valores originales de 0 y 1.  En tal caso, para reducir la dispersión alrededor de las categorías, en la Figura (c) se le asigna la cantidad de dispersión usando **geom_jitter(width = x.xx, height = x.xx)**; **width** es para controlar el **jitter** (o dispersión) en el eje de **X**, y **height** es para controlarla en el eje de **Y**. En el tercer gráfico, Figura (c), se redujo la dispersión de 0.5 a 0.10, lo que hace que los puntos estén dispersados entre los valores de -0.10 a 0.10 dentro de las categorías 0 y 1 en el eje de **Y**. Tengamos en cuenta que la dispersión de {jitter} por omisión es de 40% de la resolución hacia lo ancho **width** y hacia lo alto **height**.  Entonces, eso quiere decir que **jitter** usará 80% del espacio del compartimento, o **bin**; o sea, el espacio que le toca dentro del gráfico. Esto se aprecia mejor en el gráfico de la Figura (b), donde se ve que los datos están demasiado dispersos entre -0.5 y 0.5 alrededor del cero.  Pero sin duda este gráfico permite apreciar mucho mejor la cantidad de datos que contiene.
 
 ```{r graficajitter2 } 
-a=ggplot(dipodium, aes(Height_Inflo, Frutos_si_o_no))+
+a=ggplot(dipodium, aes(height_inflo, frutos_si_o_no))+
   geom_point(size=1,shape=23,
              fill="red", color="red")+
   labs(x="Altura de la inflorescencia",
        y="Número de Frutos")+
   theme(axis.title=element_text(size=10,face="bold"))
 
-b= ggplot(dipodium, aes(Height_Inflo, Frutos_si_o_no))+
+b= ggplot(dipodium, aes(height_inflo, frutos_si_o_no))+
   geom_jitter(size=0.5,shape=23,
               fill="blue", color="blue")+
   labs(x="Altura de la inflorescencia",
        y="Número de Frutos")+
   theme(axis.title=element_text(size=10,face="bold"))
 
-c= ggplot(dipodium, aes(Height_Inflo, Frutos_si_o_no))+
+c= ggplot(dipodium, aes(height_inflo, frutos_si_o_no))+
   geom_jitter(height =0.05,size=.5,shape=7,
               fill="white", color="blue", stroke=.5)+
   labs(x="Altura de la inflorescencia",

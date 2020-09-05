@@ -25,6 +25,7 @@
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
+<link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 
 
 <style type="text/css">code{white-space: pre;}</style>
@@ -518,7 +519,7 @@ div.tocify {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Tareas/Ejercicios
+    Tareas y Ejercicios
      
     <span class="caret"></span>
   </a>
@@ -532,6 +533,9 @@ div.tocify {
     <li>
       <a href="Ejerc_3_Wilkinson.html">Ejercicio Wilkinson</a>
     </li>
+    <li>
+      <a href="Ejerc_4_point_count.html">Ejercicio de gráficos de puntos, conteos y histograma</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -542,7 +546,7 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="Datos_Generales.html">Datos Generales</a>
+      <a href="Archivos_de_Datos.html">Archivos de Datos</a>
     </li>
     <li>
       <a href="COVID-19.html">COVID-19</a>
@@ -567,7 +571,7 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2020-08-27&quot;</code></pre>
+<pre><code>## [1] &quot;2020-09-04&quot;</code></pre>
 <hr />
 <div id="la-lista-de-packetes-para-analisis-de-los-mapas-de-calor" class="section level2">
 <h2>La lista de packetes para analisis de los Mapas de calor</h2>
@@ -592,26 +596,26 @@ div.tocify {
 <th style="text-align:left;">
 </th>
 <th style="text-align:right;">
-DBH
+dbh
 </th>
 <th style="text-align:right;">
-Distance
+distance
 </th>
 <th style="text-align:right;">
-Number_of_Flowers
+number_of_flowers
 </th>
 <th style="text-align:right;">
-Height_Inflo
+height_inflo
 </th>
 <th style="text-align:right;">
-Number_of_fruits
+number_of_fruits
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
-DBH
+dbh
 </td>
 <td style="text-align:right;">
 1.000
@@ -631,7 +635,7 @@ DBH
 </tr>
 <tr>
 <td style="text-align:left;">
-Distance
+distance
 </td>
 <td style="text-align:right;">
 0.329
@@ -651,7 +655,7 @@ Distance
 </tr>
 <tr>
 <td style="text-align:left;">
-Number_of_Flowers
+number_of_flowers
 </td>
 <td style="text-align:right;">
 -0.035
@@ -671,7 +675,7 @@ Number_of_Flowers
 </tr>
 <tr>
 <td style="text-align:left;">
-Height_Inflo
+height_inflo
 </td>
 <td style="text-align:right;">
 -0.100
@@ -691,7 +695,7 @@ Height_Inflo
 </tr>
 <tr>
 <td style="text-align:left;">
-Number_of_fruits
+number_of_fruits
 </td>
 <td style="text-align:right;">
 -0.009
@@ -720,12 +724,12 @@ Number_of_fruits
 <span id="cb4-2"><a href="#cb4-2"></a>             <span class="dt">value.name =</span> <span class="st">&quot;Correlation&quot;</span>)</span>
 <span id="cb4-3"><a href="#cb4-3"></a><span class="kw">head</span>(DWMelt)</span></code></pre></div>
 <pre><code>##                  x1       y1 Correlation
-## 1               DBH      DBH       1.000
-## 2          Distance      DBH       0.329
-## 3 Number_of_Flowers      DBH      -0.035
-## 4      Height_Inflo      DBH      -0.100
-## 5  Number_of_fruits      DBH      -0.009
-## 6               DBH Distance       0.329</code></pre>
+## 1               dbh      dbh       1.000
+## 2          distance      dbh       0.329
+## 3 number_of_flowers      dbh      -0.035
+## 4      height_inflo      dbh      -0.100
+## 5  number_of_fruits      dbh      -0.009
+## 6               dbh distance       0.329</code></pre>
 <p>Finalmente, el tercer paso es producir la figura con <strong>geom_tile</strong>. El gráfico de la Figura se produce sin modificar los parámetros. En el segundo gráfico se modifican los colores usando la guía de color para asignarlos a diferentes grupos a la vez que se remueven los nombres de los ejes de <strong>X</strong> y de <strong>Y</strong>. A este mapa de calor básico se le asignan las variables de <strong>x</strong> y <strong>y</strong> y el valor que queremos que tenga un rango de color, en este caso el valor de correlación. Para remover el nombre de la variables <strong>x</strong> y <strong>y</strong>, se usa <strong>labs(x=NULL, y=NULL)</strong>, ya que ggplot2 lo pone automáticamente cuando se construye un gráfico.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">ggplot</span>(DWMelt, <span class="kw">aes</span>(<span class="dt">x=</span>x1, <span class="dt">y=</span>y1))<span class="op">+</span></span>
 <span id="cb6-2"><a href="#cb6-2"></a><span class="st">  </span><span class="kw">geom_tile</span>(<span class="kw">aes</span>(<span class="dt">fill=</span>Correlation))<span class="op">+</span></span>

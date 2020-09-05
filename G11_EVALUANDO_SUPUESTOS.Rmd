@@ -133,8 +133,8 @@ El gráfico que utilizaremos se llama caja condicional ya que la distribución e
 A continuación, completamos el análisis utilizando otra vez los datos de la orquídea **Dipodium**.  Primero hay que hacer un análisis de regresión simple usando **lm()** y darle un nombre al análisis o sea el modelo. Subseguientemente uno puede llamar los valores necesarios para hacer el gráfico con **.fitted** y **.resid**.  
 
 ```{r Homogeneityvariance, rexample=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
-
-modelflower=lm(Number_of_Flowers~Height_Inflo,
+names(dipodium)
+modelflower=lm(number_of_flowers~height_inflo,
          data=dipodium)
 
 summary(modelflower)
@@ -405,8 +405,8 @@ Un ejemplo sencillo de variables con colinealidad podría incluir la relación e
 A continuación exploraremos diferentes alternativas para llevar a cabo este tipo de análisis utilizando otra vez los datos de la orquídea *Dipodium*.  En el primer ejemplo, se utiliza la función **cor** para evaluar solo una relación: la correlación entre la distancia de la planta a un árbol y la altura de la planta, dejando otras variables a un lado.  Como deseamos el estimado de la correlación solamente, utilizamos un par de variables a la vez para evaluar la correlación entre la distancia de la orquídea al árbol y la altura de la inflorescencia (mostrado más adelante).  Concluimos que a mayor distancia del árbol, menor es la altura de la inflorescencia al este análisis arrojar un valor de pendiente de -0.095 como se muestra en el ejemplo.
 
 ```{r correlation1, rexample=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
-cor(dipodium$Distance, 
-    dipodium$Height_Inflo,
+cor(dipodium$distance, 
+    dipodium$height_inflo,
     use="pairwise.complete.obs")
 ```
 
