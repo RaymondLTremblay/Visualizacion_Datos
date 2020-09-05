@@ -60,8 +60,8 @@ a+geom_histogram(color="white", fill="blue")+
 
 Este histograma demuestra las distancias de las orquídeas *Dipodium roseum* a los árboles más cercanos. Esta especie de orquídea es parasítica de hongos/micorrizas y no produce fotosíntesis.  La hipótesis es que las micorrizas, **hongos**, reciben nutrientes de las raíces de los árboles y los nutrientes son transferidos a las orquídeas a través de las micorrizas. A consecuencia, se debería hipotéticamente observar una distancia óptima de la orquídea a los árboles que sostienen las micorrizas si la hipótesis tiene alguna veracidad.  Como se explicó antes, en el segundo gráfico, se cambió el binwidth a 1, que representa en este caso la distancia de 1 metro, y los **bins** van de -.5 a .5 m., el segundo **bin** de >0.5 a 1.5 metros y así sucesivamente.
 
-```{r, warning=FALSE}
-DW=dipodium
+```{r num1, warning=FALSE}
+
 a=ggplot(DW, aes(distance))
 a+geom_histogram(binwidth=1,color="white", fill="blue")+
   labs(x="Distancia", y="Frecuencia")+
@@ -95,7 +95,7 @@ a+geom_histogram(stat="bin")+
 
 Se demuestra también cómo modificar la escala, primero con un método poco práctico numerando en el eje de **Y** cada valor donde queremos una línea. Note que se excluye el número 10 y por eso no aparece en el eje de **Y** la función es **scale_y_continuous(breaks=c(x,x,x...x)**.  En el eje de **X** se numera también pero esta vez se define la escala con **scale_x_continuous(breaks=c( )**, y **c(x:xx)** con un valor inicial de 1 y final de 15 para identificar cual son los valores que uno quiere en los ejes; eso es más práctico e incluye al valor 10.  También se modifica la información de los ejes usando **xlab** y **ylab**, de manera tal que la descripción de la columnas se pueda presentar de forma específica y así hacer la información más clara para propósitos del gráfico. =
 
-```{r}
+```{r num2}
 a=ggplot(Camas_Hospital, aes(Camas, fill=factor(Year)))+
   geom_histogram(stat="bin", alpha=0.5)+
   scale_y_continuous(breaks=c(0,1,2,3,4,5,6,7,8,9,11,12,13,14,15))+

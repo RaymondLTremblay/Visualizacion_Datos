@@ -517,7 +517,7 @@ div.tocify {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Tareas/Ejercicios
+    Tareas y Ejercicios
      
     <span class="caret"></span>
   </a>
@@ -531,6 +531,9 @@ div.tocify {
     <li>
       <a href="Ejerc_3_Wilkinson.html">Ejercicio Wilkinson</a>
     </li>
+    <li>
+      <a href="Ejerc_4_point_count.html">Ejercicio de gráficos de puntos, conteos y histograma</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -541,7 +544,7 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="Datos_Generales.html">Datos Generales</a>
+      <a href="Archivos_de_Datos.html">Archivos de Datos</a>
     </li>
     <li>
       <a href="COVID-19.html">COVID-19</a>
@@ -566,21 +569,39 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2020-08-27&quot;</code></pre>
+<pre><code>## [1] &quot;2020-09-04&quot;</code></pre>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">library</span>(ggversa)</span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="kw">library</span>(ggplot2)</span></code></pre></div>
+<span id="cb2-2"><a href="#cb2-2"></a><span class="kw">library</span>(ggplot2)</span>
+<span id="cb2-3"><a href="#cb2-3"></a><span class="kw">library</span>(janitor)</span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;janitor&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     chisq.test, fisher.test</code></pre>
 <hr />
 <div id="histogramas-con-geom_histogram" class="section level1">
 <h1>Histogramas con geom_histogram</h1>
 <p>Un histograma es una representación gráfica de los datos agrupados en compartimentos o <em>bins</em>. Estos compartimentos incluyen individuos con factores o agrupaciones de valores similares o cercanos numéricamente. Subsiguiente a la determinación de los compartimentos, se suma la cantidad de observaciones para cada uno de ellos. Un histograma es un tipo de gráfico muy común para visualizar la dispersión de esos datos. Continuaremos con el ejemplo de <em>Dipodium</em> para demostrar la función de <strong>geom_histogram</strong> a continuación.</p>
 <p>En el primer caso de <strong>geom_histogram</strong> la cantidad de observaciones (datos) se suma de acuerdo a la posición de los compartimentos o <em>bins</em>.</p>
 <p>En el segundo caso, para mostrar menos barras y ver la agrupación por grupos de 2, se escribe con <strong>geom_histogram (binwidth=1)</strong>. Como se puede apreciar, el número de compartimentos se cambia utilizando el parámetro <em>binwidth</em>, donde su valor representa el ancho del compartimento (en nuestro caso es igual a 1). El número de <em>bins</em> predeterminado es 30, pero no necesariamente todos tendrán una barra ya que eso depende de la distribución de los datos. Cada barra representa la frecuencia de observaciones en la categoría a un metro de distancia. En ambos casos se usó color=white (o sea, color blanco) para poner una línea blanca alrededor de cada barra y así diferenciar mejor los grupos o <em>bins</em>. Nota que el programa retorna el mensaje <strong><code>stat_bin()</code> using <code>bins = 30</code>. Pick better value with <code>binwidth</code></strong>. Esto porque se acepto la cantidad de compartimiento prederminado.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>DW=dipodium <span class="co"># este archivo de datos se encuentra en el paquete &quot;ggversa&quot;</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a></span>
-<span id="cb3-3"><a href="#cb3-3"></a>a=<span class="kw">ggplot</span>(DW, <span class="kw">aes</span>(Distance))</span>
-<span id="cb3-4"><a href="#cb3-4"></a>a<span class="op">+</span><span class="kw">geom_histogram</span>(<span class="dt">color=</span><span class="st">&quot;white&quot;</span>, <span class="dt">fill=</span><span class="st">&quot;blue&quot;</span>)<span class="op">+</span></span>
-<span id="cb3-5"><a href="#cb3-5"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Distancia&quot;</span>, <span class="dt">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="op">+</span></span>
-<span id="cb3-6"><a href="#cb3-6"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">library</span>(janitor)</span>
+<span id="cb5-2"><a href="#cb5-2"></a>DW=<span class="kw">clean_names</span>(dipodium) <span class="co"># este archivo de datos se encuentra en el paquete &quot;ggversa&quot;</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="kw">names</span>(DW)</span></code></pre></div>
+<pre><code>##  [1] &quot;tree_number&quot;             &quot;tree_species&quot;           
+##  [3] &quot;dbh&quot;                     &quot;plant_number&quot;           
+##  [5] &quot;ramet_number&quot;            &quot;distance&quot;               
+##  [7] &quot;orientation&quot;             &quot;number_of_flowers&quot;      
+##  [9] &quot;height_inflo&quot;            &quot;herbivory&quot;              
+## [11] &quot;row_position_nf&quot;         &quot;number_flowers_position&quot;
+## [13] &quot;number_of_fruits&quot;        &quot;perc_fr_set&quot;            
+## [15] &quot;pardalinum_or_roseum&quot;    &quot;fruit_position_effect&quot;  
+## [17] &quot;frutos_si_o_no&quot;          &quot;p_or_r_infl_lenght&quot;     
+## [19] &quot;num_of_fruits&quot;           &quot;species_name&quot;           
+## [21] &quot;cardinal_orientation&quot;</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>a=<span class="kw">ggplot</span>(DW, <span class="kw">aes</span>(distance))</span>
+<span id="cb7-2"><a href="#cb7-2"></a>a<span class="op">+</span><span class="kw">geom_histogram</span>(<span class="dt">color=</span><span class="st">&quot;white&quot;</span>, <span class="dt">fill=</span><span class="st">&quot;blue&quot;</span>)<span class="op">+</span></span>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Distancia&quot;</span>, <span class="dt">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="op">+</span></span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="G6_geom_histogram_files/figure-html/dipodium-histograma-1.png" width="672" /></p>
 <hr />
@@ -588,68 +609,70 @@ div.tocify {
 <div id="cambio-del-tamaño-de-los-compartimiento-con-binwidth" class="section level1">
 <h1>Cambio del tamaño de los compartimiento con <em>binwidth</em></h1>
 <p>Este histograma demuestra las distancias de las orquídeas <em>Dipodium roseum</em> a los árboles más cercanos. Esta especie de orquídea es parasítica de hongos/micorrizas y no produce fotosíntesis. La hipótesis es que las micorrizas, <strong>hongos</strong>, reciben nutrientes de las raíces de los árboles y los nutrientes son transferidos a las orquídeas a través de las micorrizas. A consecuencia, se debería hipotéticamente observar una distancia óptima de la orquídea a los árboles que sostienen las micorrizas si la hipótesis tiene alguna veracidad. Como se explicó antes, en el segundo gráfico, se cambió el binwidth a 1, que representa en este caso la distancia de 1 metro, y los <strong>bins</strong> van de -.5 a .5 m., el segundo <strong>bin</strong> de &gt;0.5 a 1.5 metros y así sucesivamente.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a>DW=dipodium</span>
-<span id="cb5-2"><a href="#cb5-2"></a>a=<span class="kw">ggplot</span>(DW, <span class="kw">aes</span>(Distance))</span>
-<span id="cb5-3"><a href="#cb5-3"></a>a<span class="op">+</span><span class="kw">geom_histogram</span>(<span class="dt">binwidth=</span><span class="dv">1</span>,<span class="dt">color=</span><span class="st">&quot;white&quot;</span>, <span class="dt">fill=</span><span class="st">&quot;blue&quot;</span>)<span class="op">+</span></span>
-<span id="cb5-4"><a href="#cb5-4"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Distancia&quot;</span>, <span class="dt">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="op">+</span></span>
-<span id="cb5-5"><a href="#cb5-5"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<p><img src="G6_geom_histogram_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>a=<span class="kw">ggplot</span>(DW, <span class="kw">aes</span>(distance))</span>
+<span id="cb9-2"><a href="#cb9-2"></a>a<span class="op">+</span><span class="kw">geom_histogram</span>(<span class="dt">binwidth=</span><span class="dv">1</span>,<span class="dt">color=</span><span class="st">&quot;white&quot;</span>, <span class="dt">fill=</span><span class="st">&quot;blue&quot;</span>)<span class="op">+</span></span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Distancia&quot;</span>, <span class="dt">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="op">+</span></span>
+<span id="cb9-4"><a href="#cb9-4"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<p><img src="G6_geom_histogram_files/figure-html/num1-1.png" width="672" /></p>
 <hr />
 </div>
 <div id="números-de-camas-hospitaria-por-1000-habitantes-en-diferenctes-paises" class="section level1">
 <h1>Números de camas hospitaria por 1000 habitantes en diferenctes paises</h1>
 <p>En el siguiente gráfico, vemos la frecuencia de número de camas de hospital por cada 1000 habitantes para 67 países utilizando la base de datos <strong>Camas_Hospital</strong>. Se hizo con la información que estaba disponible solo para los años 1996 y 2006. Tenemos dos gráficos solapados para visualizar si la distribución ha cambiado de entre el año 1996 y 2006. Note que las frecuencias del 2006 aparecen sobre las del 1996.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="co">#Camas_Hospital</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="kw">head</span>(Camas_Hospital, <span class="dt">n=</span><span class="dv">2</span>)</span></code></pre></div>
-<pre><code>##        Pais Year Poblacion Camas
-## 1   Armenia 1996   3173425  7.13
-## 2 Australia 1996  18311000  8.50</code></pre>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>a=<span class="kw">ggplot</span>(Camas_Hospital, <span class="kw">aes</span>(Camas, <span class="dt">fill=</span><span class="kw">factor</span>(Year)))</span>
-<span id="cb8-2"><a href="#cb8-2"></a>a<span class="op">+</span><span class="kw">geom_histogram</span>(<span class="dt">stat=</span><span class="st">&quot;bin&quot;</span>)<span class="op">+</span></span>
-<span id="cb8-3"><a href="#cb8-3"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Número de camas por cada 1000 habitantes&quot;</span>)<span class="op">+</span></span>
-<span id="cb8-4"><a href="#cb8-4"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">head</span>(Camas_Hospital, <span class="dt">n=</span><span class="dv">6</span>)</span></code></pre></div>
+<pre><code>##           Pais Year Poblacion Camas
+## 1      Armenia 1996   3173425  7.13
+## 2    Australia 1996  18311000  8.50
+## 3      Austria 1996   7959017  9.30
+## 4   Azerbaijan 1996   7763000  9.81
+## 5 Bahamas, The 1996    283792  3.94
+## 6     Barbados 1996    265940  7.56</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>a=<span class="kw">ggplot</span>(Camas_Hospital, <span class="kw">aes</span>(Camas, <span class="dt">fill=</span><span class="kw">factor</span>(Year)))</span>
+<span id="cb12-2"><a href="#cb12-2"></a>a<span class="op">+</span><span class="kw">geom_histogram</span>(<span class="dt">stat=</span><span class="st">&quot;bin&quot;</span>)<span class="op">+</span></span>
+<span id="cb12-3"><a href="#cb12-3"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Número de camas por cada 1000 habitantes&quot;</span>)<span class="op">+</span></span>
+<span id="cb12-4"><a href="#cb12-4"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)</span></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="G6_geom_histogram_files/figure-html/dipodium-histogram2-1.png" width="672" /></p>
 <hr />
 <div id="modificando-las-escalas-continuas-con-scale_y_continuous-y-scale_x_continuous" class="section level2">
 <h2>Modificando las escalas continuas con scale_y_continuous y scale_x_continuous</h2>
 <p>Se demuestra también cómo modificar la escala, primero con un método poco práctico numerando en el eje de <strong>Y</strong> cada valor donde queremos una línea. Note que se excluye el número 10 y por eso no aparece en el eje de <strong>Y</strong> la función es <strong>scale_y_continuous(breaks=c(x,x,x…x)</strong>. En el eje de <strong>X</strong> se numera también pero esta vez se define la escala con <strong>scale_x_continuous(breaks=c( )</strong>, y <strong>c(x:xx)</strong> con un valor inicial de 1 y final de 15 para identificar cual son los valores que uno quiere en los ejes; eso es más práctico e incluye al valor 10. También se modifica la información de los ejes usando <strong>xlab</strong> y <strong>ylab</strong>, de manera tal que la descripción de la columnas se pueda presentar de forma específica y así hacer la información más clara para propósitos del gráfico. =</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>a=<span class="kw">ggplot</span>(Camas_Hospital, <span class="kw">aes</span>(Camas, <span class="dt">fill=</span><span class="kw">factor</span>(Year)))<span class="op">+</span></span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="dt">alpha=</span><span class="fl">0.5</span>)<span class="op">+</span></span>
-<span id="cb10-3"><a href="#cb10-3"></a><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">breaks=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>,<span class="dv">11</span>,<span class="dv">12</span>,<span class="dv">13</span>,<span class="dv">14</span>,<span class="dv">15</span>))<span class="op">+</span></span>
-<span id="cb10-4"><a href="#cb10-4"></a><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">breaks=</span><span class="kw">c</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">15</span>))<span class="op">+</span></span>
-<span id="cb10-5"><a href="#cb10-5"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span>
-<span id="cb10-6"><a href="#cb10-6"></a>a</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>a=<span class="kw">ggplot</span>(Camas_Hospital, <span class="kw">aes</span>(Camas, <span class="dt">fill=</span><span class="kw">factor</span>(Year)))<span class="op">+</span></span>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="dt">alpha=</span><span class="fl">0.5</span>)<span class="op">+</span></span>
+<span id="cb14-3"><a href="#cb14-3"></a><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">breaks=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>,<span class="dv">11</span>,<span class="dv">12</span>,<span class="dv">13</span>,<span class="dv">14</span>,<span class="dv">15</span>))<span class="op">+</span></span>
+<span id="cb14-4"><a href="#cb14-4"></a><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">breaks=</span><span class="kw">c</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">15</span>))<span class="op">+</span></span>
+<span id="cb14-5"><a href="#cb14-5"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span>
+<span id="cb14-6"><a href="#cb14-6"></a>a</span></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
-<p><img src="G6_geom_histogram_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="G6_geom_histogram_files/figure-html/num2-1.png" width="672" /></p>
 <hr />
 </div>
 </div>
 <div id="solapamiento-de-frecuencia-y-intensidad-de-color" class="section level1">
 <h1>Solapamiento de frecuencia y intensidad de color</h1>
 <p>Podríamos pensar que, debido a que las frecuencias están solapadas, es difícil tener una buena apreciación de la distribución de los datos. Para comparar las frecuencias entre los grupos con más facilidad, se pueden diferenciar las frecuencias con 3 colores; en este caso el color azul para el año 2006, el color durazno para el año 1996, y el color grisáceo para las frecuencias que se solapan con ambos años. Se usa <strong>position=identity</strong> y <strong>alpha=</strong> pata modicar la intensidades de color de la barras. Ahora vemos que, por ejemplo, en el año 1996 la frecuencia más común en los países era de menos de 2 camas por 1,000 habitantes, y que ya para el año 2006 ya era de 2 y 8 camas por cada 1,000 habitantes.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>a=<span class="kw">ggplot</span>(Camas_Hospital, <span class="kw">aes</span>(Camas, <span class="dt">fill=</span><span class="kw">factor</span>(Year)))</span>
-<span id="cb12-2"><a href="#cb12-2"></a>a<span class="op">+</span><span class="kw">geom_histogram</span>(<span class="dt">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="dt">alpha=</span><span class="fl">0.5</span>,</span>
-<span id="cb12-3"><a href="#cb12-3"></a>                 <span class="dt">position=</span><span class="st">&quot;identity&quot;</span>)<span class="op">+</span></span>
-<span id="cb12-4"><a href="#cb12-4"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Número de camas por </span><span class="ch">\n</span><span class="st"> 1000 habitantes&quot;</span>)<span class="op">+</span></span>
-<span id="cb12-5"><a href="#cb12-5"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="op">+</span></span>
-<span id="cb12-6"><a href="#cb12-6"></a><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">breaks=</span><span class="kw">c</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">9</span>))<span class="op">+</span></span>
-<span id="cb12-7"><a href="#cb12-7"></a><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">breaks=</span><span class="kw">c</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">15</span>))<span class="op">+</span></span>
-<span id="cb12-8"><a href="#cb12-8"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>a=<span class="kw">ggplot</span>(Camas_Hospital, <span class="kw">aes</span>(Camas, <span class="dt">fill=</span><span class="kw">factor</span>(Year)))</span>
+<span id="cb16-2"><a href="#cb16-2"></a>a<span class="op">+</span><span class="kw">geom_histogram</span>(<span class="dt">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="dt">alpha=</span><span class="fl">0.5</span>,</span>
+<span id="cb16-3"><a href="#cb16-3"></a>                 <span class="dt">position=</span><span class="st">&quot;identity&quot;</span>)<span class="op">+</span></span>
+<span id="cb16-4"><a href="#cb16-4"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Número de camas por </span><span class="ch">\n</span><span class="st"> 1000 habitantes&quot;</span>)<span class="op">+</span></span>
+<span id="cb16-5"><a href="#cb16-5"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="op">+</span></span>
+<span id="cb16-6"><a href="#cb16-6"></a><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">breaks=</span><span class="kw">c</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">9</span>))<span class="op">+</span></span>
+<span id="cb16-7"><a href="#cb16-7"></a><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">breaks=</span><span class="kw">c</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">15</span>))<span class="op">+</span></span>
+<span id="cb16-8"><a href="#cb16-8"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="G6_geom_histogram_files/figure-html/dipodium-histogram4-1.png" width="672" /></p>
 <hr />
 </div>
 <div id="posicionar-las-barras-uno-al-lado-del-otro-con-la-función-dodge" class="section level1">
 <h1>Posicionar las barras uno al lado del otro con la función <strong>dodge</strong></h1>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>a=<span class="kw">ggplot</span>(Camas_Hospital, <span class="kw">aes</span>(Camas, <span class="dt">fill=</span><span class="kw">factor</span>(Year)))</span>
-<span id="cb14-2"><a href="#cb14-2"></a>a<span class="op">+</span><span class="kw">geom_histogram</span>(<span class="dt">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="dt">alpha=</span><span class="fl">0.9</span>,</span>
-<span id="cb14-3"><a href="#cb14-3"></a>                 <span class="dt">position=</span><span class="st">&quot;dodge&quot;</span>)<span class="op">+</span></span>
-<span id="cb14-4"><a href="#cb14-4"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Número de camas por </span><span class="ch">\n</span><span class="st"> 1000 habitantes&quot;</span>)<span class="op">+</span></span>
-<span id="cb14-5"><a href="#cb14-5"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="op">+</span></span>
-<span id="cb14-6"><a href="#cb14-6"></a><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">breaks=</span><span class="kw">c</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">9</span>))<span class="op">+</span></span>
-<span id="cb14-7"><a href="#cb14-7"></a><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">breaks=</span><span class="kw">c</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">15</span>))<span class="op">+</span></span>
-<span id="cb14-8"><a href="#cb14-8"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>a=<span class="kw">ggplot</span>(Camas_Hospital, <span class="kw">aes</span>(Camas, <span class="dt">fill=</span><span class="kw">factor</span>(Year)))</span>
+<span id="cb18-2"><a href="#cb18-2"></a>a<span class="op">+</span><span class="kw">geom_histogram</span>(<span class="dt">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="dt">alpha=</span><span class="fl">0.9</span>,</span>
+<span id="cb18-3"><a href="#cb18-3"></a>                 <span class="dt">position=</span><span class="st">&quot;dodge&quot;</span>)<span class="op">+</span></span>
+<span id="cb18-4"><a href="#cb18-4"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Número de camas por </span><span class="ch">\n</span><span class="st"> 1000 habitantes&quot;</span>)<span class="op">+</span></span>
+<span id="cb18-5"><a href="#cb18-5"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="op">+</span></span>
+<span id="cb18-6"><a href="#cb18-6"></a><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">breaks=</span><span class="kw">c</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">9</span>))<span class="op">+</span></span>
+<span id="cb18-7"><a href="#cb18-7"></a><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">breaks=</span><span class="kw">c</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">15</span>))<span class="op">+</span></span>
+<span id="cb18-8"><a href="#cb18-8"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="G6_geom_histogram_files/figure-html/dipodium-histogram5-1.png" width="672" /></p>
 <hr />
@@ -659,19 +682,19 @@ div.tocify {
 <div id="cambio-de-colores-del-gráfico-manualmente" class="section level2">
 <h2>Cambio de colores del gráfico manualmente</h2>
 <p>Otra alternativa es usar dos gráficos para cada año; o sea, uno por cada grupo. En tal caso usaremos la opción <strong>facet_wrap</strong>. <strong>facet_wrap</strong> se explican con más detalle más adelante. Podemos cambiar el color de las barras usando <strong>scale_fill_manual</strong>; en nuestro caso, <strong>cyan4</strong> para el 1996 y <strong>darkorange</strong> para el 2006. Además, note que con <strong>scale_color_manual</strong> podemos cambiar la línea alrededor de las barras; en nuestro caso la cambiamos a negro o <strong>black</strong>.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>a=<span class="kw">ggplot</span>(Camas_Hospital, <span class="kw">aes</span>(Camas, <span class="dt">fill=</span><span class="kw">factor</span>(Year),</span>
-<span id="cb16-2"><a href="#cb16-2"></a>                             <span class="dt">color=</span><span class="kw">factor</span>(Year)))</span>
-<span id="cb16-3"><a href="#cb16-3"></a>a<span class="op">+</span><span class="kw">geom_histogram</span>(<span class="dt">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="dt">alpha=</span><span class="fl">0.5</span>)<span class="op">+</span></span>
-<span id="cb16-4"><a href="#cb16-4"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Número de camas </span><span class="ch">\n</span><span class="st"> por cada 1000 habitantes&quot;</span>)<span class="op">+</span></span>
-<span id="cb16-5"><a href="#cb16-5"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="op">+</span></span>
-<span id="cb16-6"><a href="#cb16-6"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>Year)<span class="op">+</span></span>
-<span id="cb16-7"><a href="#cb16-7"></a><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">breaks=</span><span class="kw">c</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">9</span>))<span class="op">+</span></span>
-<span id="cb16-8"><a href="#cb16-8"></a><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">breaks=</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">15</span>))<span class="op">+</span></span>
-<span id="cb16-9"><a href="#cb16-9"></a><span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;cyan4&quot;</span>, <span class="st">&quot;darkorange&quot;</span>))<span class="op">+</span></span>
-<span id="cb16-10"><a href="#cb16-10"></a><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>))<span class="op">+</span></span>
-<span id="cb16-11"><a href="#cb16-11"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">family=</span><span class="st">&quot;Times&quot;</span>,<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;italic&quot;</span>))<span class="op">+</span></span>
-<span id="cb16-12"><a href="#cb16-12"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title.x=</span><span class="kw">element_text</span>(<span class="dt">angle=</span><span class="dv">180</span>))<span class="op">+</span><span class="st">  </span><span class="co"># </span><span class="al">NOTE</span><span class="co"> the x legend text </span></span>
-<span id="cb16-13"><a href="#cb16-13"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">5</span>, <span class="dt">angle=</span><span class="dv">90</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a>a=<span class="kw">ggplot</span>(Camas_Hospital, <span class="kw">aes</span>(Camas, <span class="dt">fill=</span><span class="kw">factor</span>(Year),</span>
+<span id="cb20-2"><a href="#cb20-2"></a>                             <span class="dt">color=</span><span class="kw">factor</span>(Year)))</span>
+<span id="cb20-3"><a href="#cb20-3"></a>a<span class="op">+</span><span class="kw">geom_histogram</span>(<span class="dt">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="dt">alpha=</span><span class="fl">0.5</span>)<span class="op">+</span></span>
+<span id="cb20-4"><a href="#cb20-4"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Número de camas </span><span class="ch">\n</span><span class="st"> por cada 1000 habitantes&quot;</span>)<span class="op">+</span></span>
+<span id="cb20-5"><a href="#cb20-5"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="op">+</span></span>
+<span id="cb20-6"><a href="#cb20-6"></a><span class="st">  </span><span class="kw">facet_wrap</span>(<span class="op">~</span>Year)<span class="op">+</span></span>
+<span id="cb20-7"><a href="#cb20-7"></a><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">breaks=</span><span class="kw">c</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">9</span>))<span class="op">+</span></span>
+<span id="cb20-8"><a href="#cb20-8"></a><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">breaks=</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">15</span>))<span class="op">+</span></span>
+<span id="cb20-9"><a href="#cb20-9"></a><span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;cyan4&quot;</span>, <span class="st">&quot;darkorange&quot;</span>))<span class="op">+</span></span>
+<span id="cb20-10"><a href="#cb20-10"></a><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>))<span class="op">+</span></span>
+<span id="cb20-11"><a href="#cb20-11"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">family=</span><span class="st">&quot;Times&quot;</span>,<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;italic&quot;</span>))<span class="op">+</span></span>
+<span id="cb20-12"><a href="#cb20-12"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title.x=</span><span class="kw">element_text</span>(<span class="dt">angle=</span><span class="dv">180</span>))<span class="op">+</span><span class="st">  </span><span class="co"># </span><span class="al">NOTE</span><span class="co"> the x legend text </span></span>
+<span id="cb20-13"><a href="#cb20-13"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">5</span>, <span class="dt">angle=</span><span class="dv">90</span>))</span></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="G6_geom_histogram_files/figure-html/dipodium-histogram3-1.png" width="672" /></p>
 <hr />
