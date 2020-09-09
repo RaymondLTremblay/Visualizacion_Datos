@@ -573,20 +573,15 @@ div.tocify {
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">library</span>(ggversa)</span>
 <span id="cb2-2"><a href="#cb2-2"></a><span class="kw">library</span>(ggplot2)</span>
 <span id="cb2-3"><a href="#cb2-3"></a><span class="kw">library</span>(janitor)</span></code></pre></div>
-<pre><code>## 
-## Attaching package: &#39;janitor&#39;</code></pre>
-<pre><code>## The following objects are masked from &#39;package:stats&#39;:
-## 
-##     chisq.test, fisher.test</code></pre>
 <hr />
 <div id="histogramas-con-geom_histogram" class="section level1">
 <h1>Histogramas con geom_histogram</h1>
 <p>Un histograma es una representación gráfica de los datos agrupados en compartimentos o <em>bins</em>. Estos compartimentos incluyen individuos con factores o agrupaciones de valores similares o cercanos numéricamente. Subsiguiente a la determinación de los compartimentos, se suma la cantidad de observaciones para cada uno de ellos. Un histograma es un tipo de gráfico muy común para visualizar la dispersión de esos datos. Continuaremos con el ejemplo de <em>Dipodium</em> para demostrar la función de <strong>geom_histogram</strong> a continuación.</p>
 <p>En el primer caso de <strong>geom_histogram</strong> la cantidad de observaciones (datos) se suma de acuerdo a la posición de los compartimentos o <em>bins</em>.</p>
 <p>En el segundo caso, para mostrar menos barras y ver la agrupación por grupos de 2, se escribe con <strong>geom_histogram (binwidth=1)</strong>. Como se puede apreciar, el número de compartimentos se cambia utilizando el parámetro <em>binwidth</em>, donde su valor representa el ancho del compartimento (en nuestro caso es igual a 1). El número de <em>bins</em> predeterminado es 30, pero no necesariamente todos tendrán una barra ya que eso depende de la distribución de los datos. Cada barra representa la frecuencia de observaciones en la categoría a un metro de distancia. En ambos casos se usó color=white (o sea, color blanco) para poner una línea blanca alrededor de cada barra y así diferenciar mejor los grupos o <em>bins</em>. Nota que el programa retorna el mensaje <strong><code>stat_bin()</code> using <code>bins = 30</code>. Pick better value with <code>binwidth</code></strong>. Esto porque se acepto la cantidad de compartimiento prederminado.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">library</span>(janitor)</span>
-<span id="cb5-2"><a href="#cb5-2"></a>DW=<span class="kw">clean_names</span>(dipodium) <span class="co"># este archivo de datos se encuentra en el paquete &quot;ggversa&quot;</span></span>
-<span id="cb5-3"><a href="#cb5-3"></a><span class="kw">names</span>(DW)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">library</span>(janitor)</span>
+<span id="cb3-2"><a href="#cb3-2"></a>DW=<span class="kw">clean_names</span>(dipodium) <span class="co"># este archivo de datos se encuentra en el paquete &quot;ggversa&quot;</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="kw">names</span>(DW)</span></code></pre></div>
 <pre><code>##  [1] &quot;tree_number&quot;             &quot;tree_species&quot;           
 ##  [3] &quot;dbh&quot;                     &quot;plant_number&quot;           
 ##  [5] &quot;ramet_number&quot;            &quot;distance&quot;               
@@ -598,10 +593,520 @@ div.tocify {
 ## [17] &quot;frutos_si_o_no&quot;          &quot;p_or_r_infl_lenght&quot;     
 ## [19] &quot;num_of_fruits&quot;           &quot;species_name&quot;           
 ## [21] &quot;cardinal_orientation&quot;</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>a=<span class="kw">ggplot</span>(DW, <span class="kw">aes</span>(distance))</span>
-<span id="cb7-2"><a href="#cb7-2"></a>a<span class="op">+</span><span class="kw">geom_histogram</span>(<span class="dt">color=</span><span class="st">&quot;white&quot;</span>, <span class="dt">fill=</span><span class="st">&quot;blue&quot;</span>)<span class="op">+</span></span>
-<span id="cb7-3"><a href="#cb7-3"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Distancia&quot;</span>, <span class="dt">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="op">+</span></span>
-<span id="cb7-4"><a href="#cb7-4"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">library</span>(gt)</span>
+<span id="cb5-2"><a href="#cb5-2"></a>DW <span class="op">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="st">  </span><span class="kw">head</span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="st"> </span><span class="kw">gt</span>()</span></code></pre></div>
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#omfuoqqjgp .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#omfuoqqjgp .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#omfuoqqjgp .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#omfuoqqjgp .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 4px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#omfuoqqjgp .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#omfuoqqjgp .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#omfuoqqjgp .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#omfuoqqjgp .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#omfuoqqjgp .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#omfuoqqjgp .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#omfuoqqjgp .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#omfuoqqjgp .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#omfuoqqjgp .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#omfuoqqjgp .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#omfuoqqjgp .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#omfuoqqjgp .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#omfuoqqjgp .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#omfuoqqjgp .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#omfuoqqjgp .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#omfuoqqjgp .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#omfuoqqjgp .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#omfuoqqjgp .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#omfuoqqjgp .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#omfuoqqjgp .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#omfuoqqjgp .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#omfuoqqjgp .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#omfuoqqjgp .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#omfuoqqjgp .gt_left {
+  text-align: left;
+}
+
+#omfuoqqjgp .gt_center {
+  text-align: center;
+}
+
+#omfuoqqjgp .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#omfuoqqjgp .gt_font_normal {
+  font-weight: normal;
+}
+
+#omfuoqqjgp .gt_font_bold {
+  font-weight: bold;
+}
+
+#omfuoqqjgp .gt_font_italic {
+  font-style: italic;
+}
+
+#omfuoqqjgp .gt_super {
+  font-size: 65%;
+}
+
+#omfuoqqjgp .gt_footnote_marks {
+  font-style: italic;
+  font-size: 65%;
+}
+</style>
+<div id="omfuoqqjgp" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">tree_number</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">tree_species</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">dbh</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">plant_number</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">ramet_number</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">distance</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">orientation</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">number_of_flowers</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">height_inflo</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">herbivory</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">row_position_nf</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">number_flowers_position</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">number_of_fruits</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">perc_fr_set</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">pardalinum_or_roseum</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">fruit_position_effect</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">frutos_si_o_no</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">p_or_r_infl_lenght</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">num_of_fruits</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">species_name</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">cardinal_orientation</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr>
+      <td class="gt_row gt_center">1</td>
+      <td class="gt_row gt_left">E.o</td>
+      <td class="gt_row gt_right">75</td>
+      <td class="gt_row gt_center">1</td>
+      <td class="gt_row gt_center">1</td>
+      <td class="gt_row gt_right">2.47</td>
+      <td class="gt_row gt_right">40</td>
+      <td class="gt_row gt_center">11</td>
+      <td class="gt_row gt_center">35</td>
+      <td class="gt_row gt_left">n</td>
+      <td class="gt_row gt_center">1</td>
+      <td class="gt_row gt_center">24</td>
+      <td class="gt_row gt_center">0</td>
+      <td class="gt_row gt_right">0.00</td>
+      <td class="gt_row gt_left">r</td>
+      <td class="gt_row gt_center">1</td>
+      <td class="gt_row gt_center">0</td>
+      <td class="gt_row gt_left">r</td>
+      <td class="gt_row gt_center">0</td>
+      <td class="gt_row gt_left">r</td>
+      <td class="gt_row gt_center">1</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center">1</td>
+      <td class="gt_row gt_left">E.o</td>
+      <td class="gt_row gt_right">76</td>
+      <td class="gt_row gt_center">2</td>
+      <td class="gt_row gt_center">1</td>
+      <td class="gt_row gt_right">1.97</td>
+      <td class="gt_row gt_right">50</td>
+      <td class="gt_row gt_center">19</td>
+      <td class="gt_row gt_center">47</td>
+      <td class="gt_row gt_left">n</td>
+      <td class="gt_row gt_center">2</td>
+      <td class="gt_row gt_center">23</td>
+      <td class="gt_row gt_center">0</td>
+      <td class="gt_row gt_right">0.00</td>
+      <td class="gt_row gt_left">r</td>
+      <td class="gt_row gt_center">2</td>
+      <td class="gt_row gt_center">0</td>
+      <td class="gt_row gt_left">r</td>
+      <td class="gt_row gt_center">0</td>
+      <td class="gt_row gt_left">r</td>
+      <td class="gt_row gt_center">2</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center">2</td>
+      <td class="gt_row gt_left">E.o</td>
+      <td class="gt_row gt_right">76</td>
+      <td class="gt_row gt_center">3</td>
+      <td class="gt_row gt_center">1</td>
+      <td class="gt_row gt_right">1.95</td>
+      <td class="gt_row gt_right">350</td>
+      <td class="gt_row gt_center">18</td>
+      <td class="gt_row gt_center">63</td>
+      <td class="gt_row gt_left">n</td>
+      <td class="gt_row gt_center">3</td>
+      <td class="gt_row gt_center">25</td>
+      <td class="gt_row gt_center">1</td>
+      <td class="gt_row gt_right">0.04</td>
+      <td class="gt_row gt_left">r</td>
+      <td class="gt_row gt_center">3</td>
+      <td class="gt_row gt_center">0</td>
+      <td class="gt_row gt_left">r</td>
+      <td class="gt_row gt_center">1</td>
+      <td class="gt_row gt_left">r</td>
+      <td class="gt_row gt_center">8</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center">3</td>
+      <td class="gt_row gt_left">E.o</td>
+      <td class="gt_row gt_right">58</td>
+      <td class="gt_row gt_center">4</td>
+      <td class="gt_row gt_center">1</td>
+      <td class="gt_row gt_right">3.24</td>
+      <td class="gt_row gt_right">210</td>
+      <td class="gt_row gt_center">24</td>
+      <td class="gt_row gt_center">47</td>
+      <td class="gt_row gt_left">n</td>
+      <td class="gt_row gt_center">4</td>
+      <td class="gt_row gt_center">20</td>
+      <td class="gt_row gt_center">5</td>
+      <td class="gt_row gt_right">0.25</td>
+      <td class="gt_row gt_left">r</td>
+      <td class="gt_row gt_center">4</td>
+      <td class="gt_row gt_center">0</td>
+      <td class="gt_row gt_left">r</td>
+      <td class="gt_row gt_center">5</td>
+      <td class="gt_row gt_left">r</td>
+      <td class="gt_row gt_center">5</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center">4</td>
+      <td class="gt_row gt_left">E.o</td>
+      <td class="gt_row gt_right">NA</td>
+      <td class="gt_row gt_center">5</td>
+      <td class="gt_row gt_center">1</td>
+      <td class="gt_row gt_right">0.85</td>
+      <td class="gt_row gt_right">80</td>
+      <td class="gt_row gt_center">25</td>
+      <td class="gt_row gt_center">61</td>
+      <td class="gt_row gt_left">n</td>
+      <td class="gt_row gt_center">5</td>
+      <td class="gt_row gt_center">13</td>
+      <td class="gt_row gt_center">0</td>
+      <td class="gt_row gt_right">0.00</td>
+      <td class="gt_row gt_left">r</td>
+      <td class="gt_row gt_center">5</td>
+      <td class="gt_row gt_center">0</td>
+      <td class="gt_row gt_left">r</td>
+      <td class="gt_row gt_center">0</td>
+      <td class="gt_row gt_left">r</td>
+      <td class="gt_row gt_center">2</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center">5</td>
+      <td class="gt_row gt_left">E.o</td>
+      <td class="gt_row gt_right">59</td>
+      <td class="gt_row gt_center">6</td>
+      <td class="gt_row gt_center">1</td>
+      <td class="gt_row gt_right">2.62</td>
+      <td class="gt_row gt_right">160</td>
+      <td class="gt_row gt_center">17</td>
+      <td class="gt_row gt_center">35</td>
+      <td class="gt_row gt_left">n</td>
+      <td class="gt_row gt_center">6</td>
+      <td class="gt_row gt_center">25</td>
+      <td class="gt_row gt_center">2</td>
+      <td class="gt_row gt_right">0.08</td>
+      <td class="gt_row gt_left">p</td>
+      <td class="gt_row gt_center">6</td>
+      <td class="gt_row gt_center">0</td>
+      <td class="gt_row gt_left">r</td>
+      <td class="gt_row gt_center">2</td>
+      <td class="gt_row gt_left">p</td>
+      <td class="gt_row gt_center">4</td>
+    </tr>
+  </tbody>
+  
+  
+</table></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>a=<span class="kw">ggplot</span>(DW, <span class="kw">aes</span>(distance))</span>
+<span id="cb6-2"><a href="#cb6-2"></a>a<span class="op">+</span><span class="kw">geom_histogram</span>(<span class="dt">color=</span><span class="st">&quot;white&quot;</span>, <span class="dt">fill=</span><span class="st">&quot;blue&quot;</span>)<span class="op">+</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Distancia&quot;</span>, <span class="dt">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="op">+</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="G6_geom_histogram_files/figure-html/dipodium-histograma-1.png" width="672" /></p>
 <hr />
@@ -609,24 +1114,408 @@ div.tocify {
 <div id="cambio-del-tamaño-de-los-compartimiento-con-binwidth" class="section level1">
 <h1>Cambio del tamaño de los compartimiento con <em>binwidth</em></h1>
 <p>Este histograma demuestra las distancias de las orquídeas <em>Dipodium roseum</em> a los árboles más cercanos. Esta especie de orquídea es parasítica de hongos/micorrizas y no produce fotosíntesis. La hipótesis es que las micorrizas, <strong>hongos</strong>, reciben nutrientes de las raíces de los árboles y los nutrientes son transferidos a las orquídeas a través de las micorrizas. A consecuencia, se debería hipotéticamente observar una distancia óptima de la orquídea a los árboles que sostienen las micorrizas si la hipótesis tiene alguna veracidad. Como se explicó antes, en el segundo gráfico, se cambió el binwidth a 1, que representa en este caso la distancia de 1 metro, y los <strong>bins</strong> van de -.5 a .5 m., el segundo <strong>bin</strong> de &gt;0.5 a 1.5 metros y así sucesivamente.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>a=<span class="kw">ggplot</span>(DW, <span class="kw">aes</span>(distance))</span>
-<span id="cb9-2"><a href="#cb9-2"></a>a<span class="op">+</span><span class="kw">geom_histogram</span>(<span class="dt">binwidth=</span><span class="dv">1</span>,<span class="dt">color=</span><span class="st">&quot;white&quot;</span>, <span class="dt">fill=</span><span class="st">&quot;blue&quot;</span>)<span class="op">+</span></span>
-<span id="cb9-3"><a href="#cb9-3"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Distancia&quot;</span>, <span class="dt">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="op">+</span></span>
-<span id="cb9-4"><a href="#cb9-4"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>a=<span class="kw">ggplot</span>(DW, <span class="kw">aes</span>(distance))</span>
+<span id="cb8-2"><a href="#cb8-2"></a>a<span class="op">+</span><span class="kw">geom_histogram</span>(<span class="dt">binwidth=</span><span class="dv">1</span>,<span class="dt">color=</span><span class="st">&quot;white&quot;</span>, <span class="dt">fill=</span><span class="st">&quot;blue&quot;</span>)<span class="op">+</span></span>
+<span id="cb8-3"><a href="#cb8-3"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Distancia&quot;</span>, <span class="dt">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="op">+</span></span>
+<span id="cb8-4"><a href="#cb8-4"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G6_geom_histogram_files/figure-html/num1-1.png" width="672" /></p>
 <hr />
 </div>
-<div id="números-de-camas-hospitaria-por-1000-habitantes-en-diferenctes-paises" class="section level1">
-<h1>Números de camas hospitaria por 1000 habitantes en diferenctes paises</h1>
+<div id="números-de-camas-en-hospitales-por-1000-habitantes-en-diferenctes-paises" class="section level1">
+<h1>Números de camas en hospitales por 1000 habitantes en diferenctes paises</h1>
 <p>En el siguiente gráfico, vemos la frecuencia de número de camas de hospital por cada 1000 habitantes para 67 países utilizando la base de datos <strong>Camas_Hospital</strong>. Se hizo con la información que estaba disponible solo para los años 1996 y 2006. Tenemos dos gráficos solapados para visualizar si la distribución ha cambiado de entre el año 1996 y 2006. Note que las frecuencias del 2006 aparecen sobre las del 1996.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">head</span>(Camas_Hospital, <span class="dt">n=</span><span class="dv">6</span>)</span></code></pre></div>
-<pre><code>##           Pais Year Poblacion Camas
-## 1      Armenia 1996   3173425  7.13
-## 2    Australia 1996  18311000  8.50
-## 3      Austria 1996   7959017  9.30
-## 4   Azerbaijan 1996   7763000  9.81
-## 5 Bahamas, The 1996    283792  3.94
-## 6     Barbados 1996    265940  7.56</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>Camas_Hospital <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="st">  </span><span class="kw">head</span>() <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="st">  </span><span class="kw">gt</span>()</span></code></pre></div>
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#nbglynkwdz .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#nbglynkwdz .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#nbglynkwdz .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#nbglynkwdz .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 4px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#nbglynkwdz .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#nbglynkwdz .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#nbglynkwdz .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#nbglynkwdz .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#nbglynkwdz .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#nbglynkwdz .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#nbglynkwdz .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#nbglynkwdz .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#nbglynkwdz .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#nbglynkwdz .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#nbglynkwdz .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#nbglynkwdz .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#nbglynkwdz .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#nbglynkwdz .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#nbglynkwdz .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#nbglynkwdz .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#nbglynkwdz .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#nbglynkwdz .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#nbglynkwdz .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#nbglynkwdz .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#nbglynkwdz .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#nbglynkwdz .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#nbglynkwdz .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#nbglynkwdz .gt_left {
+  text-align: left;
+}
+
+#nbglynkwdz .gt_center {
+  text-align: center;
+}
+
+#nbglynkwdz .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#nbglynkwdz .gt_font_normal {
+  font-weight: normal;
+}
+
+#nbglynkwdz .gt_font_bold {
+  font-weight: bold;
+}
+
+#nbglynkwdz .gt_font_italic {
+  font-style: italic;
+}
+
+#nbglynkwdz .gt_super {
+  font-size: 65%;
+}
+
+#nbglynkwdz .gt_footnote_marks {
+  font-style: italic;
+  font-size: 65%;
+}
+</style>
+<div id="nbglynkwdz" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">Pais</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">Year</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">Poblacion</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Camas</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr>
+      <td class="gt_row gt_center">Armenia</td>
+      <td class="gt_row gt_center">1996</td>
+      <td class="gt_row gt_center">3173425</td>
+      <td class="gt_row gt_right">7.13</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center">Australia</td>
+      <td class="gt_row gt_center">1996</td>
+      <td class="gt_row gt_center">18311000</td>
+      <td class="gt_row gt_right">8.50</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center">Austria</td>
+      <td class="gt_row gt_center">1996</td>
+      <td class="gt_row gt_center">7959017</td>
+      <td class="gt_row gt_right">9.30</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center">Azerbaijan</td>
+      <td class="gt_row gt_center">1996</td>
+      <td class="gt_row gt_center">7763000</td>
+      <td class="gt_row gt_right">9.81</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center">Bahamas, The</td>
+      <td class="gt_row gt_center">1996</td>
+      <td class="gt_row gt_center">283792</td>
+      <td class="gt_row gt_right">3.94</td>
+    </tr>
+    <tr>
+      <td class="gt_row gt_center">Barbados</td>
+      <td class="gt_row gt_center">1996</td>
+      <td class="gt_row gt_center">265940</td>
+      <td class="gt_row gt_right">7.56</td>
+    </tr>
+  </tbody>
+  
+  
+</table></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">unique</span>(Camas_Hospital<span class="op">$</span>Year) <span class="co"># cual son los años de muestreo</span></span></code></pre></div>
+<pre><code>## [1] 1996 2006</code></pre>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>a=<span class="kw">ggplot</span>(Camas_Hospital, <span class="kw">aes</span>(Camas, <span class="dt">fill=</span><span class="kw">factor</span>(Year)))</span>
 <span id="cb12-2"><a href="#cb12-2"></a>a<span class="op">+</span><span class="kw">geom_histogram</span>(<span class="dt">stat=</span><span class="st">&quot;bin&quot;</span>)<span class="op">+</span></span>
 <span id="cb12-3"><a href="#cb12-3"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Número de camas por cada 1000 habitantes&quot;</span>)<span class="op">+</span></span>
@@ -638,8 +1527,8 @@ div.tocify {
 <h2>Modificando las escalas continuas con scale_y_continuous y scale_x_continuous</h2>
 <p>Se demuestra también cómo modificar la escala, primero con un método poco práctico numerando en el eje de <strong>Y</strong> cada valor donde queremos una línea. Note que se excluye el número 10 y por eso no aparece en el eje de <strong>Y</strong> la función es <strong>scale_y_continuous(breaks=c(x,x,x…x)</strong>. En el eje de <strong>X</strong> se numera también pero esta vez se define la escala con <strong>scale_x_continuous(breaks=c( )</strong>, y <strong>c(x:xx)</strong> con un valor inicial de 1 y final de 15 para identificar cual son los valores que uno quiere en los ejes; eso es más práctico e incluye al valor 10. También se modifica la información de los ejes usando <strong>xlab</strong> y <strong>ylab</strong>, de manera tal que la descripción de la columnas se pueda presentar de forma específica y así hacer la información más clara para propósitos del gráfico. =</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>a=<span class="kw">ggplot</span>(Camas_Hospital, <span class="kw">aes</span>(Camas, <span class="dt">fill=</span><span class="kw">factor</span>(Year)))<span class="op">+</span></span>
-<span id="cb14-2"><a href="#cb14-2"></a><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="dt">alpha=</span><span class="fl">0.5</span>)<span class="op">+</span></span>
-<span id="cb14-3"><a href="#cb14-3"></a><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">breaks=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>,<span class="dv">11</span>,<span class="dv">12</span>,<span class="dv">13</span>,<span class="dv">14</span>,<span class="dv">15</span>))<span class="op">+</span></span>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="st">  </span><span class="kw">geom_histogram</span>(<span class="dt">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="dt">alpha=</span><span class="fl">0.3</span>)<span class="op">+</span></span>
+<span id="cb14-3"><a href="#cb14-3"></a><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">breaks=</span><span class="kw">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>,<span class="dv">11</span>,<span class="dv">12</span>,<span class="dv">13</span>,<span class="dv">14</span>,<span class="dv">15</span>))<span class="op">+</span></span>
 <span id="cb14-4"><a href="#cb14-4"></a><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">breaks=</span><span class="kw">c</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">15</span>))<span class="op">+</span></span>
 <span id="cb14-5"><a href="#cb14-5"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span>
 <span id="cb14-6"><a href="#cb14-6"></a>a</span></code></pre></div>
@@ -666,7 +1555,7 @@ div.tocify {
 <div id="posicionar-las-barras-uno-al-lado-del-otro-con-la-función-dodge" class="section level1">
 <h1>Posicionar las barras uno al lado del otro con la función <strong>dodge</strong></h1>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>a=<span class="kw">ggplot</span>(Camas_Hospital, <span class="kw">aes</span>(Camas, <span class="dt">fill=</span><span class="kw">factor</span>(Year)))</span>
-<span id="cb18-2"><a href="#cb18-2"></a>a<span class="op">+</span><span class="kw">geom_histogram</span>(<span class="dt">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="dt">alpha=</span><span class="fl">0.9</span>,</span>
+<span id="cb18-2"><a href="#cb18-2"></a>a<span class="op">+</span><span class="kw">geom_histogram</span>(<span class="dt">color=</span><span class="st">&quot;black&quot;</span>, <span class="dt">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="dt">alpha=</span><span class="fl">0.9</span>,</span>
 <span id="cb18-3"><a href="#cb18-3"></a>                 <span class="dt">position=</span><span class="st">&quot;dodge&quot;</span>)<span class="op">+</span></span>
 <span id="cb18-4"><a href="#cb18-4"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Número de camas por </span><span class="ch">\n</span><span class="st"> 1000 habitantes&quot;</span>)<span class="op">+</span></span>
 <span id="cb18-5"><a href="#cb18-5"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="op">+</span></span>
@@ -691,10 +1580,10 @@ div.tocify {
 <span id="cb20-7"><a href="#cb20-7"></a><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">breaks=</span><span class="kw">c</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">9</span>))<span class="op">+</span></span>
 <span id="cb20-8"><a href="#cb20-8"></a><span class="st">  </span><span class="kw">scale_x_continuous</span>(<span class="dt">breaks=</span><span class="kw">c</span>(<span class="dv">1</span><span class="op">:</span><span class="dv">15</span>))<span class="op">+</span></span>
 <span id="cb20-9"><a href="#cb20-9"></a><span class="st">  </span><span class="kw">scale_fill_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;cyan4&quot;</span>, <span class="st">&quot;darkorange&quot;</span>))<span class="op">+</span></span>
-<span id="cb20-10"><a href="#cb20-10"></a><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;red&quot;</span>))<span class="op">+</span></span>
+<span id="cb20-10"><a href="#cb20-10"></a><span class="st">  </span><span class="kw">scale_color_manual</span>(<span class="dt">values=</span><span class="kw">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;black&quot;</span>))<span class="op">+</span></span>
 <span id="cb20-11"><a href="#cb20-11"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">family=</span><span class="st">&quot;Times&quot;</span>,<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;italic&quot;</span>))<span class="op">+</span></span>
 <span id="cb20-12"><a href="#cb20-12"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title.x=</span><span class="kw">element_text</span>(<span class="dt">angle=</span><span class="dv">180</span>))<span class="op">+</span><span class="st">  </span><span class="co"># </span><span class="al">NOTE</span><span class="co"> the x legend text </span></span>
-<span id="cb20-13"><a href="#cb20-13"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">5</span>, <span class="dt">angle=</span><span class="dv">90</span>))</span></code></pre></div>
+<span id="cb20-13"><a href="#cb20-13"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">5</span>, <span class="dt">angle=</span><span class="dv">45</span>))</span></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="G6_geom_histogram_files/figure-html/dipodium-histogram3-1.png" width="672" /></p>
 <hr />
@@ -714,6 +1603,17 @@ div.tocify {
 </ul></li>
 </ul>
 <hr />
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>diamonds <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb22-2"><a href="#cb22-2"></a><span class="st">  </span><span class="kw">head</span>()</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 10
+##   carat cut       color clarity depth table price     x     y     z
+##   &lt;dbl&gt; &lt;ord&gt;     &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 0.23  Ideal     E     SI2      61.5    55   326  3.95  3.98  2.43
+## 2 0.21  Premium   E     SI1      59.8    61   326  3.89  3.84  2.31
+## 3 0.23  Good      E     VS1      56.9    65   327  4.05  4.07  2.31
+## 4 0.290 Premium   I     VS2      62.4    58   334  4.2   4.23  2.63
+## 5 0.31  Good      J     SI2      63.3    58   335  4.34  4.35  2.75
+## 6 0.24  Very Good J     VVS2     62.8    57   336  3.94  3.96  2.48</code></pre>
 <ol style="list-style-type: decimal">
 <li>Usando el archivo de datos de <strong>diamonds</strong> en el paquete <strong>ggplot2</strong>, haga un histograma del precio de los diamantes, en diferentes <strong>chunks</strong>.</li>
 </ol>

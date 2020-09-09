@@ -22,7 +22,7 @@ Sys.Date()
 ```
 
 
-```{r}
+```{r, message=FALSE}
 library(ggversa)
 library(ggplot2)
 library(janitor)
@@ -46,6 +46,11 @@ En el segundo caso, para mostrar menos barras y ver la agrupación por grupos de
 library(janitor)
 DW=clean_names(dipodium) # este archivo de datos se encuentra en el paquete "ggversa"
 names(DW)
+library(gt)
+DW %>%
+  head() %>% 
+ gt()
+
 a=ggplot(DW, aes(distance))
 a+geom_histogram(color="white", fill="blue")+
   labs(x="Distancia", y="Frecuencia")+
@@ -71,15 +76,18 @@ a+geom_histogram(binwidth=1,color="white", fill="blue")+
 
 ***
 
-# Números de camas hospitaria por 1000 habitantes en diferenctes paises
+# Números de camas en hospitales por 1000 habitantes en diferenctes paises
 
 
 En el siguiente gráfico, vemos la frecuencia de número de camas de hospital por cada 1000 habitantes para 67 países utilizando la base de datos **Camas_Hospital**.  Se hizo con la información que estaba disponible solo para los años 1996 y 2006.  Tenemos dos gráficos solapados para visualizar si la distribución ha cambiado de entre el año 1996 y 2006.  Note que las frecuencias del 2006 aparecen sobre las del 1996. 
 
 ```{r dipodium-histogram2}
 
+Camas_Hospital %>% 
+  head() %>% 
+  gt()
 
-head(Camas_Hospital, n=6)
+unique(Camas_Hospital$Year) # cual son los años de muestreo
 
 a=ggplot(Camas_Hospital, aes(Camas, fill=factor(Year)))
 a+geom_histogram(stat="bin")+
@@ -97,8 +105,8 @@ Se demuestra también cómo modificar la escala, primero con un método poco pr�
 
 ```{r num2}
 a=ggplot(Camas_Hospital, aes(Camas, fill=factor(Year)))+
-  geom_histogram(stat="bin", alpha=0.5)+
-  scale_y_continuous(breaks=c(0,1,2,3,4,5,6,7,8,9,11,12,13,14,15))+
+  geom_histogram(stat="bin", alpha=0.3)+
+  scale_y_continuous(breaks=c(0,1,4,5,6,7,8,9,11,12,13,14,15))+
   scale_x_continuous(breaks=c(0:15))+
   theme(axis.title=element_text(size=10,face="bold"))
 a
@@ -132,7 +140,7 @@ a+geom_histogram(stat="bin", alpha=0.5,
 ```{r dipodium-histogram5}
 
 a=ggplot(Camas_Hospital, aes(Camas, fill=factor(Year)))
-a+geom_histogram(stat="bin", alpha=0.9,
+a+geom_histogram(color="black", stat="bin", alpha=0.9,
                  position="dodge")+
   xlab("Número de camas por \n 1000 habitantes")+
   ylab("Frecuencia")+
@@ -161,10 +169,10 @@ a+geom_histogram(stat="bin", alpha=0.5)+
   scale_y_continuous(breaks=c(0:9))+
   scale_x_continuous(breaks=c(1:15))+
   scale_fill_manual(values=c("cyan4", "darkorange"))+
-  scale_color_manual(values=c("black", "red"))+
+  scale_color_manual(values=c("black", "black"))+
   theme(axis.title=element_text(family="Times",size=10,face="italic"))+
   theme(axis.title.x=element_text(angle=180))+  # NOTE the x legend text 
-  theme(axis.text.x=element_text(size=5, angle=90))
+  theme(axis.text.x=element_text(size=5, angle=45))
 
 ```
 
@@ -183,6 +191,11 @@ a+geom_histogram(stat="bin", alpha=0.5)+
     + position: “identity”, “stack”, “dodge”. 
 
 ***
+```{r}
+diamonds %>% 
+  head()
+```
+
 
  1. Usando el archivo de datos de **diamonds** en el paquete **ggplot2**, haga un histograma del precio de los diamantes, en diferentes **chunks**. 
   - cambia el color de las barras
