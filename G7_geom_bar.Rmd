@@ -82,11 +82,15 @@ Se puede cambiar la intensidad del color de las barras usando **alpha**.  los va
 
 head(DW)
 
+
+
+# [df(fila,columas)]
+
 b=ggplot(DW[!is.na(DW$number_of_flowers),],
          aes(number_of_flowers))
 b+geom_bar(alpha=.3,
                fill="blue",color="white")+
-  xlab("Posiciones de las flores \n en la inflorescencia")+
+  xlab("Posiciones de las \n flores en la inflorescencia")+
   ylab("Frecuencia")+
   theme(axis.title=element_text(size=14,face="bold"))
 ```
@@ -114,7 +118,6 @@ knitr::include_graphics("Graficos/L_eltoroensis.jpeg")
 
 ggplot(Lelto, aes(Adultos))+
   geom_bar()
- 
 
 ```
 
@@ -130,13 +133,18 @@ DW%>%
   select(fruit_position_effect,frutos_si_o_no )%>%
   drop_na(fruit_position_effect)%>%
 ggplot(aes(fruit_position_effect))+
-geom_bar(aes(fill=factor(frutos_si_o_no)),color="white")+
-  xlab("Posiciones de las flores en la inflorescencia")+
+geom_bar(aes(fill=factor(frutos_si_o_no)))+
+  xlab("Posiciones de las \n flores en la inflorescencia")+
   ylab("Frecuencia")+
-  theme(axis.title=element_text(size=14,face="bold"))
+  theme(axis.title=element_text(size=14,face="bold"))+
+ scale_fill_manual(values = c("green", "#36211D"))+
+ scale_color_manual(values = c("yellow", "blue"))
+```
 
 
 
+```{r}
+head(Lelto)
 ```
 
 ***
@@ -382,7 +390,7 @@ attach(ASBESTOS_QUEBEC)
 
 ```
 
-### Identificar que la variable "Fecha" es una variable de tiempo. En modulo habrá una sección que discute solamente de fechas y horas. 
+### Identificar que la variable "Fecha" es una variable de tiempo. Habrá un modulo para discutir solamente de fechas y horas.  
 ```{r}
 # Identificar que la variable "Fecha" es una variable de tiempo.
 names(ASBESTOS_QUEBEC)[names(ASBESTOS_QUEBEC) == 'Date.Time'] <- 'Fecha'
