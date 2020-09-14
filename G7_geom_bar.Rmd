@@ -38,7 +38,9 @@ colorize <- function(x, color) {
 ```{r}
 library(tidyverse)
 library(ggversa)
+library(janitor)
 DW=dipodium
+DW=clean_names(DW)
 ```
 
 
@@ -57,9 +59,11 @@ En el siguiente ejemplo, primero removeremos los **NA** del archivo usando **dro
 
 # Method 1
 
+head(DW)
+
 DW %>%
-  drop_na(Number_of_Flowers)%>%
-  ggplot(aes(Number_of_Flowers))+
+  drop_na(number_of_flowers)%>%
+  ggplot(aes(number_of_flowers))+
   geom_bar(fill="red",color="white")+
   xlab("Cantidad de Flores")+
   ylab("Frecuencia")+
@@ -76,8 +80,8 @@ Se puede cambiar la intensidad del color de las barras usando **alpha**.  los va
 
 ```{r dipodium-barra1,  echo=TRUE}
 
-b=ggplot(DW[!is.na(DW$Number_of_Flowers),],
-         aes(Number_of_Flowers))
+b=ggplot(DW[!is.na(DW$number_of_flowers),],
+         aes(number_of_flowers))
 b+geom_bar(alpha=.3,
                fill="blue",color="white")+
   xlab("Posiciones de las flores \n en la inflorescencia")+
@@ -87,6 +91,13 @@ b+geom_bar(alpha=.3,
 
 ***
 
+1. Seleccione el archivo "Educacion_Ninas" en el paquete "ggversa".  Las variables que terminan en con NMPP son el porcentaje de niñas matriculada en pre-primaria, Seleccione el año 2010 y haga un histograma.
+     - Cambie de color las barras
+     - Cambie el nombre de los nombres de los ejes
+     - Salva el gráfico con extensión de .png
+     - Sube el gráfico a Edmodo
+
+
 # Multiples grupos 
 
 Ahora le añadiremos una variable discreta que representa las frecuencias de las plantas con frutos y la frecuencia de plantas sin frutos para las posiciones de la flor en la inflorescencia. En el **script** se observa que la variable **Frutos_si_o_no** se identifica como un factor. Esto es necesario porque en el archivo de datos la presencia de frutos y flores fue identificada como 1 o 0 o sea valores numéricos.  Si se hubiera identificado como **Sí** o **No**, no habría la necesidad de identificar que es un factor. En tal caso, es necesario identificar que estos valores son una categoría usando factor. El gráfico presenta las variables discretas una sobre la otra. Note en la Figura al igual que con **geom_histogram**, la frecuencia del segundo grupo es añadida a la frecuencia del primer grupo.
@@ -95,10 +106,10 @@ Ahora le añadiremos una variable discreta que representa las frecuencias de las
 
 
 DW%>%
-  select(Fruit_position_effect,Frutos_si_o_no )%>%
-  drop_na(Fruit_position_effect)%>%
-ggplot(aes(Fruit_position_effect))+
-geom_bar(aes(fill=factor(Frutos_si_o_no)),color="white")+
+  select(fruit_position_effect,frutos_si_o_no )%>%
+  drop_na(fruit_position_effect)%>%
+ggplot(aes(fruit_position_effect))+
+geom_bar(aes(fill=factor(frutos_si_o_no)),color="white")+
   xlab("Posiciones de las flores en la inflorescencia")+
   ylab("Frecuencia")+
   theme(axis.title=element_text(size=14,face="bold"))
@@ -116,10 +127,10 @@ Para presentar los grupos uno al lado del otro se usa el parámetro **position =
 ```{r dipodium-barra3,  echo=TRUE}
 
 DW%>%
-  select(Fruit_position_effect,Frutos_si_o_no )%>%
-  drop_na(Fruit_position_effect)%>%
-  ggplot(aes(Fruit_position_effect))+
-  geom_bar(aes(fill=factor(Frutos_si_o_no)),color="white",
+  select(fruit_position_effect,frutos_si_o_no )%>%
+  drop_na(fruit_position_effect)%>%
+  ggplot(aes(fruit_position_effect))+
+  geom_bar(aes(fill=factor(frutos_si_o_no)),color="white",
            position = "dodge")+
   xlab("Posiciones de las flores en la inflorescencia")+
   ylab("Frecuencia")+
@@ -139,10 +150,10 @@ En el próximo gráfico, la frecuencia de ambos grupos comienza en cero pero aú
 ```{r dipodium-barra3b,  echo=TRUE}
 
 DW%>%
-  select(Fruit_position_effect,Frutos_si_o_no )%>%
-  drop_na(Fruit_position_effect)%>%
-  ggplot(aes(Fruit_position_effect))+
-  geom_bar(aes(fill=factor(Frutos_si_o_no)),color="white",
+  select(fruit_position_effect,frutos_si_o_no )%>%
+  drop_na(fruit_position_effect)%>%
+  ggplot(aes(fruit_position_effect))+
+  geom_bar(aes(fill=factor(frutos_si_o_no)),color="white",
            position = "identity")+ # Para que cada grupo comience en cero
   xlab("Posiciones de las flores en la inflorescencia")+
   ylab("Frecuencia")+
@@ -164,11 +175,11 @@ fill=factor(Frutos_si_o_no)
 
 
 DW%>%
-  select(Fruit_position_effect,Frutos_si_o_no )%>%
-  drop_na(Fruit_position_effect)%>%
-  ggplot(aes(Fruit_position_effect))+
+  select(fruit_position_effect,frutos_si_o_no )%>%
+  drop_na(fruit_position_effect)%>%
+  ggplot(aes(fruit_position_effect))+
   geom_bar(aes(y=(..count..)/sum(..count..), 
-               fill=factor(Frutos_si_o_no)),
+               fill=factor(frutos_si_o_no)),
                color="white", position="identity")+ # Para que cada grupo comience en cero
   xlab("Posiciones de las flores en la inflorescencia")+
   ylab("Frecuencia")+
@@ -187,10 +198,10 @@ Para que cada barra represente el 100% de los grupos en el eje de **X**, se usa 
 require(scales)
 
 DW%>%
-  select(Fruit_position_effect,Frutos_si_o_no )%>%
-  drop_na(Fruit_position_effect)%>%
-ggplot(aes(factor(Fruit_position_effect),
-             fill=factor(Frutos_si_o_no)))+
+  select(fruit_position_effect,frutos_si_o_no )%>%
+  drop_na(fruit_position_effect)%>%
+ggplot(aes(factor(fruit_position_effect),
+             fill=factor(frutos_si_o_no)))+
 geom_bar(aes(y=(..count..)/sum(..count..)),
            position="fill")+
   xlab("Posiciones de las flores en la inflorescencia")+
@@ -217,9 +228,9 @@ reorder_size <- function(x) {
 
 
 DW%>%
-  select(Number_of_Flowers )%>%
-  drop_na(Number_of_Flowers)%>%
-ggplot(aes(reorder_size(Number_of_Flowers)))+
+  select(number_of_flowers )%>%
+  drop_na(number_of_flowers)%>%
+ggplot(aes(reorder_size(number_of_flowers)))+
 geom_bar(fill="olivedrab")+
   scale_y_continuous(breaks=c(0:13))+
   labs(y="Número de plantas con la cantidad de flores", x="Cantidad de flores \n en la inflorescencia")+

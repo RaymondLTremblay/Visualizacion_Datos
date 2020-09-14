@@ -569,93 +569,125 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2020-09-04&quot;</code></pre>
+<pre><code>## [1] &quot;2020-09-14&quot;</code></pre>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">library</span>(tidyverse)</span></code></pre></div>
-<pre><code>## ── Attaching packages ─────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
 <pre><code>## ✓ ggplot2 3.3.2     ✓ purrr   0.3.4
 ## ✓ tibble  3.0.3     ✓ dplyr   1.0.2
 ## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
 ## ✓ readr   1.3.1     ✓ forcats 0.5.0</code></pre>
-<pre><code>## ── Conflicts ────────────────────────────────────── tidyverse_conflicts() ──
+<pre><code>## ── Conflicts ────────────────────────────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">library</span>(ggversa)</span>
-<span id="cb6-2"><a href="#cb6-2"></a>DW=dipodium</span></code></pre></div>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="kw">library</span>(janitor)</span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;janitor&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:stats&#39;:
+## 
+##     chisq.test, fisher.test</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>DW=dipodium</span>
+<span id="cb9-2"><a href="#cb9-2"></a>DW=<span class="kw">clean_names</span>(DW)</span></code></pre></div>
 <hr />
 <div id="una-variable-discreta-gráfico-de-barras-con-geom_bar" class="section level1">
 <h1>Una variable discreta: Gráfico de barras con <strong>geom_bar</strong></h1>
 <p>El gráfico de barras es una representación de la frecuencia de ocurrencia de eventos para valores discretos; por ejemplo, sí o no, o valores categóricos. La función <strong>geom_bar</strong> genera un gráfico que tabula la cantidad de veces que ocurre un evento. La altura de las barras representa el número de observaciones de una categoría discreta representada en el eje de <strong>X</strong>.</p>
 <p>En el siguiente ejemplo, primero removeremos los <strong>NA</strong> del archivo usando <strong>drop_na()</strong>, es el función que excluye todas las filas que contienen los <strong>NA</strong>. Nuevamente utilizaremos el archivo de datos de la <em>Dipodium rosea</em>:</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co"># DW$Number_of_Flowers  # Antes de hacer los análisis mira los datos, y vea que hay muchas filas con **NA**, remueve **#** para activar la función. </span></span>
-<span id="cb7-2"><a href="#cb7-2"></a></span>
-<span id="cb7-3"><a href="#cb7-3"></a><span class="co"># Method 1</span></span>
-<span id="cb7-4"><a href="#cb7-4"></a></span>
-<span id="cb7-5"><a href="#cb7-5"></a>DW <span class="op">%&gt;%</span></span>
-<span id="cb7-6"><a href="#cb7-6"></a><span class="st">  </span><span class="kw">drop_na</span>(Number_of_Flowers)<span class="op">%&gt;%</span></span>
-<span id="cb7-7"><a href="#cb7-7"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(Number_of_Flowers))<span class="op">+</span></span>
-<span id="cb7-8"><a href="#cb7-8"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">fill=</span><span class="st">&quot;red&quot;</span>,<span class="dt">color=</span><span class="st">&quot;white&quot;</span>)<span class="op">+</span></span>
-<span id="cb7-9"><a href="#cb7-9"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Cantidad de Flores&quot;</span>)<span class="op">+</span></span>
-<span id="cb7-10"><a href="#cb7-10"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="op">+</span></span>
-<span id="cb7-11"><a href="#cb7-11"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">14</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="co"># DW$Number_of_Flowers  # Antes de hacer los análisis mira los datos, y vea que hay muchas filas con **NA**, remueve **#** para activar la función. </span></span>
+<span id="cb10-2"><a href="#cb10-2"></a></span>
+<span id="cb10-3"><a href="#cb10-3"></a><span class="co"># Method 1</span></span>
+<span id="cb10-4"><a href="#cb10-4"></a></span>
+<span id="cb10-5"><a href="#cb10-5"></a><span class="kw">head</span>(DW)</span></code></pre></div>
+<pre><code>## # A tibble: 6 x 21
+##   tree_number tree_species   dbh plant_number ramet_number distance orientation
+##         &lt;int&gt; &lt;chr&gt;        &lt;dbl&gt;        &lt;int&gt;        &lt;int&gt;    &lt;dbl&gt;       &lt;dbl&gt;
+## 1           1 E.o             75            1            1     2.47          40
+## 2           1 E.o             76            2            1     1.97          50
+## 3           2 E.o             76            3            1     1.95         350
+## 4           3 E.o             58            4            1     3.24         210
+## 5           4 E.o             NA            5            1     0.85          80
+## 6           5 E.o             59            6            1     2.62         160
+## # … with 14 more variables: number_of_flowers &lt;int&gt;, height_inflo &lt;int&gt;,
+## #   herbivory &lt;chr&gt;, row_position_nf &lt;int&gt;, number_flowers_position &lt;int&gt;,
+## #   number_of_fruits &lt;int&gt;, perc_fr_set &lt;dbl&gt;, pardalinum_or_roseum &lt;chr&gt;,
+## #   fruit_position_effect &lt;int&gt;, frutos_si_o_no &lt;int&gt;,
+## #   p_or_r_infl_lenght &lt;chr&gt;, num_of_fruits &lt;int&gt;, species_name &lt;chr&gt;,
+## #   cardinal_orientation &lt;int&gt;</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>DW <span class="op">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="st">  </span><span class="kw">drop_na</span>(number_of_flowers)<span class="op">%&gt;%</span></span>
+<span id="cb12-3"><a href="#cb12-3"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(number_of_flowers))<span class="op">+</span></span>
+<span id="cb12-4"><a href="#cb12-4"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">fill=</span><span class="st">&quot;red&quot;</span>,<span class="dt">color=</span><span class="st">&quot;white&quot;</span>)<span class="op">+</span></span>
+<span id="cb12-5"><a href="#cb12-5"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Cantidad de Flores&quot;</span>)<span class="op">+</span></span>
+<span id="cb12-6"><a href="#cb12-6"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="op">+</span></span>
+<span id="cb12-7"><a href="#cb12-7"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">14</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G7_geom_bar_files/figure-html/dipodium-barra-1.png" width="672" /></p>
 <hr />
 </div>
 <div id="cambio-de-intensidad-de-color-con-alpha" class="section level1">
 <h1>Cambio de intensidad de color con <strong>alpha</strong></h1>
 <p>Se puede cambiar la intensidad del color de las barras usando <strong>alpha</strong>. los valores pueden variar de 0 a 1, donde 1 es mas intenso el color, aquí se utiliza un <strong>alpha=0.3</strong>.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a>b=<span class="kw">ggplot</span>(DW[<span class="op">!</span><span class="kw">is.na</span>(DW<span class="op">$</span>Number_of_Flowers),],</span>
-<span id="cb8-2"><a href="#cb8-2"></a>         <span class="kw">aes</span>(Number_of_Flowers))</span>
-<span id="cb8-3"><a href="#cb8-3"></a>b<span class="op">+</span><span class="kw">geom_bar</span>(<span class="dt">alpha=</span>.<span class="dv">3</span>,</span>
-<span id="cb8-4"><a href="#cb8-4"></a>               <span class="dt">fill=</span><span class="st">&quot;blue&quot;</span>,<span class="dt">color=</span><span class="st">&quot;white&quot;</span>)<span class="op">+</span></span>
-<span id="cb8-5"><a href="#cb8-5"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Posiciones de las flores </span><span class="ch">\n</span><span class="st"> en la inflorescencia&quot;</span>)<span class="op">+</span></span>
-<span id="cb8-6"><a href="#cb8-6"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="op">+</span></span>
-<span id="cb8-7"><a href="#cb8-7"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">14</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>b=<span class="kw">ggplot</span>(DW[<span class="op">!</span><span class="kw">is.na</span>(DW<span class="op">$</span>number_of_flowers),],</span>
+<span id="cb13-2"><a href="#cb13-2"></a>         <span class="kw">aes</span>(number_of_flowers))</span>
+<span id="cb13-3"><a href="#cb13-3"></a>b<span class="op">+</span><span class="kw">geom_bar</span>(<span class="dt">alpha=</span>.<span class="dv">3</span>,</span>
+<span id="cb13-4"><a href="#cb13-4"></a>               <span class="dt">fill=</span><span class="st">&quot;blue&quot;</span>,<span class="dt">color=</span><span class="st">&quot;white&quot;</span>)<span class="op">+</span></span>
+<span id="cb13-5"><a href="#cb13-5"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Posiciones de las flores </span><span class="ch">\n</span><span class="st"> en la inflorescencia&quot;</span>)<span class="op">+</span></span>
+<span id="cb13-6"><a href="#cb13-6"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="op">+</span></span>
+<span id="cb13-7"><a href="#cb13-7"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">14</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G7_geom_bar_files/figure-html/dipodium-barra1-1.png" width="672" /></p>
 <hr />
+<ol style="list-style-type: decimal">
+<li>Seleccione el archivo “Educacion_Ninas” en el paquete “ggversa”. Las variables que terminan en con NMPP son el porcentaje de niñas matriculada en pre-primaria, Seleccione el año 2010 y haga un histograma.
+<ul>
+<li>Cambie de color las barras</li>
+<li>Cambie el nombre de los nombres de los ejes</li>
+<li>Salva el gráfico con extensión de .png</li>
+<li>Sube el gráfico a Edmodo</li>
+</ul></li>
+</ol>
 </div>
 <div id="multiples-grupos" class="section level1">
 <h1>Multiples grupos</h1>
 <p>Ahora le añadiremos una variable discreta que representa las frecuencias de las plantas con frutos y la frecuencia de plantas sin frutos para las posiciones de la flor en la inflorescencia. En el <strong>script</strong> se observa que la variable <strong>Frutos_si_o_no</strong> se identifica como un factor. Esto es necesario porque en el archivo de datos la presencia de frutos y flores fue identificada como 1 o 0 o sea valores numéricos. Si se hubiera identificado como <strong>Sí</strong> o <strong>No</strong>, no habría la necesidad de identificar que es un factor. En tal caso, es necesario identificar que estos valores son una categoría usando factor. El gráfico presenta las variables discretas una sobre la otra. Note en la Figura al igual que con <strong>geom_histogram</strong>, la frecuencia del segundo grupo es añadida a la frecuencia del primer grupo.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a>DW<span class="op">%&gt;%</span></span>
-<span id="cb9-2"><a href="#cb9-2"></a><span class="st">  </span><span class="kw">select</span>(Fruit_position_effect,Frutos_si_o_no )<span class="op">%&gt;%</span></span>
-<span id="cb9-3"><a href="#cb9-3"></a><span class="st">  </span><span class="kw">drop_na</span>(Fruit_position_effect)<span class="op">%&gt;%</span></span>
-<span id="cb9-4"><a href="#cb9-4"></a><span class="kw">ggplot</span>(<span class="kw">aes</span>(Fruit_position_effect))<span class="op">+</span></span>
-<span id="cb9-5"><a href="#cb9-5"></a><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">fill=</span><span class="kw">factor</span>(Frutos_si_o_no)),<span class="dt">color=</span><span class="st">&quot;white&quot;</span>)<span class="op">+</span></span>
-<span id="cb9-6"><a href="#cb9-6"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Posiciones de las flores en la inflorescencia&quot;</span>)<span class="op">+</span></span>
-<span id="cb9-7"><a href="#cb9-7"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="op">+</span></span>
-<span id="cb9-8"><a href="#cb9-8"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">14</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>DW<span class="op">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2"></a><span class="st">  </span><span class="kw">select</span>(fruit_position_effect,frutos_si_o_no )<span class="op">%&gt;%</span></span>
+<span id="cb14-3"><a href="#cb14-3"></a><span class="st">  </span><span class="kw">drop_na</span>(fruit_position_effect)<span class="op">%&gt;%</span></span>
+<span id="cb14-4"><a href="#cb14-4"></a><span class="kw">ggplot</span>(<span class="kw">aes</span>(fruit_position_effect))<span class="op">+</span></span>
+<span id="cb14-5"><a href="#cb14-5"></a><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">fill=</span><span class="kw">factor</span>(frutos_si_o_no)),<span class="dt">color=</span><span class="st">&quot;white&quot;</span>)<span class="op">+</span></span>
+<span id="cb14-6"><a href="#cb14-6"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Posiciones de las flores en la inflorescencia&quot;</span>)<span class="op">+</span></span>
+<span id="cb14-7"><a href="#cb14-7"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="op">+</span></span>
+<span id="cb14-8"><a href="#cb14-8"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">14</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G7_geom_bar_files/figure-html/dipodium-barra2-1.png" width="672" /></p>
 <hr />
 </div>
 <div id="posicionar-las-barras-uno-al-lado-del-otro" class="section level1">
 <h1>Posicionar las barras uno al lado del otro</h1>
 <p>Para presentar los grupos uno al lado del otro se usa el parámetro <strong>position =“dodge”</strong>, lo que hará que cada grupo quede posicionado contiguamente. Además, removeremos la leyenda con <strong>guides(fill=FALSE)</strong> como se muestra a continuación con los datos de la <em>Dipodium rosea</em>:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>DW<span class="op">%&gt;%</span></span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="st">  </span><span class="kw">select</span>(Fruit_position_effect,Frutos_si_o_no )<span class="op">%&gt;%</span></span>
-<span id="cb10-3"><a href="#cb10-3"></a><span class="st">  </span><span class="kw">drop_na</span>(Fruit_position_effect)<span class="op">%&gt;%</span></span>
-<span id="cb10-4"><a href="#cb10-4"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(Fruit_position_effect))<span class="op">+</span></span>
-<span id="cb10-5"><a href="#cb10-5"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">fill=</span><span class="kw">factor</span>(Frutos_si_o_no)),<span class="dt">color=</span><span class="st">&quot;white&quot;</span>,</span>
-<span id="cb10-6"><a href="#cb10-6"></a>           <span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)<span class="op">+</span></span>
-<span id="cb10-7"><a href="#cb10-7"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Posiciones de las flores en la inflorescencia&quot;</span>)<span class="op">+</span></span>
-<span id="cb10-8"><a href="#cb10-8"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="op">+</span></span>
-<span id="cb10-9"><a href="#cb10-9"></a><span class="st">  </span><span class="kw">guides</span>(<span class="dt">fill=</span><span class="ot">FALSE</span>)<span class="op">+</span></span>
-<span id="cb10-10"><a href="#cb10-10"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">14</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>DW<span class="op">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="st">  </span><span class="kw">select</span>(fruit_position_effect,frutos_si_o_no )<span class="op">%&gt;%</span></span>
+<span id="cb15-3"><a href="#cb15-3"></a><span class="st">  </span><span class="kw">drop_na</span>(fruit_position_effect)<span class="op">%&gt;%</span></span>
+<span id="cb15-4"><a href="#cb15-4"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(fruit_position_effect))<span class="op">+</span></span>
+<span id="cb15-5"><a href="#cb15-5"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">fill=</span><span class="kw">factor</span>(frutos_si_o_no)),<span class="dt">color=</span><span class="st">&quot;white&quot;</span>,</span>
+<span id="cb15-6"><a href="#cb15-6"></a>           <span class="dt">position =</span> <span class="st">&quot;dodge&quot;</span>)<span class="op">+</span></span>
+<span id="cb15-7"><a href="#cb15-7"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Posiciones de las flores en la inflorescencia&quot;</span>)<span class="op">+</span></span>
+<span id="cb15-8"><a href="#cb15-8"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="op">+</span></span>
+<span id="cb15-9"><a href="#cb15-9"></a><span class="st">  </span><span class="kw">guides</span>(<span class="dt">fill=</span><span class="ot">FALSE</span>)<span class="op">+</span></span>
+<span id="cb15-10"><a href="#cb15-10"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">14</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G7_geom_bar_files/figure-html/dipodium-barra3-1.png" width="672" /></p>
 <hr />
 </div>
 <div id="posicionar-las-barras-una-encima-de-la-otra" class="section level1">
 <h1>Posicionar las barras una encima de la otra</h1>
 <p>En el próximo gráfico, la frecuencia de ambos grupos comienza en cero pero aún saldrán sobrepuestos uno al otro usando <strong>position=identity</strong></p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>DW<span class="op">%&gt;%</span></span>
-<span id="cb11-2"><a href="#cb11-2"></a><span class="st">  </span><span class="kw">select</span>(Fruit_position_effect,Frutos_si_o_no )<span class="op">%&gt;%</span></span>
-<span id="cb11-3"><a href="#cb11-3"></a><span class="st">  </span><span class="kw">drop_na</span>(Fruit_position_effect)<span class="op">%&gt;%</span></span>
-<span id="cb11-4"><a href="#cb11-4"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(Fruit_position_effect))<span class="op">+</span></span>
-<span id="cb11-5"><a href="#cb11-5"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">fill=</span><span class="kw">factor</span>(Frutos_si_o_no)),<span class="dt">color=</span><span class="st">&quot;white&quot;</span>,</span>
-<span id="cb11-6"><a href="#cb11-6"></a>           <span class="dt">position =</span> <span class="st">&quot;identity&quot;</span>)<span class="op">+</span><span class="st"> </span><span class="co"># Para que cada grupo comience en cero</span></span>
-<span id="cb11-7"><a href="#cb11-7"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Posiciones de las flores en la inflorescencia&quot;</span>)<span class="op">+</span></span>
-<span id="cb11-8"><a href="#cb11-8"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="op">+</span></span>
-<span id="cb11-9"><a href="#cb11-9"></a><span class="st">  </span><span class="kw">guides</span>(<span class="dt">fill=</span><span class="ot">FALSE</span>)<span class="op">+</span></span>
-<span id="cb11-10"><a href="#cb11-10"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">14</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>DW<span class="op">%&gt;%</span></span>
+<span id="cb16-2"><a href="#cb16-2"></a><span class="st">  </span><span class="kw">select</span>(fruit_position_effect,frutos_si_o_no )<span class="op">%&gt;%</span></span>
+<span id="cb16-3"><a href="#cb16-3"></a><span class="st">  </span><span class="kw">drop_na</span>(fruit_position_effect)<span class="op">%&gt;%</span></span>
+<span id="cb16-4"><a href="#cb16-4"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(fruit_position_effect))<span class="op">+</span></span>
+<span id="cb16-5"><a href="#cb16-5"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">fill=</span><span class="kw">factor</span>(frutos_si_o_no)),<span class="dt">color=</span><span class="st">&quot;white&quot;</span>,</span>
+<span id="cb16-6"><a href="#cb16-6"></a>           <span class="dt">position =</span> <span class="st">&quot;identity&quot;</span>)<span class="op">+</span><span class="st"> </span><span class="co"># Para que cada grupo comience en cero</span></span>
+<span id="cb16-7"><a href="#cb16-7"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Posiciones de las flores en la inflorescencia&quot;</span>)<span class="op">+</span></span>
+<span id="cb16-8"><a href="#cb16-8"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="op">+</span></span>
+<span id="cb16-9"><a href="#cb16-9"></a><span class="st">  </span><span class="kw">guides</span>(<span class="dt">fill=</span><span class="ot">FALSE</span>)<span class="op">+</span></span>
+<span id="cb16-10"><a href="#cb16-10"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">14</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G7_geom_bar_files/figure-html/dipodium-barra3b-1.png" width="672" /></p>
 <hr />
 </div>
@@ -663,24 +695,24 @@ div.tocify {
 <h1>Porcentaje porporcional a todos los valores</h1>
 <p>Para mostrar el porcentaje de cada uno de los grupos, tenemos que usar una fórmula para calcular la proporción por grupo usando <strong>y=(..count..)/sum(..count..)</strong>. Así la suma de todas las barras equivale al 100%. Vemos que en las categorías altas (que aparecen más a la derecha en el gráfico) algunas barras están más anchas. Esto se debe a que, en el archivo de datos, para algunas de estas posiciones de las flores en la inflorescencia no hay información para la segunda especie (la que aparece en azul). Esto se puede resolver añadiendo la información en el archivo original.</p>
 <p>fill=factor(Frutos_si_o_no)</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>DW<span class="op">%&gt;%</span></span>
-<span id="cb12-2"><a href="#cb12-2"></a><span class="st">  </span><span class="kw">select</span>(Fruit_position_effect,Frutos_si_o_no )<span class="op">%&gt;%</span></span>
-<span id="cb12-3"><a href="#cb12-3"></a><span class="st">  </span><span class="kw">drop_na</span>(Fruit_position_effect)<span class="op">%&gt;%</span></span>
-<span id="cb12-4"><a href="#cb12-4"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(Fruit_position_effect))<span class="op">+</span></span>
-<span id="cb12-5"><a href="#cb12-5"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">y=</span>(..count..)<span class="op">/</span><span class="kw">sum</span>(..count..), </span>
-<span id="cb12-6"><a href="#cb12-6"></a>               <span class="dt">fill=</span><span class="kw">factor</span>(Frutos_si_o_no)),</span>
-<span id="cb12-7"><a href="#cb12-7"></a>               <span class="dt">color=</span><span class="st">&quot;white&quot;</span>, <span class="dt">position=</span><span class="st">&quot;identity&quot;</span>)<span class="op">+</span><span class="st"> </span><span class="co"># Para que cada grupo comience en cero</span></span>
-<span id="cb12-8"><a href="#cb12-8"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Posiciones de las flores en la inflorescencia&quot;</span>)<span class="op">+</span></span>
-<span id="cb12-9"><a href="#cb12-9"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="op">+</span></span>
-<span id="cb12-10"><a href="#cb12-10"></a><span class="st">  </span><span class="kw">guides</span>(<span class="dt">fill=</span><span class="ot">FALSE</span>)<span class="op">+</span></span>
-<span id="cb12-11"><a href="#cb12-11"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">14</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a>DW<span class="op">%&gt;%</span></span>
+<span id="cb17-2"><a href="#cb17-2"></a><span class="st">  </span><span class="kw">select</span>(fruit_position_effect,frutos_si_o_no )<span class="op">%&gt;%</span></span>
+<span id="cb17-3"><a href="#cb17-3"></a><span class="st">  </span><span class="kw">drop_na</span>(fruit_position_effect)<span class="op">%&gt;%</span></span>
+<span id="cb17-4"><a href="#cb17-4"></a><span class="st">  </span><span class="kw">ggplot</span>(<span class="kw">aes</span>(fruit_position_effect))<span class="op">+</span></span>
+<span id="cb17-5"><a href="#cb17-5"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">y=</span>(..count..)<span class="op">/</span><span class="kw">sum</span>(..count..), </span>
+<span id="cb17-6"><a href="#cb17-6"></a>               <span class="dt">fill=</span><span class="kw">factor</span>(frutos_si_o_no)),</span>
+<span id="cb17-7"><a href="#cb17-7"></a>               <span class="dt">color=</span><span class="st">&quot;white&quot;</span>, <span class="dt">position=</span><span class="st">&quot;identity&quot;</span>)<span class="op">+</span><span class="st"> </span><span class="co"># Para que cada grupo comience en cero</span></span>
+<span id="cb17-8"><a href="#cb17-8"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Posiciones de las flores en la inflorescencia&quot;</span>)<span class="op">+</span></span>
+<span id="cb17-9"><a href="#cb17-9"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="op">+</span></span>
+<span id="cb17-10"><a href="#cb17-10"></a><span class="st">  </span><span class="kw">guides</span>(<span class="dt">fill=</span><span class="ot">FALSE</span>)<span class="op">+</span></span>
+<span id="cb17-11"><a href="#cb17-11"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">14</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G7_geom_bar_files/figure-html/dipodium-barra3a-1.png" width="672" /></p>
 <hr />
 </div>
 <div id="porcentaje-por-valos-de-cada-x" class="section level1">
 <h1>Porcentaje por valos de cada <strong>X</strong></h1>
 <p>Para que cada barra represente el 100% de los grupos en el eje de <strong>X</strong>, se usa el parámetro <strong>position=“fill”</strong>. En el siguiente ejemplo se le añade la variable discreta en este caso; o sea, si la planta tiene frutos (verde) o no (rojo). Ecologicamente se observa que la posición de las flores arriba (&gt;27) en la inflorescencia resulta en menos frutos porcentualmente que las posiciones más abajo.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="kw">require</span>(scales)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw">require</span>(scales)</span></code></pre></div>
 <pre><code>## Loading required package: scales</code></pre>
 <pre><code>## 
 ## Attaching package: &#39;scales&#39;</code></pre>
@@ -690,39 +722,39 @@ div.tocify {
 <pre><code>## The following object is masked from &#39;package:readr&#39;:
 ## 
 ##     col_factor</code></pre>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a>DW<span class="op">%&gt;%</span></span>
-<span id="cb18-2"><a href="#cb18-2"></a><span class="st">  </span><span class="kw">select</span>(Fruit_position_effect,Frutos_si_o_no )<span class="op">%&gt;%</span></span>
-<span id="cb18-3"><a href="#cb18-3"></a><span class="st">  </span><span class="kw">drop_na</span>(Fruit_position_effect)<span class="op">%&gt;%</span></span>
-<span id="cb18-4"><a href="#cb18-4"></a><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="kw">factor</span>(Fruit_position_effect),</span>
-<span id="cb18-5"><a href="#cb18-5"></a>             <span class="dt">fill=</span><span class="kw">factor</span>(Frutos_si_o_no)))<span class="op">+</span></span>
-<span id="cb18-6"><a href="#cb18-6"></a><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">y=</span>(..count..)<span class="op">/</span><span class="kw">sum</span>(..count..)),</span>
-<span id="cb18-7"><a href="#cb18-7"></a>           <span class="dt">position=</span><span class="st">&quot;fill&quot;</span>)<span class="op">+</span></span>
-<span id="cb18-8"><a href="#cb18-8"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Posiciones de las flores en la inflorescencia&quot;</span>)<span class="op">+</span></span>
-<span id="cb18-9"><a href="#cb18-9"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Proporción&quot;)+</span></span>
-<span id="cb18-10"><a href="#cb18-10"></a><span class="st">    guides(fill=FALSE)+</span></span>
-<span id="cb18-11"><a href="#cb18-11"></a><span class="st">  theme(axis.title=element_text(size=10,face=&quot;</span>bold<span class="st">&quot;))</span></span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>DW<span class="op">%&gt;%</span></span>
+<span id="cb23-2"><a href="#cb23-2"></a><span class="st">  </span><span class="kw">select</span>(fruit_position_effect,frutos_si_o_no )<span class="op">%&gt;%</span></span>
+<span id="cb23-3"><a href="#cb23-3"></a><span class="st">  </span><span class="kw">drop_na</span>(fruit_position_effect)<span class="op">%&gt;%</span></span>
+<span id="cb23-4"><a href="#cb23-4"></a><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="kw">factor</span>(fruit_position_effect),</span>
+<span id="cb23-5"><a href="#cb23-5"></a>             <span class="dt">fill=</span><span class="kw">factor</span>(frutos_si_o_no)))<span class="op">+</span></span>
+<span id="cb23-6"><a href="#cb23-6"></a><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">y=</span>(..count..)<span class="op">/</span><span class="kw">sum</span>(..count..)),</span>
+<span id="cb23-7"><a href="#cb23-7"></a>           <span class="dt">position=</span><span class="st">&quot;fill&quot;</span>)<span class="op">+</span></span>
+<span id="cb23-8"><a href="#cb23-8"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Posiciones de las flores en la inflorescencia&quot;</span>)<span class="op">+</span></span>
+<span id="cb23-9"><a href="#cb23-9"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Proporción&quot;)+</span></span>
+<span id="cb23-10"><a href="#cb23-10"></a><span class="st">    guides(fill=FALSE)+</span></span>
+<span id="cb23-11"><a href="#cb23-11"></a><span class="st">  theme(axis.title=element_text(size=10,face=&quot;</span>bold<span class="st">&quot;))</span></span></code></pre></div>
 <p><img src="G7_geom_bar_files/figure-html/dipodium-barra4-1.png" width="672" /></p>
 <hr />
 </div>
 <div id="reordenar-las-barras-con-geom_bar" class="section level1">
 <h1>Reordenar las barras con <strong>geom_bar</strong></h1>
 <p>En el siguiente gráfico, reordenamos la secuencia en <strong>X</strong> por orden del número de flores y su frecuencia. Primero, hay que crear una función para reordenar la variable, la que llamaremos <strong>reorder_size</strong>. El segundo paso es invocar esta función desde <strong>ggplot</strong>. La función es aplicable a cualquier variable que uno quisiera ordenar y tener como factor. En la figura podemos observar que en el muestreo hay solamente una planta con la siguiente cantidad de flores (1, 3, 4, 7, 8, 34, 36, 37, 43; extremo izquierda), y hay 13 plantas con 23 flores (extremo derecha) y otras frecuencias de plantas con diferentes cantidades de flores entre medio.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="co"># Aquí se crea una función para re-ordenar la variable X. </span></span>
-<span id="cb19-2"><a href="#cb19-2"></a></span>
-<span id="cb19-3"><a href="#cb19-3"></a>reorder_size &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</span>
-<span id="cb19-4"><a href="#cb19-4"></a>  <span class="kw">factor</span>(x, <span class="dt">levels =</span> <span class="kw">names</span>(<span class="kw">sort</span>(<span class="kw">table</span>(x))))</span>
-<span id="cb19-5"><a href="#cb19-5"></a>}</span>
-<span id="cb19-6"><a href="#cb19-6"></a></span>
-<span id="cb19-7"><a href="#cb19-7"></a></span>
-<span id="cb19-8"><a href="#cb19-8"></a></span>
-<span id="cb19-9"><a href="#cb19-9"></a>DW<span class="op">%&gt;%</span></span>
-<span id="cb19-10"><a href="#cb19-10"></a><span class="st">  </span><span class="kw">select</span>(Number_of_Flowers )<span class="op">%&gt;%</span></span>
-<span id="cb19-11"><a href="#cb19-11"></a><span class="st">  </span><span class="kw">drop_na</span>(Number_of_Flowers)<span class="op">%&gt;%</span></span>
-<span id="cb19-12"><a href="#cb19-12"></a><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="kw">reorder_size</span>(Number_of_Flowers)))<span class="op">+</span></span>
-<span id="cb19-13"><a href="#cb19-13"></a><span class="kw">geom_bar</span>(<span class="dt">fill=</span><span class="st">&quot;olivedrab&quot;</span>)<span class="op">+</span></span>
-<span id="cb19-14"><a href="#cb19-14"></a><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">breaks=</span><span class="kw">c</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">13</span>))<span class="op">+</span></span>
-<span id="cb19-15"><a href="#cb19-15"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Número de plantas con la cantidad de flores&quot;</span>, <span class="dt">x=</span><span class="st">&quot;Cantidad de flores </span><span class="ch">\n</span><span class="st"> en la inflorescencia&quot;</span>)<span class="op">+</span></span>
-<span id="cb19-16"><a href="#cb19-16"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="co"># Aquí se crea una función para re-ordenar la variable X. </span></span>
+<span id="cb24-2"><a href="#cb24-2"></a></span>
+<span id="cb24-3"><a href="#cb24-3"></a>reorder_size &lt;-<span class="st"> </span><span class="cf">function</span>(x) {</span>
+<span id="cb24-4"><a href="#cb24-4"></a>  <span class="kw">factor</span>(x, <span class="dt">levels =</span> <span class="kw">names</span>(<span class="kw">sort</span>(<span class="kw">table</span>(x))))</span>
+<span id="cb24-5"><a href="#cb24-5"></a>}</span>
+<span id="cb24-6"><a href="#cb24-6"></a></span>
+<span id="cb24-7"><a href="#cb24-7"></a></span>
+<span id="cb24-8"><a href="#cb24-8"></a></span>
+<span id="cb24-9"><a href="#cb24-9"></a>DW<span class="op">%&gt;%</span></span>
+<span id="cb24-10"><a href="#cb24-10"></a><span class="st">  </span><span class="kw">select</span>(number_of_flowers )<span class="op">%&gt;%</span></span>
+<span id="cb24-11"><a href="#cb24-11"></a><span class="st">  </span><span class="kw">drop_na</span>(number_of_flowers)<span class="op">%&gt;%</span></span>
+<span id="cb24-12"><a href="#cb24-12"></a><span class="kw">ggplot</span>(<span class="kw">aes</span>(<span class="kw">reorder_size</span>(number_of_flowers)))<span class="op">+</span></span>
+<span id="cb24-13"><a href="#cb24-13"></a><span class="kw">geom_bar</span>(<span class="dt">fill=</span><span class="st">&quot;olivedrab&quot;</span>)<span class="op">+</span></span>
+<span id="cb24-14"><a href="#cb24-14"></a><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">breaks=</span><span class="kw">c</span>(<span class="dv">0</span><span class="op">:</span><span class="dv">13</span>))<span class="op">+</span></span>
+<span id="cb24-15"><a href="#cb24-15"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Número de plantas con la cantidad de flores&quot;</span>, <span class="dt">x=</span><span class="st">&quot;Cantidad de flores </span><span class="ch">\n</span><span class="st"> en la inflorescencia&quot;</span>)<span class="op">+</span></span>
+<span id="cb24-16"><a href="#cb24-16"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G7_geom_bar_files/figure-html/dipodium-barra5-1.png" width="672" /></p>
 <hr />
 </div>
@@ -732,49 +764,49 @@ div.tocify {
 <p>Para especificar que se usen solamente los datos de un subgrupo de cada variable, se hace de la misma manera que en R; o sea,</p>
 <pre><code>subset(Pop_PR,Pop_PR$Sexo==&quot;Mujer&quot;) </code></pre>
 <p>También note que tenemos datos a la izquierda y a la derecha del valor de cero. Se produce este patrón usando {-Valor} en uno de los grupos, donde el valor es el tamaño poblacional por grupo de edad. Por último, se tiene que añadir <strong>coord_flip()</strong> para que las barras queden de forma horizontal.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="co"># Para observar las primeras 4 filas del archivo</span></span>
-<span id="cb21-2"><a href="#cb21-2"></a><span class="kw">head</span>(Pop_PR, <span class="dt">n=</span><span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="co"># Para observar las primeras 4 filas del archivo</span></span>
+<span id="cb26-2"><a href="#cb26-2"></a><span class="kw">head</span>(Pop_PR, <span class="dt">n=</span><span class="dv">4</span>)</span></code></pre></div>
 <pre><code>##     Sexo  Valor Edad
 ## 1 Hombre  89507    0
 ## 2 Hombre 102622    5
 ## 3 Hombre 112350   10
 ## 4 Hombre 124179   15</code></pre>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="co"># Para observar las ultimas 4 filas del archivo</span></span>
-<span id="cb23-2"><a href="#cb23-2"></a><span class="kw">tail</span>(Pop_PR, <span class="dt">n=</span><span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="co"># Para observar las ultimas 4 filas del archivo</span></span>
+<span id="cb28-2"><a href="#cb28-2"></a><span class="kw">tail</span>(Pop_PR, <span class="dt">n=</span><span class="dv">4</span>)</span></code></pre></div>
 <pre><code>##     Sexo Valor Edad
 ## 33 Mujer 87289   70
 ## 34 Mujer 65082   75
 ## 35 Mujer 46233   80
 ## 36 Mujer 47803   85</code></pre>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="kw">ggplot</span>(<span class="dt">data=</span>Pop_PR) <span class="op">+</span></span>
-<span id="cb25-2"><a href="#cb25-2"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(Edad,Valor,<span class="dt">group=</span>Sexo,<span class="dt">fill=</span>Sexo),</span>
-<span id="cb25-3"><a href="#cb25-3"></a>           <span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>,</span>
-<span id="cb25-4"><a href="#cb25-4"></a>           <span class="kw">subset</span>(Pop_PR,Pop_PR<span class="op">$</span>Sexo<span class="op">==</span><span class="st">&quot;Mujer&quot;</span>)) <span class="op">+</span></span>
-<span id="cb25-5"><a href="#cb25-5"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(Edad,<span class="op">-</span>Valor,<span class="dt">group=</span>Sexo,<span class="dt">fill=</span>Sexo),</span>
-<span id="cb25-6"><a href="#cb25-6"></a>           <span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>,</span>
-<span id="cb25-7"><a href="#cb25-7"></a>           <span class="kw">subset</span>(Pop_PR,Pop_PR<span class="op">$</span>Sexo<span class="op">==</span><span class="st">&quot;Hombre&quot;</span>)) <span class="op">+</span></span>
-<span id="cb25-8"><a href="#cb25-8"></a><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">breaks=</span><span class="kw">seq</span>(<span class="op">-</span><span class="dv">140000</span>,<span class="dv">140000</span>,<span class="dv">40000</span>),</span>
-<span id="cb25-9"><a href="#cb25-9"></a>                     <span class="dt">labels=</span><span class="kw">abs</span>(<span class="kw">seq</span>(<span class="op">-</span><span class="dv">140000</span>,<span class="dv">140000</span>,<span class="dv">40000</span>))) <span class="op">+</span></span>
-<span id="cb25-10"><a href="#cb25-10"></a><span class="st">  </span><span class="kw">coord_flip</span>()<span class="op">+</span></span>
-<span id="cb25-11"><a href="#cb25-11"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Tamaño poblacional&quot;</span>)<span class="op">+</span></span>
-<span id="cb25-12"><a href="#cb25-12"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a><span class="kw">ggplot</span>(<span class="dt">data=</span>Pop_PR) <span class="op">+</span></span>
+<span id="cb30-2"><a href="#cb30-2"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(Edad,Valor,<span class="dt">group=</span>Sexo,<span class="dt">fill=</span>Sexo),</span>
+<span id="cb30-3"><a href="#cb30-3"></a>           <span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>,</span>
+<span id="cb30-4"><a href="#cb30-4"></a>           <span class="kw">subset</span>(Pop_PR,Pop_PR<span class="op">$</span>Sexo<span class="op">==</span><span class="st">&quot;Mujer&quot;</span>)) <span class="op">+</span></span>
+<span id="cb30-5"><a href="#cb30-5"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(Edad,<span class="op">-</span>Valor,<span class="dt">group=</span>Sexo,<span class="dt">fill=</span>Sexo),</span>
+<span id="cb30-6"><a href="#cb30-6"></a>           <span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>,</span>
+<span id="cb30-7"><a href="#cb30-7"></a>           <span class="kw">subset</span>(Pop_PR,Pop_PR<span class="op">$</span>Sexo<span class="op">==</span><span class="st">&quot;Hombre&quot;</span>)) <span class="op">+</span></span>
+<span id="cb30-8"><a href="#cb30-8"></a><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">breaks=</span><span class="kw">seq</span>(<span class="op">-</span><span class="dv">140000</span>,<span class="dv">140000</span>,<span class="dv">40000</span>),</span>
+<span id="cb30-9"><a href="#cb30-9"></a>                     <span class="dt">labels=</span><span class="kw">abs</span>(<span class="kw">seq</span>(<span class="op">-</span><span class="dv">140000</span>,<span class="dv">140000</span>,<span class="dv">40000</span>))) <span class="op">+</span></span>
+<span id="cb30-10"><a href="#cb30-10"></a><span class="st">  </span><span class="kw">coord_flip</span>()<span class="op">+</span></span>
+<span id="cb30-11"><a href="#cb30-11"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Tamaño poblacional&quot;</span>)<span class="op">+</span></span>
+<span id="cb30-12"><a href="#cb30-12"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G7_geom_bar_files/figure-html/geom-barraDemo-1.png" width="672" /></p>
 <hr />
 <p>Si no se le añade coord_flip(), el gráfico quedará representado con las barras de forma vertical (o en columnas).</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="kw">unique</span>(Pop_PR<span class="op">$</span>Sexo)</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a><span class="kw">unique</span>(Pop_PR<span class="op">$</span>Sexo)</span></code></pre></div>
 <pre><code>## [1] Hombre Mujer 
 ## Levels: Hombre Mujer</code></pre>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="kw">ggplot</span>(<span class="dt">data=</span>Pop_PR) <span class="op">+</span></span>
-<span id="cb28-2"><a href="#cb28-2"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(Edad,Valor,<span class="dt">group=</span>Sexo,<span class="dt">fill=</span>Sexo),</span>
-<span id="cb28-3"><a href="#cb28-3"></a>           <span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>,</span>
-<span id="cb28-4"><a href="#cb28-4"></a>           <span class="kw">subset</span>(Pop_PR,Pop_PR<span class="op">$</span>Sexo<span class="op">==</span><span class="st">&quot;Mujer&quot;</span>))<span class="op">+</span></span>
-<span id="cb28-5"><a href="#cb28-5"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(Edad,<span class="op">-</span>Valor,<span class="dt">group=</span>Sexo,<span class="dt">fill=</span>Sexo),</span>
-<span id="cb28-6"><a href="#cb28-6"></a>           <span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>,</span>
-<span id="cb28-7"><a href="#cb28-7"></a>           <span class="kw">subset</span>(Pop_PR,Pop_PR<span class="op">$</span>Sexo<span class="op">==</span><span class="st">&quot;Hombre&quot;</span>)) <span class="op">+</span></span>
-<span id="cb28-8"><a href="#cb28-8"></a><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">breaks=</span><span class="kw">seq</span>(<span class="op">-</span><span class="dv">140000</span>,<span class="dv">140000</span>,<span class="dv">40000</span>),</span>
-<span id="cb28-9"><a href="#cb28-9"></a>                     <span class="dt">labels=</span><span class="kw">abs</span>(<span class="kw">seq</span>(<span class="op">-</span><span class="dv">140000</span>,<span class="dv">140000</span>,<span class="dv">40000</span>))) <span class="op">+</span></span>
-<span id="cb28-10"><a href="#cb28-10"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Tamaño poblacional&quot;</span>)<span class="op">+</span></span>
-<span id="cb28-11"><a href="#cb28-11"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a><span class="kw">ggplot</span>(<span class="dt">data=</span>Pop_PR) <span class="op">+</span></span>
+<span id="cb33-2"><a href="#cb33-2"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(Edad,Valor,<span class="dt">group=</span>Sexo,<span class="dt">fill=</span>Sexo),</span>
+<span id="cb33-3"><a href="#cb33-3"></a>           <span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>,</span>
+<span id="cb33-4"><a href="#cb33-4"></a>           <span class="kw">subset</span>(Pop_PR,Pop_PR<span class="op">$</span>Sexo<span class="op">==</span><span class="st">&quot;Mujer&quot;</span>))<span class="op">+</span></span>
+<span id="cb33-5"><a href="#cb33-5"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="kw">aes</span>(Edad,<span class="op">-</span>Valor,<span class="dt">group=</span>Sexo,<span class="dt">fill=</span>Sexo),</span>
+<span id="cb33-6"><a href="#cb33-6"></a>           <span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>,</span>
+<span id="cb33-7"><a href="#cb33-7"></a>           <span class="kw">subset</span>(Pop_PR,Pop_PR<span class="op">$</span>Sexo<span class="op">==</span><span class="st">&quot;Hombre&quot;</span>)) <span class="op">+</span></span>
+<span id="cb33-8"><a href="#cb33-8"></a><span class="st">  </span><span class="kw">scale_y_continuous</span>(<span class="dt">breaks=</span><span class="kw">seq</span>(<span class="op">-</span><span class="dv">140000</span>,<span class="dv">140000</span>,<span class="dv">40000</span>),</span>
+<span id="cb33-9"><a href="#cb33-9"></a>                     <span class="dt">labels=</span><span class="kw">abs</span>(<span class="kw">seq</span>(<span class="op">-</span><span class="dv">140000</span>,<span class="dv">140000</span>,<span class="dv">40000</span>))) <span class="op">+</span></span>
+<span id="cb33-10"><a href="#cb33-10"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Tamaño poblacional&quot;</span>)<span class="op">+</span></span>
+<span id="cb33-11"><a href="#cb33-11"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G7_geom_bar_files/figure-html/geom-barraDemo2-1.png" width="672" /></p>
 <hr />
 <div id="patrones-de-temperatura-en-tiempo-con-geom_bar" class="section level2">
@@ -782,10 +814,10 @@ div.tocify {
 <p>Este tipo de representación puede ser efectiva para mostrar patrones en donde los valores son negativos y positivos; por ejemplo, la temperatura. Para demostrarlo, ahora daremos un ejemplo que proviene del pueblo de Asbestos, Quebec, Canadá. Los datos fueron extraídos de la base de datos de <a href="http://climate.weather.gc.ca/historical_data/search_historic_data_e.html" class="uri">http://climate.weather.gc.ca/historical_data/search_historic_data_e.html</a> (identifier 7020360). El archivo de datos contiene la temperatura promedio (por mes) de la máxima y la mínima del 1948 al 1987. Seleccionaremos solamente un conjunto limitado de los datos del año 1963 al 1968. Además, tendremos que voltear la información alrededor del eje de <strong>X</strong> para que se pueda leer, tal como se demuestra en la Figura. El primer paso es identificar que la variable Fecha es de tipo dato secuencial fecha y tiempo. El segundo paso es identificar si los valores de temperatura máxima están por debajo o por encima del punto de congelación, &lt; 0C°, o &gt; 0C°, creando una nueva columna que aquí llamamos <strong>NegPos</strong>. El tercer paso es usar solamente un subgrupo de información del archivo para mejorar la representación, ya que este tiene datos del 1948 al 1987. Se seleccionan los años 1963 al 1966.</p>
 <div id="primero-miramos-los-datos" class="section level3">
 <h3>Primero miramos los datos</h3>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1"></a><span class="kw">names</span>(ASBESTOS_QUEBEC)</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a><span class="kw">names</span>(ASBESTOS_QUEBEC)</span></code></pre></div>
 <pre><code>## [1] &quot;Year&quot;          &quot;Mes&quot;           &quot;Temp_Prom_Max&quot; &quot;Temp_Prom_Min&quot;
 ## [5] &quot;Fecha&quot;</code></pre>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a><span class="kw">head</span>(ASBESTOS_QUEBEC)</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a><span class="kw">head</span>(ASBESTOS_QUEBEC)</span></code></pre></div>
 <pre><code>##   Year Mes Temp_Prom_Max Temp_Prom_Min   Fecha
 ## 1 1948   6          22.2           9.9 1948-06
 ## 2 1948   7          25.5          14.2 1948-07
@@ -793,34 +825,34 @@ div.tocify {
 ## 4 1948   9          21.6           8.4 1948-09
 ## 5 1948  10          12.0           2.6 1948-10
 ## 6 1948  11          10.3           1.9 1948-11</code></pre>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a><span class="kw">is.data.frame</span>(ASBESTOS_QUEBEC) <span class="co"># para determinar si el archivo es un data frame?</span></span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a><span class="kw">is.data.frame</span>(ASBESTOS_QUEBEC) <span class="co"># para determinar si el archivo es un data frame?</span></span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1"></a><span class="kw">attach</span>(ASBESTOS_QUEBEC)</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1"></a><span class="kw">attach</span>(ASBESTOS_QUEBEC)</span></code></pre></div>
 </div>
 <div id="identificar-que-la-variable-fecha-es-una-variable-de-tiempo.-en-modulo-habrá-una-sección-que-discute-solamente-de-fechas-y-horas." class="section level3">
 <h3>Identificar que la variable “Fecha” es una variable de tiempo. En modulo habrá una sección que discute solamente de fechas y horas.</h3>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1"></a><span class="co"># Identificar que la variable &quot;Fecha&quot; es una variable de tiempo.</span></span>
-<span id="cb36-2"><a href="#cb36-2"></a><span class="kw">names</span>(ASBESTOS_QUEBEC)[<span class="kw">names</span>(ASBESTOS_QUEBEC) <span class="op">==</span><span class="st"> &#39;Date.Time&#39;</span>] &lt;-<span class="st"> &#39;Fecha&#39;</span></span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1"></a><span class="co"># Identificar que la variable &quot;Fecha&quot; es una variable de tiempo.</span></span>
+<span id="cb41-2"><a href="#cb41-2"></a><span class="kw">names</span>(ASBESTOS_QUEBEC)[<span class="kw">names</span>(ASBESTOS_QUEBEC) <span class="op">==</span><span class="st"> &#39;Date.Time&#39;</span>] &lt;-<span class="st"> &#39;Fecha&#39;</span></span></code></pre></div>
 </div>
 <div id="crear-la-nueva-variable-temp_prom_max" class="section level3">
 <h3>Crear la nueva variable Temp_Prom_Max;</h3>
 <p>Aquí se crea una nueva columna con para identificar si los datos son positivos o negativos, si es positiva = “TRUE”, si es negativa = “FALSE”.</p>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1"></a>ASBESTOS_QUEBEC<span class="op">$</span>NegPos=ASBESTOS_QUEBEC<span class="op">$</span>Temp_Prom_Max<span class="op">&gt;=</span><span class="dv">0</span></span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1"></a>ASBESTOS_QUEBEC<span class="op">$</span>NegPos=ASBESTOS_QUEBEC<span class="op">$</span>Temp_Prom_Max<span class="op">&gt;=</span><span class="dv">0</span></span></code></pre></div>
 </div>
 <div id="selecionar-solamente-un-subgrupo-de-los-datos" class="section level3">
 <h3>Selecionar solamente un subgrupo de los datos</h3>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1"></a>ASBESTOSsub=<span class="kw">subset</span>(ASBESTOS_QUEBEC, Year<span class="op">&gt;</span><span class="dv">1962</span> <span class="op">&amp;</span><span class="st"> </span>Year<span class="op">&lt;</span><span class="dv">1967</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1"></a>ASBESTOSsub=<span class="kw">subset</span>(ASBESTOS_QUEBEC, Year<span class="op">&gt;</span><span class="dv">1962</span> <span class="op">&amp;</span><span class="st"> </span>Year<span class="op">&lt;</span><span class="dv">1967</span>)</span></code></pre></div>
 </div>
 <div id="uniendo-las-partes-para-crear-el-gráfico" class="section level3">
 <h3>Uniendo las partes para crear el gráfico</h3>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1"></a><span class="kw">ggplot</span>(<span class="dt">data=</span>ASBESTOSsub,</span>
-<span id="cb39-2"><a href="#cb39-2"></a>  <span class="kw">aes</span>(<span class="dt">x=</span>Fecha, <span class="dt">y=</span>Temp_Prom_Max, <span class="dt">fill=</span>NegPos)) <span class="op">+</span></span>
-<span id="cb39-3"><a href="#cb39-3"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">position=</span><span class="st">&quot;identity&quot;</span>)<span class="op">+</span></span>
-<span id="cb39-4"><a href="#cb39-4"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x=</span><span class="kw">element_text</span>(<span class="dt">angle=</span><span class="dv">90</span>))<span class="op">+</span></span>
-<span id="cb39-5"><a href="#cb39-5"></a><span class="st">  </span><span class="kw">guides</span>(<span class="dt">fill=</span><span class="ot">FALSE</span>)<span class="op">+</span></span>
-<span id="cb39-6"><a href="#cb39-6"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Fecha&quot;</span>)<span class="op">+</span></span>
-<span id="cb39-7"><a href="#cb39-7"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Temperatura promedio máxima por mes en Celsius&quot;</span>)<span class="op">+</span></span>
-<span id="cb39-8"><a href="#cb39-8"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1"></a><span class="kw">ggplot</span>(<span class="dt">data=</span>ASBESTOSsub,</span>
+<span id="cb44-2"><a href="#cb44-2"></a>  <span class="kw">aes</span>(<span class="dt">x=</span>Fecha, <span class="dt">y=</span>Temp_Prom_Max, <span class="dt">fill=</span>NegPos)) <span class="op">+</span></span>
+<span id="cb44-3"><a href="#cb44-3"></a><span class="st">  </span><span class="kw">geom_bar</span>(<span class="dt">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="dt">position=</span><span class="st">&quot;identity&quot;</span>)<span class="op">+</span></span>
+<span id="cb44-4"><a href="#cb44-4"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x=</span><span class="kw">element_text</span>(<span class="dt">angle=</span><span class="dv">90</span>))<span class="op">+</span></span>
+<span id="cb44-5"><a href="#cb44-5"></a><span class="st">  </span><span class="kw">guides</span>(<span class="dt">fill=</span><span class="ot">FALSE</span>)<span class="op">+</span></span>
+<span id="cb44-6"><a href="#cb44-6"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Fecha&quot;</span>)<span class="op">+</span></span>
+<span id="cb44-7"><a href="#cb44-7"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Temperatura promedio máxima por mes en Celsius&quot;</span>)<span class="op">+</span></span>
+<span id="cb44-8"><a href="#cb44-8"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <pre><code>## Warning: Removed 2 rows containing missing values (geom_bar).</code></pre>
 <p><img src="G7_geom_bar_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 </div>
@@ -829,8 +861,8 @@ div.tocify {
 <h2>Gráfico de barras: Ajuste de posiciones con <strong>geom_bar</strong></h2>
 <p>A veces queremos hacer que las barras luzcan de diferentes maneras; por ejemplo, que las posiciones de las barras no salgan verticales o tan gruesas. Además, se puede modificar la representación de las barras para que la altura de ellas no represente el número de observaciones; por ejemplo, que represente una suma sobre otra variable.</p>
 <p>Los datos que utilizaremos para la próxima demostración provienen del archivo de lagartos <strong>Anolis</strong> que contiene información sobre su edad, sexo, periodo de muestreo y localidad donde fueron muestreados.</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1"></a><span class="kw">library</span>(ggversa)</span>
-<span id="cb41-2"><a href="#cb41-2"></a><span class="kw">names</span>(Anolis)</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1"></a><span class="kw">library</span>(ggversa)</span>
+<span id="cb46-2"><a href="#cb46-2"></a><span class="kw">names</span>(Anolis)</span></code></pre></div>
 <pre><code>##  [1] &quot;STUDY&quot;                    &quot;Survey_Site&quot;             
 ##  [3] &quot;LOCATION&quot;                 &quot;TIME&quot;                    
 ##  [5] &quot;DATE&quot;                     &quot;SEASON&quot;                  
@@ -840,37 +872,37 @@ div.tocify {
 ## [13] &quot;WEIGHT&quot;                   &quot;SVL&quot;                     
 ## [15] &quot;TAIL&quot;</code></pre>
 <p>El primer gráfico a continuación, produce por omisión barras negras que representan la suma de la cantidad de observaciones.</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1"></a>barraA=<span class="kw">ggplot</span>(Anolis, <span class="kw">aes</span>(SEX_AGE))</span>
-<span id="cb43-2"><a href="#cb43-2"></a>barraA<span class="op">+</span><span class="kw">geom_bar</span>(<span class="dt">fill=</span><span class="kw">grey</span>(.<span class="dv">3</span>))<span class="op">+</span></span>
-<span id="cb43-3"><a href="#cb43-3"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">14</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1"></a>barraA=<span class="kw">ggplot</span>(Anolis, <span class="kw">aes</span>(SEX_AGE))</span>
+<span id="cb48-2"><a href="#cb48-2"></a>barraA<span class="op">+</span><span class="kw">geom_bar</span>(<span class="dt">fill=</span><span class="kw">grey</span>(.<span class="dv">3</span>))<span class="op">+</span></span>
+<span id="cb48-3"><a href="#cb48-3"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">14</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G7_geom_bar_files/figure-html/geombar2-1.png" width="672" /></p>
 <p>En el segundo, el ancho de las barras fue reducido para que se vean menos angostas usando la opción <strong>width</strong>, ene ejemplo se reduce el ancho de las barras <strong>width=.3</strong>. Además, se cambia la descripción de los ejes al castellano. También selecciono un otro color de gris y se modifico su intensidad con <strong>fill=grey(.5)</strong>.</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1"></a>barraA=<span class="kw">ggplot</span>(Anolis, <span class="kw">aes</span>(SEX_AGE))</span>
-<span id="cb44-2"><a href="#cb44-2"></a>barraA<span class="op">+</span><span class="kw">geom_bar</span>(<span class="dt">width=</span>.<span class="dv">3</span>, <span class="dt">fill=</span><span class="kw">grey</span>(.<span class="dv">5</span>))<span class="op">+</span></span>
-<span id="cb44-3"><a href="#cb44-3"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="dt">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="op">+</span></span>
-<span id="cb44-4"><a href="#cb44-4"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1"></a>barraA=<span class="kw">ggplot</span>(Anolis, <span class="kw">aes</span>(SEX_AGE))</span>
+<span id="cb49-2"><a href="#cb49-2"></a>barraA<span class="op">+</span><span class="kw">geom_bar</span>(<span class="dt">width=</span>.<span class="dv">3</span>, <span class="dt">fill=</span><span class="kw">grey</span>(.<span class="dv">5</span>))<span class="op">+</span></span>
+<span id="cb49-3"><a href="#cb49-3"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="dt">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="op">+</span></span>
+<span id="cb49-4"><a href="#cb49-4"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G7_geom_bar_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <p>En el tercer grafico las barras fueron rotadas usando la opción <strong>coord_flip()</strong> y puestas sobre lo que antes era el eje de <strong>Y</strong>. En el cuarto, se añadió una variable discreta como color; en este caso, fue usada la escala de color gris para distinguir entre la temporada seca <strong>dry</strong> la lluviosa <strong>wet</strong>. Si no se añade la opción scale_fill_grey(), las categorías tendrían color.</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1"></a>barraA=<span class="kw">ggplot</span>(Anolis, <span class="kw">aes</span>(SEX_AGE))</span>
-<span id="cb45-2"><a href="#cb45-2"></a>barraA<span class="op">+</span><span class="kw">geom_bar</span>(<span class="dt">fill=</span><span class="kw">grey</span>(.<span class="dv">5</span>))<span class="op">+</span><span class="kw">coord_flip</span>()<span class="op">+</span></span>
-<span id="cb45-3"><a href="#cb45-3"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="dt">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="op">+</span></span>
-<span id="cb45-4"><a href="#cb45-4"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1"></a>barraA=<span class="kw">ggplot</span>(Anolis, <span class="kw">aes</span>(SEX_AGE))</span>
+<span id="cb50-2"><a href="#cb50-2"></a>barraA<span class="op">+</span><span class="kw">geom_bar</span>(<span class="dt">fill=</span><span class="kw">grey</span>(.<span class="dv">5</span>))<span class="op">+</span><span class="kw">coord_flip</span>()<span class="op">+</span></span>
+<span id="cb50-3"><a href="#cb50-3"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="dt">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="op">+</span></span>
+<span id="cb50-4"><a href="#cb50-4"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G7_geom_bar_files/figure-html/geombar2a-1.png" width="672" /></p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1"></a>barraA=<span class="kw">ggplot</span>(Anolis, <span class="kw">aes</span>(SEX_AGE, <span class="dt">fill=</span>SEASON))</span>
-<span id="cb46-2"><a href="#cb46-2"></a>barraA<span class="op">+</span><span class="kw">geom_bar</span>()<span class="op">+</span><span class="kw">scale_fill_grey</span>()<span class="op">+</span></span>
-<span id="cb46-3"><a href="#cb46-3"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="dt">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="op">+</span></span>
-<span id="cb46-4"><a href="#cb46-4"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1"></a>barraA=<span class="kw">ggplot</span>(Anolis, <span class="kw">aes</span>(SEX_AGE, <span class="dt">fill=</span>SEASON))</span>
+<span id="cb51-2"><a href="#cb51-2"></a>barraA<span class="op">+</span><span class="kw">geom_bar</span>()<span class="op">+</span><span class="kw">scale_fill_grey</span>()<span class="op">+</span></span>
+<span id="cb51-3"><a href="#cb51-3"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="dt">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="op">+</span></span>
+<span id="cb51-4"><a href="#cb51-4"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G7_geom_bar_files/figure-html/geombar2a-2.png" width="672" /> ### Posiciones d elas barras</p>
 <p>Si uno quiere posicionar las categorías una al lado de la otra, se usa <strong>(position={dodge})</strong>. El parámetro <strong>dodge</strong> le indica <strong>esquivar</strong> en el sentido de mover al lado.</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1"></a>barraA=<span class="kw">ggplot</span>(Anolis, <span class="kw">aes</span>(SEX_AGE,<span class="dt">fill=</span>SEASON))</span>
-<span id="cb47-2"><a href="#cb47-2"></a>barraA<span class="op">+</span><span class="kw">geom_bar</span>()<span class="op">+</span></span>
-<span id="cb47-3"><a href="#cb47-3"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="dt">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="op">+</span></span>
-<span id="cb47-4"><a href="#cb47-4"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1"></a>barraA=<span class="kw">ggplot</span>(Anolis, <span class="kw">aes</span>(SEX_AGE,<span class="dt">fill=</span>SEASON))</span>
+<span id="cb52-2"><a href="#cb52-2"></a>barraA<span class="op">+</span><span class="kw">geom_bar</span>()<span class="op">+</span></span>
+<span id="cb52-3"><a href="#cb52-3"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="dt">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="op">+</span></span>
+<span id="cb52-4"><a href="#cb52-4"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G7_geom_bar_files/figure-html/geombar3-1.png" width="672" /></p>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1"></a>barraA=<span class="kw">ggplot</span>(Anolis, <span class="kw">aes</span>(SEX_AGE,<span class="dt">fill=</span>SEASON))</span>
-<span id="cb48-2"><a href="#cb48-2"></a>barraA<span class="op">+</span><span class="kw">geom_bar</span>(<span class="dt">position=</span><span class="st">&quot;dodge&quot;</span>)<span class="op">+</span></span>
-<span id="cb48-3"><a href="#cb48-3"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="dt">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="op">+</span></span>
-<span id="cb48-4"><a href="#cb48-4"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1"></a>barraA=<span class="kw">ggplot</span>(Anolis, <span class="kw">aes</span>(SEX_AGE,<span class="dt">fill=</span>SEASON))</span>
+<span id="cb53-2"><a href="#cb53-2"></a>barraA<span class="op">+</span><span class="kw">geom_bar</span>(<span class="dt">position=</span><span class="st">&quot;dodge&quot;</span>)<span class="op">+</span></span>
+<span id="cb53-3"><a href="#cb53-3"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="dt">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="op">+</span></span>
+<span id="cb53-4"><a href="#cb53-4"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G7_geom_bar_files/figure-html/geombar3-2.png" width="672" /></p>
 </div>
 </div>
