@@ -80,6 +80,8 @@ Se puede cambiar la intensidad del color de las barras usando **alpha**.  los va
 
 ```{r dipodium-barra1,  echo=TRUE}
 
+head(DW)
+
 b=ggplot(DW[!is.na(DW$number_of_flowers),],
          aes(number_of_flowers))
 b+geom_bar(alpha=.3,
@@ -91,11 +93,32 @@ b+geom_bar(alpha=.3,
 
 ***
 
-1. Seleccione el archivo "Educacion_Ninas" en el paquete "ggversa".  Las variables que terminan en con NMPP son el porcentaje de niñas matriculada en pre-primaria, Seleccione el año 2010 y haga un histograma.
+
+```{r, echo=FALSE, size='50%', out.extra='style="float:right; padding:10px"',  fig.cap='Figura: Lepanthes eltoroensis, EL Yunque, Puerto Rico'}
+knitr::include_graphics("Graficos/L_eltoroensis.jpeg")
+```
+
+
+
+1. Seleccione el archivo "Lelto" en el paquete "ggversa".  Seleccione la variable adultos o juvenil, que representa la cantidad de plantas adulto o juvenil que se encuentra en el árbol. Los datos son de una pequeñita orquídea que esta limitado las veredas del "El Toro" y de los "Vientos Alizios" en el Yunque. 
+     - Mire el nombre de las columnas primero
      - Cambie de color las barras
      - Cambie el nombre de los nombres de los ejes
      - Salva el gráfico con extensión de .png
      - Sube el gráfico a Edmodo
+
+
+```{r, eval=FALSE, echo=FALSE}
+
+tail(Edu_Salud_Gastos_GDP)
+ggplot(Edu_Salud_Gastos_GDP, aes(Porc_Ninas_no_escuela))+
+  geom_bar(fill="blue")
+
+ggplot(Lelto, aes(Adultos))+
+  geom_bar()
+ 
+
+```
 
 
 # Multiples grupos 
@@ -180,12 +203,17 @@ DW%>%
   ggplot(aes(fruit_position_effect))+
   geom_bar(aes(y=(..count..)/sum(..count..), 
                fill=factor(frutos_si_o_no)),
-               color="white", position="identity")+ # Para que cada grupo comience en cero
+               color="white", position="identity")+ # Para que cada grupo comience en cero se usa position = "identity"
   xlab("Posiciones de las flores en la inflorescencia")+
   ylab("Frecuencia")+
   guides(fill=FALSE)+
   theme(axis.title=element_text(size=14,face="bold"))
 ```
+
+***
+
+
+
 
 ***
 
@@ -203,7 +231,7 @@ DW%>%
 ggplot(aes(factor(fruit_position_effect),
              fill=factor(frutos_si_o_no)))+
 geom_bar(aes(y=(..count..)/sum(..count..)),
-           position="fill")+
+           position="fill")+ # Para que cada columna sume a 1.0 se usa position = "fill"
   xlab("Posiciones de las flores en la inflorescencia")+
   ylab("Proporción")+
     guides(fill=FALSE)+
