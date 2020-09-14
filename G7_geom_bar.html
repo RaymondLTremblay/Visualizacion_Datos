@@ -759,6 +759,23 @@ Figura: Lepanthes eltoroensis, EL Yunque, Puerto Rico
 <span id="cb25-11"><a href="#cb25-11"></a><span class="st">  theme(axis.title=element_text(size=10,face=&quot;</span>bold<span class="st">&quot;))</span></span></code></pre></div>
 <p><img src="G7_geom_bar_files/figure-html/dipodium-barra4-1.png" width="672" /></p>
 <hr />
+<ol start="2" style="list-style-type: decimal">
+<li><p>Seleccione el archivo “Lelto” en el paquete “ggversa”. Seleccione la variable adultos o juvenil, que representa la cantidad de plantas adulto o juvenil que se encuentra en el árbol. Los datos son de una pequeñita orquídea que esta limitado las veredas del “El Toro” y de los “Vientos Alizios” en el Yunque. Primero se va unir las columnas de juvenil con las de adultos, para después hacer un gráfico donde cada columna sume a 1.0 se usa position = “fill”.</p>
+<p>– paso 1</p>
+<p>head(Lelto)</p>
+<p>– paso 2</p>
+<p>df=Lelto %&gt;% select(Juveniles, Adultos)</p>
+<p>– paso 3</p>
+<p>dfLelto = df%&gt;% gather(key=“Estado”, value=“Conteos”) # <span style="color: red;">gather( )</span> recuerda esta función, siempre me hace dificil encontrarla en el web.</p>
+<p>– Mire el nombre de las columnas primero y como esta organiado</p>
+<ul>
+<li>Cambie de color las barras</li>
+<li>Cambie el nombre de los nombres de los ejes</li>
+<li>Salva el gráfico con extensión de .png</li>
+<li>Sube el gráfico a Edmodo</li>
+</ul></li>
+</ol>
+<hr />
 </div>
 <div id="reordenar-las-barras-con-geom_bar" class="section level1">
 <h1>Reordenar las barras con <strong>geom_bar</strong></h1>
@@ -878,7 +895,7 @@ Figura: Lepanthes eltoroensis, EL Yunque, Puerto Rico
 <span id="cb46-7"><a href="#cb46-7"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Temperatura promedio máxima por mes en Celsius&quot;</span>)<span class="op">+</span></span>
 <span id="cb46-8"><a href="#cb46-8"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <pre><code>## Warning: Removed 2 rows containing missing values (geom_bar).</code></pre>
-<p><img src="G7_geom_bar_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p><img src="G7_geom_bar_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 </div>
 </div>
 <div id="gráfico-de-barras-ajuste-de-posiciones-con-geom_bar" class="section level2">
@@ -905,7 +922,7 @@ Figura: Lepanthes eltoroensis, EL Yunque, Puerto Rico
 <span id="cb51-2"><a href="#cb51-2"></a>barraA<span class="op">+</span><span class="kw">geom_bar</span>(<span class="dt">width=</span>.<span class="dv">3</span>, <span class="dt">fill=</span><span class="kw">grey</span>(.<span class="dv">5</span>))<span class="op">+</span></span>
 <span id="cb51-3"><a href="#cb51-3"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="dt">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="op">+</span></span>
 <span id="cb51-4"><a href="#cb51-4"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<p><img src="G7_geom_bar_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<p><img src="G7_geom_bar_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
 <p>En el tercer grafico las barras fueron rotadas usando la opción <strong>coord_flip()</strong> y puestas sobre lo que antes era el eje de <strong>Y</strong>. En el cuarto, se añadió una variable discreta como color; en este caso, fue usada la escala de color gris para distinguir entre la temporada seca <strong>dry</strong> la lluviosa <strong>wet</strong>. Si no se añade la opción scale_fill_grey(), las categorías tendrían color.</p>
 <div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1"></a>barraA=<span class="kw">ggplot</span>(Anolis, <span class="kw">aes</span>(SEX_AGE))</span>
 <span id="cb52-2"><a href="#cb52-2"></a>barraA<span class="op">+</span><span class="kw">geom_bar</span>(<span class="dt">fill=</span><span class="kw">grey</span>(.<span class="dv">5</span>))<span class="op">+</span><span class="kw">coord_flip</span>()<span class="op">+</span></span>

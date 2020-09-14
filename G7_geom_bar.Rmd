@@ -110,9 +110,7 @@ knitr::include_graphics("Graficos/L_eltoroensis.jpeg")
 
 ```{r, eval=FALSE, echo=FALSE}
 
-tail(Edu_Salud_Gastos_GDP)
-ggplot(Edu_Salud_Gastos_GDP, aes(Porc_Ninas_no_escuela))+
-  geom_bar(fill="blue")
+
 
 ggplot(Lelto, aes(Adultos))+
   geom_bar()
@@ -213,8 +211,6 @@ DW%>%
 ***
 
 
-
-
 ***
 
 # Porcentaje por valos de cada **X**
@@ -240,6 +236,54 @@ geom_bar(aes(y=(..count..)/sum(..count..)),
 ```
 
 ***
+
+
+2. Seleccione el archivo "Lelto" en el paquete "ggversa".  Seleccione la variable adultos o juvenil, que representa la cantidad de plantas adulto o juvenil que se encuentra en el árbol. Los datos son de una pequeñita orquídea que esta limitado las veredas del "El Toro" y de los "Vientos Alizios" en el Yunque. Primero se va unir las columnas de juvenil con las de adultos, para después hacer un gráfico donde cada columna sume a 1.0 se usa position = "fill".
+  
+    -- paso 1
+    
+      head(Lelto)
+      
+    -- paso 2
+    
+      df=Lelto %>% 
+      select(Juveniles, Adultos)
+      
+    --  paso 3
+    
+      dfLelto = df%>% 
+      gather(key="Estado", value="Conteos") # `r colorize("gather( )", "red")` recuerda esta función, siempre me hace dificil encontrarla en el web.  
+
+
+     -- Mire el nombre de las columnas primero y como esta organiado
+     - Cambie de color las barras
+     - Cambie el nombre de los nombres de los ejes
+     - Salva el gráfico con extensión de .png
+     - Sube el gráfico a Edmodo
+     
+     
+
+
+
+```{r, eval=FALSE, echo=FALSE}
+
+
+head(Lelto)
+df=Lelto %>% 
+  select(Juveniles, Adultos)
+
+dfLelto = df%>% 
+  gather(key="Estado", value="Conteos")
+
+ggplot(dfLelto, aes(Conteos, fill=Estado))+
+  geom_bar()
+ 
+
+```
+
+
+***
+
 
 
 # Reordenar las barras con **geom_bar**
