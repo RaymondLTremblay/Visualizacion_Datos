@@ -335,7 +335,7 @@ También note que tenemos datos a la izquierda y a la derecha del valor de cero.
 ```{r geom-barraDemo,  echo=TRUE}
 ggversa::Pop_PR
 # Para observar las primeras 4 filas del archivo
-head(Pop_PR, n=4)
+head(Pop_PR, n=50)
 
 # Para observar las ultimas 4 filas del archivo
 tail(Pop_PR, n=4)
@@ -343,16 +343,20 @@ tail(Pop_PR, n=4)
 ggplot(data=Pop_PR) +
   geom_bar(aes(Edad,Valor,group=Sexo,fill=Sexo),
            stat = "identity",
-           subset(Pop_PR,Pop_PR$Sexo=="Mujer")) +
+           subset(Pop_PR,Pop_PR$Sexo=="Mujer"))+
   geom_bar(aes(Edad,-Valor,group=Sexo,fill=Sexo),  # nota el "negativo" antes de la 
            #variable "Valor", se le esta asignando un valor negativo a cada valor a los hombres.  
            stat = "identity",
-           subset(Pop_PR,Pop_PR$Sexo=="Hombre")) +
+           subset(Pop_PR,Pop_PR$Sexo=="Hombre"))+
   scale_y_continuous(breaks=seq(-140000,140000,40000),
                      labels=abs(seq(-140000,140000,40000))) +
   coord_flip()+
   ylab("Tamaño poblacional")+
   theme(axis.title=element_text(size=10,face="bold"))
+
+
+Pop_PR$SexoNum=as.numeric(Pop_PR$Sexo)
+head(Pop_PR)
 ```
 
 ***
