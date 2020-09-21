@@ -333,7 +333,7 @@ Para especificar que se usen solamente los datos de un subgrupo de cada variable
 También note que tenemos datos a la izquierda y a la derecha del valor de cero. Se produce este patrón usando {-Valor} en uno de los grupos, donde el valor es el tamaño poblacional por grupo de edad.  Por último, se tiene que añadir **coord_flip()** para que las barras queden de forma horizontal.
 
 ```{r geom-barraDemo,  echo=TRUE}
-
+ggversa::Pop_PR
 # Para observar las primeras 4 filas del archivo
 head(Pop_PR, n=4)
 
@@ -376,21 +376,20 @@ ggplot(data=Pop_PR) +
 
 
 
-2. Seleccione el archivo "UNdata" que se encuentra en la pestaña "Los datos".  Estos datos provienen las naciones unidas al siguiente [PoblacionEdad_genero](http://data.un.org/Data.aspx?d=POP&f=tableCode%3A22), los datos fueron preselecionado a incluir colamente los datos de islas del caribe y no notos los paises del mundo.  Seleccione la variable adultos o juvenil, que representa la cantidad de plantas adulto o juvenil que se encuentra en el árbol. Los datos son de una pequeñita orquídea que esta limitado las veredas del "El Toro" y de los "Vientos Alizios" en el Yunque. Primero se va unir las columnas de juvenil con las de adultos, para después hacer un gráfico donde cada columna sume a 1.0 se usa position = "fill".
+2. Seleccione el archivo "DominicanRepublic,csv" que se encuentra en la pestaña "Los datos".  Estos datos provienen las naciones unidas del siguiente enlace [PoblacionEdad_genero](http://data.un.org/Data.aspx?d=POP&f=tableCode%3A22), los datos fueron pre-selecionado a incluir solamente los datos la isla de la Republica Dominicana y no todos los paises del mundo.  Seleccione la variable solamente el pais de "Dominican Republican", mujeres y hombres, para el año de 2010. Que representa la cantidad de personas con esta edad en el muestreo censal del año 2013. 
   
     -- paso 1
     
-      head(Lelto)
+      subir los datos
       
     -- paso 2
     
-      df=Lelto %>% 
-      select(Juveniles, Adultos)
+      seleccionar las columnas y variables de interes
       
     --  paso 3
     
-      dfLelto = df%>% 
-      gather(key="Estado", value="Conteos") # `r colorize("gather( )", "red")` recuerda esta función, siempre me hace dificil encontrarla en el web.  
+    Producir una piramide de la poblacion de la Republica Dominicana
+  
 
 
      -- Mire el nombre de las columnas primero y como esta organiado
@@ -401,6 +400,9 @@ ggplot(data=Pop_PR) +
      
      
      
+
+
+
 
 
 
