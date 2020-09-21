@@ -376,7 +376,7 @@ ggplot(data=Pop_PR) +
 
 
 
-2. Seleccione el archivo "DominicanRepublic,csv" que se encuentra en la pestaña "Los datos".  Estos datos provienen las naciones unidas del siguiente enlace [PoblacionEdad_genero](http://data.un.org/Data.aspx?d=POP&f=tableCode%3A22), los datos fueron pre-selecionado a incluir solamente los datos la isla de la Republica Dominicana y no todos los paises del mundo.  Seleccione la variable solamente el pais de "Dominican Republican", mujeres y hombres, para el año de 2010. Que representa la cantidad de personas con esta edad en el muestreo censal del año 2013. 
+2. Seleccione el archivo "DominicanRepublic,csv" que se encuentra en la pestaña "Los datos".  Estos datos provienen las naciones unidas del siguiente enlace [PoblacionEdad_genero](http://data.un.org/Data.aspx?d=POP&f=tableCode%3A22), los datos fueron pre-selecionado a incluir solamente los datos la isla de la Republica Dominicana y no todos los países del mundo.  Seleccione la variable solamente el país de "Dominican Republican", mujeres y hombres, para el año de 2010, y el área solamente la población del campo. Que representa la cantidad de personas con esta edad en el muestreo censal del año 2013. 
   
     -- paso 1
     
@@ -404,6 +404,41 @@ ggplot(data=Pop_PR) +
 
 
 
+```{r, eval=FALSE, echo=FALSE}
+library(readr)
+DominicanRepublic <- read_csv("Data/DominicanRepublic.csv")
+
+DR=DominicanRepublic%>% 
+  select(Year, Age, Sex, Area, Value) %>% 
+  filter(Year==2010)%>% 
+  filter(Area=="Rural") %>% 
+filter(Sex %in% c("Female", "Male"))
+
+
+DR
+
+
+unique(DR$Age)
+
+#as.numeric(as.character(data_frame$column))
+DR$AgeN=as.numeric(as.character(DR$Age))
+head(DR)
+
+ggplot(data=DR)+
+  geom_bar(aes(AgeN,Value,group=Sex,fill=Sex),
+           stat = "identity",
+           subset(DR,DR$Sex=="Female"))+
+  geom_bar(aes(AgeN,-Value,group=Sex,fill=Sex),
+           stat = "identity",
+           subset(DR,DR$Sex=="Male")) +
+  ylab("Tamaño poblacional")+
+  theme(axis.title=element_text(size=10,face="bold"))+
+  coord_flip()
+
+
+DR %>% 
+  arrange(desc(Age))
+```
 
 
 ***
