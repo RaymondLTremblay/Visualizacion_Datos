@@ -499,6 +499,70 @@ ggplot(data=ASBESTOSsub,
 
 ```
 
+
+2. USando los datos de Anchorage Alaska, evaluar el patrón de temperatura mínima en los diferentes meses del año.  
+
+
+
+```{r}
+library(readr)
+Anchorage_ALASKA <- read_csv("Data/Anchorage_ALASKA.csv")
+
+head(Anchorage_ALASKA)
+
+```
+
+```{r}
+# gather the data in columns
+# Paso 1
+AA<-gather(Anchorage_ALASKA,
+         key= "Mes",
+         value="Temp_min",
+         -Year)
+AA      
+```
+
+
+```{r}
+# Identificar que el Año y Mes son variables de tiempo
+
+#Paso 2
+
+numMonth<-function(x) 
+c(jan=1,feb=2,mar=3,apr=4,may=5,jun=6,jul=7,aug=8,sep=9,oct=10,nov=11,dec=12)[tolower(x)]
+
+AA$Fecha=numMonth(AA$Mes)
+tail(AA)
+
+#Paso 3
+
+library(zoo)
+AA$FechasMA <- as.yearmon(paste(AA$Year, AA$Fecha), "%Y %m")
+head(AA)
+```
+
+
+```{r}
+# Paso 4
+AA$NegPos=AA$Temp_min>=32
+head(AA)
+```
+
+
+```{r}
+
+ggplot(data=AA,
+  aes(x=FechasMA, y=Temp_min, fill=NegPos)) +
+  geom_bar(stat = "identity", position="identity")+
+  theme(axis.text.x=element_text(angle=90))+
+  guides(fill=FALSE)+
+  xlab("Fecha")+
+  ylab("Temperatura promedio máxima por mes en Farenheit")+
+  theme(axis.title=element_text(size=10,face="bold"))
+
+```
+
+
 ## Gráfico de barras: Ajuste de posiciones con **geom_bar**
 
   A veces queremos hacer que las barras luzcan de diferentes maneras; por ejemplo, que las posiciones de las barras no salgan verticales o tan gruesas. Además, se puede modificar la representación de las barras para que la altura de ellas no represente el número de observaciones; por ejemplo, que represente una suma sobre otra variable.
