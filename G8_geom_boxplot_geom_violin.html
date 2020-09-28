@@ -569,10 +569,11 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2020-09-04&quot;</code></pre>
+<pre><code>## [1] &quot;2020-09-27&quot;</code></pre>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">library</span>(tidyverse)</span>
 <span id="cb2-2"><a href="#cb2-2"></a><span class="kw">library</span>(ggversa)</span>
 <span id="cb2-3"><a href="#cb2-3"></a><span class="kw">library</span>(gridExtra) <span class="co"># Para organizar múltiples gráficos juntos</span></span></code></pre></div>
+<hr />
 <div id="diagrama-de-caja-con-geom_boxplot" class="section level1">
 <h1>Diagrama de caja con geom_boxplot</h1>
 <p>Para datos que no tienen una distribución normal, típicamente se usa un diagrama de caja para visualizar la distribución de los datos. El diagrama de caja distribuye los datos basándose en el rango del orden de tamaño o valor numérico. Primeramente, los datos son ordenados de menor a mayor. Los valores en el gráfico correspondiente representan los cuartiles 25, 50 y 75. Los bigotes (las líneas que se extienden de las cajas) representan 1.5 veces multiplicado por el rango intercuartil (RIC), o la distancia entre el primer cuartil (25) y el tercer cuartil (75). Los datos que están fuera de ese rango se representan con puntos. Los gráficos que usan muescas, o <strong>notch</strong>, las calculan de acuerdo a la siguiente fórmula: (1.58 x RIC) / (raíz cuadrada de la muestra). Utilizaremos nuevamente los datos de la orquídea <strong>Dipodium</strong> en los siguientes ejemplos, particularmente representando la cantidad de flores y el número de frutos.</p>
@@ -610,6 +611,19 @@ div.tocify {
 <span id="cb3-31"><a href="#cb3-31"></a></span>
 <span id="cb3-32"><a href="#cb3-32"></a><span class="kw">grid.arrange</span>(boxplot1,boxplot2, boxplot3, boxplot4,<span class="dt">ncol=</span><span class="dv">2</span>)</span></code></pre></div>
 <p><img src="G8_geom_boxplot_geom_violin_files/figure-html/boxplot-1.png" width="672" /></p>
+<ol style="list-style-type: decimal">
+<li>Preparar un gráfico de caja (box plot) o tambien llamado <strong>Box and whiskers</strong>. Utiliza los datos <strong>ElphickBirdData</strong> en el paquete <strong>ggversa</strong>. Utiliza la columna <strong>AQBIRDS</strong>, que son la cantidad de pájaros acuaticos muestreados por Zuur, Ieno and Elphick. La especies de pájaro de nombre <strong>Godwit</strong> es una ave migratoria que come pequeños moluscos en la playas. Utiliza la columna “Site” para crear un box plot con los “notch”, por cada sitio de muestreo.
+<ul>
+<li>Salvar el gráfico en formato .png y subirla a Edmodo.</li>
+</ul></li>
+</ol>
+<div class="figure">
+<img src="Graficos/Gotwits.png" alt="La foto es de Leo Berzins via Flickr" width="50%" style="float:right; padding:10px" />
+<p class="caption">
+La foto es de Leo Berzins via Flickr
+</p>
+</div>
+<hr />
 </div>
 <div id="opciones-y-parametros-de-geom_boxplot" class="section level1">
 <h1>Opciones y Parametros de <strong>geom_boxplot</strong>:</h1>
@@ -721,6 +735,7 @@ div.tocify {
 <span id="cb9-6"><a href="#cb9-6"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Año&quot;</span>, <span class="dt">y=</span><span class="st">&quot;OH&quot;</span>)<span class="op">+</span></span>
 <span id="cb9-7"><a href="#cb9-7"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G8_geom_boxplot_geom_violin_files/figure-html/geomviolin6-1.png" width="672" /></p>
+<hr />
 <div id="geom_violin-por-categoría-o-factor" class="section level2">
 <h2>Geom_violin por categoría o factor</h2>
 <p>En la Figura se cambia el color de cada grupo, <strong>Year</strong>. Para lograr ese efecto se le añade otra variable para representar los grupos (o categorías) por color; en este caso, la distribución de los tamaños de las plantas en términos de si produjeron frutos o no.</p>
@@ -734,6 +749,7 @@ div.tocify {
 <span id="cb10-8"><a href="#cb10-8"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))<span class="op">+</span></span>
 <span id="cb10-9"><a href="#cb10-9"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Altura de la planta&quot;</span>)</span></code></pre></div>
 <p><img src="G8_geom_boxplot_geom_violin_files/figure-html/geomviolin7-1.png" width="672" /></p>
+<hr />
 </div>
 <div id="geom_violin-en-proporción-al-tamaño-de-la-muestra" class="section level2">
 <h2>Geom_violin en proporción al tamaño de la muestra</h2>
@@ -745,6 +761,7 @@ div.tocify {
 <span id="cb11-5"><a href="#cb11-5"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Año&quot;</span>, <span class="dt">y=</span><span class="st">&quot;OH&quot;</span>)<span class="op">+</span></span>
 <span id="cb11-6"><a href="#cb11-6"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G8_geom_boxplot_geom_violin_files/figure-html/geomviolin8-1.png" width="672" /></p>
+<hr />
 </div>
 <div id="geom_violin-no-en-proporción-al-tamaño-de-la-muestra" class="section level2">
 <h2>Geom_violin no en proporción al tamaño de la muestra</h2>
@@ -756,6 +773,7 @@ div.tocify {
 <span id="cb12-5"><a href="#cb12-5"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Año&quot;</span>, <span class="dt">y=</span><span class="st">&quot;OH&quot;</span>)<span class="op">+</span></span>
 <span id="cb12-6"><a href="#cb12-6"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G8_geom_boxplot_geom_violin_files/figure-html/geomviolin9-1.png" width="672" /></p>
+<hr />
 </div>
 <div id="geom_violin-y-el-cambio-de-orientación" class="section level2">
 <h2>Geom_violin y el cambio de orientación</h2>
@@ -767,6 +785,16 @@ div.tocify {
 <span id="cb13-5"><a href="#cb13-5"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="st">&quot;Año&quot;</span>, <span class="dt">y=</span><span class="st">&quot;OH&quot;</span>)<span class="op">+</span></span>
 <span id="cb13-6"><a href="#cb13-6"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G8_geom_boxplot_geom_violin_files/figure-html/geomviolin10-1.png" width="672" /></p>
+<ol start="2" style="list-style-type: decimal">
+<li>Preparar un gráfico de violín. Utiliza los datos <strong>CypripediumA</strong> en el paquete <strong>ggversa</strong>. Utiliza la columna <strong>Lip_length_mm</strong>, que es el largo de labelo de la orquidea <em>Cypripedium acaule</em>. La especies de orquidea vive en el norte de Canada en bosques cerados (Forest) o pantanos (Wetlands). Utiliza la columna Forest_Wetland" para crear un box plot por cada sitio de muestreo. Poner color a los dos grupos. Evaluando la distribución de los datos sobre el tamaño del labello, Ud. cree que la distribución de tamaño es igual?</li>
+</ol>
+<div class="figure">
+<img src="Graficos/Cypripedium_acaule.png" alt="La foto es de Peter Nosko de University of Nipissing, North Bay, Canada" width="70%" style="float:right; padding:10px" />
+<p class="caption">
+La foto es de Peter Nosko de University of Nipissing, North Bay, Canada
+</p>
+</div>
+<hr />
 </div>
 </div>
 <div id="opciones-y-parametros-de-geom_violin" class="section level1">
@@ -784,6 +812,7 @@ div.tocify {
 <li>weight: para modificar el valor original; entonces no sería, por ejemplo, el conteo/suma de los valores si no un valor ponderado (promedio ponderado).</li>
 </ul></li>
 </ul>
+<hr />
 </div>
 
 

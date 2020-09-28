@@ -39,6 +39,8 @@ library(ggversa)
 library(gridExtra) # Para organizar múltiples gráficos juntos
 ```
 
+***
+
 
 # Diagrama de caja con geom_boxplot
 
@@ -81,6 +83,27 @@ boxplot4 <- ggplot(na.omit(dipodium[,c("Number_of_fruits",
 grid.arrange(boxplot1,boxplot2, boxplot3, boxplot4,ncol=2)
 
 ```
+
+
+
+1. Preparar un gráfico de caja (box plot) o tambien llamado **Box and whiskers**. Utiliza los datos **ElphickBirdData** en el paquete **ggversa**. Utiliza la columna **AQBIRDS**, que son la cantidad de pájaros acuaticos muestreados por Zuur, Ieno and Elphick.  La especies de pájaro de nombre **Godwit** es una ave migratoria que come pequeños moluscos en la playas. Utiliza la columna "Site" para crear un box plot con los "notch", por cada sitio de muestreo.  
+    - Salvar el gráfico en formato .png y subirla a Edmodo.
+
+```{r echo=FALSE, out.width = '50%', out.extra='style="float:right; padding:10px"', fig.cap="La foto es de Leo Berzins via Flickr"}
+knitr::include_graphics("Graficos/Gotwits.png")
+```
+
+
+```{r, echo=FALSE, eval=FALSE}
+library(ggversa)
+library(ggplot2)
+ggplot(ElphickBirdData, aes(y=AQBIRDS, fill=SITE))+
+  geom_boxplot(notch=TRUE)
+
+
+```
+
+***
 
 # Opciones y Parametros de **geom_boxplot**:
 
@@ -214,6 +237,8 @@ violinplot3 +
   theme(axis.title=element_text(size=10,face="bold"))
 ```
 
+***
+
 ## Geom_violin por categoría o factor
 
 En la Figura se cambia el color de cada grupo, **Year**. Para lograr ese efecto se le añade otra variable para representar los grupos (o categorías) por color; en este caso, la distribución de los tamaños de las plantas en términos de si produjeron frutos o no.
@@ -231,6 +256,8 @@ violinplot3 +
   ylab("Altura de la planta")
 ```
 
+***
+
 ## Geom_violin en proporción al tamaño de la muestra
 
 En la Figura se modifica el mismo gráfico para que tome en consideración el tamaño de muestra utilizando la opción de **scale** con el parámetro **count**. En otras palabras, los violines van a quedar modificados para incluir el tamaño de la muestra; o sea, la escala máxima del ancho es proporcional al tamaño de la muestra.  Entonces, en este caso vemos el año donde hubo mayor (2007) y menor (2008) tamaño de muestra de acuerdo al ancho que se muestra para cada violín.
@@ -244,6 +271,9 @@ violinplot3 +
   labs(x="Año", y="OH")+
   theme(axis.title=element_text(size=10,face="bold"))
 ```
+
+
+***
 
 ## Geom_violin no en proporción al tamaño de la muestra
 
@@ -259,6 +289,8 @@ violinplot3 +
   theme(axis.title=element_text(size=10,face="bold"))
 ```
 
+***
+
 ## Geom_violin y el cambio de orientación
 
 En la Figura cambiamos la orientación de los gráficos anteriores utilizando la opción **coord_flip()**.
@@ -273,6 +305,25 @@ violinplot3 +
   theme(axis.title=element_text(size=10,face="bold"))
 ```
 
+2.  Preparar un gráfico de violín. Utiliza los datos **CypripediumA** en el paquete **ggversa**. Utiliza la columna **Lip_length_mm**, que es el largo de labelo de la orquidea *Cypripedium acaule*.  La especies de orquidea vive en el norte de Canada en bosques cerados (Forest) o pantanos (Wetlands). Utiliza la columna Forest_Wetland" para crear un box plot por cada sitio de muestreo.  Poner color a los dos grupos.  Evaluando la distribución de los datos sobre el tamaño del labello, Ud. cree que la distribución de tamaño es igual? 
+
+```{r echo=FALSE, out.width = '70%', out.extra='style="float:right; padding:10px"', fig.cap="La foto es de Peter Nosko de University of Nipissing, North Bay, Canada"}
+knitr::include_graphics("Graficos/Cypripedium_acaule.png")
+```
+
+
+
+```{r, echo=FALSE, eval=FALSE}
+library(ggversa)
+library(ggplot2)
+ggplot(CypripediumA, aes(y=Lip_length_mm, x=factor(Forest_Wetland), fill=Forest_Wetland))+
+  geom_violin()
+unique(ElphickBirdData$)
+names(CypripediumA)
+```
+
+***
+
 # Opciones y Parametros de **geom_violin**:
 
 
@@ -286,3 +337,5 @@ violinplot3 +
       + size: representa el grosor de la línea
       + scale: la escala que se usa para producir el violín tomando en cuenta el tamaño de muestra proporcionalmente; utiliza los parámetros **count** o **width**
       + weight: para modificar el valor original; entonces no sería, por ejemplo, el conteo/suma de los valores si no un valor ponderado (promedio ponderado). 
+      
+***
