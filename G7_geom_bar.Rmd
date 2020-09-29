@@ -355,6 +355,10 @@ ggplot(data=Pop_PR) +
   theme(axis.title=element_text(size=10,face="bold"))
 
 
+#Population Pyramid de PR, del censo 2015. 
+
+# ggsave("Graficos/Piramide_PR_censo2015.png")
+
 Pop_PR$SexoNum=as.numeric(Pop_PR$Sexo)
 head(Pop_PR)
 ```
@@ -376,6 +380,9 @@ ggplot(data=Pop_PR) +
                      labels=abs(seq(-140000,140000,40000))) +
   ylab("Tamaño poblacional")+
   theme(axis.title=element_text(size=10,face="bold"))
+
+
+
 ```
 
 
@@ -412,22 +419,23 @@ ggplot(data=Pop_PR) +
 library(readr)
 DominicanRepublic <- read_csv("Data/DominicanRepublic.csv")
 
+head(DominicanRepublic)
+unique(DominicanRepublic$Area)
 DR=DominicanRepublic%>% 
   select(Year, Age, Sex, Area, Value) %>% 
   filter(Year==2010)%>% 
-  filter(Area=="Rural") %>% 
+  filter(Area=="Urban") %>% 
 filter(Sex %in% c("Female", "Male"))
 
 
-DR
 
 
-unique(DR$Age)
+unique(DR$AgeN)
 
 #as.numeric(as.character(data_frame$column))
 DR$AgeN=as.numeric(as.character(DR$Age))
 head(DR)
-
+DR$AgeN
 ggplot(data=DR)+
   geom_bar(aes(AgeN,Value,group=Sex,fill=Sex),
            stat = "identity",
@@ -439,9 +447,9 @@ ggplot(data=DR)+
   theme(axis.title=element_text(size=10,face="bold"))+
   coord_flip()
 
-
+#ggsave("Graficos/Piramide_DR_censo2013.png")
 DR %>% 
-  arrange(desc(Age))
+  arrange(desc(AgeN))
 ```
 
 
