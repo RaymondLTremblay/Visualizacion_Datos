@@ -155,6 +155,29 @@ rr+geom_point(aes(color=Survey_Site))+
 
 ***
 
+1. Usando los datos de **diamonds** en el paquete *ggplot2*
+    - evalúa la relación entre el precio de los diamantes y los quilates (carat) con geom_point.
+    - haga un **facet_grid** con la calidad del corte del diamantes (cut) y el color del diamante (color).
+    - cambiar los nombres de los ejes a "Quilates" y " Precio del los diamantes".
+    - asegurar que la leyenda de precio se pueden leer.
+    - Someter su gráfico en Edmodo en formato .png. 
+
+```{r, eval=FALSE, echo=FALSE}
+
+names(diamonds)
+
+ggplot(diamonds, aes(price, carat, colour=cut))+
+  geom_point()+
+  facet_grid(cut~clarity, scales="free")+
+  labs(y="carat")+
+  theme(legend.position="none")+
+  theme(axis.title=element_text(size=10,face="bold"))+
+  xlab("Precio de los diamantes")+
+  ylab("Quilates")+
+  theme(axis.text.x = element_text(angle = 60, hjust = 1))
+```
+
+
 # Opciones y Parametros de **facet_grid**:
 
  * ggplot(el archivo de datos, aes(la variable continua))
