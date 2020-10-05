@@ -1,5 +1,5 @@
 ---
-title: "Gráficos de caja y de violin con **geom_boxplot** and **geom_violin**"
+title: "Gráficos de caja y de violín"
 output:
   html_document:
     css: tutorial.css
@@ -178,6 +178,19 @@ violinplot2 +
 ```
 
 ***
+```{r}
+normal_data=rnorm(100000, 100, 3)
+#normal_data
+dfnorm=data.frame(normal_data)
+head(dfnorm)
+
+library(ggplot2)
+ggplot(dfnorm,aes(normal_data, x=1))+
+  geom_violin()
+```
+
+
+
 
 
 ## **Geom_violin** utilizado con **geom_point** y **geom_jitter**
@@ -195,6 +208,8 @@ violingp=violinplot3a <- ggplot(CalVal, aes(y=OH, x=factor(Year)))+
            label="", na.rm=TRUE)+
   labs(x="Año", y="OH")+
   theme(axis.title=element_text(size=10,face="bold"))
+
+
 
 violingv=violinplot3a +
   geom_violin()+
@@ -217,7 +232,7 @@ En el próximo gráfico, se invocó **geom_jitter** antes que **geom_violin**, p
 
 violinplot3 <- ggplot(CalVal, aes(y=OH, x=factor(Year)))
 violinplot3 +
-  geom_jitter(position = position_jitter(width = .2))+
+  geom_jitter(position = position_jitter(width = .2), colour="red")+
   geom_violin(fill="yellow", alpha=0.3)+
   annotate("text", x=2,y= 20, size=8,
            label="")+
@@ -234,7 +249,7 @@ Ahora se muestran el cuartil 25, la mediana (50) y el cuartil 75 en el mismo gr�
 
 violinplot3 <- ggplot(CalVal, aes(y=OH, x=factor(Year)))
 violinplot3 +
-  geom_violin(draw_quantiles = c(0.25, 0.35,0.5, 0.65,0.75))+
+  geom_violin(draw_quantiles = c(0.05, 0.25,0.5, 0.75,0.95))+
   annotate("text", x=2,y= 20, size=8,
            label="")+
   labs(x="Año", y="OH")+
@@ -321,8 +336,9 @@ violinplot3 <- ggplot(CalVal, aes(y=OH, x=factor(Year)))
 violinplot3 +
   geom_violin()+
   coord_flip()+
-  labs(x="Año", y="OH")+
-  theme(axis.title=element_text(size=10,face="bold"))
+  labs(x="Año")+
+  theme(axis.title=element_text(size=10,face="bold"))+
+  ylab("Altura de la planta")
 ```
 
 2.  Preparar un gráfico de violín. Utiliza los datos **CypripediumA** en el paquete **ggversa**. Utiliza la columna **Lip_length_mm**, que es el largo de labelo de la orquidea *Cypripedium acaule*.  La especies de orquídea vive en el norte de Canada en bosques cerados (Forest) o pantanos (Wetlands). Utiliza la columna **Forest_Wetland** para crear una caja de violín por cada sitio de muestreo.  Poner color a los dos grupos.  Evaluando la distribución de los datos sobre el tamaño del labello, Ud. cree que la distribución de tamaño es igual? 
