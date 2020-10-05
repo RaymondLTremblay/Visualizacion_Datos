@@ -158,8 +158,9 @@ rr+geom_point(aes(color=Survey_Site))+
 1. Usando los datos de **diamonds** en el paquete *ggplot2*
     - evalúa la relación entre el precio de los diamantes y los quilates (carat) con geom_point.
     - haga un **facet_grid** con la calidad del corte del diamantes (cut) y el color del diamante (color).
+    - No aplique la función **scales="free"**.
     - cambiar los nombres de los ejes a "Quilates" y " Precio del los diamantes".
-    - asegurar que la leyenda de precio se pueden leer.
+    - asegurar que la leyenya de precio se pueden leer.
     - Someter su gráfico en Edmodo en formato .png. 
 
 ```{r, eval=FALSE, echo=FALSE}
@@ -168,7 +169,7 @@ names(diamonds)
 
 ggplot(diamonds, aes(price, carat, colour=cut))+
   geom_point()+
-  facet_grid(cut~clarity, scales="free")+
+  facet_grid(cut~clarity)+
   labs(y="carat")+
   theme(legend.position="none")+
   theme(axis.title=element_text(size=10,face="bold"))+
@@ -182,7 +183,7 @@ ggplot(diamonds, aes(price, carat, colour=cut))+
 
  * ggplot(el archivo de datos, aes(la variable continua))
 
-   + facet_grid(.~a, scales, space, switch, drop)
+   + facet_grid(a~b, scales, space, switch, drop)
 
     + facet: a~b para presentar una serie de gráficos tabulados en X y Y
     + scales: usar free si se quiere que las escalas sean determinadas por los gráficos individualmente; si no, todas los gráficos tendrán la misma escala.
