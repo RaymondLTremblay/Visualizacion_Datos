@@ -668,7 +668,7 @@ div.tocify {
 <p>Ahora ponemos la variable antes de la <sub><strong>, pero note que después de la</strong></sub> hay un punot <strong>.</strong>. Notemos el efecto en la Figura a continuación.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>rr=<span class="kw">ggplot</span>(Anolis, <span class="kw">aes</span>(SVL, HEIGHT))</span>
 <span id="cb4-2"><a href="#cb4-2"></a></span>
-<span id="cb4-3"><a href="#cb4-3"></a>rr<span class="op">+</span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">color=</span>Survey_Site))<span class="op">+</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a>rr<span class="op">+</span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">color=</span>Survey_Site), <span class="dt">size=</span>.<span class="dv">5</span>)<span class="op">+</span><span class="st"> </span><span class="co"># usar &quot;size&quot; para cambiar el tamaño de los puntos</span></span>
 <span id="cb4-4"><a href="#cb4-4"></a><span class="st">  </span><span class="kw">facet_grid</span>(SEX_AGE<span class="op">~</span>.)<span class="op">+</span></span>
 <span id="cb4-5"><a href="#cb4-5"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Altitud, m&quot;</span>)<span class="op">+</span></span>
 <span id="cb4-6"><a href="#cb4-6"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;none&quot;</span>)<span class="op">+</span></span>
@@ -700,8 +700,7 @@ div.tocify {
 <span id="cb6-4"><a href="#cb6-4"></a><span class="st">  </span><span class="kw">facet_grid</span>(SEX_AGE<span class="op">~</span>SEASON, <span class="dt">scales=</span><span class="st">&quot;free_x&quot;</span>)<span class="op">+</span></span>
 <span id="cb6-5"><a href="#cb6-5"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Altitud, m&quot;</span>)<span class="op">+</span></span>
 <span id="cb6-6"><a href="#cb6-6"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;none&quot;</span>)<span class="op">+</span></span>
-<span id="cb6-7"><a href="#cb6-7"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))<span class="op">+</span></span>
-<span id="cb6-8"><a href="#cb6-8"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Distancia entre el hocico y la cloaca&quot;</span>)</span></code></pre></div>
+<span id="cb6-7"><a href="#cb6-7"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Distancia entre el hocico y la cloaca&quot;</span>)</span></code></pre></div>
 <p><img src="G9_Facet_Grid_files/figure-html/facetgrid3-1.png" width="672" style="display: block; margin: auto;" /></p>
 <hr />
 </div>
@@ -726,7 +725,10 @@ div.tocify {
 <span id="cb8-4"><a href="#cb8-4"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;none&quot;</span>)<span class="op">+</span></span>
 <span id="cb8-5"><a href="#cb8-5"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))<span class="op">+</span></span>
 <span id="cb8-6"><a href="#cb8-6"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Distancia entre el hocico y la cloaca&quot;</span>)<span class="op">+</span></span>
-<span id="cb8-7"><a href="#cb8-7"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">60</span>, <span class="dt">vjust =</span> <span class="dv">1</span>, <span class="dt">hjust=</span><span class="dv">1</span>))</span></code></pre></div>
+<span id="cb8-7"><a href="#cb8-7"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x =</span> <span class="kw">element_text</span>(<span class="dt">angle =</span> <span class="dv">60</span>, <span class="dt">vjust =</span> <span class="dv">1</span>, <span class="dt">hjust=</span><span class="dv">1</span>))<span class="op">+</span></span>
+<span id="cb8-8"><a href="#cb8-8"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))<span class="op">+</span></span>
+<span id="cb8-9"><a href="#cb8-9"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.x=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">5</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))<span class="op">+</span></span>
+<span id="cb8-10"><a href="#cb8-10"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.y=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;italic&quot;</span>))</span></code></pre></div>
 <p><img src="G9_Facet_Grid_files/figure-html/facetgrid5-1.png" width="672" /></p>
 <hr />
 <ol style="list-style-type: decimal">
