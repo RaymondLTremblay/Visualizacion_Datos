@@ -176,6 +176,42 @@ ggplot(diamonds, aes(price, carat, colour=cut))+
   theme(axis.text.x = element_text(angle = 60, hjust = 1))
 ```
 
+***
+
+```{r echo=FALSE, out.width= "45%", out.extra='style="float:right; padding:10px"'}
+knitr::include_graphics("Graficos/Lepanthes_rubripetala.png")
+```
+
+2. Ejercicio para entregar. Valor 10 puntos.  Usando los datos de la orquidea *Lepanthes rubripetala*, una especies de Puerto Rico.  Selecciona la variable Números de Flores en una planta (Num_flowers), El tamaño de las flores (Flower_size) y haga un "box plot" para cada población y en "facet_grid" con la población (Population).  Nota aquí el gráfico, que debería tener.  
+    - Cambie los colores de las puntos de las diferentes poblaciones
+    - Añade la información en los ejes en español
+    - Añade un titulo al gráfico
+  
+  Esa orquídea diminuta esta limitada a Puerto Rico (endémica) y se encuentra mayormente el EL Yunque. 
+  
+
+
+```{r}
+library(readr)
+Lep_rupPetal_All_Data <- read_csv("Data_files_csv/Lep_rupPetal_All_Data.csv")
+
+Leprub=Lep_rupPetal_All_Data
+#names(Leprub)
+```
+
+```{r, eval=TRUE, echo=FALSE}
+ggplot(Leprub, aes(Num_flowers, Flower_size, color=factor(Population)))+
+  geom_boxplot()+
+  geom_point()+
+  facet_grid(~Population)
+
+
+```
+
+
+
+
+
 # Opciones y Parametros de **facet\_grid**:
 
 -   ggplot(el archivo de datos, aes(la variable continua))
