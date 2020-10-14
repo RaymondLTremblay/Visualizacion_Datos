@@ -51,10 +51,10 @@ En este modulo se muestra una de las grandes ventajas de usar ggplot2.  Para la 
 
 ```{r facetwrap,  echo=TRUE, tidy=FALSE, message=FALSE, warning=FALSE, fig.show='asis', fig.show='hold', fig.align='center',  fig.align='center'}
 
-
+head(Anolis)
 barraA=ggplot(Anolis, aes(SEX_AGE, fill=SEASON))
-barraA+geom_bar()+  
-  facet_wrap(~Survey_Site)+
+barraA+geom_bar()+  # contabiliza la cantidad de información por factor
+  facet_wrap(Survey_Site~.)+
   labs(y="Frecuencia", x="Género y edad")+
   theme(axis.title=element_text(size=10,face="bold"))
 ```
@@ -138,7 +138,7 @@ En el ejemplo que hemos estado mostrando hay localidades en que no hay datos, co
 ```{r facetwrap4a,  echo=TRUE,  tidy=FALSE, message=FALSE, warning=FALSE, fig.show='asis', fig.show='hold', fig.align='center'}
 barraE=ggplot(Anolis, aes(SVL, HEIGHT))
 barraE+geom_point()+
-  facet_wrap(~Survey_Site+SEASON,drop=FALSE)+
+  facet_wrap(~Survey_Site+SEASON,drop=FALSE, ncol=2)+
   labs(y="Altitud")+
   theme(axis.title=element_text(size=10,face="bold"))
 ```
@@ -230,6 +230,12 @@ Ahora se selecciona solamente parte de los datos, del 1 de enero del 1951 al 31 
 MM=MORELIA.MICH.Tmin%>%
   filter(Year>1950 & Year<1960)
 
+
+
+
+#Una función para seleccionar un conjunto de datos
+#M=MORELIA.MICH.Tmin %>%
+#  filter(Year %in% c(1950:1955, 2009:2011))
 ```
 
 ## Unir columnas de fecha en una variable de tiempo
@@ -238,6 +244,7 @@ Ahora se define la variable para la fecha con la función **ymd** para indicar q
 
 ```{r facetwrap7c, echo=TRUE, message=FALSE, warning=FALSE}
 library(lubridate)
+head(MM, 3)
 MM$fecha <- with(MM, ymd(sprintf('%04d%02d%02d',
                                  Year, Mes, Dia)))
 head(MM)
@@ -251,6 +258,9 @@ Con la función **yday** se puede identificar cuál día de los 365 del año es 
 library(lubridate)
 MM$diaanual=yday(MM$fecha)
 tail(MM)
+
+yday("1959-03-01") # El día del año que nací
+
 ```
 
 Veamos ahora el resultado.  El gráfico de la figura produce una línea por cada año.  Note que hay que identificar que el año es un factor usando **color=factor(Year)**.  Si no se hace así, el año se interpretará como un valor continuo.
@@ -291,6 +301,53 @@ ggplot(MM, aes(x=diaanual, y=Tmin, color=factor(Year)))+
   facet_wrap(~Year, dir="v")+
   theme(legend.position="none")+
   labs(y="Temperatura mínima", x="Día del año")+
+  theme(axis.title=element_text(size=10,face="bold"))
+```
+
+
+
+1. Ejercico para someter en Edmodo. Se usará los daTos de temperatura del pueblo de **ASBESTOS_QUEBEC** con la temperatura minima o máxima (selecciona el que prefiere).  El primer paso en crear una columna con la fecha en formato de **fecha**.  Note que la columna **Fecha** esta en formato de **factor**, Y no es reconocido como una fecha.  Para usar el paquete **lubridate**, hay que tener la fechas en formato qu8e inlcuye tanto el año, mes y el día.   En este caso el archivo tiene solamente el año y el mes, para solucionar este problema, se añade una nueva columna **day1** con el primer día del cada mes.  Esta columna hay que convertir del formato **double** a formato **integer** con la función **as.integer( )**.  Ahora tanto las columnas de **Year, Mes y day1** son en formato de **integer**.  Después de formatear los datos correctamente, usando los scripts abajo.   
+  + Construye un facet wrap de todos los años y someterlo a Edmodo en formato .png. 
+
+```{r}
+library(ggversa)
+
+head(ASBESTOS_QUEBEC)
+
+ASBESTOS_QUEBEC$day1=c(1)# añadir una columna con el dia 1 de cada mes
+ASBESTOS_QUEBEC$day1=as.integer(ASBESTOS_QUEBEC$day1) # convert to integer
+head(ASBESTOS_QUEBEC)
+```
+
+Tenemos que unir las columnas **Year, Mes y day1** en una en formato de **date**. Note que se usa la función **ymd** para **year/month/day**, si lo queremos formateado en **day/month/year**, se usaria **dmy**.  En otro modulos estaremos hablando del paquete **lubridate** exclusivamente.  
+
+La segunda parte es convertir estas fechas en el día del año, o sea del primer día al ultimo día del año (1-365 o 366). 
+
+```{r}
+
+library(lubridate)
+ASBESTOS_QUEBEC$fecha <- with(ASBESTOS_QUEBEC, ymd(sprintf('%04d%02d%02d',
+                                 Year, Mes, day1)))
+head(ASBESTOS_QUEBEC) # note que ahora que la columna "fecha" se reconoce como una "date" y no un número
+ASBESTOS_QUEBEC$diaanual=yday(ASBESTOS_QUEBEC$fecha) # Este es para convertir las fechas del año consecutivos, de 1 al 365. 
+tail(ASBESTOS_QUEBEC)
+```
+ 
+
+```{r facetwrap8e,  echo=FALSE,  eval=FALSE, tidy=FALSE, message=FALSE, warning=FALSE, fig.show='asis', fig.show='hold', fig.align='center'}
+ggplot(ASBESTOS_QUEBEC, aes(x=diaanual, y=Temp_Prom_Max, color=factor(Year)))+
+  geom_line()+
+  theme(axis.title=element_text(size=10,face="bold"))+
+  xlab("Día del año")+
+  ylab("Temperatura promedia máxima")
+```
+
+```{r facetwrap10,  echo=FALSE,  eval=FALSE, tidy=FALSE, message=FALSE, warning=FALSE, fig.show='asis', fig.show='hold', fig.align='center'}
+ggplot(ASBESTOS_QUEBEC, aes(x=diaanual, y=Temp_Prom_Max, color=factor(Year)))+
+  geom_line()+
+  facet_wrap(~Year, dir="v")+
+  theme(legend.position="none")+
+  labs(y="Temperatura promedia máxima", x="Día del año")+
   theme(axis.title=element_text(size=10,face="bold"))
 ```
 
