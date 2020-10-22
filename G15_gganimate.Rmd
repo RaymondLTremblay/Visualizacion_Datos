@@ -46,6 +46,8 @@ colorize <- function(x, color) {
 
 
 ```{r}
+#install.packages("rgl", dependencies=TRUE)
+
 library(tidyverse)
 library(gganimate)
 library(rgl)
@@ -53,6 +55,8 @@ library(gapminder)
 library(ggplot2)
 library(animation)
 library(gt)
+
+
 ```
 
 El paquete **gganimate** extiende el paquete de **ggplot2** y implementa unas funciones para animar gráficos que típicamente estuviese estática. El paquete fue desarrollado por Pedersen y Robinson (2017).Siempre puede ir al siguiente enlace para tener más información y otros ejemplos.  <https://gganimate.com/articles/gganimate.html>.  Note que antes de utilizar este modulo se asume que se conozca la estructura de la creación de gráficos con ggplot2.    
@@ -63,7 +67,8 @@ Los datos provienen del paquete **gapminder** y el archivo **gapminder**. Estos 
 
 
 ```{r}
-gt(head(gapminder))
+#gt(head(gapminder))
+head(gapminder)
 ```
 
 
@@ -92,13 +97,13 @@ La variable **frame_time** añade arriba una leyenda del tiempo de transición. 
 
 ```{r}
 GDP_time=p + transition_time(year) +
-  labs(title = "Año: {frame_time}")
+ labs(title = "Año: {frame_time}")
 #GDP_time
 
 ```
 
 ```{r}
-animate(GDP_time, height = 600, width =600)
+animate(GDP_time, height = 300, width =300)
 anim_save("GDP_time.gif")
 ```
 
@@ -141,7 +146,7 @@ The length of the wake is not given in absolute frames as that would make the an
 ```{r}
 p + transition_time(year) +
   labs(title = "Year: {frame_time}") +
-  shadow_wake(wake_length = 0.2, alpha = FALSE)
+  shadow_wake(wake_length = 0.3, alpha = FALSE)
 ```
 
 
@@ -166,10 +171,12 @@ Usamos otro conjunto de datos del archivo **airquality** que se encuentra en el 
 Primero creamos un gráfico estático (sin animación), el día del mes (day), la temperatura del día (Temp) y una linea para cada mes (mayo a septiembre) con la función **group**.  
 
 ```{r}
+
+head(airquality)
+
 p <- ggplot(
   airquality,
-  aes(Day, Temp, group = Month, color = factor(Month))
-  ) +
+  aes(Day, Temp, group = Month, color = factor(Month))) +
   geom_line() +
   scale_color_viridis_d() +
   labs(x = "Day of Month", y = "Temperature") +
@@ -196,7 +203,7 @@ cambio_m=p +
 ```
 
 ```{r}
-animate(cambio_m, height = 800, width =800)
+animate(cambio_m, height = 400, width =400)
 # anim_save("cambio_m.gif")
 ```
 
@@ -210,6 +217,7 @@ p +
   geom_point(aes(group = seq_along(Day))) +
   transition_reveal(Day)
 ```
+
 
 
 # Animación con gráficos de barras
