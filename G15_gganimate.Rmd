@@ -96,6 +96,7 @@ La variable **frame_time** añade arriba una leyenda del tiempo de transición. 
 
 
 ```{r}
+#head(gapminder)
 GDP_time=p + transition_time(year) +
  labs(title = "Año: {frame_time}")
 #GDP_time
@@ -160,6 +161,55 @@ Con la función **shadow_mark** se puede ver los datos originales. Tanto los dat
 p + transition_time(year) +
   labs(title = "Year: {frame_time}") +
   shadow_mark(alpha = 0.3, size = 0.5)
+```
+
+
+
+# Data from Covid-19
+
+Located at https://ourworldindata.org/covid-deaths
+
+1. Ejercicio:
+Producir un gráfico con **gganimate** sobre el cambio de casos de COVID-19 en tiempo en diferentes paises
+  + Seleccionar variables del archivo de covid-deaths que UD. le interesa con la función **select()** de tidyverse.
+  + remover los **NA**
+  + puede seleccionar un subgrupos de datos como de un continente solamente, o paises selecionado especificos 
+  + hacer un "facet_wrap" por continentes o otra variable 
+  + Puede cambiar el nombre de las leyenda en **y** y **x**.
+  + Puede modificar el tamaño del punto que representa el paises por una variable.
+  
+
+```{r}
+library(readr)
+owid_covid_data <- read_csv("Data_files_csv/owid-covid-data.csv")
+tail(owid_covid_data, n=20)
+
+names(owid_covid_data)
+```
+
+```{r}
+library(tidyverse)
+owid_covid_data2= owid_covid_data %>%
+  select(date, location, total_deaths, total_cases_per_million, continent) %>%  # Seleccionar aquí sus variables del data frame
+  drop_na() # remover los "NA". Esto remueve toda la fila si una de las variables tiene un "NA"
+head(owid_covid_data2)  # Visualizar su nuevo data frame
+```
+
+
+```{r, eval=FALSE, echo=FALSE}
+library(ggplot2)
+p3 <- ggplot(owid_covid_data2, 
+  aes(y = total_deaths, x=total_cases_per_million,colour = location)) +
+  geom_point(show.legend = FALSE, alpha = 0.8)
+p3
+```
+
+```{r, eval=FALSE, echo=FALSE}
+library(gganimate)
+GDP_time=p3 + transition_time(date) +
+facet_wrap(~continent) +
+ labs(title = "Fecha: {frame_time}")
+GDP_time
 ```
 
 
