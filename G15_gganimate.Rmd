@@ -119,6 +119,7 @@ p + facet_wrap(~continent) +
   labs(title = "Año: {frame_time}")
 ```
 
+***
 
 ## Animación de los ejes: ejes variables
 
@@ -131,6 +132,9 @@ p + transition_time(year) +
   view_follow(fixed_y = TRUE)
 ```
 
+
+***
+
 ## Observar transiciones entre valores
 
 La función **shadow_wake** es para representar un efecto de sobre o dirreccón por donde ocurre los cambios. Se puede seleccionar el tamaño de la disminución y la opacidad de la sombra.  El largo de la cola no es 
@@ -142,7 +146,7 @@ La duración de la estela no se da en cuadros absolutos, ya que eso haría que l
 
 The length of the wake is not given in absolute frames as that would make the animation susceptible to changes in the framerate. Instead it is given as a proportion of the total length of the animation. 
 
-
+***
 
 ```{r}
 p + transition_time(year) +
@@ -151,6 +155,7 @@ p + transition_time(year) +
 ```
 
 
+***
 ## Visualizar los datos originales en el fondo 
 
 
@@ -164,6 +169,7 @@ p + transition_time(year) +
 ```
 
 
+***
 
 # Data from Covid-19
 
@@ -212,6 +218,7 @@ facet_wrap(~continent) +
 GDP_time
 ```
 
+***
 
 ## Transiciones graduales 
 
@@ -242,6 +249,9 @@ Ahora animamos el gráfico en el eje de **x** con la variable de **Day**, añadi
 p + transition_reveal(Day)
 ```
 
+
+***
+
 ## Anadiendo un punto a la linea
 
 Se puede añadir un punto al principio de las lineas 
@@ -257,6 +267,7 @@ animate(cambio_m, height = 400, width =400)
 # anim_save("cambio_m.gif")
 ```
 
+***
 
 ## Poniendo un punto para valor
 
@@ -268,7 +279,7 @@ p +
   transition_reveal(Day)
 ```
 
-
+***
 
 # Animación con gráficos de barras
 
@@ -277,12 +288,15 @@ La transiciones también pueden ser producida con otros geoms por ejemplo con **
 Preparación de los datos
 
 ```{r}
-
+head(airquality)
 temp.promedio <- airquality %>%
-  group_by(Month) %>%
-  summarise(Temp = mean(Temp))
+  group_by(Day) %>%
+  summarise(Temp2 = mean(Temp, na.rm = TRUE))
 temp.promedio
 ```
+
+
+***
 
 ## Gráfico de barra estático
 
@@ -290,7 +304,7 @@ Ahora creamos un gráfico estático de los datos con **geom_col**.
 
 
 ```{r}
-p <- ggplot(temp.promedio, aes(Month, Temp, fill = Temp)) +
+p <- ggplot(temp.promedio, aes(Day, Temp, fill = Temp)) +
   geom_col() +
   scale_fill_distiller(palette = "Reds", direction = 1) +
   theme_minimal() +
@@ -302,18 +316,22 @@ p <- ggplot(temp.promedio, aes(Month, Temp, fill = Temp)) +
 p
 ```
 
+***
 ## Añadiendo efecto de transición en las columnas
 
 El efecto de transición de un mes al otro se añade con la función **transition_states()**. Si uno añade solamente esta función aparece solamente una barra a la vez.  
 
 ```{r}
-p + transition_states(Month, wrap = FALSE) 
+p + transition_states(Day, wrap = FALSE) 
 ```
+
+
+***
 
 ## Añadiendo efecto de transición y shadow
 
 ```{r}
-p + transition_states(Month, wrap = FALSE) +
+p + transition_states(Day, wrap = FALSE) +
   shadow_mark()
 ```
 
