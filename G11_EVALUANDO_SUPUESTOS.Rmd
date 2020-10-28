@@ -59,7 +59,8 @@ La ética en estadística basado en comprobar y cumplir con los supuestos de las
 2. igualdad de varianza
 3. simetría de las distribuciones
 4. datos recolectado al azar
- 
+
+***
 
 Cuando no se cumple con los datos estamos aumentando la probabilidad de tipo de error 1, es decir rechazar la hipótesis nula cuando se debería aceptar o tipo de error 2, cuando se debería aceptar la alterna cuando se debería rechazar.
 
@@ -138,8 +139,11 @@ El gráfico que utilizaremos se llama caja condicional ya que la distribución e
 A continuación, completamos el análisis utilizando otra vez los datos de la orquídea **Dipodium**.  Primero hay que hacer un análisis de regresión simple usando **lm()** y darle un nombre al análisis o sea el modelo. Subseguientemente uno puede llamar los valores necesarios para hacer el gráfico con **.fitted** y **.resid**.  
 
 ```{r Homogeneityvariance, rexample=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
+#names(dipodium)
+library(janitor)
+dipodium=janitor::clean_names(dipodium)
 names(dipodium)
-modelflower=lm(Number_of_Flowers~Height_Inflo,
+modelflower=lm(number_of_flowers~height_inflo,
          data=dipodium)
 
 summary(modelflower)
