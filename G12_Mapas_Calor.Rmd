@@ -106,9 +106,9 @@ Le cambiamos los colores del gráfico, usando **scale_fill_gradient2**. Asignamo
 ggplot(DWMelt, aes(x=x1, y=y1))+
   geom_tile(aes(fill=Correlation))+
   scale_fill_gradient2(low="white",
-                       mid="orange", high="red",
+                       mid="black", high="red",
   guide=guide_colorbar(ticks=FALSE,
-                       barheight=5, limits=c(-1,1)))+
+                       barheight=5, limits=c(-.5,1)))+
   theme_minimal()+
   labs(x=NULL, y=NULL)+
   theme(axis.title=element_text(size=20,face="bold"),
@@ -159,7 +159,7 @@ La función **ggcor** tiene la ventaja de producir un gráfico de calor que repr
 
 ```{r}
 
-ggcorr(DWCor, low = "steelblue", mid = "white", high = "darkred", nbreaks=5)
+ggcorr(DWCor, low = "steelblue", mid = "white", high = "darkred", nbreaks=6)
 ```
 
 Para un segundo ejemplo de **ggcorr**
@@ -167,7 +167,7 @@ Para un segundo ejemplo de **ggcorr**
 ```{r}
 
 ggcorr(DWCor, geom = "blank", label = TRUE, hjust = 0.75) +
-  geom_point(size = 10, aes(color = coefficient > 0, alpha = abs(coefficient) > 0.5)) +
+  geom_point(size = 20, aes(color = coefficient > 0, alpha = abs(coefficient) > 0.5)) +
   scale_alpha_manual(values = c("TRUE" = 0.25, "FALSE" = 0)) +
   guides(color = FALSE, alpha = FALSE)
 ```
@@ -188,3 +188,71 @@ Para muchos ejemplos vea este enlace. <https://briatte.github.io/ggcorr/>
    * fill:  el color de los cuadros
    * linetype: representa el estilo de línea 
    * size: representa el ancho de la línea
+   
+
+## Opciones y Parametros de **ggcorr()**
+ 
+ ggcorr(df, method=c("pairwise", "pearson"))
+ 
+   * nbreaks: a cantidad de categorias
+   * digits: la cantidad de digitos para visualizar la correlación
+   *   low = "#3B9AB2", El color básico de las corrlea ciones negativas
+   * mid = "#EEEEEE", El color básico
+   * high = "#F21A00",El color básico
+   * midpoint = 0: la correlación central que sera el color "mid"
+   * ver **ggcorr** para otras opciones 
+   
+***
+
+   
+   1. Anolis Data: Usa los datos del archivo **Anolis** en el paquete **ggversa** y  haga un heat map de las siguientes variables, SVL, TAIL, Perch_Diameter, HEIGHT.  Selecciona las variables, calcular las correlaciones y selecciona el rango de colores que representa bien el rango de correlaciones.  
+   
+   
+```{r heatmap dataAnolis, eval=FALSE, message=FALSE, include=FALSE}
+
+DWCorA=round(cor(Anolis[c("SVL", "TAIL", "PERCH_DIAMETER","HEIGHT")],
+                use="pairwise.complete.obs"),3)
+
+kable(DWCorA) %>%
+  kable_styling(bootstrap_options = "striped", full_width = F, font_size = 10) 
+ 
+
+
+
+```
+   
+  
+```{r heatmap data2A, eval=FALSE, message=FALSE, include=FALSE}
+
+
+DWMeltA= melt(DWCorA, varnames= c("x1", "y1"),
+             value.name = "Correlation")
+head(DWMeltA)
+```
+
+
+```{r heatmap4A, eval=FALSE, include=FALSE}
+
+ggplot(DWMeltA, aes(x=x1, y=y1))+
+  geom_tile(aes(fill=Correlation))+
+  scale_fill_gradient2(low="black",mid = "white",
+                      high="blue", limits=c(-1,1))+
+  theme_minimal()+labs(x=NULL, y=NULL)+
+  theme(axis.title=element_text(size=20,face="bold"),
+        axis.text.y=element_text(size=10, face="bold"),
+        axis.text.x=element_text(size=8, face="bold", angle = 90, hjust = 1))+
+  labs(fill="Correlación")+
+  xlab("")
+```
+
+
+
+
+
+```{r eval=FALSE, include=FALSE}
+
+ggcorr(DWCorA, geom = "blank", label = TRUE, hjust = 0.75, method = c("pairwise", "pearson")) +
+  geom_point(size = 20, aes(color = coefficient > 0, alpha = abs(coefficient) > 0.5)) +
+  scale_alpha_manual(values = c("TRUE" = 0.25, "FALSE" = 0)) +
+  guides(color = FALSE, alpha = FALSE)
+```

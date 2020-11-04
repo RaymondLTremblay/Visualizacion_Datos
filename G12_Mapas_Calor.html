@@ -753,9 +753,9 @@ Number_of_fruits
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">ggplot</span>(DWMelt, <span class="kw">aes</span>(<span class="dt">x=</span>x1, <span class="dt">y=</span>y1))<span class="op">+</span></span>
 <span id="cb7-2"><a href="#cb7-2"></a><span class="st">  </span><span class="kw">geom_tile</span>(<span class="kw">aes</span>(<span class="dt">fill=</span>Correlation))<span class="op">+</span></span>
 <span id="cb7-3"><a href="#cb7-3"></a><span class="st">  </span><span class="kw">scale_fill_gradient2</span>(<span class="dt">low=</span><span class="st">&quot;white&quot;</span>,</span>
-<span id="cb7-4"><a href="#cb7-4"></a>                       <span class="dt">mid=</span><span class="st">&quot;orange&quot;</span>, <span class="dt">high=</span><span class="st">&quot;red&quot;</span>,</span>
+<span id="cb7-4"><a href="#cb7-4"></a>                       <span class="dt">mid=</span><span class="st">&quot;black&quot;</span>, <span class="dt">high=</span><span class="st">&quot;red&quot;</span>,</span>
 <span id="cb7-5"><a href="#cb7-5"></a>  <span class="dt">guide=</span><span class="kw">guide_colorbar</span>(<span class="dt">ticks=</span><span class="ot">FALSE</span>,</span>
-<span id="cb7-6"><a href="#cb7-6"></a>                       <span class="dt">barheight=</span><span class="dv">5</span>, <span class="dt">limits=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)))<span class="op">+</span></span>
+<span id="cb7-6"><a href="#cb7-6"></a>                       <span class="dt">barheight=</span><span class="dv">5</span>, <span class="dt">limits=</span><span class="kw">c</span>(<span class="op">-</span>.<span class="dv">5</span>,<span class="dv">1</span>)))<span class="op">+</span></span>
 <span id="cb7-7"><a href="#cb7-7"></a><span class="st">  </span><span class="kw">theme_minimal</span>()<span class="op">+</span></span>
 <span id="cb7-8"><a href="#cb7-8"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="ot">NULL</span>, <span class="dt">y=</span><span class="ot">NULL</span>)<span class="op">+</span></span>
 <span id="cb7-9"><a href="#cb7-9"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">20</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>),</span>
@@ -794,11 +794,11 @@ Number_of_fruits
 <div id="la-función-ggcorr" class="section level2">
 <h2>La función <strong>ggcorr</strong></h2>
 <p>La función <strong>ggcor</strong> tiene la ventaja de producir un gráfico de calor que representa solamente un espejo de los resultados. En los gráficos anteriores las misma información estaba ariba y abajo de la diagonal. Este represente solamente uno de los dos.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">ggcorr</span>(DWCor, <span class="dt">low =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="dt">mid =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">high =</span> <span class="st">&quot;darkred&quot;</span>, <span class="dt">nbreaks=</span><span class="dv">5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">ggcorr</span>(DWCor, <span class="dt">low =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="dt">mid =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">high =</span> <span class="st">&quot;darkred&quot;</span>, <span class="dt">nbreaks=</span><span class="dv">6</span>)</span></code></pre></div>
 <p><img src="G12_Mapas_Calor_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <p>Para un segundo ejemplo de <strong>ggcorr</strong></p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">ggcorr</span>(DWCor, <span class="dt">geom =</span> <span class="st">&quot;blank&quot;</span>, <span class="dt">label =</span> <span class="ot">TRUE</span>, <span class="dt">hjust =</span> <span class="fl">0.75</span>) <span class="op">+</span></span>
-<span id="cb11-2"><a href="#cb11-2"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">10</span>, <span class="kw">aes</span>(<span class="dt">color =</span> coefficient <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, <span class="dt">alpha =</span> <span class="kw">abs</span>(coefficient) <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.5</span>)) <span class="op">+</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">20</span>, <span class="kw">aes</span>(<span class="dt">color =</span> coefficient <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, <span class="dt">alpha =</span> <span class="kw">abs</span>(coefficient) <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.5</span>)) <span class="op">+</span></span>
 <span id="cb11-3"><a href="#cb11-3"></a><span class="st">  </span><span class="kw">scale_alpha_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;TRUE&quot;</span> =<span class="st"> </span><span class="fl">0.25</span>, <span class="st">&quot;FALSE&quot;</span> =<span class="st"> </span><span class="dv">0</span>)) <span class="op">+</span></span>
 <span id="cb11-4"><a href="#cb11-4"></a><span class="st">  </span><span class="kw">guides</span>(<span class="dt">color =</span> <span class="ot">FALSE</span>, <span class="dt">alpha =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
 <p><img src="G12_Mapas_Calor_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
@@ -816,6 +816,23 @@ Number_of_fruits
 <li><p>linetype: representa el estilo de línea</p></li>
 <li><p>size: representa el ancho de la línea</p></li>
 </ul>
+</div>
+<div id="opciones-y-parametros-de-ggcorr" class="section level2">
+<h2>Opciones y Parametros de <strong>ggcorr()</strong></h2>
+<p>ggcorr(df, method=c(“pairwise”, “pearson”))</p>
+<ul>
+<li>nbreaks: a cantidad de categorias</li>
+<li>digits: la cantidad de digitos para visualizar la correlación</li>
+<li>low = “#3B9AB2”, El color básico de las corrlea ciones negativas</li>
+<li>mid = “#EEEEEE”, El color básico</li>
+<li>high = “#F21A00”,El color básico</li>
+<li>midpoint = 0: la correlación central que sera el color “mid”</li>
+<li>ver <strong>ggcorr</strong> para otras opciones</li>
+</ul>
+<hr />
+<ol style="list-style-type: decimal">
+<li>Anolis Data: Usa los datos del archivo <strong>Anolis</strong> en el paquete <strong>ggversa</strong> y haga un heat map de las siguientes variables, SVL, TAIL, Perch_Diameter, HEIGHT. Selecciona las variables, calcular las correlaciones y selecciona el rango de colores que representa bien el rango de correlaciones.</li>
+</ol>
 </div>
 
 
