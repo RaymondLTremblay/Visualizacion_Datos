@@ -86,7 +86,7 @@ DWMelt= melt(DWCor, varnames= c("x1", "y1"),
 head(DWMelt)
 ```
 
-Finalmente, el tercer paso es producir la figura con **geom_tile**.  El gráfico de la Figura se produce sin modificar los parámetros.  En el segundo gráfico se modifican los colores usando la guía de color para asignarlos a diferentes grupos a la vez que se remueven los nombres de los ejes de **X** y de **Y**.  A este mapa de calor básico se le asignan las variables de **x** y **y** y el valor que queremos que tenga un rango de color, en este caso el valor de correlación. Para remover el nombre de la variables **x** y **y**, se usa **labs(x=NULL, y=NULL)**, ya que ggplot2 lo pone automáticamente cuando se construye un gráfico. 
+Finalmente, el tercer paso es producir la figura con **geom_tile**.  El gráfico de la Figura se produce sin modificar los parámetros.  En el segundo gráfico se modifican los colores usando la guía de color para asignarlos a diferentes grupos a la vez que se remueven los nombres de los ejes de **X** y de **Y**.  A este mapa de calor básico se le asignan las variables de **x** y **y** y el valor que queremos que tenga un rango de color, en este caso el valor de correlación. Para remover el nombre de la variables **x** y **y**, se usa **labs(x=NULL, y=NULL)**, ya que ggplot2 lo pone automáticamente cuando se construye un gráfico. Note que para remover el nombre de la columna en los ejes se usa **xlab("")** y **ylab("")**.  Aqui se añade solamente **xlab("")** y nota que ahora no se ve el nombre de la columna. 
 
 ```{r heatmap1}
 
@@ -94,7 +94,8 @@ ggplot(DWMelt, aes(x=x1, y=y1))+
   geom_tile(aes(fill=Correlation))+
   theme(axis.text.y=element_text(size=10, face="bold"),
         axis.text.x=element_text(size=8, face="bold", angle = 90, hjust = 1))+
-  labs(fill="Correlación")
+  labs(fill="Correlación")+
+  xlab("")
 ```
 
 
@@ -146,7 +147,8 @@ ggplot(DWMelt, aes(x=x1, y=y1))+
   theme(axis.title=element_text(size=20,face="bold"),
         axis.text.y=element_text(size=10, face="bold"),
         axis.text.x=element_text(size=8, face="bold", angle = 90, hjust = 1))+
-  labs(fill="Correlación")
+  labs(fill="Correlación")+
+  xlab("")
 ```
 
 ***
