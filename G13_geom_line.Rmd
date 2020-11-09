@@ -34,6 +34,11 @@ colorize <- function(x, color) {
 #`r colorize("some words in red", "red")`
 ```
 
+```{r, echo=FALSE, fig.show = "hold", out.width = "20%", fig.align = "default"}
+knitr::include_graphics(c("Graficos/hex_ggversa.png", "Graficos/hex_Visualizacion_Datos.png"))
+```
+
+
 ```{r}
 library(ggversa)
 library(ggplot2)
@@ -65,7 +70,9 @@ Aquí vemos parte de los datos originales:
 
 ```{r importtiroide}
 library(ggversa)
+Tiroide
 
+unique(Tiroide$Cases)
 subTiroide=Tiroide[which(Tiroide$Cases=="New Cases"),]
 gt(head(subTiroide))
 
@@ -75,13 +82,13 @@ El procedimiento para preparar el gráfico de tiroides se presenta a continuaci�
 
 ```{r graficalinea1}
 ggplot(subTiroide, aes(x=as.integer(Year), y=Rate))+
-  geom_line(size=2)+
-  annotate("text", x= 1990,y= 12, size= 4,
-           label="Nuevos \n casos", color="red")+
+  geom_line(size=1, colour="red")+
+  annotate("text", x= 1985,y= 9, size= 3,
+           label="Nuevos casos de \n cancer \n de Tiroides", color="black")+
   guides(color="none")+
-    ylab("Números de nuevos casos\n por 100,000 habitantes")+
+    ylab("Números de nuevos casos\n de cancer de Tiroides \n por 100,000 habitantes")+
     xlab("Años")+
-  theme(axis.title=element_text(size=10,face="bold"))
+  theme(axis.title=element_text(size=8,face="italic"))
 ```
 
 Note que se utilizó la función **annonate** para escribir información sobre el gráfico.  Esta función será discutida con más detalle más adelante.
@@ -126,8 +133,9 @@ ggplot(Tiroide, aes(x=as.integer(Year), y=Rate,
   guides(color="none")+
   ylab("Razón")+
   xlab("Años")+
-  xlim(min(Tiroide$Year-5), max(Tiroide$Year+6))+
+  xlim(min(Tiroide$Year-5), max(Tiroide$Year+6))+  # expandir los ejes
   theme(axis.title=element_text(size=14,face="bold"))
+
 ```
 
 ***
@@ -148,7 +156,7 @@ ggplot(Tiroide, aes(x=as.integer(Year), y=Rate,
   guides(color="none")+
   ylab("Razón")+
   xlab("Años")+
-  geom_point(color="black", size=2)+
+  geom_point(color="black", size=.5)+
   theme(axis.title=element_text(size=10,face="bold"))
 ```
 
@@ -257,7 +265,7 @@ ggplot(Tiroide, aes(x=as.integer(Year), y=Rate,
   guides(color="none")+
   ylab("Razón")+
   xlab("Años")+
-  geom_point(shape=22, size=3, colour="blue", fill="white")+
+  geom_point(shape="o", size=5, colour="blue", fill="yellow")+
   theme(axis.title=element_text(size=10,face="bold"))
 
 ```

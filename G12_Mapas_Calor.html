@@ -582,7 +582,8 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2020-11-04&quot;</code></pre>
+<pre><code>## [1] &quot;2020-11-09&quot;</code></pre>
+<p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" /></p>
 <hr />
 <div id="la-lista-de-packetes-para-analisis-de-los-mapas-de-calor" class="section level2">
 <h2>La lista de packetes para analisis de los Mapas de calor</h2>
@@ -607,26 +608,26 @@ div.tocify {
 <th style="text-align:left;">
 </th>
 <th style="text-align:right;">
-DBH
+dbh
 </th>
 <th style="text-align:right;">
-Distance
+distance
 </th>
 <th style="text-align:right;">
-Number_of_Flowers
+number_of_flowers
 </th>
 <th style="text-align:right;">
-Height_Inflo
+height_inflo
 </th>
 <th style="text-align:right;">
-Number_of_fruits
+number_of_fruits
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
-DBH
+dbh
 </td>
 <td style="text-align:right;">
 1.000
@@ -646,7 +647,7 @@ DBH
 </tr>
 <tr>
 <td style="text-align:left;">
-Distance
+distance
 </td>
 <td style="text-align:right;">
 0.329
@@ -666,7 +667,7 @@ Distance
 </tr>
 <tr>
 <td style="text-align:left;">
-Number_of_Flowers
+number_of_flowers
 </td>
 <td style="text-align:right;">
 -0.035
@@ -686,7 +687,7 @@ Number_of_Flowers
 </tr>
 <tr>
 <td style="text-align:left;">
-Height_Inflo
+height_inflo
 </td>
 <td style="text-align:right;">
 -0.100
@@ -706,7 +707,7 @@ Height_Inflo
 </tr>
 <tr>
 <td style="text-align:left;">
-Number_of_fruits
+number_of_fruits
 </td>
 <td style="text-align:right;">
 -0.009
@@ -735,12 +736,12 @@ Number_of_fruits
 <span id="cb4-2"><a href="#cb4-2"></a>             <span class="dt">value.name =</span> <span class="st">&quot;Correlation&quot;</span>)</span>
 <span id="cb4-3"><a href="#cb4-3"></a><span class="kw">head</span>(DWMelt)</span></code></pre></div>
 <pre><code>##                  x1       y1 Correlation
-## 1               DBH      DBH       1.000
-## 2          Distance      DBH       0.329
-## 3 Number_of_Flowers      DBH      -0.035
-## 4      Height_Inflo      DBH      -0.100
-## 5  Number_of_fruits      DBH      -0.009
-## 6               DBH Distance       0.329</code></pre>
+## 1               dbh      dbh       1.000
+## 2          distance      dbh       0.329
+## 3 number_of_flowers      dbh      -0.035
+## 4      height_inflo      dbh      -0.100
+## 5  number_of_fruits      dbh      -0.009
+## 6               dbh distance       0.329</code></pre>
 <p>Finalmente, el tercer paso es producir la figura con <strong>geom_tile</strong>. El gráfico de la Figura se produce sin modificar los parámetros. En el segundo gráfico se modifican los colores usando la guía de color para asignarlos a diferentes grupos a la vez que se remueven los nombres de los ejes de <strong>X</strong> y de <strong>Y</strong>. A este mapa de calor básico se le asignan las variables de <strong>x</strong> y <strong>y</strong> y el valor que queremos que tenga un rango de color, en este caso el valor de correlación. Para remover el nombre de la variables <strong>x</strong> y <strong>y</strong>, se usa <strong>labs(x=NULL, y=NULL)</strong>, ya que ggplot2 lo pone automáticamente cuando se construye un gráfico. Note que para remover el nombre de la columna en los ejes se usa <strong>xlab("")</strong> y <strong>ylab("“)<strong>. Aqui se añade solamente </strong>xlab(”")</strong> y nota que ahora no se ve el nombre de la columna.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">ggplot</span>(DWMelt, <span class="kw">aes</span>(<span class="dt">x=</span>x1, <span class="dt">y=</span>y1))<span class="op">+</span></span>
 <span id="cb6-2"><a href="#cb6-2"></a><span class="st">  </span><span class="kw">geom_tile</span>(<span class="kw">aes</span>(<span class="dt">fill=</span>Correlation))<span class="op">+</span></span>
@@ -795,13 +796,13 @@ Number_of_fruits
 <h2>La función <strong>ggcorr</strong></h2>
 <p>La función <strong>ggcor</strong> tiene la ventaja de producir un gráfico de calor que representa solamente un espejo de los resultados. En los gráficos anteriores las misma información estaba ariba y abajo de la diagonal. Este represente solamente uno de los dos.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">ggcorr</span>(DWCor, <span class="dt">low =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="dt">mid =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">high =</span> <span class="st">&quot;darkred&quot;</span>, <span class="dt">nbreaks=</span><span class="dv">6</span>)</span></code></pre></div>
-<p><img src="G12_Mapas_Calor_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="G12_Mapas_Calor_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>Para un segundo ejemplo de <strong>ggcorr</strong></p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">ggcorr</span>(DWCor, <span class="dt">geom =</span> <span class="st">&quot;blank&quot;</span>, <span class="dt">label =</span> <span class="ot">TRUE</span>, <span class="dt">hjust =</span> <span class="fl">0.75</span>) <span class="op">+</span></span>
 <span id="cb11-2"><a href="#cb11-2"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">20</span>, <span class="kw">aes</span>(<span class="dt">color =</span> coefficient <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, <span class="dt">alpha =</span> <span class="kw">abs</span>(coefficient) <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.5</span>)) <span class="op">+</span></span>
 <span id="cb11-3"><a href="#cb11-3"></a><span class="st">  </span><span class="kw">scale_alpha_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;TRUE&quot;</span> =<span class="st"> </span><span class="fl">0.25</span>, <span class="st">&quot;FALSE&quot;</span> =<span class="st"> </span><span class="dv">0</span>)) <span class="op">+</span></span>
 <span id="cb11-4"><a href="#cb11-4"></a><span class="st">  </span><span class="kw">guides</span>(<span class="dt">color =</span> <span class="ot">FALSE</span>, <span class="dt">alpha =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
-<p><img src="G12_Mapas_Calor_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="G12_Mapas_Calor_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>Para muchos ejemplos vea este enlace. <a href="https://briatte.github.io/ggcorr/" class="uri">https://briatte.github.io/ggcorr/</a></p>
 <hr />
 </div>

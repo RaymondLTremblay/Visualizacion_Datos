@@ -43,7 +43,9 @@ colorize <- function(x, color) {
 #devtools::install_github("yihui/animation")
 ```
 
-
+```{r, echo=FALSE, fig.show = "hold", out.width = "20%", fig.align = "default"}
+knitr::include_graphics(c("Graficos/hex_ggversa.png", "Graficos/hex_Visualizacion_Datos.png"))
+```
 
 ```{r}
 #install.packages("rgl", dependencies=TRUE)
@@ -55,6 +57,7 @@ library(gapminder)
 library(ggplot2)
 library(animation)
 library(gt)
+library(datasets)
 
 
 ```
@@ -231,8 +234,7 @@ Primero creamos un gráfico estático (sin animación), el día del mes (day), l
 
 head(airquality)
 
-p <- ggplot(
-  airquality,
+p <- ggplot(airquality,
   aes(Day, Temp, group = Month, color = factor(Month))) +
   geom_line() +
   scale_color_viridis_d() +
@@ -290,6 +292,7 @@ Preparación de los datos
 ```{r}
 head(airquality)
 temp.promedio <- airquality %>%
+  select(Day, Temp) %>% 
   group_by(Day) %>%
   summarise(Temp2 = mean(Temp, na.rm = TRUE))
 temp.promedio
@@ -304,7 +307,7 @@ Ahora creamos un gráfico estático de los datos con **geom_col**.
 
 
 ```{r}
-p <- ggplot(temp.promedio, aes(Day, Temp, fill = Temp)) +
+p <- ggplot(temp.promedio, aes(Day, Temp2)) +
   geom_col() +
   scale_fill_distiller(palette = "Reds", direction = 1) +
   theme_minimal() +
