@@ -153,6 +153,93 @@ ggplot(Tiroide, aes(x=as.integer(Year), y=Rate,
 ```
 
 ***
+ \subsection{Shape; Las forma de los Puntos}
+
+Los puntos son variados y representado por un número (0 al 24) o un símbolo. Por ejemplo para utilizar los puntos en una gráfica se usa la función \say{scale\_shape\_manual(values=c(18, 21, 25))}
+
+```{r PlotSimbolos, echo=FALSE, fig.pos='!ht', fig.cap="Los simbolos para las gr\\'aficas de puntos", tidy=FALSE, message=FALSE, warning=FALSE}
+##get( getOption( "device" ) )()
+## Pex   expand the symbol size by this amount
+##  ipch  vector of plot symbols designated by number
+##  np    number of plot symbols drawn in plot
+##  k     number of rows of plot symbols
+##  dd    c( -0.5, 0.5 )
+##  ix    x coordinates for symbols
+##  iy    y coordinates for symbols
+##  rx    extreme x coordinates for setting up plot
+##  ry    extreme y coordinates for setting up plot
+##  pch   list of plot symbols
+
+Pex  <- 4           ## good for .Device=="postscript", "x11", "quartz"
+ipch <- 0:35
+np   <- length( ipch )
+k    <- floor( sqrt( np ) )
+dd   <- c( -1, 1 ) / 2
+ix   <- ipch %/% k
+iy   <- 3 + ( k - 1 ) - ipch %% k
+rx   <- dd + range( ix )
+ry   <- dd + range( iy )
+pch  <- as.list( ipch )
+
+##  Values of 0 through 25 specify standard R symbols.
+##  Points can also be drawn as text characters; add 10 characters to the
+##  list of symbols to be plotted.
+
+pch[ 26 + 1:10 ] <-
+  as.list( c( "*", ".", "o", "O", "0", "+", "-", "|", "%", "#" ) )
+
+##  Plot without drawing any points or lines (type = "n").
+##  This draws the title and sets up the coordinates of the plot.
+
+plot(
+  x    = rx,
+  y    = ry,
+  type = "n",
+  axes = FALSE,
+  xlab = "",
+  ylab = "",
+  main = paste( "plot symbols: points( ..., pch = *, cex =", Pex, ")" ) )
+
+##  Draw horizontal and vertical dotted grid lines.
+
+abline( v = ix, h = iy, col = "blue", lty = "dotted" )
+
+##  Iterate through the points, drawing the specified pch (given by an
+##  integer from 0 through 25 or by a character ('*' through '#').
+
+for ( i in 1:np ) {
+  ##  Extract each plot character from the list using "[[", which
+  ##  gets a list component ("[" would return a list).
+  
+  pc <- pch[[ i ]]
+  
+  ##  Call points() to draw the plot character.
+  ##  Draw red symbols with a yellow interior (filled interior is possible
+  ##  only for symbols 21 through 25).
+  ##  Expand the size of the plot character.
+  
+  points(
+    x   = ix[ i ],
+    y   = iy[ i ],
+    pch = pc,
+    col = "blue",
+    bg  = "red",
+    cex = Pex )
+  
+  ##  Label the points with the symbol numbers or characters.
+  
+  text(
+    x      = ix[ i ] - 0.4,
+    y      = iy[ i ],
+    labels = pc,
+    col    = "brown",
+    cex    = 1.2 )
+}
+```
+
+
+***
+
 
 ## Gráfico de línea con los puntos en otro estilo con **geom_line**
 
