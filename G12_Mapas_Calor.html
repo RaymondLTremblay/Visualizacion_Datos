@@ -608,26 +608,26 @@ div.tocify {
 <th style="text-align:left;">
 </th>
 <th style="text-align:right;">
-dbh
+DBH
 </th>
 <th style="text-align:right;">
-distance
+Distance
 </th>
 <th style="text-align:right;">
-number_of_flowers
+Number_of_Flowers
 </th>
 <th style="text-align:right;">
-height_inflo
+Height_Inflo
 </th>
 <th style="text-align:right;">
-number_of_fruits
+Number_of_fruits
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
-dbh
+DBH
 </td>
 <td style="text-align:right;">
 1.000
@@ -647,7 +647,7 @@ dbh
 </tr>
 <tr>
 <td style="text-align:left;">
-distance
+Distance
 </td>
 <td style="text-align:right;">
 0.329
@@ -667,7 +667,7 @@ distance
 </tr>
 <tr>
 <td style="text-align:left;">
-number_of_flowers
+Number_of_Flowers
 </td>
 <td style="text-align:right;">
 -0.035
@@ -687,7 +687,7 @@ number_of_flowers
 </tr>
 <tr>
 <td style="text-align:left;">
-height_inflo
+Height_Inflo
 </td>
 <td style="text-align:right;">
 -0.100
@@ -707,7 +707,7 @@ height_inflo
 </tr>
 <tr>
 <td style="text-align:left;">
-number_of_fruits
+Number_of_fruits
 </td>
 <td style="text-align:right;">
 -0.009
@@ -736,12 +736,12 @@ number_of_fruits
 <span id="cb4-2"><a href="#cb4-2"></a>             <span class="dt">value.name =</span> <span class="st">&quot;Correlation&quot;</span>)</span>
 <span id="cb4-3"><a href="#cb4-3"></a><span class="kw">head</span>(DWMelt)</span></code></pre></div>
 <pre><code>##                  x1       y1 Correlation
-## 1               dbh      dbh       1.000
-## 2          distance      dbh       0.329
-## 3 number_of_flowers      dbh      -0.035
-## 4      height_inflo      dbh      -0.100
-## 5  number_of_fruits      dbh      -0.009
-## 6               dbh distance       0.329</code></pre>
+## 1               DBH      DBH       1.000
+## 2          Distance      DBH       0.329
+## 3 Number_of_Flowers      DBH      -0.035
+## 4      Height_Inflo      DBH      -0.100
+## 5  Number_of_fruits      DBH      -0.009
+## 6               DBH Distance       0.329</code></pre>
 <p>Finalmente, el tercer paso es producir la figura con <strong>geom_tile</strong>. El gráfico de la Figura se produce sin modificar los parámetros. En el segundo gráfico se modifican los colores usando la guía de color para asignarlos a diferentes grupos a la vez que se remueven los nombres de los ejes de <strong>X</strong> y de <strong>Y</strong>. A este mapa de calor básico se le asignan las variables de <strong>x</strong> y <strong>y</strong> y el valor que queremos que tenga un rango de color, en este caso el valor de correlación. Para remover el nombre de la variables <strong>x</strong> y <strong>y</strong>, se usa <strong>labs(x=NULL, y=NULL)</strong>, ya que ggplot2 lo pone automáticamente cuando se construye un gráfico. Note que para remover el nombre de la columna en los ejes se usa <strong>xlab("")</strong> y <strong>ylab("“)<strong>. Aqui se añade solamente </strong>xlab(”")</strong> y nota que ahora no se ve el nombre de la columna.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">ggplot</span>(DWMelt, <span class="kw">aes</span>(<span class="dt">x=</span>x1, <span class="dt">y=</span>y1))<span class="op">+</span></span>
 <span id="cb6-2"><a href="#cb6-2"></a><span class="st">  </span><span class="kw">geom_tile</span>(<span class="kw">aes</span>(<span class="dt">fill=</span>Correlation))<span class="op">+</span></span>

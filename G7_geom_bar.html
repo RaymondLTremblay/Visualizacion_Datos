@@ -13,6 +13,7 @@
 
 <title>Gráficos de barras con geom_bar</title>
 
+<script src="site_libs/header-attrs-2.5/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
@@ -24,23 +25,33 @@
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
+<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
+<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
 
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -60,7 +71,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -569,14 +580,15 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2020-09-28&quot;</code></pre>
+<pre><code>## [1] &quot;2020-11-09&quot;</code></pre>
+<p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" /></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">library</span>(tidyverse)</span></code></pre></div>
-<pre><code>## ── Attaching packages ──────────────────────────────────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
 <pre><code>## ✓ ggplot2 3.3.2     ✓ purrr   0.3.4
-## ✓ tibble  3.0.3     ✓ dplyr   1.0.2
+## ✓ tibble  3.0.4     ✓ dplyr   1.0.2
 ## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
-## ✓ readr   1.3.1     ✓ forcats 0.5.0</code></pre>
-<pre><code>## ── Conflicts ─────────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+## ✓ readr   1.4.0     ✓ forcats 0.5.0</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">library</span>(ggversa)</span>
@@ -773,9 +785,9 @@ Figura: Lepanthes eltoroensis, EL Yunque, Puerto Rico
 <span id="cb27-6"><a href="#cb27-6"></a><span class="kw">geom_bar</span>(<span class="kw">aes</span>(<span class="dt">y=</span>(..count..)<span class="op">/</span><span class="kw">sum</span>(..count..)),</span>
 <span id="cb27-7"><a href="#cb27-7"></a>           <span class="dt">position=</span><span class="st">&quot;fill&quot;</span>)<span class="op">+</span><span class="st"> </span><span class="co"># Para que cada columna sume a 1.0 se usa position = &quot;fill&quot;</span></span>
 <span id="cb27-8"><a href="#cb27-8"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Posiciones de las flores en la inflorescencia&quot;</span>)<span class="op">+</span></span>
-<span id="cb27-9"><a href="#cb27-9"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Proporción&quot;)+</span></span>
-<span id="cb27-10"><a href="#cb27-10"></a><span class="st">    guides(fill=FALSE)+</span></span>
-<span id="cb27-11"><a href="#cb27-11"></a><span class="st">  theme(axis.title=element_text(size=10,face=&quot;</span>bold<span class="st">&quot;))</span></span></code></pre></div>
+<span id="cb27-9"><a href="#cb27-9"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Proporción&quot;</span>)<span class="op">+</span></span>
+<span id="cb27-10"><a href="#cb27-10"></a><span class="st">    </span><span class="kw">guides</span>(<span class="dt">fill=</span><span class="ot">FALSE</span>)<span class="op">+</span></span>
+<span id="cb27-11"><a href="#cb27-11"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G7_geom_bar_files/figure-html/dipodium-barra4-1.png" width="672" /></p>
 <hr />
 <ol start="2" style="list-style-type: decimal">
@@ -1050,13 +1062,14 @@ Figura: Lepanthes eltoroensis, EL Yunque, Puerto Rico
 <span id="cb55-7"><a href="#cb55-7"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Temperatura promedio máxima por mes en Celsius&quot;</span>)<span class="op">+</span></span>
 <span id="cb55-8"><a href="#cb55-8"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <pre><code>## Warning: Removed 2 rows containing missing values (geom_bar).</code></pre>
-<p><img src="G7_geom_bar_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<p><img src="G7_geom_bar_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
 <ol start="2" style="list-style-type: decimal">
 <li>Usando los datos de Anchorage, Alaska que se encuentra en la sección de datos del website, evaluar el patrón de temperatura mínima en los diferentes meses del año. Convertir los datos de Farenheit a Celcius.</li>
 </ol>
 <div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1"></a><span class="kw">library</span>(readr)</span>
 <span id="cb57-2"><a href="#cb57-2"></a>Anchorage_ALASKA &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;Data/Anchorage_ALASKA.csv&quot;</span>)</span></code></pre></div>
-<pre><code>## Parsed with column specification:
+<pre><code>## 
+## ── Column specification ────────────────────────────────────────────────────────
 ## cols(
 ##   Year = col_double(),
 ##   Jan = col_double(),
@@ -1186,7 +1199,7 @@ Figura: Lepanthes eltoroensis, EL Yunque, Puerto Rico
 <span id="cb75-6"><a href="#cb75-6"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;Fecha&quot;</span>)<span class="op">+</span></span>
 <span id="cb75-7"><a href="#cb75-7"></a><span class="st">  </span><span class="kw">ylab</span>(<span class="st">&quot;Temperatura promedio máxima por mes en Celsius&quot;</span>)<span class="op">+</span></span>
 <span id="cb75-8"><a href="#cb75-8"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<p><img src="G7_geom_bar_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p><img src="G7_geom_bar_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 </div>
 </div>
 <div id="gráfico-de-barras-ajuste-de-posiciones-con-geom_bar" class="section level2">
@@ -1213,7 +1226,7 @@ Figura: Lepanthes eltoroensis, EL Yunque, Puerto Rico
 <span id="cb79-2"><a href="#cb79-2"></a>barraA<span class="op">+</span><span class="kw">geom_bar</span>(<span class="dt">width=</span>.<span class="dv">3</span>, <span class="dt">fill=</span><span class="kw">grey</span>(.<span class="dv">5</span>))<span class="op">+</span></span>
 <span id="cb79-3"><a href="#cb79-3"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="dt">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="op">+</span></span>
 <span id="cb79-4"><a href="#cb79-4"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<p><img src="G7_geom_bar_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p><img src="G7_geom_bar_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
 <p>En el tercer grafico las barras fueron rotadas usando la opción <strong>coord_flip()</strong> y puestas sobre lo que antes era el eje de <strong>Y</strong>. En el cuarto, se añadió una variable discreta como color; en este caso, fue usada la escala de color gris para distinguir entre la temporada seca <strong>dry</strong> la lluviosa <strong>wet</strong>. Si no se añade la opción scale_fill_grey(), las categorías tendrían color.</p>
 <div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1"></a>barraA=<span class="kw">ggplot</span>(Anolis, <span class="kw">aes</span>(SEX_AGE))</span>
 <span id="cb80-2"><a href="#cb80-2"></a>barraA<span class="op">+</span><span class="kw">geom_bar</span>(<span class="dt">fill=</span><span class="kw">grey</span>(.<span class="dv">5</span>))<span class="op">+</span><span class="kw">coord_flip</span>()<span class="op">+</span></span>
@@ -1265,7 +1278,7 @@ Figura: Lepanthes eltoroensis, EL Yunque, Puerto Rico
 
 // add bootstrap table styles to pandoc tables
 function bootstrapStylePandocTables() {
-  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
 }
 $(document).ready(function () {
   bootstrapStylePandocTables();
