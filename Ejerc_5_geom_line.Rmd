@@ -14,16 +14,34 @@ output:
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+```{r, eval=TRUE, echo=FALSE}
+colorize <- function(x, color) {
+  if (knitr::is_latex_output()) {
+    sprintf("\\textcolor{%s}{%s}", color, x)
+  } else if (knitr::is_html_output()) {
+    sprintf("<span style='color: %s;'>%s</span>", color, 
+      x)
+  } else x
+}
+
+#`r colorize("some words in red", "red")`
+```
 
 ```{r, echo=FALSE, eval=FALSE}
 library(MASS)
 data()
 ```
 
-1. El nivel del agua en lago Huron del 1875-1972 sobre el nivel del mar en metros.
+## gráficos de Lineas
+
+Los siguientes ejercicio es para producir gráficos de lineas
+
+Los Datos: 
+
+1. El nivel del agua en lago Huron del 1875-1972 sobre el nivel del mar en metros.  El archivo se llama **LakeHuron** en el paquete **datsasets** .
 
 + Convirte los datos en un data frame (vea el script)
-+ Añadele una nueva columna de para con la información del años (1875 al 1972). Buscar una función que lo hace (Enseñar el script).  (4 puntos)
++ Añadele una nueva columna de para la información del años (1875 al 1972). Buscar una función que lo hace (Enseñar el script).  (4 puntos). 
 + Producir el gráfico de linea (4 puntos)
 + Cambiar la información de los ejes (2 puntos)
 + Añadir una información dentro del gráfico (1 punto)
@@ -32,19 +50,15 @@ data()
 
 
 ```{r}
-#AirPassengers
-
-#USAccDeaths 
-
 library(datasets)
 LakeHuron=data.frame(LakeHuron)
-head(LakeHuron)
+# head(LakeHuron)
 ```
 
 ```{r eval=FALSE, include=FALSE}
 LakeHuron$Date=seq(from=1875, to=1972)
 
-head(LakeHuron)
+# head(LakeHuron)
 ```
 
 
@@ -54,7 +68,7 @@ library(ggplot2)
 ggplot(LakeHuron, aes(x=as.integer(Date), y=LakeHuron))+
   geom_line(size=1, colour="red")+
   annotate("text", x= 1885,y= 577.5, size= 3,
-           label="Nivel del Lago", color="black")+
+           label="Nivel del Lago sobre el \n nivel del mar en metros", color="black")+
   guides(color="none")+
     ylab("Nivel del agua del Lago Huron ")+
     xlab("Años")+
@@ -64,23 +78,28 @@ ggplot(LakeHuron, aes(x=as.integer(Date), y=LakeHuron))+
 
 
 ***
-2. Tamaño Poblacional de las islas del Caribe
+2. Tamaño poblacional de las islas del Caribe
 
-Usando los datos del siguiente archivo UNdata_Pop_Size_Caribbean.csv, que se encuentra en la pagina web debajo "Datos".  Este es un archivo de datos sobre el tamaño poblacional de las islas del Caribe y Brazil. Evalúa el cambio poblacional en los años de muestreo con un gráfico de linea.  Cada isla debería tener su propria linea. 
+Usando los datos del siguiente archivo PolacionEdad_genero, "UNdata_Pop_Size_Caribbean.csv", que se encuentra en la pagina web debajo "Datos".  Este es un archivo de datos sobre el tamaño poblacional de las islas del Caribe y Brazil en diferentes años. 
+
+**Su tarea es:** 
+Evaluar el cambio poblacional en los años de muestreo con un gráfico de linea.  Cada isla deberá tener su propria linea de color diferentes. 
 
 
 ```{r}
 library(readr)
 
 UNdata_Pop_Size_Caribbean <- read_csv("Data/UNdata_Pop_Size_Caribbean.csv")
-#head(UNdata_Pop_Size_Caribbean)
+#head(UNdata_Pop_Size_Caribbean) ## Tome el tiempo de evaluar toda la información en este archivo para entender pq se tiene que filtrar. 
 
-UNdata=janitor::clean_names(UNdata_Pop_Size_Caribbean)
-head(UNdata)
-unique(UNdata$sex)
+UNdata=janitor::clean_names(UNdata_Pop_Size_Caribbean) # limpiar los nombres de las columnas
+# head(UNdata)
+# unique(UNdata$sex)
 ```
 
-Selecciona el total poblacional (Area == "Total") para cada isla en todos los años (Age == "Total") y de ambos sexos (Sex== "Both Sexes") y remover Brazil del archivo de datos con !="Brazil".  
+ + Seleccionar los siguientes datos
+
+     + Selecciona el total poblacional (Area == "Total") para cada isla en todos los años (Age == "Total") y de ambos sexos (Sex== "Both Sexes") y remover Brazil del archivo de datos con !="Brazil".  Vea la función **filter** del paquete **dplyr** para lograr este subgrupo de datos.  
 
 ```{r}
 library(tidyverse)
@@ -88,12 +107,14 @@ library(tidyverse)
 CaribPop=UNdata %>% 
   filter(age=="Total" & sex=="Both Sexes" & area=="Total" & country_or_area !="Brazil") 
 
-head(CaribPop)
-unique(CaribPop$country_or_area)
+#head(CaribPop)
+#unique(CaribPop$country_or_area)
 
 ```
 
-+ Haga un gráfico de linea para visualizar el tamaño poblacional de cada isla. (5 puntos)
+
+`r colorize("Haga un gráfico de linea para visualizar el tamaño poblacional de cada isla. (5 puntos)", "red")`
+  
 
 ```{r Pob Caribe, eval=FALSE, include=FALSE}
 library(ggplot2)
@@ -104,7 +125,7 @@ ggplot(CaribPop, aes(x=as.integer(year), y=value, group=country_or_area, colour=
 
 ```
 
-3. Ahora, con el mismo archivo, selecione los datos de las edades de "20 - 24", "Female" si ud es mujer y "Male" si es hombre, Puede seleccionar los datos urbanos o rural o total como prefiere, no incluye los datos de Brazil.  (5 puntos) 
+3. Ahora, con el mismo archivo, seleccione los datos de las edades de "20 - 24", "Female" si ud es mujer y "Male" si es hombre.  Puede seleccionar los datos urbanos o rural o total como prefiere, no incluye los datos de Brazil.  (5 puntos) 
 
 
 ```{r, eval=FALSE, include=FALSE}
@@ -112,12 +133,41 @@ head(UNdata)
 CaribPop2=UNdata %>% 
   filter(age=="20 - 24" & sex=="Male" & area=="Total" & country_or_area !="Brazil") 
 
-head(CaribPop2)
+#head(CaribPop2)
 ```
 
 ```{r Pob Caribe2, eval=FALSE, include=FALSE}
 library(ggplot2)
 ggplot(CaribPop2, aes(x=as.integer(year), y=value, group=country_or_area, colour=country_or_area))+
+  geom_line()+
+    ylab("Tamaño Poblacional")+
+    xlab("Años")
+
+```
+****
+
+
+4. Bono (5 puntos):
+
+Rehacer el gráfico anterior removiendo los siguientes paises (Cuba, Dominican Republic, Puerto Rico, Jamaica y Haiti)
+
+```{r, eval=FALSE, echo=FALSE}
+head(UNdata)
+CaribPop3=UNdata %>% 
+  filter(age=="20 - 24" & sex=="Male" & area=="Total" & country_or_area !="Brazil"
+         & country_or_area !="Cuba"
+         & country_or_area !="Dominican Republic"
+         & country_or_area !="Puerto Rico"
+         & country_or_area !="Haiti"
+         & country_or_area !="Jamaica")
+
+#head(CaribPop3)
+```
+
+
+```{r Pob Caribe3, eval=FALSE, include=FALSE}
+
+ggplot(CaribPop3, aes(x=as.integer(year), y=value, group=country_or_area, colour=country_or_area))+
   geom_line()+
     ylab("Tamaño Poblacional")+
     xlab("Años")

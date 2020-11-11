@@ -545,6 +545,9 @@ div.tocify {
     <li>
       <a href="Ejerc_4_point_count.html">Ejercicio de gráficos de puntos, conteos y histograma</a>
     </li>
+    <li>
+      <a href="Ejerc_5_geom_line.html">Ejercicio de gráficos de lineas</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -579,40 +582,32 @@ div.tocify {
 </div>
 
 
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(MASS)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">data</span>()</span></code></pre></div>
+<div id="gráficos-de-lineas" class="section level2">
+<h2>gráficos de Lineas</h2>
+<p>Los siguientes ejercicio es para producir gráficos de lineas</p>
+<p>Los Datos:</p>
 <ol style="list-style-type: decimal">
-<li>El nivel del agua en lago Huron del 1875-1972 sobre el nivel del mar en metros.</li>
+<li>El nivel del agua en lago Huron del 1875-1972 sobre el nivel del mar en metros. El archivo se llama <strong>LakeHuron</strong> en el paquete <strong>datsasets</strong> .</li>
 </ol>
 <ul>
 <li>Convirte los datos en un data frame (vea el script)</li>
-<li>Añadele una nueva columna de para con la información del años (1875 al 1972). Buscar una función que lo hace (Enseñar el script). (4 puntos)</li>
+<li>Añadele una nueva columna de para la información del años (1875 al 1972). Buscar una función que lo hace (Enseñar el script). (4 puntos).</li>
 <li>Producir el gráfico de linea (4 puntos)</li>
 <li>Cambiar la información de los ejes (2 puntos)</li>
 <li>Añadir una información dentro del gráfico (1 punto)</li>
 </ul>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co">#AirPassengers</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a></span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="co">#USAccDeaths </span></span>
-<span id="cb2-4"><a href="#cb2-4"></a></span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="kw">library</span>(datasets)</span>
-<span id="cb2-6"><a href="#cb2-6"></a>LakeHuron=<span class="kw">data.frame</span>(LakeHuron)</span>
-<span id="cb2-7"><a href="#cb2-7"></a><span class="kw">head</span>(LakeHuron)</span></code></pre></div>
-<pre><code>##   LakeHuron
-## 1    580.38
-## 2    581.86
-## 3    580.97
-## 4    580.80
-## 5    579.79
-## 6    580.39</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(datasets)</span>
+<span id="cb1-2"><a href="#cb1-2"></a>LakeHuron=<span class="kw">data.frame</span>(LakeHuron)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="co"># head(LakeHuron)</span></span></code></pre></div>
 <hr />
 <ol start="2" style="list-style-type: decimal">
-<li>Tamaño Poblacional de las islas del Caribe</li>
+<li>Tamaño poblacional de las islas del Caribe</li>
 </ol>
-<p>Usando los datos del siguiente archivo UNdata_Pop_Size_Caribbean.csv, que se encuentra en la pagina web debajo “Datos”. Este es un archivo de datos sobre el tamaño poblacional de las islas del Caribe y Brazil. Evalúa el cambio poblacional en los años de muestreo con un gráfico de linea. Cada isla debería tener su propria linea.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">library</span>(readr)</span>
-<span id="cb4-2"><a href="#cb4-2"></a></span>
-<span id="cb4-3"><a href="#cb4-3"></a>UNdata_Pop_Size_Caribbean &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;Data/UNdata_Pop_Size_Caribbean.csv&quot;</span>)</span></code></pre></div>
+<p>Usando los datos del siguiente archivo PolacionEdad_genero, “UNdata_Pop_Size_Caribbean.csv”, que se encuentra en la pagina web debajo “Datos”. Este es un archivo de datos sobre el tamaño poblacional de las islas del Caribe y Brazil en diferentes años.</p>
+<p><strong>Su tarea es:</strong> Evaluar el cambio poblacional en los años de muestreo con un gráfico de linea. Cada isla deberá tener su propria linea de color diferentes.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">library</span>(readr)</span>
+<span id="cb2-2"><a href="#cb2-2"></a></span>
+<span id="cb2-3"><a href="#cb2-3"></a>UNdata_Pop_Size_Caribbean &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;Data/UNdata_Pop_Size_Caribbean.csv&quot;</span>)</span></code></pre></div>
 <pre><code>## 
 ## ── Column specification ────────────────────────────────────────────────────────
 ## cols(
@@ -636,24 +631,18 @@ div.tocify {
 ## 4775 Value Footnotes 1/0/T/F/TRUE/FALSE      2 &#39;Data/UNdata_Pop_Size_Caribbean.csv&#39;
 ## .... ............... .................. ...... ....................................
 ## See problems(...) for more details.</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co">#head(UNdata_Pop_Size_Caribbean)</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a></span>
-<span id="cb7-3"><a href="#cb7-3"></a>UNdata=janitor<span class="op">::</span><span class="kw">clean_names</span>(UNdata_Pop_Size_Caribbean)</span>
-<span id="cb7-4"><a href="#cb7-4"></a><span class="kw">head</span>(UNdata)</span></code></pre></div>
-<pre><code>## # A tibble: 6 x 10
-##   country_or_area  year area  sex   age   record_type reliability source_year
-##   &lt;chr&gt;           &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt;             &lt;dbl&gt;
-## 1 Anguilla         1960 Total Both… 0     Census - d… Final figu…        2001
-## 2 Anguilla         1960 Total Both… 4-Jan Census - d… Final figu…        2001
-## 3 Anguilla         1960 Total Both… 9-May Census - d… Final figu…        2001
-## 4 Anguilla         1960 Total Both… 14-O… Census - d… Final figu…        2001
-## 5 Anguilla         1960 Total Both… 15 -… Census - d… Final figu…        2001
-## 6 Anguilla         1960 Total Both… 20 -… Census - d… Final figu…        2001
-## # … with 2 more variables: value &lt;dbl&gt;, value_footnotes &lt;lgl&gt;</code></pre>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">unique</span>(UNdata<span class="op">$</span>sex)</span></code></pre></div>
-<pre><code>## [1] &quot;Both Sexes&quot; &quot;Female&quot;     &quot;Male&quot;       NA</code></pre>
-<p>Selecciona el total poblacional (Area == “Total”) para cada isla en todos los años (Age == “Total”) y de ambos sexos (Sex== “Both Sexes”) y remover Brazil del archivo de datos con !=“Brazil”.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">library</span>(tidyverse)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="co">#head(UNdata_Pop_Size_Caribbean) ## Tome el tiempo de evaluar toda la información en este archivo para entender pq se tiene que filtrar. </span></span>
+<span id="cb5-2"><a href="#cb5-2"></a></span>
+<span id="cb5-3"><a href="#cb5-3"></a>UNdata=janitor<span class="op">::</span><span class="kw">clean_names</span>(UNdata_Pop_Size_Caribbean) <span class="co"># limpiar los nombres de las columnas</span></span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="co"># head(UNdata)</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="co"># unique(UNdata$sex)</span></span></code></pre></div>
+<ul>
+<li><p>Seleccionar los siguientes datos</p>
+<ul>
+<li>Selecciona el total poblacional (Area == “Total”) para cada isla en todos los años (Age == “Total”) y de ambos sexos (Sex== “Both Sexes”) y remover Brazil del archivo de datos con !=“Brazil”. Vea la función <strong>filter</strong> del paquete <strong>dplyr</strong> para lograr este subgrupo de datos.</li>
+</ul></li>
+</ul>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">library</span>(tidyverse)</span></code></pre></div>
 <pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
 <pre><code>## ✓ ggplot2 3.3.2     ✓ dplyr   1.0.2
 ## ✓ tibble  3.0.4     ✓ stringr 1.4.0
@@ -661,35 +650,22 @@ div.tocify {
 ## ✓ purrr   0.3.4</code></pre>
 <pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
-## x dplyr::lag()    masks stats::lag()
-## x dplyr::select() masks MASS::select()</code></pre>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>CaribPop=UNdata <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb15-2"><a href="#cb15-2"></a><span class="st">  </span><span class="kw">filter</span>(age<span class="op">==</span><span class="st">&quot;Total&quot;</span> <span class="op">&amp;</span><span class="st"> </span>sex<span class="op">==</span><span class="st">&quot;Both Sexes&quot;</span> <span class="op">&amp;</span><span class="st"> </span>area<span class="op">==</span><span class="st">&quot;Total&quot;</span> <span class="op">&amp;</span><span class="st"> </span>country_or_area <span class="op">!=</span><span class="st">&quot;Brazil&quot;</span>) </span>
-<span id="cb15-3"><a href="#cb15-3"></a></span>
-<span id="cb15-4"><a href="#cb15-4"></a><span class="kw">head</span>(CaribPop)</span></code></pre></div>
-<pre><code>## # A tibble: 6 x 10
-##   country_or_area  year area  sex   age   record_type reliability source_year
-##   &lt;chr&gt;           &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;       &lt;chr&gt;             &lt;dbl&gt;
-## 1 Anguilla         1960 Total Both… Total Census - d… Final figu…        2001
-## 2 Anguilla         1974 Total Both… Total Census - d… Final figu…        2001
-## 3 Anguilla         1984 Total Both… Total Census - d… Final figu…        1994
-## 4 Anguilla         1992 Total Both… Total Census - d… Final figu…        2001
-## 5 Anguilla         2001 Total Both… Total Census - d… Final figu…        2018
-## 6 Anguilla         2011 Total Both… Total Census - d… Final figu…        2018
-## # … with 2 more variables: value &lt;dbl&gt;, value_footnotes &lt;lgl&gt;</code></pre>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="kw">unique</span>(CaribPop<span class="op">$</span>country_or_area)</span></code></pre></div>
-<pre><code>##  [1] &quot;Anguilla&quot;              &quot;Antigua and Barbuda&quot;   &quot;Aruba&quot;                
-##  [4] &quot;Bahamas&quot;               &quot;Barbados&quot;              &quot;Bermuda&quot;              
-##  [7] &quot;Cuba&quot;                  &quot;Curaçao&quot;               &quot;Dominica&quot;             
-## [10] &quot;Dominican Republic&quot;    &quot;Guadeloupe&quot;            &quot;Haiti&quot;                
-## [13] &quot;Jamaica&quot;               &quot;Martinique&quot;            &quot;Puerto Rico&quot;          
-## [16] &quot;Saint Kitts and Nevis&quot; &quot;Saint Lucia&quot;</code></pre>
-<ul>
-<li>Haga un gráfico de linea para visualizar el tamaño poblacional de cada isla. (5 puntos)</li>
-</ul>
+## x dplyr::lag()    masks stats::lag()</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>CaribPop=UNdata <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="st">  </span><span class="kw">filter</span>(age<span class="op">==</span><span class="st">&quot;Total&quot;</span> <span class="op">&amp;</span><span class="st"> </span>sex<span class="op">==</span><span class="st">&quot;Both Sexes&quot;</span> <span class="op">&amp;</span><span class="st"> </span>area<span class="op">==</span><span class="st">&quot;Total&quot;</span> <span class="op">&amp;</span><span class="st"> </span>country_or_area <span class="op">!=</span><span class="st">&quot;Brazil&quot;</span>) </span>
+<span id="cb10-3"><a href="#cb10-3"></a></span>
+<span id="cb10-4"><a href="#cb10-4"></a><span class="co">#head(CaribPop)</span></span>
+<span id="cb10-5"><a href="#cb10-5"></a><span class="co">#unique(CaribPop$country_or_area)</span></span></code></pre></div>
+<p><span style="color: red;">Haga un gráfico de linea para visualizar el tamaño poblacional de cada isla. (5 puntos)</span></p>
 <ol start="3" style="list-style-type: decimal">
-<li>Ahora, con el mismo archivo, selecione los datos de las edades de “20 - 24”, “Female” si ud es mujer y “Male” si es hombre, Puede seleccionar los datos urbanos o rural o total como prefiere, no incluye los datos de Brazil. (5 puntos)</li>
+<li>Ahora, con el mismo archivo, seleccione los datos de las edades de “20 - 24”, “Female” si ud es mujer y “Male” si es hombre. Puede seleccionar los datos urbanos o rural o total como prefiere, no incluye los datos de Brazil. (5 puntos)</li>
 </ol>
+<hr />
+<ol start="4" style="list-style-type: decimal">
+<li>Bono (5 puntos):</li>
+</ol>
+<p>Rehacer el gráfico anterior removiendo los siguientes paises (Cuba, Dominican Republic, Puerto Rico, Jamaica y Haiti)</p>
+</div>
 
 
 
