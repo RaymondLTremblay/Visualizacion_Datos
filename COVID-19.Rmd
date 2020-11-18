@@ -78,7 +78,7 @@ Datos de Belgica <https://epistat.wiv-isp.be/covid/>
 
 
 ****
-# COVID-19: Base de Datos Mundial
+# COVID-19: Base de Datos Mundial de **Our world in Data**
 
 
   El siguiente archivo es para tener aceso a datos sobre los casos de COVID-19 por día en todo el planeta. El archivo esta mantenido en el siguiente enlace <https://github.com/owid/covid-19-data/tree/master/public/data>   
@@ -109,16 +109,101 @@ mydat<- read.csv('https://raw.githubusercontent.com/owid/covid-19-data/master/pu
 
 
 t=mydat%>%
-  head(mydat, n=10)%>%
+  head(n=10)%>%
   gt()%>%
    tab_options(table.font.size = 10)
 t
 ```
 
 
+***
 
 
-Other data
+### Covid data US-counties
+
+
+1. [US_Counties.csv]("COVID_DATA/us_counties.csv").
+
+Los datos provienen del siguiente repositorio, <https://github.com/nytimes/covid-19-data>.
+
+Puede bajar los datos más reciente en el siguiente enlace.
+<https://github.com/nytimes/covid-19-data/blob/master/us-counties.csv>
+
+El archivo tiene la siguiente información
+
++ Al momento de buscar los datos habia 735,516 lineas de datos
++ date = La fecha de los más recientes datos de COVID-19
++ el nombre del county/municipio
++ el estado/colonia (incluye a Puerto Rico)
++ FIPS = El código numérico de cada county/municipio. Para buscar información sobre el numero para cada country o municipio puede ir al siguiente enlace. <https://www.nrcs.usda.gov/wps/portal/nrcs/detail/national/home/?cid=nrcs143_013697>
++ cases = Números de casos cumulativo de este county/municipio
++ death = Números de casos de mortandad de este county/municipio
+
+
+
+```{r}
+
+library(readr)
+us_counties <- read_csv("COVID_DATA/us_counties.csv")
+
+df=us_counties%>%
+  tail( n=6)%>%
+  gt()%>%
+   tab_options(table.font.size = 10)
+df
+```
+
+3. Covid cases by person.
+
+Datos proviene del siguiente enlace. Siempre puede ir a este enlace para tener los datos más reciente. Proviene de Harvard University
+<https://rconnect.dfci.harvard.edu/covidpr/>
+
+
+
+```{r}
+pruebas_2020_11_17_19_44_11 <- read_csv("COVID_DATA/pruebas-2020-11-17_19_44_11.csv")
+Harvard=pruebas_2020_11_17_19_44_11
+
+head(Harvard)
+```
+Aqui estan los nombres de las variables
+
++ collectedDate = La fecha de recvolección de la muestra
++ reportedDate = La fecha que se reporto el resultado
++ ageRange = El rango de edad de la persona
++ testType = El tipo de prueba, en este caso son todas Moleculares, En el Website puede conseguir los datos que son Anrigeno o Serologica
++ result = si la persona fue positiva "positive" o negativa "negative", o other (no claro el resultado)
++ patientCity = La ciudad de residencia del paciente
++ createdAt = La fecha y hora de la muestra 
++ date = La fecha de la muestra
+
+
+```{r}
+names(Harvard)
+unique(Harvard$result)
+```
+
+
+
+
+
+```{r}
+df=Harvard%>%
+  tail( n=6)%>%
+  gt()%>%
+   tab_options(table.font.size = 10)
+df
+```
+
+https://rconnect.dfci.harvard.edu/covidpr/
+
+
+
+
+
+
+
+
 
 
 https://covidtracking.com/data/state/puerto-rico
