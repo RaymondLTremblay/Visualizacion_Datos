@@ -153,17 +153,23 @@ df=us_counties%>%
 df
 ```
 
-3. Covid cases by person.
+***
+
+
+3. Covid cases by person en Puerto Rico.
 
 Datos proviene del siguiente enlace. Siempre puede ir a este enlace para tener los datos más reciente. Proviene de Harvard University
 <https://rconnect.dfci.harvard.edu/covidpr/>
 
+En este archivo hay 904,610 filas de datos de personas que fueron evaluados para COVID-19 con pruebas moleculares.
+
+Cuidado que datos que no son de gente en Puerto Rico, pudiese ser turistas o Puertoriqueños de visitas. 
 
 
 ```{r}
 pruebas_2020_11_17_19_44_11 <- read_csv("COVID_DATA/pruebas-2020-11-17_19_44_11.csv")
 Harvard=pruebas_2020_11_17_19_44_11
-
+length(Harvard$testType)
 #head(Harvard)
 ```
 Aqui estan los nombres de las variables
@@ -172,7 +178,7 @@ Aqui estan los nombres de las variables
 + reportedDate = La fecha que se reporto el resultado
 + ageRange = El rango de edad de la persona
 + testType = El tipo de prueba, en este caso son todas Moleculares, En el Website puede conseguir los datos que son Anrigeno o Serologica
-+ result = si la persona fue positiva "positive" o negativa "negative", o other (no claro el resultado)
++ result = si la persona fue positiva "positive" o negativa "negative", o other ("no claro el resultado")
 + patientCity = La ciudad de residencia del paciente
 + createdAt = La fecha y hora de la muestra 
 + date = La fecha de la muestra
