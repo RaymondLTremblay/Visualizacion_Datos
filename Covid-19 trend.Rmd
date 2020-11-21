@@ -34,31 +34,107 @@ library(tidyverse)
 
 ```{r}
 owid %>% 
-  filter(location=="Aruba")
+  filter(location=="Aruba")%>% 
+  dplyr::mutate(new_cases = replace_na(new_cases, 0))
   
 ```
+Calucalting a rolling average , rolling mean
+
+From this website
+
+https://www.storybench.org/how-to-calculate-a-rolling-average-in-r/
+
+
+
+```{r}
+
+Aruba=owid %>% 
+  filter(location=="Aruba") %>% 
+  dplyr::mutate(new_cases = replace_na(new_cases, 0)) %>% 
+    dplyr::mutate(new_cases_03da = zoo::rollmean(new_cases, k = 3, fill = NA),
+                  new_cases_07da = zoo::rollmean(new_cases, k = 7, fill = NA),
+                  new_cases_14da = zoo::rollmean(new_cases, k = 14, fill = NA))
+Aruba
+```
+
+
+
+
+
+
+
+
+
+
+
 
 
 ```{r}
 library(ggplot2)
 
 
-mid <- 
-  owid %>% 
-  filter(location=="Aruba") %>% 
-  summarize(mean=mean(new_cases, na.rm=TRUE))
-mid=mid$mean
+Aruba %>% 
+  summarize(mean=mean(new_cases_03da, na.rm=TRUE))
+mid=mean(Aruba$new_cases_03da, na.rm=TRUE)
 mid
-owid %>% 
-  filter(location=="Aruba") %>% 
-ggplot(aes(date, new_cases, colour=new_cases))+
+
+
+Aruba %>% 
+ggplot(aes(date, new_cases, colour=new_cases_07da))+
   geom_linerange(aes(x=date, ymax=new_cases, ymin=0.75))+
-  scale_color_gradient2(midpoint = mid, low = "grey", mid = "blue",
-                            high = "red")
-  
   scale_color_gradient(low = "grey", high = "red")+
+    geom_line(aes(x=date, new_cases_07da), colour="black")+
   ggtitle("Aruba: Covid-19 New Cases")
+
 ```
+
+
+```{r}
+
+PR=owid %>% 
+  filter(location=="Puerto Rico") %>% 
+  dplyr::mutate(new_cases = replace_na(new_cases, 0)) %>% 
+    dplyr::mutate(new_cases_03da = zoo::rollmean(new_cases, k = 3, fill = NA),
+                  new_cases_07da = zoo::rollmean(new_cases, k = 7, fill = NA),
+                  new_cases_14da = zoo::rollmean(new_cases, k = 14, fill = NA))
+PR
+
+library(slider)
+
+PR2=owid %>%
+  filter(location=="Puerto Rico") %>% 
+  mutate(new_cases_14daSlider = slider::slide_dbl(new_cases, mean, .before = 14, .after = 0)) %>%
+  mutate(new_cases_07daSlider = slider::slide_dbl(new_cases, mean, .before = 7, .after = 0)) %>%
+  mutate(new_cases_03daSlider = slider::slide_dbl(new_cases, mean, .before = 3, .after = 0)) %>%
+  ungroup()
+PR2
+```
+
+```{r}
+PR %>% 
+ggplot(aes(date, new_cases, colour=new_cases_14da))+
+  geom_linerange(aes(x=date, ymax=new_cases, ymin=0.75))+
+  scale_color_gradient(low = "grey", high = "red")+
+    geom_line(aes(x=date, new_cases_14da), colour="black")+
+  ggtitle("Puerto Rico: Covid-19 New Cases, rolling average of 7 days")
+```
+
+
+```{r, slider function}
+
+PR2 %>% 
+ggplot(aes(date, new_cases, colour=new_cases_14daSlider))+
+  geom_linerange(aes(x=date, ymax=new_cases, ymin=0.75))+
+  scale_color_gradient(low = "black", high = "red")+
+    geom_line(aes(x=date, new_cases_14daSlider), colour="black")+
+ labs(colour = "Average of \nlast 14 days")+
+  ggtitle("Puerto Rico: Covid-19 New Cases, \n backward rolling average of 14 days ")
+
+ggsave("PR_COCID_14day_average.png")
+#  geom_line(aes(x=date, new_cases_07daSlider), colour="blue")+
+```
+
+
 
 ```{r}
 library(readr)
