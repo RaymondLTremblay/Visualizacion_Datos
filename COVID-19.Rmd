@@ -145,8 +145,9 @@ El archivo tiene la siguiente información
 
 library(readr)
 us_counties <- read_csv("COVID_DATA/us_counties.csv")
-
+unique(us_counties$state)
 df=us_counties%>%
+  filter(state=="Puerto Rico") %>% 
   tail( n=6)%>%
   gt()%>%
    tab_options(table.font.size = 10)
