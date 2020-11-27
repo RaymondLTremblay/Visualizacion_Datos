@@ -56,17 +56,19 @@ En el primer gráfico a continuación, Fig. 1 (arriba a la izquierda), se muestr
 ```{r boxplot_4_1, echo=TRUE}
 #names(dipodium)
 library(conflicted)
+library(janitor)
+dipodium=clean_names(dipodium)
 head(dipodium)
 
 d1=dipodium %>% 
-  dplyr::select(Number_of_fruits, Number_of_Flowers) %>% 
+  dplyr::select(number_of_fruits, number_of_flowers) %>% 
   drop_na()
 #d1
-R.version
+
 ```
 
 ```{r, boxplot4-2}
-boxplot1 <- ggplot(d1, aes(Number_of_fruits, x=1))+ 
+boxplot1 <- ggplot(d1, aes(number_of_fruits, x=1))+ 
   geom_boxplot()+
            annotate("text", x= 1,y= 5, label="Fig. 1")+
   labs(x="", y="Cantidad de Frutos")+
@@ -74,7 +76,7 @@ boxplot1 <- ggplot(d1, aes(Number_of_fruits, x=1))+
 ```
 
 ```{r, boxplot4_3}
-boxplot2 <- ggplot(d1, aes(Number_of_fruits, x=1))+
+boxplot2 <- ggplot(d1, aes(number_of_fruits, x=1))+
   geom_boxplot(notch=TRUE) +
            annotate("text", x= 0.7,y= 7, label="Fig. 2")+
   labs(x="", y="Cantidad de Frutos")+
@@ -82,7 +84,7 @@ boxplot2 <- ggplot(d1, aes(Number_of_fruits, x=1))+
 ```
 
 ```{r, boxplot4-4}
-boxplot3 <- ggplot(d1, aes(Number_of_fruits, x=1))+ 
+boxplot3 <- ggplot(d1, aes(number_of_fruits, x=1))+ 
   geom_boxplot(notch=TRUE,colour="blue",
            fill="orange", alpha=0.7, outlier.shape=18,
            outlier.color="red", outlier.size=3)+
@@ -92,7 +94,7 @@ boxplot3 <- ggplot(d1, aes(Number_of_fruits, x=1))+
 ```
 
 ```{r, boxplot4-5}
-boxplot4 <- ggplot(d1, aes(factor(Number_of_Flowers), Number_of_fruits))+ 
+boxplot4 <- ggplot(d1, aes(factor(number_of_flowers), number_of_fruits))+ 
   geom_boxplot(notch=FALSE)+
            annotate("text", x= 2,y= 10, label="Fig. 4")+
   labs(y="Cantidad de Frutos", x="Cantidad de Flores")+
@@ -115,11 +117,15 @@ Cambiar el ancho de las cajas con **varwidth**. Esto produce un diagrama de caja
 
 ```{r, boxplot_flower}
 dipodium %>% 
-  dplyr::select(Number_of_Flowers, Number_of_fruits) %>% 
+  dplyr::select(number_of_flowers, number_of_fruits) %>% 
   drop_na() %>% 
-  ggplot(aes(factor(Number_of_Flowers), Number_of_fruits, 
-             fill=factor(Number_of_Flowers)))+
-  geom_boxplot(varwidth=TRUE)  # la función varwidth =TRUE cambia 
+  ggplot(aes(factor(number_of_flowers), number_of_fruits, 
+             fill=factor(number_of_flowers)))+
+  geom_boxplot(varwidth=TRUE)+
+  theme(legend.position = "none")+
+  xlab("Cantidad de Flores")+
+  ylab("Cantidad de Frutos")
+# la función varwidth =TRUE cambia 
 #el ancho de la barras basado en una formula indicado abajo. 
 # Más datos más ancho la barra. 
 ``` 
