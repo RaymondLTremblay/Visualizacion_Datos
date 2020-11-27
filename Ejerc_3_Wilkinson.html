@@ -545,6 +545,12 @@ div.tocify {
     <li>
       <a href="Ejerc_4_point_count.html">Ejercicio de gráficos de puntos, conteos y histograma</a>
     </li>
+    <li>
+      <a href="Ejerc_5_geom_line.html">Ejercicio de gráficos de lineas</a>
+    </li>
+    <li>
+      <a href="Ejerc_6_Covid_19.html">Ejercicio Final COVID19</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -579,30 +585,18 @@ div.tocify {
 </div>
 
 
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(tidyverse)</span></code></pre></div>
-<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
-<pre><code>## ✓ ggplot2 3.3.2     ✓ dplyr   1.0.2
-## ✓ tibble  3.0.4     ✓ stringr 1.4.0
-## ✓ tidyr   1.1.2     ✓ forcats 0.5.0
-## ✓ purrr   0.3.4</code></pre>
-<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-## x dplyr::between()   masks data.table::between()
-## x dplyr::filter()    masks stats::filter()
-## x dplyr::first()     masks data.table::first()
-## x dplyr::lag()       masks stats::lag()
-## x dplyr::last()      masks data.table::last()
-## x purrr::transpose() masks data.table::transpose()</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">library</span>(gt)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(gt)</span></code></pre></div>
 <p>Usando los datos de COVID-19</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">library</span>(data.table)</span>
-<span id="cb6-2"><a href="#cb6-2"></a>mydat&lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv&#39;</span>)</span>
-<span id="cb6-3"><a href="#cb6-3"></a></span>
-<span id="cb6-4"><a href="#cb6-4"></a><span class="kw">gt</span>(<span class="kw">head</span>(mydat, <span class="dt">n=</span><span class="dv">10</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">library</span>(data.table)</span>
+<span id="cb2-2"><a href="#cb2-2"></a>mydat&lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv&#39;</span>)</span>
+<span id="cb2-3"><a href="#cb2-3"></a></span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="kw">gt</span>(<span class="kw">head</span>(mydat, <span class="dt">n=</span><span class="dv">10</span>))</span></code></pre></div>
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#rmecqrpvvo .gt_table {
+#lpgsodmahc .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -627,7 +621,7 @@ div.tocify {
   border-left-color: #D3D3D3;
 }
 
-#rmecqrpvvo .gt_heading {
+#lpgsodmahc .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -639,7 +633,7 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#rmecqrpvvo .gt_title {
+#lpgsodmahc .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -649,7 +643,7 @@ div.tocify {
   border-bottom-width: 0;
 }
 
-#rmecqrpvvo .gt_subtitle {
+#lpgsodmahc .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -659,13 +653,13 @@ div.tocify {
   border-top-width: 0;
 }
 
-#rmecqrpvvo .gt_bottom_border {
+#lpgsodmahc .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#rmecqrpvvo .gt_col_headings {
+#lpgsodmahc .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -680,7 +674,7 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#rmecqrpvvo .gt_col_heading {
+#lpgsodmahc .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -700,7 +694,7 @@ div.tocify {
   overflow-x: hidden;
 }
 
-#rmecqrpvvo .gt_column_spanner_outer {
+#lpgsodmahc .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -712,15 +706,15 @@ div.tocify {
   padding-right: 4px;
 }
 
-#rmecqrpvvo .gt_column_spanner_outer:first-child {
+#lpgsodmahc .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#rmecqrpvvo .gt_column_spanner_outer:last-child {
+#lpgsodmahc .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#rmecqrpvvo .gt_column_spanner {
+#lpgsodmahc .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -732,7 +726,7 @@ div.tocify {
   width: 100%;
 }
 
-#rmecqrpvvo .gt_group_heading {
+#lpgsodmahc .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -754,7 +748,7 @@ div.tocify {
   vertical-align: middle;
 }
 
-#rmecqrpvvo .gt_empty_group_heading {
+#lpgsodmahc .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -769,15 +763,15 @@ div.tocify {
   vertical-align: middle;
 }
 
-#rmecqrpvvo .gt_from_md > :first-child {
+#lpgsodmahc .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#rmecqrpvvo .gt_from_md > :last-child {
+#lpgsodmahc .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#rmecqrpvvo .gt_row {
+#lpgsodmahc .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -796,7 +790,7 @@ div.tocify {
   overflow-x: hidden;
 }
 
-#rmecqrpvvo .gt_stub {
+#lpgsodmahc .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -808,7 +802,7 @@ div.tocify {
   padding-left: 12px;
 }
 
-#rmecqrpvvo .gt_summary_row {
+#lpgsodmahc .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -818,7 +812,7 @@ div.tocify {
   padding-right: 5px;
 }
 
-#rmecqrpvvo .gt_first_summary_row {
+#lpgsodmahc .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -828,7 +822,7 @@ div.tocify {
   border-top-color: #D3D3D3;
 }
 
-#rmecqrpvvo .gt_grand_summary_row {
+#lpgsodmahc .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -838,7 +832,7 @@ div.tocify {
   padding-right: 5px;
 }
 
-#rmecqrpvvo .gt_first_grand_summary_row {
+#lpgsodmahc .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -848,11 +842,11 @@ div.tocify {
   border-top-color: #D3D3D3;
 }
 
-#rmecqrpvvo .gt_striped {
+#lpgsodmahc .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#rmecqrpvvo .gt_table_body {
+#lpgsodmahc .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -861,7 +855,7 @@ div.tocify {
   border-bottom-color: #D3D3D3;
 }
 
-#rmecqrpvvo .gt_footnotes {
+#lpgsodmahc .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -875,13 +869,13 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#rmecqrpvvo .gt_footnote {
+#lpgsodmahc .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#rmecqrpvvo .gt_sourcenotes {
+#lpgsodmahc .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -895,46 +889,46 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#rmecqrpvvo .gt_sourcenote {
+#lpgsodmahc .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#rmecqrpvvo .gt_left {
+#lpgsodmahc .gt_left {
   text-align: left;
 }
 
-#rmecqrpvvo .gt_center {
+#lpgsodmahc .gt_center {
   text-align: center;
 }
 
-#rmecqrpvvo .gt_right {
+#lpgsodmahc .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#rmecqrpvvo .gt_font_normal {
+#lpgsodmahc .gt_font_normal {
   font-weight: normal;
 }
 
-#rmecqrpvvo .gt_font_bold {
+#lpgsodmahc .gt_font_bold {
   font-weight: bold;
 }
 
-#rmecqrpvvo .gt_font_italic {
+#lpgsodmahc .gt_font_italic {
   font-style: italic;
 }
 
-#rmecqrpvvo .gt_super {
+#lpgsodmahc .gt_super {
   font-size: 65%;
 }
 
-#rmecqrpvvo .gt_footnote_marks {
+#lpgsodmahc .gt_footnote_marks {
   font-style: italic;
   font-size: 65%;
 }
 </style>
-<div id="rmecqrpvvo" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+<div id="lpgsodmahc" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
   
   <thead class="gt_col_headings">
     <tr>
@@ -954,6 +948,7 @@ div.tocify {
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">total_deaths_per_million</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_deaths_per_million</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_deaths_smoothed_per_million</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">reproduction_rate</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">icu_patients</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">icu_patients_per_million</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">hosp_patients</th>
@@ -1023,6 +1018,7 @@ div.tocify {
       <td class="gt_row gt_right">NA</td>
       <td class="gt_row gt_right">NA</td>
       <td class="gt_row gt_right">NA</td>
+      <td class="gt_row gt_right">NA</td>
       <td class="gt_row gt_left"></td>
       <td class="gt_row gt_right">0.00</td>
       <td class="gt_row gt_right">106766</td>
@@ -1058,6 +1054,7 @@ div.tocify {
       <td class="gt_row gt_right">NA</td>
       <td class="gt_row gt_right">NA</td>
       <td class="gt_row gt_right">0</td>
+      <td class="gt_row gt_right">NA</td>
       <td class="gt_row gt_right">NA</td>
       <td class="gt_row gt_right">NA</td>
       <td class="gt_row gt_right">NA</td>
@@ -1125,6 +1122,7 @@ div.tocify {
       <td class="gt_row gt_right">NA</td>
       <td class="gt_row gt_right">NA</td>
       <td class="gt_row gt_right">NA</td>
+      <td class="gt_row gt_right">NA</td>
       <td class="gt_row gt_left"></td>
       <td class="gt_row gt_right">33.33</td>
       <td class="gt_row gt_right">106766</td>
@@ -1160,6 +1158,7 @@ div.tocify {
       <td class="gt_row gt_right">NA</td>
       <td class="gt_row gt_right">NA</td>
       <td class="gt_row gt_right">0</td>
+      <td class="gt_row gt_right">NA</td>
       <td class="gt_row gt_right">NA</td>
       <td class="gt_row gt_right">NA</td>
       <td class="gt_row gt_right">NA</td>
@@ -1227,6 +1226,7 @@ div.tocify {
       <td class="gt_row gt_right">NA</td>
       <td class="gt_row gt_right">NA</td>
       <td class="gt_row gt_right">NA</td>
+      <td class="gt_row gt_right">NA</td>
       <td class="gt_row gt_left"></td>
       <td class="gt_row gt_right">44.44</td>
       <td class="gt_row gt_right">106766</td>
@@ -1262,6 +1262,7 @@ div.tocify {
       <td class="gt_row gt_right">NA</td>
       <td class="gt_row gt_right">NA</td>
       <td class="gt_row gt_right">0</td>
+      <td class="gt_row gt_right">NA</td>
       <td class="gt_row gt_right">NA</td>
       <td class="gt_row gt_right">NA</td>
       <td class="gt_row gt_right">NA</td>
@@ -1329,6 +1330,7 @@ div.tocify {
       <td class="gt_row gt_right">NA</td>
       <td class="gt_row gt_right">NA</td>
       <td class="gt_row gt_right">NA</td>
+      <td class="gt_row gt_right">NA</td>
       <td class="gt_row gt_left"></td>
       <td class="gt_row gt_right">44.44</td>
       <td class="gt_row gt_right">106766</td>
@@ -1364,6 +1366,7 @@ div.tocify {
       <td class="gt_row gt_right">NA</td>
       <td class="gt_row gt_right">0</td>
       <td class="gt_row gt_right">0</td>
+      <td class="gt_row gt_right">NA</td>
       <td class="gt_row gt_right">NA</td>
       <td class="gt_row gt_right">NA</td>
       <td class="gt_row gt_right">NA</td>
@@ -1431,6 +1434,7 @@ div.tocify {
       <td class="gt_row gt_right">NA</td>
       <td class="gt_row gt_right">NA</td>
       <td class="gt_row gt_right">NA</td>
+      <td class="gt_row gt_right">NA</td>
       <td class="gt_row gt_left"></td>
       <td class="gt_row gt_right">44.44</td>
       <td class="gt_row gt_right">106766</td>
@@ -1466,6 +1470,7 @@ div.tocify {
       <td class="gt_row gt_right">NA</td>
       <td class="gt_row gt_right">0</td>
       <td class="gt_row gt_right">0</td>
+      <td class="gt_row gt_right">NA</td>
       <td class="gt_row gt_right">NA</td>
       <td class="gt_row gt_right">NA</td>
       <td class="gt_row gt_right">NA</td>
@@ -1541,9 +1546,9 @@ div.tocify {
 <h2>Bono</h2>
 <p>3 puntos</p>
 <p>Selecciona cinco países <strong>pequeños</strong> de Europa y reproduzca la gráfica anterior. Para que la gráfica se puede apreciar tendrán que usar los países con poblaciones más pequeño.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>mydat<span class="op">%&gt;%</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a><span class="st">  </span><span class="kw">select</span>(location, new_deaths, total_deaths)<span class="op">%&gt;%</span></span>
-<span id="cb7-3"><a href="#cb7-3"></a><span class="st">  </span><span class="kw">filter</span>(location<span class="op">==</span><span class="st">&quot;Puerto Rico&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>mydat<span class="op">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2"></a><span class="st">  </span><span class="kw">select</span>(location, new_deaths, total_deaths)<span class="op">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3"></a><span class="st">  </span><span class="kw">filter</span>(location<span class="op">==</span><span class="st">&quot;Puerto Rico&quot;</span>)</span></code></pre></div>
 <pre><code>##        location new_deaths total_deaths
 ## 1   Puerto Rico          2            2
 ## 2   Puerto Rico          1            3
@@ -1771,7 +1776,25 @@ div.tocify {
 ## 224 Puerto Rico          5          855
 ## 225 Puerto Rico          7          862
 ## 226 Puerto Rico          0          862
-## 227 Puerto Rico         10          872</code></pre>
+## 227 Puerto Rico         10          872
+## 228 Puerto Rico         10          882
+## 229 Puerto Rico          7          889
+## 230 Puerto Rico         12          901
+## 231 Puerto Rico          8          909
+## 232 Puerto Rico          5          914
+## 233 Puerto Rico          7          921
+## 234 Puerto Rico         14          935
+## 235 Puerto Rico          7          942
+## 236 Puerto Rico          9          951
+## 237 Puerto Rico         20          971
+## 238 Puerto Rico         11          982
+## 239 Puerto Rico          9          991
+## 240 Puerto Rico         21         1012
+## 241 Puerto Rico          5         1017
+## 242 Puerto Rico         15         1032
+## 243 Puerto Rico          6         1038
+## 244 Puerto Rico         14         1052
+## 245 Puerto Rico         17         1069</code></pre>
 </div>
 </div>
 

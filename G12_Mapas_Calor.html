@@ -547,6 +547,12 @@ div.tocify {
     <li>
       <a href="Ejerc_4_point_count.html">Ejercicio de gráficos de puntos, conteos y histograma</a>
     </li>
+    <li>
+      <a href="Ejerc_5_geom_line.html">Ejercicio de gráficos de lineas</a>
+    </li>
+    <li>
+      <a href="Ejerc_6_Covid_19.html">Ejercicio Final COVID19</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -582,7 +588,7 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2020-11-09&quot;</code></pre>
+<pre><code>## [1] &quot;2020-11-27&quot;</code></pre>
 <p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" /></p>
 <hr />
 <div id="la-lista-de-packetes-para-analisis-de-los-mapas-de-calor" class="section level2">
@@ -608,26 +614,26 @@ div.tocify {
 <th style="text-align:left;">
 </th>
 <th style="text-align:right;">
-DBH
+dbh
 </th>
 <th style="text-align:right;">
-Distance
+distance
 </th>
 <th style="text-align:right;">
-Number_of_Flowers
+number_of_flowers
 </th>
 <th style="text-align:right;">
-Height_Inflo
+height_inflo
 </th>
 <th style="text-align:right;">
-Number_of_fruits
+number_of_fruits
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
-DBH
+dbh
 </td>
 <td style="text-align:right;">
 1.000
@@ -647,7 +653,7 @@ DBH
 </tr>
 <tr>
 <td style="text-align:left;">
-Distance
+distance
 </td>
 <td style="text-align:right;">
 0.329
@@ -667,7 +673,7 @@ Distance
 </tr>
 <tr>
 <td style="text-align:left;">
-Number_of_Flowers
+number_of_flowers
 </td>
 <td style="text-align:right;">
 -0.035
@@ -687,7 +693,7 @@ Number_of_Flowers
 </tr>
 <tr>
 <td style="text-align:left;">
-Height_Inflo
+height_inflo
 </td>
 <td style="text-align:right;">
 -0.100
@@ -707,7 +713,7 @@ Height_Inflo
 </tr>
 <tr>
 <td style="text-align:left;">
-Number_of_fruits
+number_of_fruits
 </td>
 <td style="text-align:right;">
 -0.009
@@ -736,12 +742,12 @@ Number_of_fruits
 <span id="cb4-2"><a href="#cb4-2"></a>             <span class="dt">value.name =</span> <span class="st">&quot;Correlation&quot;</span>)</span>
 <span id="cb4-3"><a href="#cb4-3"></a><span class="kw">head</span>(DWMelt)</span></code></pre></div>
 <pre><code>##                  x1       y1 Correlation
-## 1               DBH      DBH       1.000
-## 2          Distance      DBH       0.329
-## 3 Number_of_Flowers      DBH      -0.035
-## 4      Height_Inflo      DBH      -0.100
-## 5  Number_of_fruits      DBH      -0.009
-## 6               DBH Distance       0.329</code></pre>
+## 1               dbh      dbh       1.000
+## 2          distance      dbh       0.329
+## 3 number_of_flowers      dbh      -0.035
+## 4      height_inflo      dbh      -0.100
+## 5  number_of_fruits      dbh      -0.009
+## 6               dbh distance       0.329</code></pre>
 <p>Finalmente, el tercer paso es producir la figura con <strong>geom_tile</strong>. El gráfico de la Figura se produce sin modificar los parámetros. En el segundo gráfico se modifican los colores usando la guía de color para asignarlos a diferentes grupos a la vez que se remueven los nombres de los ejes de <strong>X</strong> y de <strong>Y</strong>. A este mapa de calor básico se le asignan las variables de <strong>x</strong> y <strong>y</strong> y el valor que queremos que tenga un rango de color, en este caso el valor de correlación. Para remover el nombre de la variables <strong>x</strong> y <strong>y</strong>, se usa <strong>labs(x=NULL, y=NULL)</strong>, ya que ggplot2 lo pone automáticamente cuando se construye un gráfico. Note que para remover el nombre de la columna en los ejes se usa <strong>xlab("")</strong> y <strong>ylab("“)<strong>. Aqui se añade solamente </strong>xlab(”")</strong> y nota que ahora no se ve el nombre de la columna.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">ggplot</span>(DWMelt, <span class="kw">aes</span>(<span class="dt">x=</span>x1, <span class="dt">y=</span>y1))<span class="op">+</span></span>
 <span id="cb6-2"><a href="#cb6-2"></a><span class="st">  </span><span class="kw">geom_tile</span>(<span class="kw">aes</span>(<span class="dt">fill=</span>Correlation))<span class="op">+</span></span>
