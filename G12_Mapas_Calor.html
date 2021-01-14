@@ -13,6 +13,7 @@
 
 <title>G12_Mapas_Calor</title>
 
+<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
@@ -24,8 +25,6 @@
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
-<link href="site_libs/anchor-sections-1.0/anchor-sections.css" rel="stylesheet" />
-<script src="site_libs/anchor-sections-1.0/anchor-sections.js"></script>
 <script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 
@@ -41,19 +40,18 @@
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
-code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-code.sourceCode { white-space: pre-wrap; }
-code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -73,7 +71,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -160,6 +158,7 @@ h6 {
   text-align: left;
 }
 </style>
+
 
 <link rel="stylesheet" href="tutorial.css" type="text/css" />
 
@@ -588,7 +587,7 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2020-11-30&quot;</code></pre>
+<pre><code>## [1] &quot;2021-01-14&quot;</code></pre>
 <p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" /></p>
 <hr />
 <div id="la-lista-de-packetes-para-analisis-de-los-mapas-de-calor" class="section level2">
@@ -753,8 +752,8 @@ number_of_fruits
 <span id="cb6-2"><a href="#cb6-2"></a><span class="st">  </span><span class="kw">geom_tile</span>(<span class="kw">aes</span>(<span class="dt">fill=</span>Correlation))<span class="op">+</span></span>
 <span id="cb6-3"><a href="#cb6-3"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.y=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>, <span class="dt">face=</span><span class="st">&quot;bold&quot;</span>),</span>
 <span id="cb6-4"><a href="#cb6-4"></a>        <span class="dt">axis.text.x=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">8</span>, <span class="dt">face=</span><span class="st">&quot;bold&quot;</span>, <span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="dv">1</span>))<span class="op">+</span></span>
-<span id="cb6-5"><a href="#cb6-5"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">fill=</span><span class="st">&quot;Correlación&quot;)+</span></span>
-<span id="cb6-6"><a href="#cb6-6"></a><span class="st">  xlab(&quot;&quot;)</span></span></code></pre></div>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">fill=</span><span class="st">&quot;Correlación&quot;</span>)<span class="op">+</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>)</span></code></pre></div>
 <p><img src="G12_Mapas_Calor_files/figure-html/heatmap1-1.png" width="672" /></p>
 <p>Le cambiamos los colores del gráfico, usando <strong>scale_fill_gradient2</strong>. Asignamos los valores más bajos al color amarillo, los más altos al rojo y los valores intermedios al color anaranjado. Para esta opción de <strong>scale_fill_gradient2</strong>, hay que asignar tanto los colores al extremo y el del medio. El resultado se puede ver en la Figura. Note que los valores de correlaciones varían de -1 a +1. El límite del rango se asigna especificando <strong>limits=c(valor mínimo, valor máximo)</strong>. Dado esto, en este ejemplo la intensidad de colores no es tan amplia porque no hay valores muy negativos.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">ggplot</span>(DWMelt, <span class="kw">aes</span>(<span class="dt">x=</span>x1, <span class="dt">y=</span>y1))<span class="op">+</span></span>
@@ -768,7 +767,7 @@ number_of_fruits
 <span id="cb7-9"><a href="#cb7-9"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">20</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>),</span>
 <span id="cb7-10"><a href="#cb7-10"></a>        <span class="dt">axis.text.y=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>, <span class="dt">face=</span><span class="st">&quot;bold&quot;</span>),</span>
 <span id="cb7-11"><a href="#cb7-11"></a>        <span class="dt">axis.text.x=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">8</span>, <span class="dt">face=</span><span class="st">&quot;bold&quot;</span>, <span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="dv">1</span>))<span class="op">+</span></span>
-<span id="cb7-12"><a href="#cb7-12"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">fill=</span><span class="st">&quot;Correlación&quot;)</span></span></code></pre></div>
+<span id="cb7-12"><a href="#cb7-12"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">fill=</span><span class="st">&quot;Correlación&quot;</span>)</span></code></pre></div>
 <p><img src="G12_Mapas_Calor_files/figure-html/heatmap2-1.png" width="672" /></p>
 <p>En el siguiente gráfico, se cambia el valor intermedio a blanco (para valores más cercanos a cero).</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">ggplot</span>(DWMelt, <span class="kw">aes</span>(<span class="dt">x=</span>x1, <span class="dt">y=</span>y1))<span class="op">+</span></span>
@@ -782,7 +781,7 @@ number_of_fruits
 <span id="cb8-9"><a href="#cb8-9"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">20</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>),</span>
 <span id="cb8-10"><a href="#cb8-10"></a>        <span class="dt">axis.text.y=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>, <span class="dt">face=</span><span class="st">&quot;bold&quot;</span>),</span>
 <span id="cb8-11"><a href="#cb8-11"></a>        <span class="dt">axis.text.x=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">8</span>, <span class="dt">face=</span><span class="st">&quot;bold&quot;</span>, <span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="dv">1</span>))<span class="op">+</span></span>
-<span id="cb8-12"><a href="#cb8-12"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">fill=</span><span class="st">&quot;Correlación&quot;)</span></span></code></pre></div>
+<span id="cb8-12"><a href="#cb8-12"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">fill=</span><span class="st">&quot;Correlación&quot;</span>)</span></code></pre></div>
 <p><img src="G12_Mapas_Calor_files/figure-html/heatmap3-1.png" width="672" /></p>
 <p>Se puede también hacer la selección de solamente dos colores con la función <strong>scale_fill_gradient</strong> (vea que esa opción no es lo mismo que <strong>scale_fill_gradient2</strong>). En este caso los gradientes de colores en el centro de la distribución (el cero) no está definido.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">ggplot</span>(DWMelt, <span class="kw">aes</span>(<span class="dt">x=</span>x1, <span class="dt">y=</span>y1))<span class="op">+</span></span>
@@ -793,8 +792,8 @@ number_of_fruits
 <span id="cb9-6"><a href="#cb9-6"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">20</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>),</span>
 <span id="cb9-7"><a href="#cb9-7"></a>        <span class="dt">axis.text.y=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>, <span class="dt">face=</span><span class="st">&quot;bold&quot;</span>),</span>
 <span id="cb9-8"><a href="#cb9-8"></a>        <span class="dt">axis.text.x=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">8</span>, <span class="dt">face=</span><span class="st">&quot;bold&quot;</span>, <span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="dv">1</span>))<span class="op">+</span></span>
-<span id="cb9-9"><a href="#cb9-9"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">fill=</span><span class="st">&quot;Correlación&quot;)+</span></span>
-<span id="cb9-10"><a href="#cb9-10"></a><span class="st">  xlab(&quot;&quot;)</span></span></code></pre></div>
+<span id="cb9-9"><a href="#cb9-9"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">fill=</span><span class="st">&quot;Correlación&quot;</span>)<span class="op">+</span></span>
+<span id="cb9-10"><a href="#cb9-10"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>)</span></code></pre></div>
 <p><img src="G12_Mapas_Calor_files/figure-html/heatmap4-1.png" width="672" /></p>
 <hr />
 </div>
@@ -815,30 +814,26 @@ number_of_fruits
 <div id="opciones-y-parametros-de-geom_tile" class="section level2">
 <h2>Opciones y Parametros de <strong>geom_tile</strong></h2>
 <ul>
-<li><p>ggplot(el archivo de datos, aes(x= la variable discreta, y=variable continua, ymax= el valor máximo, ymin= el valor mínimo))</p>
-<ul>
+<li><p>ggplot(el archivo de datos, aes(x= la variable discreta, y=variable continua, ymax= el valor máximo, ymin= el valor mínimo))</p></li>
 <li><p>geom_tile(x, y, alpha, color, fill, linetype, size)</p></li>
 <li><p>alpha: la intensidad del color</p></li>
 <li><p>color: el color de la línea</p></li>
 <li><p>fill: el color de los cuadros</p></li>
 <li><p>linetype: representa el estilo de línea</p></li>
 <li><p>size: representa el ancho de la línea</p></li>
-</ul></li>
 </ul>
 </div>
 <div id="opciones-y-parametros-de-ggcorr" class="section level2">
 <h2>Opciones y Parametros de <strong>ggcorr()</strong></h2>
 <p>ggcorr(df, method=c(“pairwise”, “pearson”))</p>
 <ul>
-<li>nbreaks: a cantidad de categorias
-<ul>
+<li>nbreaks: a cantidad de categorias</li>
 <li>digits: la cantidad de digitos para visualizar la correlación</li>
 <li>low = “#3B9AB2”, El color básico de las corrlea ciones negativas</li>
 <li>mid = “#EEEEEE”, El color básico</li>
 <li>high = “#F21A00”,El color básico</li>
 <li>midpoint = 0: la correlación central que sera el color “mid”</li>
 <li>ver <strong>ggcorr</strong> para otras opciones</li>
-</ul></li>
 </ul>
 <hr />
 <ol style="list-style-type: decimal">
