@@ -13,18 +13,26 @@
 
 <title>COVID-19</title>
 
-<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -36,11 +44,19 @@
     </style>
 
 
-<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
@@ -123,39 +139,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   }
 })();
 </script>
-<style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
 
 
 <link rel="stylesheet" href="tutorial.css" type="text/css" />
@@ -167,10 +152,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -187,40 +168,13 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 41px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 46px;
-  margin-top: -46px;
-}
-.section h2 {
-  padding-top: 46px;
-  margin-top: -46px;
-}
-.section h3 {
-  padding-top: 46px;
-  margin-top: -46px;
-}
-.section h4 {
-  padding-top: 46px;
-  margin-top: -46px;
-}
-.section h5 {
-  padding-top: 46px;
-  margin-top: -46px;
-}
-.section h6 {
-  padding-top: 46px;
-  margin-top: -46px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -248,7 +202,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -260,7 +214,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -271,10 +225,23 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -286,7 +253,6 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -412,7 +378,7 @@ div.tocify {
 
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
+<div class="row">
 <div class="col-xs-12 col-sm-4 col-md-3">
 <div id="TOC" class="tocify">
 </div>
@@ -575,7 +541,7 @@ div.tocify {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
@@ -585,7 +551,7 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2021-01-14&quot;</code></pre>
+<pre><code>## [1] &quot;2021-10-05&quot;</code></pre>
 <p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" /></p>
 <hr />
 <div id="descargo-de-responsabilidad" class="section level1">
@@ -639,19 +605,20 @@ div.tocify {
 <p>Las variables incluido al 4 de agosto son:</p>
 <p>iso_code, continent, location, date, total_cases, new_cases, total_deaths, new_deaths, total_cases_per_million, new_cases_per_million, total_deaths_per_million, new_deaths_per_million, total_tests, new_tests, new_tests_smoothed, total_tests_per_thousand, new_tests_per_thousand, new_tests_smoothed_per_thousand, tests_per_case, positive_rate, tests_units, stringency_index, population, population_density, median_age, aged_65_older, aged_70_older, gdp_per_capita, extreme_poverty, cardiovasc_death_rate, diabetes_prevalence, female_smokers, male_smokers, handwashing_facilities, hospital_beds_per_thousand, life_expectancy</p>
 <p>Para la descripción de las variables vea este enlace.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">library</span>(gt)</span>
-<span id="cb2-2"><a href="#cb2-2"></a>codes&lt;-<span class="kw">read.csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-codebook.csv&#39;</span>)</span>
-<span id="cb2-3"><a href="#cb2-3"></a></span>
-<span id="cb2-4"><a href="#cb2-4"></a></span>
-<span id="cb2-5"><a href="#cb2-5"></a>c=codes<span class="op">%&gt;%</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a><span class="st">  </span><span class="kw">gt</span>()<span class="op">%&gt;%</span></span>
-<span id="cb2-7"><a href="#cb2-7"></a><span class="st">   </span><span class="kw">tab_options</span>(<span class="dt">table.font.size =</span> <span class="dv">10</span>)</span>
-<span id="cb2-8"><a href="#cb2-8"></a>c</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>codes<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-codebook.csv&#39;</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>c<span class="ot">=</span>codes<span class="sc">%&gt;%</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()<span class="sc">%&gt;%</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>   <span class="fu">tab_options</span>(<span class="at">table.font.size =</span> <span class="dv">10</span>)</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>c</span></code></pre></div>
+<div id="owusifokfd" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#qzuqppxxhz .gt_table {
+#owusifokfd .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -676,7 +643,7 @@ div.tocify {
   border-left-color: #D3D3D3;
 }
 
-#qzuqppxxhz .gt_heading {
+#owusifokfd .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -688,7 +655,7 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#qzuqppxxhz .gt_title {
+#owusifokfd .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -698,23 +665,23 @@ div.tocify {
   border-bottom-width: 0;
 }
 
-#qzuqppxxhz .gt_subtitle {
+#owusifokfd .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
   padding-top: 0;
-  padding-bottom: 4px;
+  padding-bottom: 6px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
 
-#qzuqppxxhz .gt_bottom_border {
+#owusifokfd .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#qzuqppxxhz .gt_col_headings {
+#owusifokfd .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -729,7 +696,7 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#qzuqppxxhz .gt_col_heading {
+#owusifokfd .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -749,7 +716,7 @@ div.tocify {
   overflow-x: hidden;
 }
 
-#qzuqppxxhz .gt_column_spanner_outer {
+#owusifokfd .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -761,27 +728,27 @@ div.tocify {
   padding-right: 4px;
 }
 
-#qzuqppxxhz .gt_column_spanner_outer:first-child {
+#owusifokfd .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#qzuqppxxhz .gt_column_spanner_outer:last-child {
+#owusifokfd .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#qzuqppxxhz .gt_column_spanner {
+#owusifokfd .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
   vertical-align: bottom;
   padding-top: 5px;
-  padding-bottom: 6px;
+  padding-bottom: 5px;
   overflow-x: hidden;
   display: inline-block;
   width: 100%;
 }
 
-#qzuqppxxhz .gt_group_heading {
+#owusifokfd .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -803,7 +770,7 @@ div.tocify {
   vertical-align: middle;
 }
 
-#qzuqppxxhz .gt_empty_group_heading {
+#owusifokfd .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -818,15 +785,15 @@ div.tocify {
   vertical-align: middle;
 }
 
-#qzuqppxxhz .gt_from_md > :first-child {
+#owusifokfd .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#qzuqppxxhz .gt_from_md > :last-child {
+#owusifokfd .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#qzuqppxxhz .gt_row {
+#owusifokfd .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -845,7 +812,7 @@ div.tocify {
   overflow-x: hidden;
 }
 
-#qzuqppxxhz .gt_stub {
+#owusifokfd .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -857,7 +824,7 @@ div.tocify {
   padding-left: 12px;
 }
 
-#qzuqppxxhz .gt_summary_row {
+#owusifokfd .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -867,7 +834,7 @@ div.tocify {
   padding-right: 5px;
 }
 
-#qzuqppxxhz .gt_first_summary_row {
+#owusifokfd .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -877,7 +844,7 @@ div.tocify {
   border-top-color: #D3D3D3;
 }
 
-#qzuqppxxhz .gt_grand_summary_row {
+#owusifokfd .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -887,7 +854,7 @@ div.tocify {
   padding-right: 5px;
 }
 
-#qzuqppxxhz .gt_first_grand_summary_row {
+#owusifokfd .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -897,11 +864,11 @@ div.tocify {
   border-top-color: #D3D3D3;
 }
 
-#qzuqppxxhz .gt_striped {
+#owusifokfd .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#qzuqppxxhz .gt_table_body {
+#owusifokfd .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -910,7 +877,7 @@ div.tocify {
   border-bottom-color: #D3D3D3;
 }
 
-#qzuqppxxhz .gt_footnotes {
+#owusifokfd .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -924,13 +891,13 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#qzuqppxxhz .gt_footnote {
+#owusifokfd .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#qzuqppxxhz .gt_sourcenotes {
+#owusifokfd .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -944,348 +911,337 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#qzuqppxxhz .gt_sourcenote {
+#owusifokfd .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#qzuqppxxhz .gt_left {
+#owusifokfd .gt_left {
   text-align: left;
 }
 
-#qzuqppxxhz .gt_center {
+#owusifokfd .gt_center {
   text-align: center;
 }
 
-#qzuqppxxhz .gt_right {
+#owusifokfd .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#qzuqppxxhz .gt_font_normal {
+#owusifokfd .gt_font_normal {
   font-weight: normal;
 }
 
-#qzuqppxxhz .gt_font_bold {
+#owusifokfd .gt_font_bold {
   font-weight: bold;
 }
 
-#qzuqppxxhz .gt_font_italic {
+#owusifokfd .gt_font_italic {
   font-style: italic;
 }
 
-#qzuqppxxhz .gt_super {
+#owusifokfd .gt_super {
   font-size: 65%;
 }
 
-#qzuqppxxhz .gt_footnote_marks {
+#owusifokfd .gt_footnote_marks {
   font-style: italic;
+  font-weight: normal;
   font-size: 65%;
 }
 </style>
-<div id="qzuqppxxhz" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+<table class="gt_table">
   
   <thead class="gt_col_headings">
     <tr>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">column</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">source</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">category</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">description</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
-    <tr>
-      <td class="gt_row gt_left">iso_code</td>
-      <td class="gt_row gt_left">International Organization for Standardization</td>
-      <td class="gt_row gt_left">ISO 3166-1 alpha-3 – three-letter country codes</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">continent</td>
-      <td class="gt_row gt_left">Our World in Data</td>
-      <td class="gt_row gt_left">Continent of the geographical location</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">location</td>
-      <td class="gt_row gt_left">Our World in Data</td>
-      <td class="gt_row gt_left">Geographical location</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">date</td>
-      <td class="gt_row gt_left">Our World in Data</td>
-      <td class="gt_row gt_left">Date of observation</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">total_cases</td>
-      <td class="gt_row gt_left">COVID-19 Data Repository by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University</td>
-      <td class="gt_row gt_left">Total confirmed cases of COVID-19</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">new_cases</td>
-      <td class="gt_row gt_left">COVID-19 Data Repository by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University</td>
-      <td class="gt_row gt_left">New confirmed cases of COVID-19</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">new_cases_smoothed</td>
-      <td class="gt_row gt_left">COVID-19 Data Repository by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University</td>
-      <td class="gt_row gt_left">New confirmed cases of COVID-19 (7-day smoothed)</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">total_deaths</td>
-      <td class="gt_row gt_left">COVID-19 Data Repository by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University</td>
-      <td class="gt_row gt_left">Total deaths attributed to COVID-19</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">new_deaths</td>
-      <td class="gt_row gt_left">COVID-19 Data Repository by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University</td>
-      <td class="gt_row gt_left">New deaths attributed to COVID-19</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">new_deaths_smoothed</td>
-      <td class="gt_row gt_left">COVID-19 Data Repository by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University</td>
-      <td class="gt_row gt_left">New deaths attributed to COVID-19 (7-day smoothed)</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">total_cases_per_million</td>
-      <td class="gt_row gt_left">COVID-19 Data Repository by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University</td>
-      <td class="gt_row gt_left">Total confirmed cases of COVID-19 per 1,000,000 people</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">new_cases_per_million</td>
-      <td class="gt_row gt_left">COVID-19 Data Repository by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University</td>
-      <td class="gt_row gt_left">New confirmed cases of COVID-19 per 1,000,000 people</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">new_cases_smoothed_per_million</td>
-      <td class="gt_row gt_left">COVID-19 Data Repository by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University</td>
-      <td class="gt_row gt_left">New confirmed cases of COVID-19 (7-day smoothed) per 1,000,000 people</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">total_deaths_per_million</td>
-      <td class="gt_row gt_left">COVID-19 Data Repository by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University</td>
-      <td class="gt_row gt_left">Total deaths attributed to COVID-19 per 1,000,000 people</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">new_deaths_per_million</td>
-      <td class="gt_row gt_left">COVID-19 Data Repository by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University</td>
-      <td class="gt_row gt_left">New deaths attributed to COVID-19 per 1,000,000 people</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">new_deaths_smoothed_per_million</td>
-      <td class="gt_row gt_left">COVID-19 Data Repository by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University</td>
-      <td class="gt_row gt_left">New deaths attributed to COVID-19 (7-day smoothed) per 1,000,000 people</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">reproduction_rate</td>
-      <td class="gt_row gt_left">Arroyo Marioli et al. (2020). https://doi.org/10.2139/ssrn.3581633</td>
-      <td class="gt_row gt_left">Real-time estimate of the effective reproduction rate (R) of COVID-19. See http://trackingr-env.eba-9muars8y.us-east-2.elasticbeanstalk.com/FAQ</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">icu_patients</td>
-      <td class="gt_row gt_left">European CDC for European countries / UK Government / COVID Tracking Project for the United States / COVID-19 Tracker for Canada</td>
-      <td class="gt_row gt_left">Number of COVID-19 patients in intensive care units (ICUs) on a given day</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">icu_patients_per_million</td>
-      <td class="gt_row gt_left">European CDC for European countries / UK Government / COVID Tracking Project for the United States / COVID-19 Tracker for Canada</td>
-      <td class="gt_row gt_left">Number of COVID-19 patients in intensive care units (ICUs) on a given day per 1,000,000 people</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">hosp_patients</td>
-      <td class="gt_row gt_left">European CDC for European countries / UK Government / COVID Tracking Project for the United States / COVID-19 Tracker for Canada</td>
-      <td class="gt_row gt_left">Number of COVID-19 patients in hospital on a given day</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">hosp_patients_per_million</td>
-      <td class="gt_row gt_left">European CDC for European countries / UK Government / COVID Tracking Project for the United States / COVID-19 Tracker for Canada</td>
-      <td class="gt_row gt_left">Number of COVID-19 patients in hospital on a given day per 1,000,000 people</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">weekly_icu_admissions</td>
-      <td class="gt_row gt_left">European CDC for European countries / UK Government / COVID Tracking Project for the United States</td>
-      <td class="gt_row gt_left">Number of COVID-19 patients newly admitted to intensive care units (ICUs) in a given week</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">weekly_icu_admissions_per_million</td>
-      <td class="gt_row gt_left">European CDC for European countries / UK Government / COVID Tracking Project for the United States</td>
-      <td class="gt_row gt_left">Number of COVID-19 patients newly admitted to intensive care units (ICUs) in a given week per 1,000,000 people</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">weekly_hosp_admissions</td>
-      <td class="gt_row gt_left">European CDC for European countries / UK Government / COVID Tracking Project for the United States</td>
-      <td class="gt_row gt_left">Number of COVID-19 patients newly admitted to hospitals in a given week</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">weekly_hosp_admissions_per_million</td>
-      <td class="gt_row gt_left">European CDC for European countries / UK Government / COVID Tracking Project for the United States</td>
-      <td class="gt_row gt_left">Number of COVID-19 patients newly admitted to hospitals in a given week per 1,000,000 people</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">new_tests</td>
-      <td class="gt_row gt_left">National government reports</td>
-      <td class="gt_row gt_left">New tests for COVID-19 (only calculated for consecutive days)</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">total_tests</td>
-      <td class="gt_row gt_left">National government reports</td>
-      <td class="gt_row gt_left">Total tests for COVID-19</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">total_tests_per_thousand</td>
-      <td class="gt_row gt_left">National government reports</td>
-      <td class="gt_row gt_left">Total tests for COVID-19 per 1,000 people</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">new_tests_per_thousand</td>
-      <td class="gt_row gt_left">National government reports</td>
-      <td class="gt_row gt_left">New tests for COVID-19 per 1,000 people</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">new_tests_smoothed</td>
-      <td class="gt_row gt_left">National government reports</td>
-      <td class="gt_row gt_left">New tests for COVID-19 (7-day smoothed). For countries that don't report testing data on a daily basis, we assume that testing changed equally on a daily basis over any periods in which no data was reported. This produces a complete series of daily figures, which is then averaged over a rolling 7-day window</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">new_tests_smoothed_per_thousand</td>
-      <td class="gt_row gt_left">National government reports</td>
-      <td class="gt_row gt_left">New tests for COVID-19 (7-day smoothed) per 1,000 people</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">positive_rate</td>
-      <td class="gt_row gt_left">National government reports</td>
-      <td class="gt_row gt_left">The share of COVID-19 tests that are positive, given as a rolling 7-day average (this is the inverse of tests_per_case)</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">tests_per_case</td>
-      <td class="gt_row gt_left">National government reports</td>
-      <td class="gt_row gt_left">Tests conducted per new confirmed case of COVID-19, given as a rolling 7-day average (this is the inverse of positive_rate)</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">tests_units</td>
-      <td class="gt_row gt_left">National government reports</td>
-      <td class="gt_row gt_left">Units used by the location to report its testing data</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">total_vaccinations</td>
-      <td class="gt_row gt_left">National government reports</td>
-      <td class="gt_row gt_left">Number of COVID-19 vaccination doses administered</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">new_vaccinations</td>
-      <td class="gt_row gt_left">National government reports</td>
-      <td class="gt_row gt_left">New COVID-19 vaccination doses administered (only calculated for consecutive days)</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">new_vaccinations_smoothed</td>
-      <td class="gt_row gt_left">National government reports</td>
-      <td class="gt_row gt_left">New COVID-19 vaccination doses administered (7-day smoothed). For countries that don't report vaccination data on a daily basis, we assume that vaccination changed equally on a daily basis over any periods in which no data was reported. This produces a complete series of daily figures, which is then averaged over a rolling 7-day window</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">total_vaccinations_per_hundred</td>
-      <td class="gt_row gt_left">National government reports</td>
-      <td class="gt_row gt_left">Number of COVID-19 vaccination doses administered per 100 people in the total population</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">new_vaccinations_smoothed_per_million</td>
-      <td class="gt_row gt_left">National government reports</td>
-      <td class="gt_row gt_left">New COVID-19 vaccination doses administered (7-day smoothed) per 1,000,000 people in the total population</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">stringency_index</td>
-      <td class="gt_row gt_left">Oxford COVID-19 Government Response Tracker, Blavatnik School of Government</td>
-      <td class="gt_row gt_left">Government Response Stringency Index: composite measure based on 9 response indicators including school closures, workplace closures, and travel bans, rescaled to a value from 0 to 100 (100 = strictest response)</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">population</td>
-      <td class="gt_row gt_left">United Nations, Department of Economic and Social Affairs, Population Division, World Population Prospects 2019 Revision</td>
-      <td class="gt_row gt_left">Population in 2020</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">population_density</td>
-      <td class="gt_row gt_left">World Bank World Development Indicators, sourced from Food and Agriculture Organization and World Bank estimates</td>
-      <td class="gt_row gt_left">Number of people divided by land area, measured in square kilometers, most recent year available</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">median_age</td>
-      <td class="gt_row gt_left">UN Population Division, World Population Prospects, 2017 Revision</td>
-      <td class="gt_row gt_left">Median age of the population, UN projection for 2020</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">aged_65_older</td>
-      <td class="gt_row gt_left">World Bank World Development Indicators based on age/sex distributions of United Nations World Population Prospects 2017 Revision</td>
-      <td class="gt_row gt_left">Share of the population that is 65 years and older, most recent year available</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">aged_70_older</td>
-      <td class="gt_row gt_left">United Nations, Department of Economic and Social Affairs, Population Division (2017), World Population Prospects 2017 Revision</td>
-      <td class="gt_row gt_left">Share of the population that is 70 years and older in 2015</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">gdp_per_capita</td>
-      <td class="gt_row gt_left">World Bank World Development Indicators, source from World Bank, International Comparison Program database</td>
-      <td class="gt_row gt_left">Gross domestic product at purchasing power parity (constant 2011 international dollars), most recent year available</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">extreme_poverty</td>
-      <td class="gt_row gt_left">World Bank World Development Indicators, sourced from World Bank Development Research Group</td>
-      <td class="gt_row gt_left">Share of the population living in extreme poverty, most recent year available since 2010</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">cardiovasc_death_rate</td>
-      <td class="gt_row gt_left">Global Burden of Disease Collaborative Network, Global Burden of Disease Study 2017 Results</td>
-      <td class="gt_row gt_left">Death rate from cardiovascular disease in 2017 (annual number of deaths per 100,000 people)</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">diabetes_prevalence</td>
-      <td class="gt_row gt_left">World Bank World Development Indicators, sourced from International Diabetes Federation, Diabetes Atlas</td>
-      <td class="gt_row gt_left">Diabetes prevalence (% of population aged 20 to 79) in 2017</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">female_smokers</td>
-      <td class="gt_row gt_left">World Bank World Development Indicators, sourced from World Health Organization, Global Health Observatory Data Repository</td>
-      <td class="gt_row gt_left">Share of women who smoke, most recent year available</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">male_smokers</td>
-      <td class="gt_row gt_left">World Bank World Development Indicators, sourced from World Health Organization, Global Health Observatory Data Repository</td>
-      <td class="gt_row gt_left">Share of men who smoke, most recent year available</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">handwashing_facilities</td>
-      <td class="gt_row gt_left">United Nations Statistics Division</td>
-      <td class="gt_row gt_left">Share of the population with basic handwashing facilities on premises, most recent year available</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">hospital_beds_per_thousand</td>
-      <td class="gt_row gt_left">OECD, Eurostat, World Bank, national government records and other sources</td>
-      <td class="gt_row gt_left">Hospital beds per 1,000 people, most recent year available since 2010</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">life_expectancy</td>
-      <td class="gt_row gt_left">James C. Riley, Clio Infra, United Nations Population Division</td>
-      <td class="gt_row gt_left">Life expectancy at birth in 2019</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">human_development_index</td>
-      <td class="gt_row gt_left">United Nations Development Programme (UNDP)</td>
-      <td class="gt_row gt_left">Summary measure of average achievement in key dimensions of human development: a long and healthy life, being knowledgeable and have a decent standard of living</td>
-    </tr>
+    <tr><td class="gt_row gt_left">iso_code</td>
+<td class="gt_row gt_left">International Organization for Standardization</td>
+<td class="gt_row gt_left">Others</td>
+<td class="gt_row gt_left">ISO 3166-1 alpha-3 – three-letter country codes</td></tr>
+    <tr><td class="gt_row gt_left">continent</td>
+<td class="gt_row gt_left">Our World in Data</td>
+<td class="gt_row gt_left">Others</td>
+<td class="gt_row gt_left">Continent of the geographical location</td></tr>
+    <tr><td class="gt_row gt_left">location</td>
+<td class="gt_row gt_left">Our World in Data</td>
+<td class="gt_row gt_left">Others</td>
+<td class="gt_row gt_left">Geographical location</td></tr>
+    <tr><td class="gt_row gt_left">date</td>
+<td class="gt_row gt_left">Our World in Data</td>
+<td class="gt_row gt_left">Others</td>
+<td class="gt_row gt_left">Date of observation</td></tr>
+    <tr><td class="gt_row gt_left">total_cases</td>
+<td class="gt_row gt_left">COVID-19 Data Repository by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University</td>
+<td class="gt_row gt_left">Confirmed cases</td>
+<td class="gt_row gt_left">Total confirmed cases of COVID-19</td></tr>
+    <tr><td class="gt_row gt_left">new_cases</td>
+<td class="gt_row gt_left">COVID-19 Data Repository by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University</td>
+<td class="gt_row gt_left">Confirmed cases</td>
+<td class="gt_row gt_left">New confirmed cases of COVID-19</td></tr>
+    <tr><td class="gt_row gt_left">new_cases_smoothed</td>
+<td class="gt_row gt_left">COVID-19 Data Repository by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University</td>
+<td class="gt_row gt_left">Confirmed cases</td>
+<td class="gt_row gt_left">New confirmed cases of COVID-19 (7-day smoothed)</td></tr>
+    <tr><td class="gt_row gt_left">total_deaths</td>
+<td class="gt_row gt_left">COVID-19 Data Repository by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University</td>
+<td class="gt_row gt_left">Confirmed deaths</td>
+<td class="gt_row gt_left">Total deaths attributed to COVID-19</td></tr>
+    <tr><td class="gt_row gt_left">new_deaths</td>
+<td class="gt_row gt_left">COVID-19 Data Repository by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University</td>
+<td class="gt_row gt_left">Confirmed deaths</td>
+<td class="gt_row gt_left">New deaths attributed to COVID-19</td></tr>
+    <tr><td class="gt_row gt_left">new_deaths_smoothed</td>
+<td class="gt_row gt_left">COVID-19 Data Repository by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University</td>
+<td class="gt_row gt_left">Confirmed deaths</td>
+<td class="gt_row gt_left">New deaths attributed to COVID-19 (7-day smoothed)</td></tr>
+    <tr><td class="gt_row gt_left">total_cases_per_million</td>
+<td class="gt_row gt_left">COVID-19 Data Repository by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University</td>
+<td class="gt_row gt_left">Confirmed cases</td>
+<td class="gt_row gt_left">Total confirmed cases of COVID-19 per 1,000,000 people</td></tr>
+    <tr><td class="gt_row gt_left">new_cases_per_million</td>
+<td class="gt_row gt_left">COVID-19 Data Repository by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University</td>
+<td class="gt_row gt_left">Confirmed cases</td>
+<td class="gt_row gt_left">New confirmed cases of COVID-19 per 1,000,000 people</td></tr>
+    <tr><td class="gt_row gt_left">new_cases_smoothed_per_million</td>
+<td class="gt_row gt_left">COVID-19 Data Repository by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University</td>
+<td class="gt_row gt_left">Confirmed cases</td>
+<td class="gt_row gt_left">New confirmed cases of COVID-19 (7-day smoothed) per 1,000,000 people</td></tr>
+    <tr><td class="gt_row gt_left">total_deaths_per_million</td>
+<td class="gt_row gt_left">COVID-19 Data Repository by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University</td>
+<td class="gt_row gt_left">Confirmed deaths</td>
+<td class="gt_row gt_left">Total deaths attributed to COVID-19 per 1,000,000 people</td></tr>
+    <tr><td class="gt_row gt_left">new_deaths_per_million</td>
+<td class="gt_row gt_left">COVID-19 Data Repository by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University</td>
+<td class="gt_row gt_left">Confirmed deaths</td>
+<td class="gt_row gt_left">New deaths attributed to COVID-19 per 1,000,000 people</td></tr>
+    <tr><td class="gt_row gt_left">new_deaths_smoothed_per_million</td>
+<td class="gt_row gt_left">COVID-19 Data Repository by the Center for Systems Science and Engineering (CSSE) at Johns Hopkins University</td>
+<td class="gt_row gt_left">Confirmed deaths</td>
+<td class="gt_row gt_left">New deaths attributed to COVID-19 (7-day smoothed) per 1,000,000 people</td></tr>
+    <tr><td class="gt_row gt_left">reproduction_rate</td>
+<td class="gt_row gt_left">Arroyo Marioli et al. (2020). https://doi.org/10.2139/ssrn.3581633</td>
+<td class="gt_row gt_left">Reproduction rate</td>
+<td class="gt_row gt_left">Real-time estimate of the effective reproduction rate (R) of COVID-19. See https://github.com/crondonm/TrackingR/tree/main/Estimates-Database</td></tr>
+    <tr><td class="gt_row gt_left">icu_patients</td>
+<td class="gt_row gt_left">European CDC for EU countries, government sources for other countries</td>
+<td class="gt_row gt_left">Hospital &amp; ICU</td>
+<td class="gt_row gt_left">Number of COVID-19 patients in intensive care units (ICUs) on a given day</td></tr>
+    <tr><td class="gt_row gt_left">icu_patients_per_million</td>
+<td class="gt_row gt_left">European CDC for EU countries, government sources for other countries</td>
+<td class="gt_row gt_left">Hospital &amp; ICU</td>
+<td class="gt_row gt_left">Number of COVID-19 patients in intensive care units (ICUs) on a given day per 1,000,000 people</td></tr>
+    <tr><td class="gt_row gt_left">hosp_patients</td>
+<td class="gt_row gt_left">European CDC for EU countries, government sources for other countries</td>
+<td class="gt_row gt_left">Hospital &amp; ICU</td>
+<td class="gt_row gt_left">Number of COVID-19 patients in hospital on a given day</td></tr>
+    <tr><td class="gt_row gt_left">hosp_patients_per_million</td>
+<td class="gt_row gt_left">European CDC for EU countries, government sources for other countries</td>
+<td class="gt_row gt_left">Hospital &amp; ICU</td>
+<td class="gt_row gt_left">Number of COVID-19 patients in hospital on a given day per 1,000,000 people</td></tr>
+    <tr><td class="gt_row gt_left">weekly_icu_admissions</td>
+<td class="gt_row gt_left">European CDC for EU countries, government sources for other countries</td>
+<td class="gt_row gt_left">Hospital &amp; ICU</td>
+<td class="gt_row gt_left">Number of COVID-19 patients newly admitted to intensive care units (ICUs) in a given week</td></tr>
+    <tr><td class="gt_row gt_left">weekly_icu_admissions_per_million</td>
+<td class="gt_row gt_left">European CDC for EU countries, government sources for other countries</td>
+<td class="gt_row gt_left">Hospital &amp; ICU</td>
+<td class="gt_row gt_left">Number of COVID-19 patients newly admitted to intensive care units (ICUs) in a given week per 1,000,000 people</td></tr>
+    <tr><td class="gt_row gt_left">weekly_hosp_admissions</td>
+<td class="gt_row gt_left">European CDC for EU countries, government sources for other countries</td>
+<td class="gt_row gt_left">Hospital &amp; ICU</td>
+<td class="gt_row gt_left">Number of COVID-19 patients newly admitted to hospitals in a given week</td></tr>
+    <tr><td class="gt_row gt_left">weekly_hosp_admissions_per_million</td>
+<td class="gt_row gt_left">European CDC for EU countries, government sources for other countries</td>
+<td class="gt_row gt_left">Hospital &amp; ICU</td>
+<td class="gt_row gt_left">Number of COVID-19 patients newly admitted to hospitals in a given week per 1,000,000 people</td></tr>
+    <tr><td class="gt_row gt_left">total_tests</td>
+<td class="gt_row gt_left">National government reports</td>
+<td class="gt_row gt_left">Tests &amp; positivity</td>
+<td class="gt_row gt_left">Total tests for COVID-19</td></tr>
+    <tr><td class="gt_row gt_left">new_tests</td>
+<td class="gt_row gt_left">National government reports</td>
+<td class="gt_row gt_left">Tests &amp; positivity</td>
+<td class="gt_row gt_left">New tests for COVID-19 (only calculated for consecutive days)</td></tr>
+    <tr><td class="gt_row gt_left">total_tests_per_thousand</td>
+<td class="gt_row gt_left">National government reports</td>
+<td class="gt_row gt_left">Tests &amp; positivity</td>
+<td class="gt_row gt_left">Total tests for COVID-19 per 1,000 people</td></tr>
+    <tr><td class="gt_row gt_left">new_tests_per_thousand</td>
+<td class="gt_row gt_left">National government reports</td>
+<td class="gt_row gt_left">Tests &amp; positivity</td>
+<td class="gt_row gt_left">New tests for COVID-19 per 1,000 people</td></tr>
+    <tr><td class="gt_row gt_left">new_tests_smoothed</td>
+<td class="gt_row gt_left">National government reports</td>
+<td class="gt_row gt_left">Tests &amp; positivity</td>
+<td class="gt_row gt_left">New tests for COVID-19 (7-day smoothed). For countries that don't report testing data on a daily basis, we assume that testing changed equally on a daily basis over any periods in which no data was reported. This produces a complete series of daily figures, which is then averaged over a rolling 7-day window</td></tr>
+    <tr><td class="gt_row gt_left">new_tests_smoothed_per_thousand</td>
+<td class="gt_row gt_left">National government reports</td>
+<td class="gt_row gt_left">Tests &amp; positivity</td>
+<td class="gt_row gt_left">New tests for COVID-19 (7-day smoothed) per 1,000 people</td></tr>
+    <tr><td class="gt_row gt_left">positive_rate</td>
+<td class="gt_row gt_left">National government reports</td>
+<td class="gt_row gt_left">Tests &amp; positivity</td>
+<td class="gt_row gt_left">The share of COVID-19 tests that are positive, given as a rolling 7-day average (this is the inverse of tests_per_case)</td></tr>
+    <tr><td class="gt_row gt_left">tests_per_case</td>
+<td class="gt_row gt_left">National government reports</td>
+<td class="gt_row gt_left">Tests &amp; positivity</td>
+<td class="gt_row gt_left">Tests conducted per new confirmed case of COVID-19, given as a rolling 7-day average (this is the inverse of positive_rate)</td></tr>
+    <tr><td class="gt_row gt_left">tests_units</td>
+<td class="gt_row gt_left">National government reports</td>
+<td class="gt_row gt_left">Tests &amp; positivity</td>
+<td class="gt_row gt_left">Units used by the location to report its testing data</td></tr>
+    <tr><td class="gt_row gt_left">total_vaccinations</td>
+<td class="gt_row gt_left">National government reports</td>
+<td class="gt_row gt_left">Vaccinations</td>
+<td class="gt_row gt_left">Total number of COVID-19 vaccination doses administered</td></tr>
+    <tr><td class="gt_row gt_left">people_vaccinated</td>
+<td class="gt_row gt_left">National government reports</td>
+<td class="gt_row gt_left">Vaccinations</td>
+<td class="gt_row gt_left">Total number of people who received at least one vaccine dose</td></tr>
+    <tr><td class="gt_row gt_left">people_fully_vaccinated</td>
+<td class="gt_row gt_left">National government reports</td>
+<td class="gt_row gt_left">Vaccinations</td>
+<td class="gt_row gt_left">Total number of people who received all doses prescribed by the vaccination protocol</td></tr>
+    <tr><td class="gt_row gt_left">total_boosters</td>
+<td class="gt_row gt_left">National government reports</td>
+<td class="gt_row gt_left">Vaccinations</td>
+<td class="gt_row gt_left">Total number of COVID-19 vaccination booster doses administered (doses administered beyond the number prescribed by the vaccination protocol)</td></tr>
+    <tr><td class="gt_row gt_left">new_vaccinations</td>
+<td class="gt_row gt_left">National government reports</td>
+<td class="gt_row gt_left">Vaccinations</td>
+<td class="gt_row gt_left">New COVID-19 vaccination doses administered (only calculated for consecutive days)</td></tr>
+    <tr><td class="gt_row gt_left">new_vaccinations_smoothed</td>
+<td class="gt_row gt_left">National government reports</td>
+<td class="gt_row gt_left">Vaccinations</td>
+<td class="gt_row gt_left">New COVID-19 vaccination doses administered (7-day smoothed). For countries that don't report vaccination data on a daily basis, we assume that vaccination changed equally on a daily basis over any periods in which no data was reported. This produces a complete series of daily figures, which is then averaged over a rolling 7-day window</td></tr>
+    <tr><td class="gt_row gt_left">total_vaccinations_per_hundred</td>
+<td class="gt_row gt_left">National government reports</td>
+<td class="gt_row gt_left">Vaccinations</td>
+<td class="gt_row gt_left">Total number of COVID-19 vaccination doses administered per 100 people in the total population</td></tr>
+    <tr><td class="gt_row gt_left">people_vaccinated_per_hundred</td>
+<td class="gt_row gt_left">National government reports</td>
+<td class="gt_row gt_left">Vaccinations</td>
+<td class="gt_row gt_left">Total number of people who received at least one vaccine dose per 100 people in the total population</td></tr>
+    <tr><td class="gt_row gt_left">people_fully_vaccinated_per_hundred</td>
+<td class="gt_row gt_left">National government reports</td>
+<td class="gt_row gt_left">Vaccinations</td>
+<td class="gt_row gt_left">Total number of people who received all doses prescribed by the vaccination protocol per 100 people in the total population</td></tr>
+    <tr><td class="gt_row gt_left">total_boosters_per_hundred</td>
+<td class="gt_row gt_left">National government reports</td>
+<td class="gt_row gt_left">Vaccinations</td>
+<td class="gt_row gt_left">Total number of COVID-19 vaccination booster doses administered per 100 people in the total population</td></tr>
+    <tr><td class="gt_row gt_left">new_vaccinations_smoothed_per_million</td>
+<td class="gt_row gt_left">National government reports</td>
+<td class="gt_row gt_left">Vaccinations</td>
+<td class="gt_row gt_left">New COVID-19 vaccination doses administered (7-day smoothed) per 1,000,000 people in the total population</td></tr>
+    <tr><td class="gt_row gt_left">stringency_index</td>
+<td class="gt_row gt_left">Oxford COVID-19 Government Response Tracker, Blavatnik School of Government</td>
+<td class="gt_row gt_left">Policy responses</td>
+<td class="gt_row gt_left">Government Response Stringency Index: composite measure based on 9 response indicators including school closures, workplace closures, and travel bans, rescaled to a value from 0 to 100 (100 = strictest response)</td></tr>
+    <tr><td class="gt_row gt_left">population</td>
+<td class="gt_row gt_left">United Nations, Department of Economic and Social Affairs, Population Division, World Population Prospects 2019 Revision</td>
+<td class="gt_row gt_left">Others</td>
+<td class="gt_row gt_left">Population in 2020</td></tr>
+    <tr><td class="gt_row gt_left">population_density</td>
+<td class="gt_row gt_left">World Bank World Development Indicators, sourced from Food and Agriculture Organization and World Bank estimates</td>
+<td class="gt_row gt_left">Others</td>
+<td class="gt_row gt_left">Number of people divided by land area, measured in square kilometers, most recent year available</td></tr>
+    <tr><td class="gt_row gt_left">median_age</td>
+<td class="gt_row gt_left">UN Population Division, World Population Prospects, 2017 Revision</td>
+<td class="gt_row gt_left">Others</td>
+<td class="gt_row gt_left">Median age of the population, UN projection for 2020</td></tr>
+    <tr><td class="gt_row gt_left">aged_65_older</td>
+<td class="gt_row gt_left">World Bank World Development Indicators based on age/sex distributions of United Nations World Population Prospects 2017 Revision</td>
+<td class="gt_row gt_left">Others</td>
+<td class="gt_row gt_left">Share of the population that is 65 years and older, most recent year available</td></tr>
+    <tr><td class="gt_row gt_left">aged_70_older</td>
+<td class="gt_row gt_left">United Nations, Department of Economic and Social Affairs, Population Division (2017), World Population Prospects 2017 Revision</td>
+<td class="gt_row gt_left">Others</td>
+<td class="gt_row gt_left">Share of the population that is 70 years and older in 2015</td></tr>
+    <tr><td class="gt_row gt_left">gdp_per_capita</td>
+<td class="gt_row gt_left">World Bank World Development Indicators, source from World Bank, International Comparison Program database</td>
+<td class="gt_row gt_left">Others</td>
+<td class="gt_row gt_left">Gross domestic product at purchasing power parity (constant 2011 international dollars), most recent year available</td></tr>
+    <tr><td class="gt_row gt_left">extreme_poverty</td>
+<td class="gt_row gt_left">World Bank World Development Indicators, sourced from World Bank Development Research Group</td>
+<td class="gt_row gt_left">Others</td>
+<td class="gt_row gt_left">Share of the population living in extreme poverty, most recent year available since 2010</td></tr>
+    <tr><td class="gt_row gt_left">cardiovasc_death_rate</td>
+<td class="gt_row gt_left">Global Burden of Disease Collaborative Network, Global Burden of Disease Study 2017 Results</td>
+<td class="gt_row gt_left">Others</td>
+<td class="gt_row gt_left">Death rate from cardiovascular disease in 2017 (annual number of deaths per 100,000 people)</td></tr>
+    <tr><td class="gt_row gt_left">diabetes_prevalence</td>
+<td class="gt_row gt_left">World Bank World Development Indicators, sourced from International Diabetes Federation, Diabetes Atlas</td>
+<td class="gt_row gt_left">Others</td>
+<td class="gt_row gt_left">Diabetes prevalence (% of population aged 20 to 79) in 2017</td></tr>
+    <tr><td class="gt_row gt_left">female_smokers</td>
+<td class="gt_row gt_left">World Bank World Development Indicators, sourced from World Health Organization, Global Health Observatory Data Repository</td>
+<td class="gt_row gt_left">Others</td>
+<td class="gt_row gt_left">Share of women who smoke, most recent year available</td></tr>
+    <tr><td class="gt_row gt_left">male_smokers</td>
+<td class="gt_row gt_left">World Bank World Development Indicators, sourced from World Health Organization, Global Health Observatory Data Repository</td>
+<td class="gt_row gt_left">Others</td>
+<td class="gt_row gt_left">Share of men who smoke, most recent year available</td></tr>
+    <tr><td class="gt_row gt_left">handwashing_facilities</td>
+<td class="gt_row gt_left">United Nations Statistics Division</td>
+<td class="gt_row gt_left">Others</td>
+<td class="gt_row gt_left">Share of the population with basic handwashing facilities on premises, most recent year available</td></tr>
+    <tr><td class="gt_row gt_left">hospital_beds_per_thousand</td>
+<td class="gt_row gt_left">OECD, Eurostat, World Bank, national government records and other sources</td>
+<td class="gt_row gt_left">Others</td>
+<td class="gt_row gt_left">Hospital beds per 1,000 people, most recent year available since 2010</td></tr>
+    <tr><td class="gt_row gt_left">life_expectancy</td>
+<td class="gt_row gt_left">James C. Riley, Clio Infra, United Nations Population Division</td>
+<td class="gt_row gt_left">Others</td>
+<td class="gt_row gt_left">Life expectancy at birth in 2019</td></tr>
+    <tr><td class="gt_row gt_left">human_development_index</td>
+<td class="gt_row gt_left">United Nations Development Programme (UNDP)</td>
+<td class="gt_row gt_left">Others</td>
+<td class="gt_row gt_left">A composite index measuring average achievement in three basic dimensions of human development—a long and healthy life, knowledge and a decent standard of living. Values for 2019, imported from http://hdr.undp.org/en/indicators/137506</td></tr>
+    <tr><td class="gt_row gt_left">excess_mortality</td>
+<td class="gt_row gt_left">Human Mortality Database (2021), World Mortality Dataset (2021)</td>
+<td class="gt_row gt_left">Excess mortality</td>
+<td class="gt_row gt_left">Percentage difference between the reported number of weekly or monthly deaths in 2020–2021 and the projected number of deaths for the same period based on previous years. For more information, see https://github.com/owid/covid-19-data/tree/master/public/data/excess_mortality</td></tr>
+    <tr><td class="gt_row gt_left">excess_mortality_cumulative</td>
+<td class="gt_row gt_left">Human Mortality Database (2021), World Mortality Dataset (2021)</td>
+<td class="gt_row gt_left">Excess mortality</td>
+<td class="gt_row gt_left">Percentage difference between the cumulative number of deaths since 1 January 2020 and the cumulative projected deaths for the same period based on previous years. For more information, see https://github.com/owid/covid-19-data/tree/master/public/data/excess_mortality</td></tr>
+    <tr><td class="gt_row gt_left">excess_mortality_cumulative_absolute</td>
+<td class="gt_row gt_left">Human Mortality Database (2021), World Mortality Dataset (2021)</td>
+<td class="gt_row gt_left">Excess mortality</td>
+<td class="gt_row gt_left">Cumulative difference between the reported number of deaths since 1 January 2020 and the projected number of deaths for the same period based on previous years. For more information, see https://github.com/owid/covid-19-data/tree/master/public/data/excess_mortality</td></tr>
+    <tr><td class="gt_row gt_left">excess_mortality_cumulative_per_million</td>
+<td class="gt_row gt_left">Human Mortality Database (2021), World Mortality Dataset (2021)</td>
+<td class="gt_row gt_left">Excess mortality</td>
+<td class="gt_row gt_left">Cumulative difference between the reported number of deaths since 1 January 2020 and the projected number of deaths for the same period based on previous years, per million people. For more information, see https://github.com/owid/covid-19-data/tree/master/public/data/excess_mortality</td></tr>
   </tbody>
   
   
-</table></div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="kw">library</span>(data.table)</span>
-<span id="cb3-2"><a href="#cb3-2"></a>mydat&lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv&#39;</span>)</span>
-<span id="cb3-3"><a href="#cb3-3"></a></span>
-<span id="cb3-4"><a href="#cb3-4"></a></span>
-<span id="cb3-5"><a href="#cb3-5"></a>t=mydat<span class="op">%&gt;%</span></span>
-<span id="cb3-6"><a href="#cb3-6"></a><span class="st">  </span><span class="kw">head</span>(<span class="dt">n=</span><span class="dv">10</span>)<span class="op">%&gt;%</span></span>
-<span id="cb3-7"><a href="#cb3-7"></a><span class="st">  </span><span class="kw">gt</span>()<span class="op">%&gt;%</span></span>
-<span id="cb3-8"><a href="#cb3-8"></a><span class="st">   </span><span class="kw">tab_options</span>(<span class="dt">table.font.size =</span> <span class="dv">10</span>)</span>
-<span id="cb3-9"><a href="#cb3-9"></a>t</span></code></pre></div>
+</table>
+</div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>mydat<span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv&#39;</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>t<span class="ot">=</span>mydat<span class="sc">%&gt;%</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="at">n=</span><span class="dv">10</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()<span class="sc">%&gt;%</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>   <span class="fu">tab_options</span>(<span class="at">table.font.size =</span> <span class="dv">10</span>)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>t</span></code></pre></div>
+<div id="bdxnuintqz" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#zallftfylj .gt_table {
+#bdxnuintqz .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1310,7 +1266,7 @@ div.tocify {
   border-left-color: #D3D3D3;
 }
 
-#zallftfylj .gt_heading {
+#bdxnuintqz .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1322,7 +1278,7 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#zallftfylj .gt_title {
+#bdxnuintqz .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1332,23 +1288,23 @@ div.tocify {
   border-bottom-width: 0;
 }
 
-#zallftfylj .gt_subtitle {
+#bdxnuintqz .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
   padding-top: 0;
-  padding-bottom: 4px;
+  padding-bottom: 6px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
 
-#zallftfylj .gt_bottom_border {
+#bdxnuintqz .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#zallftfylj .gt_col_headings {
+#bdxnuintqz .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1363,7 +1319,7 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#zallftfylj .gt_col_heading {
+#bdxnuintqz .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1383,7 +1339,7 @@ div.tocify {
   overflow-x: hidden;
 }
 
-#zallftfylj .gt_column_spanner_outer {
+#bdxnuintqz .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1395,27 +1351,27 @@ div.tocify {
   padding-right: 4px;
 }
 
-#zallftfylj .gt_column_spanner_outer:first-child {
+#bdxnuintqz .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#zallftfylj .gt_column_spanner_outer:last-child {
+#bdxnuintqz .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#zallftfylj .gt_column_spanner {
+#bdxnuintqz .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
   vertical-align: bottom;
   padding-top: 5px;
-  padding-bottom: 6px;
+  padding-bottom: 5px;
   overflow-x: hidden;
   display: inline-block;
   width: 100%;
 }
 
-#zallftfylj .gt_group_heading {
+#bdxnuintqz .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1437,7 +1393,7 @@ div.tocify {
   vertical-align: middle;
 }
 
-#zallftfylj .gt_empty_group_heading {
+#bdxnuintqz .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1452,15 +1408,15 @@ div.tocify {
   vertical-align: middle;
 }
 
-#zallftfylj .gt_from_md > :first-child {
+#bdxnuintqz .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#zallftfylj .gt_from_md > :last-child {
+#bdxnuintqz .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#zallftfylj .gt_row {
+#bdxnuintqz .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1479,7 +1435,7 @@ div.tocify {
   overflow-x: hidden;
 }
 
-#zallftfylj .gt_stub {
+#bdxnuintqz .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1491,7 +1447,7 @@ div.tocify {
   padding-left: 12px;
 }
 
-#zallftfylj .gt_summary_row {
+#bdxnuintqz .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1501,7 +1457,7 @@ div.tocify {
   padding-right: 5px;
 }
 
-#zallftfylj .gt_first_summary_row {
+#bdxnuintqz .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1511,7 +1467,7 @@ div.tocify {
   border-top-color: #D3D3D3;
 }
 
-#zallftfylj .gt_grand_summary_row {
+#bdxnuintqz .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1521,7 +1477,7 @@ div.tocify {
   padding-right: 5px;
 }
 
-#zallftfylj .gt_first_grand_summary_row {
+#bdxnuintqz .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1531,11 +1487,11 @@ div.tocify {
   border-top-color: #D3D3D3;
 }
 
-#zallftfylj .gt_striped {
+#bdxnuintqz .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#zallftfylj .gt_table_body {
+#bdxnuintqz .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1544,7 +1500,7 @@ div.tocify {
   border-bottom-color: #D3D3D3;
 }
 
-#zallftfylj .gt_footnotes {
+#bdxnuintqz .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1558,13 +1514,13 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#zallftfylj .gt_footnote {
+#bdxnuintqz .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#zallftfylj .gt_sourcenotes {
+#bdxnuintqz .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1578,46 +1534,47 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#zallftfylj .gt_sourcenote {
+#bdxnuintqz .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#zallftfylj .gt_left {
+#bdxnuintqz .gt_left {
   text-align: left;
 }
 
-#zallftfylj .gt_center {
+#bdxnuintqz .gt_center {
   text-align: center;
 }
 
-#zallftfylj .gt_right {
+#bdxnuintqz .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#zallftfylj .gt_font_normal {
+#bdxnuintqz .gt_font_normal {
   font-weight: normal;
 }
 
-#zallftfylj .gt_font_bold {
+#bdxnuintqz .gt_font_bold {
   font-weight: bold;
 }
 
-#zallftfylj .gt_font_italic {
+#bdxnuintqz .gt_font_italic {
   font-style: italic;
 }
 
-#zallftfylj .gt_super {
+#bdxnuintqz .gt_super {
   font-size: 65%;
 }
 
-#zallftfylj .gt_footnote_marks {
+#bdxnuintqz .gt_footnote_marks {
   font-style: italic;
+  font-weight: normal;
   font-size: 65%;
 }
 </style>
-<div id="zallftfylj" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+<table class="gt_table">
   
   <thead class="gt_col_headings">
     <tr>
@@ -1656,9 +1613,15 @@ div.tocify {
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">tests_per_case</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">tests_units</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">total_vaccinations</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">people_vaccinated</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">people_fully_vaccinated</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">total_boosters</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_vaccinations</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_vaccinations_smoothed</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">total_vaccinations_per_hundred</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">people_vaccinated_per_hundred</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">people_fully_vaccinated_per_hundred</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">total_boosters_per_hundred</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_vaccinations_smoothed_per_million</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">stringency_index</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">population</th>
@@ -1676,583 +1639,668 @@ div.tocify {
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">hospital_beds_per_thousand</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">life_expectancy</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">human_development_index</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">excess_mortality_cumulative_absolute</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">excess_mortality_cumulative</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">excess_mortality</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">excess_mortality_cumulative_per_million</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
-    <tr>
-      <td class="gt_row gt_left">AFG</td>
-      <td class="gt_row gt_left">Asia</td>
-      <td class="gt_row gt_left">Afghanistan</td>
-      <td class="gt_row gt_left">2020-02-24</td>
-      <td class="gt_row gt_right">1</td>
-      <td class="gt_row gt_right">1</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">0.026</td>
-      <td class="gt_row gt_right">0.026</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">8.33</td>
-      <td class="gt_row gt_right">38928341</td>
-      <td class="gt_row gt_right">54.422</td>
-      <td class="gt_row gt_right">18.6</td>
-      <td class="gt_row gt_right">2.581</td>
-      <td class="gt_row gt_right">1.337</td>
-      <td class="gt_row gt_right">1803.987</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">597.029</td>
-      <td class="gt_row gt_right">9.59</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">37.746</td>
-      <td class="gt_row gt_right">0.5</td>
-      <td class="gt_row gt_right">64.83</td>
-      <td class="gt_row gt_right">0.498</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">AFG</td>
-      <td class="gt_row gt_left">Asia</td>
-      <td class="gt_row gt_left">Afghanistan</td>
-      <td class="gt_row gt_left">2020-02-25</td>
-      <td class="gt_row gt_right">1</td>
-      <td class="gt_row gt_right">0</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">0.026</td>
-      <td class="gt_row gt_right">0.000</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">8.33</td>
-      <td class="gt_row gt_right">38928341</td>
-      <td class="gt_row gt_right">54.422</td>
-      <td class="gt_row gt_right">18.6</td>
-      <td class="gt_row gt_right">2.581</td>
-      <td class="gt_row gt_right">1.337</td>
-      <td class="gt_row gt_right">1803.987</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">597.029</td>
-      <td class="gt_row gt_right">9.59</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">37.746</td>
-      <td class="gt_row gt_right">0.5</td>
-      <td class="gt_row gt_right">64.83</td>
-      <td class="gt_row gt_right">0.498</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">AFG</td>
-      <td class="gt_row gt_left">Asia</td>
-      <td class="gt_row gt_left">Afghanistan</td>
-      <td class="gt_row gt_left">2020-02-26</td>
-      <td class="gt_row gt_right">1</td>
-      <td class="gt_row gt_right">0</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">0.026</td>
-      <td class="gt_row gt_right">0.000</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">8.33</td>
-      <td class="gt_row gt_right">38928341</td>
-      <td class="gt_row gt_right">54.422</td>
-      <td class="gt_row gt_right">18.6</td>
-      <td class="gt_row gt_right">2.581</td>
-      <td class="gt_row gt_right">1.337</td>
-      <td class="gt_row gt_right">1803.987</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">597.029</td>
-      <td class="gt_row gt_right">9.59</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">37.746</td>
-      <td class="gt_row gt_right">0.5</td>
-      <td class="gt_row gt_right">64.83</td>
-      <td class="gt_row gt_right">0.498</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">AFG</td>
-      <td class="gt_row gt_left">Asia</td>
-      <td class="gt_row gt_left">Afghanistan</td>
-      <td class="gt_row gt_left">2020-02-27</td>
-      <td class="gt_row gt_right">1</td>
-      <td class="gt_row gt_right">0</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">0.026</td>
-      <td class="gt_row gt_right">0.000</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">8.33</td>
-      <td class="gt_row gt_right">38928341</td>
-      <td class="gt_row gt_right">54.422</td>
-      <td class="gt_row gt_right">18.6</td>
-      <td class="gt_row gt_right">2.581</td>
-      <td class="gt_row gt_right">1.337</td>
-      <td class="gt_row gt_right">1803.987</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">597.029</td>
-      <td class="gt_row gt_right">9.59</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">37.746</td>
-      <td class="gt_row gt_right">0.5</td>
-      <td class="gt_row gt_right">64.83</td>
-      <td class="gt_row gt_right">0.498</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">AFG</td>
-      <td class="gt_row gt_left">Asia</td>
-      <td class="gt_row gt_left">Afghanistan</td>
-      <td class="gt_row gt_left">2020-02-28</td>
-      <td class="gt_row gt_right">1</td>
-      <td class="gt_row gt_right">0</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">0.026</td>
-      <td class="gt_row gt_right">0.000</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">8.33</td>
-      <td class="gt_row gt_right">38928341</td>
-      <td class="gt_row gt_right">54.422</td>
-      <td class="gt_row gt_right">18.6</td>
-      <td class="gt_row gt_right">2.581</td>
-      <td class="gt_row gt_right">1.337</td>
-      <td class="gt_row gt_right">1803.987</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">597.029</td>
-      <td class="gt_row gt_right">9.59</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">37.746</td>
-      <td class="gt_row gt_right">0.5</td>
-      <td class="gt_row gt_right">64.83</td>
-      <td class="gt_row gt_right">0.498</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">AFG</td>
-      <td class="gt_row gt_left">Asia</td>
-      <td class="gt_row gt_left">Afghanistan</td>
-      <td class="gt_row gt_left">2020-02-29</td>
-      <td class="gt_row gt_right">1</td>
-      <td class="gt_row gt_right">0</td>
-      <td class="gt_row gt_right">0.143</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">0</td>
-      <td class="gt_row gt_right">0.026</td>
-      <td class="gt_row gt_right">0.000</td>
-      <td class="gt_row gt_right">0.004</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">0</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">8.33</td>
-      <td class="gt_row gt_right">38928341</td>
-      <td class="gt_row gt_right">54.422</td>
-      <td class="gt_row gt_right">18.6</td>
-      <td class="gt_row gt_right">2.581</td>
-      <td class="gt_row gt_right">1.337</td>
-      <td class="gt_row gt_right">1803.987</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">597.029</td>
-      <td class="gt_row gt_right">9.59</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">37.746</td>
-      <td class="gt_row gt_right">0.5</td>
-      <td class="gt_row gt_right">64.83</td>
-      <td class="gt_row gt_right">0.498</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">AFG</td>
-      <td class="gt_row gt_left">Asia</td>
-      <td class="gt_row gt_left">Afghanistan</td>
-      <td class="gt_row gt_left">2020-03-01</td>
-      <td class="gt_row gt_right">1</td>
-      <td class="gt_row gt_right">0</td>
-      <td class="gt_row gt_right">0.143</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">0</td>
-      <td class="gt_row gt_right">0.026</td>
-      <td class="gt_row gt_right">0.000</td>
-      <td class="gt_row gt_right">0.004</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">0</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">27.78</td>
-      <td class="gt_row gt_right">38928341</td>
-      <td class="gt_row gt_right">54.422</td>
-      <td class="gt_row gt_right">18.6</td>
-      <td class="gt_row gt_right">2.581</td>
-      <td class="gt_row gt_right">1.337</td>
-      <td class="gt_row gt_right">1803.987</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">597.029</td>
-      <td class="gt_row gt_right">9.59</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">37.746</td>
-      <td class="gt_row gt_right">0.5</td>
-      <td class="gt_row gt_right">64.83</td>
-      <td class="gt_row gt_right">0.498</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">AFG</td>
-      <td class="gt_row gt_left">Asia</td>
-      <td class="gt_row gt_left">Afghanistan</td>
-      <td class="gt_row gt_left">2020-03-02</td>
-      <td class="gt_row gt_right">1</td>
-      <td class="gt_row gt_right">0</td>
-      <td class="gt_row gt_right">0.000</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">0</td>
-      <td class="gt_row gt_right">0.026</td>
-      <td class="gt_row gt_right">0.000</td>
-      <td class="gt_row gt_right">0.000</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">0</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">27.78</td>
-      <td class="gt_row gt_right">38928341</td>
-      <td class="gt_row gt_right">54.422</td>
-      <td class="gt_row gt_right">18.6</td>
-      <td class="gt_row gt_right">2.581</td>
-      <td class="gt_row gt_right">1.337</td>
-      <td class="gt_row gt_right">1803.987</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">597.029</td>
-      <td class="gt_row gt_right">9.59</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">37.746</td>
-      <td class="gt_row gt_right">0.5</td>
-      <td class="gt_row gt_right">64.83</td>
-      <td class="gt_row gt_right">0.498</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">AFG</td>
-      <td class="gt_row gt_left">Asia</td>
-      <td class="gt_row gt_left">Afghanistan</td>
-      <td class="gt_row gt_left">2020-03-03</td>
-      <td class="gt_row gt_right">2</td>
-      <td class="gt_row gt_right">1</td>
-      <td class="gt_row gt_right">0.143</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">0</td>
-      <td class="gt_row gt_right">0.051</td>
-      <td class="gt_row gt_right">0.026</td>
-      <td class="gt_row gt_right">0.004</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">0</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">27.78</td>
-      <td class="gt_row gt_right">38928341</td>
-      <td class="gt_row gt_right">54.422</td>
-      <td class="gt_row gt_right">18.6</td>
-      <td class="gt_row gt_right">2.581</td>
-      <td class="gt_row gt_right">1.337</td>
-      <td class="gt_row gt_right">1803.987</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">597.029</td>
-      <td class="gt_row gt_right">9.59</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">37.746</td>
-      <td class="gt_row gt_right">0.5</td>
-      <td class="gt_row gt_right">64.83</td>
-      <td class="gt_row gt_right">0.498</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">AFG</td>
-      <td class="gt_row gt_left">Asia</td>
-      <td class="gt_row gt_left">Afghanistan</td>
-      <td class="gt_row gt_left">2020-03-04</td>
-      <td class="gt_row gt_right">4</td>
-      <td class="gt_row gt_right">2</td>
-      <td class="gt_row gt_right">0.429</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">0</td>
-      <td class="gt_row gt_right">0.103</td>
-      <td class="gt_row gt_right">0.051</td>
-      <td class="gt_row gt_right">0.011</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">0</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">27.78</td>
-      <td class="gt_row gt_right">38928341</td>
-      <td class="gt_row gt_right">54.422</td>
-      <td class="gt_row gt_right">18.6</td>
-      <td class="gt_row gt_right">2.581</td>
-      <td class="gt_row gt_right">1.337</td>
-      <td class="gt_row gt_right">1803.987</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">597.029</td>
-      <td class="gt_row gt_right">9.59</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">37.746</td>
-      <td class="gt_row gt_right">0.5</td>
-      <td class="gt_row gt_right">64.83</td>
-      <td class="gt_row gt_right">0.498</td>
-    </tr>
+    <tr><td class="gt_row gt_left">AFG</td>
+<td class="gt_row gt_left">Asia</td>
+<td class="gt_row gt_left">Afghanistan</td>
+<td class="gt_row gt_left">2020-02-24</td>
+<td class="gt_row gt_right">5</td>
+<td class="gt_row gt_right">5</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">0.126</td>
+<td class="gt_row gt_right">0.126</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_left"></td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">8.33</td>
+<td class="gt_row gt_right">39835428</td>
+<td class="gt_row gt_right">54.422</td>
+<td class="gt_row gt_right">18.6</td>
+<td class="gt_row gt_right">2.581</td>
+<td class="gt_row gt_right">1.337</td>
+<td class="gt_row gt_right">1803.987</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">597.029</td>
+<td class="gt_row gt_right">9.59</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">37.746</td>
+<td class="gt_row gt_right">0.5</td>
+<td class="gt_row gt_right">64.83</td>
+<td class="gt_row gt_right">0.511</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td></tr>
+    <tr><td class="gt_row gt_left">AFG</td>
+<td class="gt_row gt_left">Asia</td>
+<td class="gt_row gt_left">Afghanistan</td>
+<td class="gt_row gt_left">2020-02-25</td>
+<td class="gt_row gt_right">5</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">0.126</td>
+<td class="gt_row gt_right">0.000</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_left"></td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">8.33</td>
+<td class="gt_row gt_right">39835428</td>
+<td class="gt_row gt_right">54.422</td>
+<td class="gt_row gt_right">18.6</td>
+<td class="gt_row gt_right">2.581</td>
+<td class="gt_row gt_right">1.337</td>
+<td class="gt_row gt_right">1803.987</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">597.029</td>
+<td class="gt_row gt_right">9.59</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">37.746</td>
+<td class="gt_row gt_right">0.5</td>
+<td class="gt_row gt_right">64.83</td>
+<td class="gt_row gt_right">0.511</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td></tr>
+    <tr><td class="gt_row gt_left">AFG</td>
+<td class="gt_row gt_left">Asia</td>
+<td class="gt_row gt_left">Afghanistan</td>
+<td class="gt_row gt_left">2020-02-26</td>
+<td class="gt_row gt_right">5</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">0.126</td>
+<td class="gt_row gt_right">0.000</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_left"></td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">8.33</td>
+<td class="gt_row gt_right">39835428</td>
+<td class="gt_row gt_right">54.422</td>
+<td class="gt_row gt_right">18.6</td>
+<td class="gt_row gt_right">2.581</td>
+<td class="gt_row gt_right">1.337</td>
+<td class="gt_row gt_right">1803.987</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">597.029</td>
+<td class="gt_row gt_right">9.59</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">37.746</td>
+<td class="gt_row gt_right">0.5</td>
+<td class="gt_row gt_right">64.83</td>
+<td class="gt_row gt_right">0.511</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td></tr>
+    <tr><td class="gt_row gt_left">AFG</td>
+<td class="gt_row gt_left">Asia</td>
+<td class="gt_row gt_left">Afghanistan</td>
+<td class="gt_row gt_left">2020-02-27</td>
+<td class="gt_row gt_right">5</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">0.126</td>
+<td class="gt_row gt_right">0.000</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_left"></td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">8.33</td>
+<td class="gt_row gt_right">39835428</td>
+<td class="gt_row gt_right">54.422</td>
+<td class="gt_row gt_right">18.6</td>
+<td class="gt_row gt_right">2.581</td>
+<td class="gt_row gt_right">1.337</td>
+<td class="gt_row gt_right">1803.987</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">597.029</td>
+<td class="gt_row gt_right">9.59</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">37.746</td>
+<td class="gt_row gt_right">0.5</td>
+<td class="gt_row gt_right">64.83</td>
+<td class="gt_row gt_right">0.511</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td></tr>
+    <tr><td class="gt_row gt_left">AFG</td>
+<td class="gt_row gt_left">Asia</td>
+<td class="gt_row gt_left">Afghanistan</td>
+<td class="gt_row gt_left">2020-02-28</td>
+<td class="gt_row gt_right">5</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">0.126</td>
+<td class="gt_row gt_right">0.000</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_left"></td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">8.33</td>
+<td class="gt_row gt_right">39835428</td>
+<td class="gt_row gt_right">54.422</td>
+<td class="gt_row gt_right">18.6</td>
+<td class="gt_row gt_right">2.581</td>
+<td class="gt_row gt_right">1.337</td>
+<td class="gt_row gt_right">1803.987</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">597.029</td>
+<td class="gt_row gt_right">9.59</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">37.746</td>
+<td class="gt_row gt_right">0.5</td>
+<td class="gt_row gt_right">64.83</td>
+<td class="gt_row gt_right">0.511</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td></tr>
+    <tr><td class="gt_row gt_left">AFG</td>
+<td class="gt_row gt_left">Asia</td>
+<td class="gt_row gt_left">Afghanistan</td>
+<td class="gt_row gt_left">2020-02-29</td>
+<td class="gt_row gt_right">5</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">0.714</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">0.126</td>
+<td class="gt_row gt_right">0.000</td>
+<td class="gt_row gt_right">0.018</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_left"></td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">8.33</td>
+<td class="gt_row gt_right">39835428</td>
+<td class="gt_row gt_right">54.422</td>
+<td class="gt_row gt_right">18.6</td>
+<td class="gt_row gt_right">2.581</td>
+<td class="gt_row gt_right">1.337</td>
+<td class="gt_row gt_right">1803.987</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">597.029</td>
+<td class="gt_row gt_right">9.59</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">37.746</td>
+<td class="gt_row gt_right">0.5</td>
+<td class="gt_row gt_right">64.83</td>
+<td class="gt_row gt_right">0.511</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td></tr>
+    <tr><td class="gt_row gt_left">AFG</td>
+<td class="gt_row gt_left">Asia</td>
+<td class="gt_row gt_left">Afghanistan</td>
+<td class="gt_row gt_left">2020-03-01</td>
+<td class="gt_row gt_right">5</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">0.714</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">0.126</td>
+<td class="gt_row gt_right">0.000</td>
+<td class="gt_row gt_right">0.018</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_left"></td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">27.78</td>
+<td class="gt_row gt_right">39835428</td>
+<td class="gt_row gt_right">54.422</td>
+<td class="gt_row gt_right">18.6</td>
+<td class="gt_row gt_right">2.581</td>
+<td class="gt_row gt_right">1.337</td>
+<td class="gt_row gt_right">1803.987</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">597.029</td>
+<td class="gt_row gt_right">9.59</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">37.746</td>
+<td class="gt_row gt_right">0.5</td>
+<td class="gt_row gt_right">64.83</td>
+<td class="gt_row gt_right">0.511</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td></tr>
+    <tr><td class="gt_row gt_left">AFG</td>
+<td class="gt_row gt_left">Asia</td>
+<td class="gt_row gt_left">Afghanistan</td>
+<td class="gt_row gt_left">2020-03-02</td>
+<td class="gt_row gt_right">5</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">0.000</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">0.126</td>
+<td class="gt_row gt_right">0.000</td>
+<td class="gt_row gt_right">0.000</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_left"></td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">27.78</td>
+<td class="gt_row gt_right">39835428</td>
+<td class="gt_row gt_right">54.422</td>
+<td class="gt_row gt_right">18.6</td>
+<td class="gt_row gt_right">2.581</td>
+<td class="gt_row gt_right">1.337</td>
+<td class="gt_row gt_right">1803.987</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">597.029</td>
+<td class="gt_row gt_right">9.59</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">37.746</td>
+<td class="gt_row gt_right">0.5</td>
+<td class="gt_row gt_right">64.83</td>
+<td class="gt_row gt_right">0.511</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td></tr>
+    <tr><td class="gt_row gt_left">AFG</td>
+<td class="gt_row gt_left">Asia</td>
+<td class="gt_row gt_left">Afghanistan</td>
+<td class="gt_row gt_left">2020-03-03</td>
+<td class="gt_row gt_right">5</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">0.000</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">0.126</td>
+<td class="gt_row gt_right">0.000</td>
+<td class="gt_row gt_right">0.000</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_left"></td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">27.78</td>
+<td class="gt_row gt_right">39835428</td>
+<td class="gt_row gt_right">54.422</td>
+<td class="gt_row gt_right">18.6</td>
+<td class="gt_row gt_right">2.581</td>
+<td class="gt_row gt_right">1.337</td>
+<td class="gt_row gt_right">1803.987</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">597.029</td>
+<td class="gt_row gt_right">9.59</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">37.746</td>
+<td class="gt_row gt_right">0.5</td>
+<td class="gt_row gt_right">64.83</td>
+<td class="gt_row gt_right">0.511</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td></tr>
+    <tr><td class="gt_row gt_left">AFG</td>
+<td class="gt_row gt_left">Asia</td>
+<td class="gt_row gt_left">Afghanistan</td>
+<td class="gt_row gt_left">2020-03-04</td>
+<td class="gt_row gt_right">5</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">0.000</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">0.126</td>
+<td class="gt_row gt_right">0.000</td>
+<td class="gt_row gt_right">0.000</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_left"></td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">27.78</td>
+<td class="gt_row gt_right">39835428</td>
+<td class="gt_row gt_right">54.422</td>
+<td class="gt_row gt_right">18.6</td>
+<td class="gt_row gt_right">2.581</td>
+<td class="gt_row gt_right">1.337</td>
+<td class="gt_row gt_right">1803.987</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">597.029</td>
+<td class="gt_row gt_right">9.59</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">37.746</td>
+<td class="gt_row gt_right">0.5</td>
+<td class="gt_row gt_right">64.83</td>
+<td class="gt_row gt_right">0.511</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td></tr>
   </tbody>
   
   
-</table></div>
+</table>
+</div>
 <hr />
 <div id="covid-data-us-counties-del-ny-times" class="section level3">
 <h3>Covid data US-counties del NY TIMES</h3>
@@ -2271,9 +2319,9 @@ div.tocify {
 <li>cases = Números de casos cumulativo de este county/municipio</li>
 <li>death = Números de casos de mortandad de este county/municipio</li>
 </ul>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">library</span>(readr)</span>
-<span id="cb4-2"><a href="#cb4-2"></a>us_counties &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;COVID_DATA/us_counties.csv&quot;</span>)</span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="kw">unique</span>(us_counties<span class="op">$</span>state)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>us_counties <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;COVID_DATA/us_counties.csv&quot;</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(us_counties<span class="sc">$</span>state)</span></code></pre></div>
 <pre><code>##  [1] &quot;Washington&quot;               &quot;Illinois&quot;                
 ##  [3] &quot;California&quot;               &quot;Arizona&quot;                 
 ##  [5] &quot;Massachusetts&quot;            &quot;Wisconsin&quot;               
@@ -2302,17 +2350,18 @@ div.tocify {
 ## [51] &quot;Puerto Rico&quot;              &quot;Virgin Islands&quot;          
 ## [53] &quot;Guam&quot;                     &quot;West Virginia&quot;           
 ## [55] &quot;Northern Mariana Islands&quot;</code></pre>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>df=us_counties<span class="op">%&gt;%</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="st">  </span><span class="kw">filter</span>(state<span class="op">==</span><span class="st">&quot;Puerto Rico&quot;</span>) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="st">  </span><span class="kw">tail</span>( <span class="dt">n=</span><span class="dv">6</span>)<span class="op">%&gt;%</span></span>
-<span id="cb6-4"><a href="#cb6-4"></a><span class="st">  </span><span class="kw">gt</span>()<span class="op">%&gt;%</span></span>
-<span id="cb6-5"><a href="#cb6-5"></a><span class="st">   </span><span class="kw">tab_options</span>(<span class="dt">table.font.size =</span> <span class="dv">10</span>)</span>
-<span id="cb6-6"><a href="#cb6-6"></a>df</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>df<span class="ot">=</span>us_counties<span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(state<span class="sc">==</span><span class="st">&quot;Puerto Rico&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tail</span>( <span class="at">n=</span><span class="dv">6</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()<span class="sc">%&gt;%</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>   <span class="fu">tab_options</span>(<span class="at">table.font.size =</span> <span class="dv">10</span>)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div>
+<div id="uqppxxhzza" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#zmbkzxfsgg .gt_table {
+#uqppxxhzza .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2337,7 +2386,7 @@ div.tocify {
   border-left-color: #D3D3D3;
 }
 
-#zmbkzxfsgg .gt_heading {
+#uqppxxhzza .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2349,7 +2398,7 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#zmbkzxfsgg .gt_title {
+#uqppxxhzza .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2359,23 +2408,23 @@ div.tocify {
   border-bottom-width: 0;
 }
 
-#zmbkzxfsgg .gt_subtitle {
+#uqppxxhzza .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
   padding-top: 0;
-  padding-bottom: 4px;
+  padding-bottom: 6px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
 
-#zmbkzxfsgg .gt_bottom_border {
+#uqppxxhzza .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#zmbkzxfsgg .gt_col_headings {
+#uqppxxhzza .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2390,7 +2439,7 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#zmbkzxfsgg .gt_col_heading {
+#uqppxxhzza .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2410,7 +2459,7 @@ div.tocify {
   overflow-x: hidden;
 }
 
-#zmbkzxfsgg .gt_column_spanner_outer {
+#uqppxxhzza .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2422,27 +2471,27 @@ div.tocify {
   padding-right: 4px;
 }
 
-#zmbkzxfsgg .gt_column_spanner_outer:first-child {
+#uqppxxhzza .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#zmbkzxfsgg .gt_column_spanner_outer:last-child {
+#uqppxxhzza .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#zmbkzxfsgg .gt_column_spanner {
+#uqppxxhzza .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
   vertical-align: bottom;
   padding-top: 5px;
-  padding-bottom: 6px;
+  padding-bottom: 5px;
   overflow-x: hidden;
   display: inline-block;
   width: 100%;
 }
 
-#zmbkzxfsgg .gt_group_heading {
+#uqppxxhzza .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2464,7 +2513,7 @@ div.tocify {
   vertical-align: middle;
 }
 
-#zmbkzxfsgg .gt_empty_group_heading {
+#uqppxxhzza .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2479,15 +2528,15 @@ div.tocify {
   vertical-align: middle;
 }
 
-#zmbkzxfsgg .gt_from_md > :first-child {
+#uqppxxhzza .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#zmbkzxfsgg .gt_from_md > :last-child {
+#uqppxxhzza .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#zmbkzxfsgg .gt_row {
+#uqppxxhzza .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2506,7 +2555,7 @@ div.tocify {
   overflow-x: hidden;
 }
 
-#zmbkzxfsgg .gt_stub {
+#uqppxxhzza .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2518,7 +2567,7 @@ div.tocify {
   padding-left: 12px;
 }
 
-#zmbkzxfsgg .gt_summary_row {
+#uqppxxhzza .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2528,7 +2577,7 @@ div.tocify {
   padding-right: 5px;
 }
 
-#zmbkzxfsgg .gt_first_summary_row {
+#uqppxxhzza .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2538,7 +2587,7 @@ div.tocify {
   border-top-color: #D3D3D3;
 }
 
-#zmbkzxfsgg .gt_grand_summary_row {
+#uqppxxhzza .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2548,7 +2597,7 @@ div.tocify {
   padding-right: 5px;
 }
 
-#zmbkzxfsgg .gt_first_grand_summary_row {
+#uqppxxhzza .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2558,11 +2607,11 @@ div.tocify {
   border-top-color: #D3D3D3;
 }
 
-#zmbkzxfsgg .gt_striped {
+#uqppxxhzza .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#zmbkzxfsgg .gt_table_body {
+#uqppxxhzza .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2571,7 +2620,7 @@ div.tocify {
   border-bottom-color: #D3D3D3;
 }
 
-#zmbkzxfsgg .gt_footnotes {
+#uqppxxhzza .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2585,13 +2634,13 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#zmbkzxfsgg .gt_footnote {
+#uqppxxhzza .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#zmbkzxfsgg .gt_sourcenotes {
+#uqppxxhzza .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2605,50 +2654,51 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#zmbkzxfsgg .gt_sourcenote {
+#uqppxxhzza .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#zmbkzxfsgg .gt_left {
+#uqppxxhzza .gt_left {
   text-align: left;
 }
 
-#zmbkzxfsgg .gt_center {
+#uqppxxhzza .gt_center {
   text-align: center;
 }
 
-#zmbkzxfsgg .gt_right {
+#uqppxxhzza .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#zmbkzxfsgg .gt_font_normal {
+#uqppxxhzza .gt_font_normal {
   font-weight: normal;
 }
 
-#zmbkzxfsgg .gt_font_bold {
+#uqppxxhzza .gt_font_bold {
   font-weight: bold;
 }
 
-#zmbkzxfsgg .gt_font_italic {
+#uqppxxhzza .gt_font_italic {
   font-style: italic;
 }
 
-#zmbkzxfsgg .gt_super {
+#uqppxxhzza .gt_super {
   font-size: 65%;
 }
 
-#zmbkzxfsgg .gt_footnote_marks {
+#uqppxxhzza .gt_footnote_marks {
   font-style: italic;
+  font-weight: normal;
   font-size: 65%;
 }
 </style>
-<div id="zmbkzxfsgg" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+<table class="gt_table">
   
   <thead class="gt_col_headings">
     <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">X1</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">...1</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">date</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">county</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">state</th>
@@ -2658,64 +2708,53 @@ div.tocify {
     </tr>
   </thead>
   <tbody class="gt_table_body">
-    <tr>
-      <td class="gt_row gt_right">734673</td>
-      <td class="gt_row gt_left">2020-11-15</td>
-      <td class="gt_row gt_left">Vega Alta</td>
-      <td class="gt_row gt_left">Puerto Rico</td>
-      <td class="gt_row gt_left">72143</td>
-      <td class="gt_row gt_right">1120</td>
-      <td class="gt_row gt_right">0</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_right">734674</td>
-      <td class="gt_row gt_left">2020-11-15</td>
-      <td class="gt_row gt_left">Vega Baja</td>
-      <td class="gt_row gt_left">Puerto Rico</td>
-      <td class="gt_row gt_left">72145</td>
-      <td class="gt_row gt_right">1442</td>
-      <td class="gt_row gt_right">0</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_right">734675</td>
-      <td class="gt_row gt_left">2020-11-15</td>
-      <td class="gt_row gt_left">Vieques</td>
-      <td class="gt_row gt_left">Puerto Rico</td>
-      <td class="gt_row gt_left">72147</td>
-      <td class="gt_row gt_right">107</td>
-      <td class="gt_row gt_right">0</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_right">734676</td>
-      <td class="gt_row gt_left">2020-11-15</td>
-      <td class="gt_row gt_left">Villalba</td>
-      <td class="gt_row gt_left">Puerto Rico</td>
-      <td class="gt_row gt_left">72149</td>
-      <td class="gt_row gt_right">378</td>
-      <td class="gt_row gt_right">0</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_right">734677</td>
-      <td class="gt_row gt_left">2020-11-15</td>
-      <td class="gt_row gt_left">Yabucoa</td>
-      <td class="gt_row gt_left">Puerto Rico</td>
-      <td class="gt_row gt_left">72151</td>
-      <td class="gt_row gt_right">536</td>
-      <td class="gt_row gt_right">0</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_right">734678</td>
-      <td class="gt_row gt_left">2020-11-15</td>
-      <td class="gt_row gt_left">Yauco</td>
-      <td class="gt_row gt_left">Puerto Rico</td>
-      <td class="gt_row gt_left">72153</td>
-      <td class="gt_row gt_right">683</td>
-      <td class="gt_row gt_right">0</td>
-    </tr>
+    <tr><td class="gt_row gt_right">734673</td>
+<td class="gt_row gt_left">2020-11-15</td>
+<td class="gt_row gt_left">Vega Alta</td>
+<td class="gt_row gt_left">Puerto Rico</td>
+<td class="gt_row gt_left">72143</td>
+<td class="gt_row gt_right">1120</td>
+<td class="gt_row gt_right">0</td></tr>
+    <tr><td class="gt_row gt_right">734674</td>
+<td class="gt_row gt_left">2020-11-15</td>
+<td class="gt_row gt_left">Vega Baja</td>
+<td class="gt_row gt_left">Puerto Rico</td>
+<td class="gt_row gt_left">72145</td>
+<td class="gt_row gt_right">1442</td>
+<td class="gt_row gt_right">0</td></tr>
+    <tr><td class="gt_row gt_right">734675</td>
+<td class="gt_row gt_left">2020-11-15</td>
+<td class="gt_row gt_left">Vieques</td>
+<td class="gt_row gt_left">Puerto Rico</td>
+<td class="gt_row gt_left">72147</td>
+<td class="gt_row gt_right">107</td>
+<td class="gt_row gt_right">0</td></tr>
+    <tr><td class="gt_row gt_right">734676</td>
+<td class="gt_row gt_left">2020-11-15</td>
+<td class="gt_row gt_left">Villalba</td>
+<td class="gt_row gt_left">Puerto Rico</td>
+<td class="gt_row gt_left">72149</td>
+<td class="gt_row gt_right">378</td>
+<td class="gt_row gt_right">0</td></tr>
+    <tr><td class="gt_row gt_right">734677</td>
+<td class="gt_row gt_left">2020-11-15</td>
+<td class="gt_row gt_left">Yabucoa</td>
+<td class="gt_row gt_left">Puerto Rico</td>
+<td class="gt_row gt_left">72151</td>
+<td class="gt_row gt_right">536</td>
+<td class="gt_row gt_right">0</td></tr>
+    <tr><td class="gt_row gt_right">734678</td>
+<td class="gt_row gt_left">2020-11-15</td>
+<td class="gt_row gt_left">Yauco</td>
+<td class="gt_row gt_left">Puerto Rico</td>
+<td class="gt_row gt_left">72153</td>
+<td class="gt_row gt_right">683</td>
+<td class="gt_row gt_right">0</td></tr>
   </tbody>
   
   
-</table></div>
+</table>
+</div>
 <hr />
 </div>
 <div id="covid-19-data-de-havard-university" class="section level3">
@@ -2726,11 +2765,11 @@ div.tocify {
 <p>Datos proviene del siguiente enlace. Siempre puede ir a este enlace para tener los datos más reciente. Proviene de Harvard University <a href="https://rconnect.dfci.harvard.edu/covidpr/" class="uri">https://rconnect.dfci.harvard.edu/covidpr/</a></p>
 <p>En este archivo hay 904,610 filas de datos de personas que fueron evaluados para COVID-19 con pruebas moleculares.</p>
 <p>Cuidado que datos que no son de gente en Puerto Rico, pudiese ser turistas o Puertoriqueños de visitas.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>pruebas_<span class="dv">2020</span>_<span class="dv">11</span>_<span class="dv">17</span>_<span class="dv">19</span>_<span class="dv">44</span>_<span class="dv">11</span> &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;COVID_DATA/pruebas-2020-11-17_19_44_11.csv&quot;</span>)</span>
-<span id="cb7-2"><a href="#cb7-2"></a>Harvard=pruebas_<span class="dv">2020</span>_<span class="dv">11</span>_<span class="dv">17</span>_<span class="dv">19</span>_<span class="dv">44</span>_<span class="dv">11</span></span>
-<span id="cb7-3"><a href="#cb7-3"></a><span class="kw">length</span>(Harvard<span class="op">$</span>testType)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pruebas_2020_11_17_19_44_11 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;COVID_DATA/pruebas-2020-11-17_19_44_11.csv&quot;</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>Harvard<span class="ot">=</span>pruebas_2020_11_17_19_44_11</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(Harvard<span class="sc">$</span>testType)</span></code></pre></div>
 <pre><code>## [1] 904610</code></pre>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co">#head(Harvard)</span></span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">#head(Harvard)</span></span></code></pre></div>
 <p>Aqui estan los nombres de las variables</p>
 <ul>
 <li>collectedDate = La fecha de recvolección de la muestra</li>
@@ -2742,21 +2781,22 @@ div.tocify {
 <li>createdAt = La fecha y hora de la muestra</li>
 <li>date = La fecha de la muestra</li>
 </ul>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">names</span>(Harvard)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(Harvard)</span></code></pre></div>
 <pre><code>## [1] &quot;collectedDate&quot; &quot;reportedDate&quot;  &quot;ageRange&quot;      &quot;testType&quot;     
 ## [5] &quot;result&quot;        &quot;patientCity&quot;   &quot;createdAt&quot;     &quot;date&quot;</code></pre>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="kw">unique</span>(Harvard<span class="op">$</span>result)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(Harvard<span class="sc">$</span>result)</span></code></pre></div>
 <pre><code>## [1] &quot;negative&quot; &quot;positive&quot; &quot;other&quot;</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a>df=Harvard<span class="op">%&gt;%</span></span>
-<span id="cb14-2"><a href="#cb14-2"></a><span class="st">  </span><span class="kw">tail</span>( <span class="dt">n=</span><span class="dv">6</span>)<span class="op">%&gt;%</span></span>
-<span id="cb14-3"><a href="#cb14-3"></a><span class="st">  </span><span class="kw">gt</span>()<span class="op">%&gt;%</span></span>
-<span id="cb14-4"><a href="#cb14-4"></a><span class="st">   </span><span class="kw">tab_options</span>(<span class="dt">table.font.size =</span> <span class="dv">10</span>)</span>
-<span id="cb14-5"><a href="#cb14-5"></a>df</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>df<span class="ot">=</span>Harvard<span class="sc">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tail</span>( <span class="at">n=</span><span class="dv">6</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()<span class="sc">%&gt;%</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>   <span class="fu">tab_options</span>(<span class="at">table.font.size =</span> <span class="dv">10</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div>
+<div id="llftfyljau" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#btmfezbpdd .gt_table {
+#llftfyljau .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -2781,7 +2821,7 @@ div.tocify {
   border-left-color: #D3D3D3;
 }
 
-#btmfezbpdd .gt_heading {
+#llftfyljau .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2793,7 +2833,7 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#btmfezbpdd .gt_title {
+#llftfyljau .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2803,23 +2843,23 @@ div.tocify {
   border-bottom-width: 0;
 }
 
-#btmfezbpdd .gt_subtitle {
+#llftfyljau .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
   padding-top: 0;
-  padding-bottom: 4px;
+  padding-bottom: 6px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
 
-#btmfezbpdd .gt_bottom_border {
+#llftfyljau .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#btmfezbpdd .gt_col_headings {
+#llftfyljau .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2834,7 +2874,7 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#btmfezbpdd .gt_col_heading {
+#llftfyljau .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2854,7 +2894,7 @@ div.tocify {
   overflow-x: hidden;
 }
 
-#btmfezbpdd .gt_column_spanner_outer {
+#llftfyljau .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2866,27 +2906,27 @@ div.tocify {
   padding-right: 4px;
 }
 
-#btmfezbpdd .gt_column_spanner_outer:first-child {
+#llftfyljau .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#btmfezbpdd .gt_column_spanner_outer:last-child {
+#llftfyljau .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#btmfezbpdd .gt_column_spanner {
+#llftfyljau .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
   vertical-align: bottom;
   padding-top: 5px;
-  padding-bottom: 6px;
+  padding-bottom: 5px;
   overflow-x: hidden;
   display: inline-block;
   width: 100%;
 }
 
-#btmfezbpdd .gt_group_heading {
+#llftfyljau .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2908,7 +2948,7 @@ div.tocify {
   vertical-align: middle;
 }
 
-#btmfezbpdd .gt_empty_group_heading {
+#llftfyljau .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2923,15 +2963,15 @@ div.tocify {
   vertical-align: middle;
 }
 
-#btmfezbpdd .gt_from_md > :first-child {
+#llftfyljau .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#btmfezbpdd .gt_from_md > :last-child {
+#llftfyljau .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#btmfezbpdd .gt_row {
+#llftfyljau .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2950,7 +2990,7 @@ div.tocify {
   overflow-x: hidden;
 }
 
-#btmfezbpdd .gt_stub {
+#llftfyljau .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2962,7 +3002,7 @@ div.tocify {
   padding-left: 12px;
 }
 
-#btmfezbpdd .gt_summary_row {
+#llftfyljau .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2972,7 +3012,7 @@ div.tocify {
   padding-right: 5px;
 }
 
-#btmfezbpdd .gt_first_summary_row {
+#llftfyljau .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2982,7 +3022,7 @@ div.tocify {
   border-top-color: #D3D3D3;
 }
 
-#btmfezbpdd .gt_grand_summary_row {
+#llftfyljau .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2992,7 +3032,7 @@ div.tocify {
   padding-right: 5px;
 }
 
-#btmfezbpdd .gt_first_grand_summary_row {
+#llftfyljau .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -3002,11 +3042,11 @@ div.tocify {
   border-top-color: #D3D3D3;
 }
 
-#btmfezbpdd .gt_striped {
+#llftfyljau .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#btmfezbpdd .gt_table_body {
+#llftfyljau .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -3015,7 +3055,7 @@ div.tocify {
   border-bottom-color: #D3D3D3;
 }
 
-#btmfezbpdd .gt_footnotes {
+#llftfyljau .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3029,13 +3069,13 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#btmfezbpdd .gt_footnote {
+#llftfyljau .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#btmfezbpdd .gt_sourcenotes {
+#llftfyljau .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -3049,46 +3089,47 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#btmfezbpdd .gt_sourcenote {
+#llftfyljau .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#btmfezbpdd .gt_left {
+#llftfyljau .gt_left {
   text-align: left;
 }
 
-#btmfezbpdd .gt_center {
+#llftfyljau .gt_center {
   text-align: center;
 }
 
-#btmfezbpdd .gt_right {
+#llftfyljau .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#btmfezbpdd .gt_font_normal {
+#llftfyljau .gt_font_normal {
   font-weight: normal;
 }
 
-#btmfezbpdd .gt_font_bold {
+#llftfyljau .gt_font_bold {
   font-weight: bold;
 }
 
-#btmfezbpdd .gt_font_italic {
+#llftfyljau .gt_font_italic {
   font-style: italic;
 }
 
-#btmfezbpdd .gt_super {
+#llftfyljau .gt_super {
   font-size: 65%;
 }
 
-#btmfezbpdd .gt_footnote_marks {
+#llftfyljau .gt_footnote_marks {
   font-style: italic;
+  font-weight: normal;
   font-size: 65%;
 }
 </style>
-<div id="btmfezbpdd" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+<table class="gt_table">
   
   <thead class="gt_col_headings">
     <tr>
@@ -3103,70 +3144,59 @@ div.tocify {
     </tr>
   </thead>
   <tbody class="gt_table_body">
-    <tr>
-      <td class="gt_row gt_left">2020-11-17</td>
-      <td class="gt_row gt_left">2020-11-17</td>
-      <td class="gt_row gt_left">20 to 29</td>
-      <td class="gt_row gt_left">Molecular</td>
-      <td class="gt_row gt_left">negative</td>
-      <td class="gt_row gt_left">Ciales</td>
-      <td class="gt_row gt_left">2020-11-17 14:30:00</td>
-      <td class="gt_row gt_left">2020-11-17</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">2020-11-17</td>
-      <td class="gt_row gt_left">2020-11-17</td>
-      <td class="gt_row gt_left">40 to 49</td>
-      <td class="gt_row gt_left">Molecular</td>
-      <td class="gt_row gt_left">negative</td>
-      <td class="gt_row gt_left">Trujillo Alto</td>
-      <td class="gt_row gt_left">2020-11-17 12:16:00</td>
-      <td class="gt_row gt_left">2020-11-17</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">2020-11-17</td>
-      <td class="gt_row gt_left">2020-11-17</td>
-      <td class="gt_row gt_left">50 to 59</td>
-      <td class="gt_row gt_left">Molecular</td>
-      <td class="gt_row gt_left">positive</td>
-      <td class="gt_row gt_left">Vega Alta</td>
-      <td class="gt_row gt_left">2020-11-17 07:22:00</td>
-      <td class="gt_row gt_left">2020-11-17</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">2020-11-17</td>
-      <td class="gt_row gt_left">2020-11-17</td>
-      <td class="gt_row gt_left">50 to 59</td>
-      <td class="gt_row gt_left">Molecular</td>
-      <td class="gt_row gt_left">negative</td>
-      <td class="gt_row gt_left">Moca</td>
-      <td class="gt_row gt_left">2020-11-17 16:54:00</td>
-      <td class="gt_row gt_left">2020-11-17</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">2020-11-17</td>
-      <td class="gt_row gt_left">2020-11-17</td>
-      <td class="gt_row gt_left">60 to 69</td>
-      <td class="gt_row gt_left">Molecular</td>
-      <td class="gt_row gt_left">negative</td>
-      <td class="gt_row gt_left">San Juan</td>
-      <td class="gt_row gt_left">2020-11-17 12:29:00</td>
-      <td class="gt_row gt_left">2020-11-17</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">2020-11-17</td>
-      <td class="gt_row gt_left">2020-11-17</td>
-      <td class="gt_row gt_left">70 to 79</td>
-      <td class="gt_row gt_left">Molecular</td>
-      <td class="gt_row gt_left">negative</td>
-      <td class="gt_row gt_left">San Germán</td>
-      <td class="gt_row gt_left">2020-11-17 08:02:00</td>
-      <td class="gt_row gt_left">2020-11-17</td>
-    </tr>
+    <tr><td class="gt_row gt_left">2020-11-17</td>
+<td class="gt_row gt_left">2020-11-17</td>
+<td class="gt_row gt_left">20 to 29</td>
+<td class="gt_row gt_left">Molecular</td>
+<td class="gt_row gt_left">negative</td>
+<td class="gt_row gt_left">Ciales</td>
+<td class="gt_row gt_left">2020-11-17 14:30:00</td>
+<td class="gt_row gt_left">2020-11-17</td></tr>
+    <tr><td class="gt_row gt_left">2020-11-17</td>
+<td class="gt_row gt_left">2020-11-17</td>
+<td class="gt_row gt_left">40 to 49</td>
+<td class="gt_row gt_left">Molecular</td>
+<td class="gt_row gt_left">negative</td>
+<td class="gt_row gt_left">Trujillo Alto</td>
+<td class="gt_row gt_left">2020-11-17 12:16:00</td>
+<td class="gt_row gt_left">2020-11-17</td></tr>
+    <tr><td class="gt_row gt_left">2020-11-17</td>
+<td class="gt_row gt_left">2020-11-17</td>
+<td class="gt_row gt_left">50 to 59</td>
+<td class="gt_row gt_left">Molecular</td>
+<td class="gt_row gt_left">positive</td>
+<td class="gt_row gt_left">Vega Alta</td>
+<td class="gt_row gt_left">2020-11-17 07:22:00</td>
+<td class="gt_row gt_left">2020-11-17</td></tr>
+    <tr><td class="gt_row gt_left">2020-11-17</td>
+<td class="gt_row gt_left">2020-11-17</td>
+<td class="gt_row gt_left">50 to 59</td>
+<td class="gt_row gt_left">Molecular</td>
+<td class="gt_row gt_left">negative</td>
+<td class="gt_row gt_left">Moca</td>
+<td class="gt_row gt_left">2020-11-17 16:54:00</td>
+<td class="gt_row gt_left">2020-11-17</td></tr>
+    <tr><td class="gt_row gt_left">2020-11-17</td>
+<td class="gt_row gt_left">2020-11-17</td>
+<td class="gt_row gt_left">60 to 69</td>
+<td class="gt_row gt_left">Molecular</td>
+<td class="gt_row gt_left">negative</td>
+<td class="gt_row gt_left">San Juan</td>
+<td class="gt_row gt_left">2020-11-17 12:29:00</td>
+<td class="gt_row gt_left">2020-11-17</td></tr>
+    <tr><td class="gt_row gt_left">2020-11-17</td>
+<td class="gt_row gt_left">2020-11-17</td>
+<td class="gt_row gt_left">70 to 79</td>
+<td class="gt_row gt_left">Molecular</td>
+<td class="gt_row gt_left">negative</td>
+<td class="gt_row gt_left">San Germán</td>
+<td class="gt_row gt_left">2020-11-17 08:02:00</td>
+<td class="gt_row gt_left">2020-11-17</td></tr>
   </tbody>
   
   
-</table></div>
+</table>
+</div>
 <p><a href="https://rconnect.dfci.harvard.edu/covidpr/" class="uri">https://rconnect.dfci.harvard.edu/covidpr/</a></p>
 <p><a href="https://covidtracking.com/data/state/puerto-rico" class="uri">https://covidtracking.com/data/state/puerto-rico</a></p>
 </div>
@@ -3202,7 +3232,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>
@@ -3211,6 +3241,9 @@ $(document).ready(function () {
 
 <script>
 $(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
 
     // move toc-ignore selectors from section div to header
     $('div.section.toc-ignore')

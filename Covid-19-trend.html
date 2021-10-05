@@ -15,13 +15,22 @@
 
 <title>COVID-19 trend</title>
 
-<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -36,11 +45,6 @@
     </style>
 
 <style type="text/css">code{white-space: pre;}</style>
-<style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
 <script type="text/javascript">
 if (window.hljs) {
   hljs.configure({languages: []});
@@ -53,32 +57,6 @@ if (window.hljs) {
 
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
 
 
 
@@ -89,10 +67,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -109,40 +83,13 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 51px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h2 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h3 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h4 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h5 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
-.section h6 {
-  padding-top: 56px;
-  margin-top: -56px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -170,7 +117,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -182,7 +129,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -193,10 +140,23 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -208,7 +168,6 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -424,7 +383,7 @@ $(document).ready(function () {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
@@ -436,53 +395,26 @@ $(document).ready(function () {
 
 
 <pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.0 ──</code></pre>
-<pre><code>## ✓ ggplot2 3.3.3     ✓ purrr   0.3.4
-## ✓ tibble  3.0.4     ✓ dplyr   1.0.2
-## ✓ tidyr   1.1.2     ✓ stringr 1.4.0
-## ✓ readr   1.4.0     ✓ forcats 0.5.0</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.1 ──</code></pre>
+<pre><code>## ✓ ggplot2 3.3.5     ✓ purrr   0.3.4
+## ✓ tibble  3.1.4     ✓ dplyr   1.0.7
+## ✓ tidyr   1.1.4     ✓ stringr 1.4.0
+## ✓ readr   2.0.2     ✓ forcats 0.5.1</code></pre>
 <pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
 ## x dplyr::filter() masks stats::filter()
 ## x dplyr::lag()    masks stats::lag()</code></pre>
 <pre class="r"><code>library(ggplot2)
 library(readr)
 owid_covid_data &lt;- read_csv(&quot;COVID_DATA/owid-covid-data.csv&quot;)</code></pre>
+<pre><code>## Rows: 57180 Columns: 50</code></pre>
+<pre><code>## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr   (4): iso_code, continent, location, tests_units
+## dbl  (45): total_cases, new_cases, new_cases_smoothed, total_deaths, new_dea...
+## date  (1): date</code></pre>
 <pre><code>## 
-## ── Column specification ────────────────────────────────────────────────────────
-## cols(
-##   .default = col_double(),
-##   iso_code = col_character(),
-##   continent = col_character(),
-##   location = col_character(),
-##   date = col_date(format = &quot;&quot;),
-##   icu_patients = col_logical(),
-##   icu_patients_per_million = col_logical(),
-##   hosp_patients = col_logical(),
-##   hosp_patients_per_million = col_logical(),
-##   weekly_icu_admissions = col_logical(),
-##   weekly_icu_admissions_per_million = col_logical(),
-##   weekly_hosp_admissions = col_logical(),
-##   weekly_hosp_admissions_per_million = col_logical(),
-##   total_tests = col_logical(),
-##   new_tests = col_logical(),
-##   total_tests_per_thousand = col_logical(),
-##   new_tests_per_thousand = col_logical(),
-##   new_tests_smoothed = col_logical(),
-##   new_tests_smoothed_per_thousand = col_logical(),
-##   tests_per_case = col_logical(),
-##   positive_rate = col_logical()
-##   # ... with 4 more columns
-## )
-## ℹ Use `spec()` for the full column specifications.</code></pre>
-<pre><code>## Warning: 341404 parsing failures.
-##  row             col           expected actual                             file
-## 1042 extreme_poverty 1/0/T/F/TRUE/FALSE   1.1  &#39;COVID_DATA/owid-covid-data.csv&#39;
-## 1042 female_smokers  1/0/T/F/TRUE/FALSE   7.1  &#39;COVID_DATA/owid-covid-data.csv&#39;
-## 1042 male_smokers    1/0/T/F/TRUE/FALSE   51.2 &#39;COVID_DATA/owid-covid-data.csv&#39;
-## 1043 extreme_poverty 1/0/T/F/TRUE/FALSE   1.1  &#39;COVID_DATA/owid-covid-data.csv&#39;
-## 1043 female_smokers  1/0/T/F/TRUE/FALSE   7.1  &#39;COVID_DATA/owid-covid-data.csv&#39;
-## .... ............... .................. ...... ................................
-## See problems(...) for more details.</code></pre>
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <pre class="r"><code>owid=owid_covid_data</code></pre>
 <p>Variable names</p>
 <pre class="r"><code>names(owid)</code></pre>
@@ -512,69 +444,45 @@ owid_covid_data &lt;- read_csv(&quot;COVID_DATA/owid-covid-data.csv&quot;)</code
 ## [47] &quot;handwashing_facilities&quot;             &quot;hospital_beds_per_thousand&quot;        
 ## [49] &quot;life_expectancy&quot;                    &quot;human_development_index&quot;</code></pre>
 <pre class="r"><code>head(owid)</code></pre>
-<pre><code>## # A tibble: 6 x 50
-##   iso_code continent location date       total_cases new_cases new_cases_smoot…
-##   &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;    &lt;date&gt;           &lt;dbl&gt;     &lt;dbl&gt;            &lt;dbl&gt;
-## 1 ABW      North Am… Aruba    2020-03-13           2         2           NA    
-## 2 ABW      North Am… Aruba    2020-03-19          NA        NA            0.286
-## 3 ABW      North Am… Aruba    2020-03-20           4         2            0.286
-## 4 ABW      North Am… Aruba    2020-03-21          NA        NA            0.286
-## 5 ABW      North Am… Aruba    2020-03-22          NA        NA            0.286
-## 6 ABW      North Am… Aruba    2020-03-23          NA        NA            0.286
+<pre><code>## # A tibble: 6 × 50
+##   iso_code continent     location date       total_cases new_cases new_cases_smoot…
+##   &lt;chr&gt;    &lt;chr&gt;         &lt;chr&gt;    &lt;date&gt;           &lt;dbl&gt;     &lt;dbl&gt;            &lt;dbl&gt;
+## 1 ABW      North America Aruba    2020-03-13           2         2           NA    
+## 2 ABW      North America Aruba    2020-03-19          NA        NA            0.286
+## 3 ABW      North America Aruba    2020-03-20           4         2            0.286
+## 4 ABW      North America Aruba    2020-03-21          NA        NA            0.286
+## 5 ABW      North America Aruba    2020-03-22          NA        NA            0.286
+## 6 ABW      North America Aruba    2020-03-23          NA        NA            0.286
 ## # … with 43 more variables: total_deaths &lt;dbl&gt;, new_deaths &lt;dbl&gt;,
 ## #   new_deaths_smoothed &lt;dbl&gt;, total_cases_per_million &lt;dbl&gt;,
 ## #   new_cases_per_million &lt;dbl&gt;, new_cases_smoothed_per_million &lt;dbl&gt;,
 ## #   total_deaths_per_million &lt;dbl&gt;, new_deaths_per_million &lt;dbl&gt;,
 ## #   new_deaths_smoothed_per_million &lt;dbl&gt;, reproduction_rate &lt;dbl&gt;,
-## #   icu_patients &lt;lgl&gt;, icu_patients_per_million &lt;lgl&gt;, hosp_patients &lt;lgl&gt;,
-## #   hosp_patients_per_million &lt;lgl&gt;, weekly_icu_admissions &lt;lgl&gt;,
-## #   weekly_icu_admissions_per_million &lt;lgl&gt;, weekly_hosp_admissions &lt;lgl&gt;,
-## #   weekly_hosp_admissions_per_million &lt;lgl&gt;, total_tests &lt;lgl&gt;,
-## #   new_tests &lt;lgl&gt;, total_tests_per_thousand &lt;lgl&gt;,
-## #   new_tests_per_thousand &lt;lgl&gt;, new_tests_smoothed &lt;lgl&gt;,
-## #   new_tests_smoothed_per_thousand &lt;lgl&gt;, tests_per_case &lt;lgl&gt;,
-## #   positive_rate &lt;lgl&gt;, tests_units &lt;lgl&gt;, stringency_index &lt;dbl&gt;,
-## #   population &lt;dbl&gt;, population_density &lt;dbl&gt;, median_age &lt;dbl&gt;,
-## #   aged_65_older &lt;dbl&gt;, aged_70_older &lt;dbl&gt;, gdp_per_capita &lt;dbl&gt;,
-## #   extreme_poverty &lt;lgl&gt;, cardiovasc_death_rate &lt;dbl&gt;,
-## #   diabetes_prevalence &lt;dbl&gt;, female_smokers &lt;lgl&gt;, male_smokers &lt;lgl&gt;,
-## #   handwashing_facilities &lt;dbl&gt;, hospital_beds_per_thousand &lt;dbl&gt;,
-## #   life_expectancy &lt;dbl&gt;, human_development_index &lt;dbl&gt;</code></pre>
+## #   icu_patients &lt;dbl&gt;, icu_patients_per_million &lt;dbl&gt;, hosp_patients &lt;dbl&gt;,
+## #   hosp_patients_per_million &lt;dbl&gt;, weekly_icu_admissions &lt;dbl&gt;, …</code></pre>
 <pre class="r"><code>owid %&gt;% 
   filter(location==&quot;Aruba&quot;)%&gt;% 
   dplyr::mutate(new_cases = replace_na(new_cases, 0))</code></pre>
-<pre><code>## # A tibble: 244 x 50
-##    iso_code continent location date       total_cases new_cases new_cases_smoot…
-##    &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;    &lt;date&gt;           &lt;dbl&gt;     &lt;dbl&gt;            &lt;dbl&gt;
-##  1 ABW      North Am… Aruba    2020-03-13           2         2           NA    
-##  2 ABW      North Am… Aruba    2020-03-19          NA         0            0.286
-##  3 ABW      North Am… Aruba    2020-03-20           4         2            0.286
-##  4 ABW      North Am… Aruba    2020-03-21          NA         0            0.286
-##  5 ABW      North Am… Aruba    2020-03-22          NA         0            0.286
-##  6 ABW      North Am… Aruba    2020-03-23          NA         0            0.286
-##  7 ABW      North Am… Aruba    2020-03-24          12         8            1.43 
-##  8 ABW      North Am… Aruba    2020-03-25          17         5            2.14 
-##  9 ABW      North Am… Aruba    2020-03-26          19         2            2.43 
-## 10 ABW      North Am… Aruba    2020-03-27          28         9            3.43 
+<pre><code>## # A tibble: 244 × 50
+##    iso_code continent     location date       total_cases new_cases new_cases_smoot…
+##    &lt;chr&gt;    &lt;chr&gt;         &lt;chr&gt;    &lt;date&gt;           &lt;dbl&gt;     &lt;dbl&gt;            &lt;dbl&gt;
+##  1 ABW      North America Aruba    2020-03-13           2         2           NA    
+##  2 ABW      North America Aruba    2020-03-19          NA         0            0.286
+##  3 ABW      North America Aruba    2020-03-20           4         2            0.286
+##  4 ABW      North America Aruba    2020-03-21          NA         0            0.286
+##  5 ABW      North America Aruba    2020-03-22          NA         0            0.286
+##  6 ABW      North America Aruba    2020-03-23          NA         0            0.286
+##  7 ABW      North America Aruba    2020-03-24          12         8            1.43 
+##  8 ABW      North America Aruba    2020-03-25          17         5            2.14 
+##  9 ABW      North America Aruba    2020-03-26          19         2            2.43 
+## 10 ABW      North America Aruba    2020-03-27          28         9            3.43 
 ## # … with 234 more rows, and 43 more variables: total_deaths &lt;dbl&gt;,
 ## #   new_deaths &lt;dbl&gt;, new_deaths_smoothed &lt;dbl&gt;, total_cases_per_million &lt;dbl&gt;,
 ## #   new_cases_per_million &lt;dbl&gt;, new_cases_smoothed_per_million &lt;dbl&gt;,
 ## #   total_deaths_per_million &lt;dbl&gt;, new_deaths_per_million &lt;dbl&gt;,
 ## #   new_deaths_smoothed_per_million &lt;dbl&gt;, reproduction_rate &lt;dbl&gt;,
-## #   icu_patients &lt;lgl&gt;, icu_patients_per_million &lt;lgl&gt;, hosp_patients &lt;lgl&gt;,
-## #   hosp_patients_per_million &lt;lgl&gt;, weekly_icu_admissions &lt;lgl&gt;,
-## #   weekly_icu_admissions_per_million &lt;lgl&gt;, weekly_hosp_admissions &lt;lgl&gt;,
-## #   weekly_hosp_admissions_per_million &lt;lgl&gt;, total_tests &lt;lgl&gt;,
-## #   new_tests &lt;lgl&gt;, total_tests_per_thousand &lt;lgl&gt;,
-## #   new_tests_per_thousand &lt;lgl&gt;, new_tests_smoothed &lt;lgl&gt;,
-## #   new_tests_smoothed_per_thousand &lt;lgl&gt;, tests_per_case &lt;lgl&gt;,
-## #   positive_rate &lt;lgl&gt;, tests_units &lt;lgl&gt;, stringency_index &lt;dbl&gt;,
-## #   population &lt;dbl&gt;, population_density &lt;dbl&gt;, median_age &lt;dbl&gt;,
-## #   aged_65_older &lt;dbl&gt;, aged_70_older &lt;dbl&gt;, gdp_per_capita &lt;dbl&gt;,
-## #   extreme_poverty &lt;lgl&gt;, cardiovasc_death_rate &lt;dbl&gt;,
-## #   diabetes_prevalence &lt;dbl&gt;, female_smokers &lt;lgl&gt;, male_smokers &lt;lgl&gt;,
-## #   handwashing_facilities &lt;dbl&gt;, hospital_beds_per_thousand &lt;dbl&gt;,
-## #   life_expectancy &lt;dbl&gt;, human_development_index &lt;dbl&gt;</code></pre>
+## #   icu_patients &lt;dbl&gt;, icu_patients_per_million &lt;dbl&gt;, hosp_patients &lt;dbl&gt;,
+## #   hosp_patients_per_million &lt;dbl&gt;, weekly_icu_admissions &lt;dbl&gt;, …</code></pre>
 <p>Calucalting a rolling average , rolling mean</p>
 <p>From this website</p>
 <p><a href="https://www.storybench.org/how-to-calculate-a-rolling-average-in-r/" class="uri">https://www.storybench.org/how-to-calculate-a-rolling-average-in-r/</a></p>
@@ -585,45 +493,32 @@ owid_covid_data &lt;- read_csv(&quot;COVID_DATA/owid-covid-data.csv&quot;)</code
                   new_cases_07da = zoo::rollmean(new_cases, k = 7, fill = NA),
                   new_cases_14da = zoo::rollmean(new_cases, k = 14, fill = NA))
 Aruba</code></pre>
-<pre><code>## # A tibble: 244 x 53
-##    iso_code continent location date       total_cases new_cases new_cases_smoot…
-##    &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;    &lt;date&gt;           &lt;dbl&gt;     &lt;dbl&gt;            &lt;dbl&gt;
-##  1 ABW      North Am… Aruba    2020-03-13           2         2           NA    
-##  2 ABW      North Am… Aruba    2020-03-19          NA         0            0.286
-##  3 ABW      North Am… Aruba    2020-03-20           4         2            0.286
-##  4 ABW      North Am… Aruba    2020-03-21          NA         0            0.286
-##  5 ABW      North Am… Aruba    2020-03-22          NA         0            0.286
-##  6 ABW      North Am… Aruba    2020-03-23          NA         0            0.286
-##  7 ABW      North Am… Aruba    2020-03-24          12         8            1.43 
-##  8 ABW      North Am… Aruba    2020-03-25          17         5            2.14 
-##  9 ABW      North Am… Aruba    2020-03-26          19         2            2.43 
-## 10 ABW      North Am… Aruba    2020-03-27          28         9            3.43 
+<pre><code>## # A tibble: 244 × 53
+##    iso_code continent     location date       total_cases new_cases new_cases_smoot…
+##    &lt;chr&gt;    &lt;chr&gt;         &lt;chr&gt;    &lt;date&gt;           &lt;dbl&gt;     &lt;dbl&gt;            &lt;dbl&gt;
+##  1 ABW      North America Aruba    2020-03-13           2         2           NA    
+##  2 ABW      North America Aruba    2020-03-19          NA         0            0.286
+##  3 ABW      North America Aruba    2020-03-20           4         2            0.286
+##  4 ABW      North America Aruba    2020-03-21          NA         0            0.286
+##  5 ABW      North America Aruba    2020-03-22          NA         0            0.286
+##  6 ABW      North America Aruba    2020-03-23          NA         0            0.286
+##  7 ABW      North America Aruba    2020-03-24          12         8            1.43 
+##  8 ABW      North America Aruba    2020-03-25          17         5            2.14 
+##  9 ABW      North America Aruba    2020-03-26          19         2            2.43 
+## 10 ABW      North America Aruba    2020-03-27          28         9            3.43 
 ## # … with 234 more rows, and 46 more variables: total_deaths &lt;dbl&gt;,
 ## #   new_deaths &lt;dbl&gt;, new_deaths_smoothed &lt;dbl&gt;, total_cases_per_million &lt;dbl&gt;,
 ## #   new_cases_per_million &lt;dbl&gt;, new_cases_smoothed_per_million &lt;dbl&gt;,
 ## #   total_deaths_per_million &lt;dbl&gt;, new_deaths_per_million &lt;dbl&gt;,
 ## #   new_deaths_smoothed_per_million &lt;dbl&gt;, reproduction_rate &lt;dbl&gt;,
-## #   icu_patients &lt;lgl&gt;, icu_patients_per_million &lt;lgl&gt;, hosp_patients &lt;lgl&gt;,
-## #   hosp_patients_per_million &lt;lgl&gt;, weekly_icu_admissions &lt;lgl&gt;,
-## #   weekly_icu_admissions_per_million &lt;lgl&gt;, weekly_hosp_admissions &lt;lgl&gt;,
-## #   weekly_hosp_admissions_per_million &lt;lgl&gt;, total_tests &lt;lgl&gt;,
-## #   new_tests &lt;lgl&gt;, total_tests_per_thousand &lt;lgl&gt;,
-## #   new_tests_per_thousand &lt;lgl&gt;, new_tests_smoothed &lt;lgl&gt;,
-## #   new_tests_smoothed_per_thousand &lt;lgl&gt;, tests_per_case &lt;lgl&gt;,
-## #   positive_rate &lt;lgl&gt;, tests_units &lt;lgl&gt;, stringency_index &lt;dbl&gt;,
-## #   population &lt;dbl&gt;, population_density &lt;dbl&gt;, median_age &lt;dbl&gt;,
-## #   aged_65_older &lt;dbl&gt;, aged_70_older &lt;dbl&gt;, gdp_per_capita &lt;dbl&gt;,
-## #   extreme_poverty &lt;lgl&gt;, cardiovasc_death_rate &lt;dbl&gt;,
-## #   diabetes_prevalence &lt;dbl&gt;, female_smokers &lt;lgl&gt;, male_smokers &lt;lgl&gt;,
-## #   handwashing_facilities &lt;dbl&gt;, hospital_beds_per_thousand &lt;dbl&gt;,
-## #   life_expectancy &lt;dbl&gt;, human_development_index &lt;dbl&gt;, new_cases_03da &lt;dbl&gt;,
-## #   new_cases_07da &lt;dbl&gt;, new_cases_14da &lt;dbl&gt;</code></pre>
+## #   icu_patients &lt;dbl&gt;, icu_patients_per_million &lt;dbl&gt;, hosp_patients &lt;dbl&gt;,
+## #   hosp_patients_per_million &lt;dbl&gt;, weekly_icu_admissions &lt;dbl&gt;, …</code></pre>
 <pre class="r"><code>library(ggplot2)
 
 
 Aruba %&gt;% 
   summarize(mean=mean(new_cases_03da, na.rm=TRUE))</code></pre>
-<pre><code>## # A tibble: 1 x 1
+<pre><code>## # A tibble: 1 × 1
 ##    mean
 ##   &lt;dbl&gt;
 ## 1  19.2</code></pre>
@@ -645,39 +540,26 @@ ggplot(aes(date, new_cases, colour=new_cases_07da))+
                   new_cases_07da = zoo::rollmean(new_cases, k = 7, fill = NA),
                   new_cases_14da = zoo::rollmean(new_cases, k = 14, fill = NA))
 PR</code></pre>
-<pre><code>## # A tibble: 234 x 53
-##    iso_code continent location date       total_cases new_cases new_cases_smoot…
-##    &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;    &lt;date&gt;           &lt;dbl&gt;     &lt;dbl&gt;            &lt;dbl&gt;
-##  1 PRI      North Am… Puerto … 2020-03-28          64        64             NA  
-##  2 PRI      North Am… Puerto … 2020-03-29         100        36             NA  
-##  3 PRI      North Am… Puerto … 2020-03-30         127        27             NA  
-##  4 PRI      North Am… Puerto … 2020-03-31         174        47             NA  
-##  5 PRI      North Am… Puerto … 2020-04-01         239        65             NA  
-##  6 PRI      North Am… Puerto … 2020-04-02         286        47             NA  
-##  7 PRI      North Am… Puerto … 2020-04-03         316        30             45.1
-##  8 PRI      North Am… Puerto … 2020-04-04         378        62             44.9
-##  9 PRI      North Am… Puerto … 2020-04-05         452        74             50.3
-## 10 PRI      North Am… Puerto … 2020-04-06         475        23             49.7
+<pre><code>## # A tibble: 234 × 53
+##    iso_code continent     location    date       total_cases new_cases new_cases_smoot…
+##    &lt;chr&gt;    &lt;chr&gt;         &lt;chr&gt;       &lt;date&gt;           &lt;dbl&gt;     &lt;dbl&gt;            &lt;dbl&gt;
+##  1 PRI      North America Puerto Rico 2020-03-28          64        64             NA  
+##  2 PRI      North America Puerto Rico 2020-03-29         100        36             NA  
+##  3 PRI      North America Puerto Rico 2020-03-30         127        27             NA  
+##  4 PRI      North America Puerto Rico 2020-03-31         174        47             NA  
+##  5 PRI      North America Puerto Rico 2020-04-01         239        65             NA  
+##  6 PRI      North America Puerto Rico 2020-04-02         286        47             NA  
+##  7 PRI      North America Puerto Rico 2020-04-03         316        30             45.1
+##  8 PRI      North America Puerto Rico 2020-04-04         378        62             44.9
+##  9 PRI      North America Puerto Rico 2020-04-05         452        74             50.3
+## 10 PRI      North America Puerto Rico 2020-04-06         475        23             49.7
 ## # … with 224 more rows, and 46 more variables: total_deaths &lt;dbl&gt;,
 ## #   new_deaths &lt;dbl&gt;, new_deaths_smoothed &lt;dbl&gt;, total_cases_per_million &lt;dbl&gt;,
 ## #   new_cases_per_million &lt;dbl&gt;, new_cases_smoothed_per_million &lt;dbl&gt;,
 ## #   total_deaths_per_million &lt;dbl&gt;, new_deaths_per_million &lt;dbl&gt;,
 ## #   new_deaths_smoothed_per_million &lt;dbl&gt;, reproduction_rate &lt;dbl&gt;,
-## #   icu_patients &lt;lgl&gt;, icu_patients_per_million &lt;lgl&gt;, hosp_patients &lt;lgl&gt;,
-## #   hosp_patients_per_million &lt;lgl&gt;, weekly_icu_admissions &lt;lgl&gt;,
-## #   weekly_icu_admissions_per_million &lt;lgl&gt;, weekly_hosp_admissions &lt;lgl&gt;,
-## #   weekly_hosp_admissions_per_million &lt;lgl&gt;, total_tests &lt;lgl&gt;,
-## #   new_tests &lt;lgl&gt;, total_tests_per_thousand &lt;lgl&gt;,
-## #   new_tests_per_thousand &lt;lgl&gt;, new_tests_smoothed &lt;lgl&gt;,
-## #   new_tests_smoothed_per_thousand &lt;lgl&gt;, tests_per_case &lt;lgl&gt;,
-## #   positive_rate &lt;lgl&gt;, tests_units &lt;lgl&gt;, stringency_index &lt;dbl&gt;,
-## #   population &lt;dbl&gt;, population_density &lt;dbl&gt;, median_age &lt;dbl&gt;,
-## #   aged_65_older &lt;dbl&gt;, aged_70_older &lt;dbl&gt;, gdp_per_capita &lt;dbl&gt;,
-## #   extreme_poverty &lt;lgl&gt;, cardiovasc_death_rate &lt;dbl&gt;,
-## #   diabetes_prevalence &lt;dbl&gt;, female_smokers &lt;lgl&gt;, male_smokers &lt;lgl&gt;,
-## #   handwashing_facilities &lt;dbl&gt;, hospital_beds_per_thousand &lt;dbl&gt;,
-## #   life_expectancy &lt;dbl&gt;, human_development_index &lt;dbl&gt;, new_cases_03da &lt;dbl&gt;,
-## #   new_cases_07da &lt;dbl&gt;, new_cases_14da &lt;dbl&gt;</code></pre>
+## #   icu_patients &lt;dbl&gt;, icu_patients_per_million &lt;dbl&gt;, hosp_patients &lt;dbl&gt;,
+## #   hosp_patients_per_million &lt;dbl&gt;, weekly_icu_admissions &lt;dbl&gt;, …</code></pre>
 <pre class="r"><code>library(slider)
 
 PR2=owid %&gt;%
@@ -687,40 +569,26 @@ PR2=owid %&gt;%
   mutate(new_cases_03daSlider = slider::slide_dbl(new_cases, mean, .before = 3, .after = 0)) %&gt;%
   ungroup()
 PR2</code></pre>
-<pre><code>## # A tibble: 234 x 53
-##    iso_code continent location date       total_cases new_cases new_cases_smoot…
-##    &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;    &lt;date&gt;           &lt;dbl&gt;     &lt;dbl&gt;            &lt;dbl&gt;
-##  1 PRI      North Am… Puerto … 2020-03-28          64        64             NA  
-##  2 PRI      North Am… Puerto … 2020-03-29         100        36             NA  
-##  3 PRI      North Am… Puerto … 2020-03-30         127        27             NA  
-##  4 PRI      North Am… Puerto … 2020-03-31         174        47             NA  
-##  5 PRI      North Am… Puerto … 2020-04-01         239        65             NA  
-##  6 PRI      North Am… Puerto … 2020-04-02         286        47             NA  
-##  7 PRI      North Am… Puerto … 2020-04-03         316        30             45.1
-##  8 PRI      North Am… Puerto … 2020-04-04         378        62             44.9
-##  9 PRI      North Am… Puerto … 2020-04-05         452        74             50.3
-## 10 PRI      North Am… Puerto … 2020-04-06         475        23             49.7
+<pre><code>## # A tibble: 234 × 53
+##    iso_code continent     location    date       total_cases new_cases new_cases_smoot…
+##    &lt;chr&gt;    &lt;chr&gt;         &lt;chr&gt;       &lt;date&gt;           &lt;dbl&gt;     &lt;dbl&gt;            &lt;dbl&gt;
+##  1 PRI      North America Puerto Rico 2020-03-28          64        64             NA  
+##  2 PRI      North America Puerto Rico 2020-03-29         100        36             NA  
+##  3 PRI      North America Puerto Rico 2020-03-30         127        27             NA  
+##  4 PRI      North America Puerto Rico 2020-03-31         174        47             NA  
+##  5 PRI      North America Puerto Rico 2020-04-01         239        65             NA  
+##  6 PRI      North America Puerto Rico 2020-04-02         286        47             NA  
+##  7 PRI      North America Puerto Rico 2020-04-03         316        30             45.1
+##  8 PRI      North America Puerto Rico 2020-04-04         378        62             44.9
+##  9 PRI      North America Puerto Rico 2020-04-05         452        74             50.3
+## 10 PRI      North America Puerto Rico 2020-04-06         475        23             49.7
 ## # … with 224 more rows, and 46 more variables: total_deaths &lt;dbl&gt;,
 ## #   new_deaths &lt;dbl&gt;, new_deaths_smoothed &lt;dbl&gt;, total_cases_per_million &lt;dbl&gt;,
 ## #   new_cases_per_million &lt;dbl&gt;, new_cases_smoothed_per_million &lt;dbl&gt;,
 ## #   total_deaths_per_million &lt;dbl&gt;, new_deaths_per_million &lt;dbl&gt;,
 ## #   new_deaths_smoothed_per_million &lt;dbl&gt;, reproduction_rate &lt;dbl&gt;,
-## #   icu_patients &lt;lgl&gt;, icu_patients_per_million &lt;lgl&gt;, hosp_patients &lt;lgl&gt;,
-## #   hosp_patients_per_million &lt;lgl&gt;, weekly_icu_admissions &lt;lgl&gt;,
-## #   weekly_icu_admissions_per_million &lt;lgl&gt;, weekly_hosp_admissions &lt;lgl&gt;,
-## #   weekly_hosp_admissions_per_million &lt;lgl&gt;, total_tests &lt;lgl&gt;,
-## #   new_tests &lt;lgl&gt;, total_tests_per_thousand &lt;lgl&gt;,
-## #   new_tests_per_thousand &lt;lgl&gt;, new_tests_smoothed &lt;lgl&gt;,
-## #   new_tests_smoothed_per_thousand &lt;lgl&gt;, tests_per_case &lt;lgl&gt;,
-## #   positive_rate &lt;lgl&gt;, tests_units &lt;lgl&gt;, stringency_index &lt;dbl&gt;,
-## #   population &lt;dbl&gt;, population_density &lt;dbl&gt;, median_age &lt;dbl&gt;,
-## #   aged_65_older &lt;dbl&gt;, aged_70_older &lt;dbl&gt;, gdp_per_capita &lt;dbl&gt;,
-## #   extreme_poverty &lt;lgl&gt;, cardiovasc_death_rate &lt;dbl&gt;,
-## #   diabetes_prevalence &lt;dbl&gt;, female_smokers &lt;lgl&gt;, male_smokers &lt;lgl&gt;,
-## #   handwashing_facilities &lt;dbl&gt;, hospital_beds_per_thousand &lt;dbl&gt;,
-## #   life_expectancy &lt;dbl&gt;, human_development_index &lt;dbl&gt;,
-## #   new_cases_14daSlider &lt;dbl&gt;, new_cases_07daSlider &lt;dbl&gt;,
-## #   new_cases_03daSlider &lt;dbl&gt;</code></pre>
+## #   icu_patients &lt;dbl&gt;, icu_patients_per_million &lt;dbl&gt;, hosp_patients &lt;dbl&gt;,
+## #   hosp_patients_per_million &lt;dbl&gt;, weekly_icu_admissions &lt;dbl&gt;, …</code></pre>
 <pre class="r"><code>PR %&gt;% 
 ggplot(aes(date, new_cases, colour=new_cases_14da))+
   geom_linerange(aes(x=date, ymax=new_cases, ymin=0.75))+
@@ -742,16 +610,15 @@ ggplot(aes(date, new_cases, colour=new_cases_14daSlider))+
 <pre class="r"><code>#  geom_line(aes(x=date, new_cases_07daSlider), colour=&quot;blue&quot;)+</code></pre>
 <pre class="r"><code>library(readr)
 us_counties &lt;- read_csv(&quot;~/Google Drive/GitHub_Google_Drive/GitHub/covid-19-data-master/us-counties.csv&quot;)</code></pre>
+<pre><code>## Rows: 735516 Columns: 6</code></pre>
+<pre><code>## ── Column specification ────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr  (3): county, state, fips
+## dbl  (2): cases, deaths
+## date (1): date</code></pre>
 <pre><code>## 
-## ── Column specification ────────────────────────────────────────────────────────
-## cols(
-##   date = col_date(format = &quot;&quot;),
-##   county = col_character(),
-##   state = col_character(),
-##   fips = col_character(),
-##   cases = col_double(),
-##   deaths = col_double()
-## )</code></pre>
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <pre class="r"><code>#write.csv(us_counties, &quot;COVID_DATA/us_counties.csv&quot;)</code></pre>
 <pre class="r"><code>us_counties %&gt;% 
   filter(state==&quot;Puerto Rico&quot;, county==&quot;San Juan&quot;) %&gt;% 
@@ -786,7 +653,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>

@@ -13,18 +13,26 @@
 
 <title>Ejerc_3_Wilkinson</title>
 
-<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -36,11 +44,19 @@
     </style>
 
 
-<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
@@ -123,39 +139,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   }
 })();
 </script>
-<style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
 
 
 <link rel="stylesheet" href="tutorial.css" type="text/css" />
@@ -167,10 +152,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -187,40 +168,13 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 41px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 46px;
-  margin-top: -46px;
-}
-.section h2 {
-  padding-top: 46px;
-  margin-top: -46px;
-}
-.section h3 {
-  padding-top: 46px;
-  margin-top: -46px;
-}
-.section h4 {
-  padding-top: 46px;
-  margin-top: -46px;
-}
-.section h5 {
-  padding-top: 46px;
-  margin-top: -46px;
-}
-.section h6 {
-  padding-top: 46px;
-  margin-top: -46px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -248,7 +202,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -260,7 +214,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -271,10 +225,23 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -286,7 +253,6 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -412,7 +378,7 @@ div.tocify {
 
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
+<div class="row">
 <div class="col-xs-12 col-sm-4 col-md-3">
 <div id="TOC" class="tocify">
 </div>
@@ -575,7 +541,7 @@ div.tocify {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
@@ -584,18 +550,19 @@ div.tocify {
 </div>
 
 
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(tidyverse)</span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(gt)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span></code></pre></div>
 <p>Usando los datos de COVID-19</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">library</span>(data.table)</span>
-<span id="cb2-2"><a href="#cb2-2"></a>mydat&lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv&#39;</span>)</span>
-<span id="cb2-3"><a href="#cb2-3"></a></span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="kw">gt</span>(<span class="kw">head</span>(mydat, <span class="dt">n=</span><span class="dv">10</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>mydat<span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv&#39;</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">gt</span>(<span class="fu">head</span>(mydat, <span class="at">n=</span><span class="dv">10</span>))</span></code></pre></div>
+<div id="qybozmbkzx" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#lpgsodmahc .gt_table {
+#qybozmbkzx .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -620,7 +587,7 @@ div.tocify {
   border-left-color: #D3D3D3;
 }
 
-#lpgsodmahc .gt_heading {
+#qybozmbkzx .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -632,7 +599,7 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#lpgsodmahc .gt_title {
+#qybozmbkzx .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -642,23 +609,23 @@ div.tocify {
   border-bottom-width: 0;
 }
 
-#lpgsodmahc .gt_subtitle {
+#qybozmbkzx .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
   padding-top: 0;
-  padding-bottom: 4px;
+  padding-bottom: 6px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
 
-#lpgsodmahc .gt_bottom_border {
+#qybozmbkzx .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#lpgsodmahc .gt_col_headings {
+#qybozmbkzx .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -673,7 +640,7 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#lpgsodmahc .gt_col_heading {
+#qybozmbkzx .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -693,7 +660,7 @@ div.tocify {
   overflow-x: hidden;
 }
 
-#lpgsodmahc .gt_column_spanner_outer {
+#qybozmbkzx .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -705,27 +672,27 @@ div.tocify {
   padding-right: 4px;
 }
 
-#lpgsodmahc .gt_column_spanner_outer:first-child {
+#qybozmbkzx .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#lpgsodmahc .gt_column_spanner_outer:last-child {
+#qybozmbkzx .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#lpgsodmahc .gt_column_spanner {
+#qybozmbkzx .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
   vertical-align: bottom;
   padding-top: 5px;
-  padding-bottom: 6px;
+  padding-bottom: 5px;
   overflow-x: hidden;
   display: inline-block;
   width: 100%;
 }
 
-#lpgsodmahc .gt_group_heading {
+#qybozmbkzx .gt_group_heading {
   padding: 8px;
   color: #333333;
   background-color: #FFFFFF;
@@ -747,7 +714,7 @@ div.tocify {
   vertical-align: middle;
 }
 
-#lpgsodmahc .gt_empty_group_heading {
+#qybozmbkzx .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -762,15 +729,15 @@ div.tocify {
   vertical-align: middle;
 }
 
-#lpgsodmahc .gt_from_md > :first-child {
+#qybozmbkzx .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#lpgsodmahc .gt_from_md > :last-child {
+#qybozmbkzx .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#lpgsodmahc .gt_row {
+#qybozmbkzx .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -789,7 +756,7 @@ div.tocify {
   overflow-x: hidden;
 }
 
-#lpgsodmahc .gt_stub {
+#qybozmbkzx .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -801,7 +768,7 @@ div.tocify {
   padding-left: 12px;
 }
 
-#lpgsodmahc .gt_summary_row {
+#qybozmbkzx .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -811,7 +778,7 @@ div.tocify {
   padding-right: 5px;
 }
 
-#lpgsodmahc .gt_first_summary_row {
+#qybozmbkzx .gt_first_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -821,7 +788,7 @@ div.tocify {
   border-top-color: #D3D3D3;
 }
 
-#lpgsodmahc .gt_grand_summary_row {
+#qybozmbkzx .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -831,7 +798,7 @@ div.tocify {
   padding-right: 5px;
 }
 
-#lpgsodmahc .gt_first_grand_summary_row {
+#qybozmbkzx .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -841,11 +808,11 @@ div.tocify {
   border-top-color: #D3D3D3;
 }
 
-#lpgsodmahc .gt_striped {
+#qybozmbkzx .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#lpgsodmahc .gt_table_body {
+#qybozmbkzx .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -854,7 +821,7 @@ div.tocify {
   border-bottom-color: #D3D3D3;
 }
 
-#lpgsodmahc .gt_footnotes {
+#qybozmbkzx .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -868,13 +835,13 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#lpgsodmahc .gt_footnote {
+#qybozmbkzx .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding: 4px;
 }
 
-#lpgsodmahc .gt_sourcenotes {
+#qybozmbkzx .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -888,46 +855,47 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#lpgsodmahc .gt_sourcenote {
+#qybozmbkzx .gt_sourcenote {
   font-size: 90%;
   padding: 4px;
 }
 
-#lpgsodmahc .gt_left {
+#qybozmbkzx .gt_left {
   text-align: left;
 }
 
-#lpgsodmahc .gt_center {
+#qybozmbkzx .gt_center {
   text-align: center;
 }
 
-#lpgsodmahc .gt_right {
+#qybozmbkzx .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#lpgsodmahc .gt_font_normal {
+#qybozmbkzx .gt_font_normal {
   font-weight: normal;
 }
 
-#lpgsodmahc .gt_font_bold {
+#qybozmbkzx .gt_font_bold {
   font-weight: bold;
 }
 
-#lpgsodmahc .gt_font_italic {
+#qybozmbkzx .gt_font_italic {
   font-style: italic;
 }
 
-#lpgsodmahc .gt_super {
+#qybozmbkzx .gt_super {
   font-size: 65%;
 }
 
-#lpgsodmahc .gt_footnote_marks {
+#qybozmbkzx .gt_footnote_marks {
   font-style: italic;
+  font-weight: normal;
   font-size: 65%;
 }
 </style>
-<div id="lpgsodmahc" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;"><table class="gt_table">
+<table class="gt_table">
   
   <thead class="gt_col_headings">
     <tr>
@@ -966,9 +934,15 @@ div.tocify {
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">tests_per_case</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">tests_units</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">total_vaccinations</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">people_vaccinated</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">people_fully_vaccinated</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">total_boosters</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_vaccinations</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_vaccinations_smoothed</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">total_vaccinations_per_hundred</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">people_vaccinated_per_hundred</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">people_fully_vaccinated_per_hundred</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">total_boosters_per_hundred</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_vaccinations_smoothed_per_million</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">stringency_index</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">population</th>
@@ -986,583 +960,668 @@ div.tocify {
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">hospital_beds_per_thousand</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">life_expectancy</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">human_development_index</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">excess_mortality_cumulative_absolute</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">excess_mortality_cumulative</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">excess_mortality</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">excess_mortality_cumulative_per_million</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
-    <tr>
-      <td class="gt_row gt_left">AFG</td>
-      <td class="gt_row gt_left">Asia</td>
-      <td class="gt_row gt_left">Afghanistan</td>
-      <td class="gt_row gt_left">2020-02-24</td>
-      <td class="gt_row gt_right">1</td>
-      <td class="gt_row gt_right">1</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">0.026</td>
-      <td class="gt_row gt_right">0.026</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">8.33</td>
-      <td class="gt_row gt_right">38928341</td>
-      <td class="gt_row gt_right">54.422</td>
-      <td class="gt_row gt_right">18.6</td>
-      <td class="gt_row gt_right">2.581</td>
-      <td class="gt_row gt_right">1.337</td>
-      <td class="gt_row gt_right">1803.987</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">597.029</td>
-      <td class="gt_row gt_right">9.59</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">37.746</td>
-      <td class="gt_row gt_right">0.5</td>
-      <td class="gt_row gt_right">64.83</td>
-      <td class="gt_row gt_right">0.498</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">AFG</td>
-      <td class="gt_row gt_left">Asia</td>
-      <td class="gt_row gt_left">Afghanistan</td>
-      <td class="gt_row gt_left">2020-02-25</td>
-      <td class="gt_row gt_right">1</td>
-      <td class="gt_row gt_right">0</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">0.026</td>
-      <td class="gt_row gt_right">0.000</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">8.33</td>
-      <td class="gt_row gt_right">38928341</td>
-      <td class="gt_row gt_right">54.422</td>
-      <td class="gt_row gt_right">18.6</td>
-      <td class="gt_row gt_right">2.581</td>
-      <td class="gt_row gt_right">1.337</td>
-      <td class="gt_row gt_right">1803.987</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">597.029</td>
-      <td class="gt_row gt_right">9.59</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">37.746</td>
-      <td class="gt_row gt_right">0.5</td>
-      <td class="gt_row gt_right">64.83</td>
-      <td class="gt_row gt_right">0.498</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">AFG</td>
-      <td class="gt_row gt_left">Asia</td>
-      <td class="gt_row gt_left">Afghanistan</td>
-      <td class="gt_row gt_left">2020-02-26</td>
-      <td class="gt_row gt_right">1</td>
-      <td class="gt_row gt_right">0</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">0.026</td>
-      <td class="gt_row gt_right">0.000</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">8.33</td>
-      <td class="gt_row gt_right">38928341</td>
-      <td class="gt_row gt_right">54.422</td>
-      <td class="gt_row gt_right">18.6</td>
-      <td class="gt_row gt_right">2.581</td>
-      <td class="gt_row gt_right">1.337</td>
-      <td class="gt_row gt_right">1803.987</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">597.029</td>
-      <td class="gt_row gt_right">9.59</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">37.746</td>
-      <td class="gt_row gt_right">0.5</td>
-      <td class="gt_row gt_right">64.83</td>
-      <td class="gt_row gt_right">0.498</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">AFG</td>
-      <td class="gt_row gt_left">Asia</td>
-      <td class="gt_row gt_left">Afghanistan</td>
-      <td class="gt_row gt_left">2020-02-27</td>
-      <td class="gt_row gt_right">1</td>
-      <td class="gt_row gt_right">0</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">0.026</td>
-      <td class="gt_row gt_right">0.000</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">8.33</td>
-      <td class="gt_row gt_right">38928341</td>
-      <td class="gt_row gt_right">54.422</td>
-      <td class="gt_row gt_right">18.6</td>
-      <td class="gt_row gt_right">2.581</td>
-      <td class="gt_row gt_right">1.337</td>
-      <td class="gt_row gt_right">1803.987</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">597.029</td>
-      <td class="gt_row gt_right">9.59</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">37.746</td>
-      <td class="gt_row gt_right">0.5</td>
-      <td class="gt_row gt_right">64.83</td>
-      <td class="gt_row gt_right">0.498</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">AFG</td>
-      <td class="gt_row gt_left">Asia</td>
-      <td class="gt_row gt_left">Afghanistan</td>
-      <td class="gt_row gt_left">2020-02-28</td>
-      <td class="gt_row gt_right">1</td>
-      <td class="gt_row gt_right">0</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">0.026</td>
-      <td class="gt_row gt_right">0.000</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">8.33</td>
-      <td class="gt_row gt_right">38928341</td>
-      <td class="gt_row gt_right">54.422</td>
-      <td class="gt_row gt_right">18.6</td>
-      <td class="gt_row gt_right">2.581</td>
-      <td class="gt_row gt_right">1.337</td>
-      <td class="gt_row gt_right">1803.987</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">597.029</td>
-      <td class="gt_row gt_right">9.59</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">37.746</td>
-      <td class="gt_row gt_right">0.5</td>
-      <td class="gt_row gt_right">64.83</td>
-      <td class="gt_row gt_right">0.498</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">AFG</td>
-      <td class="gt_row gt_left">Asia</td>
-      <td class="gt_row gt_left">Afghanistan</td>
-      <td class="gt_row gt_left">2020-02-29</td>
-      <td class="gt_row gt_right">1</td>
-      <td class="gt_row gt_right">0</td>
-      <td class="gt_row gt_right">0.143</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">0</td>
-      <td class="gt_row gt_right">0.026</td>
-      <td class="gt_row gt_right">0.000</td>
-      <td class="gt_row gt_right">0.004</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">0</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">8.33</td>
-      <td class="gt_row gt_right">38928341</td>
-      <td class="gt_row gt_right">54.422</td>
-      <td class="gt_row gt_right">18.6</td>
-      <td class="gt_row gt_right">2.581</td>
-      <td class="gt_row gt_right">1.337</td>
-      <td class="gt_row gt_right">1803.987</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">597.029</td>
-      <td class="gt_row gt_right">9.59</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">37.746</td>
-      <td class="gt_row gt_right">0.5</td>
-      <td class="gt_row gt_right">64.83</td>
-      <td class="gt_row gt_right">0.498</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">AFG</td>
-      <td class="gt_row gt_left">Asia</td>
-      <td class="gt_row gt_left">Afghanistan</td>
-      <td class="gt_row gt_left">2020-03-01</td>
-      <td class="gt_row gt_right">1</td>
-      <td class="gt_row gt_right">0</td>
-      <td class="gt_row gt_right">0.143</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">0</td>
-      <td class="gt_row gt_right">0.026</td>
-      <td class="gt_row gt_right">0.000</td>
-      <td class="gt_row gt_right">0.004</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">0</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">27.78</td>
-      <td class="gt_row gt_right">38928341</td>
-      <td class="gt_row gt_right">54.422</td>
-      <td class="gt_row gt_right">18.6</td>
-      <td class="gt_row gt_right">2.581</td>
-      <td class="gt_row gt_right">1.337</td>
-      <td class="gt_row gt_right">1803.987</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">597.029</td>
-      <td class="gt_row gt_right">9.59</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">37.746</td>
-      <td class="gt_row gt_right">0.5</td>
-      <td class="gt_row gt_right">64.83</td>
-      <td class="gt_row gt_right">0.498</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">AFG</td>
-      <td class="gt_row gt_left">Asia</td>
-      <td class="gt_row gt_left">Afghanistan</td>
-      <td class="gt_row gt_left">2020-03-02</td>
-      <td class="gt_row gt_right">1</td>
-      <td class="gt_row gt_right">0</td>
-      <td class="gt_row gt_right">0.000</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">0</td>
-      <td class="gt_row gt_right">0.026</td>
-      <td class="gt_row gt_right">0.000</td>
-      <td class="gt_row gt_right">0.000</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">0</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">27.78</td>
-      <td class="gt_row gt_right">38928341</td>
-      <td class="gt_row gt_right">54.422</td>
-      <td class="gt_row gt_right">18.6</td>
-      <td class="gt_row gt_right">2.581</td>
-      <td class="gt_row gt_right">1.337</td>
-      <td class="gt_row gt_right">1803.987</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">597.029</td>
-      <td class="gt_row gt_right">9.59</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">37.746</td>
-      <td class="gt_row gt_right">0.5</td>
-      <td class="gt_row gt_right">64.83</td>
-      <td class="gt_row gt_right">0.498</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">AFG</td>
-      <td class="gt_row gt_left">Asia</td>
-      <td class="gt_row gt_left">Afghanistan</td>
-      <td class="gt_row gt_left">2020-03-03</td>
-      <td class="gt_row gt_right">2</td>
-      <td class="gt_row gt_right">1</td>
-      <td class="gt_row gt_right">0.143</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">0</td>
-      <td class="gt_row gt_right">0.051</td>
-      <td class="gt_row gt_right">0.026</td>
-      <td class="gt_row gt_right">0.004</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">0</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">27.78</td>
-      <td class="gt_row gt_right">38928341</td>
-      <td class="gt_row gt_right">54.422</td>
-      <td class="gt_row gt_right">18.6</td>
-      <td class="gt_row gt_right">2.581</td>
-      <td class="gt_row gt_right">1.337</td>
-      <td class="gt_row gt_right">1803.987</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">597.029</td>
-      <td class="gt_row gt_right">9.59</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">37.746</td>
-      <td class="gt_row gt_right">0.5</td>
-      <td class="gt_row gt_right">64.83</td>
-      <td class="gt_row gt_right">0.498</td>
-    </tr>
-    <tr>
-      <td class="gt_row gt_left">AFG</td>
-      <td class="gt_row gt_left">Asia</td>
-      <td class="gt_row gt_left">Afghanistan</td>
-      <td class="gt_row gt_left">2020-03-04</td>
-      <td class="gt_row gt_right">4</td>
-      <td class="gt_row gt_right">2</td>
-      <td class="gt_row gt_right">0.429</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">0</td>
-      <td class="gt_row gt_right">0.103</td>
-      <td class="gt_row gt_right">0.051</td>
-      <td class="gt_row gt_right">0.011</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">0</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_left"></td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">27.78</td>
-      <td class="gt_row gt_right">38928341</td>
-      <td class="gt_row gt_right">54.422</td>
-      <td class="gt_row gt_right">18.6</td>
-      <td class="gt_row gt_right">2.581</td>
-      <td class="gt_row gt_right">1.337</td>
-      <td class="gt_row gt_right">1803.987</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">597.029</td>
-      <td class="gt_row gt_right">9.59</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">NA</td>
-      <td class="gt_row gt_right">37.746</td>
-      <td class="gt_row gt_right">0.5</td>
-      <td class="gt_row gt_right">64.83</td>
-      <td class="gt_row gt_right">0.498</td>
-    </tr>
+    <tr><td class="gt_row gt_left">AFG</td>
+<td class="gt_row gt_left">Asia</td>
+<td class="gt_row gt_left">Afghanistan</td>
+<td class="gt_row gt_left">2020-02-24</td>
+<td class="gt_row gt_right">5</td>
+<td class="gt_row gt_right">5</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">0.126</td>
+<td class="gt_row gt_right">0.126</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_left"></td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">8.33</td>
+<td class="gt_row gt_right">39835428</td>
+<td class="gt_row gt_right">54.422</td>
+<td class="gt_row gt_right">18.6</td>
+<td class="gt_row gt_right">2.581</td>
+<td class="gt_row gt_right">1.337</td>
+<td class="gt_row gt_right">1803.987</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">597.029</td>
+<td class="gt_row gt_right">9.59</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">37.746</td>
+<td class="gt_row gt_right">0.5</td>
+<td class="gt_row gt_right">64.83</td>
+<td class="gt_row gt_right">0.511</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td></tr>
+    <tr><td class="gt_row gt_left">AFG</td>
+<td class="gt_row gt_left">Asia</td>
+<td class="gt_row gt_left">Afghanistan</td>
+<td class="gt_row gt_left">2020-02-25</td>
+<td class="gt_row gt_right">5</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">0.126</td>
+<td class="gt_row gt_right">0.000</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_left"></td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">8.33</td>
+<td class="gt_row gt_right">39835428</td>
+<td class="gt_row gt_right">54.422</td>
+<td class="gt_row gt_right">18.6</td>
+<td class="gt_row gt_right">2.581</td>
+<td class="gt_row gt_right">1.337</td>
+<td class="gt_row gt_right">1803.987</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">597.029</td>
+<td class="gt_row gt_right">9.59</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">37.746</td>
+<td class="gt_row gt_right">0.5</td>
+<td class="gt_row gt_right">64.83</td>
+<td class="gt_row gt_right">0.511</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td></tr>
+    <tr><td class="gt_row gt_left">AFG</td>
+<td class="gt_row gt_left">Asia</td>
+<td class="gt_row gt_left">Afghanistan</td>
+<td class="gt_row gt_left">2020-02-26</td>
+<td class="gt_row gt_right">5</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">0.126</td>
+<td class="gt_row gt_right">0.000</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_left"></td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">8.33</td>
+<td class="gt_row gt_right">39835428</td>
+<td class="gt_row gt_right">54.422</td>
+<td class="gt_row gt_right">18.6</td>
+<td class="gt_row gt_right">2.581</td>
+<td class="gt_row gt_right">1.337</td>
+<td class="gt_row gt_right">1803.987</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">597.029</td>
+<td class="gt_row gt_right">9.59</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">37.746</td>
+<td class="gt_row gt_right">0.5</td>
+<td class="gt_row gt_right">64.83</td>
+<td class="gt_row gt_right">0.511</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td></tr>
+    <tr><td class="gt_row gt_left">AFG</td>
+<td class="gt_row gt_left">Asia</td>
+<td class="gt_row gt_left">Afghanistan</td>
+<td class="gt_row gt_left">2020-02-27</td>
+<td class="gt_row gt_right">5</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">0.126</td>
+<td class="gt_row gt_right">0.000</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_left"></td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">8.33</td>
+<td class="gt_row gt_right">39835428</td>
+<td class="gt_row gt_right">54.422</td>
+<td class="gt_row gt_right">18.6</td>
+<td class="gt_row gt_right">2.581</td>
+<td class="gt_row gt_right">1.337</td>
+<td class="gt_row gt_right">1803.987</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">597.029</td>
+<td class="gt_row gt_right">9.59</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">37.746</td>
+<td class="gt_row gt_right">0.5</td>
+<td class="gt_row gt_right">64.83</td>
+<td class="gt_row gt_right">0.511</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td></tr>
+    <tr><td class="gt_row gt_left">AFG</td>
+<td class="gt_row gt_left">Asia</td>
+<td class="gt_row gt_left">Afghanistan</td>
+<td class="gt_row gt_left">2020-02-28</td>
+<td class="gt_row gt_right">5</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">0.126</td>
+<td class="gt_row gt_right">0.000</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_left"></td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">8.33</td>
+<td class="gt_row gt_right">39835428</td>
+<td class="gt_row gt_right">54.422</td>
+<td class="gt_row gt_right">18.6</td>
+<td class="gt_row gt_right">2.581</td>
+<td class="gt_row gt_right">1.337</td>
+<td class="gt_row gt_right">1803.987</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">597.029</td>
+<td class="gt_row gt_right">9.59</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">37.746</td>
+<td class="gt_row gt_right">0.5</td>
+<td class="gt_row gt_right">64.83</td>
+<td class="gt_row gt_right">0.511</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td></tr>
+    <tr><td class="gt_row gt_left">AFG</td>
+<td class="gt_row gt_left">Asia</td>
+<td class="gt_row gt_left">Afghanistan</td>
+<td class="gt_row gt_left">2020-02-29</td>
+<td class="gt_row gt_right">5</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">0.714</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">0.126</td>
+<td class="gt_row gt_right">0.000</td>
+<td class="gt_row gt_right">0.018</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_left"></td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">8.33</td>
+<td class="gt_row gt_right">39835428</td>
+<td class="gt_row gt_right">54.422</td>
+<td class="gt_row gt_right">18.6</td>
+<td class="gt_row gt_right">2.581</td>
+<td class="gt_row gt_right">1.337</td>
+<td class="gt_row gt_right">1803.987</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">597.029</td>
+<td class="gt_row gt_right">9.59</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">37.746</td>
+<td class="gt_row gt_right">0.5</td>
+<td class="gt_row gt_right">64.83</td>
+<td class="gt_row gt_right">0.511</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td></tr>
+    <tr><td class="gt_row gt_left">AFG</td>
+<td class="gt_row gt_left">Asia</td>
+<td class="gt_row gt_left">Afghanistan</td>
+<td class="gt_row gt_left">2020-03-01</td>
+<td class="gt_row gt_right">5</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">0.714</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">0.126</td>
+<td class="gt_row gt_right">0.000</td>
+<td class="gt_row gt_right">0.018</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_left"></td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">27.78</td>
+<td class="gt_row gt_right">39835428</td>
+<td class="gt_row gt_right">54.422</td>
+<td class="gt_row gt_right">18.6</td>
+<td class="gt_row gt_right">2.581</td>
+<td class="gt_row gt_right">1.337</td>
+<td class="gt_row gt_right">1803.987</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">597.029</td>
+<td class="gt_row gt_right">9.59</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">37.746</td>
+<td class="gt_row gt_right">0.5</td>
+<td class="gt_row gt_right">64.83</td>
+<td class="gt_row gt_right">0.511</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td></tr>
+    <tr><td class="gt_row gt_left">AFG</td>
+<td class="gt_row gt_left">Asia</td>
+<td class="gt_row gt_left">Afghanistan</td>
+<td class="gt_row gt_left">2020-03-02</td>
+<td class="gt_row gt_right">5</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">0.000</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">0.126</td>
+<td class="gt_row gt_right">0.000</td>
+<td class="gt_row gt_right">0.000</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_left"></td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">27.78</td>
+<td class="gt_row gt_right">39835428</td>
+<td class="gt_row gt_right">54.422</td>
+<td class="gt_row gt_right">18.6</td>
+<td class="gt_row gt_right">2.581</td>
+<td class="gt_row gt_right">1.337</td>
+<td class="gt_row gt_right">1803.987</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">597.029</td>
+<td class="gt_row gt_right">9.59</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">37.746</td>
+<td class="gt_row gt_right">0.5</td>
+<td class="gt_row gt_right">64.83</td>
+<td class="gt_row gt_right">0.511</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td></tr>
+    <tr><td class="gt_row gt_left">AFG</td>
+<td class="gt_row gt_left">Asia</td>
+<td class="gt_row gt_left">Afghanistan</td>
+<td class="gt_row gt_left">2020-03-03</td>
+<td class="gt_row gt_right">5</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">0.000</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">0.126</td>
+<td class="gt_row gt_right">0.000</td>
+<td class="gt_row gt_right">0.000</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_left"></td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">27.78</td>
+<td class="gt_row gt_right">39835428</td>
+<td class="gt_row gt_right">54.422</td>
+<td class="gt_row gt_right">18.6</td>
+<td class="gt_row gt_right">2.581</td>
+<td class="gt_row gt_right">1.337</td>
+<td class="gt_row gt_right">1803.987</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">597.029</td>
+<td class="gt_row gt_right">9.59</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">37.746</td>
+<td class="gt_row gt_right">0.5</td>
+<td class="gt_row gt_right">64.83</td>
+<td class="gt_row gt_right">0.511</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td></tr>
+    <tr><td class="gt_row gt_left">AFG</td>
+<td class="gt_row gt_left">Asia</td>
+<td class="gt_row gt_left">Afghanistan</td>
+<td class="gt_row gt_left">2020-03-04</td>
+<td class="gt_row gt_right">5</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">0.000</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">0.126</td>
+<td class="gt_row gt_right">0.000</td>
+<td class="gt_row gt_right">0.000</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_left"></td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">27.78</td>
+<td class="gt_row gt_right">39835428</td>
+<td class="gt_row gt_right">54.422</td>
+<td class="gt_row gt_right">18.6</td>
+<td class="gt_row gt_right">2.581</td>
+<td class="gt_row gt_right">1.337</td>
+<td class="gt_row gt_right">1803.987</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">597.029</td>
+<td class="gt_row gt_right">9.59</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">37.746</td>
+<td class="gt_row gt_right">0.5</td>
+<td class="gt_row gt_right">64.83</td>
+<td class="gt_row gt_right">0.511</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td></tr>
   </tbody>
   
   
-</table></div>
+</table>
+</div>
 <div id="ejercicio-1" class="section level1">
 <h1>Ejercicio 1</h1>
 <p>5 puntos</p>
@@ -1600,9 +1659,9 @@ div.tocify {
 <h2>Bono</h2>
 <p>3 puntos</p>
 <p>Selecciona cinco países <strong>pequeños</strong> de Europa y reproduzca la gráfica anterior. Para que la gráfica se puede apreciar tendrán que usar los países con poblaciones más pequeño.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>mydat<span class="op">%&gt;%</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="st">  </span><span class="kw">select</span>(location, new_deaths, total_deaths)<span class="op">%&gt;%</span></span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="st">  </span><span class="kw">filter</span>(location<span class="op">==</span><span class="st">&quot;Puerto Rico&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>mydat<span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(location, new_deaths, total_deaths)<span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(location<span class="sc">==</span><span class="st">&quot;Puerto Rico&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] location     new_deaths   total_deaths
 ## &lt;0 rows&gt; (or 0-length row.names)</code></pre>
 </div>
@@ -1637,7 +1696,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>
@@ -1646,6 +1705,9 @@ $(document).ready(function () {
 
 <script>
 $(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
 
     // move toc-ignore selectors from section div to header
     $('div.section.toc-ignore')

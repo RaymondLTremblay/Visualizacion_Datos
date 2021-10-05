@@ -14,18 +14,26 @@
 
 <title>gganimate</title>
 
-<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -37,11 +45,19 @@
     </style>
 
 
-<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
@@ -124,39 +140,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   }
 })();
 </script>
-<style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
 
 
 <link rel="stylesheet" href="tutorial.css" type="text/css" />
@@ -168,10 +153,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -188,40 +169,13 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 41px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 46px;
-  margin-top: -46px;
-}
-.section h2 {
-  padding-top: 46px;
-  margin-top: -46px;
-}
-.section h3 {
-  padding-top: 46px;
-  margin-top: -46px;
-}
-.section h4 {
-  padding-top: 46px;
-  margin-top: -46px;
-}
-.section h5 {
-  padding-top: 46px;
-  margin-top: -46px;
-}
-.section h6 {
-  padding-top: 46px;
-  margin-top: -46px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -249,7 +203,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -261,7 +215,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -272,10 +226,23 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -287,7 +254,6 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -413,7 +379,7 @@ div.tocify {
 
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
+<div class="row">
 <div class="col-xs-12 col-sm-4 col-md-3">
 <div id="TOC" class="tocify">
 </div>
@@ -576,7 +542,7 @@ div.tocify {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
@@ -587,26 +553,26 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2021-01-14&quot;</code></pre>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="co">#if(!require(devtools)) install.packages(&quot;devtools&quot;)</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="co">#devtools::install_github(&quot;dgrtwo/gganimate&quot;)</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="co">#devtools::install_github(&quot;yihui/animation&quot;)</span></span></code></pre></div>
+<pre><code>## [1] &quot;2021-10-05&quot;</code></pre>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#if(!require(devtools)) install.packages(&quot;devtools&quot;)</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#devtools::install_github(&quot;dgrtwo/gganimate&quot;)</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#devtools::install_github(&quot;yihui/animation&quot;)</span></span></code></pre></div>
 <p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" /></p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co">#install.packages(&quot;rgl&quot;, dependencies=TRUE)</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a></span>
-<span id="cb3-3"><a href="#cb3-3"></a><span class="kw">library</span>(tidyverse)</span>
-<span id="cb3-4"><a href="#cb3-4"></a><span class="kw">library</span>(gganimate)</span>
-<span id="cb3-5"><a href="#cb3-5"></a><span class="kw">library</span>(rgl)</span>
-<span id="cb3-6"><a href="#cb3-6"></a><span class="kw">library</span>(gapminder)</span>
-<span id="cb3-7"><a href="#cb3-7"></a><span class="kw">library</span>(ggplot2)</span>
-<span id="cb3-8"><a href="#cb3-8"></a><span class="kw">library</span>(animation)</span>
-<span id="cb3-9"><a href="#cb3-9"></a><span class="kw">library</span>(gt)</span>
-<span id="cb3-10"><a href="#cb3-10"></a><span class="kw">library</span>(datasets)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages(&quot;rgl&quot;, dependencies=TRUE)</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gganimate)</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rgl)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gapminder)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(animation)</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(datasets)</span></code></pre></div>
 <p>El paquete <strong>gganimate</strong> extiende el paquete de <strong>ggplot2</strong> y implementa unas funciones para animar gráficos que típicamente estuviese estática. El paquete fue desarrollado por Pedersen y Robinson (2017).Siempre puede ir al siguiente enlace para tener más información y otros ejemplos. <a href="https://gganimate.com/articles/gganimate.html" class="uri">https://gganimate.com/articles/gganimate.html</a>. Note que antes de utilizar este modulo se asume que se conozca la estructura de la creación de gráficos con ggplot2.</p>
 <p>Los datos provienen del paquete <strong>gapminder</strong> y el archivo <strong>gapminder</strong>. Estos datos representa la expectativa de supervivencia en diferentes 142 países entre 1952 y 2007. Aquí observamos las primeras 6 filas del archivo.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="co">#gt(head(gapminder))</span></span>
-<span id="cb4-2"><a href="#cb4-2"></a><span class="kw">head</span>(gapminder)</span></code></pre></div>
-<pre><code>## # A tibble: 6 x 6
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#gt(head(gapminder))</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(gapminder)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 6
 ##   country     continent  year lifeExp      pop gdpPercap
 ##   &lt;fct&gt;       &lt;fct&gt;     &lt;int&gt;   &lt;dbl&gt;    &lt;int&gt;     &lt;dbl&gt;
 ## 1 Afghanistan Asia       1952    28.8  8425333      779.
@@ -616,42 +582,42 @@ div.tocify {
 ## 5 Afghanistan Asia       1972    36.1 13079460      740.
 ## 6 Afghanistan Asia       1977    38.4 14880372      786.</code></pre>
 <p>Primero creamos un gráfico de puntos sin animación o sea estático. En el eje de <strong>X</strong> representa el GDP per capita en cada país, y en el eje de <strong>Y</strong> la supervivencia. El tamaño del punto es relativo el tamaño del país. La escala en el eje de <strong>X</strong> fue cambiado a una logarítmica usando <strong>scale_x_log10()</strong>. Aunque es difícil percibir la diferencia cada país tiene su proprio color.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(</span>
-<span id="cb6-2"><a href="#cb6-2"></a>  gapminder, </span>
-<span id="cb6-3"><a href="#cb6-3"></a>  <span class="kw">aes</span>(<span class="dt">x =</span> gdpPercap, <span class="dt">y=</span>lifeExp, <span class="dt">size =</span> pop, <span class="dt">colour =</span> country)) <span class="op">+</span></span>
-<span id="cb6-4"><a href="#cb6-4"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">show.legend =</span> <span class="ot">FALSE</span>, <span class="dt">alpha =</span> <span class="fl">0.8</span>) <span class="op">+</span></span>
-<span id="cb6-5"><a href="#cb6-5"></a><span class="st">  </span><span class="kw">scale_size</span>(<span class="dt">range =</span> <span class="kw">c</span>(<span class="dv">2</span>, <span class="dv">12</span>)) <span class="op">+</span></span>
-<span id="cb6-6"><a href="#cb6-6"></a><span class="st">  </span><span class="kw">scale_x_log10</span>() <span class="op">+</span></span>
-<span id="cb6-7"><a href="#cb6-7"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;GDP per capita&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Expectativa de Vida&quot;</span>)</span>
-<span id="cb6-8"><a href="#cb6-8"></a>p</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  gapminder, </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> gdpPercap, <span class="at">y=</span>lifeExp, <span class="at">size =</span> pop, <span class="at">colour =</span> country)) <span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">12</span>)) <span class="sc">+</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;GDP per capita&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Expectativa de Vida&quot;</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>p</span></code></pre></div>
 <p><img src="G15_gganimate_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <div id="gráficos-con-animación" class="section level2">
 <h2>Gráficos con animación:</h2>
 <p>Para incluir las transiciones en tiempo se usa la función <strong>transition_time</strong>. El largo de transición sera corresponde as la diferencia entre la variable de tiempo (en este casa “Time”).</p>
 <p>La variable <strong>frame_time</strong> añade arriba una leyenda del tiempo de transición. Note que se usa la función <strong>labs</strong> y se añade el titulo y lo que hay entre los corchetes es la variable del cambio en tiempo.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co">#head(gapminder)</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a>GDP_time=p <span class="op">+</span><span class="st"> </span><span class="kw">transition_time</span>(year) <span class="op">+</span></span>
-<span id="cb7-3"><a href="#cb7-3"></a><span class="st"> </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Año: {frame_time}&quot;</span>)</span>
-<span id="cb7-4"><a href="#cb7-4"></a><span class="co">#GDP_time</span></span></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">animate</span>(GDP_time, <span class="dt">height =</span> <span class="dv">300</span>, <span class="dt">width =</span><span class="dv">300</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#head(gapminder)</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>GDP_time<span class="ot">=</span>p <span class="sc">+</span> <span class="fu">transition_time</span>(year) <span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Año: {frame_time}&quot;</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#GDP_time</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">animate</span>(GDP_time, <span class="at">height =</span> <span class="dv">300</span>, <span class="at">width =</span><span class="dv">300</span>)</span></code></pre></div>
 <p><img src="G15_gganimate_files/figure-html/unnamed-chunk-9-1.gif" /><!-- --></p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">anim_save</span>(<span class="st">&quot;GDP_time.gif&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anim_save</span>(<span class="st">&quot;GDP_time.gif&quot;</span>)</span></code></pre></div>
 </div>
 <div id="crear-facet-animados." class="section level2">
 <h2>Crear facet animados.</h2>
 <p>Igual que para los gráficos de ggplot2 se puede crear una gráica por cada variable discreta. Para crear un gráfico por grupo y observar el de patrones de cambio en tiempo por continente se añade <strong>facet_wrap</strong>. En este próximo gráfico se produce un por cada continente.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a>p <span class="op">+</span><span class="st"> </span><span class="kw">facet_wrap</span>(<span class="op">~</span>continent) <span class="op">+</span></span>
-<span id="cb10-2"><a href="#cb10-2"></a><span class="st">  </span><span class="kw">transition_time</span>(year) <span class="op">+</span></span>
-<span id="cb10-3"><a href="#cb10-3"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Año: {frame_time}&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>continent) <span class="sc">+</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transition_time</span>(year) <span class="sc">+</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Año: {frame_time}&quot;</span>)</span></code></pre></div>
 <p><img src="G15_gganimate_files/figure-html/unnamed-chunk-10-1.gif" /><!-- --></p>
 <hr />
 </div>
 <div id="animación-de-los-ejes-ejes-variables" class="section level2">
 <h2>Animación de los ejes: ejes variables</h2>
 <p>En este caso lo que observamos es que la leyenda en en <strong>x</strong> varia con los años, y la de <strong>y</strong> la dejamos fija. Si se usa <strong>view_follow(fixed_x = TRUE)</strong>, la leyenda en <strong>y</strong> variaría con el cambio en GDP per capita y la de <strong>x</strong> seria fija. Si queremos que los dos ejes varían con los datos se usa <strong>view_follow()</strong>, sin poner nada dentro de los paréntesis.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a>p <span class="op">+</span><span class="st"> </span><span class="kw">transition_time</span>(year) <span class="op">+</span></span>
-<span id="cb11-2"><a href="#cb11-2"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Año: {frame_time}&quot;</span>) <span class="op">+</span></span>
-<span id="cb11-3"><a href="#cb11-3"></a><span class="st">  </span><span class="kw">view_follow</span>(<span class="dt">fixed_y =</span> <span class="ot">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">transition_time</span>(year) <span class="sc">+</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Año: {frame_time}&quot;</span>) <span class="sc">+</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">view_follow</span>(<span class="at">fixed_y =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <p><img src="G15_gganimate_files/figure-html/unnamed-chunk-11-1.gif" /><!-- --></p>
 <hr />
 </div>
@@ -662,18 +628,18 @@ div.tocify {
 <p>La duración de la estela no se da en cuadros absolutos, ya que eso haría que la animación sea susceptible a cambios en la velocidad de fotogramas. En cambio, se da por proporción de la longitud total de la animación. Por consecuencia el <strong>wake_length</strong> varia entre 0 a 1 en relación con el total de numero de periodo de tiempo (frames). En otra palabra más cerca el valor se acerca a 1, más largo sera la cola.</p>
 <p>The length of the wake is not given in absolute frames as that would make the animation susceptible to changes in the framerate. Instead it is given as a proportion of the total length of the animation.</p>
 <hr />
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>p <span class="op">+</span><span class="st"> </span><span class="kw">transition_time</span>(year) <span class="op">+</span></span>
-<span id="cb12-2"><a href="#cb12-2"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Year: {frame_time}&quot;</span>) <span class="op">+</span></span>
-<span id="cb12-3"><a href="#cb12-3"></a><span class="st">  </span><span class="kw">shadow_wake</span>(<span class="dt">wake_length =</span> <span class="fl">0.3</span>, <span class="dt">alpha =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">transition_time</span>(year) <span class="sc">+</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Year: {frame_time}&quot;</span>) <span class="sc">+</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">shadow_wake</span>(<span class="at">wake_length =</span> <span class="fl">0.3</span>, <span class="at">alpha =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <p><img src="G15_gganimate_files/figure-html/unnamed-chunk-12-1.gif" /><!-- --></p>
 <hr />
 </div>
 <div id="visualizar-los-datos-originales-en-el-fondo" class="section level2">
 <h2>Visualizar los datos originales en el fondo</h2>
 <p>Con la función <strong>shadow_mark</strong> se puede ver los datos originales. Tanto los datos anteriores y futuros se pueden demostrar con diferentes estilos. Por ejemplo con el siguiente script <strong>shadow_mark(past = FALSE, future = TRUE)</strong> se observaría los datos futuros y no del pasado. El alternativa basica <strong>shadow_mark()</strong> es igual a <strong>shadow_mark(past = TRUE, future = FALSE)</strong></p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>p <span class="op">+</span><span class="st"> </span><span class="kw">transition_time</span>(year) <span class="op">+</span></span>
-<span id="cb13-2"><a href="#cb13-2"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&quot;Year: {frame_time}&quot;</span>) <span class="op">+</span></span>
-<span id="cb13-3"><a href="#cb13-3"></a><span class="st">  </span><span class="kw">shadow_mark</span>(<span class="dt">alpha =</span> <span class="fl">0.3</span>, <span class="dt">size =</span> <span class="fl">0.5</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">transition_time</span>(year) <span class="sc">+</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Year: {frame_time}&quot;</span>) <span class="sc">+</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">shadow_mark</span>(<span class="at">alpha =</span> <span class="fl">0.3</span>, <span class="at">size =</span> <span class="fl">0.5</span>)</span></code></pre></div>
 <p><img src="G15_gganimate_files/figure-html/unnamed-chunk-13-1.gif" /><!-- --></p>
 <hr />
 </div>
@@ -691,47 +657,40 @@ div.tocify {
 <li>Puede cambiar el nombre de las leyenda en <strong>y</strong> y <strong>x</strong>.</li>
 <li>Puede modificar el tamaño del punto que representa el paises por una variable.</li>
 </ul>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1"></a><span class="kw">library</span>(readr)</span>
-<span id="cb14-2"><a href="#cb14-2"></a>owid_covid_data &lt;-<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&quot;Data_files_csv/owid-covid-data.csv&quot;</span>)</span>
-<span id="cb14-3"><a href="#cb14-3"></a><span class="kw">tail</span>(owid_covid_data, <span class="dt">n=</span><span class="dv">20</span>)</span></code></pre></div>
-<pre><code>## # A tibble: 20 x 41
-##    iso_code continent location date       total_cases new_cases new_cases_smoot…
-##    &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;    &lt;date&gt;           &lt;dbl&gt;     &lt;dbl&gt;            &lt;dbl&gt;
-##  1 &lt;NA&gt;     &lt;NA&gt;      Interna… 2020-10-07         696        NA               NA
-##  2 &lt;NA&gt;     &lt;NA&gt;      Interna… 2020-10-08         696        NA               NA
-##  3 &lt;NA&gt;     &lt;NA&gt;      Interna… 2020-10-09         696        NA               NA
-##  4 &lt;NA&gt;     &lt;NA&gt;      Interna… 2020-10-10         696        NA               NA
-##  5 &lt;NA&gt;     &lt;NA&gt;      Interna… 2020-10-11         696        NA               NA
-##  6 &lt;NA&gt;     &lt;NA&gt;      Interna… 2020-10-12         696        NA               NA
-##  7 &lt;NA&gt;     &lt;NA&gt;      Interna… 2020-10-13         696        NA               NA
-##  8 &lt;NA&gt;     &lt;NA&gt;      Interna… 2020-10-14         696        NA               NA
-##  9 &lt;NA&gt;     &lt;NA&gt;      Interna… 2020-10-15         696        NA               NA
-## 10 &lt;NA&gt;     &lt;NA&gt;      Interna… 2020-10-16         696        NA               NA
-## 11 &lt;NA&gt;     &lt;NA&gt;      Interna… 2020-10-17         696        NA               NA
-## 12 &lt;NA&gt;     &lt;NA&gt;      Interna… 2020-10-18         696        NA               NA
-## 13 &lt;NA&gt;     &lt;NA&gt;      Interna… 2020-10-19         696        NA               NA
-## 14 &lt;NA&gt;     &lt;NA&gt;      Interna… 2020-10-20         696        NA               NA
-## 15 &lt;NA&gt;     &lt;NA&gt;      Interna… 2020-10-21         696        NA               NA
-## 16 &lt;NA&gt;     &lt;NA&gt;      Interna… 2020-10-22         696        NA               NA
-## 17 &lt;NA&gt;     &lt;NA&gt;      Interna… 2020-10-23         696        NA               NA
-## 18 &lt;NA&gt;     &lt;NA&gt;      Interna… 2020-10-24         696        NA               NA
-## 19 &lt;NA&gt;     &lt;NA&gt;      Interna… 2020-10-25         696        NA               NA
-## 20 &lt;NA&gt;     &lt;NA&gt;      Interna… 2020-10-26         696        NA               NA
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>owid_covid_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;Data_files_csv/owid-covid-data.csv&quot;</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(owid_covid_data, <span class="at">n=</span><span class="dv">20</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 20 × 41
+##    iso_code continent location      date       total_cases new_cases new_cases_smoot…
+##    &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;         &lt;date&gt;           &lt;dbl&gt;     &lt;dbl&gt;            &lt;dbl&gt;
+##  1 &lt;NA&gt;     &lt;NA&gt;      International 2020-10-07         696        NA               NA
+##  2 &lt;NA&gt;     &lt;NA&gt;      International 2020-10-08         696        NA               NA
+##  3 &lt;NA&gt;     &lt;NA&gt;      International 2020-10-09         696        NA               NA
+##  4 &lt;NA&gt;     &lt;NA&gt;      International 2020-10-10         696        NA               NA
+##  5 &lt;NA&gt;     &lt;NA&gt;      International 2020-10-11         696        NA               NA
+##  6 &lt;NA&gt;     &lt;NA&gt;      International 2020-10-12         696        NA               NA
+##  7 &lt;NA&gt;     &lt;NA&gt;      International 2020-10-13         696        NA               NA
+##  8 &lt;NA&gt;     &lt;NA&gt;      International 2020-10-14         696        NA               NA
+##  9 &lt;NA&gt;     &lt;NA&gt;      International 2020-10-15         696        NA               NA
+## 10 &lt;NA&gt;     &lt;NA&gt;      International 2020-10-16         696        NA               NA
+## 11 &lt;NA&gt;     &lt;NA&gt;      International 2020-10-17         696        NA               NA
+## 12 &lt;NA&gt;     &lt;NA&gt;      International 2020-10-18         696        NA               NA
+## 13 &lt;NA&gt;     &lt;NA&gt;      International 2020-10-19         696        NA               NA
+## 14 &lt;NA&gt;     &lt;NA&gt;      International 2020-10-20         696        NA               NA
+## 15 &lt;NA&gt;     &lt;NA&gt;      International 2020-10-21         696        NA               NA
+## 16 &lt;NA&gt;     &lt;NA&gt;      International 2020-10-22         696        NA               NA
+## 17 &lt;NA&gt;     &lt;NA&gt;      International 2020-10-23         696        NA               NA
+## 18 &lt;NA&gt;     &lt;NA&gt;      International 2020-10-24         696        NA               NA
+## 19 &lt;NA&gt;     &lt;NA&gt;      International 2020-10-25         696        NA               NA
+## 20 &lt;NA&gt;     &lt;NA&gt;      International 2020-10-26         696        NA               NA
 ## # … with 34 more variables: total_deaths &lt;dbl&gt;, new_deaths &lt;dbl&gt;,
 ## #   new_deaths_smoothed &lt;dbl&gt;, total_cases_per_million &lt;dbl&gt;,
 ## #   new_cases_per_million &lt;dbl&gt;, new_cases_smoothed_per_million &lt;dbl&gt;,
 ## #   total_deaths_per_million &lt;dbl&gt;, new_deaths_per_million &lt;dbl&gt;,
-## #   new_deaths_smoothed_per_million &lt;dbl&gt;, total_tests &lt;lgl&gt;, new_tests &lt;lgl&gt;,
-## #   total_tests_per_thousand &lt;lgl&gt;, new_tests_per_thousand &lt;lgl&gt;,
-## #   new_tests_smoothed &lt;lgl&gt;, new_tests_smoothed_per_thousand &lt;lgl&gt;,
-## #   tests_per_case &lt;lgl&gt;, positive_rate &lt;lgl&gt;, tests_units &lt;lgl&gt;,
-## #   stringency_index &lt;dbl&gt;, population &lt;dbl&gt;, population_density &lt;dbl&gt;,
-## #   median_age &lt;dbl&gt;, aged_65_older &lt;dbl&gt;, aged_70_older &lt;dbl&gt;,
-## #   gdp_per_capita &lt;dbl&gt;, extreme_poverty &lt;dbl&gt;, cardiovasc_death_rate &lt;dbl&gt;,
-## #   diabetes_prevalence &lt;dbl&gt;, female_smokers &lt;dbl&gt;, male_smokers &lt;dbl&gt;,
-## #   handwashing_facilities &lt;dbl&gt;, hospital_beds_per_thousand &lt;dbl&gt;,
-## #   life_expectancy &lt;dbl&gt;, human_development_index &lt;dbl&gt;</code></pre>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a><span class="kw">names</span>(owid_covid_data)</span></code></pre></div>
+## #   new_deaths_smoothed_per_million &lt;dbl&gt;, total_tests &lt;dbl&gt;, new_tests &lt;dbl&gt;,
+## #   total_tests_per_thousand &lt;dbl&gt;, new_tests_per_thousand &lt;dbl&gt;,
+## #   new_tests_smoothed &lt;dbl&gt;, new_tests_smoothed_per_thousand &lt;dbl&gt;, …</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(owid_covid_data)</span></code></pre></div>
 <pre><code>##  [1] &quot;iso_code&quot;                        &quot;continent&quot;                      
 ##  [3] &quot;location&quot;                        &quot;date&quot;                           
 ##  [5] &quot;total_cases&quot;                     &quot;new_cases&quot;                      
@@ -753,12 +712,12 @@ div.tocify {
 ## [37] &quot;male_smokers&quot;                    &quot;handwashing_facilities&quot;         
 ## [39] &quot;hospital_beds_per_thousand&quot;      &quot;life_expectancy&quot;                
 ## [41] &quot;human_development_index&quot;</code></pre>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1"></a><span class="kw">library</span>(tidyverse)</span>
-<span id="cb18-2"><a href="#cb18-2"></a>owid_covid_data2=<span class="st"> </span>owid_covid_data <span class="op">%&gt;%</span></span>
-<span id="cb18-3"><a href="#cb18-3"></a><span class="st">  </span><span class="kw">select</span>(date, location, total_deaths, total_cases_per_million, continent) <span class="op">%&gt;%</span><span class="st">  </span><span class="co"># Seleccionar aquí sus variables del data frame</span></span>
-<span id="cb18-4"><a href="#cb18-4"></a><span class="st">  </span><span class="kw">drop_na</span>() <span class="co"># remover los &quot;NA&quot;. Esto remueve toda la fila si una de las variables tiene un &quot;NA&quot;</span></span>
-<span id="cb18-5"><a href="#cb18-5"></a><span class="kw">head</span>(owid_covid_data2)  <span class="co"># Visualizar su nuevo data frame</span></span></code></pre></div>
-<pre><code>## # A tibble: 6 x 5
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>owid_covid_data2<span class="ot">=</span> owid_covid_data <span class="sc">%&gt;%</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(date, location, total_deaths, total_cases_per_million, continent) <span class="sc">%&gt;%</span>  <span class="co"># Seleccionar aquí sus variables del data frame</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="co"># remover los &quot;NA&quot;. Esto remueve toda la fila si una de las variables tiene un &quot;NA&quot;</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(owid_covid_data2)  <span class="co"># Visualizar su nuevo data frame</span></span></code></pre></div>
+<pre><code>## # A tibble: 6 × 5
 ##   date       location total_deaths total_cases_per_million continent    
 ##   &lt;date&gt;     &lt;chr&gt;           &lt;dbl&gt;                   &lt;dbl&gt; &lt;chr&gt;        
 ## 1 2020-04-16 Aruba               1                    871. North America
@@ -772,7 +731,7 @@ div.tocify {
 <h2>Transiciones graduales</h2>
 <p>Con la función <strong>transition_reveal</strong> los datos aparece gradualmente en el gráfico</p>
 <p>Usamos otro conjunto de datos del archivo <strong>airquality</strong> que se encuentra en el paquete <strong>datasets</strong> Primero creamos un gráfico estático (sin animación), el día del mes (day), la temperatura del día (Temp) y una linea para cada mes (mayo a septiembre) con la función <strong>group</strong>.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1"></a><span class="kw">head</span>(airquality)</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(airquality)</span></code></pre></div>
 <pre><code>##   Ozone Solar.R Wind Temp Month Day
 ## 1    41     190  7.4   67     5   1
 ## 2    36     118  8.0   72     5   2
@@ -780,36 +739,36 @@ div.tocify {
 ## 4    18     313 11.5   62     5   4
 ## 5    NA      NA 14.3   56     5   5
 ## 6    28      NA 14.9   66     5   6</code></pre>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1"></a>p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(airquality,</span>
-<span id="cb22-2"><a href="#cb22-2"></a>  <span class="kw">aes</span>(Day, Temp, <span class="dt">group =</span> Month, <span class="dt">color =</span> <span class="kw">factor</span>(Month))) <span class="op">+</span></span>
-<span id="cb22-3"><a href="#cb22-3"></a><span class="st">  </span><span class="kw">geom_line</span>() <span class="op">+</span></span>
-<span id="cb22-4"><a href="#cb22-4"></a><span class="st">  </span><span class="kw">scale_color_viridis_d</span>() <span class="op">+</span></span>
-<span id="cb22-5"><a href="#cb22-5"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;Day of Month&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;Temperature&quot;</span>) <span class="op">+</span></span>
-<span id="cb22-6"><a href="#cb22-6"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">legend.position =</span> <span class="st">&quot;top&quot;</span>)</span>
-<span id="cb22-7"><a href="#cb22-7"></a>p</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(airquality,</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(Day, Temp, <span class="at">group =</span> Month, <span class="at">color =</span> <span class="fu">factor</span>(Month))) <span class="sc">+</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>() <span class="sc">+</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Day of Month&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Temperature&quot;</span>) <span class="sc">+</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>)</span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>p</span></code></pre></div>
 <p><img src="G15_gganimate_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 <p>Ahora animamos el gráfico en el eje de <strong>x</strong> con la variable de <strong>Day</strong>, añadiendo <strong>transition_reveal(Day)</strong></p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a>p <span class="op">+</span><span class="st"> </span><span class="kw">transition_reveal</span>(Day)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">transition_reveal</span>(Day)</span></code></pre></div>
 <p><img src="G15_gganimate_files/figure-html/unnamed-chunk-19-1.gif" /><!-- --></p>
 <hr />
 </div>
 <div id="anadiendo-un-punto-a-la-linea" class="section level2">
 <h2>Anadiendo un punto a la linea</h2>
 <p>Se puede añadir un punto al principio de las lineas</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a>cambio_m=p <span class="op">+</span><span class="st"> </span></span>
-<span id="cb24-2"><a href="#cb24-2"></a><span class="st">  </span><span class="kw">geom_point</span>() <span class="op">+</span></span>
-<span id="cb24-3"><a href="#cb24-3"></a><span class="st">  </span><span class="kw">transition_reveal</span>(Day)</span></code></pre></div>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1"></a><span class="kw">animate</span>(cambio_m, <span class="dt">height =</span> <span class="dv">400</span>, <span class="dt">width =</span><span class="dv">400</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>cambio_m<span class="ot">=</span>p <span class="sc">+</span> </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transition_reveal</span>(Day)</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">animate</span>(cambio_m, <span class="at">height =</span> <span class="dv">400</span>, <span class="at">width =</span><span class="dv">400</span>)</span></code></pre></div>
 <p><img src="G15_gganimate_files/figure-html/unnamed-chunk-21-1.gif" /><!-- --></p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1"></a><span class="co"># anim_save(&quot;cambio_m.gif&quot;)</span></span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># anim_save(&quot;cambio_m.gif&quot;)</span></span></code></pre></div>
 <hr />
 </div>
 <div id="poniendo-un-punto-para-valor" class="section level2">
 <h2>Poniendo un punto para valor</h2>
 <p>Los puntos se pueden quedar en el gráfico añadiendo <strong>(group = seq_along(Day)</strong>.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1"></a>p <span class="op">+</span><span class="st"> </span></span>
-<span id="cb27-2"><a href="#cb27-2"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="kw">aes</span>(<span class="dt">group =</span> <span class="kw">seq_along</span>(Day))) <span class="op">+</span></span>
-<span id="cb27-3"><a href="#cb27-3"></a><span class="st">  </span><span class="kw">transition_reveal</span>(Day)</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> </span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">group =</span> <span class="fu">seq_along</span>(Day))) <span class="sc">+</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transition_reveal</span>(Day)</span></code></pre></div>
 <p><img src="G15_gganimate_files/figure-html/unnamed-chunk-22-1.gif" /><!-- --></p>
 <hr />
 </div>
@@ -818,7 +777,7 @@ div.tocify {
 <h1>Animación con gráficos de barras</h1>
 <p>La transiciones también pueden ser producida con otros geoms por ejemplo con <strong>geom_col</strong>. El primer paso es tener un data frame que representa los valores de cada columna/barra. Entonces el primer paso aquí fue de calcular el promedio de temperatura por mes en un nuevo data frame que llamamos <strong>temp.promedio</strong>.</p>
 <p>Preparación de los datos</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1"></a><span class="kw">head</span>(airquality)</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(airquality)</span></code></pre></div>
 <pre><code>##   Ozone Solar.R Wind Temp Month Day
 ## 1    41     190  7.4   67     5   1
 ## 2    36     118  8.0   72     5   2
@@ -826,12 +785,12 @@ div.tocify {
 ## 4    18     313 11.5   62     5   4
 ## 5    NA      NA 14.3   56     5   5
 ## 6    28      NA 14.9   66     5   6</code></pre>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1"></a>temp.promedio &lt;-<span class="st"> </span>airquality <span class="op">%&gt;%</span></span>
-<span id="cb30-2"><a href="#cb30-2"></a><span class="st">  </span><span class="kw">select</span>(Day, Temp) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb30-3"><a href="#cb30-3"></a><span class="st">  </span><span class="kw">group_by</span>(Day) <span class="op">%&gt;%</span></span>
-<span id="cb30-4"><a href="#cb30-4"></a><span class="st">  </span><span class="kw">summarise</span>(<span class="dt">Temp2 =</span> <span class="kw">mean</span>(Temp, <span class="dt">na.rm =</span> <span class="ot">TRUE</span>))</span>
-<span id="cb30-5"><a href="#cb30-5"></a>temp.promedio</span></code></pre></div>
-<pre><code>## # A tibble: 31 x 2
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>temp.promedio <span class="ot">&lt;-</span> airquality <span class="sc">%&gt;%</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Day, Temp) <span class="sc">%&gt;%</span> </span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Day) <span class="sc">%&gt;%</span></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Temp2 =</span> <span class="fu">mean</span>(Temp, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>temp.promedio</span></code></pre></div>
+<pre><code>## # A tibble: 31 × 2
 ##      Day Temp2
 ##    &lt;int&gt; &lt;dbl&gt;
 ##  1     1  80.2
@@ -849,30 +808,30 @@ div.tocify {
 <div id="gráfico-de-barra-estático" class="section level2">
 <h2>Gráfico de barra estático</h2>
 <p>Ahora creamos un gráfico estático de los datos con <strong>geom_col</strong>.</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1"></a>p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(temp.promedio, <span class="kw">aes</span>(Day, Temp2, <span class="dt">fill=</span>Day)) <span class="op">+</span></span>
-<span id="cb32-2"><a href="#cb32-2"></a><span class="st">  </span><span class="kw">geom_col</span>() <span class="op">+</span></span>
-<span id="cb32-3"><a href="#cb32-3"></a><span class="st">  </span><span class="kw">scale_fill_distiller</span>(<span class="dt">palette =</span> <span class="st">&quot;Reds&quot;</span>, <span class="dt">direction =</span> <span class="dv">1</span>) <span class="op">+</span></span>
-<span id="cb32-4"><a href="#cb32-4"></a><span class="st">  </span><span class="kw">theme_minimal</span>() <span class="op">+</span></span>
-<span id="cb32-5"><a href="#cb32-5"></a><span class="st">  </span><span class="kw">theme</span>(</span>
-<span id="cb32-6"><a href="#cb32-6"></a>    <span class="dt">panel.grid =</span> <span class="kw">element_blank</span>(),</span>
-<span id="cb32-7"><a href="#cb32-7"></a>    <span class="dt">panel.grid.major.y =</span> <span class="kw">element_line</span>(<span class="dt">color =</span> <span class="st">&quot;white&quot;</span>),</span>
-<span id="cb32-8"><a href="#cb32-8"></a>    <span class="dt">panel.ontop =</span> <span class="ot">TRUE</span></span>
-<span id="cb32-9"><a href="#cb32-9"></a>  )</span>
-<span id="cb32-10"><a href="#cb32-10"></a>p</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(temp.promedio, <span class="fu">aes</span>(Day, Temp2, <span class="at">fill=</span>Day)) <span class="sc">+</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_distiller</span>(<span class="at">palette =</span> <span class="st">&quot;Reds&quot;</span>, <span class="at">direction =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major.y =</span> <span class="fu">element_line</span>(<span class="at">color =</span> <span class="st">&quot;white&quot;</span>),</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.ontop =</span> <span class="cn">TRUE</span></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>p</span></code></pre></div>
 <p><img src="G15_gganimate_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
 <hr />
 </div>
 <div id="añadiendo-efecto-de-transición-en-las-columnas" class="section level2">
 <h2>Añadiendo efecto de transición en las columnas</h2>
 <p>El efecto de transición de un mes al otro se añade con la función <strong>transition_states()</strong>. Si uno añade solamente esta función aparece solamente una barra a la vez.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1"></a>p <span class="op">+</span><span class="st"> </span><span class="kw">transition_states</span>(Day, <span class="dt">wrap =</span> <span class="ot">FALSE</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">transition_states</span>(Day, <span class="at">wrap =</span> <span class="cn">FALSE</span>) </span></code></pre></div>
 <p><img src="G15_gganimate_files/figure-html/unnamed-chunk-25-1.gif" /><!-- --></p>
 <hr />
 </div>
 <div id="añadiendo-efecto-de-transición-y-shadow" class="section level2">
 <h2>Añadiendo efecto de transición y shadow</h2>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1"></a>p <span class="op">+</span><span class="st"> </span><span class="kw">transition_states</span>(Day, <span class="dt">wrap =</span> <span class="ot">FALSE</span>) <span class="op">+</span></span>
-<span id="cb34-2"><a href="#cb34-2"></a><span class="st">  </span><span class="kw">shadow_mark</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">transition_states</span>(Day, <span class="at">wrap =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">shadow_mark</span>()</span></code></pre></div>
 <p><img src="G15_gganimate_files/figure-html/unnamed-chunk-26-1.gif" /><!-- --></p>
 <p>Para más ejemplos de como usar <strong>gganimate</strong> ver este enlace.</p>
 <p><a href="https://semba-blog.netlify.com/10/29/2018/animating-oceanographic-data-in-r-with-ggplot2-and-gganimate/" class="uri">https://semba-blog.netlify.com/10/29/2018/animating-oceanographic-data-in-r-with-ggplot2-and-gganimate/</a></p>
@@ -908,7 +867,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>
@@ -917,6 +876,9 @@ $(document).ready(function () {
 
 <script>
 $(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
 
     // move toc-ignore selectors from section div to header
     $('div.section.toc-ignore')

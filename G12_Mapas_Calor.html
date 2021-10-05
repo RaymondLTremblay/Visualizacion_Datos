@@ -13,18 +13,26 @@
 
 <title>G12_Mapas_Calor</title>
 
-<script src="site_libs/header-attrs-2.6/header-attrs.js"></script>
-<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
 <script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
-<script src="site_libs/accessible-code-block-0.0.1/empty-anchor.js"></script>
 <script src="site_libs/kePrint-0.0.1/kePrint.js"></script>
 <link href="site_libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
 
@@ -38,11 +46,19 @@
     </style>
 
 
-<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
 pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
@@ -125,39 +141,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   }
 })();
 </script>
-<style type="text/css">
-  pre:not([class]) {
-    background-color: white;
-  }
-</style>
 
 
-<style type="text/css">
-h1 {
-  font-size: 34px;
-}
-h1.title {
-  font-size: 38px;
-}
-h2 {
-  font-size: 30px;
-}
-h3 {
-  font-size: 24px;
-}
-h4 {
-  font-size: 18px;
-}
-h5 {
-  font-size: 16px;
-}
-h6 {
-  font-size: 12px;
-}
-.table th:not([align]) {
-  text-align: left;
-}
-</style>
 
 
 <link rel="stylesheet" href="tutorial.css" type="text/css" />
@@ -169,10 +154,6 @@ h6 {
   max-width: 940px;
   margin-left: auto;
   margin-right: auto;
-}
-code {
-  color: inherit;
-  background-color: rgba(0, 0, 0, 0.04);
 }
 img {
   max-width:100%;
@@ -189,40 +170,13 @@ button.code-folding-btn:focus {
 summary {
   display: list-item;
 }
+pre code {
+  padding: 0;
+}
 </style>
 
 
 <style type="text/css">
-/* padding for bootstrap navbar */
-body {
-  padding-top: 41px;
-  padding-bottom: 40px;
-}
-/* offset scroll position for anchor links (for fixed navbar)  */
-.section h1 {
-  padding-top: 46px;
-  margin-top: -46px;
-}
-.section h2 {
-  padding-top: 46px;
-  margin-top: -46px;
-}
-.section h3 {
-  padding-top: 46px;
-  margin-top: -46px;
-}
-.section h4 {
-  padding-top: 46px;
-  margin-top: -46px;
-}
-.section h5 {
-  padding-top: 46px;
-  margin-top: -46px;
-}
-.section h6 {
-  padding-top: 46px;
-  margin-top: -46px;
-}
 .dropdown-submenu {
   position: relative;
 }
@@ -250,7 +204,7 @@ body {
   margin-right: -10px;
 }
 .dropdown-submenu:hover>a:after {
-  border-left-color: #ffffff;
+  border-left-color: #adb5bd;
 }
 .dropdown-submenu.pull-left {
   float: none;
@@ -262,7 +216,7 @@ body {
 }
 </style>
 
-<script>
+<script type="text/javascript">
 // manage active state of menu based on current page
 $(document).ready(function () {
   // active menu anchor
@@ -273,10 +227,23 @@ $(document).ready(function () {
   var menuAnchor = $('a[href="' + href + '"]');
 
   // mark it active
-  menuAnchor.parent().addClass('active');
+  menuAnchor.tab('show');
 
   // if it's got a parent navbar menu mark it active as well
   menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
 });
 </script>
 
@@ -288,7 +255,6 @@ $(document).ready(function () {
   max-height: 500px;
   min-height: 44px;
   overflow-y: auto;
-  background: white;
   border: 1px solid #ddd;
   border-radius: 4px;
 }
@@ -414,7 +380,7 @@ div.tocify {
 
 
 <!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row-fluid">
+<div class="row">
 <div class="col-xs-12 col-sm-4 col-md-3">
 <div id="TOC" class="tocify">
 </div>
@@ -577,7 +543,7 @@ div.tocify {
   </div><!--/.container -->
 </div><!--/.navbar -->
 
-<div class="fluid-row" id="header">
+<div id="header">
 
 
 
@@ -587,26 +553,26 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2021-01-14&quot;</code></pre>
+<pre><code>## [1] &quot;2021-10-05&quot;</code></pre>
 <p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" /></p>
 <hr />
 <div id="la-lista-de-packetes-para-analisis-de-los-mapas-de-calor" class="section level2">
 <h2>La lista de packetes para analisis de los Mapas de calor</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">library</span>(ggversa)</span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="kw">library</span>(GGally)</span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="kw">library</span>(tidyverse)</span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="kw">library</span>(kableExtra)</span>
-<span id="cb2-5"><a href="#cb2-5"></a><span class="kw">library</span>(reshape2)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggversa)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reshape2)</span></code></pre></div>
 </div>
 <div id="mapas-de-calor-o-mapas-críticos-o-heat-maps-con-geom_tile" class="section level2">
 <h2>Mapas de calor o mapas críticos o Heat Maps con <strong>geom_tile</strong></h2>
 <p>Cuando hay muchas variables en el análisis, a veces podría ser más fácil observar las diferencias entre ellas usando colores en vez de números; por ejemplo, para visualizar los coeficientes de correlación entre pares de variables continuas. Un mapa de calor (heat map en inglés) nos puede ayudar pues justamente es una visualización con gradientes de colores de valores continuos. Continuaremos utilizando la base de datos de la orquídea <em>Dipodium</em> para explicar los tres pasos para construir un mapa de calor de los coeficientes de correlación.</p>
 <p>Primero, necesitamos calcular los coeficientes de correlación con la opción <strong>cor</strong>. Luego visualizaremos los datos con la función <strong>kable</strong>.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>DWCor=<span class="kw">round</span>(<span class="kw">cor</span>(dipodium[<span class="kw">c</span>(<span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">13</span>)],</span>
-<span id="cb3-2"><a href="#cb3-2"></a>                <span class="dt">use=</span><span class="st">&quot;pairwise.complete.obs&quot;</span>),<span class="dv">3</span>)</span>
-<span id="cb3-3"><a href="#cb3-3"></a></span>
-<span id="cb3-4"><a href="#cb3-4"></a><span class="kw">kable</span>(DWCor) <span class="op">%&gt;%</span></span>
-<span id="cb3-5"><a href="#cb3-5"></a><span class="st">  </span><span class="kw">kable_styling</span>(<span class="dt">bootstrap_options =</span> <span class="st">&quot;striped&quot;</span>, <span class="dt">full_width =</span> F, <span class="dt">font_size =</span> <span class="dv">10</span>) </span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>DWCor<span class="ot">=</span><span class="fu">round</span>(<span class="fu">cor</span>(dipodium[<span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">13</span>)],</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>                <span class="at">use=</span><span class="st">&quot;pairwise.complete.obs&quot;</span>),<span class="dv">3</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(DWCor) <span class="sc">%&gt;%</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable_styling</span>(<span class="at">bootstrap_options =</span> <span class="st">&quot;striped&quot;</span>, <span class="at">full_width =</span> F, <span class="at">font_size =</span> <span class="dv">10</span>) </span></code></pre></div>
 <table class="table table-striped" style="font-size: 10px; width: auto !important; margin-left: auto; margin-right: auto;">
 <thead>
 <tr>
@@ -737,9 +703,9 @@ number_of_fruits
 </div>
 <div id="matriz-de-correlaciones" class="section level2">
 <h2>Matriz de correlaciones</h2>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a>DWMelt=<span class="st"> </span><span class="kw">melt</span>(DWCor, <span class="dt">varnames=</span> <span class="kw">c</span>(<span class="st">&quot;x1&quot;</span>, <span class="st">&quot;y1&quot;</span>),</span>
-<span id="cb4-2"><a href="#cb4-2"></a>             <span class="dt">value.name =</span> <span class="st">&quot;Correlation&quot;</span>)</span>
-<span id="cb4-3"><a href="#cb4-3"></a><span class="kw">head</span>(DWMelt)</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>DWMelt<span class="ot">=</span> <span class="fu">melt</span>(DWCor, <span class="at">varnames=</span> <span class="fu">c</span>(<span class="st">&quot;x1&quot;</span>, <span class="st">&quot;y1&quot;</span>),</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>             <span class="at">value.name =</span> <span class="st">&quot;Correlation&quot;</span>)</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(DWMelt)</span></code></pre></div>
 <pre><code>##                  x1       y1 Correlation
 ## 1               dbh      dbh       1.000
 ## 2          distance      dbh       0.329
@@ -747,66 +713,66 @@ number_of_fruits
 ## 4      height_inflo      dbh      -0.100
 ## 5  number_of_fruits      dbh      -0.009
 ## 6               dbh distance       0.329</code></pre>
-<p>Finalmente, el tercer paso es producir la figura con <strong>geom_tile</strong>. El gráfico de la Figura se produce sin modificar los parámetros. En el segundo gráfico se modifican los colores usando la guía de color para asignarlos a diferentes grupos a la vez que se remueven los nombres de los ejes de <strong>X</strong> y de <strong>Y</strong>. A este mapa de calor básico se le asignan las variables de <strong>x</strong> y <strong>y</strong> y el valor que queremos que tenga un rango de color, en este caso el valor de correlación. Para remover el nombre de la variables <strong>x</strong> y <strong>y</strong>, se usa <strong>labs(x=NULL, y=NULL)</strong>, ya que ggplot2 lo pone automáticamente cuando se construye un gráfico. Note que para remover el nombre de la columna en los ejes se usa <strong>xlab("")</strong> y <strong>ylab("“)<strong>. Aqui se añade solamente </strong>xlab(”")</strong> y nota que ahora no se ve el nombre de la columna.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">ggplot</span>(DWMelt, <span class="kw">aes</span>(<span class="dt">x=</span>x1, <span class="dt">y=</span>y1))<span class="op">+</span></span>
-<span id="cb6-2"><a href="#cb6-2"></a><span class="st">  </span><span class="kw">geom_tile</span>(<span class="kw">aes</span>(<span class="dt">fill=</span>Correlation))<span class="op">+</span></span>
-<span id="cb6-3"><a href="#cb6-3"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.text.y=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>, <span class="dt">face=</span><span class="st">&quot;bold&quot;</span>),</span>
-<span id="cb6-4"><a href="#cb6-4"></a>        <span class="dt">axis.text.x=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">8</span>, <span class="dt">face=</span><span class="st">&quot;bold&quot;</span>, <span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="dv">1</span>))<span class="op">+</span></span>
-<span id="cb6-5"><a href="#cb6-5"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">fill=</span><span class="st">&quot;Correlación&quot;</span>)<span class="op">+</span></span>
-<span id="cb6-6"><a href="#cb6-6"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<p>Finalmente, el tercer paso es producir la figura con <strong>geom_tile</strong>. El gráfico de la Figura se produce sin modificar los parámetros. En el segundo gráfico se modifican los colores usando la guía de color para asignarlos a diferentes grupos a la vez que se remueven los nombres de los ejes de <strong>X</strong> y de <strong>Y</strong>. A este mapa de calor básico se le asignan las variables de <strong>x</strong> y <strong>y</strong> y el valor que queremos que tenga un rango de color, en este caso el valor de correlación. Para remover el nombre de la variables <strong>x</strong> y <strong>y</strong>, se usa <strong>labs(x=NULL, y=NULL)</strong>, ya que ggplot2 lo pone automáticamente cuando se construye un gráfico. Note que para remover el nombre de la columna en los ejes se usa <strong>xlab(““)</strong> y <strong>ylab(““)<strong>. Aqui se añade solamente </strong>xlab(”“)</strong> y nota que ahora no se ve el nombre de la columna.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(DWMelt, <span class="fu">aes</span>(<span class="at">x=</span>x1, <span class="at">y=</span>y1))<span class="sc">+</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="fu">aes</span>(<span class="at">fill=</span>Correlation))<span class="sc">+</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>, <span class="at">angle =</span> <span class="dv">90</span>, <span class="at">hjust =</span> <span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">fill=</span><span class="st">&quot;Correlación&quot;</span>)<span class="sc">+</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;&quot;</span>)</span></code></pre></div>
 <p><img src="G12_Mapas_Calor_files/figure-html/heatmap1-1.png" width="672" /></p>
 <p>Le cambiamos los colores del gráfico, usando <strong>scale_fill_gradient2</strong>. Asignamos los valores más bajos al color amarillo, los más altos al rojo y los valores intermedios al color anaranjado. Para esta opción de <strong>scale_fill_gradient2</strong>, hay que asignar tanto los colores al extremo y el del medio. El resultado se puede ver en la Figura. Note que los valores de correlaciones varían de -1 a +1. El límite del rango se asigna especificando <strong>limits=c(valor mínimo, valor máximo)</strong>. Dado esto, en este ejemplo la intensidad de colores no es tan amplia porque no hay valores muy negativos.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="kw">ggplot</span>(DWMelt, <span class="kw">aes</span>(<span class="dt">x=</span>x1, <span class="dt">y=</span>y1))<span class="op">+</span></span>
-<span id="cb7-2"><a href="#cb7-2"></a><span class="st">  </span><span class="kw">geom_tile</span>(<span class="kw">aes</span>(<span class="dt">fill=</span>Correlation))<span class="op">+</span></span>
-<span id="cb7-3"><a href="#cb7-3"></a><span class="st">  </span><span class="kw">scale_fill_gradient2</span>(<span class="dt">low=</span><span class="st">&quot;white&quot;</span>,</span>
-<span id="cb7-4"><a href="#cb7-4"></a>                       <span class="dt">mid=</span><span class="st">&quot;black&quot;</span>, <span class="dt">high=</span><span class="st">&quot;red&quot;</span>,</span>
-<span id="cb7-5"><a href="#cb7-5"></a>  <span class="dt">guide=</span><span class="kw">guide_colorbar</span>(<span class="dt">ticks=</span><span class="ot">FALSE</span>,</span>
-<span id="cb7-6"><a href="#cb7-6"></a>                       <span class="dt">barheight=</span><span class="dv">5</span>, <span class="dt">limits=</span><span class="kw">c</span>(<span class="op">-</span>.<span class="dv">5</span>,<span class="dv">1</span>)))<span class="op">+</span></span>
-<span id="cb7-7"><a href="#cb7-7"></a><span class="st">  </span><span class="kw">theme_minimal</span>()<span class="op">+</span></span>
-<span id="cb7-8"><a href="#cb7-8"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="ot">NULL</span>, <span class="dt">y=</span><span class="ot">NULL</span>)<span class="op">+</span></span>
-<span id="cb7-9"><a href="#cb7-9"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">20</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>),</span>
-<span id="cb7-10"><a href="#cb7-10"></a>        <span class="dt">axis.text.y=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>, <span class="dt">face=</span><span class="st">&quot;bold&quot;</span>),</span>
-<span id="cb7-11"><a href="#cb7-11"></a>        <span class="dt">axis.text.x=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">8</span>, <span class="dt">face=</span><span class="st">&quot;bold&quot;</span>, <span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="dv">1</span>))<span class="op">+</span></span>
-<span id="cb7-12"><a href="#cb7-12"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">fill=</span><span class="st">&quot;Correlación&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(DWMelt, <span class="fu">aes</span>(<span class="at">x=</span>x1, <span class="at">y=</span>y1))<span class="sc">+</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="fu">aes</span>(<span class="at">fill=</span>Correlation))<span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low=</span><span class="st">&quot;white&quot;</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">mid=</span><span class="st">&quot;black&quot;</span>, <span class="at">high=</span><span class="st">&quot;red&quot;</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">guide=</span><span class="fu">guide_colorbar</span>(<span class="at">ticks=</span><span class="cn">FALSE</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>                       <span class="at">barheight=</span><span class="dv">5</span>, <span class="at">limits=</span><span class="fu">c</span>(<span class="sc">-</span>.<span class="dv">5</span>,<span class="dv">1</span>)))<span class="sc">+</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="cn">NULL</span>)<span class="sc">+</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.y=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>, <span class="at">angle =</span> <span class="dv">90</span>, <span class="at">hjust =</span> <span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">fill=</span><span class="st">&quot;Correlación&quot;</span>)</span></code></pre></div>
 <p><img src="G12_Mapas_Calor_files/figure-html/heatmap2-1.png" width="672" /></p>
 <p>En el siguiente gráfico, se cambia el valor intermedio a blanco (para valores más cercanos a cero).</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1"></a><span class="kw">ggplot</span>(DWMelt, <span class="kw">aes</span>(<span class="dt">x=</span>x1, <span class="dt">y=</span>y1))<span class="op">+</span></span>
-<span id="cb8-2"><a href="#cb8-2"></a><span class="st">  </span><span class="kw">geom_tile</span>(<span class="kw">aes</span>(<span class="dt">fill=</span>Correlation))<span class="op">+</span></span>
-<span id="cb8-3"><a href="#cb8-3"></a><span class="st">  </span><span class="kw">scale_fill_gradient2</span>(<span class="dt">low=</span><span class="st">&quot;yellow&quot;</span>,</span>
-<span id="cb8-4"><a href="#cb8-4"></a>                       <span class="dt">mid=</span><span class="st">&quot;white&quot;</span>, <span class="dt">high=</span><span class="st">&quot;red&quot;</span>,</span>
-<span id="cb8-5"><a href="#cb8-5"></a>  <span class="dt">guide=</span><span class="kw">guide_colorbar</span>(<span class="dt">ticks=</span><span class="ot">FALSE</span>,</span>
-<span id="cb8-6"><a href="#cb8-6"></a>                       <span class="dt">barheight=</span><span class="dv">5</span>, <span class="dt">limits=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>)))<span class="op">+</span></span>
-<span id="cb8-7"><a href="#cb8-7"></a><span class="st">  </span><span class="kw">theme_minimal</span>()<span class="op">+</span></span>
-<span id="cb8-8"><a href="#cb8-8"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">x=</span><span class="ot">NULL</span>, <span class="dt">y=</span><span class="ot">NULL</span>)<span class="op">+</span></span>
-<span id="cb8-9"><a href="#cb8-9"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">20</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>),</span>
-<span id="cb8-10"><a href="#cb8-10"></a>        <span class="dt">axis.text.y=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>, <span class="dt">face=</span><span class="st">&quot;bold&quot;</span>),</span>
-<span id="cb8-11"><a href="#cb8-11"></a>        <span class="dt">axis.text.x=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">8</span>, <span class="dt">face=</span><span class="st">&quot;bold&quot;</span>, <span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="dv">1</span>))<span class="op">+</span></span>
-<span id="cb8-12"><a href="#cb8-12"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">fill=</span><span class="st">&quot;Correlación&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(DWMelt, <span class="fu">aes</span>(<span class="at">x=</span>x1, <span class="at">y=</span>y1))<span class="sc">+</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="fu">aes</span>(<span class="at">fill=</span>Correlation))<span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low=</span><span class="st">&quot;yellow&quot;</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>                       <span class="at">mid=</span><span class="st">&quot;white&quot;</span>, <span class="at">high=</span><span class="st">&quot;red&quot;</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">guide=</span><span class="fu">guide_colorbar</span>(<span class="at">ticks=</span><span class="cn">FALSE</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>                       <span class="at">barheight=</span><span class="dv">5</span>, <span class="at">limits=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)))<span class="sc">+</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="cn">NULL</span>)<span class="sc">+</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.y=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>, <span class="at">angle =</span> <span class="dv">90</span>, <span class="at">hjust =</span> <span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">fill=</span><span class="st">&quot;Correlación&quot;</span>)</span></code></pre></div>
 <p><img src="G12_Mapas_Calor_files/figure-html/heatmap3-1.png" width="672" /></p>
 <p>Se puede también hacer la selección de solamente dos colores con la función <strong>scale_fill_gradient</strong> (vea que esa opción no es lo mismo que <strong>scale_fill_gradient2</strong>). En este caso los gradientes de colores en el centro de la distribución (el cero) no está definido.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">ggplot</span>(DWMelt, <span class="kw">aes</span>(<span class="dt">x=</span>x1, <span class="dt">y=</span>y1))<span class="op">+</span></span>
-<span id="cb9-2"><a href="#cb9-2"></a><span class="st">  </span><span class="kw">geom_tile</span>(<span class="kw">aes</span>(<span class="dt">fill=</span>Correlation))<span class="op">+</span></span>
-<span id="cb9-3"><a href="#cb9-3"></a><span class="st">  </span><span class="kw">scale_fill_gradient</span>(<span class="dt">low=</span><span class="st">&quot;white&quot;</span>,</span>
-<span id="cb9-4"><a href="#cb9-4"></a>                      <span class="dt">high=</span><span class="st">&quot;red&quot;</span>, <span class="dt">limits=</span><span class="kw">c</span>(<span class="op">-</span><span class="dv">1</span>,<span class="dv">1</span>))<span class="op">+</span></span>
-<span id="cb9-5"><a href="#cb9-5"></a><span class="st">  </span><span class="kw">theme_minimal</span>()<span class="op">+</span><span class="kw">labs</span>(<span class="dt">x=</span><span class="ot">NULL</span>, <span class="dt">y=</span><span class="ot">NULL</span>)<span class="op">+</span></span>
-<span id="cb9-6"><a href="#cb9-6"></a><span class="st">  </span><span class="kw">theme</span>(<span class="dt">axis.title=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">20</span>,<span class="dt">face=</span><span class="st">&quot;bold&quot;</span>),</span>
-<span id="cb9-7"><a href="#cb9-7"></a>        <span class="dt">axis.text.y=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">10</span>, <span class="dt">face=</span><span class="st">&quot;bold&quot;</span>),</span>
-<span id="cb9-8"><a href="#cb9-8"></a>        <span class="dt">axis.text.x=</span><span class="kw">element_text</span>(<span class="dt">size=</span><span class="dv">8</span>, <span class="dt">face=</span><span class="st">&quot;bold&quot;</span>, <span class="dt">angle =</span> <span class="dv">90</span>, <span class="dt">hjust =</span> <span class="dv">1</span>))<span class="op">+</span></span>
-<span id="cb9-9"><a href="#cb9-9"></a><span class="st">  </span><span class="kw">labs</span>(<span class="dt">fill=</span><span class="st">&quot;Correlación&quot;</span>)<span class="op">+</span></span>
-<span id="cb9-10"><a href="#cb9-10"></a><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(DWMelt, <span class="fu">aes</span>(<span class="at">x=</span>x1, <span class="at">y=</span>y1))<span class="sc">+</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="fu">aes</span>(<span class="at">fill=</span>Correlation))<span class="sc">+</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_gradient</span>(<span class="at">low=</span><span class="st">&quot;white&quot;</span>,</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>                      <span class="at">high=</span><span class="st">&quot;red&quot;</span>, <span class="at">limits=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span><span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="cn">NULL</span>)<span class="sc">+</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.y=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>, <span class="at">angle =</span> <span class="dv">90</span>, <span class="at">hjust =</span> <span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">fill=</span><span class="st">&quot;Correlación&quot;</span>)<span class="sc">+</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;&quot;</span>)</span></code></pre></div>
 <p><img src="G12_Mapas_Calor_files/figure-html/heatmap4-1.png" width="672" /></p>
 <hr />
 </div>
 <div id="la-función-ggcorr" class="section level2">
 <h2>La función <strong>ggcorr</strong></h2>
 <p>La función <strong>ggcor</strong> tiene la ventaja de producir un gráfico de calor que representa solamente un espejo de los resultados. En los gráficos anteriores las misma información estaba ariba y abajo de la diagonal. Este represente solamente uno de los dos.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="kw">ggcorr</span>(DWCor, <span class="dt">low =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="dt">mid =</span> <span class="st">&quot;white&quot;</span>, <span class="dt">high =</span> <span class="st">&quot;darkred&quot;</span>, <span class="dt">nbreaks=</span><span class="dv">6</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggcorr</span>(DWCor, <span class="at">low =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="at">mid =</span> <span class="st">&quot;white&quot;</span>, <span class="at">high =</span> <span class="st">&quot;darkred&quot;</span>, <span class="at">nbreaks=</span><span class="dv">6</span>)</span></code></pre></div>
 <p><img src="G12_Mapas_Calor_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <p>Para un segundo ejemplo de <strong>ggcorr</strong></p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="kw">ggcorr</span>(DWCor, <span class="dt">geom =</span> <span class="st">&quot;blank&quot;</span>, <span class="dt">label =</span> <span class="ot">TRUE</span>, <span class="dt">hjust =</span> <span class="fl">0.75</span>) <span class="op">+</span></span>
-<span id="cb11-2"><a href="#cb11-2"></a><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">size =</span> <span class="dv">20</span>, <span class="kw">aes</span>(<span class="dt">color =</span> coefficient <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>, <span class="dt">alpha =</span> <span class="kw">abs</span>(coefficient) <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.5</span>)) <span class="op">+</span></span>
-<span id="cb11-3"><a href="#cb11-3"></a><span class="st">  </span><span class="kw">scale_alpha_manual</span>(<span class="dt">values =</span> <span class="kw">c</span>(<span class="st">&quot;TRUE&quot;</span> =<span class="st"> </span><span class="fl">0.25</span>, <span class="st">&quot;FALSE&quot;</span> =<span class="st"> </span><span class="dv">0</span>)) <span class="op">+</span></span>
-<span id="cb11-4"><a href="#cb11-4"></a><span class="st">  </span><span class="kw">guides</span>(<span class="dt">color =</span> <span class="ot">FALSE</span>, <span class="dt">alpha =</span> <span class="ot">FALSE</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggcorr</span>(DWCor, <span class="at">geom =</span> <span class="st">&quot;blank&quot;</span>, <span class="at">label =</span> <span class="cn">TRUE</span>, <span class="at">hjust =</span> <span class="fl">0.75</span>) <span class="sc">+</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">20</span>, <span class="fu">aes</span>(<span class="at">color =</span> coefficient <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="at">alpha =</span> <span class="fu">abs</span>(coefficient) <span class="sc">&gt;</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_alpha_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;TRUE&quot;</span> <span class="ot">=</span> <span class="fl">0.25</span>, <span class="st">&quot;FALSE&quot;</span> <span class="ot">=</span> <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="cn">FALSE</span>, <span class="at">alpha =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <p><img src="G12_Mapas_Calor_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <p>Para muchos ejemplos vea este enlace. <a href="https://briatte.github.io/ggcorr/" class="uri">https://briatte.github.io/ggcorr/</a></p>
 <hr />
@@ -870,7 +836,7 @@ $(document).ready(function () {
 
 $(document).ready(function () {
   $('.tabset-dropdown > .nav-tabs > li').click(function () {
-    $(this).parent().toggleClass('nav-tabs-open')
+    $(this).parent().toggleClass('nav-tabs-open');
   });
 });
 </script>
@@ -879,6 +845,9 @@ $(document).ready(function () {
 
 <script>
 $(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
 
     // move toc-ignore selectors from section div to header
     $('div.section.toc-ignore')
