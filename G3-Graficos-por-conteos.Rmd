@@ -228,7 +228,7 @@ Anolis %>%  # pipe
 ```
 
 
-```{r geom count1}
+```{r geom_count1}
 
 Anolis %>%
   select(WEIGHT, SVL)%>%
@@ -242,6 +242,16 @@ ggplot(aes(SVL, WEIGHT))+
 
 ```
 
+***
+### Paso a Paso 
+
+- *Tamaño del punto basado en su frecuencia*
+
+
+```{r echo=FALSE}
+embed_flipbook(chunk_name = "geom_count1",
+               display_type = c("code", "output"))
+```
 
 ***
 
@@ -250,7 +260,7 @@ ggplot(aes(SVL, WEIGHT))+
 
 Se puede representar la frecuencia en proporción a los datos.  En el gráfico siguiente, **Figura. Puntos en proporción a la frecuencia**, los tamaños de los puntos están proporcionales a su frecuencia. Note que hay que añadir **(size=..prop.. y group=1)** en la función **geom_count()**.  Note que en este caso la suma de todas las frecuencias es 1.  Tengamos en cuenta que en la figura anterior los puntos representan la frecuencia.  Pero, ahora, los puntos salen en proporción a la frecuencia. La frecuencia en este caso es calculada utilizando como denominador la cantidad total de todos los especímenes en el archivo. 
 
-```{r geom count2}
+```{r geom_count2}
 
 Anolis %>%
   select(WEIGHT, SVL)%>%
@@ -264,11 +274,21 @@ ggplot(aes(SVL, WEIGHT))+
 ```
 
 ***
+### Paso a Paso 
 
+- *Tamaño del punto basado en su proporción*
+
+
+```{r echo=FALSE}
+embed_flipbook(chunk_name = "geom_count2",
+               display_type = c("code", "output"))
+```
+
+***
 
 ### Tamaño de puntos proporcional a una variable
 
-En el siguiente gráfico, **Figura. Puntos en proporción a una variable**, las variable WEIGHT, o peso de las lagartijas, se usa para que la suma de la proporción equivalga a 1. Entonces aquí cada grupo en "Y" suma 1. Note que los grupos se forman a base del tamaño del hocico a la cloaca (SVL) utilizando **geom_count(aes(size=..prop.., group=SVL))**. Por ejemplo, en los *Anolis* que tienen el tamaño de 35 hay 4 puntos cada uno con valor 0.25, lo que da una suma de 1 (hay 4 cuatro lagartijas que tienen un SVL de 35cm). Note que la frecuencia en este caso es calculada utilizando como denominador la cantidad total de los valores que corresponden a un valor específico en "X".
+En el siguiente gráfico, **Puntos en proporción a una variable**, las variable **WEIGHT**, o peso de las lagartijas, se usa para que la suma de la proporción equivalga a 1. Entonces aquí cada grupo en "Y" suma 1. Note que los grupos se forman a base del tamaño del hocico a la cloaca (SVL) utilizando **geom_count(aes(size=..prop.., group=SVL))**. Por ejemplo, en los *Anolis* que tienen el tamaño de 35 hay 4 puntos cada uno con valor 0.25, lo que da una suma de 1 (hay 4 cuatro lagartijas que tienen un SVL de 35cm). Note que la frecuencia en este caso es calculada utilizando como denominador la cantidad total de los valores que corresponden a un valor específico en "X".
 
 ```{r}
 x=c(1,2,3,5,9,15)
@@ -279,7 +299,7 @@ sum(x)
 
 
 
-```{r geom count2a}
+```{r geom_count2a}
 
 Anolis %>%
   select(WEIGHT, SVL)%>%
@@ -290,6 +310,18 @@ ggplot(aes(SVL, WEIGHT))+
   xlab("Tamaño del hocico a la cloaca")+
   theme(axis.title=element_text(size=14,face="bold"))+
   labs(title="Figura. Puntos en proporción a una variable")
+```
+
+***
+
+### Paso a Paso 
+
+- *Tamaño del punto basado en su frecuencia*
+
+
+```{r echo=FALSE}
+embed_flipbook(chunk_name = "geom_count2a",
+               display_type = c("code", "output"))
 ```
 
 
@@ -324,8 +356,8 @@ ggplot(aes(SVL, WEIGHT, colour=SEASON))+
 
 En la siguiente demostración, **Figura. Grupos separados por variable discreta**, se representan dos gráficos separados de acuerdo al sitio de muestreo usando **facet_wrap** y al añadir en **aes(, group=la variable)**.  Aquí se observa que el muestreo en la localidad llamada _Torre Sur_ se hizo solamente en el periodo lluvioso.  Note que para crear los dos gráficos separados por una variable discreta se usa **facet_wrap** con una tilde, "~", seguido del nombre de la variable, que en este caso es la localidad de muestreo, **Survey_Site**. (**facet_wrap** se explica en detalle como un tópico aparte de visualización.)
 
-```{r geom count4}
-names(Anolis) # para mostrar los nombres de las columnas
+```{r geom_count4}
+#names(Anolis) # para mostrar los nombres de las columnas
 
   
 Anolis %>%
@@ -344,6 +376,17 @@ ggplot(aes(SVL, WEIGHT, colour=SEASON))+
 
 ```
 
+***
+
+### Paso a Paso 
+
+- *Grupos seperados por variable discreta*
+
+
+```{r echo=FALSE}
+embed_flipbook(chunk_name = "geom_count4",
+               display_type = c("code", "output"))
+```
 
 ***
 
