@@ -42,6 +42,7 @@ library(ggversa) # la función "library" activa el packete de **ggversa** donde 
 library(ggplot2) # ggplot2 es la librería que se usará para graficar los datos
 library(tidyverse) # una serie de paquetes para organizar y visualizar los datos
 library(gt) # para que las tablas se vean más organizadas
+library(flipbookr)
 ```
 
 
@@ -49,7 +50,7 @@ library(gt) # para que las tablas se vean más organizadas
 Para visualizar gráficos con **geom_point** y **geom_count**,  utilizaremos los datos que se encuentran en el archivo **Anolis** en el paquete **ggversa**.  Aquí se muestran las primeras seis filas del archivo. 
 
 
-Enlaces para tener información d ecomo cambiar la fechas.  
+Enlaces para tener información de como cambiar la fechas.  
 
 <https://www.r-bloggers.com/date-formats-in-r/>
 
@@ -96,6 +97,8 @@ h%>%
 ```
 
 
+
+
 ***
 
 ## Creación de subgrupos con **select()** y **filter()** 
@@ -104,7 +107,7 @@ Antes de comenzar la demostración, vamos a preparar los datos.  Se usará un su
 
 En el primer paso se muestran las filas del 1 al 7 usando **head( )** y se seleccionan las columnas de peso, WEIGHT, de los lagartijos con valor menor de 4 y tamaño SVL mayor a 20.  Note que se utiliza **&** para indicar que cada fila tiene que cumplir con ambas condiciones; o sea, el lagartijo tiene que tener un peso menor de 4 cm y un tamaño mayor de 20 cm (de la cloaca al hocico).  Si una de las dos condiciones no se cumple, no se incluirá ese espécimen en particular, de tal manera que obtendremos un archivo más reducido. 
 
-```{r}
+```{r Anolis}
 
 Anolis %>%  # pipe
   select(WEIGHT, SVL)%>%  # selecciona
@@ -114,7 +117,15 @@ Anolis %>%  # pipe
 
 ```
 
+### Paso a Paso 
 
+- seleccionar los datos y crear una tabla
+
+
+```{r echo=FALSE}
+embed_flipbook(chunk_name = "Anolis", 
+                         display_type = "both")
+```
 
 ***
 
