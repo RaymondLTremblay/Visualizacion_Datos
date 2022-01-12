@@ -6,8 +6,7 @@ ggplot(aes(SVL, WEIGHT))+
   ylab("Peso en gramos")+
   xlab("Tamaño del hocico a la cloaca")+
   theme(axis.title.x=
-    element_text(size=10,
-                 face="italic", 
+    element_text(size=10,face="italic", 
                  colour="darkorchid4"))+
   theme(axis.title.y=
     element_text(size=10,
@@ -17,6 +16,5 @@ ggplot(aes(SVL, WEIGHT))+
     element_text(size=18,
                  face="bold", 
                  colour="green"))+
-  ggtitle("Título con 
-          tipo/tamaño/aspecto que Ud desee")
+  ggtitle("Título con tipo/tamaño/aspecto que Ud desee")
 
