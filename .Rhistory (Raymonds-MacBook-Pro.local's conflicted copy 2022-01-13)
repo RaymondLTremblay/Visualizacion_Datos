@@ -1,0 +1,215 @@
+#names(dipodium)
+head(dipodium)
+#names(dipodium)
+head(dipodium)
+d1=dipodium %>%
+select(Number_of_fruits, Number_of_Flowers) %>%
+drop_na()
+#d1
+attach(dipodium)
+d1=dipodium %>%
+select(Number_of_fruits, Number_of_Flowers) %>%
+drop_na()
+boxplot1 <- ggplot(d1, aes(Number_of_fruits, x=1))+
+geom_boxplot()+
+annotate("text", x= 1,y= 5, label="Fig. 1")+
+labs(x="", y="Cantidad de Frutos")+
+theme(axis.title=element_text(size=10,face="bold"))
+boxplot2 <- ggplot(d1, aes(Number_of_fruits, x=1))+
+geom_boxplot(notch=TRUE) +
+annotate("text", x= 0.7,y= 7, label="Fig. 2")+
+labs(x="", y="Cantidad de Frutos")+
+theme(axis.title=element_text(size=10,face="bold"))
+boxplot4 <- ggplot(d1, aes(factor(Number_of_Flowers), Number_of_fruits))+
+geom_boxplot(notch=FALSE)+
+annotate("text", x= 2,y= 10, label="Fig. 4")+
+labs(y="Cantidad de Frutos", x="Cantidad de Flores")+
+theme(axis.title=element_text(size=10,face="bold"))+
+theme(axis.text.x = element_text(angle = 90))
+gridExtra::grid.arrange(boxplot1,boxplot2, boxplot3, boxplot4,ncol=2)
+#names(dipodium)
+head(dipodium)
+attach(dipodium)
+d1=dipodium %>%
+dplyr::select(Number_of_fruits, Number_of_Flowers) %>%
+drop_na()
+#d1
+install.packages("conflicted")
+#names(dipodium)
+head(dipodium)
+d1=dipodium %>%
+dplyr::select(Number_of_fruits, Number_of_Flowers) %>%
+drop_na()
+#d1
+#names(dipodium)
+library(conflicted)
+#names(dipodium)
+library(conflicted)
+head(dipodium)
+d1=dipodium %>%
+select(Number_of_fruits, Number_of_Flowers) %>%
+drop_na()
+#d1
+#d1
+R.version
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message = FALSE)
+library(ggversa)
+library(tidyverse)
+library(gridExtra)# Para organizar múltiples gráficos juntos
+#names(dipodium)
+library(conflicted)
+head(dipodium)
+d1=dipodium %>%
+dplyr::select(Number_of_fruits, Number_of_Flowers) %>%
+drop_na()
+#d1
+R.version
+library(janitor)
+dipodium=clean_names(dipodium)
+head(dipodium)
+d1=dipodium %>%
+dplyr::select(number_of_fruits, number_of_flowers) %>%
+drop_na()
+dipodium %>%
+dplyr::select(number_of_flowers, number_of_fruits) %>%
+drop_na() %>%
+ggplot(aes(factor(number_of_flowers), number_of_fruits,
+fill=factor(number_of_flowers)))+
+geom_boxplot(varwidth=TRUE)  # la función varwidth =TRUE cambia
+#el ancho de la barras basado en una formula indicado abajo.
+# Más datos más ancho la barra.
+dipodium %>%
+dplyr::select(number_of_flowers, number_of_fruits) %>%
+drop_na() %>%
+ggplot(aes(factor(number_of_flowers), number_of_fruits,
+fill=factor(number_of_flowers)))+
+geom_boxplot(varwidth=TRUE)+
+theme(legend. position = "none")
+dipodium %>%
+dplyr::select(number_of_flowers, number_of_fruits) %>%
+drop_na() %>%
+ggplot(aes(factor(number_of_flowers), number_of_fruits,
+fill=factor(number_of_flowers)))+
+geom_boxplot(varwidth=TRUE)+
+theme(legend.position = "none")
+# la función varwidth =TRUE cambia
+#el ancho de la barras basado en una formula indicado abajo.
+# Más datos más ancho la barra.
+dipodium %>%
+dplyr::select(number_of_flowers, number_of_fruits) %>%
+drop_na() %>%
+ggplot(aes(factor(number_of_flowers), number_of_fruits,
+fill=factor(number_of_flowers)))+
+geom_boxplot(varwidth=TRUE)+
+theme(legend.position = "none")+
+xlab("Cantidad de Flores")+
+ylab("Cantidad de Frutos")
+# la función varwidth =TRUE cambia
+#el ancho de la barras basado en una formula indicado abajo.
+# Más datos más ancho la barra.
+gridExtra::grid.arrange(boxplot1,boxplot2, boxplot3, boxplot4,ncol=2)
+library(readr)
+us_counties <- read_csv("~/Dropbox/GitHub_Google_Drive/GitHub/covid-19-data-master/us-counties.csv")
+View(us_counties)
+knitr::opts_chunk$set(echo = TRUE)
+library(readr)
+us_counties <- read_csv("~/Dropbox/GitHub_Google_Drive/GitHub/covid-19-data-master/us-counties.csv")
+#write.csv(us_counties, "COVID_DATA/us_counties.csv")
+knitr::opts_chunk$set(echo = TRUE)
+# preparar las librerías primero:
+library(ggversa) # la función "library" activa el packete de **ggversa** donde se encuentra los archivos
+library(ggplot2) # ggplot2 es la librería que se usará para graficar los datos
+library(tidyverse) # una serie de paquetes para organizar y visualizar los datos
+library(gt) # para que las tablas se vean más organizadas
+library(flipbookr)
+h=head(Anolis) # la función *head* es para visualizar las primeros 6 filas
+#h
+h$DATE=as.Date(h$DATE, "%m/%d/%y") # convertir la columna de fecha de tipo *carácter* a tipo *fecha*
+h
+h%>%
+gt() %>%
+tab_header(
+title = md("Datos lagartija *Anolis* de Puerto Rico"))%>%
+tab_options(
+column_labels.font.size = px(10),
+table.font.size = px(10))%>%
+tab_style(
+style = cell_text(style = "italic"),
+locations = cells_body(
+columns = vars(SPECIES)
+))%>%
+fmt_date(
+columns = vars(DATE),
+date_style = 8
+)
+embed_flipbook(chunk_name = "Anolis",
+display_type = "both")
+Anolis %>%
+select(WEIGHT, SVL)%>%
+filter(WEIGHT<4 & SVL>20)%>%
+ggplot(aes(SVL, WEIGHT))+
+geom_point()+
+ylab("Peso en gramos")+
+xlab("Tamaño del hocico a la cloaca")+
+theme(axis.title.x=
+element_text(size=10,face="italic", colour="darkorchid4"))+
+theme(axis.title.y=
+element_text(size=10,face="bold", colour="darkred"))+
+theme(title=
+element_text(size=18,face="bold", colour="green"))+
+ggtitle("Título con tipo/tamaño/aspecto que Ud desee")
+knitr::opts_chunk$set(echo = TRUE)
+Sys.Date()
+knitr::include_graphics(c("Graficos/hex_ggversa.png", "Graficos/hex_Visualizacion_Datos.png"))
+# preparar las librerías primero:
+library(ggversa) # la función "library" activa el packete de **ggversa** donde se encuentra los archivos
+library(ggplot2) # ggplot2 es la librería que se usará para graficar los datos
+library(tidyverse) # una serie de paquetes para organizar y visualizar los datos
+library(gt) # para que las tablas se vean más organizadas
+library(flipbookr)
+h=head(Anolis) # la función *head* es para visualizar las primeros 6 filas
+#h
+h$DATE=as.Date(h$DATE, "%m/%d/%y") # convertir la columna de fecha de tipo *carácter* a tipo *fecha*
+h
+h%>%
+gt() %>%
+tab_header(
+title = md("Datos lagartija *Anolis* de Puerto Rico"))%>%
+tab_options(
+column_labels.font.size = px(10),
+table.font.size = px(10))%>%
+tab_style(
+style = cell_text(style = "italic"),
+locations = cells_body(
+columns = c(SPECIES)
+))%>%
+fmt_date(
+columns = c(DATE),
+date_style = 8
+)
+Anolis %>%  # pipe
+select(WEIGHT, SVL)%>%  # selecciona
+filter(WEIGHT<4 & SVL>20)%>%
+head()%>%            # solo muestra los primeros seis
+gt()
+embed_flipbook(chunk_name = "Anolis",
+display_type = c("code", "output"))
+embed_flipbook(chunk_name = "geom_count2a",
+display_type = c("code", "output"))
+Anolis %>%
+select(WEIGHT, SVL)%>%
+filter(WEIGHT<4 & SVL>20)%>%
+ggplot(aes(SVL, WEIGHT))+
+geom_count(aes(size=..prop.., group=WEIGHT))+
+ylab("Peso en gramos")+
+xlab("Tamaño del hocico a la cloaca")+
+theme(axis.title=element_text(size=14,face="bold"))+
+labs(title="Figura. Puntos en proporción a una variable")
+embed_flipbook(chunk_name = "geom_count2a",
+display_type = c("code", "output"))
+rversions
+R.version
+install.packages(c("broom", "carData", "class", "datawizard", "effects", "emmeans", "expss", "foreign", "htmlTable", "httpuv", "igraph", "insight", "MASS", "multcomp", "nlme", "nnet", "parameters", "questionr", "RcppParallel", "renv", "repr", "spatial", "terra"))
+install.packages(c("nlme", "terra"))
+install.packages(c("nlme", "terra"))
+install.packages("terra", dependencies = TRUE)
