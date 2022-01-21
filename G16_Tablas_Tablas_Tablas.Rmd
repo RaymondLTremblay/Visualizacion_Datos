@@ -1,0 +1,149 @@
+---
+title: "G16_Tablas_Tablas_y_Tablas"
+output:
+  html_document:
+    css: tutorial.css
+    fig_caption: yes
+    highlight: pygments
+    theme: simplex
+    toc: yes
+    toc_float: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message = FALSE)
+```
+Fecha de la ultima revisión
+```{r echo=FALSE}
+
+Sys.Date()
+```
+
+
+
+```{r, eval=TRUE, echo=FALSE}
+colorize <- function(x, color) {
+  if (knitr::is_latex_output()) {
+    sprintf("\\textcolor{%s}{%s}", color, x)
+  } else if (knitr::is_html_output()) {
+    sprintf("<span style='color: %s;'>%s</span>", color, 
+      x)
+  } else x
+}
+
+#`r colorize("some words in red", "red")`
+```
+
+```{r, echo=FALSE, fig.show = "hold", out.width = "20%", fig.align = "default"}
+knitr::include_graphics(c("Graficos/hex_ggversa.png", "Graficos/hex_Visualizacion_Datos.png"))
+```
+
+
+```{r}
+library(ggplot2)
+library(ggversa)
+library(gt)
+library(gridExtra)
+```
+
+***
+
+En este documento estaremos evaluando una serie de alternativas y paquetes para preparar tablas.
+
+# Tablas con Markdown
+ El primer ejemplo usa el sistema de markdown para preparar tablas
+
+
+## Tablas sencillas y R
+
+Las tablas sencillas se usa cuando no hay mucha información y no estamos importando los datos externo o de un objeto de R.  
+
+ - "|", para separar columnas
+ - ":", para indentificar si el texto o números estan pegado a la derecha, izquierda y centrado
+ - "|-----|", para separar el nombre de las columnas de la información de la tabla 
+
+A ver, mire la **Tabla a** y la **Tabla b**. ¿Encuentra los errores?  Vea que la **Tabla a** muestra los valores con demasiadas cifras significativas, justificaciones ilógicas, formato inconsistente y no especifica las unidades de los valores.  Vemos en la **Tabla b** que ahora las cifras significativas aparecen de forma consistente y en el mismo formato (2da y 3ra columnas), todos los números están justificados a la derecha y las unidades de cm se especifican (3ra columna).  
+
+En conclusión, no solo la **Tabla b** se ve más presentable, si no que también corrige los problemas, de ahí la importancia de presentar datos tabulados de forma que facilite su comunicación a la audiencia.
+  
+**Tabla a.  Errores de formato, justificación y escala**
+  
+|         | Tamaño de muestra | El largo de la hoja | valor de p  |
+|---------|:-------|:--------:|:-------------|
+| Mujeres | 27273 |  11.03  | 0.000000001 |
+| Hombres | 169019 | 13.5  | 0.098979676 |
+| Especie  | 1.087^6 | 14.5  | .0300001 |
+
+
+***
+
+**Tabla b. Errores anteriores corregidos**
+
+|         | Tamaño de muestra | El largo de la hoja (cm) | valor de p  |
+|:---------|-------:|--------:|-------------:|
+| Mujeres | 27273 | 11.0  | <0.001 |
+| Hombres | 169019 | 13.5 | 0.099 |
+| Especie  | 1087669 | 14.5  | 0.030 |
+
+Para facilitar la producción de una tabla siempre puede usar este enlace 
+
+https://www.tablesgenerator.com/markdown_tables
+
+
+1. Ejercicio
+
+Prepara una tabla de la lista de tu familia, nombre de tu madre, abuelas y cuantos hijos tienen. Los nombres deberían esta justificado a la izquierda y la cantidad de hijos a la derecha, en una tercera columna pon el municipio donde nacio esa persona.
+
+***
+
+
+# tibble y tribble
+
+## tibble
+
+Un tibble es una tabla que es muy similar a un data frame, con algunas diferencias que le hace más fácil encontrar errores y imprimir esas tablas.  Aqui vemos un data frame que fue convertida en tibble, a evaluar la tabla no se ve ninguna diferencia. Vea este enlace para más información https://r4ds.had.co.nz/tibbles.html
+
+
+```{r}
+library(ggversa)
+library(tibble)
+Anolis
+
+A=as_tibble(Anolis)
+A
+```
+
+
+
+## tribble
+
+Constuir una tabla con tribble
+
+```{r}
+Tabla=tribble(~"Nombre Cientifico de las Especies", ~"Nombre Comun", ~N,
+        "Especie_1", "Angelito", 10,
+        "Especie_2", "...", 300,
+        "Prestoea montana","Palma de Sierra", 1,
+        "....","...", NA)
+Tabla
+```
+
+
+# El paquete **gt**
+
+El paquete **gt** es the "grammar of tables", y la función prinicpal es "gt". Si usamos la tabla que creamos anteriomente se puede mejor la aparencia de la tabla
+
+```{r}
+library(gt)
+gt(head(A))
+```
+
+
+https://www.r-bloggers.com/2021/11/top-r-packages-for-visualizing-table-data-make-stunning-tables-in-minutes/
+
+
+
+
+
+
+
