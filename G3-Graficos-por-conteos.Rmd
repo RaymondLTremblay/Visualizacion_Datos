@@ -111,8 +111,8 @@ En el primer paso se muestran las filas del 1 al 7 usando **head( )** y se selec
 ```{r Anolis}
 
 Anolis %>%  # pipe
-  select(WEIGHT, SVL)%>%  # selecciona
-  filter(WEIGHT<4 & SVL>20)%>%
+  select(WEIGHT, SVL) %>%  # Seleccionar solamente la siguientes columnas
+ filter(WEIGHT<4 & SVL>20)%>%
   head()%>%            # solo muestra los primeros seis
   gt()
 
@@ -126,8 +126,7 @@ Anolis %>%  # pipe
 
 
 ```{r echo=FALSE}
-embed_flipbook(chunk_name = "Anolis", 
-                         display_type = c("code", "output"))
+embed_flipbook(chunk_name = "Anolis", display_type = c("code", "output"))
 ```
 
 ***
@@ -144,9 +143,10 @@ A continuación, en la **Figura. Gráfico básico con geom_point**, se muestra u
 Anolis %>%
   select(WEIGHT, SVL) %>%
   filter(WEIGHT<4 & SVL>20) %>%
-ggplot(aes(SVL, WEIGHT)) +
-  geom_point() +
-    labs(title= "Figura. Relación de SVL y el peso \n de Anolis en El Verde, Yunque, PR")
+ggplot(aes(x=WEIGHT, y=SVL))+
+  geom_point()+
+    labs(title= "Figura. Relación de SVL y  el peso de Anolis en \n El Verde, Yunque, PR")+
+  ylab("Snout vent length")
 ```
 
 ***
@@ -179,7 +179,7 @@ ggplot(aes(SVL, WEIGHT))+
   xlab("Tamaño del hocico a la cloaca")+
   theme(axis.title.x=
     element_text(size=10,face="italic", 
-                 colour="darkorchid4"))+
+                 colour="deeppink2"))+
   theme(axis.title.y=
     element_text(size=10,
                  face="bold", 
@@ -223,8 +223,9 @@ Calculamos la frecuencia de cada par de valores.  ¿Cuantos lagartijas hay en ca
 
 ```{r}
 Anolis %>%  # pipe
-  select(WEIGHT, SVL)%>%  # selecciona
-  filter(WEIGHT<4 & SVL>20)%>%
+  select(WEIGHT, SVL) %>%  # selecciona
+  filter(WEIGHT<4) %>% 
+  filter(SVL>20) %>%
   count(WEIGHT, SVL)
 ```
 
@@ -240,6 +241,7 @@ ggplot(aes(SVL, WEIGHT))+
   xlab("Tamaño del hocico a la cloaca")+
   theme(axis.title=element_text(size=14,face="bold"))+
   labs(title="Figura. Puntos de acuerdo a la frecuencia")
+
 
 ```
 
@@ -306,7 +308,7 @@ Anolis %>%
   select(WEIGHT, SVL)%>%
   filter(WEIGHT<4 & SVL>20)%>%
 ggplot(aes(SVL, WEIGHT))+
-  geom_count(aes(size=..prop.., group=WEIGHT))+
+  geom_count(aes(size=..prop.., group=SVL))+
   ylab("Peso en gramos")+
   xlab("Tamaño del hocico a la cloaca")+
   theme(axis.title=element_text(size=14,face="bold"))+
@@ -335,11 +337,13 @@ Si hay más de un grupo (digamos, muestras tomadas en la época seca del año y 
 
 ```{r geom count3}
 unique(Anolis$SEASON)
+names(Anolis)
+
 
 Anolis %>%
-  select(WEIGHT, SVL, SEASON)%>%
-  filter(WEIGHT<4 & SVL>20)%>%
-ggplot(aes(SVL, WEIGHT, colour=SEASON))+
+  select(WEIGHT, SVL, SEX_AGE)%>%
+  filter(WEIGHT<4 & SVL>20) %>%
+ggplot(aes(SVL, WEIGHT, colour=SEX_AGE))+
   geom_count(aes(size=..prop.., group=WEIGHT))+
   ylab("Peso en gramos")+
   xlab("Tamaño del hocico a la cloaca")+
@@ -370,7 +374,7 @@ ggplot(aes(SVL, WEIGHT, colour=SEASON))+
   xlab("Tamaño del hocico a la cloaca")+
   facet_wrap(~PERCH_SUBSTRATE)+
   theme(axis.title=element_text(size=10,face="bold"))+
-  scale_color_manual(values = c("orange", "dodger blue"))+
+  scale_color_manual(values = c("orange", "red"))+
   labs(title="Figura. Grupos separados por variable discreta")
 
 
@@ -404,7 +408,7 @@ Anolis %>%
   select(WEIGHT, SVL, SEASON, Survey_Site)%>%
   filter(WEIGHT<4 & SVL>20)%>%
 ggplot(aes(SVL, WEIGHT, colour=SEASON))+
-  geom_count(shape=12,colour="black",
+  geom_count(shape=12,colour="red",
              aes(size=..prop.., group=Survey_Site))+
   ylab("Peso en gramos")+
   xlab("Tamaño del hocico a la cloaca")+
@@ -419,7 +423,7 @@ Anolis %>%
   select(WEIGHT, SVL, SEASON, Survey_Site)%>%
   filter(WEIGHT<4 & SVL>20)%>%
 ggplot(aes(SVL, WEIGHT, colour=SEASON))+
-  geom_count(shape=21, fill="yellow", colour="black",
+  geom_count(shape=23, fill="green", colour="orange",
              aes(size=..prop.., group=Survey_Site))+
   ylab("Peso en gramos")+
   xlab("Tamaño del hocico a la cloaca")+
@@ -440,7 +444,7 @@ Anolis %>%
   select(WEIGHT, SVL, SEASON, Survey_Site)%>%
   filter(WEIGHT<4 & SVL>20)%>%
 ggplot(aes(SVL, WEIGHT, colour=SEASON))+
-  geom_count(shape=22, stroke=2,
+  geom_count(shape=22, stroke=2,alpha=.75,
              aes(size=..prop.., group=Survey_Site))+
   ylab("Peso en gramos")+
   xlab("Tamaño del hocico a la cloaca")+

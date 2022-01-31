@@ -9,3 +9,4 @@ ggplot(aes(SVL, WEIGHT))+
   theme(axis.title=element_text(size=14,face="bold"))+
   labs(title="Figura. Puntos de acuerdo a la frecuencia")
 
+
