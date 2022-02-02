@@ -23,8 +23,16 @@ Usando los datos de COVID-19
 library(data.table)
 mydat<- read.csv('https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv')
 
-gt(head(mydat, n=10))
+gt(tail(mydat, n=100))
 ```
+
+
+```{r}
+unique(mydat$location)
+unique(mydat$continent)
+```
+
+
 
 # Ejercicio 1
 5 puntos
@@ -36,18 +44,20 @@ gt(head(mydat, n=10))
  - Filtrar para los datos de Puerto Rico solamente. 
 
 
-```{r eval=FALSE, include=FALSE}
-dfPR=mydat%>%
+```{r echo=TRUE}
+dfUS=mydat%>%
   select(location, new_deaths, total_deaths)%>%
-  filter(location=="Puerto Rico")
+  filter(location=="United States")
+
+dfUS
 ```
 
 ###  Produzca un gráfico de Wilkinson
 
  - Selecciona un solapamiento de los datos para poder ver toso los puntos
 
-```{r eval=FALSE, include=FALSE}
-dfPR%>%
+```{r echo=TRUE}
+dfUS%>%
   ggplot(aes(new_deaths))+
   geom_dotplot(stackratio = 0.35, color="white")+
   scale_y_continuous(NULL, breaks = NULL)
@@ -66,9 +76,9 @@ dfPR%>%
  
  
  
-```{r eval=FALSE, include=FALSE}
+```{r echo=TRUE}
 
-target <- c("Puerto Rico", "Cuba")
+target <- c("United States", "Cuba")
 dfPR2=mydat%>%
   select(location, new_deaths, total_deaths)%>%
   filter(location %in% target)
@@ -90,7 +100,7 @@ dfPR3
  - Selecciona un solapamiento de los datos para poder ver toso los puntos y posiciona los datos de los dos países uno al lado del otro. 
 
 
-```{r eval=FALSE, include=FALSE}
+```{r echo=TRUE}
 dfPR2%>%
   ggplot(aes(new_deaths, fill=location))+
   geom_dotplot(binwidth = .3, stackratio = .3, position=position_dodge(width = .7))+
@@ -104,25 +114,27 @@ dfPR2%>%
 Selecciona cinco países **pequeños** de Europa y reproduzca la gráfica anterior. Para que la gráfica se puede apreciar tendrán que usar los países con poblaciones más pequeño. 
 
 
-```{r eval=FALSE, include=FALSE}
+```{r echo=TRUE}
 #unique(mydat$location)
 
 dfPR3=mydat%>%
   select(location, new_deaths, total_deaths)%>%
-  filter(location %in% c("San Marino", "Luxembourg","Liechtenstein", "Andorra", "Slovenia" ))
+  filter(location %in% c("San Marino", "Luxembourg","Liechtenstein", "Andorra", "Albania" ))
 dfPR3
 
 
 dfPR3%>%
   ggplot(aes(new_deaths, fill=location))+
   geom_dotplot(binwidth = .3, stackratio = .09, position=position_dodge(width = .7))+
-  scale_y_continuous(NULL, breaks = NULL)
+  scale_y_continuous(NULL, breaks = NULL)+
+  facet_wrap(~location)
 ```
 
 ```{r}
 mydat%>%
-  select(location, new_deaths, total_deaths)%>%
-  filter(location=="Puerto Rico")
+  select(location, new_deaths, total_deaths, date)%>%
+  filter(location=="France") %>% 
+  filter(date>"2021-12-01")
 ```
 
 

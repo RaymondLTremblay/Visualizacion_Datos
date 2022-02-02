@@ -31,14 +31,21 @@ library(ggplot2) # ggplot2 es la librería que se usará para visualizar los dat
 library(tidyverse) # una serie de paquetes para organizar y visualizar los datos
 library(gt) # Un paquete para que las tablas se vean más organizada. 
 library(gridExtra) # Un paquete para organizar las figuras de ggplot2
+library(janitor) # un paquete para limpiar los nombres
 
 
+```
 
-library(janitor)
+
+```{r} 
+
 dipodium=clean_names(dipodium) # Esta función limpia los nombres de las variables 
-unique(dipodium$tree_species)
+dipodium
 
 gt(head(dipodium)) # la función *head* es para visualizar las primeros 6 filas
+
+#devtools::install_github("EvaMaeRey/flipbookr")
+library(flipbookr) 
 ```
 
 
@@ -54,18 +61,22 @@ En el gráfico de puntos, conocido como *Wilkinson dotplot*, la posición de los
 
 ```{r dipodium-puntos, message=FALSE, warning=FALSE}
 
-dipodium%>%
+dipodium %>%
   select(number_of_fruits, species_name, tree_species)%>%
-  filter(species_name=="r")%>%   # r representa la especie de *Dipodium roseum*
+  filter(species_name=="r")%>%   # r representa la especie de Dipodium roseum
   ggplot(aes(number_of_fruits))+
-  geom_dotplot(fill="blue", colour="yellow",
-                stackratio=.5) +
+  geom_dotplot(stackratio=.5, fill="magenta", colour = "red")+
   labs(x="Número de Frutos", y="Frecuencia")+
   theme(axis.title=element_text(size=10,face="bold"))
 ```
 ***
 
-# Remover la inforrmación ene el eje de "Y"
+```{r echo=FALSE}
+embed_flipbook(chunk_name = "dipodium-puntos", display_type = c("code", "output"))
+```
+
+
+# Remover la información en el eje de "Y"
 
  LA información eje de "Y" no representa la frecuencia de los datos, aquí esta la solución
 
@@ -77,8 +88,8 @@ a=ggplot(dipodium, aes(number_of_fruits))
 
 a+geom_dotplot(fill="blue", colour="red",
                 stackratio=.7) +
-  theme(axis.title=element_text(size=10,face="bold"))+
-  scale_y_continuous(NULL, breaks = NULL)+
+  theme(axis.title=element_text(size=20,face="italic", colour="orange")) +
+  scale_y_continuous(NULL, breaks = NULL) +
   labs(x="Número de Frutos", y="Frecuencia")
 ``` 
 
@@ -114,20 +125,20 @@ c=c+geom_dotplot(fill="orange", colour="black",
   scale_y_continuous(NULL, breaks = NULL)
 
 d=ggplot(dipodium, aes(number_of_fruits))
-d=d+geom_dotplot(fill="black", colour="white",
+name_graphic=d+geom_dotplot(fill="black", colour="white",
                 stackdir="down", stackratio = 0.5) + 
   labs(x="Número de Frutos", y="Frecuencia")+
   theme(axis.title=element_text(size=10,face="bold"))+
   scale_y_continuous(NULL, breaks = NULL)
 
-
-
+#name_graphic
+#ggsave(name_graphic, "stackdir_down.png") #pdf, .jpg, .tiff
 
 ```
 
 
 ```{r grid dotplot, echo=FALSE}
-grid.arrange(a,b,c,d,ncol=2)
+grid.arrange(a,b,c,d, ncol=2)
 ```
 
 ***
@@ -138,17 +149,17 @@ A continuación se demostrará cómo modificar algunas variables utilizando **ge
 
 ```{r dipodium-puntos1, echo=TRUE}
 
-a=ggplot(dipodium, aes(number_of_fruits))+
+g1=ggplot(dipodium, aes(number_of_fruits))+
   geom_dotplot(fill="blue", colour="black",
-               dotsize=3, stackdir="center",  stackratio = 0.2, alpha=.5) +
+               dotsize=3, stackdir="center",  stackratio = 0.2, alpha=.1) +
   labs(x="Especie de orquídea", y="Frecuencia")+
   theme(axis.title=element_text(size=10,face="bold"))+
   scale_y_continuous(NULL, breaks = NULL)
 
 
-b=ggplot(dipodium, aes(number_of_fruits))+
+g2=ggplot(dipodium, aes(number_of_fruits))+
   geom_dotplot(fill="blue", colour="black",
-               dotsize=1, stackdir="center",  stackratio = 0.7) +
+               dotsize=1, stackdir="center",  stackratio = 0.7, alpha=.9) +
   labs(x="Especie de orquídea", y="Frecuencia")+
   theme(axis.title=element_text(size=10,face="bold"))+
   scale_y_continuous(NULL, breaks = NULL)
@@ -157,7 +168,7 @@ b=ggplot(dipodium, aes(number_of_fruits))+
 
 
 ```{r grid dotplot2, echo=FALSE}
-grid.arrange(a,b,ncol=2)
+grid.arrange(g1,g2,ncol=2)
 ```
 
 *** 
@@ -174,8 +185,11 @@ a=ggplot(dipodium, aes(number_of_fruits, fill=species_name))+
   theme(axis.title=element_text(size=10,face="bold"))+
   theme(legend.position = "none")+
   scale_y_continuous(NULL, breaks = NULL)
+```
 
 
+
+```{r}
 b=ggplot(dipodium, aes(number_of_fruits, fill=species_name))+
 geom_dotplot(binwidth = .3, stackratio = .7, position=position_dodge(width = .7)) +
   labs(x="Número de Frutos", y="Frecuencia")+
@@ -188,6 +202,7 @@ geom_dotplot(binwidth = .3, stackratio = .7, position=position_dodge(width = .7)
 grid.arrange(a,b,ncol=2)
 ```
 
+### Start Here
 
 ***
 

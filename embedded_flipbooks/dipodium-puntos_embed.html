@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="" xml:lang="">
   <head>
-    <title>geom point-count</title>
+    <title>dipodium-puntos</title>
     <meta charset="utf-8" />
     <script src="libs/header-attrs-2.11/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
@@ -28,29 +28,32 @@ count: false
 .panel1-the_chunk-auto[
 
 ```r
-*Anolis
+*dipodium
 ```
 ]
  
 .panel2-the_chunk-auto[
 
 ```
-# A tibble: 503 × 15
-   STUDY      Survey_Site     LOCATION TIME  DATE  SEASON SPECIES SEX_AGE HEIGHT
-   &lt;chr&gt;      &lt;chr&gt;           &lt;chr&gt;    &lt;tim&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;
- 1 Mark/recap North Tower     El Verde 10:46 3/13… dry    Anolis… Female     0  
- 2 Mark/recap Woods walkway … El Verde 10:15 2/20… dry    Anolis… Juvenil    0  
- 3 Mark/recap Woods walkway … El Verde 11:15 2/21… dry    Anolis… Male       0  
- 4 Mark/recap North Tower     El Verde 11:06 3/16… dry    Anolis… Juvenil    0.3
- 5 Mark/recap North Tower     El Verde 12:31 3/11… dry    Anolis… Male       0.3
- 6 Mark/recap North Tower     El Verde 01:00 3/9/… dry    Anolis… Female     0.4
- 7 Mark/recap Woods walkway … El Verde 10:22 2/22… dry    Anolis… Female     0.4
- 8 Mark/recap North Tower     El Verde 11:55 3/12… dry    Anolis… Juvenil    0.4
- 9 Mark/recap Woods walkway … El Verde 10:15 2/20… dry    Anolis… Juvenil    0.4
-10 Mark/recap North Tower     El Verde 12:31 3/11… dry    Anolis… Female     0.5
-# … with 493 more rows, and 6 more variables: DISTANCE_FROM_CENTERLINE &lt;dbl&gt;,
-#   PERCH_SUBSTRATE &lt;chr&gt;, PERCH_DIAMETER &lt;int&gt;, WEIGHT &lt;dbl&gt;, SVL &lt;dbl&gt;,
-#   TAIL &lt;dbl&gt;
+# A tibble: 1,363 × 21
+   tree_number tree_species   dbh plant_number ramet_number distance orientation
+         &lt;int&gt; &lt;chr&gt;        &lt;dbl&gt;        &lt;int&gt;        &lt;int&gt;    &lt;dbl&gt;       &lt;dbl&gt;
+ 1           1 E.o           75              1            1     2.47          40
+ 2           1 E.o           76              2            1     1.97          50
+ 3           2 E.o           76              3            1     1.95         350
+ 4           3 E.o           58              4            1     3.24         210
+ 5           4 E.o           NA              5            1     0.85          80
+ 6           5 E.o           59              6            1     2.62         160
+ 7           5 E.o           59              7            1     2.82         170
+ 8           6 E.o            8              8            1     3.12         245
+ 9           7 E.o           11.5            9            1     1.12         208
+10           8 E.o            8.5           10            1     0.75         360
+# … with 1,353 more rows, and 14 more variables: number_of_flowers &lt;int&gt;,
+#   height_inflo &lt;int&gt;, herbivory &lt;chr&gt;, row_position_nf &lt;int&gt;,
+#   number_flowers_position &lt;int&gt;, number_of_fruits &lt;int&gt;, perc_fr_set &lt;dbl&gt;,
+#   pardalinum_or_roseum &lt;chr&gt;, fruit_position_effect &lt;int&gt;,
+#   frutos_si_o_no &lt;int&gt;, p_or_r_infl_lenght &lt;chr&gt;, num_of_fruits &lt;int&gt;,
+#   species_name &lt;chr&gt;, cardinal_orientation &lt;int&gt;
 ```
 ]
 
@@ -61,28 +64,28 @@ count: false
 .panel1-the_chunk-auto[
 
 ```r
-Anolis %&gt;%
-* select(WEIGHT, SVL)
+dipodium %&gt;%
+* select(number_of_fruits, species_name, tree_species)
 ```
 ]
  
 .panel2-the_chunk-auto[
 
 ```
-# A tibble: 503 × 2
-   WEIGHT   SVL
-    &lt;dbl&gt; &lt;dbl&gt;
- 1   NA      NA
- 2   NA      29
- 3   NA      NA
- 4    7      26
- 5    2.4    45
- 6    1.6    37
- 7   NA      NA
- 8    1.4    36
- 9   NA      33
-10    2      43
-# … with 493 more rows
+# A tibble: 1,363 × 3
+   number_of_fruits species_name tree_species
+              &lt;int&gt; &lt;chr&gt;        &lt;chr&gt;       
+ 1                0 r            E.o         
+ 2                0 r            E.o         
+ 3                1 r            E.o         
+ 4                5 r            E.o         
+ 5                0 r            E.o         
+ 6                2 p            E.o         
+ 7                0 p            E.o         
+ 8                0 r            E.o         
+ 9                1 r            E.o         
+10                7 p            E.o         
+# … with 1,353 more rows
 ```
 ]
 
@@ -93,29 +96,29 @@ count: false
 .panel1-the_chunk-auto[
 
 ```r
-Anolis %&gt;%
-  select(WEIGHT, SVL) %&gt;%
-* filter(WEIGHT&lt;4 &amp; SVL&gt;20)
+dipodium %&gt;%
+  select(number_of_fruits, species_name, tree_species)%&gt;%
+* filter(species_name=="r")  # r representa la especie de Dipodium roseum
 ```
 ]
  
 .panel2-the_chunk-auto[
 
 ```
-# A tibble: 72 × 2
-   WEIGHT   SVL
-    &lt;dbl&gt; &lt;dbl&gt;
- 1   2.4     45
- 2   1.6     37
- 3   1.4     36
- 4   2       43
- 5   1.8     38
- 6   1.1     35
- 7   0.7     28
- 8   0.75    29
- 9   1.3     36
-10   2.4     45
-# … with 62 more rows
+# A tibble: 56 × 3
+   number_of_fruits species_name tree_species
+              &lt;int&gt; &lt;chr&gt;        &lt;chr&gt;       
+ 1                0 r            E.o         
+ 2                0 r            E.o         
+ 3                1 r            E.o         
+ 4                5 r            E.o         
+ 5                0 r            E.o         
+ 6                0 r            E.o         
+ 7                1 r            E.o         
+ 8                0 r            E.o         
+ 9                0 r            E.o         
+10                5 r            E.o         
+# … with 46 more rows
 ```
 ]
 
@@ -126,15 +129,15 @@ count: false
 .panel1-the_chunk-auto[
 
 ```r
-Anolis %&gt;%
-  select(WEIGHT, SVL) %&gt;%
-  filter(WEIGHT&lt;4 &amp; SVL&gt;20) %&gt;%
-*ggplot(aes(x=WEIGHT, y=SVL))
+dipodium %&gt;%
+  select(number_of_fruits, species_name, tree_species)%&gt;%
+  filter(species_name=="r")%&gt;%  # r representa la especie de Dipodium roseum
+* ggplot(aes(number_of_fruits))
 ```
 ]
  
 .panel2-the_chunk-auto[
-&lt;img src="geom_point-count_embed_files/figure-html/the_chunk_auto_04_output-1.png" width="576" /&gt;
+&lt;img src="dipodium-puntos_embed_files/figure-html/the_chunk_auto_04_output-1.png" width="576" /&gt;
 ]
 
 ---
@@ -144,16 +147,16 @@ count: false
 .panel1-the_chunk-auto[
 
 ```r
-Anolis %&gt;%
-  select(WEIGHT, SVL) %&gt;%
-  filter(WEIGHT&lt;4 &amp; SVL&gt;20) %&gt;%
-ggplot(aes(x=WEIGHT, y=SVL))+
-* geom_point()
+dipodium %&gt;%
+  select(number_of_fruits, species_name, tree_species)%&gt;%
+  filter(species_name=="r")%&gt;%  # r representa la especie de Dipodium roseum
+  ggplot(aes(number_of_fruits))+
+* geom_dotplot(stackratio=.5, fill="magenta", colour = "red")
 ```
 ]
  
 .panel2-the_chunk-auto[
-&lt;img src="geom_point-count_embed_files/figure-html/the_chunk_auto_05_output-1.png" width="576" /&gt;
+&lt;img src="dipodium-puntos_embed_files/figure-html/the_chunk_auto_05_output-1.png" width="576" /&gt;
 ]
 
 ---
@@ -163,17 +166,17 @@ count: false
 .panel1-the_chunk-auto[
 
 ```r
-Anolis %&gt;%
-  select(WEIGHT, SVL) %&gt;%
-  filter(WEIGHT&lt;4 &amp; SVL&gt;20) %&gt;%
-ggplot(aes(x=WEIGHT, y=SVL))+
-  geom_point()+
-*   labs(title= "Figura. Relación de SVL y  el peso de Anolis en \n El Verde, Yunque, PR")
+dipodium %&gt;%
+  select(number_of_fruits, species_name, tree_species)%&gt;%
+  filter(species_name=="r")%&gt;%  # r representa la especie de Dipodium roseum
+  ggplot(aes(number_of_fruits))+
+  geom_dotplot(stackratio=.5, fill="magenta", colour = "red")+
+* labs(x="Número de Frutos", y="Frecuencia")
 ```
 ]
  
 .panel2-the_chunk-auto[
-&lt;img src="geom_point-count_embed_files/figure-html/the_chunk_auto_06_output-1.png" width="576" /&gt;
+&lt;img src="dipodium-puntos_embed_files/figure-html/the_chunk_auto_06_output-1.png" width="576" /&gt;
 ]
 
 ---
@@ -183,18 +186,18 @@ count: false
 .panel1-the_chunk-auto[
 
 ```r
-Anolis %&gt;%
-  select(WEIGHT, SVL) %&gt;%
-  filter(WEIGHT&lt;4 &amp; SVL&gt;20) %&gt;%
-ggplot(aes(x=WEIGHT, y=SVL))+
-  geom_point()+
-    labs(title= "Figura. Relación de SVL y  el peso de Anolis en \n El Verde, Yunque, PR")+
-* ylab("Snout vent length")
+dipodium %&gt;%
+  select(number_of_fruits, species_name, tree_species)%&gt;%
+  filter(species_name=="r")%&gt;%  # r representa la especie de Dipodium roseum
+  ggplot(aes(number_of_fruits))+
+  geom_dotplot(stackratio=.5, fill="magenta", colour = "red")+
+  labs(x="Número de Frutos", y="Frecuencia")+
+* theme(axis.title=element_text(size=10,face="bold"))
 ```
 ]
  
 .panel2-the_chunk-auto[
-&lt;img src="geom_point-count_embed_files/figure-html/the_chunk_auto_07_output-1.png" width="576" /&gt;
+&lt;img src="dipodium-puntos_embed_files/figure-html/the_chunk_auto_07_output-1.png" width="576" /&gt;
 ]
 
 &lt;style&gt;
