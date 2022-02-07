@@ -10,7 +10,7 @@ output:
     toc_float: yes
 ---
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 library(tidyverse)
 library(gt)
 ```
@@ -19,11 +19,11 @@ library(gt)
 
 Usando los datos de COVID-19
 
-```{r}
+```{r message=FALSE, warning=FALSE}
 library(data.table)
 mydat<- read.csv('https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv')
 
-gt(head(mydat, n=10))
+gt(head(mydat, n=4))
 ```
 
 # Ejercicio 1
@@ -101,7 +101,7 @@ dfPR2%>%
 ## Bono  
 3 puntos
 
-Selecciona cinco países **pequeños** de Europa y reproduzca la gráfica anterior. Para que la gráfica se puede apreciar tendrán que usar los países con poblaciones más pequeño. 
+Selecciona cinco países **pequeños** del Caribe y reproduzca la gráfica anterior. Para que la gráfica se puede apreciar tendrán que usar los países con poblaciones más pequeño. 
 
 
 ```{r eval=FALSE, include=FALSE}
@@ -119,10 +119,14 @@ dfPR3%>%
   scale_y_continuous(NULL, breaks = NULL)
 ```
 
-```{r}
+```{r eval=FALSE, include=FALSE}
 mydat%>%
   select(location, new_deaths, total_deaths)%>%
   filter(location=="Puerto Rico")
 ```
+
+
+# Someter los script y gráfico en un documento .html en MSTEAM
+
 
 
