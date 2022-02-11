@@ -1,0 +1,512 @@
+geom_count(shape=22, stroke=2,alpha=.5,
+aes(size=..prop.., group=Survey_Site))+
+ylab("Peso en gramos")+
+xlab("Tamaño del hocico a la cloaca")+
+facet_wrap(~Survey_Site)+
+theme(axis.title=element_text(size=10,face="bold"))+
+labs(title="Figura. Puntos cuadrados con bordes más gruesos")
+Anolis %>%
+select(WEIGHT, SVL, SEASON, Survey_Site)%>%
+filter(WEIGHT<4 & SVL>20)%>%
+ggplot(aes(SVL, WEIGHT, colour=SEASON))+
+geom_count(shape=22, stroke=2,alpha=.1,
+aes(size=..prop.., group=Survey_Site))+
+ylab("Peso en gramos")+
+xlab("Tamaño del hocico a la cloaca")+
+facet_wrap(~Survey_Site)+
+theme(axis.title=element_text(size=10,face="bold"))+
+labs(title="Figura. Puntos cuadrados con bordes más gruesos")
+Anolis %>%
+select(WEIGHT, SVL, SEASON, Survey_Site)%>%
+filter(WEIGHT<4 & SVL>20)%>%
+ggplot(aes(SVL, WEIGHT, colour=SEASON))+
+geom_count(shape=22, stroke=2,alpha=..75,
+aes(size=..prop.., group=Survey_Site))+
+ylab("Peso en gramos")+
+xlab("Tamaño del hocico a la cloaca")+
+facet_wrap(~Survey_Site)+
+theme(axis.title=element_text(size=10,face="bold"))+
+labs(title="Figura. Puntos cuadrados con bordes más gruesos")
+Anolis %>%
+select(WEIGHT, SVL, SEASON, Survey_Site)%>%
+filter(WEIGHT<4 & SVL>20)%>%
+ggplot(aes(SVL, WEIGHT, colour=SEASON))+
+geom_count(shape=22, stroke=2,alpha=.75,
+aes(size=..prop.., group=Survey_Site))+
+ylab("Peso en gramos")+
+xlab("Tamaño del hocico a la cloaca")+
+facet_wrap(~Survey_Site)+
+theme(axis.title=element_text(size=10,face="bold"))+
+labs(title="Figura. Puntos cuadrados con bordes más gruesos")
+library(readr)
+Estudiantes <- read_csv("Estudiantes.csv")
+View(Estudiantes)
+library(readr)
+Estudiantes <- read_csv("Estudiantes.csv")
+View(Estudiantes)
+knitr::opts_chunk$set(echo = TRUE)
+library(readr)
+Estudiantes <- read_csv("Estudiantes.csv")
+Estudiantes
+library(readr)
+Estudiantes <- read_csv("Estudiantes.csv")
+Estudiantes
+library(readr)
+Practice_Data <- read_csv("Practice_Data.csv")
+View(Practice_Data)
+library(readr)
+Practice_Data <- read_csv("Practice_Data.csv")
+Estudiantes %>%
+select(Yr_Nac_Abuela)
+library(tidyverse)
+Estudiantes %>%
+select(Yr_Nac_Abuela)
+summarise(prom_Nac=mean(Yr_Nac_Abuela))
+Estudiantes %>%
+select(Yr_Nac_Abuela) %>%
+summarise(prom_Nac=mean(Yr_Nac_Abuela))
+Estudiantes %>%
+select(Yr_Nac_Abuela) %>%
+summarise(prom_Nac=mean(Yr_Nac_Abuela),
+prom_hermanos=mean(Num_hermanos))
+Estudiantes %>%
+select(Yr_Nac_Abuela) %>%
+summarise(prom_Nac=mean(Yr_Nac_Abuela),
+prom_hermanos=mean(Num_hermanos))
+Estudiantes %>%
+select(Yr_Nac_Abuela, Num_hermanos) %>%
+summarise(prom_Nac=mean(Yr_Nac_Abuela),
+prom_hermanos=mean(Num_hermanos))
+Estudiantes %>%
+select(Yr_Nac_Abuela, Num_hermanos) %>%
+summarise(prom_Nac=mean(Yr_Nac_Abuela),
+prom_hermanos=mean(Num_hermanos),
+varianza_Herm=var(Num_hermanos))
+install.packages(c("broom", "class", "cli", "dtplyr", "fansi", "foreign", "generics", "glue", "jsonlite", "magrittr", "MASS", "Matrix", "nlme", "nloptr", "nnet", "pillar", "quantreg", "RcppArmadillo", "readr", "rlang", "rpart", "spatial", "testthat", "yaml"))
+install.packages("readr")
+dfPR3%>%
+ggplot(aes(new_deaths, fill=location))+
+geom_dotplot(binwidth = .3, stackratio = .09, position=position_dodge(width = .7))+
+scale_y_continuous(NULL, breaks = NULL)
+library(tidyverse)
+library(gt)
+library(data.table)
+mydat<- read.csv('https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv')
+gt(head(mydat, n=10))
+mydat%>%
+select(location, new_deaths, total_deaths)%>%
+filter(location=="Puerto Rico")
+library(data.table)
+mydat<- read.csv('https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv')
+gt(head(mydat, n=10))
+gt(head(mydat, n=100))
+dfPR=mydat%>%
+select(location, new_deaths, total_deaths)%>%
+filter(location=="Puerto Rico")
+dfPR%>%
+ggplot(aes(new_deaths))+
+geom_dotplot(stackratio = 0.35, color="white")+
+scale_y_continuous(NULL, breaks = NULL)
+dfPR2
+dfPR2=mydat%>%
+select(location, new_deaths, total_deaths)%>%
+filter(location %in% target)
+target <- c("Puerto Rico", "Cuba")
+dfPR2=mydat%>%
+select(location, new_deaths, total_deaths)%>%
+filter(location %in% target)
+dfPR2
+dfPR=mydat%>%
+select(location, new_deaths, total_deaths)%>%
+filter(location=="Puerto Rico")
+dfPR%>%
+ggplot(aes(new_deaths))+
+geom_dotplot(stackratio = 0.35, color="white")+
+scale_y_continuous(NULL, breaks = NULL)
+dfPR
+gt(tail(mydat, n=100))
+dfPR=mydat%>%
+select(location, new_deaths, total_deaths)%>%
+filter(location=="Puerto Rico")
+dfPR
+unique(df$location)
+unique(mydat$location)
+dfUS=mydat%>%
+select(location, new_deaths, total_deaths)%>%
+filter(location=="United States")
+dfUS
+dfUS%>%
+ggplot(aes(new_deaths))+
+geom_dotplot(stackratio = 0.35, color="white")+
+scale_y_continuous(NULL, breaks = NULL)
+dfUS%>%
+ggplot(aes(new_deaths))+
+geom_dotplot(stackratio = 0.35, color="white")+
+scale_y_continuous(NULL, breaks = NULL)
+target <- c("United States", "Cuba")
+dfPR2=mydat%>%
+select(location, new_deaths, total_deaths)%>%
+filter(location %in% target)
+dfPR2
+# Otra alternativa
+dfPR3=mydat%>%
+select(location, new_deaths, total_deaths)%>%
+filter(location %in% c("Puerto Rico", "Cuba"))
+dfPR3
+target <- c("United States", "Cuba")
+dfPR2=mydat%>%
+select(location, new_deaths, total_deaths)%>%
+filter(location %in% target)
+dfPR2
+# Otra alternativa
+dfPR3=mydat%>%
+select(location, new_deaths, total_deaths)%>%
+filter(location %in% c("Puerto Rico", "Cuba"))
+dfPR3
+dfPR2%>%
+ggplot(aes(new_deaths, fill=location))+
+geom_dotplot(binwidth = .3, stackratio = .3, position=position_dodge(width = .7))+
+scale_y_continuous(NULL, breaks = NULL)
+dfPR2%>%
+ggplot(aes(new_deaths, fill=location))+
+geom_dotplot(binwidth = .3, stackratio = .3, position=position_dodge(width = .7))+
+scale_y_continuous(NULL, breaks = NULL)
+#unique(mydat$location)
+dfPR3=mydat%>%
+select(location, new_deaths, total_deaths)%>%
+filter(location %in% c("San Marino", "Luxembourg","Liechtenstein", "Andorra", "Slovenia" ))
+dfPR3
+dfPR3%>%
+ggplot(aes(new_deaths, fill=location))+
+geom_dotplot(binwidth = .3, stackratio = .09, position=position_dodge(width = .7))+
+scale_y_continuous(NULL, breaks = NULL)
+#unique(mydat$location)
+dfPR3=mydat%>%
+select(location, new_deaths, total_deaths)%>%
+filter(location %in% c("San Marino", "Luxembourg","Liechtenstein", "Andorra", "Slovenia" ))
+dfPR3
+dfPR3%>%
+ggplot(aes(new_deaths, fill=location))+
+geom_dotplot(binwidth = .3, stackratio = .09, position=position_dodge(width = .7))+
+scale_y_continuous(NULL, breaks = NULL)
+mydat%>%
+select(location, new_deaths, total_deaths)%>%
+filter(location=="Puerto Rico")
+dfPR3=mydat%>%
+select(location, new_deaths, total_deaths)%>%
+filter(location %in% c("San Marino", "Luxembourg","Liechtenstein", "Andorra", "Albania" ))
+dfPR3
+dfPR3%>%
+ggplot(aes(new_deaths, fill=location))+
+geom_dotplot(binwidth = .3, stackratio = .09, position=position_dodge(width = .7))+
+scale_y_continuous(NULL, breaks = NULL)
+dfPR3%>%
+ggplot(aes(new_deaths, fill=location))+
+geom_dotplot(binwidth = .3, stackratio = .09, position=position_dodge(width = .7))+
+scale_y_continuous(NULL, breaks = NULL)+
+facet_wrap(~location)
+mydat%>%
+select(location, new_deaths, total_deaths)%>%
+filter(location=="Puerto Rico")
+unique(mydat$continent)
+mydat%>%
+select(location, new_deaths, total_deaths, date)%>%
+filter(location=="France")
+mydat%>%
+select(location, new_deaths, total_deaths, date)%>%
+filter(location=="France") %>%
+filter(date>2021)
+mydat%>%
+select(location, new_deaths, total_deaths, date)%>%
+filter(location=="France") %>%
+filter(date>2022)
+mydat%>%
+select(location, new_deaths, total_deaths, date)%>%
+filter(location=="France") %>%
+filter(date>2021-12-01)
+mydat%>%
+select(location, new_deaths, total_deaths, date)%>%
+filter(location=="France") %>%
+filter(date>2021-12-01)
+mydat%>%
+select(location, new_deaths, total_deaths, date)%>%
+filter(location=="France") %>%
+filter(date>"2021-12-01")
+install.packages(c("foreach", "pillar", "tidyr"))
+install.packages("tidyr")
+knitr::opts_chunk$set(echo = TRUE,  message=FALSE)
+library(ggversa) # la función "library" activa el paquete de **ggversa** donde se encuentra los archivos de datos
+library(ggplot2) # ggplot2 es la librería que se usará para visualizar los datos
+library(tidyverse) # una serie de paquetes para organizar y visualizar los datos
+library(gt) # Un paquete para que las tablas se vean más organizada.
+library(gridExtra) # Un paquete para organizar las figuras de ggplot2
+library(janitor)
+dipodium=clean_names(dipodium) # Esta función limpia los nombres de las variables
+unique(dipodium$tree_species)
+gt(head(dipodium)) # la función *head* es para visualizar las primeros 6 filas
+library(flipbookr)
+dipodium%>%
+select(number_of_fruits, species_name, tree_species)%>%
+filter(species_name=="r")%>%   # r representa la especie de *Dipodium roseum*
+ggplot(aes(number_of_fruits))+
+geom_dotplot(fill="blue", colour="yellow",
+stackratio=.5) +
+labs(x="Número de Frutos", y="Frecuencia")+
+theme(axis.title=element_text(size=10,face="bold"))
+embed_flipbook(chunk_name = "dipodium-puntos", display_type = c("code", "output"))
+devtools::install_github("EvaMaeRey/flipbookr")
+library(ggversa) # la función "library" activa el paquete de **ggversa** donde se encuentra los archivos de datos
+library(ggplot2) # ggplot2 es la librería que se usará para visualizar los datos
+library(tidyverse) # una serie de paquetes para organizar y visualizar los datos
+library(gt) # Un paquete para que las tablas se vean más organizada.
+library(gridExtra) # Un paquete para organizar las figuras de ggplot2
+library(janitor)
+dipodium=clean_names(dipodium) # Esta función limpia los nombres de las variables
+unique(dipodium$tree_species)
+gt(head(dipodium)) # la función *head* es para visualizar las primeros 6 filas
+#devtools::install_github("EvaMaeRey/flipbookr")
+library(flipbookr)
+knitr::opts_chunk$set(echo = TRUE)
+embed_flipbook(chunk_name = "Anolis", display_type = c("code", "output"))
+library(ggversa) # la función "library" activa el paquete de **ggversa** donde se encuentra los archivos de datos
+library(ggplot2) # ggplot2 es la librería que se usará para visualizar los datos
+library(tidyverse) # una serie de paquetes para organizar y visualizar los datos
+library(gt) # Un paquete para que las tablas se vean más organizada.
+library(gridExtra) # Un paquete para organizar las figuras de ggplot2
+library(janitor) # un paquete para limpiar los nombres
+library(ggversa) # la función "library" activa el paquete de **ggversa** donde se encuentra los archivos de datos
+library(ggplot2) # ggplot2 es la librería que se usará para visualizar los datos
+library(tidyverse) # una serie de paquetes para organizar y visualizar los datos
+library(gto) # Un paquete para que las tablas se vean más organizada.
+library(gto) # Un paquete para que las tablas se vean más organizada.
+library(ggversa) # la función "library" activa el paquete de **ggversa** donde se encuentra los archivos de datos
+library(ggplot2) # ggplot2 es la librería que se usará para visualizar los datos
+library(tidyverse) # una serie de paquetes para organizar y visualizar los datos
+library(gto) # Un paquete para que las tablas se vean más organizada.
+library(ggversa) # la función "library" activa el paquete de **ggversa** donde se encuentra los archivos de datos
+library(ggplot2) # ggplot2 es la librería que se usará para visualizar los datos
+library(tidyverse) # una serie de paquetes para organizar y visualizar los datos
+library(gt) # Un paquete para que las tablas se vean más organizada.
+library(gridExtra) # Un paquete para organizar las figuras de ggplot2
+library(janitor) # un paquete para limpiar los nombres
+dipodium=clean_names(dipodium) # Esta función limpia los nombres de las variables
+dipodium
+gt(head(dipodium)) # la función *head* es para visualizar las primeros 6 filas
+dipodium %>%
+select(number_of_fruits, species_name, tree_species)%>%
+filter(species_name=="r")%>%   # r representa la especie de Dipodium roseum
+ggplot(aes(number_of_fruits))+
+geom_dotplot()
+dipodium %>%
+select(number_of_fruits, species_name, tree_species)%>%
+filter(species_name=="r")%>%   # r representa la especie de Dipodium roseum
+ggplot(aes(number_of_fruits))+
+geom_dotplot(stackratio=.5)
+dipodium %>%
+select(number_of_fruits, species_name, tree_species)%>%
+filter(species_name=="r")%>%   # r representa la especie de Dipodium roseum
+ggplot(aes(number_of_fruits))+
+geom_dotplot(stackratio=.5, fill="magenta")
+dipodium %>%
+select(number_of_fruits, species_name, tree_species)%>%
+filter(species_name=="r")%>%   # r representa la especie de Dipodium roseum
+ggplot(aes(number_of_fruits))+
+geom_dotplot(stackratio=.5, fill="magenta", colour = "rojo")
+dipodium %>%
+select(number_of_fruits, species_name, tree_species)%>%
+filter(species_name=="r")%>%   # r representa la especie de Dipodium roseum
+ggplot(aes(number_of_fruits))+
+geom_dotplot(stackratio=.5, fill="magenta", colour = "red")
+dipodium %>%
+select(number_of_fruits, species_name, tree_species)%>%
+filter(species_name=="r")%>%   # r representa la especie de Dipodium roseum
+ggplot(aes(number_of_fruits))+
+geom_dotplot(stackratio=.5, fill="magenta", colour = "red")+
+labs(x="Número de Frutos", y="Frecuencia")
+a=ggplot(dipodium, aes(number_of_fruits))
+a+geom_dotplot(fill="blue", colour="red",
+stackratio=.7) +
+theme(axis.title=element_text(size=10,face="bold"))+
+scale_y_continuous(NULL, breaks = NULL)+
+labs(x="Número de Frutos", y="Frecuencia")
+a=ggplot(dipodium, aes(number_of_fruits))
+a+geom_dotplot(fill="blue", colour="red",
+stackratio=.7) +
+theme(axis.title=element_text(size=10,face="bold"))+
+scale_y_continuous(NULL, breaks = NULL)+
+labs(x="Número de Frutos", y="Frecuencia")
+a+geom_dotplot(fill="blue", colour="red",
+stackratio=.7) +
+theme(axis.title=element_text(size=10,face="italic"))+
+scale_y_continuous(NULL, breaks = NULL)+
+labs(x="Número de Frutos", y="Frecuencia")
+a+geom_dotplot(fill="blue", colour="red",
+stackratio=.7) +
+theme(axis.title=element_text(size=10,face="italic", colour="orange"))+
+scale_y_continuous(NULL, breaks = NULL)+
+labs(x="Número de Frutos", y="Frecuencia")
+a+geom_dotplot(fill="blue", colour="red",
+stackratio=.7) +
+theme(axis.title=element_text(size=100,face="italic", colour="orange")) +
+scale_y_continuous(NULL, breaks = NULL) +
+labs(x="Número de Frutos", y="Frecuencia")
+a+geom_dotplot(fill="blue", colour="red",
+stackratio=.7) +
+theme(axis.title=element_text(size=20,face="italic", colour="orange")) +
+scale_y_continuous(NULL, breaks = NULL) +
+labs(x="Número de Frutos", y="Frecuencia")
+# Practica cambiando stackdir por las otras alternativas: centerwhole, up, down, center,
+a=ggplot(dipodium, aes(number_of_fruits))
+a=a+geom_dotplot(fill="red", colour="black",
+stackdir="center", stackratio = 0.5) +
+labs(x="Número de Frutos", y="Frecuencia")+
+theme(axis.title=element_text(size=10,face="bold"))+
+scale_y_continuous(NULL, breaks = NULL)
+b=ggplot(dipodium, aes(number_of_fruits))
+b=b+geom_dotplot(fill="blue", colour="black",
+stackdir="centerwhole", stackratio = 0.5) +
+labs(x="Número de Frutos", y="Frecuencia")+
+theme(axis.title=element_text(size=10,face="bold"))+
+scale_y_continuous(NULL, breaks = NULL)
+c=ggplot(dipodium, aes(number_of_fruits))
+c=c+geom_dotplot(fill="orange", colour="black",
+stackdir="up", stackratio = 0.5) +
+labs(x="Número de Frutos", y="Frecuencia")+
+theme(axis.title=element_text(size=10,face="bold"))+
+scale_y_continuous(NULL, breaks = NULL)
+d=ggplot(dipodium, aes(number_of_fruits))
+d=d+geom_dotplot(fill="black", colour="white",
+stackdir="down", stackratio = 0.5) +
+labs(x="Número de Frutos", y="Frecuencia")+
+theme(axis.title=element_text(size=10,face="bold"))+
+scale_y_continuous(NULL, breaks = NULL)
+grid.arrange(a,b,c,d,ncol=2)
+grid.arrange(a,b,c,d,ncol=2)
+grid.arrange(a,b,c,d,ncol=4)
+grid.arrange(a,b,c,d,ncol=1)
+grid.arrange(a,b,c,d,ncol=2)
+grid.arrange(a,b,c,ncol=2)
+d
+ggsave("stackdir_down.png")
+name_graphic=d+geom_dotplot(fill="black", colour="white",
+stackdir="down", stackratio = 0.5) +
+labs(x="Número de Frutos", y="Frecuencia")+
+theme(axis.title=element_text(size=10,face="bold"))+
+scale_y_continuous(NULL, breaks = NULL)
+name_graphic
+name_graphic=d+geom_dotplot(fill="black", colour="white",
+stackdir="down", stackratio = 0.9) +
+labs(x="Número de Frutos", y="Frecuencia")+
+theme(axis.title=element_text(size=10,face="bold"))+
+scale_y_continuous(NULL, breaks = NULL)
+name_graphic
+name_graphic=d+geom_dotplot(fill="black", colour="white",
+stackdir="down", stackratio = 0.2) +
+labs(x="Número de Frutos", y="Frecuencia")+
+theme(axis.title=element_text(size=10,face="bold"))+
+scale_y_continuous(NULL, breaks = NULL)
+name_graphic
+name_graphic=d+geom_dotplot(fill="black", colour="white",
+stackdir="down", stackratio = 0.5) +
+labs(x="Número de Frutos", y="Frecuencia")+
+theme(axis.title=element_text(size=10,face="bold"))+
+scale_y_continuous(NULL, breaks = NULL)
+name_graphic
+a=ggplot(dipodium, aes(number_of_fruits))+
+geom_dotplot(fill="blue", colour="black",
+dotsize=3, stackdir="center",  stackratio = 0.2, alpha=.5) +
+labs(x="Especie de orquídea", y="Frecuencia")+
+theme(axis.title=element_text(size=10,face="bold"))+
+scale_y_continuous(NULL, breaks = NULL)
+b=ggplot(dipodium, aes(number_of_fruits))+
+geom_dotplot(fill="blue", colour="black",
+dotsize=1, stackdir="center",  stackratio = 0.7) +
+labs(x="Especie de orquídea", y="Frecuencia")+
+theme(axis.title=element_text(size=10,face="bold"))+
+scale_y_continuous(NULL, breaks = NULL)
+grid.arrange(a,b,ncol=2)
+a=ggplot(dipodium, aes(number_of_fruits))+
+geom_dotplot(fill="blue", colour="black",
+dotsize=3, stackdir="center",  stackratio = 0.2, alpha=.1) +
+labs(x="Especie de orquídea", y="Frecuencia")+
+theme(axis.title=element_text(size=10,face="bold"))+
+scale_y_continuous(NULL, breaks = NULL)
+b=ggplot(dipodium, aes(number_of_fruits))+
+geom_dotplot(fill="blue", colour="black",
+dotsize=1, stackdir="center",  stackratio = 0.7, alpha=.9) +
+labs(x="Especie de orquídea", y="Frecuencia")+
+theme(axis.title=element_text(size=10,face="bold"))+
+scale_y_continuous(NULL, breaks = NULL)
+grid.arrange(a,b,ncol=2)
+ggplot(dipodium, aes(number_of_fruits))+
+geom_dotplot(fill="blue", colour="black",
+dotsize=3, stackdir="center",  stackratio = 0.2, alpha=.1) +
+labs(x="Especie de orquídea", y="Frecuencia")+
+theme(axis.title=element_text(size=10,face="bold"))+
+scale_y_continuous(NULL, breaks = NULL)
+g1=ggplot(dipodium, aes(number_of_fruits))+
+geom_dotplot(fill="blue", colour="black",
+dotsize=3, stackdir="center",  stackratio = 0.2, alpha=.1) +
+labs(x="Especie de orquídea", y="Frecuencia")+
+theme(axis.title=element_text(size=10,face="bold"))+
+scale_y_continuous(NULL, breaks = NULL)
+g2=ggplot(dipodium, aes(number_of_fruits))+
+geom_dotplot(fill="blue", colour="black",
+dotsize=1, stackdir="center",  stackratio = 0.7, alpha=.9) +
+labs(x="Especie de orquídea", y="Frecuencia")+
+theme(axis.title=element_text(size=10,face="bold"))+
+scale_y_continuous(NULL, breaks = NULL)
+g1
+grid.arrange(g1,g2,ncol=2)
+a=ggplot(dipodium, aes(number_of_fruits, fill=species_name))+
+geom_dotplot(binwidth = .5, stackratio = .7, position = "dodge") +
+labs(x="Número de Frutos", y="Frecuencia")+
+theme(axis.title=element_text(size=10,face="bold"))+
+theme(legend.position = "none")+
+scale_y_continuous(NULL, breaks = NULL)
+b=ggplot(dipodium, aes(number_of_fruits, fill=species_name))+
+geom_dotplot(binwidth = .3, stackratio = .7, position=position_dodge(width = .7)) +
+labs(x="Número de Frutos", y="Frecuencia")+
+theme(axis.title=element_text(size=10,face="bold"))+
+theme(legend.position = "none")+
+scale_y_continuous(NULL, breaks = NULL)
+grid.arrange(a,b,ncol=2)
+b=ggplot(dipodium, aes(number_of_fruits, fill=species_name))+
+geom_dotplot(binwidth = .3, stackratio = .7, position=position_dodge(width = .1)) +
+labs(x="Número de Frutos", y="Frecuencia")+
+theme(axis.title=element_text(size=10,face="bold"))+
+theme(legend.position = "none")+
+scale_y_continuous(NULL, breaks = NULL)
+grid.arrange(a,b,ncol=2)
+b=ggplot(dipodium, aes(number_of_fruits, fill=species_name))+
+geom_dotplot(binwidth = .3, stackratio = .7, position=position_dodge(width = .9)) +
+labs(x="Número de Frutos", y="Frecuencia")+
+theme(axis.title=element_text(size=10,face="bold"))+
+theme(legend.position = "none")+
+scale_y_continuous(NULL, breaks = NULL)
+grid.arrange(a,b,ncol=2)
+b=ggplot(dipodium, aes(number_of_fruits, fill=species_name))+
+geom_dotplot(binwidth = .3, stackratio = .7, position=position_dodge(width = .7)) +
+labs(x="Número de Frutos", y="Frecuencia")+
+theme(axis.title=element_text(size=10,face="bold"))+
+theme(legend.position = "none")+
+scale_y_continuous(NULL, breaks = NULL)
+grid.arrange(a,b,ncol=2)
+a=ggplot(dipodium, aes(number_of_fruits, fill=species_name))
+a+geom_dotplot(stackgroups = TRUE, binwidth = .5, method = "histodot", stackratio = 0.5) +
+labs(x="Número de Frutos", y="Frecuencia")+
+theme(axis.title=element_text(size=10,face="bold"))+
+scale_y_continuous(NULL, breaks = NULL)
+a=ggplot(dipodium, aes(number_of_fruits, fill=species_name))+
+geom_dotplot(binwidth = .5, stackratio = .7, position = "dodge") +
+labs(x="Número de Frutos", y="Frecuencia")+
+theme(axis.title=element_text(size=10,face="bold"))+
+theme(legend.position = "none")+
+scale_y_continuous(NULL, breaks = NULL)
+b=ggplot(dipodium, aes(number_of_fruits, fill=species_name))+
+geom_dotplot(binwidth = .3, stackratio = .7, position=position_dodge(width = .7)) +
+labs(x="Número de Frutos", y="Frecuencia")+
+theme(axis.title=element_text(size=10,face="bold"))+
+theme(legend.position = "none")+
+scale_y_continuous(NULL, breaks = NULL)
+grid.arrange(a,b,ncol=2)

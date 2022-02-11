@@ -55,7 +55,8 @@ El gráfico de área es análogo a un histograma o a un gráfico de barras. En l
 DW=dipodium
 DW=clean_names(DW)
 a=ggplot(DW, aes(distance))
-a+geom_area(stat="bin", fill="aquamarine")+
+
+a+geom_area(stat="bin", fill="aquamarine", color="black")+
   labs(x="Distancia", y="Frecuencia")+
   theme(axis.title=element_text(size=10,face="bold"))
 ```
@@ -68,7 +69,7 @@ En este siguiente gráfico se cambia el color de linea que sigue el contorno del
 
 a=ggplot(DW, aes(distance))
 a+geom_area(stat="bin", fill="steelblue1",
-            linetype=5, color="black", size=1.0, alpha=0.5)+
+            linetype=5, color="black", size=1.0, alpha=0.1)+
   labs(x="Distancia", y="Frecuencia")+
   theme(axis.title=element_text(size=10,face="bold"))
 ```
@@ -100,17 +101,20 @@ a+geom_area(stat="bin", fill="steelblue1",
 Finalmente, en el siguiente gráfico, se muestran los datos de la frecuencia de camas en hospitales por cada 1000 habitantes en diferentes años.  
 
 ```{r dipodium-area4,  echo=TRUE, tidy=FALSE,  warning=FALSE, message=FALSE, fig.align='center'}
-head(Camas_Hospital, n=6)
+tail(Camas_Hospital, n=6)
 
 a=ggplot(Camas_Hospital, aes(Camas, fill=factor(Year)))
-a+geom_area(stat="bin", alpha=0.5)+
+a+geom_area(stat="bin",bins=60, alpha=0.5)+
   xlab("Número de camas por \n cada 1000 habitantes")+
   ylab("Frecuencia")+
-  scale_y_continuous(breaks=c(0,1,2,3,4,5,6,7,8,9))+
+  scale_y_continuous(breaks=c(0,1,2,3,4,5, 6,7,8,9))+
   scale_x_continuous(breaks=c(0:15))+
   theme(axis.title=element_text(size=10,face="bold"))+
   facet_wrap(~Year)
 
+Camas_Hospital %>% 
+  group_by(Year) %>% 
+  count()
 ```
 
 ***
@@ -186,6 +190,23 @@ a+geom_area(aes(y=..density..),stat="bin", alpha=0.5)+
 
 ggsave("Distance_to_tree.jpeg") #.tiff, .png
 ```
+
+
+```{r}
+x=rnorm(1000, 10, 4)
+x=data_frame(x)
+x
+
+a=ggplot(x, aes(x))
+a+geom_area(aes(y=..density..),stat="bin", alpha=0.5)+
+  geom_density(kernel = c(kernel="gaussian"),
+               alpha=0.4, fill="blue")+
+  labs(x="valus", y="Densidad")+
+  theme(axis.title=element_text(size=10,face="bold"))
+
+```
+
+
 
 
 ***
