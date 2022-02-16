@@ -93,6 +93,8 @@ Camas_Hospital %>%
   head() %>% 
   gt()
 
+str(Camas_Hospital)
+
 unique(Camas_Hospital$Year) # cual son los años de muestreo
 
 a=ggplot(Camas_Hospital, aes(Camas, fill=factor(Year)))
@@ -146,13 +148,14 @@ a+geom_histogram(stat="bin", alpha=0.5,
 ```{r dipodium-histogram5}
 
 a=ggplot(Camas_Hospital, aes(Camas, fill=factor(Year)))
-a+geom_histogram(color="black", stat="bin", alpha=0.9,
+a+geom_histogram(color="black", bins=15, alpha=0.9,
                  position="dodge")+
   xlab("Número de camas por \n 1000 habitantes")+
   ylab("Frecuencia")+
   scale_y_continuous(breaks=c(0:9))+
   scale_x_continuous(breaks=c(0:15))+
-  theme(axis.title=element_text(size=10,face="bold"))
+  theme(axis.title=element_text(size=10,face="bold"))+
+  facet_wrap(~Year)
 ```
 
 ***
@@ -171,14 +174,14 @@ a=ggplot(Camas_Hospital, aes(Camas, fill=factor(Year),
 a+geom_histogram(stat="bin", alpha=0.5)+
   xlab("Número de camas \n por cada 1000 habitantes")+
   ylab("Frecuencia")+
+  scale_fill_manual(values=c("cyan4", "darkorange"))+
+  theme(axis.title=element_text(family="Times",size=10,face="italic", colour="#4ea7ad"))+
   facet_wrap(~Year)+
   scale_y_continuous(breaks=c(0:9))+
   scale_x_continuous(breaks=c(1:15))+
-  scale_fill_manual(values=c("cyan4", "darkorange"))+
   scale_color_manual(values=c("black", "black"))+
-  theme(axis.title=element_text(family="Times",size=10,face="italic"))+
-  theme(axis.title.x=element_text(angle=180))+  # NOTE the x legend text 
-  theme(axis.text.x=element_text(size=5, angle=45))
+  theme(axis.title.x=element_text(angle=10))+  # NOTE the x legend text 
+  theme(axis.text.x=element_text(size=8, angle=45))
 
 ```
 
@@ -198,22 +201,24 @@ a+geom_histogram(stat="bin", alpha=0.5)+
 
 ***
 ```{r}
+library(gt)
 diamonds %>% 
-  head()
+  head() %>% 
+  gt()
 ```
 
 
  1. Usando el archivo de datos de **diamonds** en el paquete **ggplot2**, haga un histograma del precio de los diamantes, en diferentes **chunks**. 
   - cambia el color de las barras
   - pon una linea blanca alrededor de las barras
-  - separa el los diamantes de diferentes color en histograma diferentes
-  - evalúa como se ve los gráficos con las diferentes areglos: position: “identity”, “stack”, “dodge”
+  - separa los diamantes de diferentes color en histograma diferentes
+  - evalúa como se ve los gráficos con las diferentes arreglos: position: “identity”, “stack”, “dodge”
   - cambia la intensidad del color
   - cambia los nombres de los ejes al español
-  - salvar los gráficos en formato .png, .tiff o .jpeg y subir por lo menos uno de estos a Edmodo. 
+  - salvar los gráficos en formato .png, .tiff o .jpeg y subir por lo menos uno de estos a MSTeam. 
   
   
-  
+   
 ```{r, echo=FALSE, eval=FALSE}
 library(ggplot2)
 names(diamonds)
