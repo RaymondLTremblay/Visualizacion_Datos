@@ -66,12 +66,13 @@ El paquete **gganimate** extiende el paquete de **ggplot2** y implementa unas fu
 
 
 
-Los datos provienen del paquete **gapminder** y el archivo **gapminder**. Estos datos representa la expectativa de supervivencia en diferentes 142 países entre 1952 y 2007.  Aquí observamos las primeras 6 filas del archivo. 
+Los datos provienen del paquete **gapminder** y el archivo **gapminder**. Estos datos representa la expectativa de supervivencia en diferentes 142 países entre 1952 y 2007.  Aquí observamos las primeras 6 filas del archivo. Para facilitar el trabajo, reducimos el archivo a un subgrupo de años (1952 a 1962).
 
 
 ```{r}
 #gt(head(gapminder))
 head(gapminder)
+gapminder2=gapminder %>% filter(year <1963)
 ```
 
 
@@ -82,7 +83,7 @@ Primero creamos un gráfico de puntos sin animación o sea estático.  En el eje
 
 ```{r}
 p <- ggplot(
-  gapminder, 
+  gapminder2, 
   aes(x = gdpPercap, y=lifeExp, size = pop, colour = country)) +
   geom_point(show.legend = FALSE, alpha = 0.8) +
   scale_size(range = c(2, 12)) +
