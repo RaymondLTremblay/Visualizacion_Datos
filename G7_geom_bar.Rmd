@@ -44,6 +44,7 @@ library(flipbookr)
 library(tidyverse)
 library(ggversa)
 library(janitor)
+library(gridExtra) # paquete para organizar los gráficos
 DW=dipodium
 DW=clean_names(DW)
 ```
@@ -77,6 +78,8 @@ DW %>%
   xlab("Cantidad de Flores")+
   ylab("Frecuencia")+
   theme(axis.title=element_text(size=14,face="bold"))
+
+
 
 ```
 
@@ -124,7 +127,7 @@ knitr::include_graphics("Graficos/L_eltoroensis.jpeg")
      - Cambie de color las barras
      - Cambie el nombre de los nombres de los ejes
      - Salva el gráfico con extensión de .png
-     - Sube el gráfico a Edmodo
+     - Sube el gráfico a MSTeam
 
 
 ```{r, eval=FALSE, echo=FALSE}
@@ -136,6 +139,7 @@ ggplot(Lelto, aes(Adultos))+
 
 ```
 
+***
 
 # Multiples grupos 
 
@@ -295,10 +299,15 @@ head(Lelto)
 df=Lelto %>% 
   select(Juveniles, Adultos)
 
-dfLelto = df%>% 
-  gather(key="Estado", value="Conteos")
+df # mire como esta organizado los datos
 
-ggplot(dfLelto, aes(Conteos, fill=Estado))+
+dfLelto = df%>% 
+  gather(key="Etapa_de_Vida", value="Conteos")
+
+dfLelto # mire como esta organizado los datos
+
+
+ggplot(dfLelto, aes(Conteos, fill=Etapa_de_Vida))+
   geom_bar()
  
 
@@ -567,6 +576,12 @@ AA$FechasMA <- as.yearmon(paste(AA$Year, AA$Fecha), "%Y %m")
 head(AA)
 ```
 
+## Conversión de temperatura
+
+Cual el punto de congelación en Farenheit?
+
+Como se convierte F° en C° 
+
 
 ```{r}
 # Paso 4
@@ -593,6 +608,9 @@ ggplot(data=AA,
 
 ```
 
+
+
+***
 
 ## Gráfico de barras: Ajuste de posiciones con **geom_bar**
 
@@ -628,16 +646,20 @@ En el tercer grafico las barras fueron rotadas usando la opción **coord_flip()*
 ```{r geombar2a, echo=TRUE}
 
 barraA=ggplot(Anolis, aes(SEX_AGE))
-barraA+geom_bar(fill=grey(.5))+coord_flip()+
+B3=barraA+geom_bar(fill=grey(.5))+coord_flip()+
   labs(y="Frecuencia", x="Género y edad")+
   theme(axis.title=element_text(size=10,face="bold"))
 
 barraA=ggplot(Anolis, aes(SEX_AGE, fill=SEASON))
-barraA+geom_bar()+scale_fill_grey()+
+B4=barraA+geom_bar()+scale_fill_grey()+
   labs(y="Frecuencia", x="Género y edad")+
   theme(axis.title=element_text(size=10,face="bold"))
+
+grid.arrange(B3,B4,ncol=1)
 ```
-### Posiciones d elas barras
+
+***
+### Posiciones de las barras
 
 
    Si uno quiere posicionar las categorías una al lado de la otra, se usa **(position={dodge})**. El parámetro **dodge** le indica **esquivar** en el sentido de mover al lado. 
@@ -645,14 +667,16 @@ barraA+geom_bar()+scale_fill_grey()+
 ```{r geombar3,  echo=TRUE}
 
 barraA=ggplot(Anolis, aes(SEX_AGE,fill=SEASON))
-barraA+geom_bar()+
+B1=barraA+geom_bar()+
   labs(y="Frecuencia", x="Género y edad")+
   theme(axis.title=element_text(size=10,face="bold"))
 
 barraA=ggplot(Anolis, aes(SEX_AGE,fill=SEASON))
-barraA+geom_bar(position="dodge")+
+B2=barraA+geom_bar(position="dodge")+
   labs(y="Frecuencia", x="Género y edad")+
   theme(axis.title=element_text(size=10,face="bold"))
+
+grid.arrange(B1,B2,ncol=1)
 ```
 
 # Opciones y Parametros de **geom_bar**:

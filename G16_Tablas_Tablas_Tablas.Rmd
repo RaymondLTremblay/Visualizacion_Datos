@@ -42,6 +42,7 @@ test
 
 ```{r}
 library(ggplot2)
+library(tidyverse)
 library(ggversa)
 library(gt)
 library(gridExtra)
@@ -52,7 +53,9 @@ library(gridExtra)
 En este documento estaremos evaluando una serie de alternativas y paquetes para preparar tablas.
 
 # Tablas con Markdown
- El primer ejemplo usa el sistema de markdown para preparar tablas
+ El primer ejemplo usa el sistema de **markdown** para preparar tablas
+
+***
 
 
 ## Tablas sencillas y R
@@ -66,6 +69,8 @@ Las tablas sencillas se usa cuando no hay mucha información y no estamos import
 A ver, mire la **Tabla a** y la **Tabla b**. ¿Encuentra los errores?  Vea que la **Tabla a** muestra los valores con demasiadas cifras significativas, justificaciones ilógicas, formato inconsistente y no especifica las unidades de los valores.  Vemos en la **Tabla b** que ahora las cifras significativas aparecen de forma consistente y en el mismo formato (2da y 3ra columnas), todos los números están justificados a la derecha y las unidades de cm se especifican (3ra columna).  
 
 En conclusión, no solo la **Tabla b** se ve más presentable, si no que también corrige los problemas, de ahí la importancia de presentar datos tabulados de forma que facilite su comunicación a la audiencia.
+
+***
   
 **Tabla a.  Errores de formato, justificación y escala**
   
@@ -90,8 +95,9 @@ Para facilitar la producción de una tabla siempre puede usar este enlace
 
 https://www.tablesgenerator.com/markdown_tables
 
+***
 
-1. Ejercicio
+1. **Ejercicio**
 
 Prepara una tabla de la lista de tu familia, nombre de tu madre, abuelas y cuantos hijos tienen. Los nombres deberían esta justificado a la izquierda y la cantidad de hijos a la derecha, en una tercera columna pon el municipio donde nacio esa persona.
 
@@ -102,7 +108,10 @@ Prepara una tabla de la lista de tu familia, nombre de tu madre, abuelas y cuant
 
 ## tibble
 
-Un tibble es una tabla que es muy similar a un data frame, con algunas diferencias que le hace más fácil encontrar errores y imprimir esas tablas.  Aqui vemos un data frame que fue convertida en tibble, a evaluar la tabla no se ve ninguna diferencia. Vea este enlace para más información https://r4ds.had.co.nz/tibbles.html
+Un tibble es una tabla que es muy similar a un data frame, con algunas diferencias que le hace más fácil encontrar errores y imprimir esas tablas.  Aqui vemos un data frame que fue convertida en tibble, a evaluar la tabla no se ve ninguna diferencia. Vea este enlace para más información https://r4ds.had.co.nz/tibbles.html 
+
+
+El archivo esta un formato "data frame" y "A" esta en un formato tibble.  Nota que no se ve diferencias entre los dos a simple vista.  Pero es importante que sepa detras en el codigo del formato, hay codificación que puede facilitar o no un analisis en cada uno de las opciones.   
 
 
 ```{r}
@@ -115,6 +124,7 @@ A
 ```
 
 
+## Crear un tibble en un documento .Rmd
 
 ## tribble
 
@@ -125,14 +135,16 @@ Tabla=tribble(~"Nombre Cientifico de las Especies", ~"Nombre Comun", ~N,
         "Especie_1", "Angelito", 10,
         "Especie_2", "...", 300,
         "Prestoea montana","Palma de Sierra", 1,
-        "....","...", NA)
+        "....","...", NA
+        )
 Tabla
 ```
+***
 
 
 # El paquete **gt**
 
-El paquete **gt** es the "grammar of tables", y la función prinicpal es "gt". Si usamos la tabla que creamos anteriomente se puede mejor la aparencia de la tabla
+El paquete **gt** es the "Grammar of tables", y la función principal es "gt". Si usamos la tabla que creamos anteriomente se puede mejor la aparencia de la tabla
 
 ```{r}
 library(gt)
@@ -140,11 +152,182 @@ gt(head(A))
 ```
 
 
-https://www.r-bloggers.com/2021/11/top-r-packages-for-visualizing-table-data-make-stunning-tables-in-minutes/
+Vea este enlace para información de las funciones de **gt** https://gt.rstudio.com y este https://themockup.blog/static/gt-cookbook.html
+
+***
+
+## Añadiendo titulo y referencia a una tabla gt
+
+```{r}
+
+A %>% 
+  select(STUDY, Survey_Site, TIME, DATE, SEASON, SEX_AGE, SVL) %>% 
+  head() %>% 
+  gt() %>% 
+  tab_header(title = "Datos sobre la presencia y tamanõ de *Anolis* en la estación El Verde, PR",
+             subtitle = "Datos recolectado por Douglas Reagan" )
+  
+
+```
+
+
+***
+
+## Añadiendo italico a algunas palabras
+
+```{r}
+
+A %>% 
+  select(STUDY, Survey_Site, TIME, DATE, SEASON, SEX_AGE, SVL) %>% 
+  head() %>% 
+  gt() %>% 
+  tab_header(title = md("Datos sobre la presencia y tamanõ de *Anolis* en la estación El Verde, PR"),
+             subtitle = "Datos recolectado por Douglas Reagan" )
+  
+
+```
+
+***
+
+## Añadiendo una referencia
+
+https://luq.lter.network/data/luqmetadata1
+
+
+```{r}
+A %>% 
+  select(STUDY, Survey_Site, TIME, DATE, SEASON, SEX_AGE, SVL) %>% 
+  head() %>% 
+  gt() %>% 
+  tab_header(title = md("Datos sobre la presencia y tamanõ de *Anolis* en la estación El Verde, PR"),
+             subtitle = "Datos recolectado por Douglas Reagan" ) %>% 
+  tab_source_note(
+    source_note = "https://luq.lter.network/data/luqmetadata1")
+  
+
+```
+
+***
+
+## Identificando una celda especifica con un **footnote**
+
+```{r}
+AA=A %>% 
+  select(STUDY, Survey_Site, TIME, DATE, SEASON, SEX_AGE, SVL) %>% 
+  head() %>% 
+  gt() %>% 
+  tab_header(title = md("Datos sobre la presencia y tamanõ de *Anolis* en la estación El Verde, PR"),
+             subtitle = "Datos recolectado por Douglas Reagan" ) %>% 
+  tab_source_note(
+    source_note = "https://luq.lter.network/data/luqmetadata1") %>% 
+  tab_footnote(
+    footnote = "Podria haber sido confundido con un extraterrestre",
+    locations = cells_body(columns=SEX_AGE, rows = 3)
+  )
+  
+AA
+```
+
+
+
+```{r}
+AA %>% 
+  tab_style(
+    style = list(cell_fill(color = "Orange")),
+    locations = cells_body(columns = STUDY)
+  )
+```
+
+
+```{r}
+AA %>% 
+  tab_style(
+    style = list(cell_fill(color = "Orange")),
+    locations = cells_body(columns = STUDY)
+  ) %>% 
+  tab_style(
+    style = list(cell_text(color = "Orange")),
+    locations = cells_body(columns=SEX_AGE, rows = 3)
+  )
+```
+
+
+
+```{r}
+AAA=AA %>% 
+  tab_style(
+    style = list(cell_fill(color = "Orange")),
+    locations = cells_body(columns = STUDY)
+  ) %>% 
+  tab_style(
+    style = list(cell_text(color = "Orange")),
+    locations = cells_body(columns=SEX_AGE, rows = 3)
+  ) %>% 
+    tab_style(
+    style = list(cell_text(style = "italic", weight = "bold")),
+    locations = cells_body(columns=Survey_Site, rows = 1)
+    )
+
+AAA
+```
+
+
+Formateo condicional
+
+Aqui usamos la condición de **SVL** sea debajo un tamaño o más grande y se le asigna un color correspondiente.
 
 
 
 
+```{r}
 
+AAAA= AAA%>% 
+  tab_style(
+    style = cell_text(color = "red", weight = "bold"),
+    locations = cells_body(
+      columns = vars(SVL),
+      rows = SVL < 38
+    )
+  )%>% 
+  tab_style(
+    style = cell_text(color = "blue", weight = "bold"),
+    locations = cells_body(
+      columns = vars(SVL),
+      rows = SVL >= 38
+    )
+  )
+
+
+AAAA
+```
+
+
+## Cambiar los fonts de una columna especifica o de toda la tabla
+
+Para aceso alos fonts de google vea este enlace
+
+https://fonts.google.com
+
+
+
+
+```{r}
+AAAA %>% 
+  tab_style(
+    style = cell_text(
+      font = google_font("Indie Flower"), 
+      weight = "bold",
+      size = px(20)
+      ),
+    locations = cells_column_labels(everything())
+  ) %>% 
+   tab_style(
+    style = cell_text(
+      font = google_font("Redressed"), size = px(14)),
+    locations = cells_body(columns = everything())
+  ) 
+
+gtsave(AAAA, "gt_table_excercise.png")
+```
 
 

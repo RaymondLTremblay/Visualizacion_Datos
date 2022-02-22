@@ -6,3 +6,5 @@ DW %>%
   ylab("Frecuencia")+
   theme(axis.title=element_text(size=14,face="bold"))
 
+
+
