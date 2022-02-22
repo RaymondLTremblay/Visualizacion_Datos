@@ -453,6 +453,9 @@ div.tocify {
     <li>
       <a href="G15_gganimate.html">Gráficos animados en movimiento</a>
     </li>
+    <li>
+      <a href="G16_Tablas_Tablas_Tablas.html">Tablas y Tablas</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -548,7 +551,7 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2022-02-02&quot;</code></pre>
+<pre><code>## [1] &quot;2022-02-22&quot;</code></pre>
 <div id="gráficos-de-puntos-con-geom_dotplot" class="section level1">
 <h1>Gráficos de Puntos con <strong>geom_dotplot</strong></h1>
 <div id="los-paquetes-a-instalar" class="section level2">
@@ -558,9 +561,31 @@ div.tocify {
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># una serie de paquetes para organizar y visualizar los datos</span></span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt) <span class="co"># Un paquete para que las tablas se vean más organizada. </span></span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra) <span class="co"># Un paquete para organizar las figuras de ggplot2</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor) <span class="co"># un paquete para limpiar los nombres</span></span></code></pre></div>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>dipodium<span class="ot">=</span><span class="fu">clean_names</span>(dipodium) <span class="co"># Esta función limpia los nombres de las variables </span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>dipodium</span></code></pre></div>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor) <span class="co"># un paquete para limpiar los nombres</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">citation</span>(<span class="st">&quot;ggversa&quot;</span>)</span></code></pre></div>
+<pre><code>## 
+## To cite package &#39;ggversa&#39; in publications use:
+## 
+##   Raymond &gt; Tremblay (2017). ggversa: Graficas Versatiles Con
+##   &#39;ggplot2&#39;. R package version 0.0.1.
+##   https://CRAN.R-project.org/package=ggversa
+## 
+## A BibTeX entry for LaTeX users is
+## 
+##   @Manual{,
+##     title = {ggversa: Graficas Versatiles Con &#39;ggplot2&#39;},
+##     author = {Raymond &gt; Tremblay},
+##     year = {2017},
+##     note = {R package version 0.0.1},
+##     url = {https://CRAN.R-project.org/package=ggversa},
+##   }
+## 
+## ATTENTION: This citation information has been auto-generated from the
+## package DESCRIPTION file and may need manual editing, see
+## &#39;help(&quot;citation&quot;)&#39;.</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dipodium<span class="ot">=</span><span class="fu">clean_names</span>(dipodium) <span class="co"># Esta función limpia los nombres de las variables </span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>dipodium</span></code></pre></div>
 <pre><code>## # A tibble: 1,363 × 21
 ##    tree_number tree_species   dbh plant_number ramet_number distance orientation
 ##          &lt;int&gt; &lt;chr&gt;        &lt;dbl&gt;        &lt;int&gt;        &lt;int&gt;    &lt;dbl&gt;       &lt;dbl&gt;
@@ -580,13 +605,13 @@ div.tocify {
 ## #   pardalinum_or_roseum &lt;chr&gt;, fruit_position_effect &lt;int&gt;,
 ## #   frutos_si_o_no &lt;int&gt;, p_or_r_infl_lenght &lt;chr&gt;, num_of_fruits &lt;int&gt;,
 ## #   species_name &lt;chr&gt;, cardinal_orientation &lt;int&gt;</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gt</span>(<span class="fu">head</span>(dipodium)) <span class="co"># la función *head* es para visualizar las primeros 6 filas</span></span></code></pre></div>
-<div id="lvcdmxocyz" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gt</span>(<span class="fu">head</span>(dipodium)) <span class="co"># la función *head* es para visualizar las primeros 6 filas</span></span></code></pre></div>
+<div id="nvixzfhiol" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#lvcdmxocyz .gt_table {
+#nvixzfhiol .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -611,7 +636,7 @@ div.tocify {
   border-left-color: #D3D3D3;
 }
 
-#lvcdmxocyz .gt_heading {
+#nvixzfhiol .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -623,33 +648,37 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#lvcdmxocyz .gt_title {
+#nvixzfhiol .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
   padding-top: 4px;
   padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
   border-bottom-color: #FFFFFF;
   border-bottom-width: 0;
 }
 
-#lvcdmxocyz .gt_subtitle {
+#nvixzfhiol .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
   padding-top: 0;
   padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
   border-top-color: #FFFFFF;
   border-top-width: 0;
 }
 
-#lvcdmxocyz .gt_bottom_border {
+#nvixzfhiol .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#lvcdmxocyz .gt_col_headings {
+#nvixzfhiol .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -664,7 +693,7 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#lvcdmxocyz .gt_col_heading {
+#nvixzfhiol .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -684,7 +713,7 @@ div.tocify {
   overflow-x: hidden;
 }
 
-#lvcdmxocyz .gt_column_spanner_outer {
+#nvixzfhiol .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -696,15 +725,15 @@ div.tocify {
   padding-right: 4px;
 }
 
-#lvcdmxocyz .gt_column_spanner_outer:first-child {
+#nvixzfhiol .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#lvcdmxocyz .gt_column_spanner_outer:last-child {
+#nvixzfhiol .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#lvcdmxocyz .gt_column_spanner {
+#nvixzfhiol .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -716,8 +745,11 @@ div.tocify {
   width: 100%;
 }
 
-#lvcdmxocyz .gt_group_heading {
-  padding: 8px;
+#nvixzfhiol .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -738,7 +770,7 @@ div.tocify {
   vertical-align: middle;
 }
 
-#lvcdmxocyz .gt_empty_group_heading {
+#nvixzfhiol .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -753,15 +785,15 @@ div.tocify {
   vertical-align: middle;
 }
 
-#lvcdmxocyz .gt_from_md > :first-child {
+#nvixzfhiol .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#lvcdmxocyz .gt_from_md > :last-child {
+#nvixzfhiol .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#lvcdmxocyz .gt_row {
+#nvixzfhiol .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -780,7 +812,7 @@ div.tocify {
   overflow-x: hidden;
 }
 
-#lvcdmxocyz .gt_stub {
+#nvixzfhiol .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -789,10 +821,29 @@ div.tocify {
   border-right-style: solid;
   border-right-width: 2px;
   border-right-color: #D3D3D3;
-  padding-left: 12px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#lvcdmxocyz .gt_summary_row {
+#nvixzfhiol .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#nvixzfhiol .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#nvixzfhiol .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -802,17 +853,26 @@ div.tocify {
   padding-right: 5px;
 }
 
-#lvcdmxocyz .gt_first_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
+#nvixzfhiol .gt_first_summary_row {
   border-top-style: solid;
-  border-top-width: 2px;
   border-top-color: #D3D3D3;
 }
 
-#lvcdmxocyz .gt_grand_summary_row {
+#nvixzfhiol .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#nvixzfhiol .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#nvixzfhiol .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -822,7 +882,7 @@ div.tocify {
   padding-right: 5px;
 }
 
-#lvcdmxocyz .gt_first_grand_summary_row {
+#nvixzfhiol .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -832,11 +892,11 @@ div.tocify {
   border-top-color: #D3D3D3;
 }
 
-#lvcdmxocyz .gt_striped {
+#nvixzfhiol .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#lvcdmxocyz .gt_table_body {
+#nvixzfhiol .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -845,7 +905,7 @@ div.tocify {
   border-bottom-color: #D3D3D3;
 }
 
-#lvcdmxocyz .gt_footnotes {
+#nvixzfhiol .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -859,13 +919,16 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#lvcdmxocyz .gt_footnote {
+#nvixzfhiol .gt_footnote {
   margin: 0px;
   font-size: 90%;
-  padding: 4px;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#lvcdmxocyz .gt_sourcenotes {
+#nvixzfhiol .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -879,44 +942,71 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#lvcdmxocyz .gt_sourcenote {
+#nvixzfhiol .gt_sourcenote {
   font-size: 90%;
-  padding: 4px;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-#lvcdmxocyz .gt_left {
+#nvixzfhiol .gt_left {
   text-align: left;
 }
 
-#lvcdmxocyz .gt_center {
+#nvixzfhiol .gt_center {
   text-align: center;
 }
 
-#lvcdmxocyz .gt_right {
+#nvixzfhiol .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#lvcdmxocyz .gt_font_normal {
+#nvixzfhiol .gt_font_normal {
   font-weight: normal;
 }
 
-#lvcdmxocyz .gt_font_bold {
+#nvixzfhiol .gt_font_bold {
   font-weight: bold;
 }
 
-#lvcdmxocyz .gt_font_italic {
+#nvixzfhiol .gt_font_italic {
   font-style: italic;
 }
 
-#lvcdmxocyz .gt_super {
+#nvixzfhiol .gt_super {
   font-size: 65%;
 }
 
-#lvcdmxocyz .gt_footnote_marks {
+#nvixzfhiol .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
-  font-size: 65%;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#nvixzfhiol .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#nvixzfhiol .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#nvixzfhiol .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#nvixzfhiol .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
 }
 </style>
 <table class="gt_table">
@@ -1078,8 +1168,8 @@ div.tocify {
   
 </table>
 </div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#devtools::install_github(&quot;EvaMaeRey/flipbookr&quot;)</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(flipbookr) </span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#devtools::install_github(&quot;EvaMaeRey/flipbookr&quot;)</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(flipbookr) </span></code></pre></div>
 <hr />
 </div>
 <div id="gráficos-de-una-variable-continua-o-discreta" class="section level2">
@@ -1090,13 +1180,13 @@ div.tocify {
 <h2>Gráficos de puntos: Dotplot de Wilkinson con geom_dotplot</h2>
 <p>En el gráfico de puntos, conocido como <em>Wilkinson dotplot</em>, la posición de los compartimentos (bins), depende de los datos, mientras que la concentración de los puntos determina el ancho máximo de los compartimentos. De forma predeterminada los datos serán agrupados uno por encima de los otros en el eje de <em>Y</em>. Esto se demuestra en la siguiente figura utilizando los datos de la orquídea <em>dipodium</em> en el archivo de <strong>ggversa</strong>. Note que se podría haber usado <strong>geom_dotplot</strong> sin parámetros adicional y los puntos quedarían representados de color negro. El parámetro <strong>fill</strong> cambia el color de los puntos y el parámetro <strong>colour o color</strong> cambia el color de la línea que rodea el círculo.</p>
 <hr />
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>dipodium <span class="sc">%&gt;%</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(number_of_fruits, species_name, tree_species)<span class="sc">%&gt;%</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(species_name<span class="sc">==</span><span class="st">&quot;r&quot;</span>)<span class="sc">%&gt;%</span>   <span class="co"># r representa la especie de Dipodium roseum</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(number_of_fruits))<span class="sc">+</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_dotplot</span>(<span class="at">stackratio=</span>.<span class="dv">5</span>, <span class="at">fill=</span><span class="st">&quot;magenta&quot;</span>, <span class="at">colour =</span> <span class="st">&quot;red&quot;</span>)<span class="sc">+</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Número de Frutos&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>dipodium <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(number_of_fruits, species_name, tree_species)<span class="sc">%&gt;%</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(species_name<span class="sc">==</span><span class="st">&quot;r&quot;</span>)<span class="sc">%&gt;%</span>   <span class="co"># r representa la especie de Dipodium roseum</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(number_of_fruits))<span class="sc">+</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_dotplot</span>(<span class="at">stackratio=</span>.<span class="dv">5</span>, <span class="at">fill=</span><span class="st">&quot;magenta&quot;</span>, <span class="at">colour =</span> <span class="st">&quot;red&quot;</span>)<span class="sc">+</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Número de Frutos&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G4-Grafico-de-puntos-de-Wilkinson_files/figure-html/dipodium-puntos-1.png" width="672" /> ***</p>
 <pre><code>## Warning: Removed 1 rows containing non-finite values (stat_bindot).
 ## Removed 1 rows containing non-finite values (stat_bindot).
@@ -1109,49 +1199,49 @@ div.tocify {
 <div id="remover-la-información-en-el-eje-de-y" class="section level1">
 <h1>Remover la información en el eje de “Y”</h1>
 <p>LA información eje de “Y” no representa la frecuencia de los datos, aquí esta la solución</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(dipodium, <span class="fu">aes</span>(number_of_fruits))</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_dotplot</span>(<span class="at">fill=</span><span class="st">&quot;blue&quot;</span>, <span class="at">colour=</span><span class="st">&quot;red&quot;</span>,</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">stackratio=</span>.<span class="dv">7</span>) <span class="sc">+</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>,<span class="at">face=</span><span class="st">&quot;italic&quot;</span>, <span class="at">colour=</span><span class="st">&quot;orange&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Número de Frutos&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(dipodium, <span class="fu">aes</span>(number_of_fruits))</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_dotplot</span>(<span class="at">fill=</span><span class="st">&quot;blue&quot;</span>, <span class="at">colour=</span><span class="st">&quot;red&quot;</span>,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">stackratio=</span>.<span class="dv">7</span>) <span class="sc">+</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>,<span class="at">face=</span><span class="st">&quot;italic&quot;</span>, <span class="at">colour=</span><span class="st">&quot;orange&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Número de Frutos&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)</span></code></pre></div>
 <p><img src="G4-Grafico-de-puntos-de-Wilkinson_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <hr />
 <div id="la-posición-de-los-datos-con-stackdir" class="section level2">
 <h2>La posición de los datos con <strong>stackdir</strong></h2>
 <p>Con la opción <strong>stackdir</strong> uno puede ubicar los puntos de forma diferente; por ejemplo, centrados al eje de Y como se muestra en la siguiente figura. Para especificar la dirección en que se quieren ubicar los datos, se indica que los puntos comienzan al centro con el parámetro <strong>center</strong>; si comienzan arriba, con <strong>down</strong>; si abajo, con <strong>up</strong>; y si al centro con los puntos alineados, con <strong>centerwhole</strong> (centralizados, pero con los datos aliñados).</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Practica cambiando stackdir por las otras alternativas: centerwhole, up, down, center, </span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(dipodium, <span class="fu">aes</span>(number_of_fruits))</span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span>a<span class="sc">+</span><span class="fu">geom_dotplot</span>(<span class="at">fill=</span><span class="st">&quot;red&quot;</span>, <span class="at">colour=</span><span class="st">&quot;black&quot;</span>,</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">stackdir=</span><span class="st">&quot;center&quot;</span>, <span class="at">stackratio =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Número de Frutos&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="cn">NULL</span>)</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>b<span class="ot">=</span><span class="fu">ggplot</span>(dipodium, <span class="fu">aes</span>(number_of_fruits))</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>b<span class="ot">=</span>b<span class="sc">+</span><span class="fu">geom_dotplot</span>(<span class="at">fill=</span><span class="st">&quot;blue&quot;</span>, <span class="at">colour=</span><span class="st">&quot;black&quot;</span>,</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>                <span class="at">stackdir=</span><span class="st">&quot;centerwhole&quot;</span>, <span class="at">stackratio =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Número de Frutos&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="cn">NULL</span>)</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>c<span class="ot">=</span><span class="fu">ggplot</span>(dipodium, <span class="fu">aes</span>(number_of_fruits))</span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>c<span class="ot">=</span>c<span class="sc">+</span><span class="fu">geom_dotplot</span>(<span class="at">fill=</span><span class="st">&quot;orange&quot;</span>, <span class="at">colour=</span><span class="st">&quot;black&quot;</span>,</span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>                <span class="at">stackdir=</span><span class="st">&quot;up&quot;</span>, <span class="at">stackratio =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Número de Frutos&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="cn">NULL</span>)</span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>d<span class="ot">=</span><span class="fu">ggplot</span>(dipodium, <span class="fu">aes</span>(number_of_fruits))</span>
-<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>name_graphic<span class="ot">=</span>d<span class="sc">+</span><span class="fu">geom_dotplot</span>(<span class="at">fill=</span><span class="st">&quot;black&quot;</span>, <span class="at">colour=</span><span class="st">&quot;white&quot;</span>,</span>
-<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>                <span class="at">stackdir=</span><span class="st">&quot;down&quot;</span>, <span class="at">stackratio =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
-<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Número de Frutos&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
-<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="cn">NULL</span>)</span>
-<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a><span class="co">#name_graphic</span></span>
-<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a><span class="co">#ggsave(name_graphic, &quot;stackdir_down.png&quot;) #pdf, .jpg, .tiff</span></span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Practica cambiando stackdir por las otras alternativas: centerwhole, up, down, center, </span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(dipodium, <span class="fu">aes</span>(number_of_fruits))</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span>a<span class="sc">+</span><span class="fu">geom_dotplot</span>(<span class="at">fill=</span><span class="st">&quot;red&quot;</span>, <span class="at">colour=</span><span class="st">&quot;black&quot;</span>,</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>                <span class="at">stackdir=</span><span class="st">&quot;center&quot;</span>, <span class="at">stackratio =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Número de Frutos&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="cn">NULL</span>)</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>b<span class="ot">=</span><span class="fu">ggplot</span>(dipodium, <span class="fu">aes</span>(number_of_fruits))</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>b<span class="ot">=</span>b<span class="sc">+</span><span class="fu">geom_dotplot</span>(<span class="at">fill=</span><span class="st">&quot;blue&quot;</span>, <span class="at">colour=</span><span class="st">&quot;black&quot;</span>,</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>                <span class="at">stackdir=</span><span class="st">&quot;centerwhole&quot;</span>, <span class="at">stackratio =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Número de Frutos&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="cn">NULL</span>)</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>c<span class="ot">=</span><span class="fu">ggplot</span>(dipodium, <span class="fu">aes</span>(number_of_fruits))</span>
+<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>c<span class="ot">=</span>c<span class="sc">+</span><span class="fu">geom_dotplot</span>(<span class="at">fill=</span><span class="st">&quot;orange&quot;</span>, <span class="at">colour=</span><span class="st">&quot;black&quot;</span>,</span>
+<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>                <span class="at">stackdir=</span><span class="st">&quot;up&quot;</span>, <span class="at">stackratio =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Número de Frutos&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="cn">NULL</span>)</span>
+<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>d<span class="ot">=</span><span class="fu">ggplot</span>(dipodium, <span class="fu">aes</span>(number_of_fruits))</span>
+<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>name_graphic<span class="ot">=</span>d<span class="sc">+</span><span class="fu">geom_dotplot</span>(<span class="at">fill=</span><span class="st">&quot;black&quot;</span>, <span class="at">colour=</span><span class="st">&quot;white&quot;</span>,</span>
+<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>                <span class="at">stackdir=</span><span class="st">&quot;down&quot;</span>, <span class="at">stackratio =</span> <span class="fl">0.5</span>) <span class="sc">+</span> </span>
+<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Número de Frutos&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="cn">NULL</span>)</span>
+<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-30"><a href="#cb11-30" aria-hidden="true" tabindex="-1"></a><span class="co">#name_graphic</span></span>
+<span id="cb11-31"><a href="#cb11-31" aria-hidden="true" tabindex="-1"></a><span class="co">#ggsave(name_graphic, &quot;stackdir_down.png&quot;) #pdf, .jpg, .tiff</span></span></code></pre></div>
 <pre><code>## Warning: Removed 1300 rows containing non-finite values (stat_bindot).
 ## Removed 1300 rows containing non-finite values (stat_bindot).
 ## Removed 1300 rows containing non-finite values (stat_bindot).</code></pre>
@@ -1161,20 +1251,20 @@ div.tocify {
 <div id="modificación-estética-del-gráfico-tamaño-del-punto-color-del-punto-y-la-intensidad" class="section level2">
 <h2>Modificación estética del gráfico, tamaño del punto, color del punto y la intensidad</h2>
 <p>A continuación se demostrará cómo modificar algunas variables utilizando <strong>geom_dotplot</strong>. Cuando se utilicen otras funciones tipo <strong>geom_</strong>, muchas de las opciones explicadas a continuación pueden ser viables y aplicables. Se cambia el tamaño de los puntos con <strong>dotsize</strong>, a la vez que se cambia la orientación de los datos como se muestra en la misma figura. También se cambia la intensidad del color usando <strong>alpha</strong>, que tiene un rango de 0 (color pálido) a 1 (color intenso); cuando se usan valores altos, resulta en mayor intensidad el color en la opción <strong>fill</strong> (del color rojo en este caso), y cuando se usan valores bajos la intensidad del color es más tenue. Nota que en los dos gráficos se cambia el <strong>stackratio</strong> que es la proporción de solapamiento de puntos. En adición se cambia el tamaño de los puntos con <strong>dotsize</strong>.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>g1<span class="ot">=</span><span class="fu">ggplot</span>(dipodium, <span class="fu">aes</span>(number_of_fruits))<span class="sc">+</span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_dotplot</span>(<span class="at">fill=</span><span class="st">&quot;blue&quot;</span>, <span class="at">colour=</span><span class="st">&quot;black&quot;</span>,</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">dotsize=</span><span class="dv">3</span>, <span class="at">stackdir=</span><span class="st">&quot;center&quot;</span>,  <span class="at">stackratio =</span> <span class="fl">0.2</span>, <span class="at">alpha=</span>.<span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Especie de orquídea&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="cn">NULL</span>)</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>g2<span class="ot">=</span><span class="fu">ggplot</span>(dipodium, <span class="fu">aes</span>(number_of_fruits))<span class="sc">+</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_dotplot</span>(<span class="at">fill=</span><span class="st">&quot;blue&quot;</span>, <span class="at">colour=</span><span class="st">&quot;black&quot;</span>,</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>               <span class="at">dotsize=</span><span class="dv">1</span>, <span class="at">stackdir=</span><span class="st">&quot;center&quot;</span>,  <span class="at">stackratio =</span> <span class="fl">0.7</span>, <span class="at">alpha=</span>.<span class="dv">9</span>) <span class="sc">+</span></span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Especie de orquídea&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="cn">NULL</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>g1<span class="ot">=</span><span class="fu">ggplot</span>(dipodium, <span class="fu">aes</span>(number_of_fruits))<span class="sc">+</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_dotplot</span>(<span class="at">fill=</span><span class="st">&quot;blue&quot;</span>, <span class="at">colour=</span><span class="st">&quot;black&quot;</span>,</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">dotsize=</span><span class="dv">3</span>, <span class="at">stackdir=</span><span class="st">&quot;center&quot;</span>,  <span class="at">stackratio =</span> <span class="fl">0.2</span>, <span class="at">alpha=</span>.<span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Especie de orquídea&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="cn">NULL</span>)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>g2<span class="ot">=</span><span class="fu">ggplot</span>(dipodium, <span class="fu">aes</span>(number_of_fruits))<span class="sc">+</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_dotplot</span>(<span class="at">fill=</span><span class="st">&quot;blue&quot;</span>, <span class="at">colour=</span><span class="st">&quot;black&quot;</span>,</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>               <span class="at">dotsize=</span><span class="dv">1</span>, <span class="at">stackdir=</span><span class="st">&quot;center&quot;</span>,  <span class="at">stackratio =</span> <span class="fl">0.7</span>, <span class="at">alpha=</span>.<span class="dv">9</span>) <span class="sc">+</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Especie de orquídea&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="cn">NULL</span>)</span></code></pre></div>
 <pre><code>## Warning: Removed 1300 rows containing non-finite values (stat_bindot).
 ## Removed 1300 rows containing non-finite values (stat_bindot).</code></pre>
 <p><img src="G4-Grafico-de-puntos-de-Wilkinson_files/figure-html/grid%20dotplot2-1.png" width="672" /></p>
@@ -1183,18 +1273,18 @@ div.tocify {
 <div id="el-solapamiento-de-los-puntos-con-stackratio" class="section level2">
 <h2>El solapamiento de los puntos con <strong>stackratio</strong></h2>
 <p>La opción de <strong>stackratio</strong> es para especificar el grado de solapamiento de los puntos uno sobre el otro, o el espacio que separa cada punto. A la figura anteriormente, ahora se le añade un solapamiento diferente. Además, para que los puntos no se solapen unos con otros se usa la función <strong>position=dodge</strong>. Si quiere modificar el solapamiento tiene que usar <strong>position=position_dodge(width = 0.1)</strong> para identificar la cantidad de solapamiento de los grupos, más pequeño el número más solapamiento entre los grupos</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(dipodium, <span class="fu">aes</span>(number_of_fruits, <span class="at">fill=</span>species_name))<span class="sc">+</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_dotplot</span>(<span class="at">binwidth =</span> .<span class="dv">5</span>, <span class="at">stackratio =</span> .<span class="dv">7</span>, <span class="at">position =</span> <span class="st">&quot;dodge&quot;</span>) <span class="sc">+</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Número de Frutos&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="cn">NULL</span>)</span></code></pre></div>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>b<span class="ot">=</span><span class="fu">ggplot</span>(dipodium, <span class="fu">aes</span>(number_of_fruits, <span class="at">fill=</span>species_name))<span class="sc">+</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_dotplot</span>(<span class="at">binwidth =</span> .<span class="dv">3</span>, <span class="at">stackratio =</span> .<span class="dv">7</span>, <span class="at">position=</span><span class="fu">position_dodge</span>(<span class="at">width =</span> .<span class="dv">7</span>)) <span class="sc">+</span></span>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(dipodium, <span class="fu">aes</span>(number_of_fruits, <span class="at">fill=</span>species_name))<span class="sc">+</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_dotplot</span>(<span class="at">binwidth =</span> .<span class="dv">5</span>, <span class="at">stackratio =</span> .<span class="dv">7</span>, <span class="at">position =</span> <span class="st">&quot;dodge&quot;</span>) <span class="sc">+</span></span>
 <span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Número de Frutos&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
 <span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
 <span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
 <span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="cn">NULL</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>b<span class="ot">=</span><span class="fu">ggplot</span>(dipodium, <span class="fu">aes</span>(number_of_fruits, <span class="at">fill=</span>species_name))<span class="sc">+</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_dotplot</span>(<span class="at">binwidth =</span> .<span class="dv">3</span>, <span class="at">stackratio =</span> .<span class="dv">7</span>, <span class="at">position=</span><span class="fu">position_dodge</span>(<span class="at">width =</span> .<span class="dv">7</span>)) <span class="sc">+</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Número de Frutos&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="cn">NULL</span>)</span></code></pre></div>
 <pre><code>## Warning: Removed 1300 rows containing non-finite values (stat_bindot).
 ## Removed 1300 rows containing non-finite values (stat_bindot).</code></pre>
 <p><img src="G4-Grafico-de-puntos-de-Wilkinson_files/figure-html/solapamiento-1.png" width="672" /></p>
@@ -1206,11 +1296,11 @@ div.tocify {
 <div id="la-función-stackgroups" class="section level2">
 <h2>La función <strong>stackgroups</strong></h2>
 <p>Ahora veremos cómo ubicar los puntos uno encima de los otros o sea apilar los puntos pero que a la misma vez la cantidad de puntos cambie de acuerdo al grupo. Continuaremos con el ejemplo anterior de las orquídeas <em>Dipodium</em>. En la Figura se usa la opción <strong>stackgroups</strong> en combinación con <strong>binwidth</strong> y <strong>method</strong> para lograr ese efecto, tal como se muestra a continuación:</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(dipodium, <span class="fu">aes</span>(number_of_fruits, <span class="at">fill=</span>species_name))</span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_dotplot</span>(<span class="at">stackgroups =</span> <span class="cn">TRUE</span>, <span class="at">binwidth =</span> .<span class="dv">5</span>, <span class="at">method =</span> <span class="st">&quot;histodot&quot;</span>, <span class="at">stackratio =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Número de Frutos&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="cn">NULL</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(dipodium, <span class="fu">aes</span>(number_of_fruits, <span class="at">fill=</span>species_name))</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_dotplot</span>(<span class="at">stackgroups =</span> <span class="cn">TRUE</span>, <span class="at">binwidth =</span> .<span class="dv">5</span>, <span class="at">method =</span> <span class="st">&quot;histodot&quot;</span>, <span class="at">stackratio =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Número de Frutos&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="cn">NULL</span>)</span></code></pre></div>
 <pre><code>## Warning: Removed 1300 rows containing non-finite values (stat_bindot).</code></pre>
 <p><img src="G4-Grafico-de-puntos-de-Wilkinson_files/figure-html/dipodium-puntos6-1.png" width="672" /></p>
 <hr />
@@ -1218,25 +1308,25 @@ div.tocify {
 <div id="remover-los-na-con-drop_na" class="section level2">
 <h2>Remover los <strong>NA</strong> con <strong>drop_na</strong></h2>
 <p>Cuando hay un grupo no indentificado típicamente se usa <strong>NA</strong> en la el archivo para identifica la falta de información. En otros programas por ejemplo se usa el <strong>999</strong>. En este archivo se identificó dos especie de orquídea, <em>Dipodium roseum</em> y <em>Dipodium pardalinum</em> y hubo ocasiones que no se podia asignar la información una especies especifica (ya que se parecen mucho morfologicamente). Entonces, se identificó como <strong>NA</strong> en el gráfico (la columna de puntos de la derecha). Normalmente uno no va a querer mostrar esos datos al menos que haya una razón para ello. Esos datos se pueden remover utilizando una opción de excluir datos innecesarios del archivo antes de generar el gráfico. Con las funciones en <strong>drop_na</strong> del paquete <strong>tidyr</strong> uno puede remover las variables que tienen <strong>NA</strong>. Se aprovecha y se usa también la opción binaxis para agrupar los datos en el eje de X o el eje de Y; en este ejemplo se agruparon los puntos en el eje de Y como se muestra a continuación, pero centrados los puntos de acuerdo a su especie:</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>conNA<span class="ot">=</span>dipodium<span class="sc">%&gt;%</span></span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(species_name, number_of_fruits)<span class="sc">%&gt;%</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(species_name, number_of_fruits, <span class="at">fill=</span>species_name))<span class="sc">+</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_dotplot</span>(<span class="at">dotsize=</span>.<span class="dv">5</span>, <span class="at">stackdir=</span><span class="st">&quot;center&quot;</span>, <span class="at">alpha=</span>.<span class="dv">5</span>, <span class="at">binaxis =</span> <span class="st">&quot;y&quot;</span>) <span class="sc">+</span></span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Especie de orquídea&quot;</span>, <span class="at">y=</span><span class="st">&quot;Número de frutos&quot;</span>)<span class="sc">+</span></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
-<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="cn">NULL</span>)</span>
-<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>sinNA<span class="ot">=</span>dipodium<span class="sc">%&gt;%</span></span>
-<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(species_name, number_of_fruits)<span class="sc">%&gt;%</span></span>
-<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()<span class="sc">%&gt;%</span></span>
-<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(species_name, number_of_fruits, <span class="at">fill=</span>species_name))<span class="sc">+</span></span>
-<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_dotplot</span>(<span class="at">dotsize=</span>.<span class="dv">5</span>, <span class="at">stackdir=</span><span class="st">&quot;center&quot;</span>, <span class="at">alpha=</span>.<span class="dv">9</span>, <span class="at">binaxis =</span> <span class="st">&quot;y&quot;</span>) <span class="sc">+</span></span>
-<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Especie de orquídea&quot;</span>, <span class="at">y=</span><span class="st">&quot;Número de frutos&quot;</span>)<span class="sc">+</span></span>
-<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
-<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="cn">NULL</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>conNA<span class="ot">=</span>dipodium<span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(species_name, number_of_fruits)<span class="sc">%&gt;%</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(species_name, number_of_fruits, <span class="at">fill=</span>species_name))<span class="sc">+</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_dotplot</span>(<span class="at">dotsize=</span>.<span class="dv">5</span>, <span class="at">stackdir=</span><span class="st">&quot;center&quot;</span>, <span class="at">alpha=</span>.<span class="dv">5</span>, <span class="at">binaxis =</span> <span class="st">&quot;y&quot;</span>) <span class="sc">+</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Especie de orquídea&quot;</span>, <span class="at">y=</span><span class="st">&quot;Número de frutos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="cn">NULL</span>)</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>sinNA<span class="ot">=</span>dipodium<span class="sc">%&gt;%</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(species_name, number_of_fruits)<span class="sc">%&gt;%</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()<span class="sc">%&gt;%</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(species_name, number_of_fruits, <span class="at">fill=</span>species_name))<span class="sc">+</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_dotplot</span>(<span class="at">dotsize=</span>.<span class="dv">5</span>, <span class="at">stackdir=</span><span class="st">&quot;center&quot;</span>, <span class="at">alpha=</span>.<span class="dv">9</span>, <span class="at">binaxis =</span> <span class="st">&quot;y&quot;</span>) <span class="sc">+</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Especie de orquídea&quot;</span>, <span class="at">y=</span><span class="st">&quot;Número de frutos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="cn">NULL</span>)</span></code></pre></div>
 <pre><code>## Warning: Removed 1300 rows containing non-finite values (stat_bindot).</code></pre>
 <p><img src="G4-Grafico-de-puntos-de-Wilkinson_files/figure-html/grid%20dotplot3-1.png" width="672" /></p>
 <hr />
@@ -1245,18 +1335,18 @@ div.tocify {
 <div id="la-función-binwidth" class="section level1">
 <h1>La función <strong>binwidth</strong></h1>
 <p>El ancho de los compartimentos (o puntos en nuestro caso) es por defecto 1/30 el rango de los datos. Eso se puede cambiar utilizando la opción <strong>binwidth</strong> (binwidth o sea el ancho del compartimento). Cuando el método (o sea, si se especifica la opción <strong>method</strong>) para representar los puntos es la densidad de puntos (opción <strong>dotdensity</strong>), entonces <strong>binwidth</strong> es el máximo del ancho de compartimiento. Alternativamente, cuando el método se específica como <strong>histodot</strong>, el <strong>binwidth</strong> organizará los puntos a una distancia fija de los compartimiento. A continuación, se demuestra la opción por densidad de puntos (así es por omisión) y con un ancho de 2 y de 1 por punto. Para este caso, las categorías están agrupadas por unidades de 2; las plantas con 0 y 1 fruto, con 2 y 3 frutos y así subsiguientemente. Además, se cambió el tamaño de los puntos con <strong>dotsize</strong> a 0.1.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(dipodium, <span class="fu">aes</span>(number_of_fruits))<span class="sc">+</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_dotplot</span>(<span class="at">binwidth =</span><span class="dv">2</span>, <span class="at">dotsize=</span><span class="fl">0.1</span>) <span class="sc">+</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Número de Frutos&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="cn">NULL</span>)</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>b<span class="ot">=</span><span class="fu">ggplot</span>(dipodium, <span class="fu">aes</span>(number_of_fruits))<span class="sc">+</span></span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_dotplot</span>(<span class="at">binwidth =</span> <span class="dv">1</span>, <span class="at">dotsize=</span><span class="fl">0.1</span>) <span class="sc">+</span></span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Número de Frutos&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="cn">NULL</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(dipodium, <span class="fu">aes</span>(number_of_fruits))<span class="sc">+</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_dotplot</span>(<span class="at">binwidth =</span><span class="dv">2</span>, <span class="at">dotsize=</span><span class="fl">0.1</span>) <span class="sc">+</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Número de Frutos&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="cn">NULL</span>)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>b<span class="ot">=</span><span class="fu">ggplot</span>(dipodium, <span class="fu">aes</span>(number_of_fruits))<span class="sc">+</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_dotplot</span>(<span class="at">binwidth =</span> <span class="dv">1</span>, <span class="at">dotsize=</span><span class="fl">0.1</span>) <span class="sc">+</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Número de Frutos&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="cn">NULL</span>)</span></code></pre></div>
 <pre><code>## Warning: Removed 1300 rows containing non-finite values (stat_bindot).
 ## Removed 1300 rows containing non-finite values (stat_bindot).</code></pre>
 <p><img src="G4-Grafico-de-puntos-de-Wilkinson_files/figure-html/grid%20dotplot4-1.png" width="672" /></p>
@@ -1264,11 +1354,11 @@ div.tocify {
 <div id="la-función-binpositions" class="section level2">
 <h2>La función <strong>binpositions</strong></h2>
 <p>Otra alternativa para lograr la misma representación de poner los puntos uno encima de los otros por grupo es utilizando la opción <strong>binpositions= all</strong>.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(dipodium, <span class="fu">aes</span>(number_of_fruits, <span class="at">fill=</span>species_name))</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_dotplot</span>(<span class="at">stackgroups =</span> <span class="cn">TRUE</span>, <span class="at">binwidth =</span> .<span class="dv">5</span>, <span class="at">binpositions =</span> <span class="st">&quot;all&quot;</span>, <span class="at">dotsize =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Número de Frutos&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="cn">NULL</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(dipodium, <span class="fu">aes</span>(number_of_fruits, <span class="at">fill=</span>species_name))</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_dotplot</span>(<span class="at">stackgroups =</span> <span class="cn">TRUE</span>, <span class="at">binwidth =</span> .<span class="dv">5</span>, <span class="at">binpositions =</span> <span class="st">&quot;all&quot;</span>, <span class="at">dotsize =</span> .<span class="dv">5</span>) <span class="sc">+</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Número de Frutos&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="cn">NULL</span>, <span class="at">breaks =</span> <span class="cn">NULL</span>)</span></code></pre></div>
 <pre><code>## Warning: Removed 1300 rows containing non-finite values (stat_bindot).</code></pre>
 <p><img src="G4-Grafico-de-puntos-de-Wilkinson_files/figure-html/dipodium-puntos7-1.png" width="672" /></p>
 <hr />

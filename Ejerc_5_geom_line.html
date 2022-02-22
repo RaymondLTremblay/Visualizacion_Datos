@@ -453,17 +453,8 @@ div.tocify {
     <li>
       <a href="G15_gganimate.html">Gráficos animados en movimiento</a>
     </li>
-  </ul>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Sreencasts
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="screencast_t_test.html">t-test Screencast</a>
+      <a href="G16_Tablas_Tablas_Tablas.html">Tablas y Tablas</a>
     </li>
   </ul>
 </li>
@@ -532,6 +523,7 @@ div.tocify {
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Calendario
      
     <span class="caret"></span>
   </a>
@@ -585,32 +577,32 @@ div.tocify {
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>UNdata_Pop_Size_Caribbean <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;Data/UNdata_Pop_Size_Caribbean.csv&quot;</span>)</span></code></pre></div>
-<pre><code>## Rows: 98762 Columns: 10</code></pre>
-<pre><code>## ── Column specification ────────────────────────────────────────────────────────
+<pre><code>## Rows: 98762 Columns: 10
+## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr (6): Country or Area, Area, Sex, Age, Record Type, Reliability
-## dbl (3): Year, Source Year, Value</code></pre>
-<pre><code>## 
+## dbl (3): Year, Source Year, Value
+## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#head(UNdata_Pop_Size_Caribbean) ## Tome el tiempo de evaluar toda la información en este archivo para entender pq se tiene que filtrar. </span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>UNdata<span class="ot">=</span>janitor<span class="sc">::</span><span class="fu">clean_names</span>(UNdata_Pop_Size_Caribbean) <span class="co"># limpiar los nombres de las columnas</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># head(UNdata)</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="co"># unique(UNdata$sex)</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#head(UNdata_Pop_Size_Caribbean) ## Tome el tiempo de evaluar toda la información en este archivo para entender pq se tiene que filtrar. </span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>UNdata<span class="ot">=</span>janitor<span class="sc">::</span><span class="fu">clean_names</span>(UNdata_Pop_Size_Caribbean) <span class="co"># limpiar los nombres de las columnas</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># head(UNdata)</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># unique(UNdata$sex)</span></span></code></pre></div>
 <ul>
 <li><p>Seleccionar los siguientes datos</p>
 <ul>
 <li>Selecciona el total poblacional (Area == “Total”) para cada isla en todos los años (Age == “Total”) y de ambos sexos (Sex== “Both Sexes”) y remover Brazil del archivo de datos con !=“Brazil”. Vea la función <strong>filter</strong> del paquete <strong>dplyr</strong> para lograr este subgrupo de datos.</li>
 </ul></li>
 </ul>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>CaribPop<span class="ot">=</span>UNdata <span class="sc">%&gt;%</span> </span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(age<span class="sc">==</span><span class="st">&quot;Total&quot;</span> <span class="sc">&amp;</span> sex<span class="sc">==</span><span class="st">&quot;Both Sexes&quot;</span> <span class="sc">&amp;</span> area<span class="sc">==</span><span class="st">&quot;Total&quot;</span> <span class="sc">&amp;</span> country_or_area <span class="sc">!=</span><span class="st">&quot;Brazil&quot;</span>) </span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="co">#head(CaribPop)</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co">#unique(CaribPop$country_or_area)</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>CaribPop<span class="ot">=</span>UNdata <span class="sc">%&gt;%</span> </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(age<span class="sc">==</span><span class="st">&quot;Total&quot;</span> <span class="sc">&amp;</span> sex<span class="sc">==</span><span class="st">&quot;Both Sexes&quot;</span> <span class="sc">&amp;</span> area<span class="sc">==</span><span class="st">&quot;Total&quot;</span> <span class="sc">&amp;</span> country_or_area <span class="sc">!=</span><span class="st">&quot;Brazil&quot;</span>) </span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#head(CaribPop)</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#unique(CaribPop$country_or_area)</span></span></code></pre></div>
 <p><span style="color: red;">Haga un gráfico de linea para visualizar el tamaño poblacional de cada isla. (5 puntos)</span></p>
 <ol start="3" style="list-style-type: decimal">
 <li>Ahora, con el mismo archivo, seleccione los datos de las edades de “20 - 24”, “Female” si ud es mujer y “Male” si es hombre. Puede seleccionar los datos urbanos o rural o total como prefiere, no incluye los datos de Brazil. (5 puntos)</li>

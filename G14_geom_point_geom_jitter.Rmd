@@ -44,6 +44,7 @@ library(ggplot2)
 library(ggversa)
 library(gt)
 library(gridExtra)
+library(janitor)
 ```
 
 ***
@@ -56,9 +57,11 @@ El tipo de gráfico básico de puntos que relaciona dos variables continuas se p
 Para este gráfico se representa la altura de las inflorescencias y la cantidad de flores de una orquídea terrestre de *Dipodium roseum*.  En general, el patrón demuestra que las plantas con inflorescencias más larga tienen más flores.
 
 ```{r graficadepuntos} 
-library(ggplot2)
+library(tidyverse)
 
-ggplot(dipodium, aes(height_inflo, number_of_flowers))+
+dipodium=clean_names(dipodium)
+dipodium %>% select(height_inflo, number_of_flowers) %>% 
+ggplot(aes(height_inflo, number_of_flowers))+
   geom_point()+
   labs(x="Altura de la inflorescencia",
        y="Número de Flores")+
