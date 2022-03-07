@@ -1051,7 +1051,8 @@ Figura: Lepanthes eltoroensis, EL Yunque, Puerto Rico
 ## 466 1987   3           3.3          -6.4 1987-03   TRUE</code></pre>
 <div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
 <span id="cb65-2"><a href="#cb65-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a><span class="fu">clean_names</span>(ASBESTOS_QUEBEC)</span></code></pre></div>
+<span id="cb65-3"><a href="#cb65-3" aria-hidden="true" tabindex="-1"></a>ASBESTOS_QUEBEC<span class="ot">=</span><span class="fu">clean_names</span>(ASBESTOS_QUEBEC)</span>
+<span id="cb65-4"><a href="#cb65-4" aria-hidden="true" tabindex="-1"></a>ASBESTOS_QUEBEC</span></code></pre></div>
 <pre><code>##     year mes temp_prom_max temp_prom_min   fecha neg_pos
 ## 1   1948   6          22.2           9.9 1948-06    TRUE
 ## 2   1948   7          25.5          14.2 1948-07    TRUE
@@ -1525,25 +1526,25 @@ Figura: Lepanthes eltoroensis, EL Yunque, Puerto Rico
 <div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb67-2"><a href="#cb67-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb67-3"><a href="#cb67-3" aria-hidden="true" tabindex="-1"></a><span class="co">#ggplot(data=ASBESTOS_QUEBEC)+</span></span>
-<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a> <span class="co"># aes(x=Fecha, y=Temp_Prom_Max) +</span></span>
+<span id="cb67-4"><a href="#cb67-4" aria-hidden="true" tabindex="-1"></a> <span class="co"># aes(x=Fecha, y=temp_prom_max) +</span></span>
 <span id="cb67-5"><a href="#cb67-5" aria-hidden="true" tabindex="-1"></a>  <span class="co">#geom_bar(stat = &quot;identity&quot;, position=&quot;identity&quot;)</span></span>
 <span id="cb67-6"><a href="#cb67-6" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb67-7"><a href="#cb67-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb67-8"><a href="#cb67-8" aria-hidden="true" tabindex="-1"></a>ASBESTOSsub<span class="ot">=</span><span class="fu">subset</span>(ASBESTOS_QUEBEC, Year<span class="sc">&gt;</span><span class="dv">1962</span> <span class="sc">&amp;</span> Year<span class="sc">&lt;</span><span class="dv">1967</span>) <span class="co"># 1963 al 1966</span></span>
+<span id="cb67-8"><a href="#cb67-8" aria-hidden="true" tabindex="-1"></a>ASBESTOSsub<span class="ot">=</span><span class="fu">subset</span>(ASBESTOS_QUEBEC, year<span class="sc">&gt;</span><span class="dv">1962</span> <span class="sc">&amp;</span> year<span class="sc">&lt;</span><span class="dv">1967</span>) <span class="co"># 1963 al 1966</span></span>
 <span id="cb67-9"><a href="#cb67-9" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb67-10"><a href="#cb67-10" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(ASBESTOSsub)</span></code></pre></div>
-<pre><code>##     Year Mes Temp_Prom_Max Temp_Prom_Min   Fecha NegPos
-## 176 1963   1          -6.6         -12.7 1963-01  FALSE
-## 177 1963   2          -9.0         -16.7 1963-02  FALSE
-## 178 1963   3           0.6          -8.8 1963-03   TRUE
-## 179 1963   4           8.2          -0.9 1963-04   TRUE
-## 180 1963   5          16.9           5.7 1963-05   TRUE
-## 181 1963   6          23.1          12.3 1963-06   TRUE</code></pre>
+<pre><code>##     year mes temp_prom_max temp_prom_min   fecha neg_pos
+## 176 1963   1          -6.6         -12.7 1963-01   FALSE
+## 177 1963   2          -9.0         -16.7 1963-02   FALSE
+## 178 1963   3           0.6          -8.8 1963-03    TRUE
+## 179 1963   4           8.2          -0.9 1963-04    TRUE
+## 180 1963   5          16.9           5.7 1963-05    TRUE
+## 181 1963   6          23.1          12.3 1963-06    TRUE</code></pre>
 </div>
 <div id="uniendo-las-partes-para-crear-el-gráfico" class="section level3">
 <h3>Uniendo las partes para crear el gráfico</h3>
 <div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>ASBESTOSsub,</span>
-<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x=</span>Fecha, <span class="at">y=</span>Temp_Prom_Max, <span class="at">fill=</span>NegPos)) <span class="sc">+</span></span>
+<span id="cb69-2"><a href="#cb69-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x=</span>fecha, <span class="at">y=</span>temp_prom_max, <span class="at">fill=</span>neg_pos)) <span class="sc">+</span></span>
 <span id="cb69-3"><a href="#cb69-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="at">position=</span><span class="st">&quot;identity&quot;</span>)<span class="sc">+</span></span>
 <span id="cb69-4"><a href="#cb69-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">90</span>))<span class="sc">+</span></span>
 <span id="cb69-5"><a href="#cb69-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill=</span><span class="cn">FALSE</span>)<span class="sc">+</span></span>
@@ -1555,10 +1556,12 @@ Figura: Lepanthes eltoroensis, EL Yunque, Puerto Rico
 <pre><code>## Warning: Removed 2 rows containing missing values (geom_bar).</code></pre>
 <p><img src="G7_geom_bar_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
 <ol start="2" style="list-style-type: decimal">
-<li>Usando los datos de Anchorage, Alaska que se encuentra en la sección de datos aqui <a href="Data/Anchorage_ALASKA.csv">Acchorage_Data</a>, evaluar el patrón de temperatura mínima en los diferentes meses del año. Convertir los datos de Farenheit a Celcius.</li>
+<li>Usando los datos de Anchorage, Alaska que se encuentra en la sección de datos aqui <a href="Data/Anchorage_ALASKA.csv">Anchorage_Data</a>, evaluar el patrón de temperatura mínima en los diferentes meses del año. Convertir los datos de Farenheit a Celcius.</li>
 </ol>
 <div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a>Anchorage_ALASKA <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;Data/Anchorage_ALASKA.csv&quot;</span>)</span></code></pre></div>
+<span id="cb72-2"><a href="#cb72-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span></code></pre></div>
+<pre><code>## Warning: package &#39;gt&#39; was built under R version 4.1.2</code></pre>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>Anchorage_ALASKA <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;Data/Anchorage_ALASKA.csv&quot;</span>)</span></code></pre></div>
 <pre><code>## Rows: 20 Columns: 13
 ## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
@@ -1566,37 +1569,702 @@ Figura: Lepanthes eltoroensis, EL Yunque, Puerto Rico
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" aria-hidden="true" tabindex="-1"></a>Anchorage_ALASKA</span></code></pre></div>
-<pre><code>## # A tibble: 20 × 13
-##     Year   Jan   Feb   Mar   Apr   May   Jun   Jul   Aug   Sep   Oct   Nov   Dec
-##    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
-##  1  2000   -10     7    11    20    30    37    44    36    27    16    13     4
-##  2  2001     8     2    12    12    24    42    48    45    33     2     0   -15
-##  3  2002   -11    -5     0     6    27    37    47    43    32    26    20    -2
-##  4  2003     0    13    -1    16    33    42    47    45    28    22    -8   -14
-##  5  2004   -18     1    -1     1    27    38    48    46    27    20     0     0
-##  6  2005    -7    -8    16    20    33    38    50    42    39    16    -5    -1
-##  7  2006   -11   -10    -1    19    28    40    46    44    32    17    -9    -2
-##  8  2007   -17    -8    -3    16    33    39    48    45    35    21    16    -9
-##  9  2008   -10   -15    13    15    31    38    40    42    29     8     5   -15
-## 10  2009   -24   -10    -3    11    32    40    46    44    30    22    -8    -4
-## 11  2010    -2     0    -5    21    32    42    46    45    25    21     4    -8
-## 12  2011   -12    -4     1    22    29    42    47    43    32    15    -9    -1
-## 13  2012   -15     6     0    22    28    41    46    42    30    12     1   -12
-## 14  2013    -9     5     0     8    28    42    50    42    28    27    -8   -11
-## 15  2014    10     0     5    17    34    40    48    42    32    16    14    13
-## 16  2015    -5     0    -2    25    33    46    50    40    28    19    -8     4
-## 17  2016    10    14    16    29    34    42    51    44    32    15     1    -8
-## 18  2017   -15    -8    -8    26    32    42    45    46    36    19     1     5
-## 19  2018     0    -2     7    20    32    41    47    44    40    20    14    10
-## 20  2019    -7     0     8    27    35    47    51    45    32    26    11    -2</code></pre>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="co"># gather the data in columns</span></span>
-<span id="cb76-2"><a href="#cb76-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Paso 1</span></span>
-<span id="cb76-3"><a href="#cb76-3" aria-hidden="true" tabindex="-1"></a>AA<span class="ot">&lt;-</span><span class="fu">gather</span>(Anchorage_ALASKA,</span>
-<span id="cb76-4"><a href="#cb76-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">key=</span> <span class="st">&quot;Mes&quot;</span>,</span>
-<span id="cb76-5"><a href="#cb76-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">value=</span><span class="st">&quot;Temp_min_F&quot;</span>, </span>
-<span id="cb76-6"><a href="#cb76-6" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>Year)</span>
-<span id="cb76-7"><a href="#cb76-7" aria-hidden="true" tabindex="-1"></a>AA      </span></code></pre></div>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" aria-hidden="true" tabindex="-1"></a><span class="fu">gt</span>(Anchorage_ALASKA)</span></code></pre></div>
+<div id="kekuwsgdch" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#kekuwsgdch .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#kekuwsgdch .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#kekuwsgdch .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#kekuwsgdch .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#kekuwsgdch .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#kekuwsgdch .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#kekuwsgdch .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#kekuwsgdch .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#kekuwsgdch .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#kekuwsgdch .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#kekuwsgdch .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#kekuwsgdch .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#kekuwsgdch .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#kekuwsgdch .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#kekuwsgdch .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#kekuwsgdch .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#kekuwsgdch .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kekuwsgdch .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#kekuwsgdch .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#kekuwsgdch .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kekuwsgdch .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#kekuwsgdch .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#kekuwsgdch .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#kekuwsgdch .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kekuwsgdch .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#kekuwsgdch .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#kekuwsgdch .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#kekuwsgdch .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#kekuwsgdch .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-left: 4px;
+  padding-right: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kekuwsgdch .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#kekuwsgdch .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#kekuwsgdch .gt_left {
+  text-align: left;
+}
+
+#kekuwsgdch .gt_center {
+  text-align: center;
+}
+
+#kekuwsgdch .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#kekuwsgdch .gt_font_normal {
+  font-weight: normal;
+}
+
+#kekuwsgdch .gt_font_bold {
+  font-weight: bold;
+}
+
+#kekuwsgdch .gt_font_italic {
+  font-style: italic;
+}
+
+#kekuwsgdch .gt_super {
+  font-size: 65%;
+}
+
+#kekuwsgdch .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 75%;
+  vertical-align: 0.4em;
+}
+
+#kekuwsgdch .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#kekuwsgdch .gt_slash_mark {
+  font-size: 0.7em;
+  line-height: 0.7em;
+  vertical-align: 0.15em;
+}
+
+#kekuwsgdch .gt_fraction_numerator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: 0.45em;
+}
+
+#kekuwsgdch .gt_fraction_denominator {
+  font-size: 0.6em;
+  line-height: 0.6em;
+  vertical-align: -0.05em;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Year</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Jan</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Feb</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Mar</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Apr</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">May</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Jun</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Jul</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Aug</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Sep</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Oct</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Nov</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Dec</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_right">2000</td>
+<td class="gt_row gt_right">-10</td>
+<td class="gt_row gt_right">7</td>
+<td class="gt_row gt_right">11</td>
+<td class="gt_row gt_right">20</td>
+<td class="gt_row gt_right">30</td>
+<td class="gt_row gt_right">37</td>
+<td class="gt_row gt_right">44</td>
+<td class="gt_row gt_right">36</td>
+<td class="gt_row gt_right">27</td>
+<td class="gt_row gt_right">16</td>
+<td class="gt_row gt_right">13</td>
+<td class="gt_row gt_right">4</td></tr>
+    <tr><td class="gt_row gt_right">2001</td>
+<td class="gt_row gt_right">8</td>
+<td class="gt_row gt_right">2</td>
+<td class="gt_row gt_right">12</td>
+<td class="gt_row gt_right">12</td>
+<td class="gt_row gt_right">24</td>
+<td class="gt_row gt_right">42</td>
+<td class="gt_row gt_right">48</td>
+<td class="gt_row gt_right">45</td>
+<td class="gt_row gt_right">33</td>
+<td class="gt_row gt_right">2</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">-15</td></tr>
+    <tr><td class="gt_row gt_right">2002</td>
+<td class="gt_row gt_right">-11</td>
+<td class="gt_row gt_right">-5</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">6</td>
+<td class="gt_row gt_right">27</td>
+<td class="gt_row gt_right">37</td>
+<td class="gt_row gt_right">47</td>
+<td class="gt_row gt_right">43</td>
+<td class="gt_row gt_right">32</td>
+<td class="gt_row gt_right">26</td>
+<td class="gt_row gt_right">20</td>
+<td class="gt_row gt_right">-2</td></tr>
+    <tr><td class="gt_row gt_right">2003</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">13</td>
+<td class="gt_row gt_right">-1</td>
+<td class="gt_row gt_right">16</td>
+<td class="gt_row gt_right">33</td>
+<td class="gt_row gt_right">42</td>
+<td class="gt_row gt_right">47</td>
+<td class="gt_row gt_right">45</td>
+<td class="gt_row gt_right">28</td>
+<td class="gt_row gt_right">22</td>
+<td class="gt_row gt_right">-8</td>
+<td class="gt_row gt_right">-14</td></tr>
+    <tr><td class="gt_row gt_right">2004</td>
+<td class="gt_row gt_right">-18</td>
+<td class="gt_row gt_right">1</td>
+<td class="gt_row gt_right">-1</td>
+<td class="gt_row gt_right">1</td>
+<td class="gt_row gt_right">27</td>
+<td class="gt_row gt_right">38</td>
+<td class="gt_row gt_right">48</td>
+<td class="gt_row gt_right">46</td>
+<td class="gt_row gt_right">27</td>
+<td class="gt_row gt_right">20</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">0</td></tr>
+    <tr><td class="gt_row gt_right">2005</td>
+<td class="gt_row gt_right">-7</td>
+<td class="gt_row gt_right">-8</td>
+<td class="gt_row gt_right">16</td>
+<td class="gt_row gt_right">20</td>
+<td class="gt_row gt_right">33</td>
+<td class="gt_row gt_right">38</td>
+<td class="gt_row gt_right">50</td>
+<td class="gt_row gt_right">42</td>
+<td class="gt_row gt_right">39</td>
+<td class="gt_row gt_right">16</td>
+<td class="gt_row gt_right">-5</td>
+<td class="gt_row gt_right">-1</td></tr>
+    <tr><td class="gt_row gt_right">2006</td>
+<td class="gt_row gt_right">-11</td>
+<td class="gt_row gt_right">-10</td>
+<td class="gt_row gt_right">-1</td>
+<td class="gt_row gt_right">19</td>
+<td class="gt_row gt_right">28</td>
+<td class="gt_row gt_right">40</td>
+<td class="gt_row gt_right">46</td>
+<td class="gt_row gt_right">44</td>
+<td class="gt_row gt_right">32</td>
+<td class="gt_row gt_right">17</td>
+<td class="gt_row gt_right">-9</td>
+<td class="gt_row gt_right">-2</td></tr>
+    <tr><td class="gt_row gt_right">2007</td>
+<td class="gt_row gt_right">-17</td>
+<td class="gt_row gt_right">-8</td>
+<td class="gt_row gt_right">-3</td>
+<td class="gt_row gt_right">16</td>
+<td class="gt_row gt_right">33</td>
+<td class="gt_row gt_right">39</td>
+<td class="gt_row gt_right">48</td>
+<td class="gt_row gt_right">45</td>
+<td class="gt_row gt_right">35</td>
+<td class="gt_row gt_right">21</td>
+<td class="gt_row gt_right">16</td>
+<td class="gt_row gt_right">-9</td></tr>
+    <tr><td class="gt_row gt_right">2008</td>
+<td class="gt_row gt_right">-10</td>
+<td class="gt_row gt_right">-15</td>
+<td class="gt_row gt_right">13</td>
+<td class="gt_row gt_right">15</td>
+<td class="gt_row gt_right">31</td>
+<td class="gt_row gt_right">38</td>
+<td class="gt_row gt_right">40</td>
+<td class="gt_row gt_right">42</td>
+<td class="gt_row gt_right">29</td>
+<td class="gt_row gt_right">8</td>
+<td class="gt_row gt_right">5</td>
+<td class="gt_row gt_right">-15</td></tr>
+    <tr><td class="gt_row gt_right">2009</td>
+<td class="gt_row gt_right">-24</td>
+<td class="gt_row gt_right">-10</td>
+<td class="gt_row gt_right">-3</td>
+<td class="gt_row gt_right">11</td>
+<td class="gt_row gt_right">32</td>
+<td class="gt_row gt_right">40</td>
+<td class="gt_row gt_right">46</td>
+<td class="gt_row gt_right">44</td>
+<td class="gt_row gt_right">30</td>
+<td class="gt_row gt_right">22</td>
+<td class="gt_row gt_right">-8</td>
+<td class="gt_row gt_right">-4</td></tr>
+    <tr><td class="gt_row gt_right">2010</td>
+<td class="gt_row gt_right">-2</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">-5</td>
+<td class="gt_row gt_right">21</td>
+<td class="gt_row gt_right">32</td>
+<td class="gt_row gt_right">42</td>
+<td class="gt_row gt_right">46</td>
+<td class="gt_row gt_right">45</td>
+<td class="gt_row gt_right">25</td>
+<td class="gt_row gt_right">21</td>
+<td class="gt_row gt_right">4</td>
+<td class="gt_row gt_right">-8</td></tr>
+    <tr><td class="gt_row gt_right">2011</td>
+<td class="gt_row gt_right">-12</td>
+<td class="gt_row gt_right">-4</td>
+<td class="gt_row gt_right">1</td>
+<td class="gt_row gt_right">22</td>
+<td class="gt_row gt_right">29</td>
+<td class="gt_row gt_right">42</td>
+<td class="gt_row gt_right">47</td>
+<td class="gt_row gt_right">43</td>
+<td class="gt_row gt_right">32</td>
+<td class="gt_row gt_right">15</td>
+<td class="gt_row gt_right">-9</td>
+<td class="gt_row gt_right">-1</td></tr>
+    <tr><td class="gt_row gt_right">2012</td>
+<td class="gt_row gt_right">-15</td>
+<td class="gt_row gt_right">6</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">22</td>
+<td class="gt_row gt_right">28</td>
+<td class="gt_row gt_right">41</td>
+<td class="gt_row gt_right">46</td>
+<td class="gt_row gt_right">42</td>
+<td class="gt_row gt_right">30</td>
+<td class="gt_row gt_right">12</td>
+<td class="gt_row gt_right">1</td>
+<td class="gt_row gt_right">-12</td></tr>
+    <tr><td class="gt_row gt_right">2013</td>
+<td class="gt_row gt_right">-9</td>
+<td class="gt_row gt_right">5</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">8</td>
+<td class="gt_row gt_right">28</td>
+<td class="gt_row gt_right">42</td>
+<td class="gt_row gt_right">50</td>
+<td class="gt_row gt_right">42</td>
+<td class="gt_row gt_right">28</td>
+<td class="gt_row gt_right">27</td>
+<td class="gt_row gt_right">-8</td>
+<td class="gt_row gt_right">-11</td></tr>
+    <tr><td class="gt_row gt_right">2014</td>
+<td class="gt_row gt_right">10</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">5</td>
+<td class="gt_row gt_right">17</td>
+<td class="gt_row gt_right">34</td>
+<td class="gt_row gt_right">40</td>
+<td class="gt_row gt_right">48</td>
+<td class="gt_row gt_right">42</td>
+<td class="gt_row gt_right">32</td>
+<td class="gt_row gt_right">16</td>
+<td class="gt_row gt_right">14</td>
+<td class="gt_row gt_right">13</td></tr>
+    <tr><td class="gt_row gt_right">2015</td>
+<td class="gt_row gt_right">-5</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">-2</td>
+<td class="gt_row gt_right">25</td>
+<td class="gt_row gt_right">33</td>
+<td class="gt_row gt_right">46</td>
+<td class="gt_row gt_right">50</td>
+<td class="gt_row gt_right">40</td>
+<td class="gt_row gt_right">28</td>
+<td class="gt_row gt_right">19</td>
+<td class="gt_row gt_right">-8</td>
+<td class="gt_row gt_right">4</td></tr>
+    <tr><td class="gt_row gt_right">2016</td>
+<td class="gt_row gt_right">10</td>
+<td class="gt_row gt_right">14</td>
+<td class="gt_row gt_right">16</td>
+<td class="gt_row gt_right">29</td>
+<td class="gt_row gt_right">34</td>
+<td class="gt_row gt_right">42</td>
+<td class="gt_row gt_right">51</td>
+<td class="gt_row gt_right">44</td>
+<td class="gt_row gt_right">32</td>
+<td class="gt_row gt_right">15</td>
+<td class="gt_row gt_right">1</td>
+<td class="gt_row gt_right">-8</td></tr>
+    <tr><td class="gt_row gt_right">2017</td>
+<td class="gt_row gt_right">-15</td>
+<td class="gt_row gt_right">-8</td>
+<td class="gt_row gt_right">-8</td>
+<td class="gt_row gt_right">26</td>
+<td class="gt_row gt_right">32</td>
+<td class="gt_row gt_right">42</td>
+<td class="gt_row gt_right">45</td>
+<td class="gt_row gt_right">46</td>
+<td class="gt_row gt_right">36</td>
+<td class="gt_row gt_right">19</td>
+<td class="gt_row gt_right">1</td>
+<td class="gt_row gt_right">5</td></tr>
+    <tr><td class="gt_row gt_right">2018</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">-2</td>
+<td class="gt_row gt_right">7</td>
+<td class="gt_row gt_right">20</td>
+<td class="gt_row gt_right">32</td>
+<td class="gt_row gt_right">41</td>
+<td class="gt_row gt_right">47</td>
+<td class="gt_row gt_right">44</td>
+<td class="gt_row gt_right">40</td>
+<td class="gt_row gt_right">20</td>
+<td class="gt_row gt_right">14</td>
+<td class="gt_row gt_right">10</td></tr>
+    <tr><td class="gt_row gt_right">2019</td>
+<td class="gt_row gt_right">-7</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">8</td>
+<td class="gt_row gt_right">27</td>
+<td class="gt_row gt_right">35</td>
+<td class="gt_row gt_right">47</td>
+<td class="gt_row gt_right">51</td>
+<td class="gt_row gt_right">45</td>
+<td class="gt_row gt_right">32</td>
+<td class="gt_row gt_right">26</td>
+<td class="gt_row gt_right">11</td>
+<td class="gt_row gt_right">-2</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" aria-hidden="true" tabindex="-1"></a><span class="co"># gather the data in columns</span></span>
+<span id="cb77-2"><a href="#cb77-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Paso 1</span></span>
+<span id="cb77-3"><a href="#cb77-3" aria-hidden="true" tabindex="-1"></a>AA<span class="ot">&lt;-</span><span class="fu">gather</span>(Anchorage_ALASKA,</span>
+<span id="cb77-4"><a href="#cb77-4" aria-hidden="true" tabindex="-1"></a>         <span class="at">key=</span> <span class="st">&quot;Mes&quot;</span>,</span>
+<span id="cb77-5"><a href="#cb77-5" aria-hidden="true" tabindex="-1"></a>         <span class="at">value=</span><span class="st">&quot;Temp_min_F&quot;</span>, </span>
+<span id="cb77-6"><a href="#cb77-6" aria-hidden="true" tabindex="-1"></a>         <span class="sc">-</span>Year)</span>
+<span id="cb77-7"><a href="#cb77-7" aria-hidden="true" tabindex="-1"></a>AA      </span></code></pre></div>
 <pre><code>## # A tibble: 240 × 3
 ##     Year Mes   Temp_min_F
 ##    &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt;
@@ -1611,15 +2279,15 @@ Figura: Lepanthes eltoroensis, EL Yunque, Puerto Rico
 ##  9  2008 Jan          -10
 ## 10  2009 Jan          -24
 ## # … with 230 more rows</code></pre>
-<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Identificar que el Año y Mes son variables de tiempo</span></span>
-<span id="cb78-2"><a href="#cb78-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb78-3"><a href="#cb78-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Paso 2</span></span>
-<span id="cb78-4"><a href="#cb78-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb78-5"><a href="#cb78-5" aria-hidden="true" tabindex="-1"></a>numMonth<span class="ot">&lt;-</span><span class="cf">function</span>(x) </span>
-<span id="cb78-6"><a href="#cb78-6" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">jan=</span><span class="dv">1</span>,<span class="at">feb=</span><span class="dv">2</span>,<span class="at">mar=</span><span class="dv">3</span>,<span class="at">apr=</span><span class="dv">4</span>,<span class="at">may=</span><span class="dv">5</span>,<span class="at">jun=</span><span class="dv">6</span>,<span class="at">jul=</span><span class="dv">7</span>,<span class="at">aug=</span><span class="dv">8</span>,<span class="at">sep=</span><span class="dv">9</span>,<span class="at">oct=</span><span class="dv">10</span>,<span class="at">nov=</span><span class="dv">11</span>,<span class="at">dec=</span><span class="dv">12</span>)[<span class="fu">tolower</span>(x)]</span>
-<span id="cb78-7"><a href="#cb78-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb78-8"><a href="#cb78-8" aria-hidden="true" tabindex="-1"></a>AA<span class="sc">$</span>Fecha<span class="ot">=</span><span class="fu">numMonth</span>(AA<span class="sc">$</span>Mes)</span>
-<span id="cb78-9"><a href="#cb78-9" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(AA)</span></code></pre></div>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Identificar que el Año y Mes son variables de tiempo</span></span>
+<span id="cb79-2"><a href="#cb79-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-3"><a href="#cb79-3" aria-hidden="true" tabindex="-1"></a><span class="co">#Paso 2</span></span>
+<span id="cb79-4"><a href="#cb79-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-5"><a href="#cb79-5" aria-hidden="true" tabindex="-1"></a>numMonth<span class="ot">&lt;-</span><span class="cf">function</span>(x) </span>
+<span id="cb79-6"><a href="#cb79-6" aria-hidden="true" tabindex="-1"></a><span class="fu">c</span>(<span class="at">jan=</span><span class="dv">1</span>,<span class="at">feb=</span><span class="dv">2</span>,<span class="at">mar=</span><span class="dv">3</span>,<span class="at">apr=</span><span class="dv">4</span>,<span class="at">may=</span><span class="dv">5</span>,<span class="at">jun=</span><span class="dv">6</span>,<span class="at">jul=</span><span class="dv">7</span>,<span class="at">aug=</span><span class="dv">8</span>,<span class="at">sep=</span><span class="dv">9</span>,<span class="at">oct=</span><span class="dv">10</span>,<span class="at">nov=</span><span class="dv">11</span>,<span class="at">dec=</span><span class="dv">12</span>)[<span class="fu">tolower</span>(x)]</span>
+<span id="cb79-7"><a href="#cb79-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb79-8"><a href="#cb79-8" aria-hidden="true" tabindex="-1"></a>AA<span class="sc">$</span>Fecha<span class="ot">=</span><span class="fu">numMonth</span>(AA<span class="sc">$</span>Mes)</span>
+<span id="cb79-9"><a href="#cb79-9" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(AA)</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 4
 ##    Year Mes   Temp_min_F Fecha
 ##   &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;
@@ -1629,16 +2297,16 @@ Figura: Lepanthes eltoroensis, EL Yunque, Puerto Rico
 ## 4  2017 Dec            5    12
 ## 5  2018 Dec           10    12
 ## 6  2019 Dec           -2    12</code></pre>
-<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb80-1"><a href="#cb80-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Paso 3</span></span>
-<span id="cb80-2"><a href="#cb80-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb80-3"><a href="#cb80-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(zoo)</span></code></pre></div>
+<div class="sourceCode" id="cb81"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb81-1"><a href="#cb81-1" aria-hidden="true" tabindex="-1"></a><span class="co">#Paso 3</span></span>
+<span id="cb81-2"><a href="#cb81-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb81-3"><a href="#cb81-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(zoo)</span></code></pre></div>
 <pre><code>## 
 ## Attaching package: &#39;zoo&#39;</code></pre>
 <pre><code>## The following objects are masked from &#39;package:base&#39;:
 ## 
 ##     as.Date, as.Date.numeric</code></pre>
-<div class="sourceCode" id="cb83"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb83-1"><a href="#cb83-1" aria-hidden="true" tabindex="-1"></a>AA<span class="sc">$</span>FechasMA <span class="ot">&lt;-</span> <span class="fu">as.yearmon</span>(<span class="fu">paste</span>(AA<span class="sc">$</span>Year, AA<span class="sc">$</span>Fecha), <span class="st">&quot;%Y %m&quot;</span>)</span>
-<span id="cb83-2"><a href="#cb83-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(AA)</span></code></pre></div>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb84-1"><a href="#cb84-1" aria-hidden="true" tabindex="-1"></a>AA<span class="sc">$</span>FechasMA <span class="ot">&lt;-</span> <span class="fu">as.yearmon</span>(<span class="fu">paste</span>(AA<span class="sc">$</span>Year, AA<span class="sc">$</span>Fecha), <span class="st">&quot;%Y %m&quot;</span>)</span>
+<span id="cb84-2"><a href="#cb84-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(AA)</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 5
 ##    Year Mes   Temp_min_F Fecha FechasMA 
 ##   &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;yearmon&gt;
@@ -1654,9 +2322,9 @@ Figura: Lepanthes eltoroensis, EL Yunque, Puerto Rico
 <h2>Conversión de temperatura</h2>
 <p>Cual el punto de congelación en Farenheit?</p>
 <p>Como se convierte F° en C°</p>
-<div class="sourceCode" id="cb85"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb85-1"><a href="#cb85-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Paso 4</span></span>
-<span id="cb85-2"><a href="#cb85-2" aria-hidden="true" tabindex="-1"></a>AA<span class="sc">$</span>NegPos<span class="ot">=</span>AA<span class="sc">$</span>Temp_min_F<span class="sc">&gt;=</span><span class="dv">32</span></span>
-<span id="cb85-3"><a href="#cb85-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(AA)</span></code></pre></div>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Paso 4</span></span>
+<span id="cb86-2"><a href="#cb86-2" aria-hidden="true" tabindex="-1"></a>AA<span class="sc">$</span>NegPos<span class="ot">=</span>AA<span class="sc">$</span>Temp_min_F<span class="sc">&gt;=</span><span class="dv">32</span></span>
+<span id="cb86-3"><a href="#cb86-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(AA)</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 6
 ##    Year Mes   Temp_min_F Fecha FechasMA  NegPos
 ##   &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;yearmon&gt; &lt;lgl&gt; 
@@ -1666,8 +2334,8 @@ Figura: Lepanthes eltoroensis, EL Yunque, Puerto Rico
 ## 4  2003 Jan            0     1 Jan 2003  FALSE 
 ## 5  2004 Jan          -18     1 Jan 2004  FALSE 
 ## 6  2005 Jan           -7     1 Jan 2005  FALSE</code></pre>
-<div class="sourceCode" id="cb87"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb87-1"><a href="#cb87-1" aria-hidden="true" tabindex="-1"></a>AA<span class="sc">$</span>Temp_C<span class="ot">=</span>(AA<span class="sc">$</span>Temp_min_F<span class="dv">-32</span>)<span class="sc">*</span><span class="dv">5</span><span class="sc">/</span><span class="dv">9</span></span>
-<span id="cb87-2"><a href="#cb87-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(AA)</span></code></pre></div>
+<div class="sourceCode" id="cb88"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb88-1"><a href="#cb88-1" aria-hidden="true" tabindex="-1"></a>AA<span class="sc">$</span>Temp_C<span class="ot">=</span>(AA<span class="sc">$</span>Temp_min_F<span class="dv">-32</span>)<span class="sc">*</span><span class="dv">5</span><span class="sc">/</span><span class="dv">9</span></span>
+<span id="cb88-2"><a href="#cb88-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(AA)</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 7
 ##    Year Mes   Temp_min_F Fecha FechasMA  NegPos Temp_C
 ##   &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;yearmon&gt; &lt;lgl&gt;   &lt;dbl&gt;
@@ -1677,15 +2345,15 @@ Figura: Lepanthes eltoroensis, EL Yunque, Puerto Rico
 ## 4  2003 Jan            0     1 Jan 2003  FALSE   -17.8
 ## 5  2004 Jan          -18     1 Jan 2004  FALSE   -27.8
 ## 6  2005 Jan           -7     1 Jan 2005  FALSE   -21.7</code></pre>
-<div class="sourceCode" id="cb89"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb89-1"><a href="#cb89-1" aria-hidden="true" tabindex="-1"></a>AA<span class="sc">$</span>NegPosC<span class="ot">=</span>AA<span class="sc">$</span>Temp_C<span class="sc">&gt;=</span><span class="dv">0</span></span></code></pre></div>
-<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>AA,</span>
-<span id="cb90-2"><a href="#cb90-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x=</span>FechasMA, <span class="at">y=</span>Temp_C, <span class="at">fill=</span>NegPosC)) <span class="sc">+</span></span>
-<span id="cb90-3"><a href="#cb90-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="at">position=</span><span class="st">&quot;identity&quot;</span>)<span class="sc">+</span></span>
-<span id="cb90-4"><a href="#cb90-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">90</span>))<span class="sc">+</span></span>
-<span id="cb90-5"><a href="#cb90-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill=</span><span class="cn">FALSE</span>)<span class="sc">+</span></span>
-<span id="cb90-6"><a href="#cb90-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Fecha&quot;</span>)<span class="sc">+</span></span>
-<span id="cb90-7"><a href="#cb90-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Temperatura promedio máxima por mes en Celsius&quot;</span>)<span class="sc">+</span></span>
-<span id="cb90-8"><a href="#cb90-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb90"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb90-1"><a href="#cb90-1" aria-hidden="true" tabindex="-1"></a>AA<span class="sc">$</span>NegPosC<span class="ot">=</span>AA<span class="sc">$</span>Temp_C<span class="sc">&gt;=</span><span class="dv">0</span></span></code></pre></div>
+<div class="sourceCode" id="cb91"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb91-1"><a href="#cb91-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>AA,</span>
+<span id="cb91-2"><a href="#cb91-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x=</span>FechasMA, <span class="at">y=</span>Temp_C, <span class="at">fill=</span>NegPosC)) <span class="sc">+</span></span>
+<span id="cb91-3"><a href="#cb91-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="at">position=</span><span class="st">&quot;identity&quot;</span>)<span class="sc">+</span></span>
+<span id="cb91-4"><a href="#cb91-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">90</span>))<span class="sc">+</span></span>
+<span id="cb91-5"><a href="#cb91-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill=</span><span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb91-6"><a href="#cb91-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Fecha&quot;</span>)<span class="sc">+</span></span>
+<span id="cb91-7"><a href="#cb91-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Temperatura promedio máxima por mes en Celsius&quot;</span>)<span class="sc">+</span></span>
+<span id="cb91-8"><a href="#cb91-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <pre><code>## Warning: `guides(&lt;scale&gt; = FALSE)` is deprecated. Please use `guides(&lt;scale&gt; =
 ## &quot;none&quot;)` instead.</code></pre>
 <p><img src="G7_geom_bar_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
@@ -1695,8 +2363,8 @@ Figura: Lepanthes eltoroensis, EL Yunque, Puerto Rico
 <h2>Gráfico de barras: Ajuste de posiciones con <strong>geom_bar</strong></h2>
 <p>A veces queremos hacer que las barras luzcan de diferentes maneras; por ejemplo, que las posiciones de las barras no salgan verticales o tan gruesas. Además, se puede modificar la representación de las barras para que la altura de ellas no represente el número de observaciones; por ejemplo, que represente una suma sobre otra variable.</p>
 <p>Los datos que utilizaremos para la próxima demostración provienen del archivo de lagartos <strong>Anolis</strong> que contiene información sobre su edad, sexo, periodo de muestreo y localidad donde fueron muestreados.</p>
-<div class="sourceCode" id="cb92"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb92-1"><a href="#cb92-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggversa)</span>
-<span id="cb92-2"><a href="#cb92-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(Anolis)</span></code></pre></div>
+<div class="sourceCode" id="cb93"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggversa)</span>
+<span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(Anolis)</span></code></pre></div>
 <pre><code>##  [1] &quot;STUDY&quot;                    &quot;Survey_Site&quot;             
 ##  [3] &quot;LOCATION&quot;                 &quot;TIME&quot;                    
 ##  [5] &quot;DATE&quot;                     &quot;SEASON&quot;                  
@@ -1706,44 +2374,44 @@ Figura: Lepanthes eltoroensis, EL Yunque, Puerto Rico
 ## [13] &quot;WEIGHT&quot;                   &quot;SVL&quot;                     
 ## [15] &quot;TAIL&quot;</code></pre>
 <p>El primer gráfico a continuación, produce por omisión barras negras que representan la suma de la cantidad de observaciones.</p>
-<div class="sourceCode" id="cb94"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb94-1"><a href="#cb94-1" aria-hidden="true" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE))</span>
-<span id="cb94-2"><a href="#cb94-2" aria-hidden="true" tabindex="-1"></a>barraA<span class="sc">+</span><span class="fu">geom_bar</span>(<span class="at">fill=</span><span class="fu">grey</span>(.<span class="dv">3</span>))<span class="sc">+</span></span>
-<span id="cb94-3"><a href="#cb94-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE))</span>
+<span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a>barraA<span class="sc">+</span><span class="fu">geom_bar</span>(<span class="at">fill=</span><span class="fu">grey</span>(.<span class="dv">3</span>))<span class="sc">+</span></span>
+<span id="cb95-3"><a href="#cb95-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G7_geom_bar_files/figure-html/geombar2-1.png" width="672" /></p>
 <p>En el segundo, el ancho de las barras fue reducido para que se vean menos angostas usando la opción <strong>width</strong>, ene ejemplo se reduce el ancho de las barras <strong>width=.3</strong>. Además, se cambia la descripción de los ejes al castellano. También selecciono un otro color de gris y se modifico su intensidad con <strong>fill=grey(.5)</strong>.</p>
-<div class="sourceCode" id="cb95"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE))</span>
-<span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a>barraA<span class="sc">+</span><span class="fu">geom_bar</span>(<span class="at">width=</span>.<span class="dv">3</span>, <span class="at">fill=</span><span class="fu">grey</span>(.<span class="dv">5</span>))<span class="sc">+</span></span>
-<span id="cb95-3"><a href="#cb95-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="at">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="sc">+</span></span>
-<span id="cb95-4"><a href="#cb95-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE))</span>
+<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a>barraA<span class="sc">+</span><span class="fu">geom_bar</span>(<span class="at">width=</span>.<span class="dv">3</span>, <span class="at">fill=</span><span class="fu">grey</span>(.<span class="dv">5</span>))<span class="sc">+</span></span>
+<span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="at">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="sc">+</span></span>
+<span id="cb96-4"><a href="#cb96-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G7_geom_bar_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
 <p>En el tercer grafico las barras fueron rotadas usando la opción <strong>coord_flip()</strong> y puestas sobre lo que antes era el eje de <strong>Y</strong>. En el cuarto, se añadió una variable discreta como color; en este caso, fue usada la escala de color gris para distinguir entre la temporada seca <strong>dry</strong> la lluviosa <strong>wet</strong>. Si no se añade la opción scale_fill_grey(), las categorías tendrían color.</p>
-<div class="sourceCode" id="cb96"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb96-1"><a href="#cb96-1" aria-hidden="true" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE))</span>
-<span id="cb96-2"><a href="#cb96-2" aria-hidden="true" tabindex="-1"></a>B3<span class="ot">=</span>barraA<span class="sc">+</span><span class="fu">geom_bar</span>(<span class="at">fill=</span><span class="fu">grey</span>(.<span class="dv">5</span>))<span class="sc">+</span><span class="fu">coord_flip</span>()<span class="sc">+</span></span>
-<span id="cb96-3"><a href="#cb96-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="at">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="sc">+</span></span>
-<span id="cb96-4"><a href="#cb96-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
-<span id="cb96-5"><a href="#cb96-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb96-6"><a href="#cb96-6" aria-hidden="true" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE, <span class="at">fill=</span>SEASON))</span>
-<span id="cb96-7"><a href="#cb96-7" aria-hidden="true" tabindex="-1"></a>B4<span class="ot">=</span>barraA<span class="sc">+</span><span class="fu">geom_bar</span>()<span class="sc">+</span><span class="fu">scale_fill_grey</span>()<span class="sc">+</span></span>
-<span id="cb96-8"><a href="#cb96-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="at">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="sc">+</span></span>
-<span id="cb96-9"><a href="#cb96-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
-<span id="cb96-10"><a href="#cb96-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb96-11"><a href="#cb96-11" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(B3,B4,<span class="at">ncol=</span><span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE))</span>
+<span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a>B3<span class="ot">=</span>barraA<span class="sc">+</span><span class="fu">geom_bar</span>(<span class="at">fill=</span><span class="fu">grey</span>(.<span class="dv">5</span>))<span class="sc">+</span><span class="fu">coord_flip</span>()<span class="sc">+</span></span>
+<span id="cb97-3"><a href="#cb97-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="at">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="sc">+</span></span>
+<span id="cb97-4"><a href="#cb97-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
+<span id="cb97-5"><a href="#cb97-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-6"><a href="#cb97-6" aria-hidden="true" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE, <span class="at">fill=</span>SEASON))</span>
+<span id="cb97-7"><a href="#cb97-7" aria-hidden="true" tabindex="-1"></a>B4<span class="ot">=</span>barraA<span class="sc">+</span><span class="fu">geom_bar</span>()<span class="sc">+</span><span class="fu">scale_fill_grey</span>()<span class="sc">+</span></span>
+<span id="cb97-8"><a href="#cb97-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="at">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="sc">+</span></span>
+<span id="cb97-9"><a href="#cb97-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
+<span id="cb97-10"><a href="#cb97-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb97-11"><a href="#cb97-11" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(B3,B4,<span class="at">ncol=</span><span class="dv">1</span>)</span></code></pre></div>
 <p><img src="G7_geom_bar_files/figure-html/geombar2a-1.png" width="672" /></p>
 <hr />
 <div id="posiciones-de-las-barras" class="section level3">
 <h3>Posiciones de las barras</h3>
 <p>Si uno quiere posicionar las categorías una al lado de la otra, se usa <strong>(position={dodge})</strong>. El parámetro <strong>dodge</strong> le indica <strong>esquivar</strong> en el sentido de mover al lado.</p>
-<div class="sourceCode" id="cb97"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE,<span class="at">fill=</span>SEASON))</span>
-<span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a>B1<span class="ot">=</span>barraA<span class="sc">+</span><span class="fu">geom_bar</span>()<span class="sc">+</span></span>
-<span id="cb97-3"><a href="#cb97-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="at">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="sc">+</span></span>
-<span id="cb97-4"><a href="#cb97-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
-<span id="cb97-5"><a href="#cb97-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb97-6"><a href="#cb97-6" aria-hidden="true" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE,<span class="at">fill=</span>SEASON))</span>
-<span id="cb97-7"><a href="#cb97-7" aria-hidden="true" tabindex="-1"></a>B2<span class="ot">=</span>barraA<span class="sc">+</span><span class="fu">geom_bar</span>(<span class="at">position=</span><span class="st">&quot;dodge&quot;</span>)<span class="sc">+</span></span>
-<span id="cb97-8"><a href="#cb97-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="at">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="sc">+</span></span>
-<span id="cb97-9"><a href="#cb97-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
-<span id="cb97-10"><a href="#cb97-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb97-11"><a href="#cb97-11" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(B1,B2,<span class="at">ncol=</span><span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb98"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb98-1"><a href="#cb98-1" aria-hidden="true" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE,<span class="at">fill=</span>SEASON))</span>
+<span id="cb98-2"><a href="#cb98-2" aria-hidden="true" tabindex="-1"></a>B1<span class="ot">=</span>barraA<span class="sc">+</span><span class="fu">geom_bar</span>()<span class="sc">+</span></span>
+<span id="cb98-3"><a href="#cb98-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="at">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="sc">+</span></span>
+<span id="cb98-4"><a href="#cb98-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
+<span id="cb98-5"><a href="#cb98-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb98-6"><a href="#cb98-6" aria-hidden="true" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE,<span class="at">fill=</span>SEASON))</span>
+<span id="cb98-7"><a href="#cb98-7" aria-hidden="true" tabindex="-1"></a>B2<span class="ot">=</span>barraA<span class="sc">+</span><span class="fu">geom_bar</span>(<span class="at">position=</span><span class="st">&quot;dodge&quot;</span>)<span class="sc">+</span></span>
+<span id="cb98-8"><a href="#cb98-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="at">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="sc">+</span></span>
+<span id="cb98-9"><a href="#cb98-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
+<span id="cb98-10"><a href="#cb98-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb98-11"><a href="#cb98-11" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(B1,B2,<span class="at">ncol=</span><span class="dv">1</span>)</span></code></pre></div>
 <p><img src="G7_geom_bar_files/figure-html/geombar3-1.png" width="672" /></p>
 </div>
 </div>
