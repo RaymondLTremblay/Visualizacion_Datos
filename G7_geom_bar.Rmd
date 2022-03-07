@@ -70,7 +70,7 @@ head(DW)
 ```
 
 
-```{r dipodium-barrafb}
+```{r dipodiumbarrafb}
 DW %>%
   drop_na(number_of_flowers)%>%
   ggplot(aes(number_of_flowers))+
@@ -87,7 +87,7 @@ DW %>%
 ## flipbook geom_bar
 
 ```{r echo=FALSE}
-embed_flipbook(chunk_name = "dipodium-barrafb", display_type = c("code", "output"))
+embed_flipbook(chunk_name = "dipodiumbarrafb", display_type = c("code", "output"))
 ```
 
 
@@ -131,8 +131,6 @@ knitr::include_graphics("Graficos/L_eltoroensis.jpeg")
 
 
 ```{r, eval=FALSE, echo=FALSE}
-
-
 
 ggplot(Lelto, aes(Adultos))+
   geom_bar()
@@ -373,7 +371,7 @@ ggplot(data=Pop_PR) +
            stat = "identity",
            subset(Pop_PR,Pop_PR$Sexo=="Hombre"))+
   scale_y_continuous(breaks=seq(-140000,140000,40000),
-                     labels=abs(seq(-140000,140000,40000))) +
+                     labels=abs(seq(-140000,140000,40000)))+
   coord_flip()+
   ylab("Tamaño poblacional")+
   theme(axis.title=element_text(size=10,face="bold"))
@@ -485,6 +483,7 @@ Este tipo de representación puede ser efectiva para mostrar patrones en donde l
 
 ### Primero miramos los datos
 ```{r geom-Temperatura,  echo=TRUE}
+library(ggversa)
 names(ASBESTOS_QUEBEC)
 head(ASBESTOS_QUEBEC)
 is.data.frame(ASBESTOS_QUEBEC) # para determinar si el archivo es un data frame?
@@ -499,6 +498,8 @@ attach(ASBESTOS_QUEBEC)
 names(ASBESTOS_QUEBEC)[names(ASBESTOS_QUEBEC) == 'Date.Time'] <- 'Fecha'
 
 head(ASBESTOS_QUEBEC, n=15)
+
+
 ```
 
 ### Crear la nueva variable Temp_Prom_Max; 
@@ -508,11 +509,23 @@ Aquí se crea una nueva columna con para identificar si los datos son positivos 
 
 ```{r}
 
-ASBESTOS_QUEBEC$NegPos=ASBESTOS_QUEBEC$Temp_Prom_Max>=0
+ASBESTOS_QUEBEC$NegPos   =  ASBESTOS_QUEBEC$Temp_Prom_Max>=0
+
+head(ASBESTOS_QUEBEC, n=12)
 tail(ASBESTOS_QUEBEC)
+
+library(janitor)
+
+clean_names(ASBESTOS_QUEBEC)
 ```
 ### Selecionar solamente un subgrupo de los datos  
 ```{r}
+library(tidyverse)
+
+#ggplot(data=ASBESTOS_QUEBEC)+
+ # aes(x=Fecha, y=Temp_Prom_Max) +
+  #geom_bar(stat = "identity", position="identity")
+
 
 ASBESTOSsub=subset(ASBESTOS_QUEBEC, Year>1962 & Year<1967) # 1963 al 1966
 
@@ -530,13 +543,13 @@ ggplot(data=ASBESTOSsub,
   theme(axis.text.x=element_text(angle=90))+
   guides(fill=FALSE)+
   xlab("Fecha")+
-  ylab("Temperatura promedio máxima por mes en Celsius")+
+  ylab("Temperatura promedio \n máxima por mes en C°")+
   theme(axis.title=element_text(size=10,face="bold"))
 
 ```
 
 
-2. Usando los datos de Anchorage, Alaska que se encuentra en la sección de datos del website, evaluar el patrón de temperatura mínima en los diferentes meses del año.  Convertir los datos de Farenheit a Celcius.  
+2. Usando los datos de Anchorage, Alaska que se encuentra en la sección de datos aqui [Acchorage_Data](Data/Anchorage_ALASKA.csv), evaluar el patrón de temperatura mínima en los diferentes meses del año.  Convertir los datos de Farenheit a Celcius.  
 
 
 
