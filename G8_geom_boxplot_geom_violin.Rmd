@@ -53,12 +53,18 @@ Para datos que no tienen una distribución normal, típicamente se usa un diagra
 
 En el primer gráfico a continuación, Fig. 1 (arriba a la izquierda), se muestra un diagrama de caja básico. Note que la variable en la primera **x** tiene valor de 1, lo que significa que hay un solo grupo. En el segundo gráfico, Fig. 2 (arriba a la derecha), se modifica con la opción de **notch**. En el tercer gráfico, Figura Fig. 3 (abajo a la izquierda), se cambió el color de la caja, la forma o **shape** de los valores atípicos o **outliers**, y su tamaño.  En los tres primeros gráficos, se usan todos los datos en un mismo diagrama de caja.  En el cuarto gráfico, Fig. 4 (abajo a la derecha), observamos la distribución de la cantidad de flores por el número de frutos observado por planta.  Note que para este último caso en particular, hay más de un grupo.
 
+Las muescas (notch)
+
+Las muescas a los lados de un diagrama de caja se pueden interpretar como un intervalo de comparación alrededor de los valores de la mediana. La altura de la muesca es la mediana $+/- 1,57 x IQR/sqrt(n)$ donde IQR es el rango intercuartílico definido por los percentiles 25 y 75 y **n** es el número de puntos de datos
+
+
 ```{r boxplot_4_1, echo=TRUE}
 #names(dipodium)
 library(conflicted)
 library(janitor)
+library(gt)
 dipodium=clean_names(dipodium)
-head(dipodium)
+gt(head(dipodium))
 
 d1=dipodium %>% 
   dplyr::select(number_of_fruits, number_of_flowers) %>% 
