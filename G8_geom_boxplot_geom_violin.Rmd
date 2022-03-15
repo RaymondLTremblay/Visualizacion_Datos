@@ -216,14 +216,16 @@ violinplot2 +
 El gráfico de violín con datos distribución normal
 
 ```{r}
-normal_data=rnorm(100000, 0, 4)
+normal_data=rnorm(1000, 0, 4)
 #normal_data
 dfnorm=data.frame(normal_data)
 head(dfnorm)
 
 library(ggplot2)
 ggplot(dfnorm,aes(normal_data, x=1))+
-  geom_violin()
+  geom_violin()+
+  geom_boxplot()+
+geom_jitter(position = position_jitter(width = .1))
 ```
 
 
@@ -250,7 +252,7 @@ violingp=violinplot3a <- ggplot(CalVal, aes(y=OH, x=factor(Year)))+
 
 violingv=violinplot3a +
   geom_violin()+
-  geom_jitter(position = position_jitter(width = .2))+ # Note que los puntos serán sobrepuestos sobre el violín pero no solapan uno encima del otro.    
+  geom_jitter(position = position_jitter(width = .1))+ # Note que los puntos serán sobrepuestos sobre el violín pero no solapan uno encima del otro.    
   annotate("text", x=2,y= 20, size=8,
            label="", na.rm=TRUE)+
   labs(x="Año", y="OH")+
@@ -271,7 +273,7 @@ En el próximo gráfico, se invocó **geom_jitter** antes que **geom_violin**, p
 violinplot3 <- ggplot(CalVal, aes(y=OH, x=factor(Year)))
 violinplot3 +
   geom_jitter(position = position_jitter(width = .2), colour="red")+
-  geom_violin(fill="yellow", alpha=0.3)+
+  geom_violin(fill="yellow", colour="blue", alpha=0.3)+
   annotate("text", x=2,y= 20, size=8,
            label="")+
   labs(x="Año", y="OH")+
@@ -414,7 +416,7 @@ df2 <- data.frame(x=dens2$x, y=dens2$y)
 df2$quant <- factor(findInterval(df2$x,quantiles))
 df2
 
-ggplot(df2, aes(x,y)) +  geom_ribbon(aes(ymin=0, ymax=y, fill=quant)) + scale_x_continuous(breaks=quantiles) + scale_fill_brewer(palette = "Set1",guide="none")+
+ggplot(df2, aes(x,y)) +  geom_ribbon(aes(ymin=0, ymax=y, fill=quant)) + scale_x_continuous(breaks=quantiles) + scale_fill_brewer(palette = "Set1",guide="none")+  # colores horribles
   theme(axis.text.x = element_text(angle = 45))
 
 
