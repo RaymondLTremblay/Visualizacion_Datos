@@ -1,8 +1,6 @@
 ---
 title: "Evaluando_supuestos"
 output:
-  word_document:
-    toc: yes
   html_document:
     css: tutorial.css
     fig_caption: yes
@@ -10,6 +8,8 @@ output:
     theme: simplex
     toc: yes
     toc_float: yes
+  word_document:
+    toc: yes
 ---
 
 ```{r setup, include=FALSE}
@@ -60,7 +60,7 @@ library(gridExtra)
 
 ***
 
-La ética en estadística basado en comprobar y cumplir con los supuestos de las pruebas estadística que se usan.  La gran mayoría de las pruebas tradicional asume que los datos cumple con algunos supuestos, algunos típicos son. 
+La ética en estadística esta basado en comprobar y cumplir con los supuestos de las pruebas estadística que se usan.  La gran mayoría de las pruebas tradicional asume que los datos cumple con algunos supuestos, algunos típicos son. 
 
 1. distribución normal
 2. igualdad de varianza
@@ -69,9 +69,9 @@ La ética en estadística basado en comprobar y cumplir con los supuestos de las
 
 ***
 
-Cuando no se cumple con los datos estamos aumentando la probabilidad de tipo de error 1, es decir rechazar la hipótesis nula cuando se debería aceptar o tipo de error 2, cuando se debería aceptar la alterna cuando se debería rechazar.
+Cuando no se cumple con los supuestos estamos aumentando la probabilidad de tipo de error 1, es decir rechazar la hipótesis nula cuando se debería aceptar o tipo de error 2, cuando se debería aceptar la alterna cuando se debería rechazar.
 
-Por consecuencia es **primodial** que cada investigador cumple con evaluar los supuestos de las pruebas que usa y si no cumple que busca métodos alternos.  Por ejemplo métodos de análisis que podría usar pruebas no paramétrica tambien estadística bayesiana o robusta.  
+Por consecuencia es **primodial** que cada investigador cumple con evaluar los supuestos de las pruebas que usa y si no cumple que busca métodos alternos.  Por ejemplo métodos de análisis que podría usar incluye pruebas **no paramétrica** tambien **estadística bayesiana** o **métodos robusta**.  
 
 En el siguiente modulo se habla de como asegurar que cumple con los supuestos básico de las pruebas paramétricas que incluye t-test, ANOVA entre otros.  
 
@@ -81,17 +81,24 @@ Note que aquí el énfasis es de evalur los supuestos con herramientas visual, h
 
 # Homogeneidad de varianza
 
-  La homogeneidad de varianza es un supuesto primordial en el análisis de varianza (ANOVA) y sus vertientes.  Este mismo supuesto es también importante en el análisis de regresión simple y multivariable; por ejemplo, en el análisis discriminante (*discriminant function analysis* en inglés). Utilizaremos los datos de la Becasa de Mar *Limosa haemastica*, un ave migrante de las costas de las marismas de Argentina, de la base de datos Godwits.  Para determinar si la razón de adquisición de comida es diferente entre sexo, tiempo del año, y la combinación de estas dos variables (en otras palabras, las interacciones entre ambas), hay que asumir lo siguiente: 1ro. la varianza en las observaciones entre sexo es similar, 2do. la variación en las tres estaciones es similar, y 3ro. la variación entre los grupos por sexo es similar. 
+  La homogeneidad de varianza es un supuesto primordial en el análisis de varianza (ANOVA) y sus vertientes.  Este mismo supuesto es también importante en el análisis de regresión simple y multivariable; por ejemplo, en el análisis discriminante (*discriminant function analysis* en inglés). Como ejemplo utilizaremos los datos de la Becasa de Mar *Limosa haemastica*, un ave migrante de las costas de las marismas de Argentina, los datos se encuentra en la base de datos Godwits en el packete **ggversa**.  Para determinar si la razón de adquisición de comida es diferente entre sexo, tiempo del año, y la combinación de estas dos variables (en otras palabras, las interacciones entre ambas), hay que asumir lo siguiente: 
+
+
+ -  1ro. la varianza en las observaciones entre sexo es similar, 
+ -  2do. la variación en las tres estaciones es similar, y 
+ -  3ro. la variación entre los grupos por sexo es similar. 
+    
+***    
 
 ## Gráficos de cajas condicionales
 
-  Para el ejemplo BecasaDeMar, se removieron algunos datos del análisis como se explica a continuación. En la variable **SEX**, hay tres categorías: 0 = sexo no identificado, 1 = hembra, y 2 = macho. Se removió la categoría de **no identificado** usando la siguiente función **which**:
+  Para el ejemplo BecasaDeMar, se removieron algunos datos del análisis como se explica a continuación. En la variable **SEX**, hay tres categorías: 0 = sexo no identificado, 1 = hembra, y 2 = macho. Se removió la categoría de **no identificado** usando la siguiente función **-which**:
 
 
   **BecasaDeMar=BecasaDeMar[-which(BecasaDeMar$SEX=={0}),]**
 
 
-Note aquí el **-** (el signo de resta) antes de **which**.
+Note aquí el **-** (el signo de resta) antes de **which**, que resulta en la selección de todos los datos en la variable de "SEX" menos los "0".
   
   El siguiente paso, después de remover los individuos no identificados por sexo, es cambiar el nombre de los niveles 1 y 2 a hembra y macho respectivamente. Para evaluar la homogeneidad de varianza entre las estaciones también se le asigna el nombre del periodo: Verano, Pre-migración e Invierno.
 
@@ -272,7 +279,16 @@ b <- ggplot(df, aes(sample = y))+
   stat_qq() + 
   stat_qq_line(colour="red")
 
-grid.arrange(a,b,ncol=2)
+# hay una nueva funcción en el paquete ggpubr, ggqqplot que incluye los intervalo de confianza
+
+library(ggpubr)
+
+c= ggqqplot(Godwits, x="mgconsumed")
+
+d=ggqqplot(df, x="y")
+
+
+grid.arrange(a,b,c,d,ncol=2)
 ```
 
 ***

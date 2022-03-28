@@ -13,7 +13,7 @@
 
 <title>Facet_wrap</title>
 
-<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
@@ -42,6 +42,7 @@
   div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
   ul.task-list{list-style: none;}
     </style>
+
 
 
 <style type="text/css">
@@ -167,6 +168,9 @@ button.code-folding-btn:focus {
 }
 summary {
   display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
 }
 pre code {
   padding: 0;
@@ -392,7 +396,7 @@ div.tocify {
 <div class="navbar navbar-default  navbar-fixed-top" role="navigation">
   <div class="container">
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -402,7 +406,7 @@ div.tocify {
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Módulos
      
     <span class="caret"></span>
@@ -459,7 +463,7 @@ div.tocify {
   </ul>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Instalación básica
      
     <span class="caret"></span>
@@ -480,7 +484,7 @@ div.tocify {
   </ul>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Tareas y Ejercicios
      
     <span class="caret"></span>
@@ -507,7 +511,7 @@ div.tocify {
   </ul>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Los Datos
      
     <span class="caret"></span>
@@ -522,7 +526,7 @@ div.tocify {
   </ul>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Calendario
      
     <span class="caret"></span>
@@ -551,7 +555,7 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2022-02-22&quot;</code></pre>
+<pre><code>## [1] &quot;2022-03-23&quot;</code></pre>
 <p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" /></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggversa)</span>
@@ -725,6 +729,7 @@ div.tocify {
 <div id="unir-columnas-de-fecha-en-una-variable-de-tiempo" class="section level2">
 <h2>Unir columnas de fecha en una variable de tiempo</h2>
 <p>Ahora se define la variable para la fecha con la función <strong>ymd</strong> para indicar que el orden de la fecha es año-mes-día. También se identifica cuántos dígitos tiene cada elemento de la fecha utilizando <strong>%04</strong> para 4 cifras para el año y <strong>%02</strong> para dos cifras para mes y día. Subsiguientemente se identifica a cuál columna corresponde ubicar a cada uno.</p>
+<p>En este enlace encontrará información suplementaria de como trabajar con fechas. <a href="https://rdrr.io/r/base/strptime.html">strptime</a></p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(MM, <span class="dv">3</span>)</span></code></pre></div>
 <pre><code>##   Mes Dia Year Tmin
@@ -790,11 +795,11 @@ div.tocify {
 <span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G10_Facet_wrap_files/figure-html/facetwrap9-1.png" width="672" style="display: block; margin: auto;" /></p>
 <ol style="list-style-type: decimal">
-<li>Ejercicio para someter en Edmodo. Se usará los datos de temperatura del pueblo de <strong>ASBESTOS_QUEBEC</strong> con la temperatura mínima o máxima (selecciona el que prefiere). El primer paso en crear una columna con la fecha en formato de <strong>fecha</strong>. Note que la columna <strong>Fecha</strong> esta en formato de <strong>factor</strong>, Y no es reconocido como una fecha. Para usar el paquete <strong>lubridate</strong>, hay que tener la fechas en formato qu8e inlcuye tanto el año, mes y el día. En este caso el archivo tiene solamente el año y el mes, para solucionar este problema, se añade una nueva columna <strong>day1</strong> con el primer día del cada mes. Esta columna hay que convertir del formato <strong>double</strong> a formato <strong>integer</strong> con la función <strong>as.integer( )</strong>. Ahora tanto las columnas de <strong>Year, Mes y day1</strong> son en formato de <strong>integer</strong>. Después de formatear los datos correctamente, usando los scripts abajo.<br />
+<li>Ejercicio para someter en MSTeam. Se usará los datos de temperatura del pueblo de <strong>ASBESTOS_QUEBEC</strong> con la temperatura mínima o máxima (selecciona el que prefiere). El primer paso en crear una columna con la fecha en formato de <strong>fecha</strong>. Note que la columna <strong>Fecha</strong> esta en formato de <strong>factor</strong>, Y no es reconocido como una fecha. Para usar el paquete <strong>lubridate</strong>, hay que tener la fechas en formato que inlcuye tanto el año, mes y el día. En este caso el archivo tiene solamente el año y el mes, para solucionar este problema, se añade una nueva columna <strong>day1</strong> con el primer día del cada mes. Esta columna hay que convertir del formato <strong>double</strong> a formato <strong>integer</strong> con la función <strong>as.integer( )</strong>. Ahora tanto las columnas de <strong>Year, Mes y day1</strong> son en formato de <strong>integer</strong>. Después de formatear los datos correctamente, usando los scripts abajo.<br />
 </li>
 </ol>
 <ul>
-<li>Construye un facet wrap de todos los años y someterlo a Edmodo en formato .png.</li>
+<li>Construye un facet wrap de todos los años y someterlo a MSTeam en formato .png.</li>
 </ul>
 <div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggversa)</span>
 <span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
@@ -816,7 +821,7 @@ div.tocify {
 ## 4 1948   9          21.6           8.4 1948-09    1
 ## 5 1948  10          12.0           2.6 1948-10    1
 ## 6 1948  11          10.3           1.9 1948-11    1</code></pre>
-<p>Tenemos que unir las columnas <strong>Year, Mes y day1</strong> en una en formato de <strong>date</strong>. Note que se usa la función <strong>ymd</strong> para <strong>year/month/day</strong>, si lo queremos formateado en <strong>day/month/year</strong>, se usaria <strong>dmy</strong>. En otro modulos estaremos hablando del paquete <strong>lubridate</strong> exclusivamente.</p>
+<p>Tenemos que unir las columnas <strong>Year, Mes y day1</strong> en una en formato de <strong>date</strong>. Note que se usa la función <strong>ymd</strong> para <strong>year/month/day</strong>, si lo queremos formateado en <strong>day/month/year</strong>, se usaria <strong>dmy</strong>. En otro módulos estaremos hablando del paquete <strong>lubridate</strong> exclusivamente.</p>
 <p>La segunda parte es convertir estas fechas en el día del año, o sea del primer día al ultimo día del año (1-365 o 366).</p>
 <div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
 <span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>ASBESTOS_QUEBEC<span class="sc">$</span>fecha <span class="ot">&lt;-</span> <span class="fu">with</span>(ASBESTOS_QUEBEC, <span class="fu">ymd</span>(<span class="fu">sprintf</span>(<span class="st">&#39;%04d%02d%02d&#39;</span>,</span>

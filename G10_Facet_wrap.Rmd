@@ -84,7 +84,7 @@ Para cambiar la cantidad de columnas o filas se usa **nrow** y **ncol**. En el e
 barraD=ggplot(Anolis, aes(SVL, HEIGHT))
 barraD+geom_point()+
   facet_wrap(~Survey_Site, nrow=1)+
-  labs(y="Altitud")+
+  labs(y="Altura sobre el suelo")+
   theme(axis.title=element_text(size=10,face="bold"))
 ```
 
@@ -230,7 +230,7 @@ Ahora se selecciona solamente parte de los datos, del 1 de enero del 1951 al 31 
 
 
 MM=MORELIA.MICH.Tmin%>%
-  filter(Year>1950 & Year<1960)
+  filter(Year>1950 & Year<=1960)
 
 
 
@@ -243,6 +243,8 @@ MM=MORELIA.MICH.Tmin%>%
 ## Unir columnas de fecha en una variable de tiempo
 
 Ahora se define la variable para la fecha con la función **ymd** para indicar que el orden de la fecha es año-mes-día.  También se identifica cuántos dígitos tiene cada elemento de la fecha utilizando **%04** para 4 cifras para el año y **%02** para dos cifras para mes y día.  Subsiguientemente se identifica a cuál columna corresponde ubicar a cada uno.
+
+En este enlace encontrará información suplementaria de como trabajar con fechas. [strptime](https://rdrr.io/r/base/strptime.html)
 
 ```{r facetwrap7c, echo=TRUE, message=FALSE, warning=FALSE}
 library(lubridate)
@@ -308,8 +310,8 @@ ggplot(MM, aes(x=diaanual, y=Tmin, color=factor(Year)))+
 
 
 
-1. Ejercicio para someter en Edmodo. Se usará los datos de temperatura del pueblo de **ASBESTOS_QUEBEC** con la temperatura mínima o máxima (selecciona el que prefiere).  El primer paso en crear una columna con la fecha en formato de **fecha**.  Note que la columna **Fecha** esta en formato de **factor**, Y no es reconocido como una fecha.  Para usar el paquete **lubridate**, hay que tener la fechas en formato qu8e inlcuye tanto el año, mes y el día.   En este caso el archivo tiene solamente el año y el mes, para solucionar este problema, se añade una nueva columna **day1** con el primer día del cada mes.  Esta columna hay que convertir del formato **double** a formato **integer** con la función **as.integer( )**.  Ahora tanto las columnas de **Year, Mes y day1** son en formato de **integer**.  Después de formatear los datos correctamente, usando los scripts abajo.   
-  + Construye un facet wrap de todos los años y someterlo a Edmodo en formato .png. 
+1. Ejercicio para someter en MSTeam. Se usará los datos de temperatura del pueblo de **ASBESTOS_QUEBEC** con la temperatura mínima o máxima (selecciona el que prefiere).  El primer paso en crear una columna con la fecha en formato de **fecha**.  Note que la columna **Fecha** esta en formato de **factor**, Y no es reconocido como una fecha.  Para usar el paquete **lubridate**, hay que tener la fechas en formato que inlcuye tanto el año, mes y el día.   En este caso el archivo tiene solamente el año y el mes, para solucionar este problema, se añade una nueva columna **day1** con el primer día del cada mes.  Esta columna hay que convertir del formato **double** a formato **integer** con la función **as.integer( )**.  Ahora tanto las columnas de **Year, Mes y day1** son en formato de **integer**.  Después de formatear los datos correctamente, usando los scripts abajo.   
+  + Construye un facet wrap de todos los años y someterlo a MSTeam en formato .png. 
 
 ```{r}
 library(ggversa)
@@ -321,7 +323,7 @@ ASBESTOS_QUEBEC$day1=as.integer(ASBESTOS_QUEBEC$day1) # convert to integer
 head(ASBESTOS_QUEBEC)
 ```
 
-Tenemos que unir las columnas **Year, Mes y day1** en una en formato de **date**. Note que se usa la función **ymd** para **year/month/day**, si lo queremos formateado en **day/month/year**, se usaria **dmy**.  En otro modulos estaremos hablando del paquete **lubridate** exclusivamente.  
+Tenemos que unir las columnas **Year, Mes y day1** en una en formato de **date**. Note que se usa la función **ymd** para **year/month/day**, si lo queremos formateado en **day/month/year**, se usaria **dmy**.  En otro módulos estaremos hablando del paquete **lubridate** exclusivamente.  
 
 La segunda parte es convertir estas fechas en el día del año, o sea del primer día al ultimo día del año (1-365 o 366). 
 
@@ -337,11 +339,14 @@ tail(ASBESTOS_QUEBEC)
  
 
 ```{r facetwrap8e,  echo=FALSE,  eval=FALSE, tidy=FALSE, message=FALSE, warning=FALSE, fig.show='asis', fig.show='hold', fig.align='center'}
-ggplot(ASBESTOS_QUEBEC, aes(x=diaanual, y=Temp_Prom_Max, color=factor(Year)))+
+
+AQ2=ASBESTOS_QUEBEC %>% 
+  filter(Year %in% c(1960:1965, 1980:1985))
+ggplot(AQ2, aes(x=diaanual, y=Temp_Prom_Min, color=factor(Year)))+
   geom_line()+
   theme(axis.title=element_text(size=10,face="bold"))+
   xlab("Día del año")+
-  ylab("Temperatura promedia máxima")
+  ylab("Temperatura promedia mínima")
 ```
 
 ```{r facetwrap10,  echo=FALSE,  eval=FALSE, tidy=FALSE, message=FALSE, warning=FALSE, fig.show='asis', fig.show='hold', fig.align='center'}
