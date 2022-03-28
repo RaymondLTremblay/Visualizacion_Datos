@@ -555,7 +555,7 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2022-03-23&quot;</code></pre>
+<pre><code>## [1] &quot;2022-03-28&quot;</code></pre>
 <p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" /></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggversa)</span>
@@ -602,7 +602,7 @@ div.tocify {
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>barraD<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SVL, HEIGHT))</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>barraD<span class="sc">+</span><span class="fu">geom_point</span>()<span class="sc">+</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Survey_Site, <span class="at">nrow=</span><span class="dv">1</span>)<span class="sc">+</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Altitud&quot;</span>)<span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Altura sobre el suelo&quot;</span>)<span class="sc">+</span></span>
 <span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G10_Facet_wrap_files/figure-html/facetwrap2-1.png" width="672" style="display: block; margin: auto;" /></p>
 <hr />
@@ -718,7 +718,7 @@ div.tocify {
 ## 6  10  13 1947 12.5</code></pre>
 <p>Ahora se selecciona solamente parte de los datos, del 1 de enero del 1951 al 31 de diciembre del 1959.</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>MM<span class="ot">=</span>MORELIA.MICH.Tmin<span class="sc">%&gt;%</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Year<span class="sc">&gt;</span><span class="dv">1950</span> <span class="sc">&amp;</span> Year<span class="sc">&lt;</span><span class="dv">1960</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Year<span class="sc">&gt;</span><span class="dv">1950</span> <span class="sc">&amp;</span> Year<span class="sc">&lt;=</span><span class="dv">1960</span>)</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
@@ -754,12 +754,12 @@ div.tocify {
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>MM<span class="sc">$</span>diaanual<span class="ot">=</span><span class="fu">yday</span>(MM<span class="sc">$</span>fecha)</span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(MM)</span></code></pre></div>
 <pre><code>##      Mes Dia Year Tmin      fecha diaanual
-## 3282  12  26 1959  1.1 1959-12-26      360
-## 3283  12  27 1959  1.7 1959-12-27      361
-## 3284  12  28 1959  1.1 1959-12-28      362
-## 3285  12  29 1959  0.0 1959-12-29      363
-## 3286  12  30 1959 -0.6 1959-12-30      364
-## 3287  12  31 1959 -1.1 1959-12-31      365</code></pre>
+## 3648  12  26 1960  2.0 1960-12-26      361
+## 3649  12  27 1960  3.9 1960-12-27      362
+## 3650  12  28 1960  0.6 1960-12-28      363
+## 3651  12  29 1960  1.7 1960-12-29      364
+## 3652  12  30 1960  2.2 1960-12-30      365
+## 3653  12  31 1960  2.8 1960-12-31      366</code></pre>
 <div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">yday</span>(<span class="st">&quot;1959-03-01&quot;</span>) <span class="co"># El día del año que nací</span></span></code></pre></div>
 <pre><code>## [1] 60</code></pre>
 <p>Veamos ahora el resultado. El gráfico de la figura produce una línea por cada año. Note que hay que identificar que el año es un factor usando <strong>color=factor(Year)</strong>. Si no se hace así, el año se interpretará como un valor continuo.</p>
