@@ -156,6 +156,8 @@ A continuación, completamos el análisis utilizando otra vez los datos de la or
 #names(dipodium)
 library(janitor)
 dipodium=janitor::clean_names(dipodium)
+dipodium=dipodium %>% 
+  add_row(number_of_flowers = 60, height_inflo =30)
 names(dipodium)
 modelflower=lm(number_of_flowers~height_inflo,
          data=dipodium)
@@ -180,17 +182,51 @@ Lo que observaremos es que la distribución de los residuales luce más o menos 
 res
 ```
 
+***
+
+
+## Heterosescasticidad
+
+Ejemplo de heteroescasticidad
+
+```{r}
+set.seed(123)
+A <- 1:1000
+B <- rnorm(n=1000, mean = A, sd=0.4*A)
+df=as.data.frame(cbind(A,B))
+#df
+modeldf=lm(B~A, data=df)
+
+ggplot(df, aes(A, B))+
+  geom_point()
+```
+
+## Nota que la variación en los residuales aumenta a medida que **x** aumenta
+
+```{r Heterogeneityvariance1}
+  Hetero<-ggplot(modeldf, aes(.fitted, .resid))+
+  geom_point()+
+  geom_hline(yintercept=0,
+           col="green", linetype="dashed")+
+  theme(axis.title=element_text(size=20,face="bold"),
+        axis.text=element_text(size=20, face="bold"))+
+  xlab("Valores estimados")+
+           ylab("Residuales")+
+  ggtitle("Residuales vs. Valores Estimados")
+Hetero
+```
+
 
 ***
 
 ## Los residuales de Student para detectar valores sesgados
 
-A continuación se ilustra otro enfoque para evaluar los residuales. En este caso, para detectar valores sesgados (ouliers). Se puede visualizar los residuales se usa los residuales estandarizados divido por la desviación estandard. Valores que mayores de 3 serian considerados sesgados. Esta alternativa es apropiada si detectar valores sesgados.  Note en la figura que se usa otra vez el modelo **modelflower** y los valores calculados en el modelo **.fitted** y los residuales de student con **.stdresid**. Note ahora también que todos los valores en el eje de **Y** son mayores de cero.
+A continuación se ilustra otro enfoque para evaluar los residuales. En este caso, para detectar valores sesgados (ouliers). Se puede visualizar los residuales se usa los residuales estandarizados divido por la desviación estandard. Valores que mayores de 3 serian considerados sesgados. Esta alternativa es apropiada si detectar valores sesgados.  Note en la figura que se usa otra vez el modelo **modelflower** y los valores calculados en el modelo **.fitted** y los residuales de student con **.stdresid**. Note ahora también que todos los valores en el eje de **Y** son mayores de cero.  Nota que el residual de estandarizado de Student es mayor de 2, por consecuencia se debería evaluar ese punto para asegurar que es un valor real, y no error de poner los datos en la hoja de datos.  Valores típicamente mayor de 3, son considerado "outliers", sesgados, aunque los valores mayores de 2 deberían ser evaluados.
 
 ```{r Homogeneityvariance2}
   ResEst=ggplot(modelflower,
                  aes(.fitted, sqrt(abs(.stdresid)))) +
-                 geom_point(na.rm=TRUE)+
+                 geom_point(aes(colour = .stdresid >3),na.rm=TRUE)+
   theme(axis.title=element_text(size=20,face="bold"),
         axis.text=element_text(size=20, face="bold"))+
           xlab("Valores estimados")+
@@ -228,7 +264,7 @@ Para hacer una ilustración, continuaremos con el modelo **modelflower** usando 
 
 ## Causas principales de los valores sesgados
 
-Los valores que parecen sesgados pueden ser normal de la población estudiada, y por consecuencia en estos casos remoción de estos valores podría resultar en descripción de los resultados incorrectos.  Primero hay que evaluar los siguientes posibles causas de valores sesgados. Si algunos de los siguientes son presentes hay que resolver los valores o removerlos de la hoja de analisis.  
+Los valores que parecen sesgados pueden ser normal de la población estudiada, y por consecuencia en estos casos remoción de estos valores podría resultar en descripción de los resultados incorrectos.  Primero hay que evaluar los siguientes posibles causas de valores sesgados. Si algunos de los siguientes son presentes hay que resolver los valores corrigiendo o removerlos de la hoja de análisis.  Otra alternativa es utilizar **Estadística Robusta** (vea libros del Dr. Ricardo Maronna, R. Douglas Martin, Victor J Yohai & Matias Salibán-Barrera: **Robust Statistics: Theory and Methods** (with R) y del Dr. Rand R. Wilcox, **Introduction to Robust Estimation and Hypothesis testing** para tomar en cuenta estos valores sin su remoción. 
 
 
 * los valores recolectado son erróneo.
@@ -239,7 +275,7 @@ Los valores que parecen sesgados pueden ser normal de la población estudiada, y
 
 ## Supuesto de normalidad 
 
-Hay muchas pruebas estadísticas que asumen que los datos provienen de una distribución normal. Pero no todas las pruebas tienen que satisfacer ese supuesto.  Por ejemplo, un Análisis de Componentes Principales o ACP (en inglés, PCA o Principle Component Analysis) o la prueba de t asumen distribución normal.  Por el contrario, las pruebas no paramétricas como Wilcoxon, Mann-Whitney, Kruskall Wallis y otras no asumen ese supuesto.
+Hay muchas pruebas estadísticas que asumen que los datos provienen de una distribución normal. Pero no todas las pruebas tienen que satisfacer ese supuesto.  Por ejemplo, un **Análisis de Componentes Principales** o ACP (en inglés, PCA o Principle Component Analysis) o la prueba de **t** asumen distribución normal.  Por el contrario, las pruebas no paramétricas como Wilcoxon, Mann-Whitney, Kruskall Wallis y otras no asumen ese supuesto.
 
 Una alternativa tradicional para comprobar la normalidad de los datos es mirar el gráfico de QQ; o sea, una visualización para comparar las probabilidades de dos variables en las que se gráfican los cuartiles (recordemos que **Q** viene de cuartil). Si las distribuciones de las dos variables son similares, los puntos aparecerán nítidamente en el gráfico de QQ sobre la línea de **X-Y**. Eso se demostrará a continuación.
 
