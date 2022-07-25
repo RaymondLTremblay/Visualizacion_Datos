@@ -64,8 +64,8 @@ Cuando hay muchas variables en el análisis, a veces podría ser más fácil obs
 Primero, necesitamos calcular los coeficientes de correlación con la opción **cor**. Luego visualizaremos los datos con la función **kable**.
 
 ```{r heatmap data1, message=FALSE}
-
-DWCor=round(cor(dipodium[c(3, 6, 8, 9, 13)],
+dipodium
+DWCor=round(cor(dipodium[c(3, 6,7, 8, 9, 13)],
                 use="pairwise.complete.obs"),3)
 
 kable(DWCor) %>%
@@ -110,8 +110,8 @@ Le cambiamos los colores del gráfico, usando **scale_fill_gradient2**. Asignamo
 
 ggplot(DWMelt, aes(x=x1, y=y1))+
   geom_tile(aes(fill=Correlation))+
-  scale_fill_gradient2(low="white",
-                       mid="black", high="red",
+  scale_fill_gradient2(low="black",
+                       mid="white", high="red",
   guide=guide_colorbar(ticks=FALSE,
                        barheight=5, limits=c(-.5,1)))+
   theme_minimal()+
@@ -149,11 +149,10 @@ ggplot(DWMelt, aes(x=x1, y=y1))+
   scale_fill_gradient(low="white",
                       high="red", limits=c(-1,1))+
   theme_minimal()+labs(x=NULL, y=NULL)+
-  theme(axis.title=element_text(size=20,face="bold"),
+  theme(
         axis.text.y=element_text(size=10, face="bold"),
-        axis.text.x=element_text(size=8, face="bold", angle = 90, hjust = 1))+
-  labs(fill="Correlación")+
-  xlab("")
+        axis.text.x=element_text(size=8, face="italic", angle = 90, hjust = 1))+
+  labs(fill="Correlación")
 ```
 
 ***
@@ -164,7 +163,7 @@ La función **ggcor** tiene la ventaja de producir un gráfico de calor que repr
 
 ```{r}
 
-ggcorr(DWCor, low = "steelblue", mid = "white", high = "darkred", nbreaks=6)
+ggcorr(DWCor, low = "steelblue", mid = "white", high = "darkred", nbreaks=4)
 ```
 
 Para un segundo ejemplo de **ggcorr**
@@ -173,8 +172,7 @@ Para un segundo ejemplo de **ggcorr**
 
 ggcorr(DWCor, geom = "blank", label = TRUE, hjust = 0.75) +
   geom_point(size = 20, aes(color = coefficient > 0, alpha = abs(coefficient) > 0.5)) +
-  scale_alpha_manual(values = c("TRUE" = 0.25, "FALSE" = 0)) +
-  guides(color = FALSE, alpha = FALSE)
+  scale_alpha_manual(values = c("TRUE" = 0.25, "FALSE" = 0)) +guides(scale = "none", alpha = FALSE)
 ```
 
 
@@ -214,8 +212,8 @@ Para muchos ejemplos vea este enlace. <https://briatte.github.io/ggcorr/>
    
    
 ```{r heatmap dataAnolis, eval=FALSE, message=FALSE, include=FALSE}
-
-DWCorA=round(cor(Anolis[c("SVL", "TAIL", "PERCH_DIAMETER","HEIGHT")],
+Anolis
+DWCorA=round(cor(Anolis[c("SVL", "TAIL", "PERCH_DIAMETER","HEIGHT", "DISTANCE_FROM_CENTERLINE", "TAIL")],
                 use="pairwise.complete.obs"),3)
 
 kable(DWCorA) %>%

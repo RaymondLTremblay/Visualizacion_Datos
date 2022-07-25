@@ -265,7 +265,7 @@ ggplot(Tiroide, aes(x=as.integer(Year), y=Rate,
   guides(color="none")+
   ylab("Razón")+
   xlab("Años")+
-  geom_point(shape="o", size=5, colour="blue", fill="yellow")+
+  geom_point(shape=17, size=3, colour="blue", fill="yellow")+
   theme(axis.title=element_text(size=10,face="bold"))
 
 ```
@@ -297,6 +297,44 @@ Tarea
 4. Une los data set en un data frame
 5. Crea un gráfico de la dos especies y el cambio (N) en tiempo por especie.
 
+```{r}
+library(lubridate)
+library(leaflet)
+library(rinat)
+
+
+cajaPR <- c(17.75, -67.4, 18.75, -65.15)
+bujo <- get_inat_obs(taxon_name = "Gymnasio nudipes",
+             quality = 'research',
+             geo = TRUE,
+             maxresults = 10000,
+             bounds = cajaPR)
+
+bujo
+
+
+library(lubridate)
+#bujo$date=ymd_hms(bujo$datetime)
+
+#bujo$Year=format(date, format="%Y")
+
+
+bujo$date=ymd_hms(bujo$datetime)
+bujo$Year=format(as.POSIXct(bujo$date), format="%Y")
+bujo
+
+bujo2=bujo %>% 
+  select(Year) %>% 
+  group_by(Year) %>% 
+  summarize(n=n())
+
+library(tidyverse)
+ggplot(bujo2, aes(x=as.integer(Year), y=n))+
+  geom_point(shape=22, size=4, color="blue", fill="white")+
+  geom_line(size=3)+
+  guides(color="none")
+
+```
 
 
 

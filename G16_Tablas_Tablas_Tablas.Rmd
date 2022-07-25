@@ -74,7 +74,7 @@ En conclusión, no solo la **Tabla b** se ve más presentable, si no que tambié
   
 **Tabla a.  Errores de formato, justificación y escala**
   
-|         | Tamaño de muestra | El largo de la hoja | valor de p  |
+|Genero| Tamaño de muestra | El largo de la hoja | valor de p |
 |---------|:-------|:--------:|:-------------|
 | Mujeres | 27273 |  11.03  | 0.000000001 |
 | Hombres | 169019 | 13.5  | 0.098979676 |
@@ -106,7 +106,6 @@ Prepara una tabla de la lista de tu familia, nombre de tu madre, abuelas y cuant
 
 # tibble y tribble
 
-## tibble
 
 Un tibble es una tabla que es muy similar a un data frame, con algunas diferencias que le hace más fácil encontrar errores y imprimir esas tablas.  Aqui vemos un data frame que fue convertida en tibble, a evaluar la tabla no se ve ninguna diferencia. Vea este enlace para más información https://r4ds.had.co.nz/tibbles.html 
 
@@ -122,6 +121,8 @@ Anolis
 A=as_tibble(Anolis)
 A
 ```
+
+***
 
 
 ## Crear un tibble en un documento .Rmd
@@ -139,6 +140,8 @@ Tabla=tribble(~"Nombre Cientifico de las Especies", ~"Nombre Comun", ~N,
         )
 Tabla
 ```
+
+
 ***
 
 
@@ -161,10 +164,10 @@ Vea este enlace para información de las funciones de **gt** https://gt.rstudio.
 ```{r}
 
 A %>% 
-  select(STUDY, Survey_Site, TIME, DATE, SEASON, SEX_AGE, SVL) %>% 
+  dplyr::select(STUDY, Survey_Site, TIME, DATE, SEASON, SEX_AGE, SVL) %>% 
   head() %>% 
   gt() %>% 
-  tab_header(title = "Datos sobre la presencia y tamanõ de *Anolis* en la estación El Verde, PR",
+  tab_header(title = "Datos sobre la presencia y tamaño de *Anolis* en la estación El Verde, PR",
              subtitle = "Datos recolectado por Douglas Reagan" )
   
 
@@ -178,10 +181,10 @@ A %>%
 ```{r}
 
 A %>% 
-  select(STUDY, Survey_Site, TIME, DATE, SEASON, SEX_AGE, SVL) %>% 
+  dplyr::select(STUDY, Survey_Site, TIME, DATE, SEASON, SEX_AGE, SVL) %>% 
   head() %>% 
   gt() %>% 
-  tab_header(title = md("Datos sobre la presencia y tamanõ de *Anolis* en la estación El Verde, PR"),
+  tab_header(title = md("Datos sobre la presencia y tamanõ de *Anolis* en la estación **El Verde**, PR"),
              subtitle = "Datos recolectado por Douglas Reagan" )
   
 
@@ -222,28 +225,44 @@ AA=A %>%
     source_note = "https://luq.lter.network/data/luqmetadata1") %>% 
   tab_footnote(
     footnote = "Podria haber sido confundido con un extraterrestre",
+    locations = cells_body(columns=SEX_AGE, rows = 2)
+  ) %>% 
+    tab_footnote(
+    footnote = "Podria ",
+    locations = cells_body(columns=SEX_AGE, rows = 3)
+  )%>% 
+    tab_footnote(
+    footnote = "yo ",
     locations = cells_body(columns=SEX_AGE, rows = 3)
   )
-  
 AA
 ```
 
 
 
+***
+
 ```{r}
 AA %>% 
   tab_style(
     style = list(cell_fill(color = "Orange")),
     locations = cells_body(columns = STUDY)
+  )%>% 
+  tab_style(
+    style = list(cell_fill(color = "Red")),
+    locations = cells_body(columns = DATE)
   )
+
 ```
 
 
+***
+
 ```{r}
 AA %>% 
   tab_style(
     style = list(cell_fill(color = "Orange")),
-    locations = cells_body(columns = STUDY)
+    locations = cells_body(columns = STUDY, rows = 1)
   ) %>% 
   tab_style(
     style = list(cell_text(color = "Orange")),
@@ -251,6 +270,7 @@ AA %>%
   )
 ```
 
+***
 
 
 ```{r}
@@ -272,7 +292,9 @@ AAA
 ```
 
 
-Formateo condicional
+***
+
+# Formateo condicional
 
 Aqui usamos la condición de **SVL** sea debajo un tamaño o más grande y se le asigna un color correspondiente.
 
@@ -281,14 +303,14 @@ Aqui usamos la condición de **SVL** sea debajo un tamaño o más grande y se le
 
 ```{r}
 
-AAAA= AAA%>% 
+AAAA= AAA |> 
   tab_style(
     style = cell_text(color = "red", weight = "bold"),
     locations = cells_body(
       columns = vars(SVL),
       rows = SVL < 38
     )
-  )%>% 
+  ) |>  
   tab_style(
     style = cell_text(color = "blue", weight = "bold"),
     locations = cells_body(
@@ -302,6 +324,12 @@ AAAA
 ```
 
 
+
+
+
+***
+
+
 ## Cambiar los fonts de una columna especifica o de toda la tabla
 
 Para aceso alos fonts de google vea este enlace
@@ -312,7 +340,7 @@ https://fonts.google.com
 
 
 ```{r}
-AAAA %>% 
+small_table=AAAA %>% 
   tab_style(
     style = cell_text(
       font = google_font("Indie Flower"), 
@@ -325,9 +353,67 @@ AAAA %>%
     style = cell_text(
     font = google_font("Redressed"), size = px(14)),
     locations = cells_body(columns = everything())
-  ) 
+  ) %>% 
+  tab_style(
+    style = cell_text(
+    font = google_font("Redressed"), size = px(14)),
+    locations = tab_head
+  )
 
-gtsave(AAAA, "gt_table_excercise.png")
+
+small_table
+
+gtsave(small_table, "gt_table_excercise.png")
+
+
 ```
 
+
+<br>
+
+***
+
+
+
+***
+
+# flextable package
+
+
+```{r}
+library(flextable)
+```
+
+
+### Flexable website
+
+https://ardata-fr.github.io/flextable-book/index.html
+
+
+```{r}
+library(flextable)
+ft <- flextable(airquality[ sample.int(10),])
+ft <- add_header_row(ft,
+  colwidths = c(4, 2),
+  values = c("Air quality", "Time")
+)
+ft <- theme_vanilla(ft)
+ft <- add_footer_lines(ft, "Daily air quality measurements in New York, May to September 1973.")
+ft <- color(ft, part = "footer", color = "#666666")
+ft <- set_caption(ft, caption = "New York Air Quality Measurements")
+ft
+
+#tf <- tempfile(fileext = ".docx")
+save_as_pptx("ft1" = ft, path = "/Users/raymondtremblay/Dropbox/GitHub_Dropbox_Drive/GitHub/Visualizacion_Datos/ft.pptx")
+
+save_as_docx("ft1" = ft, path = "/Users/raymondtremblay/Dropbox/GitHub_Dropbox_Drive/GitHub/Visualizacion_Datos/ft.docx")
+
+```
+
+```{r}
+#install.packages("openxlsx", dependencies = TRUE)
+library(openxlsx)
+
+#write.xlsx(ft, "writeList2.xlsx", colWidths = 20)
+```
 

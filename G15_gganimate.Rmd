@@ -59,7 +59,7 @@ library(animation)
 library(gt)
 library(datasets)
 
-
+#install.packages("rgl", dependencies = TRUE)
 ```
 
 El paquete **gganimate** extiende el paquete de **ggplot2** y implementa unas funciones para animar gráficos que típicamente estuviese estática. El paquete fue desarrollado por Pedersen y Robinson (2017).Siempre puede ir al siguiente enlace para tener más información y otros ejemplos.  <https://gganimate.com/articles/gganimate.html>.  Note que antes de utilizar este modulo se asume que se conozca la estructura de la creación de gráficos con ggplot2.    
@@ -103,13 +103,13 @@ La variable **frame_time** añade arriba una leyenda del tiempo de transición. 
 #head(gapminder)
 GDP_time=p + transition_time(year) +
  labs(title = "Año: {frame_time}")
-#GDP_time
+GDP_time
 
 ```
 
 ```{r}
 animate(GDP_time, height = 300, width =300)
-anim_save("GDP_time.gif")
+#anim_save("GDP_time.gif")
 ```
 
 
@@ -133,7 +133,7 @@ En este caso lo que observamos es que la leyenda en en **x** varia con los años
 ```{r}
 p + transition_time(year) +
   labs(title = "Año: {frame_time}") +
-  view_follow(fixed_y = TRUE)
+  view_follow(fixed_x = TRUE)
 ```
 
 
@@ -153,7 +153,7 @@ The length of the wake is not given in absolute frames as that would make the an
 ```{r}
 p + transition_time(year) +
   labs(title = "Year: {frame_time}") +
-  shadow_wake(wake_length = 0.3, alpha = FALSE)
+  shadow_wake(wake_length = 0.8, alpha = FALSE)
 ```
 
 
@@ -168,6 +168,8 @@ Con la función **shadow_mark** se puede ver los datos originales. Tanto los dat
 p + transition_time(year) +
   labs(title = "Year: {frame_time}") +
   shadow_mark(alpha = 0.3, size = 0.5)
+
+animation=final_animation
 ```
 
 
@@ -189,8 +191,9 @@ Producir un gráfico con **gganimate** sobre el cambio de casos de COVID-19 en t
 
 ```{r}
 library(readr)
-owid_covid_data <- read_csv("Data_files_csv/owid-covid-data.csv")
-tail(owid_covid_data, n=20)
+library(readr)
+owid_covid_data <- read_csv("COVID_DATA/owid-covid-data_2022.csv")
+owid_covid_data
 
 names(owid_covid_data)
 ```
@@ -198,16 +201,19 @@ names(owid_covid_data)
 ```{r}
 library(tidyverse)
 owid_covid_data2= owid_covid_data %>%
-  select(date, location, total_deaths, total_cases_per_million, continent) %>%  # Seleccionar aquí sus variables del data frame
+  select(date, location, total_deaths, total_cases_per_million, continent, total_deaths_per_million, population) %>%  # Seleccionar aquí sus variables del data frame
   drop_na() # remover los "NA". Esto remueve toda la fila si una de las variables tiene un "NA"
 head(owid_covid_data2)  # Visualizar su nuevo data frame
+
+
+unique(owid_covid_data2$continent)
 ```
 
 
 ```{r, eval=FALSE, echo=FALSE}
 library(ggplot2)
 p3 <- ggplot(owid_covid_data2, 
-  aes(y = total_deaths, x=total_cases_per_million,colour = location)) +
+  aes(y = total_deaths_per_million, x=total_cases_per_million,colour = location, size=population)) +
   geom_point(show.legend = FALSE, alpha = 0.8)
 p3
 ```
@@ -236,7 +242,6 @@ head(airquality)
 p <- ggplot(airquality,
   aes(Day, Temp, group = Month, color = factor(Month))) +
   geom_line() +
-  scale_color_viridis_d() +
   labs(x = "Day of Month", y = "Temperature") +
   theme(legend.position = "top")
 p
@@ -248,6 +253,8 @@ Ahora animamos el gráfico en el eje de **x** con la variable de **Day**, añadi
 
 ```{r}
 p + transition_reveal(Day)
+final=p + transition_reveal(Day)
+anim_save("GDP_time4.gif")
 ```
 
 
@@ -261,6 +268,7 @@ Se puede añadir un punto al principio de las lineas
 cambio_m=p + 
   geom_point() +
   transition_reveal(Day)
+cambio_m
 ```
 
 ```{r}
@@ -308,7 +316,7 @@ Ahora creamos un gráfico estático de los datos con **geom_col**.
 ```{r}
 p <- ggplot(temp.promedio, aes(Day, Temp2, fill=Day)) +
   geom_col() +
-  scale_fill_distiller(palette = "Reds", direction = 1) +
+  scale_fill_distiller(palette = "Blues", direction = 1) +
   theme_minimal() +
   theme(
     panel.grid = element_blank(),
