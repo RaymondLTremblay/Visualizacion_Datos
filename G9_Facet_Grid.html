@@ -13,7 +13,7 @@
 
 <title>Facet_Grid</title>
 
-<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
@@ -126,13 +126,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   for (var i = 0; i < sheets.length; i++) {
     if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
     try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
+    var j = 0;
+    while (j < rules.length) {
       var rule = rules[j];
       // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -228,11 +235,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -261,8 +272,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -270,16 +281,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -555,19 +559,31 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2022-03-28&quot;</code></pre>
+<pre><code>## [1] &quot;2022-12-12&quot;</code></pre>
 <p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" /></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggversa)</span></code></pre></div>
 <hr />
 <div id="gráficos-en-cuadrícula-con-facet_grid" class="section level1">
 <h1>Gráficos en cuadrícula con <strong>facet_grid</strong></h1>
-<p>Esta opción forma una matriz de gráficos por fila y columna por una variable seleccionada. Es una opción que facilita ver los patrones cuando hay dos variables discretas.</p>
-<p><strong>Facet grid</strong> es un opción de gran ventaja de usar ggplot2: Organizando los gráficos en una cuadrícula. Eso resulta ser muy útil para la producción de un gráfico por cada par de variable discreta; o sea, cada grupo producirá un gráfico de acuerdo a su categoría. Los próximos ejemplos se basan en la base de datos del lagartijo <em>Anolis</em>.</p>
+<p>Esta opción forma una matriz de gráficos por fila y columna por una
+variable seleccionada. Es una opción que facilita ver los patrones
+cuando hay dos variables discretas.</p>
+<p><strong>Facet grid</strong> es un opción de gran ventaja de usar
+ggplot2: Organizando los gráficos en una cuadrícula. Eso resulta ser muy
+útil para la producción de un gráfico por cada par de variable discreta;
+o sea, cada grupo producirá un gráfico de acuerdo a su categoría. Los
+próximos ejemplos se basan en la base de datos del lagartijo
+<em>Anolis</em>.</p>
 <hr />
 <div id="facet_grid-con-cuadrículas-paradas" class="section level2">
 <h2><strong>Facet_grid</strong> con cuadrículas paradas</h2>
-<p>En la Figura hacemos una demostración utilizando la altura del sitio de muestreo, pero con las categorías se generó una al lado de las otras en una serie. Note la tilde, <strong>~</strong>, antes del nombre de la variable SEX_AGE. Si usamos solamente una variable (como en este caso), la presentación de los gráficos cambiará dependiendo si la tilde está antes o después de la variable, tal demostrado a más adelante.</p>
+<p>En la Figura hacemos una demostración utilizando la altura del sitio
+de muestreo, pero con las categorías se generó una al lado de las otras
+en una serie. Note la tilde, <strong>~</strong>, antes del nombre de la
+variable SEX_AGE. Si usamos solamente una variable (como en este caso),
+la presentación de los gráficos cambiará dependiendo si la tilde está
+antes o después de la variable, tal demostrado a más adelante.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>rr<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SVL, HEIGHT))</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>rr<span class="sc">+</span><span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color=</span>Survey_Site))<span class="sc">+</span></span>
@@ -581,7 +597,9 @@ div.tocify {
 </div>
 <div id="facet_grid-con-cuadrículas-acostadas" class="section level2">
 <h2><strong>Facet_grid</strong> con cuadrículas acostadas</h2>
-<p>Ahora ponemos la variable antes de la <sub><strong>, pero note que después de la</strong></sub> hay un punot <strong>.</strong>. Notemos el efecto en la Figura a continuación.</p>
+<p>Ahora ponemos la variable antes de la
+<sub><strong>, pero note que después de la</strong></sub> hay un punot
+<strong>.</strong>. Notemos el efecto en la Figura a continuación.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>rr<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SVL, HEIGHT))</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>rr<span class="sc">+</span><span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color=</span>Survey_Site), <span class="at">size=</span>.<span class="dv">5</span>)<span class="sc">+</span> <span class="co"># usar &quot;size&quot; para cambiar el tamaño de los puntos</span></span>
@@ -593,9 +611,15 @@ div.tocify {
 <p><img src="G9_Facet_Grid_files/figure-html/facetgrid1-1.png" width="672" /></p>
 <hr />
 </div>
-<div id="facet_grid-con-cuadrículas-representando-dos-variables" class="section level2">
-<h2><strong>Facet_grid</strong> con cuadrículas representando dos variables</h2>
-<p>Ahora veremos en la enorme ventaja de <strong>facet_grid</strong> al representar dos variables discretas simultáneamente, la edad_sexo de los <em>Anolis</em> y el periodo del año (seco o lluviosos) del muestreo. Note que el parámetro ahora es SEX_AGE<span class="math inline">\(\sim\)</span>SEASON.</p>
+<div id="facet_grid-con-cuadrículas-representando-dos-variables"
+class="section level2">
+<h2><strong>Facet_grid</strong> con cuadrículas representando dos
+variables</h2>
+<p>Ahora veremos en la enorme ventaja de <strong>facet_grid</strong> al
+representar dos variables discretas simultáneamente, la edad_sexo de los
+<em>Anolis</em> y el periodo del año (seco o lluviosos) del muestreo.
+Note que el parámetro ahora es SEX_AGE<span
+class="math inline">\(\sim\)</span>SEASON.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>rr<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SVL, HEIGHT))</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>rr<span class="sc">+</span><span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color=</span>Survey_Site))<span class="sc">+</span></span>
@@ -609,7 +633,12 @@ div.tocify {
 </div>
 <div id="escalas-libres-en-los-ejes" class="section level2">
 <h2>Escalas libres en los ejes</h2>
-<p>Ahora dejemos que en la escala en el eje de X sea variable. La escala del periodo seco va de 20 a 50 cm y del periodo lluvioso va de 0 a 50 cm. Con esta representación se puede apreciar mejor que los nuevos especímenes nacen en mayores cantidades en el periodo lluvioso. Note que el parámetro ahora es <strong>SEX_AGE~SEASON</strong> y <strong>scales=free_x</strong>.</p>
+<p>Ahora dejemos que en la escala en el eje de X sea variable. La escala
+del periodo seco va de 20 a 50 cm y del periodo lluvioso va de 0 a 50
+cm. Con esta representación se puede apreciar mejor que los nuevos
+especímenes nacen en mayores cantidades en el periodo lluvioso. Note que
+el parámetro ahora es <strong>SEX_AGE~SEASON</strong> y
+<strong>scales=free_x</strong>.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>rr<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SVL, HEIGHT))</span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>rr<span class="sc">+</span><span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color=</span>Survey_Site))<span class="sc">+</span></span>
@@ -620,9 +649,16 @@ div.tocify {
 <p><img src="G9_Facet_Grid_files/figure-html/facetgrid3-1.png" width="672" style="display: block; margin: auto;" /></p>
 <hr />
 </div>
-<div id="cambio-de-las-posiciones-de-las-descripciones" class="section level2">
+<div id="cambio-de-las-posiciones-de-las-descripciones"
+class="section level2">
 <h2>Cambio de las posiciones de las descripciones</h2>
-<p>En el próximo gráfico veremos cómo cambiar el lugar donde están colocadas las descripciones de las categorías (sexo y estación del año) usando <strong>switch</strong>. Si se usa <strong>switch</strong> en el eje de <strong>X</strong>, la descripción de ese eje, que antes estaba arriba, ahora pasará abajo. Si se usa en el eje de <strong>Y</strong>, la descripción de la derecha pasa a la izquierda. Si se usa el parámetro <strong>both</strong> ambas descripciones cambian a su lado opuesto.</p>
+<p>En el próximo gráfico veremos cómo cambiar el lugar donde están
+colocadas las descripciones de las categorías (sexo y estación del año)
+usando <strong>switch</strong>. Si se usa <strong>switch</strong> en el
+eje de <strong>X</strong>, la descripción de ese eje, que antes estaba
+arriba, ahora pasará abajo. Si se usa en el eje de <strong>Y</strong>,
+la descripción de la derecha pasa a la izquierda. Si se usa el parámetro
+<strong>both</strong> ambas descripciones cambian a su lado opuesto.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>rr<span class="sc">+</span><span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color=</span>Survey_Site))<span class="sc">+</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(SEX_AGE<span class="sc">~</span>SEASON, <span class="at">switch =</span> <span class="st">&quot;y&quot;</span>)<span class="sc">+</span></span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Altitud, m&quot;</span>)<span class="sc">+</span></span>
@@ -632,9 +668,19 @@ div.tocify {
 <p><img src="G9_Facet_Grid_files/figure-html/facetgrid4-1.png" width="672" /></p>
 <hr />
 </div>
-<div id="facet_grid-con-las-escalas-de-los-ejes-variable-en-x-y-y" class="section level2">
+<div id="facet_grid-con-las-escalas-de-los-ejes-variable-en-x-y-y"
+class="section level2">
 <h2>Facet_grid con las escalas de los ejes variable en X y Y</h2>
-<p>La opción de <strong>space</strong> con <strong>facet_grid</strong>, da la oportunidad de modificar el rango de los ejes de <strong>Y</strong> y <strong>X</strong>. Por conveniencia, algunos de los rangos de los ejes de las figuras anteriores son iguales. Pero si uno quisiera que cada figura tuviera su propio rango, uno usa <strong>space=free_y</strong> o <strong>free_x</strong> para que sean proporcionales a la escala de los datos en uno o el otro eje. Sin embargo, a veces se quiere que ambos ejes sean proporcionales al rango de los datos y en tal caso se usa <strong>free</strong> solamente como se demuestra en la Figura.</p>
+<p>La opción de <strong>space</strong> con <strong>facet_grid</strong>,
+da la oportunidad de modificar el rango de los ejes de
+<strong>Y</strong> y <strong>X</strong>. Por conveniencia, algunos de
+los rangos de los ejes de las figuras anteriores son iguales. Pero si
+uno quisiera que cada figura tuviera su propio rango, uno usa
+<strong>space=free_y</strong> o <strong>free_x</strong> para que sean
+proporcionales a la escala de los datos en uno o el otro eje. Sin
+embargo, a veces se quiere que ambos ejes sean proporcionales al rango
+de los datos y en tal caso se usa <strong>free</strong> solamente como
+se demuestra en la Figura.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>rr<span class="sc">+</span><span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color=</span>Survey_Site))<span class="sc">+</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span>SEX_AGE, <span class="at">scales=</span><span class="st">&quot;free&quot;</span>)<span class="sc">+</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Altitud, m&quot;</span>)<span class="sc">+</span></span>
@@ -648,12 +694,16 @@ div.tocify {
 <p><img src="G9_Facet_Grid_files/figure-html/facetgrid5-1.png" width="672" /></p>
 <hr />
 <ol style="list-style-type: decimal">
-<li><p>Usando los datos de <strong>diamonds</strong> en el paquete <em>ggplot2</em></p>
+<li><p>Usando los datos de <strong>diamonds</strong> en el paquete
+<em>ggplot2</em></p>
 <ul>
-<li>evalúa la relación entre el precio de los diamantes y los quilates (carat) con geom_point.</li>
-<li>haga un <strong>facet_grid</strong> con la calidad del corte del diamantes (cut) y el color del diamante (color).</li>
+<li>evalúa la relación entre el precio de los diamantes y los quilates
+(carat) con geom_point.</li>
+<li>haga un <strong>facet_grid</strong> con la calidad del corte del
+diamantes (cut) y el color del diamante (color).</li>
 <li>No aplique la función <strong>scales=“free”</strong>.</li>
-<li>cambiar los nombres de los ejes a “Quilates” y ” Precio del los diamantes”.</li>
+<li>cambiar los nombres de los ejes a “Quilates” y ” Precio del los
+diamantes”.</li>
 <li>asegurar que la leyenya de precio se pueden leer.</li>
 <li>Someter su gráfico en Edmodo en formato .png.</li>
 </ul></li>
@@ -661,7 +711,12 @@ div.tocify {
 <hr />
 <p><img src="Graficos/Lepanthes_rubripetala.png" width="45%" style="float:right; padding:10px" /></p>
 <ol start="2" style="list-style-type: decimal">
-<li>Ejercicio para entregar. Valor 10 puntos. Usando los datos de la orquídea <em>Lepanthes rubripetala</em>, una especies endémica de Puerto Rico. Selecciona la variable números de flores en una planta (Num_flowers), El tamaño de las flores (Flower_size) y haga un “box plot” para cada población y en “facet_grid” con la población (Population). Vea aquí el gráfico, que debería tener.
+<li>Ejercicio para entregar. Valor 10 puntos. Usando los datos de la
+orquídea <em>Lepanthes rubripetala</em>, una especies endémica de Puerto
+Rico. Selecciona la variable números de flores en una planta
+(Num_flowers), El tamaño de las flores (Flower_size) y haga un “box
+plot” para cada población y en “facet_grid” con la población
+(Population). Vea aquí el gráfico, que debería tener.
 <ul>
 <li>Cambie los colores de los puntos de las diferentes poblaciones.</li>
 <li>Añade la información en los ejes en español.</li>
@@ -675,7 +730,8 @@ div.tocify {
 <li>Someter el script y el gráfico en un documento .html en Edmodo.</li>
 </ul></li>
 </ol>
-<p>Esa orquídea diminuta esta limitada a Puerto Rico (endémica) y se encuentra mayormente el EL Yunque.</p>
+<p>Esa orquídea diminuta esta limitada a Puerto Rico (endémica) y se
+encuentra mayormente el EL Yunque.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>Lep_rupPetal_All_Data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;Data_files_csv/Lep_rupPetal_All_Data.csv&quot;</span>)</span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
@@ -690,11 +746,21 @@ div.tocify {
 <li><p>ggplot(el archivo de datos, aes(la variable continua))</p>
 <ul>
 <li><p>facet_grid(a~b, scales, space, switch, drop)</p></li>
-<li><p>facet: a~b para presentar una serie de gráficos tabulados en X y Y</p></li>
-<li><p>scales: usar free si se quiere que las escalas sean determinadas por los gráficos individualmente; si no, todas los gráficos tendrán la misma escala.</p></li>
-<li><p>space: la producción de los gráficos se hará al mismo tamaño; pero si usa free_y, la altura será proporcional a la escala de Y; y si es free_x, el ancho será proporcional a la escala de X; si usa free, entones ambos ejes variarán individualmente; note que este parámetro no tiene efecto si los datos no varían en los diferentes grupos.</p></li>
-<li><p>switch: ubica la descripción abajo cuando es X, y a la izquierda cuando se usa Y, o cambia ambos al usar usar both.</p></li>
-<li><p>drop: añadir drop=FALSE para que muestre todas las variables aunque no tengan información; solamente funciona si toda la fila o columna de datos está vacía.</p></li>
+<li><p>facet: a~b para presentar una serie de gráficos tabulados en X y
+Y</p></li>
+<li><p>scales: usar free si se quiere que las escalas sean determinadas
+por los gráficos individualmente; si no, todas los gráficos tendrán la
+misma escala.</p></li>
+<li><p>space: la producción de los gráficos se hará al mismo tamaño;
+pero si usa free_y, la altura será proporcional a la escala de Y; y si
+es free_x, el ancho será proporcional a la escala de X; si usa free,
+entones ambos ejes variarán individualmente; note que este parámetro no
+tiene efecto si los datos no varían en los diferentes grupos.</p></li>
+<li><p>switch: ubica la descripción abajo cuando es X, y a la izquierda
+cuando se usa Y, o cambia ambos al usar usar both.</p></li>
+<li><p>drop: añadir drop=FALSE para que muestre todas las variables
+aunque no tengan información; solamente funciona si toda la fila o
+columna de datos está vacía.</p></li>
 </ul></li>
 </ul>
 </div>

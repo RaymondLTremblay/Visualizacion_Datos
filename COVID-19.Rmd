@@ -144,14 +144,19 @@ El archivo tiene la siguiente información
 ```{r}
 
 library(readr)
+library(janitor)
 us_counties <- read_csv("COVID_DATA/us_counties.csv")
-unique(us_counties$state)
-df=us_counties%>%
-  filter(state=="Puerto Rico") %>% 
-  tail( n=6)%>%
-  gt()%>%
+us_counties=clean_names(us_counties)
+names(us_counties)
+unique(us_counties$us_state)
+df=us_counties %>%
+  dplyr::filter(us_state == "Louisiana") %>% 
+  tail(n=6)
+
+df |> 
+  gt() %>%
    tab_options(table.font.size = 10)
-df
+
 ```
 
 ***

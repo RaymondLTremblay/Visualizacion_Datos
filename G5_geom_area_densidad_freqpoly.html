@@ -13,7 +13,7 @@
 
 <title>Geom_area_densidad_freqpoly</title>
 
-<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
@@ -126,13 +126,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   for (var i = 0; i < sheets.length; i++) {
     if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
     try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
+    var j = 0;
+    while (j < rules.length) {
       var rule = rules[j];
       // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -228,11 +235,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -261,8 +272,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -270,16 +281,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -555,10 +559,14 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2022-03-28&quot;</code></pre>
+<pre><code>## [1] &quot;2022-12-12&quot;</code></pre>
 <p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" /></p>
-<div id="gráficos-de-área-densidad-y-histograma-de-linea-con-geom_dotplot-geom_density-y-geom-freqpoly" class="section level1">
-<h1>Gráficos de área, densidad y histograma de linea con <strong>geom_dotplot</strong>, <strong>geom_density</strong> y <strong>geom-freqpoly</strong></h1>
+<div
+id="gráficos-de-área-densidad-y-histograma-de-linea-con-geom_dotplot-geom_density-y-geom-freqpoly"
+class="section level1">
+<h1>Gráficos de área, densidad y histograma de linea con
+<strong>geom_dotplot</strong>, <strong>geom_density</strong> y
+<strong>geom-freqpoly</strong></h1>
 <hr />
 <p>Librerías necesarias para producir los gráficos que siguen</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggversa) <span class="co"># paquete con los datos</span></span>
@@ -571,7 +579,14 @@ div.tocify {
 <h1>Gráfico de área con <strong>geom_area</strong></h1>
 <div id="sección-gráfico-de-área" class="section level2">
 <h2>Sección Gráfico De Área</h2>
-<p>El gráfico de área es análogo a un histograma o a un gráfico de barras. En la figura a continuación se observa cómo la cantidad en <strong>X</strong> cambia en frecuencia con respecto a <strong>Y</strong> a lo largo del rango de la variable <strong>X</strong>. Se observa a continuación que los datos no están agrupados en barras como cuando se usa <strong>geom_histogram</strong> pero representados como un área continua. Note que en contraste a un histograma, los cambios de frecuencia son suavizados y no discretos.</p>
+<p>El gráfico de área es análogo a un histograma o a un gráfico de
+barras. En la figura a continuación se observa cómo la cantidad en
+<strong>X</strong> cambia en frecuencia con respecto a
+<strong>Y</strong> a lo largo del rango de la variable
+<strong>X</strong>. Se observa a continuación que los datos no están
+agrupados en barras como cuando se usa <strong>geom_histogram</strong>
+pero representados como un área continua. Note que en contraste a un
+histograma, los cambios de frecuencia son suavizados y no discretos.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>DW<span class="ot">=</span>dipodium</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>DW<span class="ot">=</span><span class="fu">clean_names</span>(DW)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(DW, <span class="fu">aes</span>(distance))</span>
@@ -580,7 +595,11 @@ div.tocify {
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Distancia&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G5_geom_area_densidad_freqpoly_files/figure-html/dipodium-area-1.png" width="672" style="display: block; margin: auto;" /></p>
-<p>En este siguiente gráfico se cambia el color de linea que sigue el contorno del área. Para hacer este cambio se puede identificar el tipo de linea con <strong>linetype</strong>, el color con <strong>color</strong>, el grosor de la linea con <strong>size</strong> y la intensidad del color con <strong>alpha</strong>.</p>
+<p>En este siguiente gráfico se cambia el color de linea que sigue el
+contorno del área. Para hacer este cambio se puede identificar el tipo
+de linea con <strong>linetype</strong>, el color con
+<strong>color</strong>, el grosor de la linea con <strong>size</strong>
+y la intensidad del color con <strong>alpha</strong>.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(DW, <span class="fu">aes</span>(distance))</span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_area</span>(<span class="at">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="at">fill=</span><span class="st">&quot;steelblue1&quot;</span>,</span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">linetype=</span><span class="dv">5</span>, <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">size=</span><span class="fl">1.0</span>, <span class="at">alpha=</span><span class="fl">0.1</span>)<span class="sc">+</span></span>
@@ -592,8 +611,14 @@ div.tocify {
 </div>
 <div id="los-tipos-de-linetype" class="section level1">
 <h1>Los tipos de <strong>linetype</strong></h1>
-<p>Vea las alternativas de “linetype” en este enlace <a href="http://sape.inf.usi.ch/quick-reference/ggplot2/linetype">linetype</a>. Algunas de estas lineas se pueden llamar usando un nombre “blank”, “solid”, “dashed”, “dotted”, “dotdash”, “longdash”, “twodash”, o numeración “1F”, “F1”, “4C88C488”, “12345678.</p>
-<p>Ahora al gráfico siguiente, se le cambia el color de la línea a negro a la vez que se le cambia el estilo de la línea con <em>linetype</em> y el grosor de la misma con <em>size</em>.</p>
+<p>Vea las alternativas de “linetype” en este enlace <a
+href="http://sape.inf.usi.ch/quick-reference/ggplot2/linetype">linetype</a>.
+Algunas de estas lineas se pueden llamar usando un nombre “blank”,
+“solid”, “dashed”, “dotted”, “dotdash”, “longdash”, “twodash”, o
+numeración “1F”, “F1”, “4C88C488”, “12345678.</p>
+<p>Ahora al gráfico siguiente, se le cambia el color de la línea a negro
+a la vez que se le cambia el estilo de la línea con <em>linetype</em> y
+el grosor de la misma con <em>size</em>.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(DW, <span class="fu">aes</span>(distance))</span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_area</span>(<span class="at">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="at">fill=</span><span class="st">&quot;steelblue1&quot;</span>,</span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>            <span class="at">linetype=</span><span class="st">&quot;F1&quot;</span>, <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">size=</span>.<span class="dv">5</span>, <span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
@@ -603,7 +628,9 @@ div.tocify {
 <hr />
 <div id="geom_area-con-múltiples-grupos" class="section level2">
 <h2>geom_area con múltiples grupos</h2>
-<p>Finalmente, en el siguiente gráfico, se muestran los datos de la frecuencia de camas en hospitales por cada 1000 habitantes en diferentes años.</p>
+<p>Finalmente, en el siguiente gráfico, se muestran los datos de la
+frecuencia de camas en hospitales por cada 1000 habitantes en diferentes
+años.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(Camas_Hospital, <span class="at">n=</span><span class="dv">6</span>)</span></code></pre></div>
 <pre><code>##              Pais Year Poblacion  Camas
 ## 129        Turkey 2006  68704721 2.7000
@@ -634,7 +661,17 @@ div.tocify {
 </div>
 <div id="la-función-densidad-aesy..density.." class="section level2">
 <h2>La función densidad <strong>aes(y=..density..)</strong></h2>
-<p>Uno puede utilizar la opción <strong>stat</strong> a la vez que identifica el eje de <strong>Y</strong> para visualizar la densidad y no la frecuencia de los datos con la siguiente modificación <strong>aes(y=..density..)</strong>. Esto modifica la visualizar del gráfico a densidad en los datos en vez de mostrar el conteo/frecuencia para cada grupo. Si uno compara las dos gráficas anteriores a estas nuevas gráficas uno observa que la densidad de camas en hospitales por 100,000 cambio con los años habitantes, hubo un aumento en densidad (proporcionalmente más camas en 2006 por habitantes). Nota que no hay un pico cerca de uno en 1996, pero en 2006 la distribución esta más dispersado entre los valores y no concentrado cerca de uno.</p>
+<p>Uno puede utilizar la opción <strong>stat</strong> a la vez que
+identifica el eje de <strong>Y</strong> para visualizar la densidad y no
+la frecuencia de los datos con la siguiente modificación
+<strong>aes(y=..density..)</strong>. Esto modifica la visualizar del
+gráfico a densidad en los datos en vez de mostrar el conteo/frecuencia
+para cada grupo. Si uno compara las dos gráficas anteriores a estas
+nuevas gráficas uno observa que la densidad de camas en hospitales por
+100,000 cambio con los años habitantes, hubo un aumento en densidad
+(proporcionalmente más camas en 2006 por habitantes). Nota que no hay un
+pico cerca de uno en 1996, pero en 2006 la distribución esta más
+dispersado entre los valores y no concentrado cerca de uno.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(Camas_Hospital, <span class="fu">aes</span>(Camas, <span class="at">fill=</span><span class="fu">factor</span>(Year)))</span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_area</span>(<span class="fu">aes</span>(<span class="at">y=</span>..density..),<span class="at">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Número de camas por cada 1000 habitantes&quot;</span>)<span class="sc">+</span></span>
@@ -646,25 +683,44 @@ div.tocify {
 <div id="opciones-y-parametros-de-geom_area" class="section level2">
 <h2>Opciones y Parametros de <strong>geom_area</strong>:</h2>
 <ul>
-<li><p>ggplot (el archivo de datos, aes(la variable continua)) +geom_area(stat= bin, x, y, alpha, color, fill, linetype, size)</p>
+<li><p>ggplot (el archivo de datos, aes(la variable continua))
++geom_area(stat= bin, x, y, alpha, color, fill, linetype, size)</p>
 <ul>
 <li>alpha: la intensidad del color</li>
 <li>color: el color de la línea alrededor del área</li>
 <li>fill: el color del área</li>
 <li>linetype: representa el estilo de línea</li>
 <li>size: representa el grosor de la línea</li>
-<li>stat: el método predeterminado es {identity}, que representa los datos, o la transformación estadística</li>
+<li>stat: el método predeterminado es {identity}, que representa los
+datos, o la transformación estadística</li>
 </ul></li>
 </ul>
 <hr />
 </div>
 <div id="gráfico-de-densidad-con-geom_density" class="section level2">
 <h2>Gráfico de densidad con <strong>geom_density</strong></h2>
-<p>Un gráfico de densidad, también conocido como una función de probabilidad de densidad, <strong>pdf</strong> o <strong>probability density function</strong> en inglés, se utiliza con variables que contienen datos continuos. La función de densidad es continua en el rango de los valores, y la suma de todas la probabilidades es igual a uno. Vimos anteriormente que se puede visualizar la densidad también con <strong>geom_area</strong> y <strong>geom_histogram</strong>. La función <strong>geom_density</strong> facilita la producción del gráfico y amplía las alternativas como se explica en breve.</p>
+<p>Un gráfico de densidad, también conocido como una función de
+probabilidad de densidad, <strong>pdf</strong> o <strong>probability
+density function</strong> en inglés, se utiliza con variables que
+contienen datos continuos. La función de densidad es continua en el
+rango de los valores, y la suma de todas la probabilidades es igual a
+uno. Vimos anteriormente que se puede visualizar la densidad también con
+<strong>geom_area</strong> y <strong>geom_histogram</strong>. La función
+<strong>geom_density</strong> facilita la producción del gráfico y
+amplía las alternativas como se explica en breve.</p>
 <div id="qué-es-un-kernel" class="section level3">
 <h3>¿Qué es un kernel?</h3>
-<p>Estimar la densidad de los datos en un gráfico requiere seleccionar un parámetro, un <strong>kernel</strong>, para suavizar la distribución. El más utilizado es el <strong>gaussian</strong>, que representa la distribución normal o conocida comúnmente como distribución de forma de campana. Si no se especifica cuál <strong>kernel</strong> utilizar, la distribución normal es la predeterminada; por ejemplo, cuando se especifica <strong>geom_density()</strong> sin ninguna otra opción.<br />
-Otra alternativa es usar <strong>geom_density(kernel = c(kernel={gaussian})</strong>, u otras alternativas. Otros parámetros para <strong>kernel</strong> son:</p>
+<p>Estimar la densidad de los datos en un gráfico requiere seleccionar
+un parámetro, un <strong>kernel</strong>, para suavizar la distribución.
+El más utilizado es el <strong>gaussian</strong>, que representa la
+distribución normal o conocida comúnmente como distribución de forma de
+campana. Si no se especifica cuál <strong>kernel</strong> utilizar, la
+distribución normal es la predeterminada; por ejemplo, cuando se
+especifica <strong>geom_density()</strong> sin ninguna otra
+opción.<br />
+Otra alternativa es usar <strong>geom_density(kernel =
+c(kernel={gaussian})</strong>, u otras alternativas. Otros parámetros
+para <strong>kernel</strong> son:</p>
 <ul>
 <li>rectangular,</li>
 <li>triangular,</li>
@@ -674,8 +730,18 @@ Otra alternativa es usar <strong>geom_density(kernel = c(kernel={gaussian})</str
 <li>optcosine,</li>
 <li>gaussian</li>
 </ul>
-<p>EL <strong>kernel</strong> es un tipo especial de función de probabilidad de densidad que tiene ciertas propiedades específicas, ya sea que esta no sea negativa y con valores reales de manera tal que el gráfico salga simétrico, y que la suma de la integral sea igual a uno. Se añadió también <em>geom_density</em> para comparar el resultado de las dos funciones.</p>
-<p>Note que en el gráfico siguiente se usó el parámetro <em>alpha=0.4</em>. Este modifica la transparencia del color azul del parámetro fill=blue. La intensidad de <strong>alpha=0.4</strong> puede variar de 0 a 1, tal como se ha explicado anteriormente. En el ejemplo a continuación se utilizan los datos de la <em>Dipodium rosea</em> otra vez.</p>
+<p>EL <strong>kernel</strong> es un tipo especial de función de
+probabilidad de densidad que tiene ciertas propiedades específicas, ya
+sea que esta no sea negativa y con valores reales de manera tal que el
+gráfico salga simétrico, y que la suma de la integral sea igual a uno.
+Se añadió también <em>geom_density</em> para comparar el resultado de
+las dos funciones.</p>
+<p>Note que en el gráfico siguiente se usó el parámetro
+<em>alpha=0.4</em>. Este modifica la transparencia del color azul del
+parámetro fill=blue. La intensidad de <strong>alpha=0.4</strong> puede
+variar de 0 a 1, tal como se ha explicado anteriormente. En el ejemplo a
+continuación se utilizan los datos de la <em>Dipodium rosea</em> otra
+vez.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(DW, <span class="fu">aes</span>(distance))</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_area</span>(<span class="fu">aes</span>(<span class="at">y=</span>..density..),<span class="at">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">kernel =</span> <span class="fu">c</span>(<span class="at">kernel=</span><span class="st">&quot;gaussian&quot;</span>),</span>
@@ -690,16 +756,16 @@ Otra alternativa es usar <strong>geom_density(kernel = c(kernel={gaussian})</str
 <pre><code>## # A tibble: 1,000 × 1
 ##        x
 ##    &lt;dbl&gt;
-##  1  9.71
-##  2  2.32
-##  3 17.1 
-##  4  2.27
-##  5 14.2 
-##  6  7.95
-##  7  5.04
-##  8 13.0 
-##  9  8.69
-## 10 18.1 
+##  1 11.1 
+##  2  9.43
+##  3  4.51
+##  4  8.97
+##  5  8.18
+##  6  7.40
+##  7 13.5 
+##  8 14.5 
+##  9 14.5 
+## 10  8.54
 ## # … with 990 more rows</code></pre>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(x, <span class="fu">aes</span>(x))</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_area</span>(<span class="fu">aes</span>(<span class="at">y=</span>..density..),<span class="at">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
@@ -714,7 +780,16 @@ Otra alternativa es usar <strong>geom_density(kernel = c(kernel={gaussian})</str
 </div>
 <div id="geom_density-y-datos-simulados" class="section level1">
 <h1>geom_density y datos simulados</h1>
-<p>La función de <strong>geom_density</strong> se puede entender mejor si se evalúa con datos simulados. Vamos a continuación a simular datos con diferentes tamaños de muestra para visualizar las densidades. En la simulación a continuación se crean 4 data frame con 2000, 500, 50 y 10 datos respectivamente con la función <strong>rnorm</strong>. Naturalmente, lo que se observa es que si los datos provienen de una distribución normal, entre más datos se incluyan, la distribución correspondiente se acerca más a como debe lucir una distribución normal. Pero, lo contrario es que con pocos datos, es probable que la densidad no se asemeje a la distribución teórica (normal).</p>
+<p>La función de <strong>geom_density</strong> se puede entender mejor
+si se evalúa con datos simulados. Vamos a continuación a simular datos
+con diferentes tamaños de muestra para visualizar las densidades. En la
+simulación a continuación se crean 4 data frame con 2000, 500, 50 y 10
+datos respectivamente con la función <strong>rnorm</strong>.
+Naturalmente, lo que se observa es que si los datos provienen de una
+distribución normal, entre más datos se incluyan, la distribución
+correspondiente se acerca más a como debe lucir una distribución normal.
+Pero, lo contrario es que con pocos datos, es probable que la densidad
+no se asemeje a la distribución teórica (normal).</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">20000</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">as.data.frame</span>(a)</span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(a, <span class="fu">aes</span>(a))<span class="sc">+</span></span>
@@ -757,29 +832,43 @@ Otra alternativa es usar <strong>geom_density(kernel = c(kernel={gaussian})</str
 <ul>
 <li><p>ggplot(el archivo de datos, aes(la variable continua))</p>
 <ul>
-<li>geom_density(kernel= {…}), x, y, alpha, color, fill, linetype, size, weight
+<li>geom_density(kernel= {…}), x, y, alpha, color, fill, linetype, size,
+weight
 <ul>
-<li><strong>…</strong> representa el parámetro deseado; ej. gaussian, triangular, rectangular, etc.</li>
+<li><strong>…</strong> representa el parámetro deseado; ej. gaussian,
+triangular, rectangular, etc.</li>
 </ul></li>
 <li>alpha: la intensidad del color</li>
 <li>fill: el color del área</li>
 <li>color: el color de la línea alrededor del área</li>
 <li>linetype: representa el estilo de línea</li>
 <li>size: representa el grosor de la línea</li>
-<li>weight: para modificar el valor original; entonces no sería, por ejemplo, el conteo o suma de los valores si no un valor ponderado (promedio ponderado)</li>
+<li>weight: para modificar el valor original; entonces no sería, por
+ejemplo, el conteo o suma de los valores si no un valor ponderado
+(promedio ponderado)</li>
 </ul></li>
 </ul>
 <hr />
-<div id="gráfico-de-frecuencia-de-polígono-con-geom_freqpoly" class="section level2">
-<h2>Gráfico de frecuencia de polígono con <strong>geom_freqpoly</strong></h2>
-<p>El gráfico de frecuencia de polígono es similar al gráfico de área y de densidad, la diferencia es que no se rellena el área con color. También se puede cambiar la cantidad de compartimentos usando <strong>binwidth</strong>. En el gráfico de polígono, es solamente la línea la que gráficamos y no hay parámetro de <strong>fill</strong> del área debajo de la línea.</p>
+<div id="gráfico-de-frecuencia-de-polígono-con-geom_freqpoly"
+class="section level2">
+<h2>Gráfico de frecuencia de polígono con
+<strong>geom_freqpoly</strong></h2>
+<p>El gráfico de frecuencia de polígono es similar al gráfico de área y
+de densidad, la diferencia es que no se rellena el área con color.
+También se puede cambiar la cantidad de compartimentos usando
+<strong>binwidth</strong>. En el gráfico de polígono, es solamente la
+línea la que gráficamos y no hay parámetro de <strong>fill</strong> del
+área debajo de la línea.</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(DW, <span class="fu">aes</span>(distance))</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_freqpoly</span>(<span class="at">binwidth=</span>.<span class="dv">1</span>, <span class="at">color=</span><span class="st">&quot;#e3cc36&quot;</span>)<span class="sc">+</span>  <span class="co"># Nota como seleccionar el color con &quot;color picker&quot; en el web.</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Distancia (m)&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span> <span class="co"># labels = labs</span></span>
 <span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;italic&quot;</span>))</span></code></pre></div>
 <p><img src="G5_geom_area_densidad_freqpoly_files/figure-html/dipodium-poligono-1.png" width="672" style="display: block; margin: auto;" /></p>
 <hr />
-<p>Se modifica otras opciones como sigue: intensidad del color con <strong>alpha</strong>, el tipo de línea con <strong>linetype</strong> y el grosor de la línea con <strong>size</strong> tal como se muestra a continuación.</p>
+<p>Se modifica otras opciones como sigue: intensidad del color con
+<strong>alpha</strong>, el tipo de línea con <strong>linetype</strong> y
+el grosor de la línea con <strong>size</strong> tal como se muestra a
+continuación.</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>DW<span class="sc">%&gt;%</span></span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()<span class="sc">%&gt;%</span></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(distance, <span class="at">colour=</span>species_name))<span class="sc">+</span></span>
@@ -805,7 +894,9 @@ Otra alternativa es usar <strong>geom_density(kernel = c(kernel={gaussian})</str
 </ul>
 <hr />
 <ol style="list-style-type: decimal">
-<li>Actividad Usar el data set “dipodium” en el paquete “ggversa”. Presenta un gráfico de la frecuencia de <strong>flores por planta</strong> con <em>geom_freqpoly</em>.
+<li>Actividad Usar el data set “dipodium” en el paquete “ggversa”.
+Presenta un gráfico de la frecuencia de <strong>flores por
+planta</strong> con <em>geom_freqpoly</em>.
 <ul>
 <li>Cambia el color de la linea</li>
 <li>Cambiar la información de los ejes para texto más relevante</li>

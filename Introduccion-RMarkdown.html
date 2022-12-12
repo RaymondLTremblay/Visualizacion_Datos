@@ -13,7 +13,7 @@
 
 <title>Introduccion-RMarkdown.knit</title>
 
-<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
@@ -133,11 +133,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -166,8 +170,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -175,16 +179,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -459,35 +456,45 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2022-03-28&quot;</code></pre>
+<pre><code>## [1] &quot;2022-12-12&quot;</code></pre>
 <div id="introducción-a-rmarkdown" class="section level1">
 <h1>Introducción a RMarkdown</h1>
 <hr />
 </div>
 <div id="responsabilidad-del-estudiante" class="section level1">
 <h1>Responsabilidad del estudiante</h1>
-<p><span style="color: red;">EL ESTUDIANTE es COMPLETAMENTE RESPONSABLE</span> de ver estos videos y entender como usar la plataforma.</p>
-<p>Mi sugerencias es que deberían ver los vídeos abajo múltiples veces y después compartir con otros estudiantes y hablar de los que entendió y aprendió.</p>
+<p><span style="color: red;">EL ESTUDIANTE es COMPLETAMENTE
+RESPONSABLE</span> de ver estos videos y entender como usar la
+plataforma.</p>
+<p>Mi sugerencias es que deberían ver los vídeos abajo múltiples veces y
+después compartir con otros estudiantes y hablar de los que entendió y
+aprendió.</p>
 <hr />
 </div>
 <div id="como-trabajar-con-un-archivo-rmarkdown" class="section level1">
 <h1>Como Trabajar con un archivo RMarkdown</h1>
-<p>El siguiente modulo es para una introducción a la plataforma R y RMarkdown.</p>
-<p>Vean los siguientes videos en Youtube para aprender los básico de RMarkdown.</p>
+<p>El siguiente modulo es para una introducción a la plataforma R y
+RMarkdown.</p>
+<p>Vean los siguientes videos en Youtube para aprender los básico de
+RMarkdown.</p>
 <div id="video-1" class="section level2">
 <h2>Video #1</h2>
-<p><a href="https://www.youtube.com/watch?v=IPeOWx8KYkI">Manejo del Markdown dentro de RStudio</a></p>
+<p><a href="https://www.youtube.com/watch?v=IPeOWx8KYkI">Manejo del
+Markdown dentro de RStudio</a></p>
 <hr />
 </div>
 <div id="video-2" class="section level2">
 <h2>Video #2</h2>
-<p><a href="https://www.youtube.com/watch?v=y6XdzBNC0_0">Aprende Markdown RÁPIDO!</a></p>
+<p><a href="https://www.youtube.com/watch?v=y6XdzBNC0_0">Aprende
+Markdown RÁPIDO!</a></p>
 <hr />
-<p>Vaya al siguiente website y explora la pestaña de <strong>Sintaxis Markdown</strong></p>
+<p>Vaya al siguiente website y explora la pestaña de <strong>Sintaxis
+Markdown</strong></p>
 <p><a href="https://markdown.es">El website de Markdown</a></p>
 <hr />
 <p>Aquí un otro video en ingles</p>
-<p><a href="https://www.youtube.com/watch?v=DNS7i2m4sB0">R Markdown with RStudio</a></p>
+<p><a href="https://www.youtube.com/watch?v=DNS7i2m4sB0">R Markdown with
+RStudio</a></p>
 </div>
 </div>
 

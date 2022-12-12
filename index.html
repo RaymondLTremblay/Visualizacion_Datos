@@ -13,7 +13,7 @@
 
 <title>Descripción del curso 2022</title>
 
-<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
@@ -133,11 +133,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -166,8 +170,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -175,16 +179,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -472,24 +469,33 @@ div.tocify {
 <hr />
 <div id="horario-de-clase" class="section level3">
 <h3>Horario de clase</h3>
-<p><strong>Presentación de temas y discución</strong>: L y Miercoles de 1:30-2:50pm (80 mins) (NOTE: necesita traer tu laptop!)</p>
+<p><strong>Presentación de temas y discución</strong>: L y Miercoles de
+1:30-2:50pm (80 mins) (NOTE: necesita traer tu laptop!)</p>
 <p><strong>Hora de consulta con Estudiantes</strong>:<br />
-- Lunes y Miercoles from 10:30 a 12:30pm (NL 104) - Jueves 9:00 -12:00 - o por MSTeam “Horas de Consulta Tremblay” (Solamente si estamos remoto).</p>
+- Lunes y Miercoles from 10:30 a 12:30pm (NL 104) - Jueves 9:00 -12:00 -
+o por MSTeam “Horas de Consulta Tremblay” (Solamente si estamos
+remoto).</p>
 <hr />
 </div>
 <div id="libro-obligatorio." class="section level2">
 <h2>Libro obligatorio.</h2>
 <ul>
-<li><a href="https://r4ds.had.co.nz">Garrett Grolemund, Hadley Wickham. R for Data Science</a> En Ingles.</li>
-<li><a href="https://es.r4ds.hadley.nz">Garrett Grolemund, Hadley Wickham. R para Ciencia de Datos</a> En Español.</li>
-<li><a href="https://www.amazon.com/Gráficas-Versátiles-ggplot2-Análisis-Spanish-ebook/dp/B07P2Q87H2/ref=sr_1_1?dchild=1&amp;keywords=Graficas+versatiles&amp;qid=1591404029&amp;sr=8-1">Tremblay y Hernández-Serrano, 2018</a>.</li>
+<li><a href="https://r4ds.had.co.nz">Garrett Grolemund, Hadley Wickham.
+R for Data Science</a> En Ingles.</li>
+<li><a href="https://es.r4ds.hadley.nz">Garrett Grolemund, Hadley
+Wickham. R para Ciencia de Datos</a> En Español.</li>
+<li><a
+href="https://www.amazon.com/Gráficas-Versátiles-ggplot2-Análisis-Spanish-ebook/dp/B07P2Q87H2/ref=sr_1_1?dchild=1&amp;keywords=Graficas+versatiles&amp;qid=1591404029&amp;sr=8-1">Tremblay
+y Hernández-Serrano, 2018</a>.</li>
 </ul>
-<p>• Artículos revisados por pares serán asignados para fomentar el método de utilizar estas herramientas en ciencias.</p>
+<p>• Artículos revisados por pares serán asignados para fomentar el
+método de utilizar estas herramientas en ciencias.</p>
 <hr />
 <div id="programados" class="section level3">
 <h3>Programados</h3>
 <ul>
-<li><a href="https://cran.r-project.org/">R- free statistical programming language</a></li>
+<li><a href="https://cran.r-project.org/">R- free statistical
+programming language</a></li>
 <li><a href="https://rstudio.com">RStudio</a></li>
 <li>MSExcel, Numbers o Google Sheet</li>
 </ul>
@@ -507,13 +513,21 @@ div.tocify {
 <h3>Descripción del curso</h3>
 <p>Objetivos generales de la clase</p>
 <ol style="list-style-type: decimal">
-<li>Usar adecuadamente el programa R, RStudio para hacer gráficas y estadística básica usando las funciones de Tidyverse.</li>
-<li>Producir gráficos básicos y avanzados con el package ggplot2 y otros paquetes.</li>
-<li>Utilizar el programa RMarkdown para producir sus documentos e informes.</li>
+<li>Usar adecuadamente el programa R, RStudio para hacer gráficas y
+estadística básica usando las funciones de Tidyverse.</li>
+<li>Producir gráficos básicos y avanzados con el package ggplot2 y otros
+paquetes.</li>
+<li>Utilizar el programa RMarkdown para producir sus documentos e
+informes.</li>
 <li>Preparar gráficos para publicaciones.</li>
 <li>Reconocer las características de gráficos inadecuados.</li>
 </ol>
-<p>Al final del curso el estudiante podrá preparar datos en hojas de MS Excel o otros formato, convertir el archivo para subirlo a R. El estudiante podrá manipular múltiples funciones de Tidyverse y aplicarlos a producir gráficos. El estudiante tendrá un conocimiento suficiente desarrollado para preparar gráficos en una diversidad de alternativas, y preparar esto para publicar o presentaciones.</p>
+<p>Al final del curso el estudiante podrá preparar datos en hojas de MS
+Excel o otros formato, convertir el archivo para subirlo a R. El
+estudiante podrá manipular múltiples funciones de Tidyverse y aplicarlos
+a producir gráficos. El estudiante tendrá un conocimiento suficiente
+desarrollado para preparar gráficos en una diversidad de alternativas, y
+preparar esto para publicar o presentaciones.</p>
 <hr />
 </div>
 <div id="objetivos-del-curso" class="section level3">
@@ -594,55 +608,116 @@ div.tocify {
 </div>
 <div id="organización-de-las-actividades" class="section level3">
 <h3>Organización de las actividades</h3>
-<p>Las actividades: pruebas cortas, asignaciones y otro estarán ofrecido atreves del programa MSTeam (el app es gratis, y se puede usar desde su tablet o teléfono inteligente o computadora). Tendrá que registrase con un código que le estaré enviando.</p>
-<p>Todos los trabajos se usarán la plataforma R, RStudio (ambos gratis). El estudiante necesita una computadora portátil con 8GB de memoria mínima (las tabletas no son aceptable), tanto para Windows y Mac.</p>
-<p>El trabajo de investigación: El estudiante utilizará datos de una revista y replicará los gráficos de con las herramientas aprendidas.</p>
+<p>Las actividades: pruebas cortas, asignaciones y otro estarán ofrecido
+atreves del programa MSTeam (el app es gratis, y se puede usar desde su
+tablet o teléfono inteligente o computadora). Tendrá que registrase con
+un código que le estaré enviando.</p>
+<p>Todos los trabajos se usarán la plataforma R, RStudio (ambos gratis).
+El estudiante necesita una computadora portátil con 8GB de memoria
+mínima (las tabletas no son aceptable), tanto para Windows y Mac.</p>
+<p>El trabajo de investigación: El estudiante utilizará datos de una
+revista y replicará los gráficos de con las herramientas aprendidas.</p>
 <hr />
 </div>
 <div id="conferencias" class="section level3">
 <h3>Conferencias</h3>
-<p>En la clase las notas serán basado primeramente en la participación y algunas pruebas cortas. Su participación es esencial para el aprendizaje (y para un ambiente positivo). Aprender <em>NO</em> es un proceso pasivo: los estudiantes deben participar haciendo preguntas y discutir el material con su conocimiento anterior (Su bagaje de conocimiento).</p>
+<p>En la clase las notas serán basado primeramente en la participación y
+algunas pruebas cortas. Su participación es esencial para el aprendizaje
+(y para un ambiente positivo). Aprender <em>NO</em> es un proceso
+pasivo: los estudiantes deben participar haciendo preguntas y discutir
+el material con su conocimiento anterior (Su bagaje de
+conocimiento).</p>
 <hr />
 </div>
 <div id="examenes" class="section level3">
 <h3>Examenes:</h3>
 <p>En esta clase no hay exámenes pero habrá pruebas cortas.</p>
-<p><span style="color: red;">Es obligatorio tener la camera prendida durante <strong>la prueba corta</strong>. No es permitido usar el celular, Ud. tendrá que demostrar que el celular este detrás de uds antes de comenzar el examen</span></p>
+<p><span style="color: red;">Es obligatorio tener la camera prendida
+durante <strong>la prueba corta</strong>. No es permitido usar el
+celular, Ud. tendrá que demostrar que el celular este detrás de uds
+antes de comenzar el examen</span></p>
 <hr />
 </div>
 <div id="ejercicios" class="section level3">
 <h3>Ejercicios</h3>
-<p>Los ejercicios están enfocado en la aplicación de conceptos y métodos discutido en la clase y solución de problemas. Se hará un esfuerza de usar datos reales para demostrar como trabajar con los análisis, tablas, y gráficos en R, RStudio y RMarkdown. Típicamente, tendrán solamente una semana para hacer los ejercicios y entregarlos en formato <em>.html</em>.</p>
+<p>Los ejercicios están enfocado en la aplicación de conceptos y métodos
+discutido en la clase y solución de problemas. Se hará un esfuerza de
+usar datos reales para demostrar como trabajar con los análisis, tablas,
+y gráficos en R, RStudio y RMarkdown. Típicamente, tendrán solamente una
+semana para hacer los ejercicios y entregarlos en formato
+<em>.html</em>.</p>
 <hr />
 </div>
 <div id="faltar-a-clase-y-examen" class="section level3">
 <h3>Faltar a clase y examen:</h3>
-<p><em>Los trabajos cortos y pruebas cortas NO se reponen</em>. Si falta a la clase es su responsabilidad hablar con los otros estudiantes para saber lo que se discutió en la clase. Los examen se reponen solamente por una escusa valida.</p>
+<p><em>Los trabajos cortos y pruebas cortas NO se reponen</em>. Si falta
+a la clase es su responsabilidad hablar con los otros estudiantes para
+saber lo que se discutió en la clase. Los examen se reponen solamente
+por una escusa valida.</p>
 <hr />
 </div>
-<div id="derechos-de-estudiantes-con-impedimentos" class="section level3">
+<div id="derechos-de-estudiantes-con-impedimentos"
+class="section level3">
 <h3>Derechos de Estudiantes con Impedimentos</h3>
-<p>La UPR-Humacao cumple con las leyes ADA (Americans with Disabilities Act) y 51 (Servicios Educativos Integrales para Personas con Impedimentos) para garantizar igualdad en el acceso a la educación y servicios. Estudiantes con impedimentos: informe al (la) profesor(a) de cada curso sobre sus necesidades especiales y/o de acomodo razonable para el curso, en la tarjeta de información de la primera semana y visite la Oficina de Servicios para la Población con Impedimentos (SERPI) a la brevedad posible. Se mantendrá la confidencialidad.</p>
+<p>La UPR-Humacao cumple con las leyes ADA (Americans with Disabilities
+Act) y 51 (Servicios Educativos Integrales para Personas con
+Impedimentos) para garantizar igualdad en el acceso a la educación y
+servicios. Estudiantes con impedimentos: informe al (la) profesor(a) de
+cada curso sobre sus necesidades especiales y/o de acomodo razonable
+para el curso, en la tarjeta de información de la primera semana y
+visite la Oficina de Servicios para la Población con Impedimentos
+(SERPI) a la brevedad posible. Se mantendrá la confidencialidad.</p>
 <hr />
 </div>
 <div id="integridad-académica" class="section level3">
 <h3>Integridad académica</h3>
-<p>La Universidad de Puerto Rico promueve los más altos estándares de integridad académica y científica. El Artículo 6.2 del Reglamento General de Estudiantes de la Universidad de Puerto Rico (Certificación Núm. 13, 2009-2010, de la Junta de Síndicos) establece que <span style="color: red;">la deshonestidad académica incluye, pero no se limita a: acciones fraudulentas, la obtención de notas o grados académicos valiéndose de falsas o fraudulentas simulaciones, copiar total o parcialmente la labor académica de otra persona, plagiar total o parcialmente el trabajo de otra persona, copiar total o parcialmente las respuestas de otra persona a las preguntas de un examen, haciendo o consiguiendo que otro tome en su nombre cualquier prueba o examen oral o escrito, así como la ayuda o facilitación para que otra persona incurra en la referida conducta</span>. Cualquiera de estas acciones estará sujeta a sanciones disciplinarias en conformidad con el procedimiento disciplinario establecido en el Reglamento General de Estudiantes de la UPR vigente.</p>
+<p>La Universidad de Puerto Rico promueve los más altos estándares de
+integridad académica y científica. El Artículo 6.2 del Reglamento
+General de Estudiantes de la Universidad de Puerto Rico (Certificación
+Núm. 13, 2009-2010, de la Junta de Síndicos) establece que <span
+style="color: red;">la deshonestidad académica incluye, pero no se
+limita a: acciones fraudulentas, la obtención de notas o grados
+académicos valiéndose de falsas o fraudulentas simulaciones, copiar
+total o parcialmente la labor académica de otra persona, plagiar total o
+parcialmente el trabajo de otra persona, copiar total o parcialmente las
+respuestas de otra persona a las preguntas de un examen, haciendo o
+consiguiendo que otro tome en su nombre cualquier prueba o examen oral o
+escrito, así como la ayuda o facilitación para que otra persona incurra
+en la referida conducta</span>. Cualquiera de estas acciones estará
+sujeta a sanciones disciplinarias en conformidad con el procedimiento
+disciplinario establecido en el Reglamento General de Estudiantes de la
+UPR vigente.</p>
 <hr />
 </div>
-<div id="comentario-sobre-grabar-videos-yo-audio-de-las-clases" class="section level3">
+<div id="comentario-sobre-grabar-videos-yo-audio-de-las-clases"
+class="section level3">
 <h3>Comentario sobre grabar videos y/o audio de las clases</h3>
-<p>Los estudiantes no PUEDEN grabar la clase por forma de video o audio sin el permiso del profesor. Algunos estudiantes con necesidades especiales pueden hablar con el profesor para pedir el permiso. La solicitud y aprobación del permiso tiene que ser por escrito (por ejemplo por email).</p>
+<p>Los estudiantes no PUEDEN grabar la clase por forma de video o audio
+sin el permiso del profesor. Algunos estudiantes con necesidades
+especiales pueden hablar con el profesor para pedir el permiso. La
+solicitud y aprobación del permiso tiene que ser por escrito (por
+ejemplo por email).</p>
 <hr />
 </div>
 <div id="espacio-libre-de-acoso-sexual" class="section level3">
 <h3>Espacio libre de acoso sexual</h3>
-<p>La Universidad de Puerto Rico prohíbe el descrimen por razón de sexo y género en todas sus modalidades, incluyendo el hostigamiento sexual. Según la Política Institucional contra el hostigamiento sexual, en la Universidad de Puerto Rico, Cert. Núm. 130 (2014-2015) de la Junta de Gobierno, si un(a) estudiante está siendo o fue afectado por conductas relacionadas a hostigamiento sexual, puede acudir ante la Oficina del Procurador Estudiantil, el Decanato de Estudiantes o el Coordinador de Cumplimiento con Título IX para una orientación o presentar una querella.</p>
+<p>La Universidad de Puerto Rico prohíbe el descrimen por razón de sexo
+y género en todas sus modalidades, incluyendo el hostigamiento sexual.
+Según la Política Institucional contra el hostigamiento sexual, en la
+Universidad de Puerto Rico, Cert. Núm. 130 (2014-2015) de la Junta de
+Gobierno, si un(a) estudiante está siendo o fue afectado por conductas
+relacionadas a hostigamiento sexual, puede acudir ante la Oficina del
+Procurador Estudiantil, el Decanato de Estudiantes o el Coordinador de
+Cumplimiento con Título IX para una orientación o presentar una
+querella.</p>
 <hr />
 </div>
 <div id="protocolo-de-la-clase" class="section level3">
 <h3>Protocolo de la Clase</h3>
-<p>Los teléfonos mobiles serán apagado durante la clase. Si necesita una calculadora traerla al salón. El teléfono no debería esta visible durante la clase al menos que pide permiso al instructor. Recuerda que que se usara computadoras portátiles en cada sesión.</p>
+<p>Los teléfonos mobiles serán apagado durante la clase. Si necesita una
+calculadora traerla al salón. El teléfono no debería esta visible
+durante la clase al menos que pide permiso al instructor. Recuerda que
+que se usara computadoras portátiles en cada sesión.</p>
 </div>
 </div>
 </div>

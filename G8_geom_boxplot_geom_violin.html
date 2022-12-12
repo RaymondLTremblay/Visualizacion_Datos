@@ -13,7 +13,7 @@
 
 <title>Gráficos de caja y de violín</title>
 
-<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
@@ -126,13 +126,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   for (var i = 0; i < sheets.length; i++) {
     if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
     try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
+    var j = 0;
+    while (j < rules.length) {
       var rule = rules[j];
       // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -228,11 +235,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -261,8 +272,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -270,16 +281,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -555,7 +559,7 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2022-03-28&quot;</code></pre>
+<pre><code>## [1] &quot;2022-12-12&quot;</code></pre>
 <p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" /></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)<span class="co"># Para organizar múltiples gráficos juntos</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -563,22 +567,51 @@ div.tocify {
 <hr />
 <div id="diagrama-de-caja-con-geom_boxplot" class="section level1">
 <h1>Diagrama de caja con geom_boxplot</h1>
-<p>Para datos que no tienen una distribución normal, típicamente se usa un diagrama de caja para visualizar la distribución de los datos. El diagrama de caja distribuye los datos basándose en el rango del orden de tamaño o valor numérico. Primeramente, los datos son ordenados de menor a mayor. Los valores en el gráfico correspondiente representan los cuartiles 25, 50 y 75. Los bigotes (las líneas que se extienden de las cajas) representan 1.5 veces multiplicado por el rango intercuartil (RIC), o la distancia entre el primer cuartil (25) y el tercer cuartil (75). Los datos que están fuera de ese rango se representan con puntos. Los gráficos que usan muescas, o <strong>notch</strong>, las calculan de acuerdo a la siguiente fórmula: (1.58 x RIC) / (raíz cuadrada de la muestra). Utilizaremos nuevamente los datos de la orquídea <strong>Dipodium</strong> en los siguientes ejemplos, particularmente representando la cantidad de flores y el número de frutos.</p>
-<p>En el primer gráfico a continuación, Fig. 1 (arriba a la izquierda), se muestra un diagrama de caja básico. Note que la variable en la primera <strong>x</strong> tiene valor de 1, lo que significa que hay un solo grupo. En el segundo gráfico, Fig. 2 (arriba a la derecha), se modifica con la opción de <strong>notch</strong>. En el tercer gráfico, Figura Fig. 3 (abajo a la izquierda), se cambió el color de la caja, la forma o <strong>shape</strong> de los valores atípicos o <strong>outliers</strong>, y su tamaño. En los tres primeros gráficos, se usan todos los datos en un mismo diagrama de caja. En el cuarto gráfico, Fig. 4 (abajo a la derecha), observamos la distribución de la cantidad de flores por el número de frutos observado por planta. Note que para este último caso en particular, hay más de un grupo.</p>
+<p>Para datos que no tienen una distribución normal, típicamente se usa
+un diagrama de caja para visualizar la distribución de los datos. El
+diagrama de caja distribuye los datos basándose en el rango del orden de
+tamaño o valor numérico. Primeramente, los datos son ordenados de menor
+a mayor. Los valores en el gráfico correspondiente representan los
+cuartiles 25, 50 y 75. Los bigotes (las líneas que se extienden de las
+cajas) representan 1.5 veces multiplicado por el rango intercuartil
+(RIC), o la distancia entre el primer cuartil (25) y el tercer cuartil
+(75). Los datos que están fuera de ese rango se representan con puntos.
+Los gráficos que usan muescas, o <strong>notch</strong>, las calculan de
+acuerdo a la siguiente fórmula: (1.58 x RIC) / (raíz cuadrada de la
+muestra). Utilizaremos nuevamente los datos de la orquídea
+<strong>Dipodium</strong> en los siguientes ejemplos, particularmente
+representando la cantidad de flores y el número de frutos.</p>
+<p>En el primer gráfico a continuación, Fig. 1 (arriba a la izquierda),
+se muestra un diagrama de caja básico. Note que la variable en la
+primera <strong>x</strong> tiene valor de 1, lo que significa que hay un
+solo grupo. En el segundo gráfico, Fig. 2 (arriba a la derecha), se
+modifica con la opción de <strong>notch</strong>. En el tercer gráfico,
+Figura Fig. 3 (abajo a la izquierda), se cambió el color de la caja, la
+forma o <strong>shape</strong> de los valores atípicos o
+<strong>outliers</strong>, y su tamaño. En los tres primeros gráficos,
+se usan todos los datos en un mismo diagrama de caja. En el cuarto
+gráfico, Fig. 4 (abajo a la derecha), observamos la distribución de la
+cantidad de flores por el número de frutos observado por planta. Note
+que para este último caso en particular, hay más de un grupo.</p>
 <p>Las muescas (notch)</p>
-<p>Las muescas a los lados de un diagrama de caja se pueden interpretar como un intervalo de comparación alrededor de los valores de la mediana. La altura de la muesca es la mediana <span class="math inline">\(+/- 1,57 x IQR/sqrt(n)\)</span> donde IQR es el rango intercuartílico definido por los percentiles 25 y 75 y <strong>n</strong> es el número de puntos de datos</p>
+<p>Las muescas a los lados de un diagrama de caja se pueden interpretar
+como un intervalo de comparación alrededor de los valores de la mediana.
+La altura de la muesca es la mediana <span class="math inline">\(+/-
+1,57 x IQR/sqrt(n)\)</span> donde IQR es el rango intercuartílico
+definido por los percentiles 25 y 75 y <strong>n</strong> es el número
+de puntos de datos</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#names(dipodium)</span></span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(conflicted)</span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
 <span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>dipodium<span class="ot">=</span><span class="fu">clean_names</span>(dipodium)</span>
 <span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">gt</span>(<span class="fu">head</span>(dipodium))</span></code></pre></div>
-<div id="qbowayctuq" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="gykztpgibe" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#qbowayctuq .gt_table {
+#gykztpgibe .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -603,7 +636,7 @@ div.tocify {
   border-left-color: #D3D3D3;
 }
 
-#qbowayctuq .gt_heading {
+#gykztpgibe .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -615,7 +648,7 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#qbowayctuq .gt_title {
+#gykztpgibe .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -627,7 +660,7 @@ div.tocify {
   border-bottom-width: 0;
 }
 
-#qbowayctuq .gt_subtitle {
+#gykztpgibe .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -639,13 +672,13 @@ div.tocify {
   border-top-width: 0;
 }
 
-#qbowayctuq .gt_bottom_border {
+#gykztpgibe .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#qbowayctuq .gt_col_headings {
+#gykztpgibe .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -660,7 +693,7 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#qbowayctuq .gt_col_heading {
+#gykztpgibe .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -680,7 +713,7 @@ div.tocify {
   overflow-x: hidden;
 }
 
-#qbowayctuq .gt_column_spanner_outer {
+#gykztpgibe .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -692,15 +725,15 @@ div.tocify {
   padding-right: 4px;
 }
 
-#qbowayctuq .gt_column_spanner_outer:first-child {
+#gykztpgibe .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#qbowayctuq .gt_column_spanner_outer:last-child {
+#gykztpgibe .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#qbowayctuq .gt_column_spanner {
+#gykztpgibe .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -712,7 +745,7 @@ div.tocify {
   width: 100%;
 }
 
-#qbowayctuq .gt_group_heading {
+#gykztpgibe .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -737,7 +770,7 @@ div.tocify {
   vertical-align: middle;
 }
 
-#qbowayctuq .gt_empty_group_heading {
+#gykztpgibe .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -752,15 +785,15 @@ div.tocify {
   vertical-align: middle;
 }
 
-#qbowayctuq .gt_from_md > :first-child {
+#gykztpgibe .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#qbowayctuq .gt_from_md > :last-child {
+#gykztpgibe .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#qbowayctuq .gt_row {
+#gykztpgibe .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -779,7 +812,7 @@ div.tocify {
   overflow-x: hidden;
 }
 
-#qbowayctuq .gt_stub {
+#gykztpgibe .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -792,7 +825,7 @@ div.tocify {
   padding-right: 5px;
 }
 
-#qbowayctuq .gt_stub_row_group {
+#gykztpgibe .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -806,11 +839,11 @@ div.tocify {
   vertical-align: top;
 }
 
-#qbowayctuq .gt_row_group_first td {
+#gykztpgibe .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#qbowayctuq .gt_summary_row {
+#gykztpgibe .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -820,16 +853,16 @@ div.tocify {
   padding-right: 5px;
 }
 
-#qbowayctuq .gt_first_summary_row {
+#gykztpgibe .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#qbowayctuq .gt_first_summary_row.thick {
+#gykztpgibe .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#qbowayctuq .gt_last_summary_row {
+#gykztpgibe .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -839,7 +872,7 @@ div.tocify {
   border-bottom-color: #D3D3D3;
 }
 
-#qbowayctuq .gt_grand_summary_row {
+#gykztpgibe .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -849,7 +882,7 @@ div.tocify {
   padding-right: 5px;
 }
 
-#qbowayctuq .gt_first_grand_summary_row {
+#gykztpgibe .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -859,11 +892,11 @@ div.tocify {
   border-top-color: #D3D3D3;
 }
 
-#qbowayctuq .gt_striped {
+#gykztpgibe .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#qbowayctuq .gt_table_body {
+#gykztpgibe .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -872,7 +905,7 @@ div.tocify {
   border-bottom-color: #D3D3D3;
 }
 
-#qbowayctuq .gt_footnotes {
+#gykztpgibe .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -886,7 +919,7 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#qbowayctuq .gt_footnote {
+#gykztpgibe .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -895,7 +928,7 @@ div.tocify {
   padding-right: 5px;
 }
 
-#qbowayctuq .gt_sourcenotes {
+#gykztpgibe .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -909,7 +942,7 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#qbowayctuq .gt_sourcenote {
+#gykztpgibe .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -917,90 +950,92 @@ div.tocify {
   padding-right: 5px;
 }
 
-#qbowayctuq .gt_left {
+#gykztpgibe .gt_left {
   text-align: left;
 }
 
-#qbowayctuq .gt_center {
+#gykztpgibe .gt_center {
   text-align: center;
 }
 
-#qbowayctuq .gt_right {
+#gykztpgibe .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#qbowayctuq .gt_font_normal {
+#gykztpgibe .gt_font_normal {
   font-weight: normal;
 }
 
-#qbowayctuq .gt_font_bold {
+#gykztpgibe .gt_font_bold {
   font-weight: bold;
 }
 
-#qbowayctuq .gt_font_italic {
+#gykztpgibe .gt_font_italic {
   font-style: italic;
 }
 
-#qbowayctuq .gt_super {
+#gykztpgibe .gt_super {
   font-size: 65%;
 }
 
-#qbowayctuq .gt_footnote_marks {
+#gykztpgibe .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#qbowayctuq .gt_asterisk {
+#gykztpgibe .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#qbowayctuq .gt_slash_mark {
-  font-size: 0.7em;
-  line-height: 0.7em;
-  vertical-align: 0.15em;
+#gykztpgibe .gt_indent_1 {
+  text-indent: 5px;
 }
 
-#qbowayctuq .gt_fraction_numerator {
-  font-size: 0.6em;
-  line-height: 0.6em;
-  vertical-align: 0.45em;
+#gykztpgibe .gt_indent_2 {
+  text-indent: 10px;
 }
 
-#qbowayctuq .gt_fraction_denominator {
-  font-size: 0.6em;
-  line-height: 0.6em;
-  vertical-align: -0.05em;
+#gykztpgibe .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#gykztpgibe .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#gykztpgibe .gt_indent_5 {
+  text-indent: 25px;
 }
 </style>
 <table class="gt_table">
   
   <thead class="gt_col_headings">
     <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">tree_number</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">tree_species</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">dbh</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">plant_number</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">ramet_number</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">distance</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">orientation</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">number_of_flowers</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">height_inflo</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">herbivory</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">row_position_nf</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">number_flowers_position</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">number_of_fruits</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">perc_fr_set</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">pardalinum_or_roseum</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">fruit_position_effect</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">frutos_si_o_no</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">p_or_r_infl_lenght</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">num_of_fruits</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">species_name</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">cardinal_orientation</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">tree_number</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">tree_species</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">dbh</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">plant_number</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">ramet_number</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">distance</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">orientation</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">number_of_flowers</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">height_inflo</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">herbivory</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">row_position_nf</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">number_flowers_position</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">number_of_fruits</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">perc_fr_set</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">pardalinum_or_roseum</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">fruit_position_effect</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">frutos_si_o_no</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">p_or_r_infl_lenght</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">num_of_fruits</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">species_name</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">cardinal_orientation</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
@@ -1167,7 +1202,11 @@ div.tocify {
 <hr />
 <div id="cambiar-el-ancho-de-las-cajas" class="section level3">
 <h3>Cambiar el ancho de las cajas</h3>
-<p>Cambiar el ancho de las cajas con <strong>varwidth</strong>. Esto produce un diagrama de caja estándar y por defecto es FALSE; si es TRUE, produce un diagrama donde el ancho en el eje de <strong>X</strong> es proporcional a la raíz cuadrada del número de observaciones en los grupos.</p>
+<p>Cambiar el ancho de las cajas con <strong>varwidth</strong>. Esto
+produce un diagrama de caja estándar y por defecto es FALSE; si es TRUE,
+produce un diagrama donde el ancho en el eje de <strong>X</strong> es
+proporcional a la raíz cuadrada del número de observaciones en los
+grupos.</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>dipodium <span class="sc">%&gt;%</span> </span>
 <span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(number_of_flowers, number_of_fruits) <span class="sc">%&gt;%</span> </span>
 <span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span> </span>
@@ -1183,7 +1222,15 @@ div.tocify {
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Más datos más ancho la barra. </span></span></code></pre></div>
 <hr />
 <ol style="list-style-type: decimal">
-<li>Preparar un gráfico de caja (box plot) o tambien llamado <strong>Box and whiskers</strong>. Utiliza los datos <strong>ElphickBirdData</strong> en el paquete <strong>ggversa</strong>. Utiliza la columna <strong>AQBIRDS</strong>, que son la cantidad de pájaros acuaticos muestreados por Zuur, Ieno and Elphick. La especies de pájaro de nombre <strong>Becasa de Mar</strong> = <strong>Godwit</strong> es una ave migratoria que come pequeños moluscos en la playas. Utiliza la columna “SITE” para crear un box plot con los “notch”, por cada sitio de muestreo.
+<li>Preparar un gráfico de caja (box plot) o tambien llamado <strong>Box
+and whiskers</strong>. Utiliza los datos
+<strong>ElphickBirdData</strong> en el paquete <strong>ggversa</strong>.
+Utiliza la columna <strong>AQBIRDS</strong>, que son la cantidad de
+pájaros acuaticos muestreados por Zuur, Ieno and Elphick. La especies de
+pájaro de nombre <strong>Becasa de Mar</strong> =
+<strong>Godwit</strong> es una ave migratoria que come pequeños moluscos
+en la playas. Utiliza la columna “SITE” para crear un box plot con los
+“notch”, por cada sitio de muestreo.
 <ul>
 <li>Salvar el gráfico en formato .png y subirla a MSTeam.</li>
 </ul></li>
@@ -1200,25 +1247,43 @@ La foto es de Leo Berzins via Flickr
 <div id="opciones-y-parametros-de-geom_boxplot" class="section level1">
 <h1>Opciones y Parametros de <strong>geom_boxplot</strong>:</h1>
 <ul>
-<li><p>ggplot(el archivo de datos, aes(la variable continua, x=1)): {x=1} si es un grupo o el nombre de la variable discreta si hay múltiples grupos</p></li>
-<li><p>geom_boxplot(stat, position, outlier.color, outlier.shape, outlier.size, notch, notchwidth, varwidth)</p>
+<li><p>ggplot(el archivo de datos, aes(la variable continua, x=1)):
+{x=1} si es un grupo o el nombre de la variable discreta si hay
+múltiples grupos</p></li>
+<li><p>geom_boxplot(stat, position, outlier.color, outlier.shape,
+outlier.size, notch, notchwidth, varwidth)</p>
 <ul>
-<li>stat: transformación estadística de los datos; solamente se necesita si se quiere anular el método por defecto que usa geom_boxplot</li>
+<li>stat: transformación estadística de los datos; solamente se necesita
+si se quiere anular el método por defecto que usa geom_boxplot</li>
 <li>position: para ajustar el solapamiento de los datos</li>
 <li>outlier.color: define el color de los valores atípicos</li>
 <li>outlier.shape: define la forma de los valores atípicos</li>
 <li>outlier.size: define el tamaño de los valores atípicos</li>
-<li>notch: para producir las muescas; se define con los valores TRUE o FALSE</li>
-<li>notchwidth: define el ancho de las muescas relativo a la caja (por defecto es 0.5)</li>
-<li>varwidth: produce un diagrama de caja estándar y por defecto es FALSE; si es TRUE, produce un diagrama donde el ancho en el eje de <strong>X</strong> es proporcional a la raíz cuadrada del número de observaciones en los grupos.</li>
+<li>notch: para producir las muescas; se define con los valores TRUE o
+FALSE</li>
+<li>notchwidth: define el ancho de las muescas relativo a la caja (por
+defecto es 0.5)</li>
+<li>varwidth: produce un diagrama de caja estándar y por defecto es
+FALSE; si es TRUE, produce un diagrama donde el ancho en el eje de
+<strong>X</strong> es proporcional a la raíz cuadrada del número de
+observaciones en los grupos.</li>
 </ul></li>
 </ul>
 <hr />
 </div>
 <div id="diagrama-de-violín-con-geom_violin" class="section level1">
 <h1>Diagrama de violín con <strong>geom_violin</strong></h1>
-<p>El gráfico de violín es similar al gráfico de caja, pero la caja es curvada para dar una apreciación de la densidad de los datos. Si la distribución de los datos sigue una curva normal, saldrá entonces como una curva de campana orientada verticalmente. Para los ejemplos a continuación, utilizaremos los datos de la orquídea terestre australiana <em>Caladenia valida</em>.</p>
-<p>El modelo básico del gráfico de violín se muestra en la Figura, Note que, tal como ocurre con <strong>geom_boxplot</strong>, si se tiene solamente un grupo, se tiene que incluir <strong>x=1</strong>. Lo que uno observa es que la mayoria de la información encuentre cerca del valor 5 y 10</p>
+<p>El gráfico de violín es similar al gráfico de caja, pero la caja es
+curvada para dar una apreciación de la densidad de los datos. Si la
+distribución de los datos sigue una curva normal, saldrá entonces como
+una curva de campana orientada verticalmente. Para los ejemplos a
+continuación, utilizaremos los datos de la orquídea terestre australiana
+<em>Caladenia valida</em>.</p>
+<p>El modelo básico del gráfico de violín se muestra en la Figura, Note
+que, tal como ocurre con <strong>geom_boxplot</strong>, si se tiene
+solamente un grupo, se tiene que incluir <strong>x=1</strong>. Lo que
+uno observa es que la mayoria de la información encuentre cerca del
+valor 5 y 10</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>CalVal<span class="ot">=</span>caladeniavalida </span>
 <span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>violinplot1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(CalVal, <span class="fu">aes</span>(DCL, <span class="at">x=</span><span class="dv">1</span>))</span>
@@ -1232,7 +1297,10 @@ La foto es de Leo Berzins via Flickr
 <hr />
 <div id="geom_violin-con-múltiples-grupos" class="section level2">
 <h2><strong>Geom_violin</strong> con múltiples grupos</h2>
-<p>A continuación vamos a producir el gráfico de violín por diferentes factores o grupos de acuerdo al año, a la vez que se le añade color azul a los violines y se le cambia la intensidad al color con <strong>alpha=()</strong>.</p>
+<p>A continuación vamos a producir el gráfico de violín por diferentes
+factores o grupos de acuerdo al año, a la vez que se le añade color azul
+a los violines y se le cambia la intensidad al color con
+<strong>alpha=()</strong>.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>violinplot2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(CalVal, <span class="fu">aes</span>(<span class="at">y=</span>LCL, <span class="at">x=</span><span class="fu">factor</span>(Year)))</span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>violinplot2 <span class="sc">+</span></span>
 <span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">fill=</span><span class="st">&quot;blue&quot;</span>, <span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
@@ -1249,12 +1317,12 @@ La foto es de Leo Berzins via Flickr
 <span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>dfnorm<span class="ot">=</span><span class="fu">data.frame</span>(normal_data)</span>
 <span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dfnorm)</span></code></pre></div>
 <pre><code>##   normal_data
-## 1  -4.1848789
-## 2   9.5282101
-## 3  -0.3669264
-## 4   5.1809437
-## 5  -1.2038627
-## 6   4.2062644</code></pre>
+## 1   2.8343650
+## 2  -0.9151673
+## 3   1.0746269
+## 4   2.4915306
+## 5  -1.2633892
+## 6  -6.8648113</code></pre>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dfnorm,<span class="fu">aes</span>(normal_data, <span class="at">x=</span><span class="dv">1</span>))<span class="sc">+</span></span>
 <span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>()<span class="sc">+</span></span>
@@ -1262,10 +1330,24 @@ La foto es de Leo Berzins via Flickr
 <span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_jitter</span>(<span class="at">position =</span> <span class="fu">position_jitter</span>(<span class="at">width =</span> .<span class="dv">1</span>))</span></code></pre></div>
 <p><img src="G8_geom_boxplot_geom_violin_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 </div>
-<div id="geom_violin-utilizado-con-geom_point-y-geom_jitter" class="section level2">
-<h2><strong>Geom_violin</strong> utilizado con <strong>geom_point</strong> y <strong>geom_jitter</strong></h2>
-<p>Al gráfico anterior se le pueden añadir los datos para visualizar mejor la distribución. Los datos de altura de la planta <strong>OH</strong> fueron recolectado de forma discreta en unidades de 5 cm, por lo que todos los valores similares aparecerán solapados unos sobre otros. Debido a esta situación particular de ese tipo de datos, añadirle puntos para visualizarlos con la función <strong>geom_point</strong> realmente no ayuda mucho a entender su distribución. Esto es debido a que no se puede apreciar la cantidad de datos utilizados para construir los violines. Por otro lado, uno puedo utilizar <strong>geom_jitter</strong> y tener una mejor apreciación de su distribución.</p>
-<p>Es importante tomar en consideración que si se le añade <strong>geom_point</strong> antes de <strong>geom_violin</strong>, los puntos podrían quedar escondidos detrás del violín.</p>
+<div id="geom_violin-utilizado-con-geom_point-y-geom_jitter"
+class="section level2">
+<h2><strong>Geom_violin</strong> utilizado con
+<strong>geom_point</strong> y <strong>geom_jitter</strong></h2>
+<p>Al gráfico anterior se le pueden añadir los datos para visualizar
+mejor la distribución. Los datos de altura de la planta
+<strong>OH</strong> fueron recolectado de forma discreta en unidades de
+5 cm, por lo que todos los valores similares aparecerán solapados unos
+sobre otros. Debido a esta situación particular de ese tipo de datos,
+añadirle puntos para visualizarlos con la función
+<strong>geom_point</strong> realmente no ayuda mucho a entender su
+distribución. Esto es debido a que no se puede apreciar la cantidad de
+datos utilizados para construir los violines. Por otro lado, uno puedo
+utilizar <strong>geom_jitter</strong> y tener una mejor apreciación de
+su distribución.</p>
+<p>Es importante tomar en consideración que si se le añade
+<strong>geom_point</strong> antes de <strong>geom_violin</strong>, los
+puntos podrían quedar escondidos detrás del violín.</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>violingp<span class="ot">=</span>violinplot3a <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(CalVal, <span class="fu">aes</span>(<span class="at">y=</span>OH, <span class="at">x=</span><span class="fu">factor</span>(Year)))<span class="sc">+</span></span>
 <span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>()<span class="sc">+</span></span>
 <span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span>  <span class="co"># Note que los puntos serán sobrepuestos sobre el violín </span></span>
@@ -1291,7 +1373,11 @@ La foto es de Leo Berzins via Flickr
 </div>
 <div id="geom_jitter-y-solapamiento-de-geom" class="section level2">
 <h2>geom_jitter y solapamiento de <strong>geom</strong></h2>
-<p>En el próximo gráfico, se invocó <strong>geom_jitter</strong> antes que <strong>geom_violin</strong>, pero a la misma vez se le cambió la intensidad del color para que se vean mejor los puntos. Vemos que algunos de los puntos que antes están medio escondidos y los que no solapan el violin se revelan sobre mejor.</p>
+<p>En el próximo gráfico, se invocó <strong>geom_jitter</strong> antes
+que <strong>geom_violin</strong>, pero a la misma vez se le cambió la
+intensidad del color para que se vean mejor los puntos. Vemos que
+algunos de los puntos que antes están medio escondidos y los que no
+solapan el violin se revelan sobre mejor.</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(CalVal, <span class="fu">aes</span>(<span class="at">y=</span>OH, <span class="at">x=</span><span class="fu">factor</span>(Year)))</span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="sc">+</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">position =</span> <span class="fu">position_jitter</span>(<span class="at">width =</span> .<span class="dv">2</span>), <span class="at">colour=</span><span class="st">&quot;red&quot;</span>)<span class="sc">+</span></span>
@@ -1305,7 +1391,8 @@ La foto es de Leo Berzins via Flickr
 </div>
 <div id="los-cuartiles-y-geom_violin" class="section level2">
 <h2>Los cuartiles y geom_violin</h2>
-<p>Ahora se muestran el cuartil 25, la mediana (50) y el cuartil 75 en el mismo gráfico de violín con líneas horizontales.</p>
+<p>Ahora se muestran el cuartil 25, la mediana (50) y el cuartil 75 en
+el mismo gráfico de violín con líneas horizontales.</p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(CalVal, <span class="fu">aes</span>(<span class="at">y=</span>OH, <span class="at">x=</span><span class="fu">factor</span>(Year)))</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="sc">+</span></span>
 <span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">draw_quantiles =</span> <span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.25</span>,<span class="fl">0.5</span>, <span class="fl">0.75</span>,<span class="fl">0.95</span>))<span class="sc">+</span></span>
@@ -1319,7 +1406,8 @@ La foto es de Leo Berzins via Flickr
 </div>
 <div id="añadiendo-color-al-contorno-del-violin" class="section level1">
 <h1>Añadiendo color al contorno del violin</h1>
-<p>En esta figura se le añade color al contorno de los violines y las líneas de los cuartiles.</p>
+<p>En esta figura se le añade color al contorno de los violines y las
+líneas de los cuartiles.</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(CalVal, <span class="fu">aes</span>(<span class="at">y=</span>OH, <span class="at">x=</span><span class="fu">factor</span>(Year)))</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="sc">+</span></span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">colour=</span><span class="st">&quot;red&quot;</span>, <span class="at">alpha=</span>.<span class="dv">2</span>, <span class="at">draw_quantiles =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>))<span class="sc">+</span></span>
@@ -1331,7 +1419,10 @@ La foto es de Leo Berzins via Flickr
 <hr />
 <div id="geom_violin-por-categoría-o-factor" class="section level2">
 <h2>Geom_violin por categoría o factor</h2>
-<p>En la Figura se cambia el color de cada grupo, <strong>Year</strong>. Para lograr ese efecto se le añade otra variable para representar los grupos (o categorías) por color; en este caso, la distribución de los tamaños de las plantas en términos de si produjeron frutos o no.</p>
+<p>En la Figura se cambia el color de cada grupo, <strong>Year</strong>.
+Para lograr ese efecto se le añade otra variable para representar los
+grupos (o categorías) por color; en este caso, la distribución de los
+tamaños de las plantas en términos de si produjeron frutos o no.</p>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="fu">na.omit</span>(CalVal), <span class="fu">aes</span>(<span class="at">y=</span>OH, <span class="at">x=</span><span class="fu">factor</span>(Year)))</span>
 <span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="sc">+</span></span>
 <span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="fu">aes</span>(<span class="at">fill=</span>(<span class="fu">factor</span>(Fruit_not))),</span>
@@ -1344,9 +1435,17 @@ La foto es de Leo Berzins via Flickr
 <p><img src="G8_geom_boxplot_geom_violin_files/figure-html/geomviolin7-1.png" width="672" /></p>
 <hr />
 </div>
-<div id="geom_violin-en-proporción-al-tamaño-de-la-muestra" class="section level2">
+<div id="geom_violin-en-proporción-al-tamaño-de-la-muestra"
+class="section level2">
 <h2>Geom_violin en proporción al tamaño de la muestra</h2>
-<p>En la Figura se modifica el mismo gráfico para que tome en consideración el tamaño de muestra utilizando la opción de <strong>scale</strong> con el parámetro <strong>count</strong>. En otras palabras, los violines van a quedar modificados para incluir el tamaño de la muestra; o sea, la escala máxima del ancho es proporcional al tamaño de la muestra. Entonces, en este caso vemos el año donde hubo mayor (2007) y menor (2008) tamaño de muestra de acuerdo al ancho que se muestra para cada violín.</p>
+<p>En la Figura se modifica el mismo gráfico para que tome en
+consideración el tamaño de muestra utilizando la opción de
+<strong>scale</strong> con el parámetro <strong>count</strong>. En otras
+palabras, los violines van a quedar modificados para incluir el tamaño
+de la muestra; o sea, la escala máxima del ancho es proporcional al
+tamaño de la muestra. Entonces, en este caso vemos el año donde hubo
+mayor (2007) y menor (2008) tamaño de muestra de acuerdo al ancho que se
+muestra para cada violín.</p>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(CalVal, <span class="fu">aes</span>(<span class="at">y=</span>OH, <span class="at">x=</span><span class="fu">factor</span>(Year)))</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="sc">+</span></span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">scale =</span> <span class="st">&quot;count&quot;</span>,</span>
@@ -1356,9 +1455,16 @@ La foto es de Leo Berzins via Flickr
 <p><img src="G8_geom_boxplot_geom_violin_files/figure-html/geomviolin8-1.png" width="672" /></p>
 <hr />
 </div>
-<div id="geom_violin-no-en-proporción-al-tamaño-de-la-muestra" class="section level2">
+<div id="geom_violin-no-en-proporción-al-tamaño-de-la-muestra"
+class="section level2">
 <h2>Geom_violin no en proporción al tamaño de la muestra</h2>
-<p>En la Figura se modifica el ancho del violín a 1 en la escala del eje de <strong>X</strong>. En otras palabras, en este caso el ancho <strong>width</strong> del violín para el primer año va de 2003.5 al 2004.5, para el segundo violín de 2004.5 a 2005.5 y así sucesivamente en forma consecutiva para los demás años. Este enfoque crea una grado de uniformidad para cada ancho. En este caso el ancho no esta relacionado con el tamaño de muestra como el ejemplo anterior.</p>
+<p>En la Figura se modifica el ancho del violín a 1 en la escala del eje
+de <strong>X</strong>. En otras palabras, en este caso el ancho
+<strong>width</strong> del violín para el primer año va de 2003.5 al
+2004.5, para el segundo violín de 2004.5 a 2005.5 y así sucesivamente en
+forma consecutiva para los demás años. Este enfoque crea una grado de
+uniformidad para cada ancho. En este caso el ancho no esta relacionado
+con el tamaño de muestra como el ejemplo anterior.</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(CalVal, <span class="fu">aes</span>(<span class="at">y=</span>OH, <span class="at">x=</span><span class="fu">factor</span>(Year)))</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="sc">+</span></span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">scale =</span> <span class="st">&quot;width&quot;</span>,</span>
@@ -1370,7 +1476,8 @@ La foto es de Leo Berzins via Flickr
 </div>
 <div id="geom_violin-y-el-cambio-de-orientación" class="section level2">
 <h2>Geom_violin y el cambio de orientación</h2>
-<p>En la Figura cambiamos la orientación de los gráficos anteriores utilizando la opción <strong>coord_flip()</strong>.</p>
+<p>En la Figura cambiamos la orientación de los gráficos anteriores
+utilizando la opción <strong>coord_flip()</strong>.</p>
 <div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(CalVal, <span class="fu">aes</span>(<span class="at">y=</span>OH, <span class="at">x=</span><span class="fu">factor</span>(Year)))</span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="sc">+</span></span>
 <span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>()<span class="sc">+</span></span>
@@ -2449,7 +2556,15 @@ La foto es de Leo Berzins via Flickr
 <p><img src="G8_geom_boxplot_geom_violin_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <hr />
 <ol start="2" style="list-style-type: decimal">
-<li>Preparar un gráfico de violín. Utiliza los datos <strong>CypripediumA</strong> en el paquete <strong>ggversa</strong>. Utiliza la columna <strong>Lip_length_mm</strong>, que es el largo de labelo de la orquidea <em>Cypripedium acaule</em>. La especies de orquídea vive en el norte de Canada en bosques cerados (Forest) o pantanos (Wetlands). Utiliza la columna <strong>Forest_Wetland</strong> para crear una caja de violín por cada sitio de muestreo. Poner color a los dos grupos. Evaluando la distribución de los datos sobre el tamaño del labello, Ud. cree que la distribución de tamaño es igual?
+<li>Preparar un gráfico de violín. Utiliza los datos
+<strong>CypripediumA</strong> en el paquete <strong>ggversa</strong>.
+Utiliza la columna <strong>Lip_length_mm</strong>, que es el largo de
+labelo de la orquidea <em>Cypripedium acaule</em>. La especies de
+orquídea vive en el norte de Canada en bosques cerados (Forest) o
+pantanos (Wetlands). Utiliza la columna <strong>Forest_Wetland</strong>
+para crear una caja de violín por cada sitio de muestreo. Poner color a
+los dos grupos. Evaluando la distribución de los datos sobre el tamaño
+del labello, Ud. cree que la distribución de tamaño es igual?
 <ul>
 <li>Salva el gráfico en formato .png y subirla a MSteam</li>
 </ul></li>
@@ -2457,7 +2572,8 @@ La foto es de Leo Berzins via Flickr
 <div class="figure">
 <img src="Graficos/Cypripedium_acaule.png" alt="Las fotos son de Dr. Peter Nosko de University of Nipissing, North Bay, Canada" width="70%" style="float:right; padding:10px" />
 <p class="caption">
-Las fotos son de Dr. Peter Nosko de University of Nipissing, North Bay, Canada
+Las fotos son de Dr. Peter Nosko de University of Nipissing, North Bay,
+Canada
 </p>
 </div>
 <hr />
@@ -2466,16 +2582,23 @@ Las fotos son de Dr. Peter Nosko de University of Nipissing, North Bay, Canada
 <div id="opciones-y-parametros-de-geom_violin" class="section level1">
 <h1>Opciones y Parametros de <strong>geom_violin</strong>:</h1>
 <ul>
-<li><p>ggplot(el archivo de datos, aes(la variable continua, x=1)): {x=1} si es un grupo o el nombre de la variable discreta si hay múltiples grupos</p></li>
-<li><p>geom_violin(x, y, alpha, colour, fill, linetype, size, weight)</p>
+<li><p>ggplot(el archivo de datos, aes(la variable continua, x=1)):
+{x=1} si es un grupo o el nombre de la variable discreta si hay
+múltiples grupos</p></li>
+<li><p>geom_violin(x, y, alpha, colour, fill, linetype, size,
+weight)</p>
 <ul>
 <li>alpha: la intensidad del color</li>
 <li>color: el color de la línea alrededor del violín</li>
 <li>fill: el color que se usa para rellenar el violín</li>
 <li>linetype: representa el estilo de línea; vea la sección</li>
 <li>size: representa el grosor de la línea</li>
-<li>scale: la escala que se usa para producir el violín tomando en cuenta el tamaño de muestra proporcionalmente; utiliza los parámetros <strong>count</strong> o <strong>width</strong></li>
-<li>weight: para modificar el valor original; entonces no sería, por ejemplo, el conteo/suma de los valores si no un valor ponderado (promedio ponderado).</li>
+<li>scale: la escala que se usa para producir el violín tomando en
+cuenta el tamaño de muestra proporcionalmente; utiliza los parámetros
+<strong>count</strong> o <strong>width</strong></li>
+<li>weight: para modificar el valor original; entonces no sería, por
+ejemplo, el conteo/suma de los valores si no un valor ponderado
+(promedio ponderado).</li>
 </ul></li>
 </ul>
 <hr />

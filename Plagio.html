@@ -13,7 +13,7 @@
 
 <title>Plagio</title>
 
-<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
@@ -133,11 +133,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -166,8 +170,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -175,16 +179,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -461,17 +458,27 @@ div.tocify {
 
 <div id="qué-es-el-plagio" class="section level1">
 <h1>¿Qué es el Plagio?</h1>
-<p>El plagio es un actividad academica y social que en primer lugar no reconoce la fuente de información donde proviene las ideas, analisis o datos. Es necesario que la información en un documento que no es de su proprio trabajo y analisis intelectual que se identifique la fuente o sea referencias de proveniencia de la información.</p>
+<p>El plagio es un actividad academica y social que en primer lugar no
+reconoce la fuente de información donde proviene las ideas, analisis o
+datos. Es necesario que la información en un documento que no es de su
+proprio trabajo y analisis intelectual que se identifique la fuente o
+sea referencias de proveniencia de la información.</p>
 </div>
 <div id="consecuencia-del-plagio" class="section level1">
 <h1>Consecuencia del plagio</h1>
-<p>No copiarse en los examenes o en los trabajos asignados. Si el se detecta que el estudiante hizo plagio el estudiante obtendrá CERO en el examen o trabajo. En adición el estudiante puede ser expulsado de la clase o del colegio si es encontrado culpable luego del debido proceso de ley.</p>
+<p>No copiarse en los examenes o en los trabajos asignados. Si el se
+detecta que el estudiante hizo plagio el estudiante obtendrá CERO en el
+examen o trabajo. En adición el estudiante puede ser expulsado de la
+clase o del colegio si es encontrado culpable luego del debido proceso
+de ley.</p>
 </div>
-<div id="las-leyes-de-la-upr-que-define-el-plagio" class="section level1">
+<div id="las-leyes-de-la-upr-que-define-el-plagio"
+class="section level1">
 <h1>Las leyes de la UPR que define el plagio</h1>
 <p>fghjk</p>
 </div>
-<div id="recursos-universitarios-para-evaluar-el-plagio" class="section level1">
+<div id="recursos-universitarios-para-evaluar-el-plagio"
+class="section level1">
 <h1>Recursos universitarios para evaluar el plagio</h1>
 <p>fghjkfghjkghjk</p>
 </div>

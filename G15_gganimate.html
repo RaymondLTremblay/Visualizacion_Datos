@@ -14,7 +14,7 @@
 
 <title>gganimate</title>
 
-<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
@@ -127,13 +127,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   for (var i = 0; i < sheets.length; i++) {
     if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
     try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
+    var j = 0;
+    while (j < rules.length) {
       var rule = rules[j];
       // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -229,11 +236,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -262,8 +273,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -271,16 +282,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -557,7 +561,7 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2022-03-28&quot;</code></pre>
+<pre><code>## [1] &quot;2022-12-12&quot;</code></pre>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">#if(!require(devtools)) install.packages(&quot;devtools&quot;)</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">#devtools::install_github(&quot;dgrtwo/gganimate&quot;)</span></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">#devtools::install_github(&quot;yihui/animation&quot;)</span></span></code></pre></div>
@@ -571,9 +575,23 @@ div.tocify {
 <span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(animation)</span>
 <span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(datasets)</span></code></pre></div>
-<p>El paquete <strong>gganimate</strong> extiende el paquete de <strong>ggplot2</strong> y implementa unas funciones para animar gráficos que típicamente estuviese estática. El paquete fue desarrollado por Pedersen y Robinson (2017).Siempre puede ir al siguiente enlace para tener más información y otros ejemplos. <a href="https://gganimate.com/articles/gganimate.html" class="uri">https://gganimate.com/articles/gganimate.html</a>. Note que antes de utilizar este modulo se asume que se conozca la estructura de la creación de gráficos con ggplot2.</p>
-<p>Los datos provienen del paquete <strong>gapminder</strong> y el archivo <strong>gapminder</strong>. Estos datos representa la expectativa de supervivencia en diferentes 142 países entre 1952 y 2007. Aquí observamos las primeras 6 filas del archivo. Para facilitar el trabajo, reducimos el archivo a un subgrupo de años (1952 a 1962).</p>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(datasets)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="co">#install.packages(&quot;rgl&quot;, dependencies = TRUE)</span></span></code></pre></div>
+<p>El paquete <strong>gganimate</strong> extiende el paquete de
+<strong>ggplot2</strong> y implementa unas funciones para animar
+gráficos que típicamente estuviese estática. El paquete fue desarrollado
+por Pedersen y Robinson (2017).Siempre puede ir al siguiente enlace para
+tener más información y otros ejemplos. <a
+href="https://gganimate.com/articles/gganimate.html"
+class="uri">https://gganimate.com/articles/gganimate.html</a>. Note que
+antes de utilizar este modulo se asume que se conozca la estructura de
+la creación de gráficos con ggplot2.</p>
+<p>Los datos provienen del paquete <strong>gapminder</strong> y el
+archivo <strong>gapminder</strong>. Estos datos representa la
+expectativa de supervivencia en diferentes 142 países entre 1952 y 2007.
+Aquí observamos las primeras 6 filas del archivo. Para facilitar el
+trabajo, reducimos el archivo a un subgrupo de años (1952 a 1962).</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co">#gt(head(gapminder))</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(gapminder)</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 6
@@ -586,7 +604,13 @@ div.tocify {
 ## 5 Afghanistan Asia       1972    36.1 13079460      740.
 ## 6 Afghanistan Asia       1977    38.4 14880372      786.</code></pre>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>gapminder2<span class="ot">=</span>gapminder <span class="sc">%&gt;%</span> <span class="fu">filter</span>(year <span class="sc">&lt;</span><span class="dv">1963</span>)</span></code></pre></div>
-<p>Primero creamos un gráfico de puntos sin animación o sea estático. En el eje de <strong>X</strong> representa el GDP per capita en cada país, y en el eje de <strong>Y</strong> la supervivencia. El tamaño del punto es relativo el tamaño del país. La escala en el eje de <strong>X</strong> fue cambiado a una logarítmica usando <strong>scale_x_log10()</strong>. Aunque es difícil percibir la diferencia cada país tiene su proprio color.</p>
+<p>Primero creamos un gráfico de puntos sin animación o sea estático. En
+el eje de <strong>X</strong> representa el GDP per capita en cada país,
+y en el eje de <strong>Y</strong> la supervivencia. El tamaño del punto
+es relativo el tamaño del país. La escala en el eje de
+<strong>X</strong> fue cambiado a una logarítmica usando
+<strong>scale_x_log10()</strong>. Aunque es difícil percibir la
+diferencia cada país tiene su proprio color.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  gapminder2, </span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> gdpPercap, <span class="at">y=</span>lifeExp, <span class="at">size =</span> pop, <span class="at">colour =</span> country)) <span class="sc">+</span></span>
@@ -598,144 +622,238 @@ div.tocify {
 <p><img src="G15_gganimate_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <div id="gráficos-con-animación" class="section level2">
 <h2>Gráficos con animación:</h2>
-<p>Para incluir las transiciones en tiempo se usa la función <strong>transition_time</strong>. El largo de transición sera corresponde as la diferencia entre la variable de tiempo (en este casa “Time”).</p>
-<p>La variable <strong>frame_time</strong> añade arriba una leyenda del tiempo de transición. Note que se usa la función <strong>labs</strong> y se añade el titulo y lo que hay entre los corchetes es la variable del cambio en tiempo.</p>
+<p>Para incluir las transiciones en tiempo se usa la función
+<strong>transition_time</strong>. El largo de transición sera
+corresponde as la diferencia entre la variable de tiempo (en este casa
+“Time”).</p>
+<p>La variable <strong>frame_time</strong> añade arriba una leyenda del
+tiempo de transición. Note que se usa la función <strong>labs</strong> y
+se añade el titulo y lo que hay entre los corchetes es la variable del
+cambio en tiempo.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co">#head(gapminder)</span></span>
 <span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>GDP_time<span class="ot">=</span>p <span class="sc">+</span> <span class="fu">transition_time</span>(year) <span class="sc">+</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a> <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Año: {frame_time}&quot;</span>)</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="co">#GDP_time</span></span></code></pre></div>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>GDP_time</span></code></pre></div>
+<p><img
+src="G15_gganimate_files/figure-html/unnamed-chunk-8-1.gif" /><!-- --></p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">animate</span>(GDP_time, <span class="at">height =</span> <span class="dv">300</span>, <span class="at">width =</span><span class="dv">300</span>)</span></code></pre></div>
-<p><img src="G15_gganimate_files/figure-html/unnamed-chunk-9-1.gif" /><!-- --></p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">anim_save</span>(<span class="st">&quot;GDP_time.gif&quot;</span>)</span></code></pre></div>
+<p><img
+src="G15_gganimate_files/figure-html/unnamed-chunk-9-1.gif" /><!-- --></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">#anim_save(&quot;GDP_time.gif&quot;)</span></span></code></pre></div>
 </div>
 <div id="crear-facet-animados." class="section level2">
 <h2>Crear facet animados.</h2>
-<p>Igual que para los gráficos de ggplot2 se puede crear una gráica por cada variable discreta. Para crear un gráfico por grupo y observar el de patrones de cambio en tiempo por continente se añade <strong>facet_wrap</strong>. En este próximo gráfico se produce un por cada continente.</p>
+<p>Igual que para los gráficos de ggplot2 se puede crear una gráica por
+cada variable discreta. Para crear un gráfico por grupo y observar el de
+patrones de cambio en tiempo por continente se añade
+<strong>facet_wrap</strong>. En este próximo gráfico se produce un por
+cada continente.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">facet_wrap</span>(<span class="sc">~</span>continent) <span class="sc">+</span></span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transition_time</span>(year) <span class="sc">+</span></span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Año: {frame_time}&quot;</span>)</span></code></pre></div>
-<p><img src="G15_gganimate_files/figure-html/unnamed-chunk-10-1.gif" /><!-- --></p>
+<p><img
+src="G15_gganimate_files/figure-html/unnamed-chunk-10-1.gif" /><!-- --></p>
 <hr />
 </div>
 <div id="animación-de-los-ejes-ejes-variables" class="section level2">
 <h2>Animación de los ejes: ejes variables</h2>
-<p>En este caso lo que observamos es que la leyenda en en <strong>x</strong> varia con los años, y la de <strong>y</strong> la dejamos fija. Si se usa <strong>view_follow(fixed_x = TRUE)</strong>, la leyenda en <strong>y</strong> variaría con el cambio en GDP per capita y la de <strong>x</strong> seria fija. Si queremos que los dos ejes varían con los datos se usa <strong>view_follow()</strong>, sin poner nada dentro de los paréntesis.</p>
+<p>En este caso lo que observamos es que la leyenda en en
+<strong>x</strong> varia con los años, y la de <strong>y</strong> la
+dejamos fija. Si se usa <strong>view_follow(fixed_x = TRUE)</strong>, la
+leyenda en <strong>y</strong> variaría con el cambio en GDP per capita y
+la de <strong>x</strong> seria fija. Si queremos que los dos ejes varían
+con los datos se usa <strong>view_follow()</strong>, sin poner nada
+dentro de los paréntesis.</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">transition_time</span>(year) <span class="sc">+</span></span>
 <span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Año: {frame_time}&quot;</span>) <span class="sc">+</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">view_follow</span>(<span class="at">fixed_y =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
-<p><img src="G15_gganimate_files/figure-html/unnamed-chunk-11-1.gif" /><!-- --></p>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">view_follow</span>(<span class="at">fixed_x =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<p><img
+src="G15_gganimate_files/figure-html/unnamed-chunk-11-1.gif" /><!-- --></p>
 <hr />
 </div>
 <div id="observar-transiciones-entre-valores" class="section level2">
 <h2>Observar transiciones entre valores</h2>
-<p>La función <strong>shadow_wake</strong> es para representar un efecto de sobre o dirreccón por donde ocurre los cambios. Se puede seleccionar el tamaño de la disminución y la opacidad de la sombra. El largo de la cola no es</p>
-<p>La duración de la estela no se da en cuadros absolutos, ya que eso haría que la animación sea susceptible a cambios en la velocidad de fotogramas. En cambio, se da por proporción de la longitud total de la animación. Por consecuencia el <strong>wake_length</strong> varia entre 0 a 1 en relación con el total de numero de periodo de tiempo (frames). En otra palabra más cerca el valor se acerca a 1, más largo sera la cola.</p>
-<p>The length of the wake is not given in absolute frames as that would make the animation susceptible to changes in the framerate. Instead it is given as a proportion of the total length of the animation.</p>
+<p>La función <strong>shadow_wake</strong> es para representar un efecto
+de sobre o dirreccón por donde ocurre los cambios. Se puede seleccionar
+el tamaño de la disminución y la opacidad de la sombra. El largo de la
+cola no es</p>
+<p>La duración de la estela no se da en cuadros absolutos, ya que eso
+haría que la animación sea susceptible a cambios en la velocidad de
+fotogramas. En cambio, se da por proporción de la longitud total de la
+animación. Por consecuencia el <strong>wake_length</strong> varia entre
+0 a 1 en relación con el total de numero de periodo de tiempo (frames).
+En otra palabra más cerca el valor se acerca a 1, más largo sera la
+cola.</p>
+<p>The length of the wake is not given in absolute frames as that would
+make the animation susceptible to changes in the framerate. Instead it
+is given as a proportion of the total length of the animation.</p>
 <hr />
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">transition_time</span>(year) <span class="sc">+</span></span>
 <span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Year: {frame_time}&quot;</span>) <span class="sc">+</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">shadow_wake</span>(<span class="at">wake_length =</span> <span class="fl">0.3</span>, <span class="at">alpha =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
-<p><img src="G15_gganimate_files/figure-html/unnamed-chunk-12-1.gif" /><!-- --></p>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">shadow_wake</span>(<span class="at">wake_length =</span> <span class="fl">0.8</span>, <span class="at">alpha =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img
+src="G15_gganimate_files/figure-html/unnamed-chunk-12-1.gif" /><!-- --></p>
 <hr />
 </div>
-<div id="visualizar-los-datos-originales-en-el-fondo" class="section level2">
+<div id="visualizar-los-datos-originales-en-el-fondo"
+class="section level2">
 <h2>Visualizar los datos originales en el fondo</h2>
-<p>Con la función <strong>shadow_mark</strong> se puede ver los datos originales. Tanto los datos anteriores y futuros se pueden demostrar con diferentes estilos. Por ejemplo con el siguiente script <strong>shadow_mark(past = FALSE, future = TRUE)</strong> se observaría los datos futuros y no del pasado. El alternativa basica <strong>shadow_mark()</strong> es igual a <strong>shadow_mark(past = TRUE, future = FALSE)</strong></p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">transition_time</span>(year) <span class="sc">+</span></span>
+<p>Con la función <strong>shadow_mark</strong> se puede ver los datos
+originales. Tanto los datos anteriores y futuros se pueden demostrar con
+diferentes estilos. Por ejemplo con el siguiente script
+<strong>shadow_mark(past = FALSE, future = TRUE)</strong> se observaría
+los datos futuros y no del pasado. El alternativa basica
+<strong>shadow_mark()</strong> es igual a <strong>shadow_mark(past =
+TRUE, future = FALSE)</strong></p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>final_animation <span class="ot">=</span> p <span class="sc">+</span> <span class="fu">transition_time</span>(year) <span class="sc">+</span></span>
 <span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Year: {frame_time}&quot;</span>) <span class="sc">+</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">shadow_mark</span>(<span class="at">alpha =</span> <span class="fl">0.3</span>, <span class="at">size =</span> <span class="fl">0.5</span>)</span></code></pre></div>
-<p><img src="G15_gganimate_files/figure-html/unnamed-chunk-13-1.gif" /><!-- --></p>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">shadow_mark</span>(<span class="at">alpha =</span> <span class="fl">0.3</span>, <span class="at">size =</span> <span class="fl">0.5</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>animation<span class="ot">=</span>final_animation</span></code></pre></div>
 <hr />
 </div>
 <div id="data-from-covid-19" class="section level1">
 <h1>Data from Covid-19</h1>
-<p>Located at <a href="https://ourworldindata.org/covid-deaths" class="uri">https://ourworldindata.org/covid-deaths</a></p>
+<p>Located at <a href="https://ourworldindata.org/covid-deaths"
+class="uri">https://ourworldindata.org/covid-deaths</a></p>
 <ol style="list-style-type: decimal">
-<li>Ejercicio: Producir un gráfico con <strong>gganimate</strong> sobre el cambio de casos de COVID-19 en tiempo en diferentes paises</li>
+<li>Ejercicio: Producir un gráfico con <strong>gganimate</strong> sobre
+el cambio de casos de COVID-19 en tiempo en diferentes paises</li>
 </ol>
 <ul>
-<li>Seleccionar variables del archivo de covid-deaths que UD. le interesa con la función <strong>select()</strong> de tidyverse.</li>
+<li>Seleccionar variables del archivo de covid-deaths que UD. le
+interesa con la función <strong>select()</strong> de tidyverse.</li>
 <li>remover los <strong>NA</strong></li>
-<li>puede seleccionar un subgrupos de datos como de un continente solamente, o paises selecionado especificos</li>
+<li>puede seleccionar un subgrupos de datos como de un continente
+solamente, o paises selecionado especificos</li>
 <li>hacer un “facet_wrap” por continentes o otra variable</li>
-<li>Puede cambiar el nombre de las leyenda en <strong>y</strong> y <strong>x</strong>.</li>
-<li>Puede modificar el tamaño del punto que representa el paises por una variable.</li>
+<li>Puede cambiar el nombre de las leyenda en <strong>y</strong> y
+<strong>x</strong>.</li>
+<li>Puede modificar el tamaño del punto que representa el paises por una
+variable.</li>
 </ul>
 <div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>owid_covid_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;Data_files_csv/owid-covid-data.csv&quot;</span>)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(owid_covid_data, <span class="at">n=</span><span class="dv">20</span>)</span></code></pre></div>
-<pre><code>## # A tibble: 20 × 41
-##    iso_code continent location date       total_cases new_cases new_cases_smoot…
-##    &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;    &lt;date&gt;           &lt;dbl&gt;     &lt;dbl&gt;            &lt;dbl&gt;
-##  1 &lt;NA&gt;     &lt;NA&gt;      Interna… 2020-10-07         696        NA               NA
-##  2 &lt;NA&gt;     &lt;NA&gt;      Interna… 2020-10-08         696        NA               NA
-##  3 &lt;NA&gt;     &lt;NA&gt;      Interna… 2020-10-09         696        NA               NA
-##  4 &lt;NA&gt;     &lt;NA&gt;      Interna… 2020-10-10         696        NA               NA
-##  5 &lt;NA&gt;     &lt;NA&gt;      Interna… 2020-10-11         696        NA               NA
-##  6 &lt;NA&gt;     &lt;NA&gt;      Interna… 2020-10-12         696        NA               NA
-##  7 &lt;NA&gt;     &lt;NA&gt;      Interna… 2020-10-13         696        NA               NA
-##  8 &lt;NA&gt;     &lt;NA&gt;      Interna… 2020-10-14         696        NA               NA
-##  9 &lt;NA&gt;     &lt;NA&gt;      Interna… 2020-10-15         696        NA               NA
-## 10 &lt;NA&gt;     &lt;NA&gt;      Interna… 2020-10-16         696        NA               NA
-## 11 &lt;NA&gt;     &lt;NA&gt;      Interna… 2020-10-17         696        NA               NA
-## 12 &lt;NA&gt;     &lt;NA&gt;      Interna… 2020-10-18         696        NA               NA
-## 13 &lt;NA&gt;     &lt;NA&gt;      Interna… 2020-10-19         696        NA               NA
-## 14 &lt;NA&gt;     &lt;NA&gt;      Interna… 2020-10-20         696        NA               NA
-## 15 &lt;NA&gt;     &lt;NA&gt;      Interna… 2020-10-21         696        NA               NA
-## 16 &lt;NA&gt;     &lt;NA&gt;      Interna… 2020-10-22         696        NA               NA
-## 17 &lt;NA&gt;     &lt;NA&gt;      Interna… 2020-10-23         696        NA               NA
-## 18 &lt;NA&gt;     &lt;NA&gt;      Interna… 2020-10-24         696        NA               NA
-## 19 &lt;NA&gt;     &lt;NA&gt;      Interna… 2020-10-25         696        NA               NA
-## 20 &lt;NA&gt;     &lt;NA&gt;      Interna… 2020-10-26         696        NA               NA
-## # … with 34 more variables: total_deaths &lt;dbl&gt;, new_deaths &lt;dbl&gt;,
-## #   new_deaths_smoothed &lt;dbl&gt;, total_cases_per_million &lt;dbl&gt;,
-## #   new_cases_per_million &lt;dbl&gt;, new_cases_smoothed_per_million &lt;dbl&gt;,
-## #   total_deaths_per_million &lt;dbl&gt;, new_deaths_per_million &lt;dbl&gt;,
-## #   new_deaths_smoothed_per_million &lt;dbl&gt;, total_tests &lt;dbl&gt;, new_tests &lt;dbl&gt;,
-## #   total_tests_per_thousand &lt;dbl&gt;, new_tests_per_thousand &lt;dbl&gt;,
-## #   new_tests_smoothed &lt;dbl&gt;, new_tests_smoothed_per_thousand &lt;dbl&gt;, …</code></pre>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>owid_covid_data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;COVID_DATA/owid-covid-data_2022.csv&quot;</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>owid_covid_data</span></code></pre></div>
+<pre><code>## # A tibble: 181,463 × 67
+##    iso_code continent locat…¹ date       total…² new_c…³ new_c…⁴ total…⁵ new_d…⁶
+##    &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;   &lt;date&gt;       &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
+##  1 AFG      Asia      Afghan… 2020-02-24       5       5  NA          NA      NA
+##  2 AFG      Asia      Afghan… 2020-02-25       5       0  NA          NA      NA
+##  3 AFG      Asia      Afghan… 2020-02-26       5       0  NA          NA      NA
+##  4 AFG      Asia      Afghan… 2020-02-27       5       0  NA          NA      NA
+##  5 AFG      Asia      Afghan… 2020-02-28       5       0  NA          NA      NA
+##  6 AFG      Asia      Afghan… 2020-02-29       5       0   0.714      NA      NA
+##  7 AFG      Asia      Afghan… 2020-03-01       5       0   0.714      NA      NA
+##  8 AFG      Asia      Afghan… 2020-03-02       5       0   0          NA      NA
+##  9 AFG      Asia      Afghan… 2020-03-03       5       0   0          NA      NA
+## 10 AFG      Asia      Afghan… 2020-03-04       5       0   0          NA      NA
+## # … with 181,453 more rows, 58 more variables: new_deaths_smoothed &lt;dbl&gt;,
+## #   total_cases_per_million &lt;dbl&gt;, new_cases_per_million &lt;dbl&gt;,
+## #   new_cases_smoothed_per_million &lt;dbl&gt;, total_deaths_per_million &lt;dbl&gt;,
+## #   new_deaths_per_million &lt;dbl&gt;, new_deaths_smoothed_per_million &lt;dbl&gt;,
+## #   reproduction_rate &lt;dbl&gt;, icu_patients &lt;dbl&gt;,
+## #   icu_patients_per_million &lt;dbl&gt;, hosp_patients &lt;dbl&gt;,
+## #   hosp_patients_per_million &lt;dbl&gt;, weekly_icu_admissions &lt;dbl&gt;, …</code></pre>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(owid_covid_data)</span></code></pre></div>
-<pre><code>##  [1] &quot;iso_code&quot;                        &quot;continent&quot;                      
-##  [3] &quot;location&quot;                        &quot;date&quot;                           
-##  [5] &quot;total_cases&quot;                     &quot;new_cases&quot;                      
-##  [7] &quot;new_cases_smoothed&quot;              &quot;total_deaths&quot;                   
-##  [9] &quot;new_deaths&quot;                      &quot;new_deaths_smoothed&quot;            
-## [11] &quot;total_cases_per_million&quot;         &quot;new_cases_per_million&quot;          
-## [13] &quot;new_cases_smoothed_per_million&quot;  &quot;total_deaths_per_million&quot;       
-## [15] &quot;new_deaths_per_million&quot;          &quot;new_deaths_smoothed_per_million&quot;
-## [17] &quot;total_tests&quot;                     &quot;new_tests&quot;                      
-## [19] &quot;total_tests_per_thousand&quot;        &quot;new_tests_per_thousand&quot;         
-## [21] &quot;new_tests_smoothed&quot;              &quot;new_tests_smoothed_per_thousand&quot;
-## [23] &quot;tests_per_case&quot;                  &quot;positive_rate&quot;                  
-## [25] &quot;tests_units&quot;                     &quot;stringency_index&quot;               
-## [27] &quot;population&quot;                      &quot;population_density&quot;             
-## [29] &quot;median_age&quot;                      &quot;aged_65_older&quot;                  
-## [31] &quot;aged_70_older&quot;                   &quot;gdp_per_capita&quot;                 
-## [33] &quot;extreme_poverty&quot;                 &quot;cardiovasc_death_rate&quot;          
-## [35] &quot;diabetes_prevalence&quot;             &quot;female_smokers&quot;                 
-## [37] &quot;male_smokers&quot;                    &quot;handwashing_facilities&quot;         
-## [39] &quot;hospital_beds_per_thousand&quot;      &quot;life_expectancy&quot;                
-## [41] &quot;human_development_index&quot;</code></pre>
+<pre><code>##  [1] &quot;iso_code&quot;                                  
+##  [2] &quot;continent&quot;                                 
+##  [3] &quot;location&quot;                                  
+##  [4] &quot;date&quot;                                      
+##  [5] &quot;total_cases&quot;                               
+##  [6] &quot;new_cases&quot;                                 
+##  [7] &quot;new_cases_smoothed&quot;                        
+##  [8] &quot;total_deaths&quot;                              
+##  [9] &quot;new_deaths&quot;                                
+## [10] &quot;new_deaths_smoothed&quot;                       
+## [11] &quot;total_cases_per_million&quot;                   
+## [12] &quot;new_cases_per_million&quot;                     
+## [13] &quot;new_cases_smoothed_per_million&quot;            
+## [14] &quot;total_deaths_per_million&quot;                  
+## [15] &quot;new_deaths_per_million&quot;                    
+## [16] &quot;new_deaths_smoothed_per_million&quot;           
+## [17] &quot;reproduction_rate&quot;                         
+## [18] &quot;icu_patients&quot;                              
+## [19] &quot;icu_patients_per_million&quot;                  
+## [20] &quot;hosp_patients&quot;                             
+## [21] &quot;hosp_patients_per_million&quot;                 
+## [22] &quot;weekly_icu_admissions&quot;                     
+## [23] &quot;weekly_icu_admissions_per_million&quot;         
+## [24] &quot;weekly_hosp_admissions&quot;                    
+## [25] &quot;weekly_hosp_admissions_per_million&quot;        
+## [26] &quot;total_tests&quot;                               
+## [27] &quot;new_tests&quot;                                 
+## [28] &quot;total_tests_per_thousand&quot;                  
+## [29] &quot;new_tests_per_thousand&quot;                    
+## [30] &quot;new_tests_smoothed&quot;                        
+## [31] &quot;new_tests_smoothed_per_thousand&quot;           
+## [32] &quot;positive_rate&quot;                             
+## [33] &quot;tests_per_case&quot;                            
+## [34] &quot;tests_units&quot;                               
+## [35] &quot;total_vaccinations&quot;                        
+## [36] &quot;people_vaccinated&quot;                         
+## [37] &quot;people_fully_vaccinated&quot;                   
+## [38] &quot;total_boosters&quot;                            
+## [39] &quot;new_vaccinations&quot;                          
+## [40] &quot;new_vaccinations_smoothed&quot;                 
+## [41] &quot;total_vaccinations_per_hundred&quot;            
+## [42] &quot;people_vaccinated_per_hundred&quot;             
+## [43] &quot;people_fully_vaccinated_per_hundred&quot;       
+## [44] &quot;total_boosters_per_hundred&quot;                
+## [45] &quot;new_vaccinations_smoothed_per_million&quot;     
+## [46] &quot;new_people_vaccinated_smoothed&quot;            
+## [47] &quot;new_people_vaccinated_smoothed_per_hundred&quot;
+## [48] &quot;stringency_index&quot;                          
+## [49] &quot;population&quot;                                
+## [50] &quot;population_density&quot;                        
+## [51] &quot;median_age&quot;                                
+## [52] &quot;aged_65_older&quot;                             
+## [53] &quot;aged_70_older&quot;                             
+## [54] &quot;gdp_per_capita&quot;                            
+## [55] &quot;extreme_poverty&quot;                           
+## [56] &quot;cardiovasc_death_rate&quot;                     
+## [57] &quot;diabetes_prevalence&quot;                       
+## [58] &quot;female_smokers&quot;                            
+## [59] &quot;male_smokers&quot;                              
+## [60] &quot;handwashing_facilities&quot;                    
+## [61] &quot;hospital_beds_per_thousand&quot;                
+## [62] &quot;life_expectancy&quot;                           
+## [63] &quot;human_development_index&quot;                   
+## [64] &quot;excess_mortality_cumulative_absolute&quot;      
+## [65] &quot;excess_mortality_cumulative&quot;               
+## [66] &quot;excess_mortality&quot;                          
+## [67] &quot;excess_mortality_cumulative_per_million&quot;</code></pre>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>owid_covid_data2<span class="ot">=</span> owid_covid_data <span class="sc">%&gt;%</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(date, location, total_deaths, total_cases_per_million, continent) <span class="sc">%&gt;%</span>  <span class="co"># Seleccionar aquí sus variables del data frame</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(date, location, total_deaths, total_cases_per_million, continent, total_deaths_per_million, population) <span class="sc">%&gt;%</span>  <span class="co"># Seleccionar aquí sus variables del data frame</span></span>
 <span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="co"># remover los &quot;NA&quot;. Esto remueve toda la fila si una de las variables tiene un &quot;NA&quot;</span></span>
 <span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(owid_covid_data2)  <span class="co"># Visualizar su nuevo data frame</span></span></code></pre></div>
-<pre><code>## # A tibble: 6 × 5
-##   date       location total_deaths total_cases_per_million continent    
-##   &lt;date&gt;     &lt;chr&gt;           &lt;dbl&gt;                   &lt;dbl&gt; &lt;chr&gt;        
-## 1 2020-04-16 Aruba               1                    871. North America
-## 2 2020-04-17 Aruba               1                    890. North America
-## 3 2020-04-18 Aruba               2                    899. North America
-## 4 2020-04-19 Aruba               2                    899. North America
-## 5 2020-04-20 Aruba               2                    909. North America
-## 6 2020-04-21 Aruba               2                    909. North America</code></pre>
+<pre><code>## # A tibble: 6 × 7
+##   date       location    total_deaths total_cases_per_…¹ conti…² total…³ popul…⁴
+##   &lt;date&gt;     &lt;chr&gt;              &lt;dbl&gt;              &lt;dbl&gt; &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;
+## 1 2020-03-23 Afghanistan            1               1.00 Asia      0.025  3.98e7
+## 2 2020-03-24 Afghanistan            1               1.05 Asia      0.025  3.98e7
+## 3 2020-03-25 Afghanistan            1               1.86 Asia      0.025  3.98e7
+## 4 2020-03-26 Afghanistan            2               2.01 Asia      0.05   3.98e7
+## 5 2020-03-27 Afghanistan            2               2.28 Asia      0.05   3.98e7
+## 6 2020-03-28 Afghanistan            2               2.66 Asia      0.05   3.98e7
+## # … with abbreviated variable names ¹​total_cases_per_million, ²​continent,
+## #   ³​total_deaths_per_million, ⁴​population</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(owid_covid_data2<span class="sc">$</span>continent)</span></code></pre></div>
+<pre><code>## [1] &quot;Asia&quot;          &quot;Europe&quot;        &quot;Africa&quot;        &quot;North America&quot;
+## [5] &quot;South America&quot; &quot;Oceania&quot;</code></pre>
 <hr />
 <div id="transiciones-graduales" class="section level2">
 <h2>Transiciones graduales</h2>
-<p>Con la función <strong>transition_reveal</strong> los datos aparece gradualmente en el gráfico</p>
-<p>Usamos otro conjunto de datos del archivo <strong>airquality</strong> que se encuentra en el paquete <strong>datasets</strong> Primero creamos un gráfico estático (sin animación), el día del mes (day), la temperatura del día (Temp) y una linea para cada mes (mayo a septiembre) con la función <strong>group</strong>.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(airquality)</span></code></pre></div>
+<p>Con la función <strong>transition_reveal</strong> los datos aparece
+gradualmente en el gráfico</p>
+<p>Usamos otro conjunto de datos del archivo <strong>airquality</strong>
+que se encuentra en el paquete <strong>datasets</strong> Primero creamos
+un gráfico estático (sin animación), el día del mes (day), la
+temperatura del día (Temp) y una linea para cada mes (mayo a septiembre)
+con la función <strong>group</strong>.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(airquality)</span></code></pre></div>
 <pre><code>##   Ozone Solar.R Wind Temp Month Day
 ## 1    41     190  7.4   67     5   1
 ## 2    36     118  8.0   72     5   2
@@ -743,45 +861,59 @@ div.tocify {
 ## 4    18     313 11.5   62     5   4
 ## 5    NA      NA 14.3   56     5   5
 ## 6    28      NA 14.9   66     5   6</code></pre>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(airquality,</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(Day, Temp, <span class="at">group =</span> Month, <span class="at">color =</span> <span class="fu">factor</span>(Month))) <span class="sc">+</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_viridis_d</span>() <span class="sc">+</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Day of Month&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Temperature&quot;</span>) <span class="sc">+</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>)</span>
-<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>p</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(airquality,</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(Day, Temp, <span class="at">group =</span> Month, <span class="at">color =</span> <span class="fu">factor</span>(Month))) <span class="sc">+</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Day of Month&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Temperature&quot;</span>) <span class="sc">+</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;top&quot;</span>)</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>p</span></code></pre></div>
 <p><img src="G15_gganimate_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
-<p>Ahora animamos el gráfico en el eje de <strong>x</strong> con la variable de <strong>Day</strong>, añadiendo <strong>transition_reveal(Day)</strong></p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">transition_reveal</span>(Day)</span></code></pre></div>
-<p><img src="G15_gganimate_files/figure-html/unnamed-chunk-19-1.gif" /><!-- --></p>
+<p>Ahora animamos el gráfico en el eje de <strong>x</strong> con la
+variable de <strong>Day</strong>, añadiendo
+<strong>transition_reveal(Day)</strong></p>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">transition_reveal</span>(Day)</span></code></pre></div>
+<p><img
+src="G15_gganimate_files/figure-html/unnamed-chunk-19-1.gif" /><!-- --></p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>final<span class="ot">=</span>p <span class="sc">+</span> <span class="fu">transition_reveal</span>(Day)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="fu">anim_save</span>(<span class="st">&quot;GDP_time4.gif&quot;</span>)</span></code></pre></div>
 <hr />
 </div>
 <div id="anadiendo-un-punto-a-la-linea" class="section level2">
 <h2>Anadiendo un punto a la linea</h2>
 <p>Se puede añadir un punto al principio de las lineas</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>cambio_m<span class="ot">=</span>p <span class="sc">+</span> </span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transition_reveal</span>(Day)</span></code></pre></div>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">animate</span>(cambio_m, <span class="at">height =</span> <span class="dv">400</span>, <span class="at">width =</span><span class="dv">400</span>)</span></code></pre></div>
-<p><img src="G15_gganimate_files/figure-html/unnamed-chunk-21-1.gif" /><!-- --></p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># anim_save(&quot;cambio_m.gif&quot;)</span></span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>cambio_m<span class="ot">=</span>p <span class="sc">+</span> </span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transition_reveal</span>(Day)</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>cambio_m</span></code></pre></div>
+<p><img
+src="G15_gganimate_files/figure-html/unnamed-chunk-20-1.gif" /><!-- --></p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">animate</span>(cambio_m, <span class="at">height =</span> <span class="dv">400</span>, <span class="at">width =</span><span class="dv">400</span>)</span></code></pre></div>
+<p><img
+src="G15_gganimate_files/figure-html/unnamed-chunk-21-1.gif" /><!-- --></p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># anim_save(&quot;cambio_m.gif&quot;)</span></span></code></pre></div>
 <hr />
 </div>
 <div id="poniendo-un-punto-para-valor" class="section level2">
 <h2>Poniendo un punto para valor</h2>
-<p>Los puntos se pueden quedar en el gráfico añadiendo <strong>(group = seq_along(Day)</strong>.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> </span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">group =</span> <span class="fu">seq_along</span>(Day))) <span class="sc">+</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transition_reveal</span>(Day)</span></code></pre></div>
-<p><img src="G15_gganimate_files/figure-html/unnamed-chunk-22-1.gif" /><!-- --></p>
+<p>Los puntos se pueden quedar en el gráfico añadiendo <strong>(group =
+seq_along(Day)</strong>.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">group =</span> <span class="fu">seq_along</span>(Day))) <span class="sc">+</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transition_reveal</span>(Day)</span></code></pre></div>
+<p><img
+src="G15_gganimate_files/figure-html/unnamed-chunk-22-1.gif" /><!-- --></p>
 <hr />
 </div>
 </div>
 <div id="animación-con-gráficos-de-barras" class="section level1">
 <h1>Animación con gráficos de barras</h1>
-<p>La transiciones también pueden ser producida con otros geoms por ejemplo con <strong>geom_col</strong>. El primer paso es tener un data frame que representa los valores de cada columna/barra. Entonces el primer paso aquí fue de calcular el promedio de temperatura por mes en un nuevo data frame que llamamos <strong>temp.promedio</strong>.</p>
+<p>La transiciones también pueden ser producida con otros geoms por
+ejemplo con <strong>geom_col</strong>. El primer paso es tener un data
+frame que representa los valores de cada columna/barra. Entonces el
+primer paso aquí fue de calcular el promedio de temperatura por mes en
+un nuevo data frame que llamamos <strong>temp.promedio</strong>.</p>
 <p>Preparación de los datos</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(airquality)</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(airquality)</span></code></pre></div>
 <pre><code>##   Ozone Solar.R Wind Temp Month Day
 ## 1    41     190  7.4   67     5   1
 ## 2    36     118  8.0   72     5   2
@@ -789,11 +921,11 @@ div.tocify {
 ## 4    18     313 11.5   62     5   4
 ## 5    NA      NA 14.3   56     5   5
 ## 6    28      NA 14.9   66     5   6</code></pre>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>temp.promedio <span class="ot">&lt;-</span> airquality <span class="sc">%&gt;%</span></span>
-<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Day, Temp) <span class="sc">%&gt;%</span> </span>
-<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Day) <span class="sc">%&gt;%</span></span>
-<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Temp2 =</span> <span class="fu">mean</span>(Temp, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
-<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>temp.promedio</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>temp.promedio <span class="ot">&lt;-</span> airquality <span class="sc">%&gt;%</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Day, Temp) <span class="sc">%&gt;%</span> </span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Day) <span class="sc">%&gt;%</span></span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Temp2 =</span> <span class="fu">mean</span>(Temp, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>temp.promedio</span></code></pre></div>
 <pre><code>## # A tibble: 31 × 2
 ##      Day Temp2
 ##    &lt;int&gt; &lt;dbl&gt;
@@ -811,34 +943,44 @@ div.tocify {
 <hr />
 <div id="gráfico-de-barra-estático" class="section level2">
 <h2>Gráfico de barra estático</h2>
-<p>Ahora creamos un gráfico estático de los datos con <strong>geom_col</strong>.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(temp.promedio, <span class="fu">aes</span>(Day, Temp2, <span class="at">fill=</span>Day)) <span class="sc">+</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_distiller</span>(<span class="at">palette =</span> <span class="st">&quot;Reds&quot;</span>, <span class="at">direction =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major.y =</span> <span class="fu">element_line</span>(<span class="at">color =</span> <span class="st">&quot;white&quot;</span>),</span>
-<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.ontop =</span> <span class="cn">TRUE</span></span>
-<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>  )</span>
-<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a>p</span></code></pre></div>
+<p>Ahora creamos un gráfico estático de los datos con
+<strong>geom_col</strong>.</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(temp.promedio, <span class="fu">aes</span>(Day, Temp2, <span class="at">fill=</span>Day)) <span class="sc">+</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_distiller</span>(<span class="at">palette =</span> <span class="st">&quot;Blues&quot;</span>, <span class="at">direction =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.major.y =</span> <span class="fu">element_line</span>(<span class="at">color =</span> <span class="st">&quot;white&quot;</span>),</span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.ontop =</span> <span class="cn">TRUE</span></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>p</span></code></pre></div>
 <p><img src="G15_gganimate_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
 <hr />
 </div>
-<div id="añadiendo-efecto-de-transición-en-las-columnas" class="section level2">
+<div id="añadiendo-efecto-de-transición-en-las-columnas"
+class="section level2">
 <h2>Añadiendo efecto de transición en las columnas</h2>
-<p>El efecto de transición de un mes al otro se añade con la función <strong>transition_states()</strong>. Si uno añade solamente esta función aparece solamente una barra a la vez.</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">transition_states</span>(Day, <span class="at">wrap =</span> <span class="cn">FALSE</span>) </span></code></pre></div>
-<p><img src="G15_gganimate_files/figure-html/unnamed-chunk-25-1.gif" /><!-- --></p>
+<p>El efecto de transición de un mes al otro se añade con la función
+<strong>transition_states()</strong>. Si uno añade solamente esta
+función aparece solamente una barra a la vez.</p>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">transition_states</span>(Day, <span class="at">wrap =</span> <span class="cn">FALSE</span>) </span></code></pre></div>
+<p><img
+src="G15_gganimate_files/figure-html/unnamed-chunk-25-1.gif" /><!-- --></p>
 <hr />
 </div>
-<div id="añadiendo-efecto-de-transición-y-shadow" class="section level2">
+<div id="añadiendo-efecto-de-transición-y-shadow"
+class="section level2">
 <h2>Añadiendo efecto de transición y shadow</h2>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">transition_states</span>(Day, <span class="at">wrap =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
-<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">shadow_mark</span>()</span></code></pre></div>
-<p><img src="G15_gganimate_files/figure-html/unnamed-chunk-26-1.gif" /><!-- --></p>
-<p>Para más ejemplos de como usar <strong>gganimate</strong> ver este enlace.</p>
-<p><a href="https://semba-blog.netlify.com/10/29/2018/animating-oceanographic-data-in-r-with-ggplot2-and-gganimate/" class="uri">https://semba-blog.netlify.com/10/29/2018/animating-oceanographic-data-in-r-with-ggplot2-and-gganimate/</a></p>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">transition_states</span>(Day, <span class="at">wrap =</span> <span class="cn">FALSE</span>) <span class="sc">+</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">shadow_mark</span>()</span></code></pre></div>
+<p><img
+src="G15_gganimate_files/figure-html/unnamed-chunk-26-1.gif" /><!-- --></p>
+<p>Para más ejemplos de como usar <strong>gganimate</strong> ver este
+enlace.</p>
+<p><a
+href="https://semba-blog.netlify.com/10/29/2018/animating-oceanographic-data-in-r-with-ggplot2-and-gganimate/"
+class="uri">https://semba-blog.netlify.com/10/29/2018/animating-oceanographic-data-in-r-with-ggplot2-and-gganimate/</a></p>
 </div>
 </div>
 

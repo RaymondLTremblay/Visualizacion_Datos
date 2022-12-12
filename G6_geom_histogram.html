@@ -13,7 +13,7 @@
 
 <title>Histogramas con geom_histogram</title>
 
-<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
@@ -126,13 +126,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   for (var i = 0; i < sheets.length; i++) {
     if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
     try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
+    var j = 0;
+    while (j < rules.length) {
       var rule = rules[j];
       // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -228,11 +235,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -261,8 +272,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -270,16 +281,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -549,13 +553,14 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Histogramas con <strong>geom_histogram</strong></h1>
+<h1 class="title toc-ignore">Histogramas con
+<strong>geom_histogram</strong></h1>
 
 </div>
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2022-03-28&quot;</code></pre>
+<pre><code>## [1] &quot;2022-12-12&quot;</code></pre>
 <p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" /></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggversa)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
@@ -563,9 +568,32 @@ div.tocify {
 <hr />
 <div id="histogramas-con-geom_histogram" class="section level1">
 <h1>Histogramas con geom_histogram</h1>
-<p>Un histograma es una representación gráfica de los datos agrupados en compartimentos o <em>bins</em>. Estos compartimentos incluyen individuos con factores o agrupaciones de valores similares o cercanos numéricamente. Subsiguiente a la determinación de los compartimentos, se suma la cantidad de observaciones para cada uno de ellos. Un histograma es un tipo de gráfico muy común para visualizar la dispersión de esos datos. Continuaremos con el ejemplo de <em>Dipodium</em> para demostrar la función de <strong>geom_histogram</strong> a continuación.</p>
-<p>En el primer caso de <strong>geom_histogram</strong> la cantidad de observaciones (datos) se suma de acuerdo a la posición de los compartimentos o <em>bins</em>.</p>
-<p>En el segundo caso, para mostrar menos barras y ver la agrupación por grupos de 2, se escribe con <strong>geom_histogram (binwidth=1)</strong>. Como se puede apreciar, el número de compartimentos se cambia utilizando el parámetro <em>binwidth</em>, donde su valor representa el ancho del compartimento (en nuestro caso es igual a 1). El número de <em>bins</em> predeterminado es 30, pero no necesariamente todos tendrán una barra ya que eso depende de la distribución de los datos. Cada barra representa la frecuencia de observaciones en la categoría a un metro de distancia. En ambos casos se usó color=white (o sea, color blanco) para poner una línea blanca alrededor de cada barra y así diferenciar mejor los grupos o <em>bins</em>. Nota que el programa retorna el mensaje <strong><code>stat_bin()</code> using <code>bins = 30</code>. Pick better value with <code>binwidth</code></strong>. Esto porque se acepto la cantidad de compartimiento prederminado.</p>
+<p>Un histograma es una representación gráfica de los datos agrupados en
+compartimentos o <em>bins</em>. Estos compartimentos incluyen individuos
+con factores o agrupaciones de valores similares o cercanos
+numéricamente. Subsiguiente a la determinación de los compartimentos, se
+suma la cantidad de observaciones para cada uno de ellos. Un histograma
+es un tipo de gráfico muy común para visualizar la dispersión de esos
+datos. Continuaremos con el ejemplo de <em>Dipodium</em> para demostrar
+la función de <strong>geom_histogram</strong> a continuación.</p>
+<p>En el primer caso de <strong>geom_histogram</strong> la cantidad de
+observaciones (datos) se suma de acuerdo a la posición de los
+compartimentos o <em>bins</em>.</p>
+<p>En el segundo caso, para mostrar menos barras y ver la agrupación por
+grupos de 2, se escribe con <strong>geom_histogram
+(binwidth=1)</strong>. Como se puede apreciar, el número de
+compartimentos se cambia utilizando el parámetro <em>binwidth</em>,
+donde su valor representa el ancho del compartimento (en nuestro caso es
+igual a 1). El número de <em>bins</em> predeterminado es 30, pero no
+necesariamente todos tendrán una barra ya que eso depende de la
+distribución de los datos. Cada barra representa la frecuencia de
+observaciones en la categoría a un metro de distancia. En ambos casos se
+usó color=white (o sea, color blanco) para poner una línea blanca
+alrededor de cada barra y así diferenciar mejor los grupos o
+<em>bins</em>. Nota que el programa retorna el mensaje
+<strong><code>stat_bin()</code> using <code>bins = 30</code>. Pick
+better value with <code>binwidth</code></strong>. Esto porque se acepto
+la cantidad de compartimiento prederminado.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
 <span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>DW<span class="ot">=</span><span class="fu">clean_names</span>(dipodium) <span class="co"># este archivo de datos se encuentra en el paquete &quot;ggversa&quot;</span></span>
 <span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(DW)</span></code></pre></div>
@@ -584,12 +612,12 @@ div.tocify {
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>DW <span class="sc">%&gt;%</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">%&gt;%</span> </span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">gt</span>()</span></code></pre></div>
-<div id="wphxilufde" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="uvoonrclhg" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#wphxilufde .gt_table {
+#uvoonrclhg .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -614,7 +642,7 @@ div.tocify {
   border-left-color: #D3D3D3;
 }
 
-#wphxilufde .gt_heading {
+#uvoonrclhg .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -626,7 +654,7 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#wphxilufde .gt_title {
+#uvoonrclhg .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -638,7 +666,7 @@ div.tocify {
   border-bottom-width: 0;
 }
 
-#wphxilufde .gt_subtitle {
+#uvoonrclhg .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -650,13 +678,13 @@ div.tocify {
   border-top-width: 0;
 }
 
-#wphxilufde .gt_bottom_border {
+#uvoonrclhg .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#wphxilufde .gt_col_headings {
+#uvoonrclhg .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -671,7 +699,7 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#wphxilufde .gt_col_heading {
+#uvoonrclhg .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -691,7 +719,7 @@ div.tocify {
   overflow-x: hidden;
 }
 
-#wphxilufde .gt_column_spanner_outer {
+#uvoonrclhg .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -703,15 +731,15 @@ div.tocify {
   padding-right: 4px;
 }
 
-#wphxilufde .gt_column_spanner_outer:first-child {
+#uvoonrclhg .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#wphxilufde .gt_column_spanner_outer:last-child {
+#uvoonrclhg .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#wphxilufde .gt_column_spanner {
+#uvoonrclhg .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -723,7 +751,7 @@ div.tocify {
   width: 100%;
 }
 
-#wphxilufde .gt_group_heading {
+#uvoonrclhg .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -748,7 +776,7 @@ div.tocify {
   vertical-align: middle;
 }
 
-#wphxilufde .gt_empty_group_heading {
+#uvoonrclhg .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -763,15 +791,15 @@ div.tocify {
   vertical-align: middle;
 }
 
-#wphxilufde .gt_from_md > :first-child {
+#uvoonrclhg .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#wphxilufde .gt_from_md > :last-child {
+#uvoonrclhg .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#wphxilufde .gt_row {
+#uvoonrclhg .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -790,7 +818,7 @@ div.tocify {
   overflow-x: hidden;
 }
 
-#wphxilufde .gt_stub {
+#uvoonrclhg .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -803,7 +831,7 @@ div.tocify {
   padding-right: 5px;
 }
 
-#wphxilufde .gt_stub_row_group {
+#uvoonrclhg .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -817,11 +845,11 @@ div.tocify {
   vertical-align: top;
 }
 
-#wphxilufde .gt_row_group_first td {
+#uvoonrclhg .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#wphxilufde .gt_summary_row {
+#uvoonrclhg .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -831,16 +859,16 @@ div.tocify {
   padding-right: 5px;
 }
 
-#wphxilufde .gt_first_summary_row {
+#uvoonrclhg .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#wphxilufde .gt_first_summary_row.thick {
+#uvoonrclhg .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#wphxilufde .gt_last_summary_row {
+#uvoonrclhg .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -850,7 +878,7 @@ div.tocify {
   border-bottom-color: #D3D3D3;
 }
 
-#wphxilufde .gt_grand_summary_row {
+#uvoonrclhg .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -860,7 +888,7 @@ div.tocify {
   padding-right: 5px;
 }
 
-#wphxilufde .gt_first_grand_summary_row {
+#uvoonrclhg .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -870,11 +898,11 @@ div.tocify {
   border-top-color: #D3D3D3;
 }
 
-#wphxilufde .gt_striped {
+#uvoonrclhg .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#wphxilufde .gt_table_body {
+#uvoonrclhg .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -883,7 +911,7 @@ div.tocify {
   border-bottom-color: #D3D3D3;
 }
 
-#wphxilufde .gt_footnotes {
+#uvoonrclhg .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -897,7 +925,7 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#wphxilufde .gt_footnote {
+#uvoonrclhg .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -906,7 +934,7 @@ div.tocify {
   padding-right: 5px;
 }
 
-#wphxilufde .gt_sourcenotes {
+#uvoonrclhg .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -920,7 +948,7 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#wphxilufde .gt_sourcenote {
+#uvoonrclhg .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -928,90 +956,92 @@ div.tocify {
   padding-right: 5px;
 }
 
-#wphxilufde .gt_left {
+#uvoonrclhg .gt_left {
   text-align: left;
 }
 
-#wphxilufde .gt_center {
+#uvoonrclhg .gt_center {
   text-align: center;
 }
 
-#wphxilufde .gt_right {
+#uvoonrclhg .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#wphxilufde .gt_font_normal {
+#uvoonrclhg .gt_font_normal {
   font-weight: normal;
 }
 
-#wphxilufde .gt_font_bold {
+#uvoonrclhg .gt_font_bold {
   font-weight: bold;
 }
 
-#wphxilufde .gt_font_italic {
+#uvoonrclhg .gt_font_italic {
   font-style: italic;
 }
 
-#wphxilufde .gt_super {
+#uvoonrclhg .gt_super {
   font-size: 65%;
 }
 
-#wphxilufde .gt_footnote_marks {
+#uvoonrclhg .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#wphxilufde .gt_asterisk {
+#uvoonrclhg .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#wphxilufde .gt_slash_mark {
-  font-size: 0.7em;
-  line-height: 0.7em;
-  vertical-align: 0.15em;
+#uvoonrclhg .gt_indent_1 {
+  text-indent: 5px;
 }
 
-#wphxilufde .gt_fraction_numerator {
-  font-size: 0.6em;
-  line-height: 0.6em;
-  vertical-align: 0.45em;
+#uvoonrclhg .gt_indent_2 {
+  text-indent: 10px;
 }
 
-#wphxilufde .gt_fraction_denominator {
-  font-size: 0.6em;
-  line-height: 0.6em;
-  vertical-align: -0.05em;
+#uvoonrclhg .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#uvoonrclhg .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#uvoonrclhg .gt_indent_5 {
+  text-indent: 25px;
 }
 </style>
 <table class="gt_table">
   
   <thead class="gt_col_headings">
     <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">tree_number</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">tree_species</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">dbh</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">plant_number</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">ramet_number</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">distance</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">orientation</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">number_of_flowers</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">height_inflo</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">herbivory</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">row_position_nf</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">number_flowers_position</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">number_of_fruits</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">perc_fr_set</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">pardalinum_or_roseum</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">fruit_position_effect</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">frutos_si_o_no</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">p_or_r_infl_lenght</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">num_of_fruits</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">species_name</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">cardinal_orientation</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">tree_number</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">tree_species</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">dbh</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">plant_number</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">ramet_number</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">distance</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">orientation</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">number_of_flowers</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">height_inflo</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">herbivory</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">row_position_nf</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">number_flowers_position</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">number_of_fruits</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">perc_fr_set</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">pardalinum_or_roseum</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">fruit_position_effect</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">frutos_si_o_no</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">p_or_r_infl_lenght</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">num_of_fruits</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">species_name</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">cardinal_orientation</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
@@ -1154,9 +1184,21 @@ div.tocify {
 <p><img src="G6_geom_histogram_files/figure-html/dipodium-histograma-1.png" width="672" /></p>
 <hr />
 </div>
-<div id="cambio-del-tamaño-de-los-compartimiento-con-binwidth" class="section level1">
+<div id="cambio-del-tamaño-de-los-compartimiento-con-binwidth"
+class="section level1">
 <h1>Cambio del tamaño de los compartimiento con <em>binwidth</em></h1>
-<p>Este histograma demuestra las distancias de las orquídeas <em>Dipodium roseum</em> a los árboles más cercanos. Esta especie de orquídea es parasítica de hongos/micorrizas y no produce fotosíntesis. La hipótesis es que las micorrizas, <strong>hongos</strong>, reciben nutrientes de las raíces de los árboles y los nutrientes son transferidos a las orquídeas a través de las micorrizas. A consecuencia, se debería hipotéticamente observar una distancia óptima de la orquídea a los árboles que sostienen las micorrizas si la hipótesis tiene alguna veracidad. Como se explicó antes, en el segundo gráfico, se cambió el binwidth a 1, que representa en este caso la distancia de 1 metro, y los <strong>bins</strong> van de -.5 a .5 m., el segundo <strong>bin</strong> de &gt;0.5 a 1.5 metros y así sucesivamente.</p>
+<p>Este histograma demuestra las distancias de las orquídeas
+<em>Dipodium roseum</em> a los árboles más cercanos. Esta especie de
+orquídea es parasítica de hongos/micorrizas y no produce fotosíntesis.
+La hipótesis es que las micorrizas, <strong>hongos</strong>, reciben
+nutrientes de las raíces de los árboles y los nutrientes son
+transferidos a las orquídeas a través de las micorrizas. A consecuencia,
+se debería hipotéticamente observar una distancia óptima de la orquídea
+a los árboles que sostienen las micorrizas si la hipótesis tiene alguna
+veracidad. Como se explicó antes, en el segundo gráfico, se cambió el
+binwidth a 1, que representa en este caso la distancia de 1 metro, y los
+<strong>bins</strong> van de -.5 a .5 m., el segundo
+<strong>bin</strong> de &gt;0.5 a 1.5 metros y así sucesivamente.</p>
 <div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(DW<span class="sc">$</span>distance)</span></code></pre></div>
 <pre><code>## [1] 1363</code></pre>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(DW, <span class="fu">aes</span>(distance))</span>
@@ -1166,18 +1208,27 @@ div.tocify {
 <p><img src="G6_geom_histogram_files/figure-html/num1-1.png" width="672" /></p>
 <hr />
 </div>
-<div id="números-de-camas-en-hospitales-por-1000-habitantes-en-diferenctes-paises" class="section level1">
-<h1>Números de camas en hospitales por 1000 habitantes en diferenctes paises</h1>
-<p>En el siguiente gráfico, vemos la frecuencia de número de camas de hospital por cada 1000 habitantes para 67 países utilizando la base de datos <strong>Camas_Hospital</strong>. Se hizo con la información que estaba disponible solo para los años 1996 y 2006. Tenemos dos gráficos solapados para visualizar si la distribución ha cambiado de entre el año 1996 y 2006. Note que las frecuencias del 2006 aparecen sobre las del 1996.</p>
+<div
+id="números-de-camas-en-hospitales-por-1000-habitantes-en-diferenctes-paises"
+class="section level1">
+<h1>Números de camas en hospitales por 1000 habitantes en diferenctes
+paises</h1>
+<p>En el siguiente gráfico, vemos la frecuencia de número de camas de
+hospital por cada 1000 habitantes para 67 países utilizando la base de
+datos <strong>Camas_Hospital</strong>. Se hizo con la información que
+estaba disponible solo para los años 1996 y 2006. Tenemos dos gráficos
+solapados para visualizar si la distribución ha cambiado de entre el año
+1996 y 2006. Note que las frecuencias del 2006 aparecen sobre las del
+1996.</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>Camas_Hospital <span class="sc">%&gt;%</span> </span>
 <span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">%&gt;%</span> </span>
 <span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code></pre></div>
-<div id="vgwrpazsgp" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="jxwtdjkplm" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#vgwrpazsgp .gt_table {
+#jxwtdjkplm .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1202,7 +1253,7 @@ div.tocify {
   border-left-color: #D3D3D3;
 }
 
-#vgwrpazsgp .gt_heading {
+#jxwtdjkplm .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1214,7 +1265,7 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#vgwrpazsgp .gt_title {
+#jxwtdjkplm .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1226,7 +1277,7 @@ div.tocify {
   border-bottom-width: 0;
 }
 
-#vgwrpazsgp .gt_subtitle {
+#jxwtdjkplm .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1238,13 +1289,13 @@ div.tocify {
   border-top-width: 0;
 }
 
-#vgwrpazsgp .gt_bottom_border {
+#jxwtdjkplm .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#vgwrpazsgp .gt_col_headings {
+#jxwtdjkplm .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1259,7 +1310,7 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#vgwrpazsgp .gt_col_heading {
+#jxwtdjkplm .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1279,7 +1330,7 @@ div.tocify {
   overflow-x: hidden;
 }
 
-#vgwrpazsgp .gt_column_spanner_outer {
+#jxwtdjkplm .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1291,15 +1342,15 @@ div.tocify {
   padding-right: 4px;
 }
 
-#vgwrpazsgp .gt_column_spanner_outer:first-child {
+#jxwtdjkplm .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#vgwrpazsgp .gt_column_spanner_outer:last-child {
+#jxwtdjkplm .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#vgwrpazsgp .gt_column_spanner {
+#jxwtdjkplm .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1311,7 +1362,7 @@ div.tocify {
   width: 100%;
 }
 
-#vgwrpazsgp .gt_group_heading {
+#jxwtdjkplm .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1336,7 +1387,7 @@ div.tocify {
   vertical-align: middle;
 }
 
-#vgwrpazsgp .gt_empty_group_heading {
+#jxwtdjkplm .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1351,15 +1402,15 @@ div.tocify {
   vertical-align: middle;
 }
 
-#vgwrpazsgp .gt_from_md > :first-child {
+#jxwtdjkplm .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#vgwrpazsgp .gt_from_md > :last-child {
+#jxwtdjkplm .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#vgwrpazsgp .gt_row {
+#jxwtdjkplm .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1378,7 +1429,7 @@ div.tocify {
   overflow-x: hidden;
 }
 
-#vgwrpazsgp .gt_stub {
+#jxwtdjkplm .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1391,7 +1442,7 @@ div.tocify {
   padding-right: 5px;
 }
 
-#vgwrpazsgp .gt_stub_row_group {
+#jxwtdjkplm .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1405,11 +1456,11 @@ div.tocify {
   vertical-align: top;
 }
 
-#vgwrpazsgp .gt_row_group_first td {
+#jxwtdjkplm .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#vgwrpazsgp .gt_summary_row {
+#jxwtdjkplm .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1419,16 +1470,16 @@ div.tocify {
   padding-right: 5px;
 }
 
-#vgwrpazsgp .gt_first_summary_row {
+#jxwtdjkplm .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#vgwrpazsgp .gt_first_summary_row.thick {
+#jxwtdjkplm .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#vgwrpazsgp .gt_last_summary_row {
+#jxwtdjkplm .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1438,7 +1489,7 @@ div.tocify {
   border-bottom-color: #D3D3D3;
 }
 
-#vgwrpazsgp .gt_grand_summary_row {
+#jxwtdjkplm .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1448,7 +1499,7 @@ div.tocify {
   padding-right: 5px;
 }
 
-#vgwrpazsgp .gt_first_grand_summary_row {
+#jxwtdjkplm .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1458,11 +1509,11 @@ div.tocify {
   border-top-color: #D3D3D3;
 }
 
-#vgwrpazsgp .gt_striped {
+#jxwtdjkplm .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#vgwrpazsgp .gt_table_body {
+#jxwtdjkplm .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1471,7 +1522,7 @@ div.tocify {
   border-bottom-color: #D3D3D3;
 }
 
-#vgwrpazsgp .gt_footnotes {
+#jxwtdjkplm .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1485,7 +1536,7 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#vgwrpazsgp .gt_footnote {
+#jxwtdjkplm .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -1494,7 +1545,7 @@ div.tocify {
   padding-right: 5px;
 }
 
-#vgwrpazsgp .gt_sourcenotes {
+#jxwtdjkplm .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1508,7 +1559,7 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#vgwrpazsgp .gt_sourcenote {
+#jxwtdjkplm .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1516,73 +1567,75 @@ div.tocify {
   padding-right: 5px;
 }
 
-#vgwrpazsgp .gt_left {
+#jxwtdjkplm .gt_left {
   text-align: left;
 }
 
-#vgwrpazsgp .gt_center {
+#jxwtdjkplm .gt_center {
   text-align: center;
 }
 
-#vgwrpazsgp .gt_right {
+#jxwtdjkplm .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#vgwrpazsgp .gt_font_normal {
+#jxwtdjkplm .gt_font_normal {
   font-weight: normal;
 }
 
-#vgwrpazsgp .gt_font_bold {
+#jxwtdjkplm .gt_font_bold {
   font-weight: bold;
 }
 
-#vgwrpazsgp .gt_font_italic {
+#jxwtdjkplm .gt_font_italic {
   font-style: italic;
 }
 
-#vgwrpazsgp .gt_super {
+#jxwtdjkplm .gt_super {
   font-size: 65%;
 }
 
-#vgwrpazsgp .gt_footnote_marks {
+#jxwtdjkplm .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#vgwrpazsgp .gt_asterisk {
+#jxwtdjkplm .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#vgwrpazsgp .gt_slash_mark {
-  font-size: 0.7em;
-  line-height: 0.7em;
-  vertical-align: 0.15em;
+#jxwtdjkplm .gt_indent_1 {
+  text-indent: 5px;
 }
 
-#vgwrpazsgp .gt_fraction_numerator {
-  font-size: 0.6em;
-  line-height: 0.6em;
-  vertical-align: 0.45em;
+#jxwtdjkplm .gt_indent_2 {
+  text-indent: 10px;
 }
 
-#vgwrpazsgp .gt_fraction_denominator {
-  font-size: 0.6em;
-  line-height: 0.6em;
-  vertical-align: -0.05em;
+#jxwtdjkplm .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#jxwtdjkplm .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#jxwtdjkplm .gt_indent_5 {
+  text-indent: 25px;
 }
 </style>
 <table class="gt_table">
   
   <thead class="gt_col_headings">
     <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">Pais</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Year</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Poblacion</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Camas</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col">Pais</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">Year</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">Poblacion</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">Camas</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
@@ -1630,9 +1683,25 @@ div.tocify {
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
 <p><img src="G6_geom_histogram_files/figure-html/dipodium-histogram2-1.png" width="672" /></p>
 <hr />
-<div id="modificando-las-escalas-continuas-con-scale_y_continuous-y-scale_x_continuous" class="section level2">
-<h2>Modificando las escalas continuas con scale_y_continuous y scale_x_continuous</h2>
-<p>Se demuestra también cómo modificar la escala, primero con un método poco práctico numerando en el eje de <strong>Y</strong> cada valor donde queremos una línea. Note que se excluye el número 10 y por eso no aparece en el eje de <strong>Y</strong> la función es <strong>scale_y_continuous(breaks=c(x,x,x…x)</strong>. En el eje de <strong>X</strong> se numera también pero esta vez se define la escala con <strong>scale_x_continuous(breaks=c( )</strong>, y <strong>c(x:xx)</strong> con un valor inicial de 1 y final de 15 para identificar cual son los valores que uno quiere en los ejes; eso es más práctico e incluye al valor 10. También se modifica la información de los ejes usando <strong>xlab</strong> y <strong>ylab</strong>, de manera tal que la descripción de la columnas se pueda presentar de forma específica y así hacer la información más clara para propósitos del gráfico. =</p>
+<div
+id="modificando-las-escalas-continuas-con-scale_y_continuous-y-scale_x_continuous"
+class="section level2">
+<h2>Modificando las escalas continuas con scale_y_continuous y
+scale_x_continuous</h2>
+<p>Se demuestra también cómo modificar la escala, primero con un método
+poco práctico numerando en el eje de <strong>Y</strong> cada valor donde
+queremos una línea. Note que se excluye el número 10 y por eso no
+aparece en el eje de <strong>Y</strong> la función es
+<strong>scale_y_continuous(breaks=c(x,x,x…x)</strong>. En el eje de
+<strong>X</strong> se numera también pero esta vez se define la escala
+con <strong>scale_x_continuous(breaks=c( )</strong>, y
+<strong>c(x:xx)</strong> con un valor inicial de 1 y final de 15 para
+identificar cual son los valores que uno quiere en los ejes; eso es más
+práctico e incluye al valor 10. También se modifica la información de
+los ejes usando <strong>xlab</strong> y <strong>ylab</strong>, de manera
+tal que la descripción de la columnas se pueda presentar de forma
+específica y así hacer la información más clara para propósitos del
+gráfico. =</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(Camas_Hospital, <span class="fu">aes</span>(Camas, <span class="at">fill=</span><span class="fu">factor</span>(Year)))<span class="sc">+</span></span>
 <span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="at">alpha=</span><span class="fl">0.3</span>)<span class="sc">+</span></span>
 <span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>,<span class="dv">11</span>,<span class="dv">12</span>,<span class="dv">13</span>,<span class="dv">14</span>,<span class="dv">15</span>))<span class="sc">+</span></span>
@@ -1644,9 +1713,20 @@ div.tocify {
 <hr />
 </div>
 </div>
-<div id="solapamiento-de-frecuencia-y-intensidad-de-color" class="section level1">
+<div id="solapamiento-de-frecuencia-y-intensidad-de-color"
+class="section level1">
 <h1>Solapamiento de frecuencia y intensidad de color</h1>
-<p>Podríamos pensar que, debido a que las frecuencias están solapadas, es difícil tener una buena apreciación de la distribución de los datos. Para comparar las frecuencias entre los grupos con más facilidad, se pueden diferenciar las frecuencias con 3 colores; en este caso el color azul para el año 2006, el color durazno para el año 1996, y el color grisáceo para las frecuencias que se solapan con ambos años. Se usa <strong>position=identity</strong> y <strong>alpha=</strong> pata modicar la intensidades de color de la barras. Ahora vemos que, por ejemplo, en el año 1996 la frecuencia más común en los países era de menos de 2 camas por 1,000 habitantes, y que ya para el año 2006 ya era de 2 y 8 camas por cada 1,000 habitantes.</p>
+<p>Podríamos pensar que, debido a que las frecuencias están solapadas,
+es difícil tener una buena apreciación de la distribución de los datos.
+Para comparar las frecuencias entre los grupos con más facilidad, se
+pueden diferenciar las frecuencias con 3 colores; en este caso el color
+azul para el año 2006, el color durazno para el año 1996, y el color
+grisáceo para las frecuencias que se solapan con ambos años. Se usa
+<strong>position=identity</strong> y <strong>alpha=</strong> pata
+modicar la intensidades de color de la barras. Ahora vemos que, por
+ejemplo, en el año 1996 la frecuencia más común en los países era de
+menos de 2 camas por 1,000 habitantes, y que ya para el año 2006 ya era
+de 2 y 8 camas por cada 1,000 habitantes.</p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(Camas_Hospital, <span class="fu">aes</span>(Camas, <span class="at">fill=</span><span class="fu">factor</span>(Year)))</span>
 <span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_histogram</span>(<span class="at">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="at">alpha=</span><span class="fl">0.5</span>,</span>
 <span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">position=</span><span class="st">&quot;identity&quot;</span>)<span class="sc">+</span></span>
@@ -1659,8 +1739,11 @@ div.tocify {
 <p><img src="G6_geom_histogram_files/figure-html/dipodium-histogram4-1.png" width="672" /></p>
 <hr />
 </div>
-<div id="posicionar-las-barras-uno-al-lado-del-otro-con-la-función-dodge" class="section level1">
-<h1>Posicionar las barras uno al lado del otro con la función <strong>dodge</strong></h1>
+<div
+id="posicionar-las-barras-uno-al-lado-del-otro-con-la-función-dodge"
+class="section level1">
+<h1>Posicionar las barras uno al lado del otro con la función
+<strong>dodge</strong></h1>
 <div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(Camas_Hospital, <span class="fu">aes</span>(Camas, <span class="at">fill=</span><span class="fu">factor</span>(Year)))</span>
 <span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_histogram</span>(<span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">bins=</span><span class="dv">15</span>, <span class="at">alpha=</span><span class="fl">0.9</span>,</span>
 <span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">position=</span><span class="st">&quot;dodge&quot;</span>)<span class="sc">+</span></span>
@@ -1675,9 +1758,18 @@ div.tocify {
 </div>
 <div id="gráficos-para-grupo-con-facet_wrap" class="section level1">
 <h1>Gráficos para grupo con <strong>Facet_wrap</strong></h1>
-<div id="cambio-de-colores-del-gráfico-manualmente" class="section level2">
+<div id="cambio-de-colores-del-gráfico-manualmente"
+class="section level2">
 <h2>Cambio de colores del gráfico manualmente</h2>
-<p>Otra alternativa es usar dos gráficos para cada año; o sea, uno por cada grupo. En tal caso usaremos la opción <strong>facet_wrap</strong>. <strong>facet_wrap</strong> se explican con más detalle más adelante. Podemos cambiar el color de las barras usando <strong>scale_fill_manual</strong>; en nuestro caso, <strong>cyan4</strong> para el 1996 y <strong>darkorange</strong> para el 2006. Además, note que con <strong>scale_color_manual</strong> podemos cambiar la línea alrededor de las barras; en nuestro caso la cambiamos a negro o <strong>black</strong>.</p>
+<p>Otra alternativa es usar dos gráficos para cada año; o sea, uno por
+cada grupo. En tal caso usaremos la opción <strong>facet_wrap</strong>.
+<strong>facet_wrap</strong> se explican con más detalle más adelante.
+Podemos cambiar el color de las barras usando
+<strong>scale_fill_manual</strong>; en nuestro caso,
+<strong>cyan4</strong> para el 1996 y <strong>darkorange</strong> para
+el 2006. Además, note que con <strong>scale_color_manual</strong>
+podemos cambiar la línea alrededor de las barras; en nuestro caso la
+cambiamos a negro o <strong>black</strong>.</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(Camas_Hospital, <span class="fu">aes</span>(Camas, <span class="at">fill=</span><span class="fu">factor</span>(Year),</span>
 <span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>                             <span class="at">color=</span><span class="fu">factor</span>(Year)))</span>
 <span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_histogram</span>(<span class="at">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
@@ -1696,16 +1788,20 @@ div.tocify {
 <hr />
 </div>
 </div>
-<div id="opciones-y-parametros-de-geom_histogram" class="section level1">
+<div id="opciones-y-parametros-de-geom_histogram"
+class="section level1">
 <h1>Opciones y Parametros de <strong>geom_histogram</strong>:</h1>
 <ul>
 <li><p>ggplot(el archivo de datos, aes(la variable continua))</p>
 <ul>
-<li>geom_histogram (), binwidth, x, y, alpha, color, fill, stat, position.</li>
-<li>binwidth: el ancho de los compartimentos donde por defecto es de 1/30 el rango de los datos.</li>
+<li>geom_histogram (), binwidth, x, y, alpha, color, fill, stat,
+position.</li>
+<li>binwidth: el ancho de los compartimentos donde por defecto es de
+1/30 el rango de los datos.</li>
 <li>alpha: la intensidad del color</li>
 <li>fill: el color del área; ej., color=blue</li>
-<li>color: el color de la línea alrededor del área; ej., color=white</li>
+<li>color: el color de la línea alrededor del área; ej.,
+color=white</li>
 <li>position: “identity”, “stack”, “dodge”.</li>
 </ul></li>
 </ul>
@@ -1714,12 +1810,12 @@ div.tocify {
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>diamonds <span class="sc">%&gt;%</span> </span>
 <span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">%&gt;%</span> </span>
 <span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code></pre></div>
-<div id="wfskrypcob" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<div id="jxwthaimkq" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#wfskrypcob .gt_table {
+#jxwthaimkq .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -1744,7 +1840,7 @@ div.tocify {
   border-left-color: #D3D3D3;
 }
 
-#wfskrypcob .gt_heading {
+#jxwthaimkq .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1756,7 +1852,7 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#wfskrypcob .gt_title {
+#jxwthaimkq .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1768,7 +1864,7 @@ div.tocify {
   border-bottom-width: 0;
 }
 
-#wfskrypcob .gt_subtitle {
+#jxwthaimkq .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1780,13 +1876,13 @@ div.tocify {
   border-top-width: 0;
 }
 
-#wfskrypcob .gt_bottom_border {
+#jxwthaimkq .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#wfskrypcob .gt_col_headings {
+#jxwthaimkq .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1801,7 +1897,7 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#wfskrypcob .gt_col_heading {
+#jxwthaimkq .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1821,7 +1917,7 @@ div.tocify {
   overflow-x: hidden;
 }
 
-#wfskrypcob .gt_column_spanner_outer {
+#jxwthaimkq .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1833,15 +1929,15 @@ div.tocify {
   padding-right: 4px;
 }
 
-#wfskrypcob .gt_column_spanner_outer:first-child {
+#jxwthaimkq .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#wfskrypcob .gt_column_spanner_outer:last-child {
+#jxwthaimkq .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#wfskrypcob .gt_column_spanner {
+#jxwthaimkq .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1853,7 +1949,7 @@ div.tocify {
   width: 100%;
 }
 
-#wfskrypcob .gt_group_heading {
+#jxwthaimkq .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1878,7 +1974,7 @@ div.tocify {
   vertical-align: middle;
 }
 
-#wfskrypcob .gt_empty_group_heading {
+#jxwthaimkq .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1893,15 +1989,15 @@ div.tocify {
   vertical-align: middle;
 }
 
-#wfskrypcob .gt_from_md > :first-child {
+#jxwthaimkq .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#wfskrypcob .gt_from_md > :last-child {
+#jxwthaimkq .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#wfskrypcob .gt_row {
+#jxwthaimkq .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1920,7 +2016,7 @@ div.tocify {
   overflow-x: hidden;
 }
 
-#wfskrypcob .gt_stub {
+#jxwthaimkq .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1933,7 +2029,7 @@ div.tocify {
   padding-right: 5px;
 }
 
-#wfskrypcob .gt_stub_row_group {
+#jxwthaimkq .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1947,11 +2043,11 @@ div.tocify {
   vertical-align: top;
 }
 
-#wfskrypcob .gt_row_group_first td {
+#jxwthaimkq .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#wfskrypcob .gt_summary_row {
+#jxwthaimkq .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1961,16 +2057,16 @@ div.tocify {
   padding-right: 5px;
 }
 
-#wfskrypcob .gt_first_summary_row {
+#jxwthaimkq .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#wfskrypcob .gt_first_summary_row.thick {
+#jxwthaimkq .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#wfskrypcob .gt_last_summary_row {
+#jxwthaimkq .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1980,7 +2076,7 @@ div.tocify {
   border-bottom-color: #D3D3D3;
 }
 
-#wfskrypcob .gt_grand_summary_row {
+#jxwthaimkq .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1990,7 +2086,7 @@ div.tocify {
   padding-right: 5px;
 }
 
-#wfskrypcob .gt_first_grand_summary_row {
+#jxwthaimkq .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2000,11 +2096,11 @@ div.tocify {
   border-top-color: #D3D3D3;
 }
 
-#wfskrypcob .gt_striped {
+#jxwthaimkq .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#wfskrypcob .gt_table_body {
+#jxwthaimkq .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2013,7 +2109,7 @@ div.tocify {
   border-bottom-color: #D3D3D3;
 }
 
-#wfskrypcob .gt_footnotes {
+#jxwthaimkq .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2027,7 +2123,7 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#wfskrypcob .gt_footnote {
+#jxwthaimkq .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -2036,7 +2132,7 @@ div.tocify {
   padding-right: 5px;
 }
 
-#wfskrypcob .gt_sourcenotes {
+#jxwthaimkq .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2050,7 +2146,7 @@ div.tocify {
   border-right-color: #D3D3D3;
 }
 
-#wfskrypcob .gt_sourcenote {
+#jxwthaimkq .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2058,79 +2154,81 @@ div.tocify {
   padding-right: 5px;
 }
 
-#wfskrypcob .gt_left {
+#jxwthaimkq .gt_left {
   text-align: left;
 }
 
-#wfskrypcob .gt_center {
+#jxwthaimkq .gt_center {
   text-align: center;
 }
 
-#wfskrypcob .gt_right {
+#jxwthaimkq .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#wfskrypcob .gt_font_normal {
+#jxwthaimkq .gt_font_normal {
   font-weight: normal;
 }
 
-#wfskrypcob .gt_font_bold {
+#jxwthaimkq .gt_font_bold {
   font-weight: bold;
 }
 
-#wfskrypcob .gt_font_italic {
+#jxwthaimkq .gt_font_italic {
   font-style: italic;
 }
 
-#wfskrypcob .gt_super {
+#jxwthaimkq .gt_super {
   font-size: 65%;
 }
 
-#wfskrypcob .gt_footnote_marks {
+#jxwthaimkq .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#wfskrypcob .gt_asterisk {
+#jxwthaimkq .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#wfskrypcob .gt_slash_mark {
-  font-size: 0.7em;
-  line-height: 0.7em;
-  vertical-align: 0.15em;
+#jxwthaimkq .gt_indent_1 {
+  text-indent: 5px;
 }
 
-#wfskrypcob .gt_fraction_numerator {
-  font-size: 0.6em;
-  line-height: 0.6em;
-  vertical-align: 0.45em;
+#jxwthaimkq .gt_indent_2 {
+  text-indent: 10px;
 }
 
-#wfskrypcob .gt_fraction_denominator {
-  font-size: 0.6em;
-  line-height: 0.6em;
-  vertical-align: -0.05em;
+#jxwthaimkq .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#jxwthaimkq .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#jxwthaimkq .gt_indent_5 {
+  text-indent: 25px;
 }
 </style>
 <table class="gt_table">
   
   <thead class="gt_col_headings">
     <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">carat</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">cut</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">color</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">clarity</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">depth</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">table</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">price</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">x</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">y</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">z</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">carat</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col">cut</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col">color</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col">clarity</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">depth</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">table</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">price</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">x</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">y</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">z</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
@@ -2200,16 +2298,21 @@ div.tocify {
 </table>
 </div>
 <ol style="list-style-type: decimal">
-<li>Usando el archivo de datos de <strong>diamonds</strong> en el paquete <strong>ggplot2</strong>, haga un histograma del precio de los diamantes, en diferentes <strong>chunks</strong>.</li>
+<li>Usando el archivo de datos de <strong>diamonds</strong> en el
+paquete <strong>ggplot2</strong>, haga un histograma del precio de los
+diamantes, en diferentes <strong>chunks</strong>.</li>
 </ol>
 <ul>
 <li>cambia el color de las barras</li>
 <li>pon una linea blanca alrededor de las barras</li>
-<li>separa los diamantes de diferentes color en histograma diferentes</li>
-<li>evalúa como se ve los gráficos con las diferentes arreglos: position: “identity”, “stack”, “dodge”</li>
+<li>separa los diamantes de diferentes color en histograma
+diferentes</li>
+<li>evalúa como se ve los gráficos con las diferentes arreglos:
+position: “identity”, “stack”, “dodge”</li>
 <li>cambia la intensidad del color</li>
 <li>cambia los nombres de los ejes al español</li>
-<li>salvar los gráficos en formato .png, .tiff o .jpeg y subir por lo menos uno de estos a MSTeam.</li>
+<li>salvar los gráficos en formato .png, .tiff o .jpeg y subir por lo
+menos uno de estos a MSTeam.</li>
 </ul>
 </div>
 
