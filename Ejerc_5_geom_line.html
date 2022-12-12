@@ -13,7 +13,7 @@
 
 <title>Ejerc_5_geom_line</title>
 
-<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
@@ -126,13 +126,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   for (var i = 0; i < sheets.length; i++) {
     if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
     try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
+    var j = 0;
+    while (j < rules.length) {
       var rule = rules[j];
       // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -228,11 +235,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -261,8 +272,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -270,16 +281,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -559,11 +563,15 @@ div.tocify {
 <p>Los siguientes ejercicio es para producir gráficos de lineas</p>
 <p>Los Datos:</p>
 <ol style="list-style-type: decimal">
-<li>El nivel del agua en lago Huron del 1875-1972 sobre el nivel del mar en metros. El archivo se llama <strong>LakeHuron</strong> en el paquete <strong>datsasets</strong> .</li>
+<li>El nivel del agua en lago Huron del 1875-1972 sobre el nivel del mar
+en metros. El archivo se llama <strong>LakeHuron</strong> en el paquete
+<strong>datsasets</strong> .</li>
 </ol>
 <ul>
 <li>Convirte los datos en un data frame (vea el script)</li>
-<li>Añadele una nueva columna de para la información del años (1875 al 1972). Buscar una función que lo hace (Enseñar el script). (4 puntos).</li>
+<li>Añadele una nueva columna de para la información del años (1875 al
+1972). Buscar una función que lo hace (Enseñar el script). (4
+puntos).</li>
 <li>Producir el gráfico de linea (4 puntos)</li>
 <li>Cambiar la información de los ejes (2 puntos)</li>
 <li>Añadir una información dentro del gráfico (1 punto)</li>
@@ -575,17 +583,23 @@ div.tocify {
 <ol start="2" style="list-style-type: decimal">
 <li>Tamaño poblacional de las islas del Caribe</li>
 </ol>
-<p>Usando los datos del siguiente archivo PolacionEdad_genero, “UNdata_Pop_Size_Caribbean.csv”, que se encuentra en la pagina web debajo “Datos”. Este es un archivo de datos sobre el tamaño poblacional de las islas del Caribe y Brazil en diferentes años.</p>
-<p><strong>Su tarea es:</strong> Evaluar el cambio poblacional en los años de muestreo con un gráfico de linea. Cada isla deberá tener su propria linea de color diferentes.</p>
+<p>Usando los datos del siguiente archivo PolacionEdad_genero,
+“UNdata_Pop_Size_Caribbean.csv”, que se encuentra en la pagina web
+debajo “Datos”. Este es un archivo de datos sobre el tamaño poblacional
+de las islas del Caribe y Brazil en diferentes años.</p>
+<p><strong>Su tarea es:</strong> Evaluar el cambio poblacional en los
+años de muestreo con un gráfico de linea. Cada isla deberá tener su
+propria linea de color diferentes.</p>
 <hr />
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>UNdata_Pop_Size_Caribbean <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;Data/UNdata_Pop_Size_Caribbean.csv&quot;</span>)</span></code></pre></div>
 <pre><code>## Rows: 98762 Columns: 10
-## ── Column specification ────────────────────────────────────────────────────────
+## ── Column specification ───────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr (6): Country or Area, Area, Sex, Age, Record Type, Reliability
 ## dbl (3): Year, Source Year, Value
+## num (1): Value Footnotes
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
@@ -597,7 +611,11 @@ div.tocify {
 <ul>
 <li><p>Seleccionar los siguientes datos</p>
 <ul>
-<li>Selecciona el total poblacional (Area == “Total”) para cada isla en todos los años (Age == “Total”) y de ambos sexos (Sex== “Both Sexes”) y remover Brazil del archivo de datos con !=“Brazil”. Vea la función <strong>filter</strong> del paquete <strong>dplyr</strong> para lograr este subgrupo de datos.</li>
+<li>Selecciona el total poblacional (Area == “Total”) para cada isla en
+todos los años (Age == “Total”) y de ambos sexos (Sex== “Both Sexes”) y
+remover Brazil del archivo de datos con !=“Brazil”. Vea la función
+<strong>filter</strong> del paquete <strong>dplyr</strong> para lograr
+este subgrupo de datos.</li>
 </ul></li>
 </ul>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -607,15 +625,20 @@ div.tocify {
 <span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co">#head(CaribPop)</span></span>
 <span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="co">#unique(CaribPop$country_or_area)</span></span></code></pre></div>
-<p><span style="color: red;">Haga un gráfico de linea para visualizar el tamaño poblacional de cada isla. (5 puntos)</span></p>
+<p><span style="color: red;">Haga un gráfico de linea para visualizar el
+tamaño poblacional de cada isla. (5 puntos)</span></p>
 <ol start="3" style="list-style-type: decimal">
-<li>Ahora, con el mismo archivo, seleccione los datos de las edades de “20 - 24”, “Female” si ud es mujer y “Male” si es hombre. Puede seleccionar los datos urbanos o rural o total como prefiere, no incluye los datos de Brazil. (5 puntos)</li>
+<li>Ahora, con el mismo archivo, seleccione los datos de las edades de
+“20 - 24”, “Female” si ud es mujer y “Male” si es hombre. Puede
+seleccionar los datos urbanos o rural o total como prefiere, no incluye
+los datos de Brazil. (5 puntos)</li>
 </ol>
 <hr />
 <ol start="4" style="list-style-type: decimal">
 <li>Bono (5 puntos):</li>
 </ol>
-<p>Rehacer el gráfico anterior removiendo los siguientes paises (Cuba, Dominican Republic, Puerto Rico, Jamaica y Haiti)</p>
+<p>Rehacer el gráfico anterior removiendo los siguientes paises (Cuba,
+Dominican Republic, Puerto Rico, Jamaica y Haiti)</p>
 </div>
 
 

@@ -13,7 +13,7 @@
 
 <title>Cheatsheets</title>
 
-<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
@@ -133,11 +133,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -166,8 +170,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -175,16 +179,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -460,7 +457,7 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2022-03-28&quot;</code></pre>
+<pre><code>## [1] &quot;2022-12-12&quot;</code></pre>
 <p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" /></p>
 <div id="códigos-básicos-en-r" class="section level1">
 <h1>Códigos básicos en R</h1>
@@ -468,20 +465,41 @@ div.tocify {
 </div>
 <div id="responsabilidad-del-estudiante" class="section level1">
 <h1>Responsabilidad del estudiante</h1>
-<p><span style="color: red;">EL ESTUDIANTE es COMPLETAMENTE RESPONSABLE</span> de ver estos vídeos y entender como usar la plataforma.</p>
+<p><span style="color: red;">EL ESTUDIANTE es COMPLETAMENTE
+RESPONSABLE</span> de ver estos vídeos y entender como usar la
+plataforma.</p>
 <hr />
 </div>
 <div id="base-r" class="section level1">
 <h1>Base R</h1>
-<p>Cuando uno se refiere a Base R se refiere a las funciones básicas del programa. Muchas de estas funciones son las primeras que fueron desarrolladas. Es importante entender la sintaxis del programa p[ara poder hacer los análisis con facilidades. Para ayudar con estos pasos hay mucha información en <em>YouTube</em> disponible sugiero que vean lo siguiente. En el enlace hay 47 vídeos de como utilizar las funciones de R. Mi sugerencia es vean los siguientes vídeos primero 1,2,3,4,25,26. No es necesario ver todos al menos que ya encontró su futura dirección de estudios.</p>
-<p>EL enlace es: <a href="https://www.youtube.com/playlist?list=PL0iUxoCEznfixaKofFkoOho26swycdAmy">Aprender Base R</a></p>
-<p>La sugerencias es que deberían ver los vídeos abajo múltiples veces y después compartir con un otro estudiante y hablar de los que entendió.</p>
+<p>Cuando uno se refiere a Base R se refiere a las funciones básicas del
+programa. Muchas de estas funciones son las primeras que fueron
+desarrolladas. Es importante entender la sintaxis del programa p[ara
+poder hacer los análisis con facilidades. Para ayudar con estos pasos
+hay mucha información en <em>YouTube</em> disponible sugiero que vean lo
+siguiente. En el enlace hay 47 vídeos de como utilizar las funciones de
+R. Mi sugerencia es vean los siguientes vídeos primero 1,2,3,4,25,26. No
+es necesario ver todos al menos que ya encontró su futura dirección de
+estudios.</p>
+<p>EL enlace es: <a
+href="https://www.youtube.com/playlist?list=PL0iUxoCEznfixaKofFkoOho26swycdAmy">Aprender
+Base R</a></p>
+<p>La sugerencias es que deberían ver los vídeos abajo múltiples veces y
+después compartir con un otro estudiante y hablar de los que
+entendió.</p>
 <hr />
 </div>
 <div id="enlace-para-todos-los-cheetsheets" class="section level1">
 <h1>Enlace para todos los Cheetsheets</h1>
-<p>Los <em>cheatsheets</em> son hojas donde se encuentra las funciones principales de algunos paquetes. Son guías para conocer y aplicar las funciones. Abrir el siguiente enlace donde encontrarán muchos “Cheatsheets”, buscan abajo el que se llama “Base R”. Este es la hoja de información básica de como utilizar R.</p>
-<p>En el primer enlace pueden bajar un pdf del <strong>Base R cheatsheet</strong> <a href="https://rstudio.com/resources/cheatsheets/">Página de Cheatsheets</a></p>
+<p>Los <em>cheatsheets</em> son hojas donde se encuentra las funciones
+principales de algunos paquetes. Son guías para conocer y aplicar las
+funciones. Abrir el siguiente enlace donde encontrarán muchos
+“Cheatsheets”, buscan abajo el que se llama “Base R”. Este es la hoja de
+información básica de como utilizar R.</p>
+<p>En el primer enlace pueden bajar un pdf del <strong>Base R
+cheatsheet</strong> <a
+href="https://rstudio.com/resources/cheatsheets/">Página de
+Cheatsheets</a></p>
 <hr />
 <p>También lo pueden encontrar aquí como imagen.</p>
 <p><img src="Graficos/rbase.png" width="100%" /> La segunda pagina</p>
@@ -490,8 +508,11 @@ div.tocify {
 </div>
 <div id="los-cheatsheets-en-español" class="section level1">
 <h1>Los cheatsheets en Español</h1>
-<p>En el siguiente enlace vaya muy abajo y encontrarán los <em>cheatsheets</em> en otros idiomas incluyendo en español.</p>
-<p>En el primer enlace pueden pajar un pdf del cheatsheet <a href="https://rstudio.com/resources/cheatsheets/">Página de Cheatsheets</a></p>
+<p>En el siguiente enlace vaya muy abajo y encontrarán los
+<em>cheatsheets</em> en otros idiomas incluyendo en español.</p>
+<p>En el primer enlace pueden pajar un pdf del cheatsheet <a
+href="https://rstudio.com/resources/cheatsheets/">Página de
+Cheatsheets</a></p>
 </div>
 
 

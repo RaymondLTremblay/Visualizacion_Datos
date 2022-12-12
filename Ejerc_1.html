@@ -13,7 +13,7 @@
 
 <title>Ejercicio de Practica</title>
 
-<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
@@ -126,13 +126,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   for (var i = 0; i < sheets.length; i++) {
     if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
     try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
+    var j = 0;
+    while (j < rules.length) {
       var rule = rules[j];
       // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -228,11 +235,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -261,8 +272,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -270,16 +281,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -556,19 +560,28 @@ div.tocify {
 
 <div id="primer-asignación" class="section level1">
 <h1>Primer asignación</h1>
-<div id="este-ejercicio-es-de-practica.-no-se-evaluará-el-trabajo." class="section level3">
+<div id="este-ejercicio-es-de-practica.-no-se-evaluará-el-trabajo."
+class="section level3">
 <h3>Este ejercicio es de practica. No se evaluará el trabajo.</h3>
-<p>Se sugiere que Ud trata de cumplir con todos los pasos abajo. El objetivo es de practicar las alternativas disponible en R, RSTUDIO y crear un documento .html.</p>
-<p>Es importante que Ud trata de hacer un documento profesional. Esto tomara tiempo aprender y reconocer las diferentes funciones disponible en RStudio y RMarkdown!!!</p>
-<p>Mi sugerencia es que trata de construir el documento y después habla con colegas para comparar como lo logró y resolver problemas.</p>
+<p>Se sugiere que Ud trata de cumplir con todos los pasos abajo. El
+objetivo es de practicar las alternativas disponible en R, RSTUDIO y
+crear un documento .html.</p>
+<p>Es importante que Ud trata de hacer un documento profesional. Esto
+tomara tiempo aprender y reconocer las diferentes funciones disponible
+en RStudio y RMarkdown!!!</p>
+<p>Mi sugerencia es que trata de construir el documento y después habla
+con colegas para comparar como lo logró y resolver problemas.</p>
 </div>
 </div>
 <div id="parte-1" class="section level1">
 <h1>Parte 1:</h1>
 <ol style="list-style-type: lower-alpha">
 <li><p>Instalar el package <em>ggversa</em></p></li>
-<li><p>Mirar los datos <strong>PIB_vs_Alfabetismo</strong>, Producto Bruto Interno</p></li>
-<li><p>Hacer un gráfico que evalua la relación entre el Porciento_PIB (el prociento de producto interior dedicado a la educación) y el alfabetismo.</p></li>
+<li><p>Mirar los datos <strong>PIB_vs_Alfabetismo</strong>, Producto
+Bruto Interno</p></li>
+<li><p>Hacer un gráfico que evalua la relación entre el Porciento_PIB
+(el prociento de producto interior dedicado a la educación) y el
+alfabetismo.</p></li>
 </ol>
 <ol start="4" style="list-style-type: decimal">
 <li>Añade un color distincto a cada pais</li>
@@ -577,12 +590,24 @@ div.tocify {
 <div id="parte-2" class="section level1">
 <h1>Parte #2</h1>
 <p>Algunos de estos ejercicio se vera miercoles.</p>
-<div id="create-a-.csv-files-with-the-following-information-of-your-grandparent-uncles-and-siblings-have-at-least-10-people-in-the-file-try-to-have-many-more" class="section level3">
-<h3>Create a .csv files with the following information of your grandparent, uncles and siblings, have at least 10 people in the file (try to have many more)</h3>
+<div
+id="create-a-.csv-files-with-the-following-information-of-your-grandparent-uncles-and-siblings-have-at-least-10-people-in-the-file-try-to-have-many-more"
+class="section level3">
+<h3>Create a .csv files with the following information of your
+grandparent, uncles and siblings, have at least 10 people in the file
+(try to have many more)</h3>
 </div>
 <div id="here-is-an-example" class="section level3">
 <h3>here is an example</h3>
-<table>
+<table style="width:100%;">
+<colgroup>
+<col width="10%" />
+<col width="14%" />
+<col width="17%" />
+<col width="19%" />
+<col width="22%" />
+<col width="15%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th>Name</th>
@@ -628,18 +653,21 @@ div.tocify {
 <li>Import the file</li>
 <li>Show the link to the file in the chunk</li>
 <li>View the data</li>
-<li>Using the appropriate function show who was the person born first in your list head(df, n=1)</li>
+<li>Using the appropriate function show who was the person born first in
+your list head(df, n=1)</li>
 <li>Show the last 3 line of your data frame</li>
 <li>Calculate the mean life span of all your decease descendants</li>
-<li>Load a picture of your favorite grandparent and explain why this person had an impact or you found most interesting.</li>
+<li>Load a picture of your favorite grandparent and explain why this
+person had an impact or you found most interesting.</li>
 <li>Make a numbered list of the class you enjoy the most to least.</li>
-<li>Include in your presentation the formula how to calculate the mean and the variance of a sample, using Latex formula.</li>
+<li>Include in your presentation the formula how to calculate the mean
+and the variance of a sample, using Latex formula.</li>
 </ol></li>
 </ul>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>Practice_Data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;Practice_Data.csv&quot;</span>)</span></code></pre></div>
 <pre><code>## Rows: 5 Columns: 4
-## ── Column specification ────────────────────────────────────────────────────────
+## ── Column specification ───────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## dbl (4): Numero_Individuos, Cant_Flores, Edad_dias, Largo_cm
 ## 

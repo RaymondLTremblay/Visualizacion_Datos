@@ -14,7 +14,7 @@
 
 <title>Archivos de datos</title>
 
-<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
@@ -134,11 +134,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -167,8 +171,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -176,16 +180,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -462,15 +459,20 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2022-03-28&quot;</code></pre>
-<p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" /> ***</p>
+<pre><code>## [1] &quot;2022-12-12&quot;</code></pre>
+<p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" />
+***</p>
 <p>Lista de Archivos</p>
 <hr />
 <ol style="list-style-type: decimal">
-<li><a href="Data/UNdata_Pop_Size_Caribbean.csv">PoblacionEdad_genero</a></li>
+<li><a
+href="Data/UNdata_Pop_Size_Caribbean.csv">PoblacionEdad_genero</a></li>
 </ol>
 <ul>
-<li>Datos poblacional de las islas del caribe (Datos de las Naciones Unidas al siguiente enlace <a href="http://data.un.org/Data.aspx?d=POP&amp;f=tableCode%3A22" class="uri">http://data.un.org/Data.aspx?d=POP&amp;f=tableCode%3A22</a>)</li>
+<li>Datos poblacional de las islas del caribe (Datos de las Naciones
+Unidas al siguiente enlace <a
+href="http://data.un.org/Data.aspx?d=POP&amp;f=tableCode%3A22"
+class="uri">http://data.un.org/Data.aspx?d=POP&amp;f=tableCode%3A22</a>)</li>
 </ul>
 <ol start="2" style="list-style-type: decimal">
 <li><a href="Data/DominicanRepublic.csv">DominicanRepublicPop</a></li>
@@ -481,7 +483,10 @@ div.tocify {
 <hr />
 <div id="noaa-usa.gov" class="section level1">
 <h1>NOAA, USA.gov</h1>
-<p>Los siguientes datos provienen del “National Weather sservice” en este enlace, <a href="https://w2.weather.gov/climate/xmacis.php?wfo=pafc" class="uri">https://w2.weather.gov/climate/xmacis.php?wfo=pafc</a></p>
+<p>Los siguientes datos provienen del “National Weather sservice” en
+este enlace, <a
+href="https://w2.weather.gov/climate/xmacis.php?wfo=pafc"
+class="uri">https://w2.weather.gov/climate/xmacis.php?wfo=pafc</a></p>
 <ol start="2" style="list-style-type: decimal">
 <li><a href="Data/Anchorage_ALASKA.csv">Anchorage_ALASKA</a></li>
 </ol>
@@ -489,27 +494,39 @@ div.tocify {
 </div>
 <div id="discovering-statistics-using-r." class="section level1">
 <h1>Discovering Statistics Using R.</h1>
-<p>Los siguientes archivos son de Andy Field, Jeremy Miles and Zoë Field son identificado con las siglas “FMF”.</p>
+<p>Los siguientes archivos son de Andy Field, Jeremy Miles and Zoë Field
+son identificado con las siglas “FMF”.</p>
 <p>Lista de archivos de datos</p>
 <ol style="list-style-type: decimal">
-<li><a href="Data_files_csv/DownloadFestival.csv">DownloadFestival_FMF.csv</a></li>
-<li><a href="Data_files_csv/Alturas_Humanos.csv">Alturas_Humanos.csv</a></li>
-<li><a href="Data_files_csv/Exam%20Anxiety.csv">Exam Anxiety_FMF</a></li>
+<li><a
+href="Data_files_csv/DownloadFestival.csv">DownloadFestival_FMF.csv</a></li>
+<li><a
+href="Data_files_csv/Alturas_Humanos.csv">Alturas_Humanos.csv</a></li>
+<li><a href="Data_files_csv/Exam%20Anxiety.csv">Exam
+Anxiety_FMF</a></li>
 <li><a href="Data_files_csv/Hiccups.csv">Hiccups_FMF.csv</a></li>
-<li><a href="Data_files_csv/DownloadFestival_No_Outlier.csv">DownloadFestival_Outliers_FMF.csv</a></li>
+<li><a
+href="Data_files_csv/DownloadFestival_No_Outlier.csv">DownloadFestival_Outliers_FMF.csv</a></li>
 <li><a href="Data_files_csv/Superhero.csv">Superhero.csv</a></li>
 <li><a href="Data_files_csv/pubs.csv">pubs.csv</a></li>
 </ol>
 </div>
 <div id="archivos-de-rlt" class="section level1">
 <h1>Archivos de RLT</h1>
-<p>Los siguientes datos son de R. L. Tremblay. Estos datos no se pueden usar para publicaciones excepto con permiso escrito del autor.</p>
+<p>Los siguientes datos son de R. L. Tremblay. Estos datos no se pueden
+usar para publicaciones excepto con permiso escrito del autor.</p>
 <ol style="list-style-type: decimal">
-<li><a href="Data_files_csv/Lepanthes_eltoroensis_Georges_STUDENT.csv">Lepanthes_eltoroensis.csv</a></li>
-<li><a href="Data_files_csv/Lep_rupPetal_All_Data.csv">Lepanthes_rupripetala.csv</a></li>
-<li><a href="Data_files_csv/Lepanthes_eltoroensis_Georges_STUDENT.csv">Lepanthes</a></li>
-<li><a href="Data_files_csv/Efecto_Huracan_Maria_Student_DATA.csv">Anxiedad y Huracan Maria</a></li>
-<li><a href="Data_files_csv/Student_Brassavola.csv">Brassavola Orquidea</a></li>
+<li><a
+href="Data_files_csv/Lepanthes_eltoroensis_Georges_STUDENT.csv">Lepanthes_eltoroensis.csv</a></li>
+<li><a
+href="Data_files_csv/Lep_rupPetal_All_Data.csv">Lepanthes_rupripetala.csv</a></li>
+<li><a
+href="Data_files_csv/Lepanthes_eltoroensis_Georges_STUDENT.csv">Lepanthes</a></li>
+<li><a
+href="Data_files_csv/Efecto_Huracan_Maria_Student_DATA.csv">Anxiedad y
+Huracan Maria</a></li>
+<li><a href="Data_files_csv/Student_Brassavola.csv">Brassavola
+Orquidea</a></li>
 </ol>
 </div>
 

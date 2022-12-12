@@ -13,7 +13,7 @@
 
 <title>geom_point y geom_count</title>
 
-<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
@@ -126,13 +126,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   for (var i = 0; i < sheets.length; i++) {
     if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
     try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
+    var j = 0;
+    while (j < rules.length) {
       var rule = rules[j];
       // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -228,11 +235,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -261,8 +272,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -270,16 +281,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -555,30 +559,39 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2022-03-28&quot;</code></pre>
+<pre><code>## [1] &quot;2022-12-12&quot;</code></pre>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggversa)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span></code></pre></div>
-<div id="tarea-de-geom_point-geom_count-y-geom_histogram" class="section level1">
+<div id="tarea-de-geom_point-geom_count-y-geom_histogram"
+class="section level1">
 <h1>Tarea de geom_point, geom_count y geom_histogram</h1>
-<p>Esta tarea es para practicar la creación de gráficos usando geom_point, geom_count y / o geom_histogram.</p>
+<p>Esta tarea es para practicar la creación de gráficos usando
+geom_point, geom_count y / o geom_histogram.</p>
 <p>Someter el documento en .html en Edmodo.</p>
 <hr />
 <div id="tarea-1" class="section level2">
 <h2>Tarea 1</h2>
 <ol style="list-style-type: decimal">
-<li>Defina cuál es la diferencia entre geom_point, geom_count y geom_histogram. En otras palabras, ¿en qué situación utilizaría cada una de estas alternativas? (10 ptos). Sea explicto.</li>
+<li>Defina cuál es la diferencia entre geom_point, geom_count y
+geom_histogram. En otras palabras, ¿en qué situación utilizaría cada una
+de estas alternativas? (10 ptos). Sea explicto.</li>
 </ol>
 <hr />
 </div>
 <div id="tarea-2" class="section level2">
 <h2>Tarea 2</h2>
 <ol start="2" style="list-style-type: decimal">
-<li>Use los datos “Camas_Hospital” en el paquete <strong>ggversa</strong> y hacer un gráfico con geom_point que relacione el tamaño de la población de los países y el número de camas de hospital. (10 puntos)
+<li>Use los datos “Camas_Hospital” en el paquete
+<strong>ggversa</strong> y hacer un gráfico con geom_point que relacione
+el tamaño de la población de los países y el número de camas de
+hospital. (10 puntos)
 <ul>
 <li>El texto del eje debe estar en 15 pts.</li>
 <li>El texto del eje debe estar en “negrita”.</li>
-<li>El texto de los diferentes ejes “x” e “y” debe estar en diferentes colores y en español / inglés / portugués / rusoo su idioma favorito (Koreano?). Have Fun…..</li>
+<li>El texto de los diferentes ejes “x” e “y” debe estar en diferentes
+colores y en español / inglés / portugués / rusoo su idioma favorito
+(Koreano?). Have Fun…..</li>
 </ul></li>
 </ol>
 <hr />
@@ -586,9 +599,16 @@ div.tocify {
 <div id="tarea-3" class="section level2">
 <h2>Tarea 3</h2>
 <ol start="3" style="list-style-type: decimal">
-<li>Utilice los datos “Camas_Hospital” en el paquete <strong>ggversa</strong> y haga un gráfico con geom_point que relacione el tamaño de la población de los países y el número de camas de hospital. (10 puntos)
+<li>Utilice los datos “Camas_Hospital” en el paquete
+<strong>ggversa</strong> y haga un gráfico con geom_point que relacione
+el tamaño de la población de los países y el número de camas de
+hospital. (10 puntos)
 <ul>
-<li>Ahora buscan la función para que el eje de x sea el logaritmo de los valores en ese eje. No se olvide cambiar la información en el eje de “X” para que represente la información. No enseño como hacer lo en clase pero debería encontrarlo facilmente en la web la función de como hacerlo.</li>
+<li>Ahora buscan la función para que el eje de x sea el logaritmo de los
+valores en ese eje. No se olvide cambiar la información en el eje de “X”
+para que represente la información. No enseño como hacer lo en clase
+pero debería encontrarlo facilmente en la web la función de como
+hacerlo.</li>
 </ul></li>
 </ol>
 <hr />
@@ -596,10 +616,17 @@ div.tocify {
 <div id="tarea-4" class="section level2">
 <h2>Tarea 4</h2>
 <ol start="4" style="list-style-type: decimal">
-<li>Utilice los datos de “Anxiedad y Huracan Maria” debajo la pestaña de <strong>Los Datos</strong> y utilice la función geom_count para evaluar el conteo del número de individuos en un hogar, <em>Num_Pers_Hogar</em> de los siguientes municipios, Aguas Buenas, Caguas, San Juan, Orocovis y Trujillo Alto. (20 puntos)
+<li>Utilice los datos de “Anxiedad y Huracan Maria” debajo la pestaña de
+<strong>Los Datos</strong> y utilice la función geom_count para evaluar
+el conteo del número de individuos en un hogar, <em>Num_Pers_Hogar</em>
+de los siguientes municipios, Aguas Buenas, Caguas, San Juan, Orocovis y
+Trujillo Alto. (20 puntos)
 <ul>
-<li>Tenga cuidado aquí, elija la variable correcta seleccionando las variables correctas,</li>
-<li>Usando el tamaño del círculo debe ser proporcional a la frecuencia del número de personas en un hogar. (Esta parte no la mostré, hay que buscarla en la web).</li>
+<li>Tenga cuidado aquí, elija la variable correcta seleccionando las
+variables correctas,</li>
+<li>Usando el tamaño del círculo debe ser proporcional a la frecuencia
+del número de personas en un hogar. (Esta parte no la mostré, hay que
+buscarla en la web).</li>
 </ul></li>
 </ol>
 <hr />
@@ -607,7 +634,10 @@ div.tocify {
 <div id="tarea-5" class="section level2">
 <h2>Tarea 5</h2>
 <ol start="5" style="list-style-type: decimal">
-<li>Haga un histograma del número de individuos en un hogar, <em>Num_Pers_Hogar</em>, para el conjunto de datos completo. Haga de este gráfico una figura presentable para una presentación científica. (10 ptos).</li>
+<li>Haga un histograma del número de individuos en un hogar,
+<em>Num_Pers_Hogar</em>, para el conjunto de datos completo. Haga de
+este gráfico una figura presentable para una presentación científica.
+(10 ptos).</li>
 </ol>
 </div>
 </div>

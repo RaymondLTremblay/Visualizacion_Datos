@@ -287,7 +287,9 @@ En el gráfico se representa el consumo por la Becasa de Mar de la base de datos
 
 ```{r Becasaqqplot2, message=FALSE}
 # Note que anteriormente ya habíamos depositado los datos en el data.frame BecasaDeMar
-qplot(sample = BecasaDeMar$mgconsumed, stat="qq")+
+ggplot(BecasaDeMar, aes(sample=mgconsumed))+
+       geom_qq()+
+  geom_qq_line()+
   theme(axis.title=element_text(size=20,face="bold"),
         axis.text = element_text(size=20,face="bold"))+
    xlab("Valores teóricos")+
@@ -397,6 +399,9 @@ grid.arrange(a,b,ncol=1)
 Continuaremos con este mismo análisis pero esta vez evaluaremos la distribución del peso de gorriones en un trabajo de captura y recaptura en 6 meses diferentes.  Utilizaremos la base de datos **SparrowsElphick**.  En la figura (a) observamos un histograma de la distribución de los pesos de estas aves por cada mes. Vemos claramente que hay meses (mayo, septiembre y octubre) en los que se tuvieron muchas menos observaciones.  En el segundo gráfico, Figura (b), observamos el histograma y la curva normal para todos los datos sin importar el mes. Igualmente, esta visualización nos ayuda a evaluar la normalidad de los datos. 
 
 ```{r density3}
+library(readr)
+SparrowsElphick <- read_csv("Data_files_csv/SparrowsElphick.csv")
+Sparrows=SparrowsElphick
 head(Sparrows)
 Sparrows=SparrowsElphick
 

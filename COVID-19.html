@@ -13,7 +13,7 @@
 
 <title>COVID-19</title>
 
-<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
@@ -126,13 +126,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   for (var i = 0; i < sheets.length; i++) {
     if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
     try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
+    var j = 0;
+    while (j < rules.length) {
       var rule = rules[j];
       // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -228,11 +235,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -261,8 +272,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -270,16 +281,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -555,59 +559,94 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2022-03-28&quot;</code></pre>
+<pre><code>## [1] &quot;2022-12-12&quot;</code></pre>
 <p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" /></p>
 <hr />
 <div id="descargo-de-responsabilidad" class="section level1">
 <h1>Descargo de responsabilidad</h1>
-<p>Los datos siguientes son archivos públicos disponible en el web. En ningún momento uno se responsabiliza de la calidad de los datos. Los datos en este curso son para fin de entender el proceso de hacer gráficos de calidad. En cada archivo se pone el enlace donde se consiguió la información. No hay garantía que estos enlaces sean activos en el futuro.</p>
+<p>Los datos siguientes son archivos públicos disponible en el web. En
+ningún momento uno se responsabiliza de la calidad de los datos. Los
+datos en este curso son para fin de entender el proceso de hacer
+gráficos de calidad. En cada archivo se pone el enlace donde se
+consiguió la información. No hay garantía que estos enlaces sean activos
+en el futuro.</p>
 <hr />
 <div id="cdc" class="section level2">
 <h2>CDC</h2>
 <p>Enlace de CDC, USA</p>
-<p>Aquí encontrarán datos sobre bases de datos del CDC, Centers for Disease Control and prevention.</p>
-<p><a href="https://www.cdc.gov/library/researchguides/2019novelcoronavirus/datastatistics.html" class="uri">https://www.cdc.gov/library/researchguides/2019novelcoronavirus/datastatistics.html</a></p>
+<p>Aquí encontrarán datos sobre bases de datos del CDC, Centers for
+Disease Control and prevention.</p>
+<p><a
+href="https://www.cdc.gov/library/researchguides/2019novelcoronavirus/datastatistics.html"
+class="uri">https://www.cdc.gov/library/researchguides/2019novelcoronavirus/datastatistics.html</a></p>
 <hr />
 </div>
 <div id="who" class="section level2">
 <h2>WHO</h2>
 <p>Enlace de WHO, World Health Organization.<br />
-<a href="https://www.who.int/tb/country/data/download/en/" class="uri">https://www.who.int/tb/country/data/download/en/</a></p>
+<a href="https://www.who.int/tb/country/data/download/en/"
+class="uri">https://www.who.int/tb/country/data/download/en/</a></p>
 <p>En este sitio se encuentra muchos diferentes tipos de datos.</p>
-<p>En el enlace son los datos de tuberculosis en diferentes paises del mundo.</p>
+<p>En el enlace son los datos de tuberculosis en diferentes paises del
+mundo.</p>
 <hr />
 </div>
 <div id="tuberculosis" class="section level2">
 <h2>Tuberculosis</h2>
 <p>Tuberculosis entre 2001-2018 global</p>
 <ol style="list-style-type: decimal">
-<li><a href="TB_burden_countries_2020-08-02.csv">TB_burden_countries_2020-08-02</a></li>
+<li><a
+href="TB_burden_countries_2020-08-02.csv">TB_burden_countries_2020-08-02</a></li>
 </ol>
 </div>
 </div>
 <div id="datos-de-covid-19" class="section level1">
 <h1>Datos de COVID-19</h1>
-<p>Datos de COVID-19, United Kingdom provienen de <a href="https://coronavirus.data.gov.uk" class="uri">https://coronavirus.data.gov.uk</a></p>
+<p>Datos de COVID-19, United Kingdom provienen de <a
+href="https://coronavirus.data.gov.uk"
+class="uri">https://coronavirus.data.gov.uk</a></p>
 <ol style="list-style-type: decimal">
-<li><a href="COVID_DATA/coronavirus-cases_latest_UK.csv">coronavirus-cases_latest_UK.csv</a></li>
-<li><a href="COVID_DATA/coronavirus-cases_latest_UK.csv">coronavirus-mortandad_latest_UK.csv</a></li>
+<li><a
+href="COVID_DATA/coronavirus-cases_latest_UK.csv">coronavirus-cases_latest_UK.csv</a></li>
+<li><a
+href="COVID_DATA/coronavirus-cases_latest_UK.csv">coronavirus-mortandad_latest_UK.csv</a></li>
 </ol>
-<p>Datos de muchos paises sobre los casos de COVID-19 <a href="https://data.humdata.org/dataset/novel-coronavirus-2019-ncov-cases?" class="uri">https://data.humdata.org/dataset/novel-coronavirus-2019-ncov-cases?</a></p>
+<p>Datos de muchos paises sobre los casos de COVID-19 <a
+href="https://data.humdata.org/dataset/novel-coronavirus-2019-ncov-cases?"
+class="uri">https://data.humdata.org/dataset/novel-coronavirus-2019-ncov-cases?</a></p>
 <ol style="list-style-type: decimal">
-<li><a href="time_series_covid19_confirmed_global.csv">Global_serie_tiempo.cvs</a></li>
-<li><a href="time_series_covid19_deaths_global.csv">Global_serie_mortandad_tiempo.cvs</a></li>
+<li><a
+href="time_series_covid19_confirmed_global.csv">Global_serie_tiempo.cvs</a></li>
+<li><a
+href="time_series_covid19_deaths_global.csv">Global_serie_mortandad_tiempo.cvs</a></li>
 </ol>
-<p>Datos de Belgica <a href="https://epistat.wiv-isp.be/covid/" class="uri">https://epistat.wiv-isp.be/covid/</a></p>
+<p>Datos de Belgica <a href="https://epistat.wiv-isp.be/covid/"
+class="uri">https://epistat.wiv-isp.be/covid/</a></p>
 <ol style="list-style-type: decimal">
 <li><a href="COVID19BE.xlsx">Belgica.xls</a></li>
 </ol>
 <hr />
-<div id="covid-19-base-de-datos-mundial-de-our-world-in-data" class="section level2">
-<h2>COVID-19: Base de Datos Mundial de <strong>Our world in Data</strong></h2>
-<p>El siguiente archivo es para tener aceso a datos sobre los casos de COVID-19 por día en todo el planeta. El archivo esta mantenido en el siguiente enlace <a href="https://github.com/owid/covid-19-data/tree/master/public/data" class="uri">https://github.com/owid/covid-19-data/tree/master/public/data</a></p>
+<div id="covid-19-base-de-datos-mundial-de-our-world-in-data"
+class="section level2">
+<h2>COVID-19: Base de Datos Mundial de <strong>Our world in
+Data</strong></h2>
+<p>El siguiente archivo es para tener aceso a datos sobre los casos de
+COVID-19 por día en todo el planeta. El archivo esta mantenido en el
+siguiente enlace <a
+href="https://github.com/owid/covid-19-data/tree/master/public/data"
+class="uri">https://github.com/owid/covid-19-data/tree/master/public/data</a></p>
 <p>Para más información vea al website.</p>
 <p>Las variables incluido al 4 de agosto son:</p>
-<p>iso_code, continent, location, date, total_cases, new_cases, total_deaths, new_deaths, total_cases_per_million, new_cases_per_million, total_deaths_per_million, new_deaths_per_million, total_tests, new_tests, new_tests_smoothed, total_tests_per_thousand, new_tests_per_thousand, new_tests_smoothed_per_thousand, tests_per_case, positive_rate, tests_units, stringency_index, population, population_density, median_age, aged_65_older, aged_70_older, gdp_per_capita, extreme_poverty, cardiovasc_death_rate, diabetes_prevalence, female_smokers, male_smokers, handwashing_facilities, hospital_beds_per_thousand, life_expectancy</p>
+<p>iso_code, continent, location, date, total_cases, new_cases,
+total_deaths, new_deaths, total_cases_per_million,
+new_cases_per_million, total_deaths_per_million, new_deaths_per_million,
+total_tests, new_tests, new_tests_smoothed, total_tests_per_thousand,
+new_tests_per_thousand, new_tests_smoothed_per_thousand, tests_per_case,
+positive_rate, tests_units, stringency_index, population,
+population_density, median_age, aged_65_older, aged_70_older,
+gdp_per_capita, extreme_poverty, cardiovasc_death_rate,
+diabetes_prevalence, female_smokers, male_smokers,
+handwashing_facilities, hospital_beds_per_thousand, life_expectancy</p>
 <p>Para la descripción de las variables vea este enlace.</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>codes<span class="ot">&lt;-</span><span class="fu">read.csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-codebook.csv&#39;</span>)</span>
@@ -1002,39 +1041,41 @@ div.tocify {
   vertical-align: 0;
 }
 
-#zmksrwfzlu .gt_slash_mark {
-  font-size: 0.7em;
-  line-height: 0.7em;
-  vertical-align: 0.15em;
+#zmksrwfzlu .gt_indent_1 {
+  text-indent: 5px;
 }
 
-#zmksrwfzlu .gt_fraction_numerator {
-  font-size: 0.6em;
-  line-height: 0.6em;
-  vertical-align: 0.45em;
+#zmksrwfzlu .gt_indent_2 {
+  text-indent: 10px;
 }
 
-#zmksrwfzlu .gt_fraction_denominator {
-  font-size: 0.6em;
-  line-height: 0.6em;
-  vertical-align: -0.05em;
+#zmksrwfzlu .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#zmksrwfzlu .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#zmksrwfzlu .gt_indent_5 {
+  text-indent: 25px;
 }
 </style>
 <table class="gt_table">
   
   <thead class="gt_col_headings">
     <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">column</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">source</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">category</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">description</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">column</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">source</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">category</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">description</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
     <tr><td class="gt_row gt_left">iso_code</td>
 <td class="gt_row gt_left">International Organization for Standardization</td>
 <td class="gt_row gt_left">Others</td>
-<td class="gt_row gt_left">ISO 3166-1 alpha-3 – three-letter country codes</td></tr>
+<td class="gt_row gt_left">ISO 3166-1 alpha-3 – three-letter country codes. Note that OWID-defined regions (e.g. continents like 'Europe') contain prefix 'OWID_'.</td></tr>
     <tr><td class="gt_row gt_left">continent</td>
 <td class="gt_row gt_left">Our World in Data</td>
 <td class="gt_row gt_left">Others</td>
@@ -1042,7 +1083,7 @@ div.tocify {
     <tr><td class="gt_row gt_left">location</td>
 <td class="gt_row gt_left">Our World in Data</td>
 <td class="gt_row gt_left">Others</td>
-<td class="gt_row gt_left">Geographical location</td></tr>
+<td class="gt_row gt_left">Geographical location. Location 'International' considers special regions (Diamond Princess and MS Zaandam cruises). </td></tr>
     <tr><td class="gt_row gt_left">date</td>
 <td class="gt_row gt_left">Our World in Data</td>
 <td class="gt_row gt_left">Others</td>
@@ -1118,19 +1159,19 @@ div.tocify {
     <tr><td class="gt_row gt_left">weekly_icu_admissions</td>
 <td class="gt_row gt_left">National government reports and European CDC</td>
 <td class="gt_row gt_left">Hospital &amp; ICU</td>
-<td class="gt_row gt_left">Number of COVID-19 patients newly admitted to intensive care units (ICUs) in a given week</td></tr>
+<td class="gt_row gt_left">Number of COVID-19 patients newly admitted to intensive care units (ICUs) in a given week (reporting date and the preceeding 6 days)</td></tr>
     <tr><td class="gt_row gt_left">weekly_icu_admissions_per_million</td>
 <td class="gt_row gt_left">National government reports and European CDC</td>
 <td class="gt_row gt_left">Hospital &amp; ICU</td>
-<td class="gt_row gt_left">Number of COVID-19 patients newly admitted to intensive care units (ICUs) in a given week per 1,000,000 people</td></tr>
+<td class="gt_row gt_left">Number of COVID-19 patients newly admitted to intensive care units (ICUs) in a given week per 1,000,000 people (reporting date and the preceeding 6 days)</td></tr>
     <tr><td class="gt_row gt_left">weekly_hosp_admissions</td>
 <td class="gt_row gt_left">National government reports and European CDC</td>
 <td class="gt_row gt_left">Hospital &amp; ICU</td>
-<td class="gt_row gt_left">Number of COVID-19 patients newly admitted to hospitals in a given week</td></tr>
+<td class="gt_row gt_left">Number of COVID-19 patients newly admitted to hospitals in a given week (reporting date and the preceeding 6 days)</td></tr>
     <tr><td class="gt_row gt_left">weekly_hosp_admissions_per_million</td>
 <td class="gt_row gt_left">National government reports and European CDC</td>
 <td class="gt_row gt_left">Hospital &amp; ICU</td>
-<td class="gt_row gt_left">Number of COVID-19 patients newly admitted to hospitals in a given week per 1,000,000 people</td></tr>
+<td class="gt_row gt_left">Number of COVID-19 patients newly admitted to hospitals in a given week per 1,000,000 people (reporting date and the preceeding 6 days)</td></tr>
     <tr><td class="gt_row gt_left">total_tests</td>
 <td class="gt_row gt_left">National government reports</td>
 <td class="gt_row gt_left">Tests &amp; positivity</td>
@@ -1166,7 +1207,7 @@ div.tocify {
     <tr><td class="gt_row gt_left">tests_units</td>
 <td class="gt_row gt_left">National government reports</td>
 <td class="gt_row gt_left">Tests &amp; positivity</td>
-<td class="gt_row gt_left">Units used by the location to report its testing data</td></tr>
+<td class="gt_row gt_left">Units used by the location to report its testing data. A country file can't contain mixed units. All metrics concerning testing data use the specified test unit. Valid units are 'people tested' (number of people tested), 'tests performed' (number of tests performed. a single person can be tested more than once in a given day) and 'samples tested' (number of samples tested. In some cases, more than one sample may be required to perform a given test.)</td></tr>
     <tr><td class="gt_row gt_left">total_vaccinations</td>
 <td class="gt_row gt_left">National government reports</td>
 <td class="gt_row gt_left">Vaccinations</td>
@@ -1698,110 +1739,112 @@ div.tocify {
   vertical-align: 0;
 }
 
-#fuwvblmvdx .gt_slash_mark {
-  font-size: 0.7em;
-  line-height: 0.7em;
-  vertical-align: 0.15em;
+#fuwvblmvdx .gt_indent_1 {
+  text-indent: 5px;
 }
 
-#fuwvblmvdx .gt_fraction_numerator {
-  font-size: 0.6em;
-  line-height: 0.6em;
-  vertical-align: 0.45em;
+#fuwvblmvdx .gt_indent_2 {
+  text-indent: 10px;
 }
 
-#fuwvblmvdx .gt_fraction_denominator {
-  font-size: 0.6em;
-  line-height: 0.6em;
-  vertical-align: -0.05em;
+#fuwvblmvdx .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#fuwvblmvdx .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#fuwvblmvdx .gt_indent_5 {
+  text-indent: 25px;
 }
 </style>
 <table class="gt_table">
   
   <thead class="gt_col_headings">
     <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">iso_code</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">continent</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">location</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">date</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">total_cases</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_cases</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_cases_smoothed</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">total_deaths</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_deaths</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_deaths_smoothed</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">total_cases_per_million</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_cases_per_million</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_cases_smoothed_per_million</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">total_deaths_per_million</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_deaths_per_million</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_deaths_smoothed_per_million</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">reproduction_rate</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">icu_patients</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">icu_patients_per_million</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">hosp_patients</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">hosp_patients_per_million</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">weekly_icu_admissions</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">weekly_icu_admissions_per_million</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">weekly_hosp_admissions</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">weekly_hosp_admissions_per_million</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">total_tests</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_tests</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">total_tests_per_thousand</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_tests_per_thousand</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_tests_smoothed</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_tests_smoothed_per_thousand</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">positive_rate</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">tests_per_case</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">tests_units</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">total_vaccinations</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">people_vaccinated</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">people_fully_vaccinated</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">total_boosters</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_vaccinations</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_vaccinations_smoothed</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">total_vaccinations_per_hundred</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">people_vaccinated_per_hundred</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">people_fully_vaccinated_per_hundred</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">total_boosters_per_hundred</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_vaccinations_smoothed_per_million</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_people_vaccinated_smoothed</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_people_vaccinated_smoothed_per_hundred</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">stringency_index</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">population</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">population_density</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">median_age</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">aged_65_older</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">aged_70_older</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">gdp_per_capita</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">extreme_poverty</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">cardiovasc_death_rate</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">diabetes_prevalence</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">female_smokers</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">male_smokers</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">handwashing_facilities</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">hospital_beds_per_thousand</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">life_expectancy</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">human_development_index</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">excess_mortality_cumulative_absolute</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">excess_mortality_cumulative</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">excess_mortality</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">excess_mortality_cumulative_per_million</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">iso_code</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">continent</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">location</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">date</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">total_cases</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">new_cases</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">new_cases_smoothed</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">total_deaths</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">new_deaths</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">new_deaths_smoothed</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">total_cases_per_million</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">new_cases_per_million</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">new_cases_smoothed_per_million</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">total_deaths_per_million</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">new_deaths_per_million</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">new_deaths_smoothed_per_million</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">reproduction_rate</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">icu_patients</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">icu_patients_per_million</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">hosp_patients</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">hosp_patients_per_million</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">weekly_icu_admissions</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">weekly_icu_admissions_per_million</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">weekly_hosp_admissions</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">weekly_hosp_admissions_per_million</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">total_tests</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">new_tests</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">total_tests_per_thousand</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">new_tests_per_thousand</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">new_tests_smoothed</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">new_tests_smoothed_per_thousand</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">positive_rate</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">tests_per_case</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">tests_units</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">total_vaccinations</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">people_vaccinated</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">people_fully_vaccinated</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">total_boosters</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">new_vaccinations</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">new_vaccinations_smoothed</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">total_vaccinations_per_hundred</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">people_vaccinated_per_hundred</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">people_fully_vaccinated_per_hundred</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">total_boosters_per_hundred</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">new_vaccinations_smoothed_per_million</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">new_people_vaccinated_smoothed</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">new_people_vaccinated_smoothed_per_hundred</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">stringency_index</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">population_density</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">median_age</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">aged_65_older</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">aged_70_older</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">gdp_per_capita</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">extreme_poverty</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">cardiovasc_death_rate</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">diabetes_prevalence</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">female_smokers</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">male_smokers</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">handwashing_facilities</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">hospital_beds_per_thousand</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">life_expectancy</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">human_development_index</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">population</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">excess_mortality_cumulative_absolute</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">excess_mortality_cumulative</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">excess_mortality</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">excess_mortality_cumulative_per_million</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
     <tr><td class="gt_row gt_left">AFG</td>
 <td class="gt_row gt_left">Asia</td>
 <td class="gt_row gt_left">Afghanistan</td>
-<td class="gt_row gt_left">2020-02-24</td>
+<td class="gt_row gt_right">2020-02-24</td>
 <td class="gt_row gt_right">5</td>
 <td class="gt_row gt_right">5</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">0.126</td>
-<td class="gt_row gt_right">0.126</td>
+<td class="gt_row gt_right">0.122</td>
+<td class="gt_row gt_right">0.122</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
@@ -1823,7 +1866,7 @@ div.tocify {
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_left"></td>
+<td class="gt_row gt_right"></td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
@@ -1838,7 +1881,6 @@ div.tocify {
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">8.33</td>
-<td class="gt_row gt_right">39835428</td>
 <td class="gt_row gt_right">54.422</td>
 <td class="gt_row gt_right">18.6</td>
 <td class="gt_row gt_right">2.581</td>
@@ -1853,6 +1895,7 @@ div.tocify {
 <td class="gt_row gt_right">0.5</td>
 <td class="gt_row gt_right">64.83</td>
 <td class="gt_row gt_right">0.511</td>
+<td class="gt_row gt_right">41128772</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
@@ -1860,14 +1903,14 @@ div.tocify {
     <tr><td class="gt_row gt_left">AFG</td>
 <td class="gt_row gt_left">Asia</td>
 <td class="gt_row gt_left">Afghanistan</td>
-<td class="gt_row gt_left">2020-02-25</td>
+<td class="gt_row gt_right">2020-02-25</td>
 <td class="gt_row gt_right">5</td>
 <td class="gt_row gt_right">0</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">0.126</td>
+<td class="gt_row gt_right">0.122</td>
 <td class="gt_row gt_right">0.000</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
@@ -1890,7 +1933,7 @@ div.tocify {
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_left"></td>
+<td class="gt_row gt_right"></td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
@@ -1905,7 +1948,6 @@ div.tocify {
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">8.33</td>
-<td class="gt_row gt_right">39835428</td>
 <td class="gt_row gt_right">54.422</td>
 <td class="gt_row gt_right">18.6</td>
 <td class="gt_row gt_right">2.581</td>
@@ -1920,6 +1962,7 @@ div.tocify {
 <td class="gt_row gt_right">0.5</td>
 <td class="gt_row gt_right">64.83</td>
 <td class="gt_row gt_right">0.511</td>
+<td class="gt_row gt_right">41128772</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
@@ -1927,14 +1970,14 @@ div.tocify {
     <tr><td class="gt_row gt_left">AFG</td>
 <td class="gt_row gt_left">Asia</td>
 <td class="gt_row gt_left">Afghanistan</td>
-<td class="gt_row gt_left">2020-02-26</td>
+<td class="gt_row gt_right">2020-02-26</td>
 <td class="gt_row gt_right">5</td>
 <td class="gt_row gt_right">0</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">0.126</td>
+<td class="gt_row gt_right">0.122</td>
 <td class="gt_row gt_right">0.000</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
@@ -1957,7 +2000,7 @@ div.tocify {
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_left"></td>
+<td class="gt_row gt_right"></td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
@@ -1972,7 +2015,6 @@ div.tocify {
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">8.33</td>
-<td class="gt_row gt_right">39835428</td>
 <td class="gt_row gt_right">54.422</td>
 <td class="gt_row gt_right">18.6</td>
 <td class="gt_row gt_right">2.581</td>
@@ -1987,6 +2029,7 @@ div.tocify {
 <td class="gt_row gt_right">0.5</td>
 <td class="gt_row gt_right">64.83</td>
 <td class="gt_row gt_right">0.511</td>
+<td class="gt_row gt_right">41128772</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
@@ -1994,14 +2037,14 @@ div.tocify {
     <tr><td class="gt_row gt_left">AFG</td>
 <td class="gt_row gt_left">Asia</td>
 <td class="gt_row gt_left">Afghanistan</td>
-<td class="gt_row gt_left">2020-02-27</td>
+<td class="gt_row gt_right">2020-02-27</td>
 <td class="gt_row gt_right">5</td>
 <td class="gt_row gt_right">0</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">0.126</td>
+<td class="gt_row gt_right">0.122</td>
 <td class="gt_row gt_right">0.000</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
@@ -2024,7 +2067,7 @@ div.tocify {
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_left"></td>
+<td class="gt_row gt_right"></td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
@@ -2039,7 +2082,6 @@ div.tocify {
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">8.33</td>
-<td class="gt_row gt_right">39835428</td>
 <td class="gt_row gt_right">54.422</td>
 <td class="gt_row gt_right">18.6</td>
 <td class="gt_row gt_right">2.581</td>
@@ -2054,6 +2096,7 @@ div.tocify {
 <td class="gt_row gt_right">0.5</td>
 <td class="gt_row gt_right">64.83</td>
 <td class="gt_row gt_right">0.511</td>
+<td class="gt_row gt_right">41128772</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
@@ -2061,14 +2104,14 @@ div.tocify {
     <tr><td class="gt_row gt_left">AFG</td>
 <td class="gt_row gt_left">Asia</td>
 <td class="gt_row gt_left">Afghanistan</td>
-<td class="gt_row gt_left">2020-02-28</td>
+<td class="gt_row gt_right">2020-02-28</td>
 <td class="gt_row gt_right">5</td>
 <td class="gt_row gt_right">0</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">0.126</td>
+<td class="gt_row gt_right">0.122</td>
 <td class="gt_row gt_right">0.000</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
@@ -2091,7 +2134,7 @@ div.tocify {
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_left"></td>
+<td class="gt_row gt_right"></td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
@@ -2106,7 +2149,6 @@ div.tocify {
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">8.33</td>
-<td class="gt_row gt_right">39835428</td>
 <td class="gt_row gt_right">54.422</td>
 <td class="gt_row gt_right">18.6</td>
 <td class="gt_row gt_right">2.581</td>
@@ -2121,6 +2163,7 @@ div.tocify {
 <td class="gt_row gt_right">0.5</td>
 <td class="gt_row gt_right">64.83</td>
 <td class="gt_row gt_right">0.511</td>
+<td class="gt_row gt_right">41128772</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
@@ -2128,83 +2171,16 @@ div.tocify {
     <tr><td class="gt_row gt_left">AFG</td>
 <td class="gt_row gt_left">Asia</td>
 <td class="gt_row gt_left">Afghanistan</td>
-<td class="gt_row gt_left">2020-02-29</td>
-<td class="gt_row gt_right">5</td>
-<td class="gt_row gt_right">0</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">0.126</td>
-<td class="gt_row gt_right">0.000</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_left"></td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">8.33</td>
-<td class="gt_row gt_right">39835428</td>
-<td class="gt_row gt_right">54.422</td>
-<td class="gt_row gt_right">18.6</td>
-<td class="gt_row gt_right">2.581</td>
-<td class="gt_row gt_right">1.337</td>
-<td class="gt_row gt_right">1803.987</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">597.029</td>
-<td class="gt_row gt_right">9.59</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">37.746</td>
-<td class="gt_row gt_right">0.5</td>
-<td class="gt_row gt_right">64.83</td>
-<td class="gt_row gt_right">0.511</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td></tr>
-    <tr><td class="gt_row gt_left">AFG</td>
-<td class="gt_row gt_left">Asia</td>
-<td class="gt_row gt_left">Afghanistan</td>
-<td class="gt_row gt_left">2020-03-01</td>
+<td class="gt_row gt_right">2020-02-29</td>
 <td class="gt_row gt_right">5</td>
 <td class="gt_row gt_right">0</td>
 <td class="gt_row gt_right">0.714</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">0.126</td>
+<td class="gt_row gt_right">0.122</td>
 <td class="gt_row gt_right">0.000</td>
-<td class="gt_row gt_right">0.018</td>
+<td class="gt_row gt_right">0.017</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
@@ -2225,7 +2201,7 @@ div.tocify {
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_left"></td>
+<td class="gt_row gt_right"></td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
@@ -2239,8 +2215,7 @@ div.tocify {
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">27.78</td>
-<td class="gt_row gt_right">39835428</td>
+<td class="gt_row gt_right">8.33</td>
 <td class="gt_row gt_right">54.422</td>
 <td class="gt_row gt_right">18.6</td>
 <td class="gt_row gt_right">2.581</td>
@@ -2255,6 +2230,7 @@ div.tocify {
 <td class="gt_row gt_right">0.5</td>
 <td class="gt_row gt_right">64.83</td>
 <td class="gt_row gt_right">0.511</td>
+<td class="gt_row gt_right">41128772</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
@@ -2262,16 +2238,16 @@ div.tocify {
     <tr><td class="gt_row gt_left">AFG</td>
 <td class="gt_row gt_left">Asia</td>
 <td class="gt_row gt_left">Afghanistan</td>
-<td class="gt_row gt_left">2020-03-02</td>
+<td class="gt_row gt_right">2020-03-01</td>
 <td class="gt_row gt_right">5</td>
 <td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">0.714</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">0.122</td>
 <td class="gt_row gt_right">0.000</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">0.126</td>
-<td class="gt_row gt_right">0.000</td>
-<td class="gt_row gt_right">0.000</td>
+<td class="gt_row gt_right">0.017</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
@@ -2292,7 +2268,7 @@ div.tocify {
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_left"></td>
+<td class="gt_row gt_right"></td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
@@ -2307,7 +2283,6 @@ div.tocify {
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">27.78</td>
-<td class="gt_row gt_right">39835428</td>
 <td class="gt_row gt_right">54.422</td>
 <td class="gt_row gt_right">18.6</td>
 <td class="gt_row gt_right">2.581</td>
@@ -2322,6 +2297,7 @@ div.tocify {
 <td class="gt_row gt_right">0.5</td>
 <td class="gt_row gt_right">64.83</td>
 <td class="gt_row gt_right">0.511</td>
+<td class="gt_row gt_right">41128772</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
@@ -2329,14 +2305,14 @@ div.tocify {
     <tr><td class="gt_row gt_left">AFG</td>
 <td class="gt_row gt_left">Asia</td>
 <td class="gt_row gt_left">Afghanistan</td>
-<td class="gt_row gt_left">2020-03-03</td>
+<td class="gt_row gt_right">2020-03-02</td>
 <td class="gt_row gt_right">5</td>
 <td class="gt_row gt_right">0</td>
 <td class="gt_row gt_right">0.000</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">0.126</td>
+<td class="gt_row gt_right">0.122</td>
 <td class="gt_row gt_right">0.000</td>
 <td class="gt_row gt_right">0.000</td>
 <td class="gt_row gt_right">NA</td>
@@ -2359,7 +2335,7 @@ div.tocify {
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_left"></td>
+<td class="gt_row gt_right"></td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
@@ -2374,7 +2350,6 @@ div.tocify {
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">27.78</td>
-<td class="gt_row gt_right">39835428</td>
 <td class="gt_row gt_right">54.422</td>
 <td class="gt_row gt_right">18.6</td>
 <td class="gt_row gt_right">2.581</td>
@@ -2389,6 +2364,7 @@ div.tocify {
 <td class="gt_row gt_right">0.5</td>
 <td class="gt_row gt_right">64.83</td>
 <td class="gt_row gt_right">0.511</td>
+<td class="gt_row gt_right">41128772</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
@@ -2396,14 +2372,14 @@ div.tocify {
     <tr><td class="gt_row gt_left">AFG</td>
 <td class="gt_row gt_left">Asia</td>
 <td class="gt_row gt_left">Afghanistan</td>
-<td class="gt_row gt_left">2020-03-04</td>
+<td class="gt_row gt_right">2020-03-03</td>
 <td class="gt_row gt_right">5</td>
 <td class="gt_row gt_right">0</td>
 <td class="gt_row gt_right">0.000</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">0.126</td>
+<td class="gt_row gt_right">0.122</td>
 <td class="gt_row gt_right">0.000</td>
 <td class="gt_row gt_right">0.000</td>
 <td class="gt_row gt_right">NA</td>
@@ -2426,7 +2402,7 @@ div.tocify {
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_left"></td>
+<td class="gt_row gt_right"></td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
@@ -2441,7 +2417,6 @@ div.tocify {
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">27.78</td>
-<td class="gt_row gt_right">39835428</td>
 <td class="gt_row gt_right">54.422</td>
 <td class="gt_row gt_right">18.6</td>
 <td class="gt_row gt_right">2.581</td>
@@ -2456,6 +2431,74 @@ div.tocify {
 <td class="gt_row gt_right">0.5</td>
 <td class="gt_row gt_right">64.83</td>
 <td class="gt_row gt_right">0.511</td>
+<td class="gt_row gt_right">41128772</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td></tr>
+    <tr><td class="gt_row gt_left">AFG</td>
+<td class="gt_row gt_left">Asia</td>
+<td class="gt_row gt_left">Afghanistan</td>
+<td class="gt_row gt_right">2020-03-04</td>
+<td class="gt_row gt_right">5</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">0.000</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">0.122</td>
+<td class="gt_row gt_right">0.000</td>
+<td class="gt_row gt_right">0.000</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right"></td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">27.78</td>
+<td class="gt_row gt_right">54.422</td>
+<td class="gt_row gt_right">18.6</td>
+<td class="gt_row gt_right">2.581</td>
+<td class="gt_row gt_right">1.337</td>
+<td class="gt_row gt_right">1803.987</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">597.029</td>
+<td class="gt_row gt_right">9.59</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">37.746</td>
+<td class="gt_row gt_right">0.5</td>
+<td class="gt_row gt_right">64.83</td>
+<td class="gt_row gt_right">0.511</td>
+<td class="gt_row gt_right">41128772</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
@@ -2471,15 +2514,23 @@ div.tocify {
 <ol style="list-style-type: decimal">
 <li><a href="%22COVID_DATA/us_counties.csv%22">US_Counties.csv</a>.</li>
 </ol>
-<p>Los datos provienen del siguiente repositorio, <a href="https://github.com/nytimes/covid-19-data" class="uri">https://github.com/nytimes/covid-19-data</a>.</p>
-<p>Puede bajar los datos más reciente en el siguiente enlace. <a href="https://github.com/nytimes/covid-19-data/blob/master/us-counties.csv" class="uri">https://github.com/nytimes/covid-19-data/blob/master/us-counties.csv</a></p>
+<p>Los datos provienen del siguiente repositorio, <a
+href="https://github.com/nytimes/covid-19-data"
+class="uri">https://github.com/nytimes/covid-19-data</a>.</p>
+<p>Puede bajar los datos más reciente en el siguiente enlace. <a
+href="https://github.com/nytimes/covid-19-data/blob/master/us-counties.csv"
+class="uri">https://github.com/nytimes/covid-19-data/blob/master/us-counties.csv</a></p>
 <p>El archivo tiene la siguiente información</p>
 <ul>
 <li>Al momento de buscar los datos habia 735,516 lineas de datos</li>
 <li>date = La fecha de los más recientes datos de COVID-19</li>
 <li>el nombre del county/municipio</li>
 <li>el estado/colonia (incluye a Puerto Rico)</li>
-<li>FIPS = El código numérico de cada county/municipio. Para buscar información sobre el numero para cada country o municipio puede ir al siguiente enlace. <a href="https://www.nrcs.usda.gov/wps/portal/nrcs/detail/national/home/?cid=nrcs143_013697" class="uri">https://www.nrcs.usda.gov/wps/portal/nrcs/detail/national/home/?cid=nrcs143_013697</a></li>
+<li>FIPS = El código numérico de cada county/municipio. Para buscar
+información sobre el numero para cada country o municipio puede ir al
+siguiente enlace. <a
+href="https://www.nrcs.usda.gov/wps/portal/nrcs/detail/national/home/?cid=nrcs143_013697"
+class="uri">https://www.nrcs.usda.gov/wps/portal/nrcs/detail/national/home/?cid=nrcs143_013697</a></li>
 <li>cases = Números de casos cumulativo de este county/municipio</li>
 <li>death = Números de casos de mortandad de este county/municipio</li>
 </ul>
@@ -2905,78 +2956,80 @@ div.tocify {
   vertical-align: 0;
 }
 
-#abwysygyvr .gt_slash_mark {
-  font-size: 0.7em;
-  line-height: 0.7em;
-  vertical-align: 0.15em;
+#abwysygyvr .gt_indent_1 {
+  text-indent: 5px;
 }
 
-#abwysygyvr .gt_fraction_numerator {
-  font-size: 0.6em;
-  line-height: 0.6em;
-  vertical-align: 0.45em;
+#abwysygyvr .gt_indent_2 {
+  text-indent: 10px;
 }
 
-#abwysygyvr .gt_fraction_denominator {
-  font-size: 0.6em;
-  line-height: 0.6em;
-  vertical-align: -0.05em;
+#abwysygyvr .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#abwysygyvr .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#abwysygyvr .gt_indent_5 {
+  text-indent: 25px;
 }
 </style>
 <table class="gt_table">
   
   <thead class="gt_col_headings">
     <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">...1</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">date</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">county</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">state</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">fips</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">cases</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">deaths</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">...1</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">date</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">county</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">state</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">fips</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">cases</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">deaths</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
     <tr><td class="gt_row gt_right">734673</td>
-<td class="gt_row gt_left">2020-11-15</td>
+<td class="gt_row gt_right">2020-11-15</td>
 <td class="gt_row gt_left">Vega Alta</td>
 <td class="gt_row gt_left">Puerto Rico</td>
-<td class="gt_row gt_left">72143</td>
+<td class="gt_row gt_right">72143</td>
 <td class="gt_row gt_right">1120</td>
 <td class="gt_row gt_right">0</td></tr>
     <tr><td class="gt_row gt_right">734674</td>
-<td class="gt_row gt_left">2020-11-15</td>
+<td class="gt_row gt_right">2020-11-15</td>
 <td class="gt_row gt_left">Vega Baja</td>
 <td class="gt_row gt_left">Puerto Rico</td>
-<td class="gt_row gt_left">72145</td>
+<td class="gt_row gt_right">72145</td>
 <td class="gt_row gt_right">1442</td>
 <td class="gt_row gt_right">0</td></tr>
     <tr><td class="gt_row gt_right">734675</td>
-<td class="gt_row gt_left">2020-11-15</td>
+<td class="gt_row gt_right">2020-11-15</td>
 <td class="gt_row gt_left">Vieques</td>
 <td class="gt_row gt_left">Puerto Rico</td>
-<td class="gt_row gt_left">72147</td>
+<td class="gt_row gt_right">72147</td>
 <td class="gt_row gt_right">107</td>
 <td class="gt_row gt_right">0</td></tr>
     <tr><td class="gt_row gt_right">734676</td>
-<td class="gt_row gt_left">2020-11-15</td>
+<td class="gt_row gt_right">2020-11-15</td>
 <td class="gt_row gt_left">Villalba</td>
 <td class="gt_row gt_left">Puerto Rico</td>
-<td class="gt_row gt_left">72149</td>
+<td class="gt_row gt_right">72149</td>
 <td class="gt_row gt_right">378</td>
 <td class="gt_row gt_right">0</td></tr>
     <tr><td class="gt_row gt_right">734677</td>
-<td class="gt_row gt_left">2020-11-15</td>
+<td class="gt_row gt_right">2020-11-15</td>
 <td class="gt_row gt_left">Yabucoa</td>
 <td class="gt_row gt_left">Puerto Rico</td>
-<td class="gt_row gt_left">72151</td>
+<td class="gt_row gt_right">72151</td>
 <td class="gt_row gt_right">536</td>
 <td class="gt_row gt_right">0</td></tr>
     <tr><td class="gt_row gt_right">734678</td>
-<td class="gt_row gt_left">2020-11-15</td>
+<td class="gt_row gt_right">2020-11-15</td>
 <td class="gt_row gt_left">Yauco</td>
 <td class="gt_row gt_left">Puerto Rico</td>
-<td class="gt_row gt_left">72153</td>
+<td class="gt_row gt_right">72153</td>
 <td class="gt_row gt_right">683</td>
 <td class="gt_row gt_right">0</td></tr>
   </tbody>
@@ -2991,9 +3044,14 @@ div.tocify {
 <ol start="3" style="list-style-type: decimal">
 <li>Covid cases by person en Puerto Rico.</li>
 </ol>
-<p>Datos proviene del siguiente enlace. Siempre puede ir a este enlace para tener los datos más reciente. Proviene de Harvard University <a href="https://rconnect.dfci.harvard.edu/covidpr/" class="uri">https://rconnect.dfci.harvard.edu/covidpr/</a></p>
-<p>En este archivo hay 904,610 filas de datos de personas que fueron evaluados para COVID-19 con pruebas moleculares.</p>
-<p>Cuidado que datos que no son de gente en Puerto Rico, pudiese ser turistas o Puertoriqueños de visitas.</p>
+<p>Datos proviene del siguiente enlace. Siempre puede ir a este enlace
+para tener los datos más reciente. Proviene de Harvard University <a
+href="https://rconnect.dfci.harvard.edu/covidpr/"
+class="uri">https://rconnect.dfci.harvard.edu/covidpr/</a></p>
+<p>En este archivo hay 904,610 filas de datos de personas que fueron
+evaluados para COVID-19 con pruebas moleculares.</p>
+<p>Cuidado que datos que no son de gente en Puerto Rico, pudiese ser
+turistas o Puertoriqueños de visitas.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>pruebas_2020_11_17_19_44_11 <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;COVID_DATA/pruebas-2020-11-17_19_44_11.csv&quot;</span>)</span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>Harvard<span class="ot">=</span>pruebas_2020_11_17_19_44_11</span>
 <span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(Harvard<span class="sc">$</span>testType)</span></code></pre></div>
@@ -3004,8 +3062,10 @@ div.tocify {
 <li>collectedDate = La fecha de recvolección de la muestra</li>
 <li>reportedDate = La fecha que se reporto el resultado</li>
 <li>ageRange = El rango de edad de la persona</li>
-<li>testType = El tipo de prueba, en este caso son todas Moleculares, En el Website puede conseguir los datos que son Anrigeno o Serologica</li>
-<li>result = si la persona fue positiva “positive” o negativa “negative”, o other (“no claro el resultado”)</li>
+<li>testType = El tipo de prueba, en este caso son todas Moleculares, En
+el Website puede conseguir los datos que son Anrigeno o Serologica</li>
+<li>result = si la persona fue positiva “positive” o negativa
+“negative”, o other (“no claro el resultado”)</li>
 <li>patientCity = La ciudad de residencia del paciente</li>
 <li>createdAt = La fecha y hora de la muestra</li>
 <li>date = La fecha de la muestra</li>
@@ -3405,94 +3465,98 @@ div.tocify {
   vertical-align: 0;
 }
 
-#rluzfdtzmv .gt_slash_mark {
-  font-size: 0.7em;
-  line-height: 0.7em;
-  vertical-align: 0.15em;
+#rluzfdtzmv .gt_indent_1 {
+  text-indent: 5px;
 }
 
-#rluzfdtzmv .gt_fraction_numerator {
-  font-size: 0.6em;
-  line-height: 0.6em;
-  vertical-align: 0.45em;
+#rluzfdtzmv .gt_indent_2 {
+  text-indent: 10px;
 }
 
-#rluzfdtzmv .gt_fraction_denominator {
-  font-size: 0.6em;
-  line-height: 0.6em;
-  vertical-align: -0.05em;
+#rluzfdtzmv .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#rluzfdtzmv .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#rluzfdtzmv .gt_indent_5 {
+  text-indent: 25px;
 }
 </style>
 <table class="gt_table">
   
   <thead class="gt_col_headings">
     <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">collectedDate</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">reportedDate</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">ageRange</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">testType</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">result</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">patientCity</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">createdAt</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">date</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">collectedDate</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">reportedDate</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">ageRange</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">testType</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">result</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">patientCity</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">createdAt</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">date</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
-    <tr><td class="gt_row gt_left">2020-11-17</td>
-<td class="gt_row gt_left">2020-11-17</td>
+    <tr><td class="gt_row gt_right">2020-11-17</td>
+<td class="gt_row gt_right">2020-11-17</td>
 <td class="gt_row gt_left">20 to 29</td>
 <td class="gt_row gt_left">Molecular</td>
 <td class="gt_row gt_left">negative</td>
 <td class="gt_row gt_left">Ciales</td>
-<td class="gt_row gt_left">2020-11-17 14:30:00</td>
-<td class="gt_row gt_left">2020-11-17</td></tr>
-    <tr><td class="gt_row gt_left">2020-11-17</td>
-<td class="gt_row gt_left">2020-11-17</td>
+<td class="gt_row gt_right">2020-11-17 14:30:00</td>
+<td class="gt_row gt_right">2020-11-17</td></tr>
+    <tr><td class="gt_row gt_right">2020-11-17</td>
+<td class="gt_row gt_right">2020-11-17</td>
 <td class="gt_row gt_left">40 to 49</td>
 <td class="gt_row gt_left">Molecular</td>
 <td class="gt_row gt_left">negative</td>
 <td class="gt_row gt_left">Trujillo Alto</td>
-<td class="gt_row gt_left">2020-11-17 12:16:00</td>
-<td class="gt_row gt_left">2020-11-17</td></tr>
-    <tr><td class="gt_row gt_left">2020-11-17</td>
-<td class="gt_row gt_left">2020-11-17</td>
+<td class="gt_row gt_right">2020-11-17 12:16:00</td>
+<td class="gt_row gt_right">2020-11-17</td></tr>
+    <tr><td class="gt_row gt_right">2020-11-17</td>
+<td class="gt_row gt_right">2020-11-17</td>
 <td class="gt_row gt_left">50 to 59</td>
 <td class="gt_row gt_left">Molecular</td>
 <td class="gt_row gt_left">positive</td>
 <td class="gt_row gt_left">Vega Alta</td>
-<td class="gt_row gt_left">2020-11-17 07:22:00</td>
-<td class="gt_row gt_left">2020-11-17</td></tr>
-    <tr><td class="gt_row gt_left">2020-11-17</td>
-<td class="gt_row gt_left">2020-11-17</td>
+<td class="gt_row gt_right">2020-11-17 07:22:00</td>
+<td class="gt_row gt_right">2020-11-17</td></tr>
+    <tr><td class="gt_row gt_right">2020-11-17</td>
+<td class="gt_row gt_right">2020-11-17</td>
 <td class="gt_row gt_left">50 to 59</td>
 <td class="gt_row gt_left">Molecular</td>
 <td class="gt_row gt_left">negative</td>
 <td class="gt_row gt_left">Moca</td>
-<td class="gt_row gt_left">2020-11-17 16:54:00</td>
-<td class="gt_row gt_left">2020-11-17</td></tr>
-    <tr><td class="gt_row gt_left">2020-11-17</td>
-<td class="gt_row gt_left">2020-11-17</td>
+<td class="gt_row gt_right">2020-11-17 16:54:00</td>
+<td class="gt_row gt_right">2020-11-17</td></tr>
+    <tr><td class="gt_row gt_right">2020-11-17</td>
+<td class="gt_row gt_right">2020-11-17</td>
 <td class="gt_row gt_left">60 to 69</td>
 <td class="gt_row gt_left">Molecular</td>
 <td class="gt_row gt_left">negative</td>
 <td class="gt_row gt_left">San Juan</td>
-<td class="gt_row gt_left">2020-11-17 12:29:00</td>
-<td class="gt_row gt_left">2020-11-17</td></tr>
-    <tr><td class="gt_row gt_left">2020-11-17</td>
-<td class="gt_row gt_left">2020-11-17</td>
+<td class="gt_row gt_right">2020-11-17 12:29:00</td>
+<td class="gt_row gt_right">2020-11-17</td></tr>
+    <tr><td class="gt_row gt_right">2020-11-17</td>
+<td class="gt_row gt_right">2020-11-17</td>
 <td class="gt_row gt_left">70 to 79</td>
 <td class="gt_row gt_left">Molecular</td>
 <td class="gt_row gt_left">negative</td>
 <td class="gt_row gt_left">San Germán</td>
-<td class="gt_row gt_left">2020-11-17 08:02:00</td>
-<td class="gt_row gt_left">2020-11-17</td></tr>
+<td class="gt_row gt_right">2020-11-17 08:02:00</td>
+<td class="gt_row gt_right">2020-11-17</td></tr>
   </tbody>
   
   
 </table>
 </div>
-<p><a href="https://rconnect.dfci.harvard.edu/covidpr/" class="uri">https://rconnect.dfci.harvard.edu/covidpr/</a></p>
-<p><a href="https://covidtracking.com/data/state/puerto-rico" class="uri">https://covidtracking.com/data/state/puerto-rico</a></p>
+<p><a href="https://rconnect.dfci.harvard.edu/covidpr/"
+class="uri">https://rconnect.dfci.harvard.edu/covidpr/</a></p>
+<p><a href="https://covidtracking.com/data/state/puerto-rico"
+class="uri">https://covidtracking.com/data/state/puerto-rico</a></p>
 </div>
 </div>
 </div>

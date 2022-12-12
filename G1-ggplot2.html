@@ -13,7 +13,7 @@
 
 <title>Visualización de Datos</title>
 
-<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
@@ -126,13 +126,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   for (var i = 0; i < sheets.length; i++) {
     if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
     try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
+    var j = 0;
+    while (j < rules.length) {
       var rule = rules[j];
       // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -228,11 +235,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -261,8 +272,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -270,16 +281,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -555,31 +559,63 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2022-03-28&quot;</code></pre>
+<pre><code>## [1] &quot;2022-12-12&quot;</code></pre>
 <p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" /></p>
 <div id="qué-es-la-visualización-de-datos" class="section level1">
 <h1>¿Qué es la visualización de datos?</h1>
-<p>La visualización de datos tiene como objetivo facilitar la apreciación de datos y determinar si existen patrones. Naturalmente, no se necesitan gráficos para entender ciertas ideas. Por ejemplo, si un estudiante tiene 25 años y otra estudiante tiene 20 años, no hay que crear un gráfico para entender que hay 5 años de diferencia entre una y el otro. Así que producimos gráficos típicamente cuando hay muchos datos y hay posible solapamiento entre los valores. Si, por ejemplo, nos informan que la edad de los estudiantes en un salón de preescolares es de cerca de 5 años y los de primer año universitario es de 19 años, es fácil percibir la diferencia entre esos grupos. Pero, por otro lado, si se describen las edades de los estudiantes de dos salones en la misma universidad, pudiese haber solapamiento entre las edades. Entonces, el determinar si la edad de esos dos grupos de estudiantes es igual o es diferente ya no es tan evidente.</p>
-<p>Veamos un ejemplo. Si uno lista las edades de estudiantes universitarios de dos salones, tendremos el reto de intentar discernir si sus edades son aproximadamente iguales o diferentes solo al mirar la lista. ¿Será posible? A ver, intenta explicar cuál es la diferencia (si existe alguna) en las edades de las dos listas siguientes.</p>
+<p>La visualización de datos tiene como objetivo facilitar la
+apreciación de datos y determinar si existen patrones. Naturalmente, no
+se necesitan gráficos para entender ciertas ideas. Por ejemplo, si un
+estudiante tiene 25 años y otra estudiante tiene 20 años, no hay que
+crear un gráfico para entender que hay 5 años de diferencia entre una y
+el otro. Así que producimos gráficos típicamente cuando hay muchos datos
+y hay posible solapamiento entre los valores. Si, por ejemplo, nos
+informan que la edad de los estudiantes en un salón de preescolares es
+de cerca de 5 años y los de primer año universitario es de 19 años, es
+fácil percibir la diferencia entre esos grupos. Pero, por otro lado, si
+se describen las edades de los estudiantes de dos salones en la misma
+universidad, pudiese haber solapamiento entre las edades. Entonces, el
+determinar si la edad de esos dos grupos de estudiantes es igual o es
+diferente ya no es tan evidente.</p>
+<p>Veamos un ejemplo. Si uno lista las edades de estudiantes
+universitarios de dos salones, tendremos el reto de intentar discernir
+si sus edades son aproximadamente iguales o diferentes solo al mirar la
+lista. ¿Será posible? A ver, intenta explicar cuál es la diferencia (si
+existe alguna) en las edades de las dos listas siguientes.</p>
 <p>Edades del salón 1:</p>
 <pre><code>## $V1
-##   [1] 23 25 25 20 22 23 20 21 26 24 21 26 23 26 22 26 21 26 21 22 27 21 22 23 21
-##  [26] 23 24 25 26 22 22 23 25 21 22 27 27 20 20 23 26 26 27 20 26 27 20 20 25 24
-##  [51] 27 24 21 26 23 27 25 24 26 22 27 20 25 22 20 23 25 20 20 27 21 27 22 22 23
-##  [76] 22 22 27 23 20 23 25 24 22 20 23 26 24 26 27 21 20 22 25 26 20 26 24 21 20</code></pre>
+##   [1] 21 21 23 21 23 20 25 23 27 24 26 25 22 22 25 20 23 24 20 25 22 26 25 24 24
+##  [26] 24 26 24 27 20 20 26 22 24 26 25 26 25 25 21 24 27 20 25 21 27 23 21 20 24
+##  [51] 27 25 24 22 21 23 22 24 23 27 25 26 22 22 25 27 22 23 22 25 21 27 22 23 22
+##  [76] 26 25 23 21 27 20 22 27 21 24 25 22 26 22 25 26 25 26 27 27 20 21 23 25 20</code></pre>
 <hr />
 <p>Edades del salón 2:</p>
 <pre><code>## $V1
-##   [1] 24 23 25 25 25 20 24 24 21 26 25 23 23 23 20 21 20 20 23 26 22 26 25 23 21
-##  [26] 22 21 20 26 26 20 21 24 26 23 20 20 23 23 25 23 24 22 20 20 21 23 21 24 24
-##  [51] 25 24 21 21 25 22 25 23 21 25 22 22 24 24 22 26 21 26 26 26 21 26 25 24 20
-##  [76] 23 25 22 22 22 22 24 25 23 25 26 20 23 24 25 20 20 21 20 22 21 21 23 20 24</code></pre>
-<p>Probablemente notes que no es evidente a primera vista cuál es la diferencia entre las dos listas de datos. Necesitamos ayuda para visualizar la diferencia. A continuación se explican un par de maneras de ver esa misma información.</p>
+##   [1] 26 26 23 25 21 21 23 26 23 22 26 21 25 24 21 26 25 20 25 26 21 24 24 26 24
+##  [26] 21 24 20 20 20 25 23 20 23 20 25 23 24 24 20 20 25 26 25 21 24 26 23 23 20
+##  [51] 21 20 22 22 23 26 24 22 24 23 21 25 21 22 23 22 20 26 26 20 20 26 24 26 22
+##  [76] 20 26 23 20 20 22 23 26 25 24 24 24 21 20 21 24 21 26 22 24 20 21 24 22 21</code></pre>
+<p>Probablemente notes que no es evidente a primera vista cuál es la
+diferencia entre las dos listas de datos. Necesitamos ayuda para
+visualizar la diferencia. A continuación se explican un par de maneras
+de ver esa misma información.</p>
 <hr />
 <div id="resumir-la-información-en-tablas" class="section level2">
 <h2>Resumir la información en tablas</h2>
-<p>Una alternativa razonable para discernir la diferencia entre las edades de los dos grupos de estudiantes listadas arriba es resumir los datos en una tabla; o sea, por grupos, Salón 1 y Salón 2. Al mirar la <strong>Tabla: Edad de los Estudiantes</strong> podemos apreciar que hay muy poca diferencia entre los promedios de las edades, pero también podemos ver que la edad máxima de los estudiantes es diferente.</p>
-<p>En conclusión, con este simple ejercicio podemos afirmar que las dos listas de edades tienen valores muy similares, pero que hay otras características (por ejemplo, el valor máximo) que los hace diferentes. También podemos reconocer que si hay muchos valores en una lista, típicamente los humanos no podemos entender esos patrones a simple vista. Por lo tanto, es importante recurrir a diversos métodos para resumir los datos de forma más concisa, efectiva y eficiente, tal como lo demostraremos próximamente.</p>
+<p>Una alternativa razonable para discernir la diferencia entre las
+edades de los dos grupos de estudiantes listadas arriba es resumir los
+datos en una tabla; o sea, por grupos, Salón 1 y Salón 2. Al mirar la
+<strong>Tabla: Edad de los Estudiantes</strong> podemos apreciar que hay
+muy poca diferencia entre los promedios de las edades, pero también
+podemos ver que la edad máxima de los estudiantes es diferente.</p>
+<p>En conclusión, con este simple ejercicio podemos afirmar que las dos
+listas de edades tienen valores muy similares, pero que hay otras
+características (por ejemplo, el valor máximo) que los hace diferentes.
+También podemos reconocer que si hay muchos valores en una lista,
+típicamente los humanos no podemos entender esos patrones a simple
+vista. Por lo tanto, es importante recurrir a diversos métodos para
+resumir los datos de forma más concisa, efectiva y eficiente, tal como
+lo demostraremos próximamente.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># para disparar tabla:</span></span>
 <span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>df<span class="sc">%&gt;%</span></span>
 <span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(V1, Salón)<span class="sc">%&gt;%</span></span>
@@ -975,46 +1011,48 @@ div.tocify {
   vertical-align: 0;
 }
 
-#siihlizehj .gt_slash_mark {
-  font-size: 0.7em;
-  line-height: 0.7em;
-  vertical-align: 0.15em;
+#siihlizehj .gt_indent_1 {
+  text-indent: 5px;
 }
 
-#siihlizehj .gt_fraction_numerator {
-  font-size: 0.6em;
-  line-height: 0.6em;
-  vertical-align: 0.45em;
+#siihlizehj .gt_indent_2 {
+  text-indent: 10px;
 }
 
-#siihlizehj .gt_fraction_denominator {
-  font-size: 0.6em;
-  line-height: 0.6em;
-  vertical-align: -0.05em;
+#siihlizehj .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#siihlizehj .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#siihlizehj .gt_indent_5 {
+  text-indent: 25px;
 }
 </style>
 <table class="gt_table">
   <thead class="gt_header">
     <tr>
-      <th colspan="4" class="gt_heading gt_title gt_font_normal gt_bottom_border" style>Tabla: Edad de los Estudiantes</th>
+      <td colspan="4" class="gt_heading gt_title gt_font_normal gt_bottom_border" style>Tabla: Edad de los Estudiantes</td>
     </tr>
     
   </thead>
   <thead class="gt_col_headings">
     <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">Salón</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">promedio</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">mínima</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">máxima</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">Salón</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">promedio</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">mínima</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">máxima</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
     <tr><td class="gt_row gt_left">Salón_1</td>
-<td class="gt_row gt_right">23.36</td>
+<td class="gt_row gt_right">23.62</td>
 <td class="gt_row gt_right">20</td>
 <td class="gt_row gt_right">27</td></tr>
     <tr><td class="gt_row gt_left">Salón_2</td>
-<td class="gt_row gt_right">22.90</td>
+<td class="gt_row gt_right">22.94</td>
 <td class="gt_row gt_right">20</td>
 <td class="gt_row gt_right">26</td></tr>
   </tbody>
@@ -1026,7 +1064,17 @@ div.tocify {
 </div>
 <div id="cómo-visualizar-muchos-datos" class="section level2">
 <h2>Cómo visualizar muchos datos</h2>
-<p>Llegar a conclusiones prematuras sobre las edades de los estudiantes simplemente con echarle un vistazo rápido nos podría conducir a un error. Una mejor alternativa es visualizar las listas de datos con un gráfico. En ese caso, podemos visualizar esos datos con un gráfico llamado <strong>Diagrama de caja</strong> o <em>Boxplot</em>, tal como se muestra en <strong>Figura: Diagrama de Caja</strong>. Se observa que el promedio es aproximadamente igual, que ambos muestran valores mínimos idénticos, y que entonces la única diferencia es el valor máximo en los datos. Esa conclusión se pudo alcanzar simplemente produciendo un gráfico. Esa es la importancia de visualizar los datos antes de llegar a conclusiones.</p>
+<p>Llegar a conclusiones prematuras sobre las edades de los estudiantes
+simplemente con echarle un vistazo rápido nos podría conducir a un
+error. Una mejor alternativa es visualizar las listas de datos con un
+gráfico. En ese caso, podemos visualizar esos datos con un gráfico
+llamado <strong>Diagrama de caja</strong> o <em>Boxplot</em>, tal como
+se muestra en <strong>Figura: Diagrama de Caja</strong>. Se observa que
+el promedio es aproximadamente igual, que ambos muestran valores mínimos
+idénticos, y que entonces la única diferencia es el valor máximo en los
+datos. Esa conclusión se pudo alcanzar simplemente produciendo un
+gráfico. Esa es la importancia de visualizar los datos antes de llegar a
+conclusiones.</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># para producir un diagrama de caja:</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">y=</span>V1, <span class="at">x=</span>Salón))<span class="sc">+</span></span>
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span></span>
@@ -1040,14 +1088,44 @@ Figura: Diagrama de Caja
 <hr />
 </div>
 </div>
-<div id="la-representación-gráfica-en-la-historia" class="section level1">
+<div id="la-representación-gráfica-en-la-historia"
+class="section level1">
 <h1>La representación gráfica en la historia</h1>
-<p>En esta sección se presentan unos ejemplos históricos de visualización gráfica. Esta sección no es exhaustiva y su presentación tiene como objetivo mostrar la evolución y desarrollo de la representación gráfica.</p>
+<p>En esta sección se presentan unos ejemplos históricos de
+visualización gráfica. Esta sección no es exhaustiva y su presentación
+tiene como objetivo mostrar la evolución y desarrollo de la
+representación gráfica.</p>
 <div id="campaña-de-napoleón" class="section level2">
 <h2>1. Campaña de Napoleón</h2>
-<p>Charles Joseph Minard (1781-1870; Francia) es una de las personas que contribuyó al desarrollo del tema que hoy día se conoce como <strong>gráficas informativas</strong> (o <em>Information Graphics</em> en inglés). Él se reconoce por sus innovaciones al utilizar gráficos para demostrar patrones. El gráfico más famoso creado por este señor fue sobre la campaña de guerra de Napoleón para invadir a Rusia (1812-1813), explicado a continuación.</p>
-<p>En la ilustración <strong>Mapa: Campaña de Napoleón</strong> podemos apreciar el movimiento de la campaña de Napoleón para invadir a Rusia. El movimiento de ida está representado con la cantidad de hombres que comenzaron el camino hacia Rusia hasta Moscú representado por la barra de color <span style="color: brown;"><strong>marrón</strong></span>, y el viaje de regreso representado con la barra de color <strong>negro</strong>. El ancho de cada barra representa la cantidad de hombres presentes en el ejercicio militar. Los datos históricos comprueban que cuando comenzaron la campaña militar (saliendo de París) eran más de 422 mil soldados, al llegar a Moscú ya eran solamente 100 mil soldados, y cuando finalmente regresaron a París, luego de haber intentado infructuosamente de conquistar a Rusia, Napoleón tenía solamente 10 mil soldados con él.</p>
-<p>Observemos el gráfico debajo de las barras. Este representa la temperatura al regresar de Moscú. Se puede observar que a la vez que bajaba la temperatura, más y más de los soldados fallecían. Podemos concluir, entonces, que la mortandad en gran parte se debió a no estar preparados para el frío. Vale hacer notar que la escala de temperatura en aquel entonces no era de Celcios ni de Farenheit. La escala ilustrada se llama <strong>Réaumus</strong>, que presentaba un punto de congelación y de ebullición de 0° y 80° respectivamente. Esa escala se usó en múltiples países de Europa hasta mediados del Siglo XIX.</p>
+<p>Charles Joseph Minard (1781-1870; Francia) es una de las personas que
+contribuyó al desarrollo del tema que hoy día se conoce como
+<strong>gráficas informativas</strong> (o <em>Information Graphics</em>
+en inglés). Él se reconoce por sus innovaciones al utilizar gráficos
+para demostrar patrones. El gráfico más famoso creado por este señor fue
+sobre la campaña de guerra de Napoleón para invadir a Rusia (1812-1813),
+explicado a continuación.</p>
+<p>En la ilustración <strong>Mapa: Campaña de Napoleón</strong> podemos
+apreciar el movimiento de la campaña de Napoleón para invadir a Rusia.
+El movimiento de ida está representado con la cantidad de hombres que
+comenzaron el camino hacia Rusia hasta Moscú representado por la barra
+de color <span style="color: brown;"><strong>marrón</strong></span>, y
+el viaje de regreso representado con la barra de color
+<strong>negro</strong>. El ancho de cada barra representa la cantidad de
+hombres presentes en el ejercicio militar. Los datos históricos
+comprueban que cuando comenzaron la campaña militar (saliendo de París)
+eran más de 422 mil soldados, al llegar a Moscú ya eran solamente 100
+mil soldados, y cuando finalmente regresaron a París, luego de haber
+intentado infructuosamente de conquistar a Rusia, Napoleón tenía
+solamente 10 mil soldados con él.</p>
+<p>Observemos el gráfico debajo de las barras. Este representa la
+temperatura al regresar de Moscú. Se puede observar que a la vez que
+bajaba la temperatura, más y más de los soldados fallecían. Podemos
+concluir, entonces, que la mortandad en gran parte se debió a no estar
+preparados para el frío. Vale hacer notar que la escala de temperatura
+en aquel entonces no era de Celcios ni de Farenheit. La escala ilustrada
+se llama <strong>Réaumus</strong>, que presentaba un punto de
+congelación y de ebullición de 0° y 80° respectivamente. Esa escala se
+usó en múltiples países de Europa hasta mediados del Siglo XIX.</p>
 <div class="figure" style="text-align: center">
 <img src="Graficos/Carte_Napoleon.png" alt="Mapa: Campaña de Napoleón" width="80%" />
 <p class="caption">
@@ -1058,7 +1136,17 @@ Mapa: Campaña de Napoleón
 </div>
 <div id="origen-de-la-carne-de-parís" class="section level2">
 <h2>2. Origen de la carne de París</h2>
-<p>Otro ejemplo gráfico de Minard es la <strong>Figura: Origen de la carne de París</strong>. Este representa la procedencia de la carne que la gente en París consumían en el S XIX. El color <strong>negro</strong> representa carne de res, el color <span style="color: green;"><strong>verde</strong></span> era de la ternera y el color <span style="color: red;"><strong>rojo</strong></span> era de la de cordero. Vemos que ya Minard hacía uso de gráficos de pastel o torta (o <em>pie chart</em> en inglés) para identificar la proporción de cada grupo y el tamaño del pastel para identificar la cantidad relativa en comparación con los otros departamentos o dependencias políticas locales.</p>
+<p>Otro ejemplo gráfico de Minard es la <strong>Figura: Origen de la
+carne de París</strong>. Este representa la procedencia de la carne que
+la gente en París consumían en el S XIX. El color <strong>negro</strong>
+representa carne de res, el color <span
+style="color: green;"><strong>verde</strong></span> era de la ternera y
+el color <span style="color: red;"><strong>rojo</strong></span> era de
+la de cordero. Vemos que ya Minard hacía uso de gráficos de pastel o
+torta (o <em>pie chart</em> en inglés) para identificar la proporción de
+cada grupo y el tamaño del pastel para identificar la cantidad relativa
+en comparación con los otros departamentos o dependencias políticas
+locales.</p>
 <div class="figure" style="text-align: center">
 <img src="Graficos/Minard_Carne_Paris.png" alt="Figura: Origen de la carne de París" width="70%" />
 <p class="caption">
@@ -1069,15 +1157,52 @@ Figura: Origen de la carne de París
 </div>
 <div id="gráfico-de-coxcomb" class="section level2">
 <h2>3. Gráfico de Coxcomb</h2>
-<p>El conflicto de Crimea del 1853 al 1856 fue una de las primeras guerras donde se comenzó a contabilizar la causa de muerte de los soldados. Esta guerra se debió al conflicto entre Rusia y sus aliados por un lado y por otro lado al Imperio Otomano, Francia, Reino Unido y Sardeñia (este último hoy día es parte de Italia). Al comienzo, la causa de la guerra fue por asegurar el acceso de los cristianos a la Tierra Santa en Palestina. Lo que es interesante de esta guerra con relación a la evolución de la representación gráfica de la información es el impacto que tuvo una enfermera de nombre Florence Nightingale (1820-1910) del Reino Unido. No solo esta señora tuvo una influencia muy importante sobre el desarrollo de las buenas prácticas de la ciencia de la Enfermería, también tuvo un impacto en la forma como se visualizan las causas principales de la mortandad durante una guerra. A continuación una ilustración de Nightingale.</p>
+<p>El conflicto de Crimea del 1853 al 1856 fue una de las primeras
+guerras donde se comenzó a contabilizar la causa de muerte de los
+soldados. Esta guerra se debió al conflicto entre Rusia y sus aliados
+por un lado y por otro lado al Imperio Otomano, Francia, Reino Unido y
+Sardeñia (este último hoy día es parte de Italia). Al comienzo, la causa
+de la guerra fue por asegurar el acceso de los cristianos a la Tierra
+Santa en Palestina. Lo que es interesante de esta guerra con relación a
+la evolución de la representación gráfica de la información es el
+impacto que tuvo una enfermera de nombre Florence Nightingale
+(1820-1910) del Reino Unido. No solo esta señora tuvo una influencia muy
+importante sobre el desarrollo de las buenas prácticas de la ciencia de
+la Enfermería, también tuvo un impacto en la forma como se visualizan
+las causas principales de la mortandad durante una guerra. A
+continuación una ilustración de Nightingale.</p>
 <div class="figure" style="text-align: center">
 <img src="Graficos/Florence_Nightingale.png" alt="Florence Nightingale, pionera de la Ciencia de la Enfermería" width="40%" />
 <p class="caption">
 Florence Nightingale, pionera de la Ciencia de la Enfermería
 </p>
 </div>
-<p>Como enfermera en las campos militares, Nightingale se percató que la gran mayoría de los soldados morían no por la guerra en sí, pero por la pobre calidad de sanidad en los campos de guerra. Para tratar de convencer a los políticos para que aportaran más recursos para mejorar las condiciones de salud de sus soldados, ella recolectó datos y produjo unos gráficos para describir las causas de mortandad del conflicto de Crimea. Uno que tuvo un impacto importante está representado en la <strong>Figura: Causas de muerte en la Guerra de Crimea (1853-1856)</strong>. Este tipo de representación hoy día se le conoce como <strong>Gráfico de Coxcomb</strong>.</p>
-<p>En dicho gráfico, Nightingale muestra las causas de mortandad de los soldados en diferentes meses del año. El color <span style="color: grey;"><strong>gris</strong></span> representa la cantidad de soldados muertos por enfermedades no relacionadas a la batalla, el color <span style="color: green;"><strong>verduzco</strong></span> representa los soldados que murieron por otras razones (no por estar en batalla ni por enfermedades), y el color <span style="color: orange;"><strong>anaranjado</strong></span> representa los que murieron por estar en batalla. Con este gráfico ella claramente demostró que la causa principal de mortandad no era el campo de batalla, si no por las enfermedades que nada tenían que ver con al campo de batalla. Morían por las pobres condiciones de salubridad que a su vez fomentaban las enfermedades que traían como consecuencia un alto nivel de mortandad. Como resultado de ese gráfico, se hicieron unos cambios en las condiciones de salud de los soldados que trajeron consecuentemente la reducción de la mortandad.</p>
+<p>Como enfermera en las campos militares, Nightingale se percató que la
+gran mayoría de los soldados morían no por la guerra en sí, pero por la
+pobre calidad de sanidad en los campos de guerra. Para tratar de
+convencer a los políticos para que aportaran más recursos para mejorar
+las condiciones de salud de sus soldados, ella recolectó datos y produjo
+unos gráficos para describir las causas de mortandad del conflicto de
+Crimea. Uno que tuvo un impacto importante está representado en la
+<strong>Figura: Causas de muerte en la Guerra de Crimea
+(1853-1856)</strong>. Este tipo de representación hoy día se le conoce
+como <strong>Gráfico de Coxcomb</strong>.</p>
+<p>En dicho gráfico, Nightingale muestra las causas de mortandad de los
+soldados en diferentes meses del año. El color <span
+style="color: grey;"><strong>gris</strong></span> representa la cantidad
+de soldados muertos por enfermedades no relacionadas a la batalla, el
+color <span style="color: green;"><strong>verduzco</strong></span>
+representa los soldados que murieron por otras razones (no por estar en
+batalla ni por enfermedades), y el color <span
+style="color: orange;"><strong>anaranjado</strong></span> representa los
+que murieron por estar en batalla. Con este gráfico ella claramente
+demostró que la causa principal de mortandad no era el campo de batalla,
+si no por las enfermedades que nada tenían que ver con al campo de
+batalla. Morían por las pobres condiciones de salubridad que a su vez
+fomentaban las enfermedades que traían como consecuencia un alto nivel
+de mortandad. Como resultado de ese gráfico, se hicieron unos cambios en
+las condiciones de salud de los soldados que trajeron consecuentemente
+la reducción de la mortandad.</p>
 <div class="figure" style="text-align: center">
 <img src="Graficos/coxcombchart.png" alt="Figura: Causas de muerte en la Guerra de Crimea (1853-1856)" width="60%" />
 <p class="caption">

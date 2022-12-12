@@ -13,7 +13,7 @@
 
 <title>Ejerc_3_Wilkinson</title>
 
-<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
@@ -126,13 +126,20 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
   for (var i = 0; i < sheets.length; i++) {
     if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
     try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
+    var j = 0;
+    while (j < rules.length) {
       var rule = rules[j];
       // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -228,11 +235,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -261,8 +272,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -270,16 +281,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -948,115 +952,116 @@ div.tocify {
   vertical-align: 0;
 }
 
-#pbjyapuqkg .gt_slash_mark {
-  font-size: 0.7em;
-  line-height: 0.7em;
-  vertical-align: 0.15em;
+#pbjyapuqkg .gt_indent_1 {
+  text-indent: 5px;
 }
 
-#pbjyapuqkg .gt_fraction_numerator {
-  font-size: 0.6em;
-  line-height: 0.6em;
-  vertical-align: 0.45em;
+#pbjyapuqkg .gt_indent_2 {
+  text-indent: 10px;
 }
 
-#pbjyapuqkg .gt_fraction_denominator {
-  font-size: 0.6em;
-  line-height: 0.6em;
-  vertical-align: -0.05em;
+#pbjyapuqkg .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#pbjyapuqkg .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#pbjyapuqkg .gt_indent_5 {
+  text-indent: 25px;
 }
 </style>
 <table class="gt_table">
   
   <thead class="gt_col_headings">
     <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">iso_code</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">continent</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">location</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">date</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">total_cases</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_cases</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_cases_smoothed</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">total_deaths</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_deaths</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_deaths_smoothed</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">total_cases_per_million</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_cases_per_million</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_cases_smoothed_per_million</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">total_deaths_per_million</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_deaths_per_million</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_deaths_smoothed_per_million</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">reproduction_rate</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">icu_patients</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">icu_patients_per_million</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">hosp_patients</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">hosp_patients_per_million</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">weekly_icu_admissions</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">weekly_icu_admissions_per_million</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">weekly_hosp_admissions</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">weekly_hosp_admissions_per_million</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">total_tests</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_tests</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">total_tests_per_thousand</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_tests_per_thousand</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_tests_smoothed</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_tests_smoothed_per_thousand</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">positive_rate</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">tests_per_case</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">tests_units</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">total_vaccinations</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">people_vaccinated</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">people_fully_vaccinated</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">total_boosters</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_vaccinations</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_vaccinations_smoothed</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">total_vaccinations_per_hundred</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">people_vaccinated_per_hundred</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">people_fully_vaccinated_per_hundred</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">total_boosters_per_hundred</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_vaccinations_smoothed_per_million</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_people_vaccinated_smoothed</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">new_people_vaccinated_smoothed_per_hundred</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">stringency_index</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">population</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">population_density</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">median_age</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">aged_65_older</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">aged_70_older</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">gdp_per_capita</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">extreme_poverty</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">cardiovasc_death_rate</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">diabetes_prevalence</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">female_smokers</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">male_smokers</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">handwashing_facilities</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">hospital_beds_per_thousand</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">life_expectancy</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">human_development_index</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">excess_mortality_cumulative_absolute</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">excess_mortality_cumulative</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">excess_mortality</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">excess_mortality_cumulative_per_million</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">iso_code</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">continent</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">location</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">date</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">total_cases</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">new_cases</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">new_cases_smoothed</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">total_deaths</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">new_deaths</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">new_deaths_smoothed</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">total_cases_per_million</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">new_cases_per_million</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">new_cases_smoothed_per_million</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">total_deaths_per_million</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">new_deaths_per_million</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">new_deaths_smoothed_per_million</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">reproduction_rate</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">icu_patients</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">icu_patients_per_million</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">hosp_patients</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">hosp_patients_per_million</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">weekly_icu_admissions</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">weekly_icu_admissions_per_million</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">weekly_hosp_admissions</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">weekly_hosp_admissions_per_million</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">total_tests</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">new_tests</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">total_tests_per_thousand</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">new_tests_per_thousand</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">new_tests_smoothed</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">new_tests_smoothed_per_thousand</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">positive_rate</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">tests_per_case</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">tests_units</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">total_vaccinations</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">people_vaccinated</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">people_fully_vaccinated</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">total_boosters</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">new_vaccinations</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">new_vaccinations_smoothed</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">total_vaccinations_per_hundred</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">people_vaccinated_per_hundred</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">people_fully_vaccinated_per_hundred</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">total_boosters_per_hundred</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">new_vaccinations_smoothed_per_million</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">new_people_vaccinated_smoothed</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">new_people_vaccinated_smoothed_per_hundred</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">stringency_index</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">population_density</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">median_age</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">aged_65_older</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">aged_70_older</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">gdp_per_capita</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">extreme_poverty</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">cardiovasc_death_rate</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">diabetes_prevalence</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">female_smokers</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">male_smokers</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">handwashing_facilities</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">hospital_beds_per_thousand</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">life_expectancy</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">human_development_index</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">population</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">excess_mortality_cumulative_absolute</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">excess_mortality_cumulative</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">excess_mortality</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">excess_mortality_cumulative_per_million</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
     <tr><td class="gt_row gt_left">ZWE</td>
 <td class="gt_row gt_left">Africa</td>
 <td class="gt_row gt_left">Zimbabwe</td>
-<td class="gt_row gt_left">2022-03-24</td>
-<td class="gt_row gt_right">245194</td>
-<td class="gt_row gt_right">236</td>
-<td class="gt_row gt_right">220.571</td>
-<td class="gt_row gt_right">5432</td>
+<td class="gt_row gt_right">2022-12-08</td>
+<td class="gt_row gt_right">259356</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">5622</td>
 <td class="gt_row gt_right">0</td>
-<td class="gt_row gt_right">2.000</td>
-<td class="gt_row gt_right">16246.44</td>
-<td class="gt_row gt_right">15.637</td>
-<td class="gt_row gt_right">14.615</td>
-<td class="gt_row gt_right">359.922</td>
-<td class="gt_row gt_right">0.000</td>
-<td class="gt_row gt_right">0.133</td>
-<td class="gt_row gt_right">0.7</td>
+<td class="gt_row gt_right">0.286</td>
+<td class="gt_row gt_right">15891.39</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">344.474</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">0.018</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
@@ -1065,30 +1070,30 @@ div.tocify {
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">2164528</td>
 <td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">143.421</td>
 <td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">2750</td>
-<td class="gt_row gt_right">0.182</td>
-<td class="gt_row gt_right">0.0802</td>
-<td class="gt_row gt_right">12.5</td>
-<td class="gt_row gt_left">tests performed</td>
-<td class="gt_row gt_right">8552429</td>
-<td class="gt_row gt_right">4704720</td>
-<td class="gt_row gt_right">3461926</td>
-<td class="gt_row gt_right">385783</td>
-<td class="gt_row gt_right">137952</td>
-<td class="gt_row gt_right">51151</td>
-<td class="gt_row gt_right">56.67</td>
-<td class="gt_row gt_right">31.17</td>
-<td class="gt_row gt_right">22.94</td>
-<td class="gt_row gt_right">2.56</td>
-<td class="gt_row gt_right">3389</td>
-<td class="gt_row gt_right">41632</td>
-<td class="gt_row gt_right">0.276</td>
 <td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">15092171</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right"></td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">42.729</td>
 <td class="gt_row gt_right">19.6</td>
 <td class="gt_row gt_right">2.822</td>
@@ -1103,6 +1108,7 @@ div.tocify {
 <td class="gt_row gt_right">1.7</td>
 <td class="gt_row gt_right">61.49</td>
 <td class="gt_row gt_right">0.571</td>
+<td class="gt_row gt_right">16320539</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
@@ -1110,19 +1116,19 @@ div.tocify {
     <tr><td class="gt_row gt_left">ZWE</td>
 <td class="gt_row gt_left">Africa</td>
 <td class="gt_row gt_left">Zimbabwe</td>
-<td class="gt_row gt_left">2022-03-25</td>
-<td class="gt_row gt_right">245645</td>
-<td class="gt_row gt_right">451</td>
-<td class="gt_row gt_right">233.286</td>
-<td class="gt_row gt_right">5436</td>
-<td class="gt_row gt_right">4</td>
-<td class="gt_row gt_right">2.286</td>
-<td class="gt_row gt_right">16276.32</td>
-<td class="gt_row gt_right">29.883</td>
-<td class="gt_row gt_right">15.457</td>
-<td class="gt_row gt_right">360.187</td>
-<td class="gt_row gt_right">0.265</td>
-<td class="gt_row gt_right">0.151</td>
+<td class="gt_row gt_right">2022-12-09</td>
+<td class="gt_row gt_right">259356</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">5622</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">0.286</td>
+<td class="gt_row gt_right">15891.39</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">344.474</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">0.018</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
@@ -1140,22 +1146,21 @@ div.tocify {
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_left"></td>
-<td class="gt_row gt_right">8691642</td>
-<td class="gt_row gt_right">4814582</td>
-<td class="gt_row gt_right">3473523</td>
-<td class="gt_row gt_right">403537</td>
-<td class="gt_row gt_right">139213</td>
-<td class="gt_row gt_right">69579</td>
-<td class="gt_row gt_right">57.59</td>
-<td class="gt_row gt_right">31.90</td>
-<td class="gt_row gt_right">23.02</td>
-<td class="gt_row gt_right">2.67</td>
-<td class="gt_row gt_right">4610</td>
-<td class="gt_row gt_right">56815</td>
-<td class="gt_row gt_right">0.376</td>
+<td class="gt_row gt_right"></td>
 <td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">15092171</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">42.729</td>
 <td class="gt_row gt_right">19.6</td>
 <td class="gt_row gt_right">2.822</td>
@@ -1170,6 +1175,7 @@ div.tocify {
 <td class="gt_row gt_right">1.7</td>
 <td class="gt_row gt_right">61.49</td>
 <td class="gt_row gt_right">0.571</td>
+<td class="gt_row gt_right">16320539</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
@@ -1177,19 +1183,19 @@ div.tocify {
     <tr><td class="gt_row gt_left">ZWE</td>
 <td class="gt_row gt_left">Africa</td>
 <td class="gt_row gt_left">Zimbabwe</td>
-<td class="gt_row gt_left">2022-03-26</td>
-<td class="gt_row gt_right">245645</td>
+<td class="gt_row gt_right">2022-12-10</td>
+<td class="gt_row gt_right">259356</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">5622</td>
 <td class="gt_row gt_right">0</td>
-<td class="gt_row gt_right">170.429</td>
-<td class="gt_row gt_right">5436</td>
+<td class="gt_row gt_right">0.286</td>
+<td class="gt_row gt_right">15891.39</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">344.474</td>
 <td class="gt_row gt_right">0</td>
-<td class="gt_row gt_right">1.429</td>
-<td class="gt_row gt_right">16276.32</td>
-<td class="gt_row gt_right">0.000</td>
-<td class="gt_row gt_right">11.293</td>
-<td class="gt_row gt_right">360.187</td>
-<td class="gt_row gt_right">0.000</td>
-<td class="gt_row gt_right">0.095</td>
+<td class="gt_row gt_right">0.018</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
@@ -1207,22 +1213,21 @@ div.tocify {
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_left"></td>
-<td class="gt_row gt_right">8791728</td>
-<td class="gt_row gt_right">4886242</td>
-<td class="gt_row gt_right">3487962</td>
-<td class="gt_row gt_right">417524</td>
-<td class="gt_row gt_right">100086</td>
-<td class="gt_row gt_right">83429</td>
-<td class="gt_row gt_right">58.25</td>
-<td class="gt_row gt_right">32.38</td>
-<td class="gt_row gt_right">23.11</td>
-<td class="gt_row gt_right">2.77</td>
-<td class="gt_row gt_right">5528</td>
-<td class="gt_row gt_right">66887</td>
-<td class="gt_row gt_right">0.443</td>
+<td class="gt_row gt_right"></td>
 <td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">15092171</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">42.729</td>
 <td class="gt_row gt_right">19.6</td>
 <td class="gt_row gt_right">2.822</td>
@@ -1237,6 +1242,7 @@ div.tocify {
 <td class="gt_row gt_right">1.7</td>
 <td class="gt_row gt_right">61.49</td>
 <td class="gt_row gt_right">0.571</td>
+<td class="gt_row gt_right">16320539</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
@@ -1244,19 +1250,19 @@ div.tocify {
     <tr><td class="gt_row gt_left">ZWE</td>
 <td class="gt_row gt_left">Africa</td>
 <td class="gt_row gt_left">Zimbabwe</td>
-<td class="gt_row gt_left">2022-03-27</td>
-<td class="gt_row gt_right">245820</td>
-<td class="gt_row gt_right">175</td>
-<td class="gt_row gt_right">195.429</td>
-<td class="gt_row gt_right">5438</td>
-<td class="gt_row gt_right">2</td>
-<td class="gt_row gt_right">1.714</td>
-<td class="gt_row gt_right">16287.92</td>
-<td class="gt_row gt_right">11.595</td>
-<td class="gt_row gt_right">12.949</td>
-<td class="gt_row gt_right">360.319</td>
-<td class="gt_row gt_right">0.133</td>
-<td class="gt_row gt_right">0.114</td>
+<td class="gt_row gt_right">2022-12-11</td>
+<td class="gt_row gt_right">259356</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">5622</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">0.286</td>
+<td class="gt_row gt_right">15891.39</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">344.474</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">0.018</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
@@ -1274,22 +1280,21 @@ div.tocify {
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_left"></td>
-<td class="gt_row gt_right">8845039</td>
-<td class="gt_row gt_right">4918147</td>
-<td class="gt_row gt_right">3493763</td>
-<td class="gt_row gt_right">433129</td>
-<td class="gt_row gt_right">53311</td>
-<td class="gt_row gt_right">90629</td>
-<td class="gt_row gt_right">58.61</td>
-<td class="gt_row gt_right">32.59</td>
-<td class="gt_row gt_right">23.15</td>
-<td class="gt_row gt_right">2.87</td>
-<td class="gt_row gt_right">6005</td>
-<td class="gt_row gt_right">71313</td>
-<td class="gt_row gt_right">0.473</td>
+<td class="gt_row gt_right"></td>
 <td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">15092171</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">42.729</td>
 <td class="gt_row gt_right">19.6</td>
 <td class="gt_row gt_right">2.822</td>
@@ -1304,6 +1309,7 @@ div.tocify {
 <td class="gt_row gt_right">1.7</td>
 <td class="gt_row gt_right">61.49</td>
 <td class="gt_row gt_right">0.571</td>
+<td class="gt_row gt_right">16320539</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
 <td class="gt_row gt_right">NA</td>
@@ -1313,7 +1319,8 @@ div.tocify {
   
 </table>
 </div>
-<div id="cual-son-los-paises-incluido-en-esta-archivo" class="section level2">
+<div id="cual-son-los-paises-incluido-en-esta-archivo"
+class="section level2">
 <h2>Cual son los paises incluido en esta archivo</h2>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(mydat<span class="sc">$</span>location)</span></code></pre></div>
 <pre><code>##   [1] &quot;Afghanistan&quot;                      &quot;Africa&quot;                          
@@ -1347,94 +1354,99 @@ div.tocify {
 ##  [57] &quot;Denmark&quot;                          &quot;Djibouti&quot;                        
 ##  [59] &quot;Dominica&quot;                         &quot;Dominican Republic&quot;              
 ##  [61] &quot;Ecuador&quot;                          &quot;Egypt&quot;                           
-##  [63] &quot;El Salvador&quot;                      &quot;Equatorial Guinea&quot;               
-##  [65] &quot;Eritrea&quot;                          &quot;Estonia&quot;                         
-##  [67] &quot;Eswatini&quot;                         &quot;Ethiopia&quot;                        
-##  [69] &quot;Europe&quot;                           &quot;European Union&quot;                  
-##  [71] &quot;Faeroe Islands&quot;                   &quot;Falkland Islands&quot;                
-##  [73] &quot;Fiji&quot;                             &quot;Finland&quot;                         
-##  [75] &quot;France&quot;                           &quot;French Polynesia&quot;                
-##  [77] &quot;Gabon&quot;                            &quot;Gambia&quot;                          
-##  [79] &quot;Georgia&quot;                          &quot;Germany&quot;                         
-##  [81] &quot;Ghana&quot;                            &quot;Gibraltar&quot;                       
-##  [83] &quot;Greece&quot;                           &quot;Greenland&quot;                       
-##  [85] &quot;Grenada&quot;                          &quot;Guatemala&quot;                       
-##  [87] &quot;Guernsey&quot;                         &quot;Guinea&quot;                          
-##  [89] &quot;Guinea-Bissau&quot;                    &quot;Guyana&quot;                          
-##  [91] &quot;Haiti&quot;                            &quot;High income&quot;                     
-##  [93] &quot;Honduras&quot;                         &quot;Hong Kong&quot;                       
-##  [95] &quot;Hungary&quot;                          &quot;Iceland&quot;                         
-##  [97] &quot;India&quot;                            &quot;Indonesia&quot;                       
-##  [99] &quot;International&quot;                    &quot;Iran&quot;                            
-## [101] &quot;Iraq&quot;                             &quot;Ireland&quot;                         
-## [103] &quot;Isle of Man&quot;                      &quot;Israel&quot;                          
-## [105] &quot;Italy&quot;                            &quot;Jamaica&quot;                         
-## [107] &quot;Japan&quot;                            &quot;Jersey&quot;                          
-## [109] &quot;Jordan&quot;                           &quot;Kazakhstan&quot;                      
-## [111] &quot;Kenya&quot;                            &quot;Kiribati&quot;                        
-## [113] &quot;Kosovo&quot;                           &quot;Kuwait&quot;                          
-## [115] &quot;Kyrgyzstan&quot;                       &quot;Laos&quot;                            
-## [117] &quot;Latvia&quot;                           &quot;Lebanon&quot;                         
-## [119] &quot;Lesotho&quot;                          &quot;Liberia&quot;                         
-## [121] &quot;Libya&quot;                            &quot;Liechtenstein&quot;                   
-## [123] &quot;Lithuania&quot;                        &quot;Low income&quot;                      
-## [125] &quot;Lower middle income&quot;              &quot;Luxembourg&quot;                      
-## [127] &quot;Macao&quot;                            &quot;Madagascar&quot;                      
-## [129] &quot;Malawi&quot;                           &quot;Malaysia&quot;                        
-## [131] &quot;Maldives&quot;                         &quot;Mali&quot;                            
-## [133] &quot;Malta&quot;                            &quot;Marshall Islands&quot;                
-## [135] &quot;Mauritania&quot;                       &quot;Mauritius&quot;                       
-## [137] &quot;Mexico&quot;                           &quot;Micronesia (country)&quot;            
-## [139] &quot;Moldova&quot;                          &quot;Monaco&quot;                          
-## [141] &quot;Mongolia&quot;                         &quot;Montenegro&quot;                      
-## [143] &quot;Montserrat&quot;                       &quot;Morocco&quot;                         
-## [145] &quot;Mozambique&quot;                       &quot;Myanmar&quot;                         
-## [147] &quot;Namibia&quot;                          &quot;Nauru&quot;                           
-## [149] &quot;Nepal&quot;                            &quot;Netherlands&quot;                     
-## [151] &quot;New Caledonia&quot;                    &quot;New Zealand&quot;                     
-## [153] &quot;Nicaragua&quot;                        &quot;Niger&quot;                           
-## [155] &quot;Nigeria&quot;                          &quot;Niue&quot;                            
-## [157] &quot;North America&quot;                    &quot;North Macedonia&quot;                 
-## [159] &quot;Northern Cyprus&quot;                  &quot;Norway&quot;                          
-## [161] &quot;Oceania&quot;                          &quot;Oman&quot;                            
-## [163] &quot;Pakistan&quot;                         &quot;Palau&quot;                           
-## [165] &quot;Palestine&quot;                        &quot;Panama&quot;                          
-## [167] &quot;Papua New Guinea&quot;                 &quot;Paraguay&quot;                        
-## [169] &quot;Peru&quot;                             &quot;Philippines&quot;                     
-## [171] &quot;Pitcairn&quot;                         &quot;Poland&quot;                          
-## [173] &quot;Portugal&quot;                         &quot;Qatar&quot;                           
-## [175] &quot;Romania&quot;                          &quot;Russia&quot;                          
-## [177] &quot;Rwanda&quot;                           &quot;Saint Helena&quot;                    
-## [179] &quot;Saint Kitts and Nevis&quot;            &quot;Saint Lucia&quot;                     
-## [181] &quot;Saint Pierre and Miquelon&quot;        &quot;Saint Vincent and the Grenadines&quot;
-## [183] &quot;Samoa&quot;                            &quot;San Marino&quot;                      
-## [185] &quot;Sao Tome and Principe&quot;            &quot;Saudi Arabia&quot;                    
-## [187] &quot;Senegal&quot;                          &quot;Serbia&quot;                          
-## [189] &quot;Seychelles&quot;                       &quot;Sierra Leone&quot;                    
-## [191] &quot;Singapore&quot;                        &quot;Sint Maarten (Dutch part)&quot;       
-## [193] &quot;Slovakia&quot;                         &quot;Slovenia&quot;                        
-## [195] &quot;Solomon Islands&quot;                  &quot;Somalia&quot;                         
-## [197] &quot;South Africa&quot;                     &quot;South America&quot;                   
-## [199] &quot;South Korea&quot;                      &quot;South Sudan&quot;                     
-## [201] &quot;Spain&quot;                            &quot;Sri Lanka&quot;                       
-## [203] &quot;Sudan&quot;                            &quot;Suriname&quot;                        
-## [205] &quot;Sweden&quot;                           &quot;Switzerland&quot;                     
-## [207] &quot;Syria&quot;                            &quot;Taiwan&quot;                          
-## [209] &quot;Tajikistan&quot;                       &quot;Tanzania&quot;                        
-## [211] &quot;Thailand&quot;                         &quot;Timor&quot;                           
-## [213] &quot;Togo&quot;                             &quot;Tokelau&quot;                         
-## [215] &quot;Tonga&quot;                            &quot;Trinidad and Tobago&quot;             
-## [217] &quot;Tunisia&quot;                          &quot;Turkey&quot;                          
-## [219] &quot;Turkmenistan&quot;                     &quot;Turks and Caicos Islands&quot;        
-## [221] &quot;Tuvalu&quot;                           &quot;Uganda&quot;                          
-## [223] &quot;Ukraine&quot;                          &quot;United Arab Emirates&quot;            
-## [225] &quot;United Kingdom&quot;                   &quot;United States&quot;                   
-## [227] &quot;Upper middle income&quot;              &quot;Uruguay&quot;                         
-## [229] &quot;Uzbekistan&quot;                       &quot;Vanuatu&quot;                         
-## [231] &quot;Vatican&quot;                          &quot;Venezuela&quot;                       
-## [233] &quot;Vietnam&quot;                          &quot;Wallis and Futuna&quot;               
-## [235] &quot;World&quot;                            &quot;Yemen&quot;                           
-## [237] &quot;Zambia&quot;                           &quot;Zimbabwe&quot;</code></pre>
+##  [63] &quot;El Salvador&quot;                      &quot;England&quot;                         
+##  [65] &quot;Equatorial Guinea&quot;                &quot;Eritrea&quot;                         
+##  [67] &quot;Estonia&quot;                          &quot;Eswatini&quot;                        
+##  [69] &quot;Ethiopia&quot;                         &quot;Europe&quot;                          
+##  [71] &quot;European Union&quot;                   &quot;Faeroe Islands&quot;                  
+##  [73] &quot;Falkland Islands&quot;                 &quot;Fiji&quot;                            
+##  [75] &quot;Finland&quot;                          &quot;France&quot;                          
+##  [77] &quot;French Polynesia&quot;                 &quot;Gabon&quot;                           
+##  [79] &quot;Gambia&quot;                           &quot;Georgia&quot;                         
+##  [81] &quot;Germany&quot;                          &quot;Ghana&quot;                           
+##  [83] &quot;Gibraltar&quot;                        &quot;Greece&quot;                          
+##  [85] &quot;Greenland&quot;                        &quot;Grenada&quot;                         
+##  [87] &quot;Guam&quot;                             &quot;Guatemala&quot;                       
+##  [89] &quot;Guernsey&quot;                         &quot;Guinea&quot;                          
+##  [91] &quot;Guinea-Bissau&quot;                    &quot;Guyana&quot;                          
+##  [93] &quot;Haiti&quot;                            &quot;High income&quot;                     
+##  [95] &quot;Honduras&quot;                         &quot;Hong Kong&quot;                       
+##  [97] &quot;Hungary&quot;                          &quot;Iceland&quot;                         
+##  [99] &quot;India&quot;                            &quot;Indonesia&quot;                       
+## [101] &quot;International&quot;                    &quot;Iran&quot;                            
+## [103] &quot;Iraq&quot;                             &quot;Ireland&quot;                         
+## [105] &quot;Isle of Man&quot;                      &quot;Israel&quot;                          
+## [107] &quot;Italy&quot;                            &quot;Jamaica&quot;                         
+## [109] &quot;Japan&quot;                            &quot;Jersey&quot;                          
+## [111] &quot;Jordan&quot;                           &quot;Kazakhstan&quot;                      
+## [113] &quot;Kenya&quot;                            &quot;Kiribati&quot;                        
+## [115] &quot;Kosovo&quot;                           &quot;Kuwait&quot;                          
+## [117] &quot;Kyrgyzstan&quot;                       &quot;Laos&quot;                            
+## [119] &quot;Latvia&quot;                           &quot;Lebanon&quot;                         
+## [121] &quot;Lesotho&quot;                          &quot;Liberia&quot;                         
+## [123] &quot;Libya&quot;                            &quot;Liechtenstein&quot;                   
+## [125] &quot;Lithuania&quot;                        &quot;Low income&quot;                      
+## [127] &quot;Lower middle income&quot;              &quot;Luxembourg&quot;                      
+## [129] &quot;Macao&quot;                            &quot;Madagascar&quot;                      
+## [131] &quot;Malawi&quot;                           &quot;Malaysia&quot;                        
+## [133] &quot;Maldives&quot;                         &quot;Mali&quot;                            
+## [135] &quot;Malta&quot;                            &quot;Marshall Islands&quot;                
+## [137] &quot;Mauritania&quot;                       &quot;Mauritius&quot;                       
+## [139] &quot;Mexico&quot;                           &quot;Micronesia (country)&quot;            
+## [141] &quot;Moldova&quot;                          &quot;Monaco&quot;                          
+## [143] &quot;Mongolia&quot;                         &quot;Montenegro&quot;                      
+## [145] &quot;Montserrat&quot;                       &quot;Morocco&quot;                         
+## [147] &quot;Mozambique&quot;                       &quot;Myanmar&quot;                         
+## [149] &quot;Namibia&quot;                          &quot;Nauru&quot;                           
+## [151] &quot;Nepal&quot;                            &quot;Netherlands&quot;                     
+## [153] &quot;New Caledonia&quot;                    &quot;New Zealand&quot;                     
+## [155] &quot;Nicaragua&quot;                        &quot;Niger&quot;                           
+## [157] &quot;Nigeria&quot;                          &quot;Niue&quot;                            
+## [159] &quot;North America&quot;                    &quot;North Korea&quot;                     
+## [161] &quot;North Macedonia&quot;                  &quot;Northern Cyprus&quot;                 
+## [163] &quot;Northern Ireland&quot;                 &quot;Northern Mariana Islands&quot;        
+## [165] &quot;Norway&quot;                           &quot;Oceania&quot;                         
+## [167] &quot;Oman&quot;                             &quot;Pakistan&quot;                        
+## [169] &quot;Palau&quot;                            &quot;Palestine&quot;                       
+## [171] &quot;Panama&quot;                           &quot;Papua New Guinea&quot;                
+## [173] &quot;Paraguay&quot;                         &quot;Peru&quot;                            
+## [175] &quot;Philippines&quot;                      &quot;Pitcairn&quot;                        
+## [177] &quot;Poland&quot;                           &quot;Portugal&quot;                        
+## [179] &quot;Puerto Rico&quot;                      &quot;Qatar&quot;                           
+## [181] &quot;Romania&quot;                          &quot;Russia&quot;                          
+## [183] &quot;Rwanda&quot;                           &quot;Saint Helena&quot;                    
+## [185] &quot;Saint Kitts and Nevis&quot;            &quot;Saint Lucia&quot;                     
+## [187] &quot;Saint Pierre and Miquelon&quot;        &quot;Saint Vincent and the Grenadines&quot;
+## [189] &quot;Samoa&quot;                            &quot;San Marino&quot;                      
+## [191] &quot;Sao Tome and Principe&quot;            &quot;Saudi Arabia&quot;                    
+## [193] &quot;Scotland&quot;                         &quot;Senegal&quot;                         
+## [195] &quot;Serbia&quot;                           &quot;Seychelles&quot;                      
+## [197] &quot;Sierra Leone&quot;                     &quot;Singapore&quot;                       
+## [199] &quot;Sint Maarten (Dutch part)&quot;        &quot;Slovakia&quot;                        
+## [201] &quot;Slovenia&quot;                         &quot;Solomon Islands&quot;                 
+## [203] &quot;Somalia&quot;                          &quot;South Africa&quot;                    
+## [205] &quot;South America&quot;                    &quot;South Korea&quot;                     
+## [207] &quot;South Sudan&quot;                      &quot;Spain&quot;                           
+## [209] &quot;Sri Lanka&quot;                        &quot;Sudan&quot;                           
+## [211] &quot;Suriname&quot;                         &quot;Sweden&quot;                          
+## [213] &quot;Switzerland&quot;                      &quot;Syria&quot;                           
+## [215] &quot;Taiwan&quot;                           &quot;Tajikistan&quot;                      
+## [217] &quot;Tanzania&quot;                         &quot;Thailand&quot;                        
+## [219] &quot;Timor&quot;                            &quot;Togo&quot;                            
+## [221] &quot;Tokelau&quot;                          &quot;Tonga&quot;                           
+## [223] &quot;Trinidad and Tobago&quot;              &quot;Tunisia&quot;                         
+## [225] &quot;Turkey&quot;                           &quot;Turkmenistan&quot;                    
+## [227] &quot;Turks and Caicos Islands&quot;         &quot;Tuvalu&quot;                          
+## [229] &quot;Uganda&quot;                           &quot;Ukraine&quot;                         
+## [231] &quot;United Arab Emirates&quot;             &quot;United Kingdom&quot;                  
+## [233] &quot;United States&quot;                    &quot;United States Virgin Islands&quot;    
+## [235] &quot;Upper middle income&quot;              &quot;Uruguay&quot;                         
+## [237] &quot;Uzbekistan&quot;                       &quot;Vanuatu&quot;                         
+## [239] &quot;Vatican&quot;                          &quot;Venezuela&quot;                       
+## [241] &quot;Vietnam&quot;                          &quot;Wales&quot;                           
+## [243] &quot;Wallis and Futuna&quot;                &quot;Western Sahara&quot;                  
+## [245] &quot;World&quot;                            &quot;Yemen&quot;                           
+## [247] &quot;Zambia&quot;                           &quot;Zimbabwe&quot;</code></pre>
 </div>
 <div id="ejercicio-1" class="section level1">
 <h1>Ejercicio 1</h1>
@@ -1442,14 +1454,16 @@ div.tocify {
 <div id="seleccionar-variables-y-filtrar" class="section level3">
 <h3>Seleccionar variables y filtrar</h3>
 <ul>
-<li>Selecciona las variables de “location”, “new_cases” y “total_death”</li>
+<li>Selecciona las variables de “location”, “new_cases” y
+“total_death”</li>
 <li>Filtrar para los datos de UN pais solamente.</li>
 </ul>
 </div>
 <div id="produzca-un-gráfico-de-wilkinson" class="section level3">
 <h3>Produzca un gráfico de Wilkinson</h3>
 <ul>
-<li>Selecciona un solapamiento de los datos para poder ver toso los puntos</li>
+<li>Selecciona un solapamiento de los datos para poder ver toso los
+puntos</li>
 </ul>
 </div>
 </div>
@@ -1459,23 +1473,32 @@ div.tocify {
 <div id="seleccionar-variables-y-filtrar-1" class="section level3">
 <h3>Seleccionar variables y filtrar</h3>
 <ul>
-<li>Selecciona las variables de “location”, “new_cases” y “total_death”</li>
-<li>Filtrar para los datos de dos paises caribeño. Nota que no he enseñado como seleccionar más de un país, mira a ver si encuentra solución en el internet. Si no la encuentra, habla con colegas de la clase. Si todavía no lo encuentra comunicarse conmigo.</li>
+<li>Selecciona las variables de “location”, “new_cases” y
+“total_death”</li>
+<li>Filtrar para los datos de dos paises caribeño. Nota que no he
+enseñado como seleccionar más de un país, mira a ver si encuentra
+solución en el internet. Si no la encuentra, habla con colegas de la
+clase. Si todavía no lo encuentra comunicarse conmigo.</li>
 </ul>
 </div>
 <div id="produzca-un-gráfico-de-wilkinson-1" class="section level3">
 <h3>Produzca un gráfico de Wilkinson</h3>
 <ul>
-<li>Selecciona un solapamiento de los datos para poder ver toso los puntos y posiciona los datos de los dos países uno al lado del otro.</li>
+<li>Selecciona un solapamiento de los datos para poder ver toso los
+puntos y posiciona los datos de los dos países uno al lado del
+otro.</li>
 </ul>
 </div>
 <div id="bono" class="section level2">
 <h2>Bono</h2>
 <p>3 puntos</p>
-<p>Selecciona cinco países <strong>pequeños</strong> del Caribe y reproduzca la gráfica anterior. Para que la gráfica se puede apreciar tendrán que usar los países con poblaciones más pequeño.</p>
+<p>Selecciona cinco países <strong>pequeños</strong> del Caribe y
+reproduzca la gráfica anterior. Para que la gráfica se puede apreciar
+tendrán que usar los países con poblaciones más pequeño.</p>
 </div>
 </div>
-<div id="someter-los-script-y-gráfico-en-un-documento-.html-en-msteam" class="section level1">
+<div id="someter-los-script-y-gráfico-en-un-documento-.html-en-msteam"
+class="section level1">
 <h1>Someter los script y gráfico en un documento .html en MSTEAM</h1>
 </div>
 

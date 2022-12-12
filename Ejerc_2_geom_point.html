@@ -13,7 +13,7 @@
 
 <title>Ejerc_2_geom_point</title>
 
-<script src="site_libs/header-attrs-2.13/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
@@ -133,11 +133,15 @@ $(document).ready(function () {
     href = "index.html";
   var menuAnchor = $('a[href="' + href + '"]');
 
-  // mark it active
-  menuAnchor.tab('show');
-
-  // if it's got a parent navbar menu mark it active as well
-  menuAnchor.closest('li.dropdown').addClass('active');
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
 
   // Navbar adjustments
   var navHeight = $(".navbar").first().height() + 15;
@@ -166,8 +170,8 @@ $(document).ready(function () {
   border-radius: 4px;
 }
 
-.tabset-dropdown > .nav-tabs > li.active:before {
-  content: "";
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
   font-family: 'Glyphicons Halflings';
   display: inline-block;
   padding: 10px;
@@ -175,16 +179,9 @@ $(document).ready(function () {
 }
 
 .tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
-  content: "&#xe258;";
-  border: none;
-}
-
-.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
-  content: "";
+  content: "\e258";
   font-family: 'Glyphicons Halflings';
-  display: inline-block;
-  padding: 10px;
-  border-right: 1px solid #ddd;
+  border: none;
 }
 
 .tabset-dropdown > .nav-tabs > li.active {
@@ -459,30 +456,40 @@ div.tocify {
 </div>
 
 
-<p>This Assignment is to practice doing graphics using geom_point, geom_count and/or geom_histogram.</p>
+<p>This Assignment is to practice doing graphics using geom_point,
+geom_count and/or geom_histogram.</p>
 <hr />
 <div id="q1." class="section level1">
 <h1>Q1.</h1>
-<p>Define what is the difference between geom_point, geom_count and geom_histogram. In other words in what situation would you use each of these alternatives.</p>
+<p>Define what is the difference between geom_point, geom_count and
+geom_histogram. In other words in what situation would you use each of
+these alternatives.</p>
 <hr />
 </div>
 <div id="q2." class="section level1">
 <h1>Q2.</h1>
-<p>Use the data “Camas_Hospital” in the package <strong>ggversa</strong> and do a graphic with geom_point which relates the population size of countries and the number of hospital beds.</p>
+<p>Use the data “Camas_Hospital” in the package <strong>ggversa</strong>
+and do a graphic with geom_point which relates the population size of
+countries and the number of hospital beds.</p>
 <ol style="list-style-type: lower-alpha">
 <li>The text of the axis should be in 15 pts.</li>
 <li>The text of the xis should be in “bold”.</li>
-<li>The text of the different axis “x” and “y” should be in different colours.</li>
+<li>The text of the different axis “x” and “y” should be in different
+colours.</li>
 </ol>
 <hr />
 </div>
 <div id="q3." class="section level1">
 <h1>Q3.</h1>
-<p>Use the data “Camas_Hospital” in the package <strong>ggversa</strong> and do a graphic with geom_point which relates the population size of countries and the number of hospital beds.</p>
+<p>Use the data “Camas_Hospital” in the package <strong>ggversa</strong>
+and do a graphic with geom_point which relates the population size of
+countries and the number of hospital beds.</p>
 <ol style="list-style-type: lower-alpha">
-<li>Ahora buscan la función para que el eje de x que sea el logaritmo de los valores en ese eje.</li>
+<li>Ahora buscan la función para que el eje de x que sea el logaritmo de
+los valores en ese eje.</li>
 </ol>
-<p>No se olvide cambiar la información en el eje de “X” para que representa la información en log.</p>
+<p>No se olvide cambiar la información en el eje de “X” para que
+representa la información en log.</p>
 </div>
 
 
