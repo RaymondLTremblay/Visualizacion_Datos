@@ -44,7 +44,7 @@ library(ggplot2) # ggplot2 es la librería que se usará para graficar los datos
 library(tidyverse) # una serie de paquetes para organizar y visualizar los datos
 library(gt) # para que las tablas se vean más organizadas
 #devtools::install_github("EvaMaeRey/flipbookr")
-library(flipbookr)  
+#library(flipbookr)  
 ```
 
 Para visualizar gráficos con **geom_point** y **geom_count**, utilizaremos los datos que se encuentran en el archivo **Anolis** en el paquete **ggversa**. Aquí se muestran las primeras seis filas del archivo.
@@ -118,7 +118,7 @@ Anolis %>%  # pipe
 -   seleccionar los datos y crear una tabla
 
 ```{r echo=FALSE}
-chunk_reveal(Anolis, display_type = c("code", "output"))
+#chunk_reveal(Anolis, display_type = c("code", "output"))
 ```
 
 ------------------------------------------------------------------------
@@ -128,6 +128,12 @@ chunk_reveal(Anolis, display_type = c("code", "output"))
 A continuación, en la **Figura. Gráfico básico con geom_point**, se muestra un gráfico básico. Como se puede apreciar, los puntos son negros y de un tamaño específico, y los nombres de los ejes de **X** y **Y** son los nombres de las columnas tal como aparecen en el archivo de datos.
 
 ```{r geom_point-count}
+ggplot(Anolis, aes(WEIGHT, SVL))+
+  geom_point()
+```
+
+
+```{r}
 Anolis %>%
   select(WEIGHT, SVL) %>%
   filter(WEIGHT<4 & SVL>20) %>%
@@ -162,14 +168,14 @@ ggplot(aes(SVL, WEIGHT))+
   geom_point()+
   ylab("Peso en gramos")+
   xlab("Tamaño del hocico a la cloaca")+
-  theme(axis.title.x=
+  theme(axis.title.x=                    # Cambiar el titulo del eje de x
     element_text(size=10,face="italic", 
-                 colour="deeppink2"))+
-  theme(axis.title.y=
+                 colour="deeppink2"),
+    axis.title.y=                        # Cambiar el titulo del eje de y
     element_text(size=10,
                  face="bold", 
-                 colour="darkred"))+
-  theme(title=
+                 colour="darkred"),
+    title=                    # Poner un titulo al gráfico
     element_text(size=18,
                  face="bold", 
                  colour="green"))+
