@@ -303,7 +303,7 @@ Ahora se muestran el cuartil 25, la mediana (50) y el cuartil 75 en el mismo gr√
 
 violinplot3 <- ggplot(CalVal, aes(y=OH, x=factor(Year)))
 violinplot3 +
-  geom_violin(draw_quantiles = c(0.05, 0.25,0.5, 0.75,0.95))+
+  geom_violin(draw_quantiles = c(0.025, 0.25,0.5, 0.75,0.975))+
   annotate("text", x=2,y= 20, size=8,
            label="")+
   labs(x="A√±o", y="OH")+
@@ -424,7 +424,7 @@ dens2=density(CalVal2$OH)
 dens2
 df2 <- data.frame(x=dens2$x, y=dens2$y)
 head(df2)
-probs <- c(0.0001, 0.1, 0.25, 0.5, 0.75, 0.9, 0.95, .99)
+probs <- c(0.01, 0.1, 0.25, 0.5, 0.75, 0.9, 0.95, .99)
 quantiles <- quantile(CalVal2$OH, prob=probs)
 df2 <- data.frame(x=dens2$x, y=dens2$y)
 df2$quant <- factor(findInterval(df2$x,quantiles))
