@@ -28,6 +28,25 @@ gt(tail(mydat, n=100))
 
 
 ```{r}
+# Amanda's data
+
+df=mydat |> select(location, new_cases, total_deaths) |> 
+  filter(location %in% c("Portugal", "Aruba",  "Laos", "Oceania", "Turkey", "Jamaica"))
+
+unique(df$location)
+
+write_csv(df, "df.csv")
+
+library(readr)
+df <- read_csv("df.csv")
+
+tail(df)
+
+```
+
+
+
+```{r}
 unique(mydat$location)
 unique(mydat$continent)
 ```

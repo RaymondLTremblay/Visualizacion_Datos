@@ -13,7 +13,7 @@
 
 <title>Gráficos de caja y de violín</title>
 
-<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.20/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
@@ -92,7 +92,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -105,7 +105,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -559,7 +559,7 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2022-12-12&quot;</code></pre>
+<pre><code>## [1] &quot;2023-03-06&quot;</code></pre>
 <p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" /></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)<span class="co"># Para organizar múltiples gráficos juntos</span></span>
 <span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -600,18 +600,41 @@ La altura de la muesca es la mediana <span class="math inline">\(+/-
 1,57 x IQR/sqrt(n)\)</span> donde IQR es el rango intercuartílico
 definido por los percentiles 25 y 75 y <strong>n</strong> es el número
 de puntos de datos</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co">#names(dipodium)</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(conflicted)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>dipodium<span class="ot">=</span><span class="fu">clean_names</span>(dipodium)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="fu">gt</span>(<span class="fu">head</span>(dipodium))</span></code></pre></div>
-<div id="gykztpgibe" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+</div>
+<div id="teoretical-boxplot" class="section level1">
+<h1>Teoretical boxplot</h1>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>df<span class="ot">=</span><span class="fu">as.tibble</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">8</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">100</span><span class="sc">:</span><span class="dv">120</span>, <span class="dv">125</span><span class="sc">:</span><span class="dv">135</span>,<span class="dv">150</span><span class="sc">:</span><span class="dv">160</span>, <span class="dv">800</span>, <span class="dv">1000</span>))</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>df</span></code></pre></div>
+<pre><code>## # A tibble: 49 × 1
+##    value
+##    &lt;dbl&gt;
+##  1     1
+##  2     8
+##  3     9
+##  4    10
+##  5   100
+##  6   101
+##  7   102
+##  8   103
+##  9   104
+## 10   105
+## # … with 39 more rows</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>df <span class="sc">%&gt;%</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(value, <span class="at">x=</span><span class="dv">1</span>))<span class="sc">+</span> </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code></pre></div>
+<p><img src="G8_geom_boxplot_geom_violin_files/figure-html/teoretical%20box%20plot-1.png" width="672" /></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#names(dipodium)</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(conflicted)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>dipodium<span class="ot">=</span><span class="fu">clean_names</span>(dipodium)</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="fu">gt</span>(<span class="fu">head</span>(dipodium))</span></code></pre></div>
+<div id="cpytqasldf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>html {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
 }
 
-#gykztpgibe .gt_table {
+#cpytqasldf .gt_table {
   display: table;
   border-collapse: collapse;
   margin-left: auto;
@@ -636,7 +659,7 @@ de puntos de datos</p>
   border-left-color: #D3D3D3;
 }
 
-#gykztpgibe .gt_heading {
+#cpytqasldf .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -648,7 +671,12 @@ de puntos de datos</p>
   border-right-color: #D3D3D3;
 }
 
-#gykztpgibe .gt_title {
+#cpytqasldf .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#cpytqasldf .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -660,7 +688,7 @@ de puntos de datos</p>
   border-bottom-width: 0;
 }
 
-#gykztpgibe .gt_subtitle {
+#cpytqasldf .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -672,13 +700,13 @@ de puntos de datos</p>
   border-top-width: 0;
 }
 
-#gykztpgibe .gt_bottom_border {
+#cpytqasldf .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#gykztpgibe .gt_col_headings {
+#cpytqasldf .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -693,7 +721,7 @@ de puntos de datos</p>
   border-right-color: #D3D3D3;
 }
 
-#gykztpgibe .gt_col_heading {
+#cpytqasldf .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -713,7 +741,7 @@ de puntos de datos</p>
   overflow-x: hidden;
 }
 
-#gykztpgibe .gt_column_spanner_outer {
+#cpytqasldf .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -725,15 +753,15 @@ de puntos de datos</p>
   padding-right: 4px;
 }
 
-#gykztpgibe .gt_column_spanner_outer:first-child {
+#cpytqasldf .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#gykztpgibe .gt_column_spanner_outer:last-child {
+#cpytqasldf .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#gykztpgibe .gt_column_spanner {
+#cpytqasldf .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -745,7 +773,7 @@ de puntos de datos</p>
   width: 100%;
 }
 
-#gykztpgibe .gt_group_heading {
+#cpytqasldf .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -768,9 +796,10 @@ de puntos de datos</p>
   border-right-width: 1px;
   border-right-color: #D3D3D3;
   vertical-align: middle;
+  text-align: left;
 }
 
-#gykztpgibe .gt_empty_group_heading {
+#cpytqasldf .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -785,15 +814,15 @@ de puntos de datos</p>
   vertical-align: middle;
 }
 
-#gykztpgibe .gt_from_md > :first-child {
+#cpytqasldf .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#gykztpgibe .gt_from_md > :last-child {
+#cpytqasldf .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#gykztpgibe .gt_row {
+#cpytqasldf .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -812,7 +841,7 @@ de puntos de datos</p>
   overflow-x: hidden;
 }
 
-#gykztpgibe .gt_stub {
+#cpytqasldf .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -825,7 +854,7 @@ de puntos de datos</p>
   padding-right: 5px;
 }
 
-#gykztpgibe .gt_stub_row_group {
+#cpytqasldf .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -839,11 +868,11 @@ de puntos de datos</p>
   vertical-align: top;
 }
 
-#gykztpgibe .gt_row_group_first td {
+#cpytqasldf .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#gykztpgibe .gt_summary_row {
+#cpytqasldf .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -853,16 +882,16 @@ de puntos de datos</p>
   padding-right: 5px;
 }
 
-#gykztpgibe .gt_first_summary_row {
+#cpytqasldf .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#gykztpgibe .gt_first_summary_row.thick {
+#cpytqasldf .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#gykztpgibe .gt_last_summary_row {
+#cpytqasldf .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -872,7 +901,7 @@ de puntos de datos</p>
   border-bottom-color: #D3D3D3;
 }
 
-#gykztpgibe .gt_grand_summary_row {
+#cpytqasldf .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -882,7 +911,7 @@ de puntos de datos</p>
   padding-right: 5px;
 }
 
-#gykztpgibe .gt_first_grand_summary_row {
+#cpytqasldf .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -892,11 +921,11 @@ de puntos de datos</p>
   border-top-color: #D3D3D3;
 }
 
-#gykztpgibe .gt_striped {
+#cpytqasldf .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#gykztpgibe .gt_table_body {
+#cpytqasldf .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -905,7 +934,7 @@ de puntos de datos</p>
   border-bottom-color: #D3D3D3;
 }
 
-#gykztpgibe .gt_footnotes {
+#cpytqasldf .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -919,7 +948,7 @@ de puntos de datos</p>
   border-right-color: #D3D3D3;
 }
 
-#gykztpgibe .gt_footnote {
+#cpytqasldf .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-left: 4px;
@@ -928,7 +957,7 @@ de puntos de datos</p>
   padding-right: 5px;
 }
 
-#gykztpgibe .gt_sourcenotes {
+#cpytqasldf .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -942,7 +971,7 @@ de puntos de datos</p>
   border-right-color: #D3D3D3;
 }
 
-#gykztpgibe .gt_sourcenote {
+#cpytqasldf .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -950,64 +979,64 @@ de puntos de datos</p>
   padding-right: 5px;
 }
 
-#gykztpgibe .gt_left {
+#cpytqasldf .gt_left {
   text-align: left;
 }
 
-#gykztpgibe .gt_center {
+#cpytqasldf .gt_center {
   text-align: center;
 }
 
-#gykztpgibe .gt_right {
+#cpytqasldf .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#gykztpgibe .gt_font_normal {
+#cpytqasldf .gt_font_normal {
   font-weight: normal;
 }
 
-#gykztpgibe .gt_font_bold {
+#cpytqasldf .gt_font_bold {
   font-weight: bold;
 }
 
-#gykztpgibe .gt_font_italic {
+#cpytqasldf .gt_font_italic {
   font-style: italic;
 }
 
-#gykztpgibe .gt_super {
+#cpytqasldf .gt_super {
   font-size: 65%;
 }
 
-#gykztpgibe .gt_footnote_marks {
+#cpytqasldf .gt_footnote_marks {
   font-style: italic;
   font-weight: normal;
   font-size: 75%;
   vertical-align: 0.4em;
 }
 
-#gykztpgibe .gt_asterisk {
+#cpytqasldf .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#gykztpgibe .gt_indent_1 {
+#cpytqasldf .gt_indent_1 {
   text-indent: 5px;
 }
 
-#gykztpgibe .gt_indent_2 {
+#cpytqasldf .gt_indent_2 {
   text-indent: 10px;
 }
 
-#gykztpgibe .gt_indent_3 {
+#cpytqasldf .gt_indent_3 {
   text-indent: 15px;
 }
 
-#gykztpgibe .gt_indent_4 {
+#cpytqasldf .gt_indent_4 {
   text-indent: 20px;
 }
 
-#gykztpgibe .gt_indent_5 {
+#cpytqasldf .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1015,189 +1044,189 @@ de puntos de datos</p>
   
   <thead class="gt_col_headings">
     <tr>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">tree_number</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">tree_species</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">dbh</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">plant_number</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">ramet_number</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">distance</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">orientation</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">number_of_flowers</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">height_inflo</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">herbivory</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">row_position_nf</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">number_flowers_position</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">number_of_fruits</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">perc_fr_set</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">pardalinum_or_roseum</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">fruit_position_effect</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">frutos_si_o_no</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">p_or_r_infl_lenght</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">num_of_fruits</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col">species_name</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col">cardinal_orientation</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="tree_number">tree_number</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="tree_species">tree_species</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="dbh">dbh</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="plant_number">plant_number</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="ramet_number">ramet_number</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="distance">distance</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="orientation">orientation</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="number_of_flowers">number_of_flowers</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="height_inflo">height_inflo</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="herbivory">herbivory</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="row_position_nf">row_position_nf</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="number_flowers_position">number_flowers_position</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="number_of_fruits">number_of_fruits</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="perc_fr_set">perc_fr_set</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="pardalinum_or_roseum">pardalinum_or_roseum</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="fruit_position_effect">fruit_position_effect</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="frutos_si_o_no">frutos_si_o_no</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="p_or_r_infl_lenght">p_or_r_infl_lenght</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="num_of_fruits">num_of_fruits</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="species_name">species_name</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="cardinal_orientation">cardinal_orientation</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
-    <tr><td class="gt_row gt_right">1</td>
-<td class="gt_row gt_left">E.o</td>
-<td class="gt_row gt_right">75</td>
-<td class="gt_row gt_right">1</td>
-<td class="gt_row gt_right">1</td>
-<td class="gt_row gt_right">2.47</td>
-<td class="gt_row gt_right">40</td>
-<td class="gt_row gt_right">11</td>
-<td class="gt_row gt_right">35</td>
-<td class="gt_row gt_left">n</td>
-<td class="gt_row gt_right">1</td>
-<td class="gt_row gt_right">24</td>
-<td class="gt_row gt_right">0</td>
-<td class="gt_row gt_right">0.00</td>
-<td class="gt_row gt_left">r</td>
-<td class="gt_row gt_right">1</td>
-<td class="gt_row gt_right">0</td>
-<td class="gt_row gt_left">r</td>
-<td class="gt_row gt_right">0</td>
-<td class="gt_row gt_left">r</td>
-<td class="gt_row gt_right">1</td></tr>
-    <tr><td class="gt_row gt_right">1</td>
-<td class="gt_row gt_left">E.o</td>
-<td class="gt_row gt_right">76</td>
-<td class="gt_row gt_right">2</td>
-<td class="gt_row gt_right">1</td>
-<td class="gt_row gt_right">1.97</td>
-<td class="gt_row gt_right">50</td>
-<td class="gt_row gt_right">19</td>
-<td class="gt_row gt_right">47</td>
-<td class="gt_row gt_left">n</td>
-<td class="gt_row gt_right">2</td>
-<td class="gt_row gt_right">23</td>
-<td class="gt_row gt_right">0</td>
-<td class="gt_row gt_right">0.00</td>
-<td class="gt_row gt_left">r</td>
-<td class="gt_row gt_right">2</td>
-<td class="gt_row gt_right">0</td>
-<td class="gt_row gt_left">r</td>
-<td class="gt_row gt_right">0</td>
-<td class="gt_row gt_left">r</td>
-<td class="gt_row gt_right">2</td></tr>
-    <tr><td class="gt_row gt_right">2</td>
-<td class="gt_row gt_left">E.o</td>
-<td class="gt_row gt_right">76</td>
-<td class="gt_row gt_right">3</td>
-<td class="gt_row gt_right">1</td>
-<td class="gt_row gt_right">1.95</td>
-<td class="gt_row gt_right">350</td>
-<td class="gt_row gt_right">18</td>
-<td class="gt_row gt_right">63</td>
-<td class="gt_row gt_left">n</td>
-<td class="gt_row gt_right">3</td>
-<td class="gt_row gt_right">25</td>
-<td class="gt_row gt_right">1</td>
-<td class="gt_row gt_right">0.04</td>
-<td class="gt_row gt_left">r</td>
-<td class="gt_row gt_right">3</td>
-<td class="gt_row gt_right">0</td>
-<td class="gt_row gt_left">r</td>
-<td class="gt_row gt_right">1</td>
-<td class="gt_row gt_left">r</td>
-<td class="gt_row gt_right">8</td></tr>
-    <tr><td class="gt_row gt_right">3</td>
-<td class="gt_row gt_left">E.o</td>
-<td class="gt_row gt_right">58</td>
-<td class="gt_row gt_right">4</td>
-<td class="gt_row gt_right">1</td>
-<td class="gt_row gt_right">3.24</td>
-<td class="gt_row gt_right">210</td>
-<td class="gt_row gt_right">24</td>
-<td class="gt_row gt_right">47</td>
-<td class="gt_row gt_left">n</td>
-<td class="gt_row gt_right">4</td>
-<td class="gt_row gt_right">20</td>
-<td class="gt_row gt_right">5</td>
-<td class="gt_row gt_right">0.25</td>
-<td class="gt_row gt_left">r</td>
-<td class="gt_row gt_right">4</td>
-<td class="gt_row gt_right">0</td>
-<td class="gt_row gt_left">r</td>
-<td class="gt_row gt_right">5</td>
-<td class="gt_row gt_left">r</td>
-<td class="gt_row gt_right">5</td></tr>
-    <tr><td class="gt_row gt_right">4</td>
-<td class="gt_row gt_left">E.o</td>
-<td class="gt_row gt_right">NA</td>
-<td class="gt_row gt_right">5</td>
-<td class="gt_row gt_right">1</td>
-<td class="gt_row gt_right">0.85</td>
-<td class="gt_row gt_right">80</td>
-<td class="gt_row gt_right">25</td>
-<td class="gt_row gt_right">61</td>
-<td class="gt_row gt_left">n</td>
-<td class="gt_row gt_right">5</td>
-<td class="gt_row gt_right">13</td>
-<td class="gt_row gt_right">0</td>
-<td class="gt_row gt_right">0.00</td>
-<td class="gt_row gt_left">r</td>
-<td class="gt_row gt_right">5</td>
-<td class="gt_row gt_right">0</td>
-<td class="gt_row gt_left">r</td>
-<td class="gt_row gt_right">0</td>
-<td class="gt_row gt_left">r</td>
-<td class="gt_row gt_right">2</td></tr>
-    <tr><td class="gt_row gt_right">5</td>
-<td class="gt_row gt_left">E.o</td>
-<td class="gt_row gt_right">59</td>
-<td class="gt_row gt_right">6</td>
-<td class="gt_row gt_right">1</td>
-<td class="gt_row gt_right">2.62</td>
-<td class="gt_row gt_right">160</td>
-<td class="gt_row gt_right">17</td>
-<td class="gt_row gt_right">35</td>
-<td class="gt_row gt_left">n</td>
-<td class="gt_row gt_right">6</td>
-<td class="gt_row gt_right">25</td>
-<td class="gt_row gt_right">2</td>
-<td class="gt_row gt_right">0.08</td>
-<td class="gt_row gt_left">p</td>
-<td class="gt_row gt_right">6</td>
-<td class="gt_row gt_right">0</td>
-<td class="gt_row gt_left">r</td>
-<td class="gt_row gt_right">2</td>
-<td class="gt_row gt_left">p</td>
-<td class="gt_row gt_right">4</td></tr>
+    <tr><td headers="tree_number" class="gt_row gt_right">1</td>
+<td headers="tree_species" class="gt_row gt_left">E.o</td>
+<td headers="dbh" class="gt_row gt_right">75</td>
+<td headers="plant_number" class="gt_row gt_right">1</td>
+<td headers="ramet_number" class="gt_row gt_right">1</td>
+<td headers="distance" class="gt_row gt_right">2.47</td>
+<td headers="orientation" class="gt_row gt_right">40</td>
+<td headers="number_of_flowers" class="gt_row gt_right">11</td>
+<td headers="height_inflo" class="gt_row gt_right">35</td>
+<td headers="herbivory" class="gt_row gt_left">n</td>
+<td headers="row_position_nf" class="gt_row gt_right">1</td>
+<td headers="number_flowers_position" class="gt_row gt_right">24</td>
+<td headers="number_of_fruits" class="gt_row gt_right">0</td>
+<td headers="perc_fr_set" class="gt_row gt_right">0.00</td>
+<td headers="pardalinum_or_roseum" class="gt_row gt_left">r</td>
+<td headers="fruit_position_effect" class="gt_row gt_right">1</td>
+<td headers="frutos_si_o_no" class="gt_row gt_right">0</td>
+<td headers="p_or_r_infl_lenght" class="gt_row gt_left">r</td>
+<td headers="num_of_fruits" class="gt_row gt_right">0</td>
+<td headers="species_name" class="gt_row gt_left">r</td>
+<td headers="cardinal_orientation" class="gt_row gt_right">1</td></tr>
+    <tr><td headers="tree_number" class="gt_row gt_right">1</td>
+<td headers="tree_species" class="gt_row gt_left">E.o</td>
+<td headers="dbh" class="gt_row gt_right">76</td>
+<td headers="plant_number" class="gt_row gt_right">2</td>
+<td headers="ramet_number" class="gt_row gt_right">1</td>
+<td headers="distance" class="gt_row gt_right">1.97</td>
+<td headers="orientation" class="gt_row gt_right">50</td>
+<td headers="number_of_flowers" class="gt_row gt_right">19</td>
+<td headers="height_inflo" class="gt_row gt_right">47</td>
+<td headers="herbivory" class="gt_row gt_left">n</td>
+<td headers="row_position_nf" class="gt_row gt_right">2</td>
+<td headers="number_flowers_position" class="gt_row gt_right">23</td>
+<td headers="number_of_fruits" class="gt_row gt_right">0</td>
+<td headers="perc_fr_set" class="gt_row gt_right">0.00</td>
+<td headers="pardalinum_or_roseum" class="gt_row gt_left">r</td>
+<td headers="fruit_position_effect" class="gt_row gt_right">2</td>
+<td headers="frutos_si_o_no" class="gt_row gt_right">0</td>
+<td headers="p_or_r_infl_lenght" class="gt_row gt_left">r</td>
+<td headers="num_of_fruits" class="gt_row gt_right">0</td>
+<td headers="species_name" class="gt_row gt_left">r</td>
+<td headers="cardinal_orientation" class="gt_row gt_right">2</td></tr>
+    <tr><td headers="tree_number" class="gt_row gt_right">2</td>
+<td headers="tree_species" class="gt_row gt_left">E.o</td>
+<td headers="dbh" class="gt_row gt_right">76</td>
+<td headers="plant_number" class="gt_row gt_right">3</td>
+<td headers="ramet_number" class="gt_row gt_right">1</td>
+<td headers="distance" class="gt_row gt_right">1.95</td>
+<td headers="orientation" class="gt_row gt_right">350</td>
+<td headers="number_of_flowers" class="gt_row gt_right">18</td>
+<td headers="height_inflo" class="gt_row gt_right">63</td>
+<td headers="herbivory" class="gt_row gt_left">n</td>
+<td headers="row_position_nf" class="gt_row gt_right">3</td>
+<td headers="number_flowers_position" class="gt_row gt_right">25</td>
+<td headers="number_of_fruits" class="gt_row gt_right">1</td>
+<td headers="perc_fr_set" class="gt_row gt_right">0.04</td>
+<td headers="pardalinum_or_roseum" class="gt_row gt_left">r</td>
+<td headers="fruit_position_effect" class="gt_row gt_right">3</td>
+<td headers="frutos_si_o_no" class="gt_row gt_right">0</td>
+<td headers="p_or_r_infl_lenght" class="gt_row gt_left">r</td>
+<td headers="num_of_fruits" class="gt_row gt_right">1</td>
+<td headers="species_name" class="gt_row gt_left">r</td>
+<td headers="cardinal_orientation" class="gt_row gt_right">8</td></tr>
+    <tr><td headers="tree_number" class="gt_row gt_right">3</td>
+<td headers="tree_species" class="gt_row gt_left">E.o</td>
+<td headers="dbh" class="gt_row gt_right">58</td>
+<td headers="plant_number" class="gt_row gt_right">4</td>
+<td headers="ramet_number" class="gt_row gt_right">1</td>
+<td headers="distance" class="gt_row gt_right">3.24</td>
+<td headers="orientation" class="gt_row gt_right">210</td>
+<td headers="number_of_flowers" class="gt_row gt_right">24</td>
+<td headers="height_inflo" class="gt_row gt_right">47</td>
+<td headers="herbivory" class="gt_row gt_left">n</td>
+<td headers="row_position_nf" class="gt_row gt_right">4</td>
+<td headers="number_flowers_position" class="gt_row gt_right">20</td>
+<td headers="number_of_fruits" class="gt_row gt_right">5</td>
+<td headers="perc_fr_set" class="gt_row gt_right">0.25</td>
+<td headers="pardalinum_or_roseum" class="gt_row gt_left">r</td>
+<td headers="fruit_position_effect" class="gt_row gt_right">4</td>
+<td headers="frutos_si_o_no" class="gt_row gt_right">0</td>
+<td headers="p_or_r_infl_lenght" class="gt_row gt_left">r</td>
+<td headers="num_of_fruits" class="gt_row gt_right">5</td>
+<td headers="species_name" class="gt_row gt_left">r</td>
+<td headers="cardinal_orientation" class="gt_row gt_right">5</td></tr>
+    <tr><td headers="tree_number" class="gt_row gt_right">4</td>
+<td headers="tree_species" class="gt_row gt_left">E.o</td>
+<td headers="dbh" class="gt_row gt_right">NA</td>
+<td headers="plant_number" class="gt_row gt_right">5</td>
+<td headers="ramet_number" class="gt_row gt_right">1</td>
+<td headers="distance" class="gt_row gt_right">0.85</td>
+<td headers="orientation" class="gt_row gt_right">80</td>
+<td headers="number_of_flowers" class="gt_row gt_right">25</td>
+<td headers="height_inflo" class="gt_row gt_right">61</td>
+<td headers="herbivory" class="gt_row gt_left">n</td>
+<td headers="row_position_nf" class="gt_row gt_right">5</td>
+<td headers="number_flowers_position" class="gt_row gt_right">13</td>
+<td headers="number_of_fruits" class="gt_row gt_right">0</td>
+<td headers="perc_fr_set" class="gt_row gt_right">0.00</td>
+<td headers="pardalinum_or_roseum" class="gt_row gt_left">r</td>
+<td headers="fruit_position_effect" class="gt_row gt_right">5</td>
+<td headers="frutos_si_o_no" class="gt_row gt_right">0</td>
+<td headers="p_or_r_infl_lenght" class="gt_row gt_left">r</td>
+<td headers="num_of_fruits" class="gt_row gt_right">0</td>
+<td headers="species_name" class="gt_row gt_left">r</td>
+<td headers="cardinal_orientation" class="gt_row gt_right">2</td></tr>
+    <tr><td headers="tree_number" class="gt_row gt_right">5</td>
+<td headers="tree_species" class="gt_row gt_left">E.o</td>
+<td headers="dbh" class="gt_row gt_right">59</td>
+<td headers="plant_number" class="gt_row gt_right">6</td>
+<td headers="ramet_number" class="gt_row gt_right">1</td>
+<td headers="distance" class="gt_row gt_right">2.62</td>
+<td headers="orientation" class="gt_row gt_right">160</td>
+<td headers="number_of_flowers" class="gt_row gt_right">17</td>
+<td headers="height_inflo" class="gt_row gt_right">35</td>
+<td headers="herbivory" class="gt_row gt_left">n</td>
+<td headers="row_position_nf" class="gt_row gt_right">6</td>
+<td headers="number_flowers_position" class="gt_row gt_right">25</td>
+<td headers="number_of_fruits" class="gt_row gt_right">2</td>
+<td headers="perc_fr_set" class="gt_row gt_right">0.08</td>
+<td headers="pardalinum_or_roseum" class="gt_row gt_left">p</td>
+<td headers="fruit_position_effect" class="gt_row gt_right">6</td>
+<td headers="frutos_si_o_no" class="gt_row gt_right">0</td>
+<td headers="p_or_r_infl_lenght" class="gt_row gt_left">r</td>
+<td headers="num_of_fruits" class="gt_row gt_right">2</td>
+<td headers="species_name" class="gt_row gt_left">p</td>
+<td headers="cardinal_orientation" class="gt_row gt_right">4</td></tr>
   </tbody>
   
   
 </table>
 </div>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>d1<span class="ot">=</span>dipodium <span class="sc">%&gt;%</span> </span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(number_of_fruits, number_of_flowers) <span class="sc">%&gt;%</span> </span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co">#d1</span></span></code></pre></div>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>boxplot1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d1, <span class="fu">aes</span>(number_of_fruits, <span class="at">x=</span><span class="dv">1</span>))<span class="sc">+</span> </span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>           <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">1</span>,<span class="at">y=</span> <span class="dv">5</span>, <span class="at">label=</span><span class="st">&quot;Fig. 1&quot;</span>)<span class="sc">+</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;&quot;</span>, <span class="at">y=</span><span class="st">&quot;Cantidad de Frutos&quot;</span>)<span class="sc">+</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>boxplot2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d1, <span class="fu">aes</span>(number_of_fruits, <span class="at">x=</span><span class="dv">1</span>))<span class="sc">+</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">notch=</span><span class="cn">TRUE</span>) <span class="sc">+</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>           <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="fl">0.7</span>,<span class="at">y=</span> <span class="dv">7</span>, <span class="at">label=</span><span class="st">&quot;Fig. 2&quot;</span>)<span class="sc">+</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;&quot;</span>, <span class="at">y=</span><span class="st">&quot;Cantidad de Frutos&quot;</span>)<span class="sc">+</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>boxplot3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d1, <span class="fu">aes</span>(number_of_fruits, <span class="at">x=</span><span class="dv">1</span>))<span class="sc">+</span> </span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">notch=</span><span class="cn">TRUE</span>,<span class="at">colour=</span><span class="st">&quot;blue&quot;</span>,</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">fill=</span><span class="st">&quot;orange&quot;</span>, <span class="at">alpha=</span><span class="fl">0.7</span>, <span class="at">outlier.shape=</span><span class="dv">18</span>,</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">outlier.color=</span><span class="st">&quot;red&quot;</span>, <span class="at">outlier.size=</span><span class="dv">3</span>)<span class="sc">+</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>           <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="fl">0.7</span>,<span class="at">y=</span> <span class="dv">7</span>, <span class="at">label=</span><span class="st">&quot;Fig. 3&quot;</span>)<span class="sc">+</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;&quot;</span>, <span class="at">y=</span><span class="st">&quot;Cantidad de Frutos&quot;</span>)<span class="sc">+</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>boxplot4 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d1, <span class="fu">aes</span>(<span class="fu">factor</span>(number_of_flowers), number_of_fruits))<span class="sc">+</span> </span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">notch=</span><span class="cn">FALSE</span>)<span class="sc">+</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>           <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">2</span>,<span class="at">y=</span> <span class="dv">10</span>, <span class="at">label=</span><span class="st">&quot;Fig. 4&quot;</span>)<span class="sc">+</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Cantidad de Frutos&quot;</span>, <span class="at">x=</span><span class="st">&quot;Cantidad de Flores&quot;</span>)<span class="sc">+</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>))</span></code></pre></div>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(boxplot1,boxplot2, boxplot3, boxplot4,<span class="at">ncol=</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>d1<span class="ot">=</span>dipodium <span class="sc">%&gt;%</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(number_of_fruits, number_of_flowers) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co">#d1</span></span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>boxplot1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d1, <span class="fu">aes</span>(number_of_fruits, <span class="at">x=</span><span class="dv">1</span>))<span class="sc">+</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>           <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">1</span>,<span class="at">y=</span> <span class="dv">5</span>, <span class="at">label=</span><span class="st">&quot;Fig. 1&quot;</span>)<span class="sc">+</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;&quot;</span>, <span class="at">y=</span><span class="st">&quot;Cantidad de Frutos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>boxplot2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d1, <span class="fu">aes</span>(number_of_fruits, <span class="at">x=</span><span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">notch=</span><span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>           <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="fl">0.7</span>,<span class="at">y=</span> <span class="dv">7</span>, <span class="at">label=</span><span class="st">&quot;Fig. 2&quot;</span>)<span class="sc">+</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;&quot;</span>, <span class="at">y=</span><span class="st">&quot;Cantidad de Frutos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>boxplot3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d1, <span class="fu">aes</span>(number_of_fruits, <span class="at">x=</span><span class="dv">1</span>))<span class="sc">+</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">notch=</span><span class="cn">TRUE</span>,<span class="at">colour=</span><span class="st">&quot;blue&quot;</span>,</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>           <span class="at">fill=</span><span class="st">&quot;orange&quot;</span>, <span class="at">alpha=</span><span class="fl">0.7</span>, <span class="at">outlier.shape=</span><span class="dv">18</span>,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">outlier.color=</span><span class="st">&quot;red&quot;</span>, <span class="at">outlier.size=</span><span class="dv">3</span>)<span class="sc">+</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>           <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="fl">0.7</span>,<span class="at">y=</span> <span class="dv">7</span>, <span class="at">label=</span><span class="st">&quot;Fig. 3&quot;</span>)<span class="sc">+</span></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;&quot;</span>, <span class="at">y=</span><span class="st">&quot;Cantidad de Frutos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>boxplot4 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d1, <span class="fu">aes</span>(<span class="fu">factor</span>(number_of_flowers), number_of_fruits))<span class="sc">+</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">notch=</span><span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>           <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">2</span>,<span class="at">y=</span> <span class="dv">10</span>, <span class="at">label=</span><span class="st">&quot;Fig. 4&quot;</span>)<span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Cantidad de Frutos&quot;</span>, <span class="at">x=</span><span class="st">&quot;Cantidad de Flores&quot;</span>)<span class="sc">+</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>   <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(boxplot1,boxplot2, boxplot3, boxplot4,<span class="at">ncol=</span><span class="dv">2</span>)</span></code></pre></div>
 <p><img src="G8_geom_boxplot_geom_violin_files/figure-html/boxplot4-6-1.png" width="672" /></p>
 <hr />
 <div id="cambiar-el-ancho-de-las-cajas" class="section level3">
@@ -1207,19 +1236,19 @@ produce un diagrama de caja estándar y por defecto es FALSE; si es TRUE,
 produce un diagrama donde el ancho en el eje de <strong>X</strong> es
 proporcional a la raíz cuadrada del número de observaciones en los
 grupos.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>dipodium <span class="sc">%&gt;%</span> </span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(number_of_flowers, number_of_fruits) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">factor</span>(number_of_flowers), number_of_fruits, </span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">fill=</span><span class="fu">factor</span>(number_of_flowers)))<span class="sc">+</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">varwidth=</span><span class="cn">TRUE</span>)<span class="sc">+</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Cantidad de Flores&quot;</span>)<span class="sc">+</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Cantidad de Frutos&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>dipodium <span class="sc">%&gt;%</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(number_of_flowers, number_of_fruits) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">factor</span>(number_of_flowers), number_of_fruits, </span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">fill=</span><span class="fu">factor</span>(number_of_flowers)))<span class="sc">+</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">varwidth=</span><span class="cn">TRUE</span>)<span class="sc">+</span></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Cantidad de Flores&quot;</span>)<span class="sc">+</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Cantidad de Frutos&quot;</span>)</span></code></pre></div>
 <p><img src="G8_geom_boxplot_geom_violin_files/figure-html/boxplot_flower-1.png" width="672" /></p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># la función varwidth =TRUE cambia </span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="co">#el ancho de la barras basado en una formula indicado abajo. </span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Más datos más ancho la barra. </span></span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># la función varwidth =TRUE cambia </span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co">#el ancho de la barras basado en una formula indicado abajo. </span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Más datos más ancho la barra. </span></span></code></pre></div>
 <hr />
 <ol style="list-style-type: decimal">
 <li>Preparar un gráfico de caja (box plot) o tambien llamado <strong>Box
@@ -1284,15 +1313,15 @@ que, tal como ocurre con <strong>geom_boxplot</strong>, si se tiene
 solamente un grupo, se tiene que incluir <strong>x=1</strong>. Lo que
 uno observa es que la mayoria de la información encuentre cerca del
 valor 5 y 10</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>CalVal<span class="ot">=</span>caladeniavalida </span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>violinplot1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(CalVal, <span class="fu">aes</span>(DCL, <span class="at">x=</span><span class="dv">1</span>))</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>violinplot1 <span class="sc">+</span></span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>()<span class="sc">+</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="fl">0.75</span>,<span class="at">y=</span> <span class="dv">19</span>, <span class="at">size=</span><span class="dv">8</span>,</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;&quot;</span>, <span class="at">na.rm=</span><span class="cn">TRUE</span>)<span class="sc">+</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;EL largo del apendizaje dorsal&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>CalVal<span class="ot">=</span>caladeniavalida </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>violinplot1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(CalVal, <span class="fu">aes</span>(DCL, <span class="at">x=</span><span class="dv">1</span>))</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>violinplot1 <span class="sc">+</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>()<span class="sc">+</span></span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="fl">0.75</span>,<span class="at">y=</span> <span class="dv">19</span>, <span class="at">size=</span><span class="dv">8</span>,</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;&quot;</span>, <span class="at">na.rm=</span><span class="cn">TRUE</span>)<span class="sc">+</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;EL largo del apendizaje dorsal&quot;</span>)</span></code></pre></div>
 <p><img src="G8_geom_boxplot_geom_violin_files/figure-html/geomviolin1-1.png" width="672" /></p>
 <hr />
 <div id="geom_violin-con-múltiples-grupos" class="section level2">
@@ -1301,33 +1330,33 @@ valor 5 y 10</p>
 factores o grupos de acuerdo al año, a la vez que se le añade color azul
 a los violines y se le cambia la intensidad al color con
 <strong>alpha=()</strong>.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>violinplot2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(CalVal, <span class="fu">aes</span>(<span class="at">y=</span>LCL, <span class="at">x=</span><span class="fu">factor</span>(Year)))</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>violinplot2 <span class="sc">+</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">fill=</span><span class="st">&quot;blue&quot;</span>, <span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span><span class="dv">2</span>,<span class="at">y=</span> <span class="dv">19</span>, <span class="at">size=</span><span class="dv">8</span>,</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;&quot;</span>, <span class="at">na.rm=</span><span class="cn">TRUE</span>)<span class="sc">+</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Año&quot;</span>, <span class="at">y=</span><span class="st">&quot;LCL&quot;</span>)<span class="sc">+</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;EL largo del apendizaje lateral&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>violinplot2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(CalVal, <span class="fu">aes</span>(<span class="at">y=</span>LCL, <span class="at">x=</span><span class="fu">factor</span>(Year)))</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>violinplot2 <span class="sc">+</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">fill=</span><span class="st">&quot;blue&quot;</span>, <span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span><span class="dv">2</span>,<span class="at">y=</span> <span class="dv">19</span>, <span class="at">size=</span><span class="dv">8</span>,</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;&quot;</span>, <span class="at">na.rm=</span><span class="cn">TRUE</span>)<span class="sc">+</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Año&quot;</span>, <span class="at">y=</span><span class="st">&quot;LCL&quot;</span>)<span class="sc">+</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;EL largo del apendizaje lateral&quot;</span>)</span></code></pre></div>
 <p><img src="G8_geom_boxplot_geom_violin_files/figure-html/geomviolin2-1.png" width="672" /></p>
 <hr />
 <p>El gráfico de violín con datos distribución normal</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>normal_data<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="dv">0</span>, <span class="dv">4</span>)</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="co">#normal_data</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>dfnorm<span class="ot">=</span><span class="fu">data.frame</span>(normal_data)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dfnorm)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>normal_data<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="dv">0</span>, <span class="dv">4</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co">#normal_data</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>dfnorm<span class="ot">=</span><span class="fu">data.frame</span>(normal_data)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(dfnorm)</span></code></pre></div>
 <pre><code>##   normal_data
-## 1   2.8343650
-## 2  -0.9151673
-## 3   1.0746269
-## 4   2.4915306
-## 5  -1.2633892
-## 6  -6.8648113</code></pre>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dfnorm,<span class="fu">aes</span>(normal_data, <span class="at">x=</span><span class="dv">1</span>))<span class="sc">+</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>()<span class="sc">+</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_jitter</span>(<span class="at">position =</span> <span class="fu">position_jitter</span>(<span class="at">width =</span> .<span class="dv">1</span>))</span></code></pre></div>
+## 1   -3.101521
+## 2    5.151908
+## 3   -3.311005
+## 4    1.503180
+## 5    4.640319
+## 6   -2.327034</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dfnorm,<span class="fu">aes</span>(normal_data, <span class="at">x=</span><span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>()<span class="sc">+</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_jitter</span>(<span class="at">position =</span> <span class="fu">position_jitter</span>(<span class="at">width =</span> .<span class="dv">1</span>))</span></code></pre></div>
 <p><img src="G8_geom_boxplot_geom_violin_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 </div>
 <div id="geom_violin-utilizado-con-geom_point-y-geom_jitter"
@@ -1348,26 +1377,26 @@ su distribución.</p>
 <p>Es importante tomar en consideración que si se le añade
 <strong>geom_point</strong> antes de <strong>geom_violin</strong>, los
 puntos podrían quedar escondidos detrás del violín.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>violingp<span class="ot">=</span>violinplot3a <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(CalVal, <span class="fu">aes</span>(<span class="at">y=</span>OH, <span class="at">x=</span><span class="fu">factor</span>(Year)))<span class="sc">+</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>()<span class="sc">+</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span>  <span class="co"># Note que los puntos serán sobrepuestos sobre el violín </span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span><span class="dv">2</span>,<span class="at">y=</span> <span class="dv">20</span>, <span class="at">size=</span><span class="dv">8</span>,</span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;&quot;</span>, <span class="at">na.rm=</span><span class="cn">TRUE</span>)<span class="sc">+</span></span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Año&quot;</span>, <span class="at">y=</span><span class="st">&quot;OH&quot;</span>)<span class="sc">+</span></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>violingv<span class="ot">=</span>violinplot3a <span class="sc">+</span></span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>()<span class="sc">+</span></span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">position =</span> <span class="fu">position_jitter</span>(<span class="at">width =</span> .<span class="dv">1</span>))<span class="sc">+</span> <span class="co"># Note que los puntos serán sobrepuestos sobre el violín pero no solapan uno encima del otro.    </span></span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span><span class="dv">2</span>,<span class="at">y=</span> <span class="dv">20</span>, <span class="at">size=</span><span class="dv">8</span>,</span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;&quot;</span>, <span class="at">na.rm=</span><span class="cn">TRUE</span>)<span class="sc">+</span></span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Año&quot;</span>, <span class="at">y=</span><span class="st">&quot;OH&quot;</span>)<span class="sc">+</span></span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Overall height, mm&quot;</span>)</span>
-<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(violingp, violingv, <span class="at">ncol=</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>violingp<span class="ot">=</span>violinplot3a <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(CalVal, <span class="fu">aes</span>(<span class="at">y=</span>OH, <span class="at">x=</span><span class="fu">factor</span>(Year)))<span class="sc">+</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>()<span class="sc">+</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span>  <span class="co"># Note que los puntos serán sobrepuestos sobre el violín </span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span><span class="dv">2</span>,<span class="at">y=</span> <span class="dv">20</span>, <span class="at">size=</span><span class="dv">8</span>,</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;&quot;</span>, <span class="at">na.rm=</span><span class="cn">TRUE</span>)<span class="sc">+</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Año&quot;</span>, <span class="at">y=</span><span class="st">&quot;OH&quot;</span>)<span class="sc">+</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>violingv<span class="ot">=</span>violinplot3a <span class="sc">+</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>()<span class="sc">+</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">position =</span> <span class="fu">position_jitter</span>(<span class="at">width =</span> .<span class="dv">1</span>))<span class="sc">+</span> <span class="co"># Note que los puntos serán sobrepuestos sobre el violín pero no solapan uno encima del otro.    </span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span><span class="dv">2</span>,<span class="at">y=</span> <span class="dv">20</span>, <span class="at">size=</span><span class="dv">8</span>,</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;&quot;</span>, <span class="at">na.rm=</span><span class="cn">TRUE</span>)<span class="sc">+</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Año&quot;</span>, <span class="at">y=</span><span class="st">&quot;OH&quot;</span>)<span class="sc">+</span></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Overall height, mm&quot;</span>)</span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(violingp, violingv, <span class="at">ncol=</span><span class="dv">2</span>)</span></code></pre></div>
 <p><img src="G8_geom_boxplot_geom_violin_files/figure-html/geomviolin3-1.png" width="672" /></p>
 <hr />
 </div>
@@ -1378,14 +1407,14 @@ que <strong>geom_violin</strong>, pero a la misma vez se le cambió la
 intensidad del color para que se vean mejor los puntos. Vemos que
 algunos de los puntos que antes están medio escondidos y los que no
 solapan el violin se revelan sobre mejor.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(CalVal, <span class="fu">aes</span>(<span class="at">y=</span>OH, <span class="at">x=</span><span class="fu">factor</span>(Year)))</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="sc">+</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">position =</span> <span class="fu">position_jitter</span>(<span class="at">width =</span> .<span class="dv">2</span>), <span class="at">colour=</span><span class="st">&quot;red&quot;</span>)<span class="sc">+</span></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">fill=</span><span class="st">&quot;yellow&quot;</span>, <span class="at">colour=</span><span class="st">&quot;blue&quot;</span>, <span class="at">alpha=</span><span class="fl">0.3</span>)<span class="sc">+</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span><span class="dv">2</span>,<span class="at">y=</span> <span class="dv">20</span>, <span class="at">size=</span><span class="dv">8</span>,</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;&quot;</span>)<span class="sc">+</span></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Año&quot;</span>, <span class="at">y=</span><span class="st">&quot;OH&quot;</span>)<span class="sc">+</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(CalVal, <span class="fu">aes</span>(<span class="at">y=</span>OH, <span class="at">x=</span><span class="fu">factor</span>(Year)))</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="sc">+</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">position =</span> <span class="fu">position_jitter</span>(<span class="at">width =</span> .<span class="dv">2</span>), <span class="at">colour=</span><span class="st">&quot;red&quot;</span>)<span class="sc">+</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">fill=</span><span class="st">&quot;yellow&quot;</span>, <span class="at">colour=</span><span class="st">&quot;blue&quot;</span>, <span class="at">alpha=</span><span class="fl">0.3</span>)<span class="sc">+</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span><span class="dv">2</span>,<span class="at">y=</span> <span class="dv">20</span>, <span class="at">size=</span><span class="dv">8</span>,</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;&quot;</span>)<span class="sc">+</span></span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Año&quot;</span>, <span class="at">y=</span><span class="st">&quot;OH&quot;</span>)<span class="sc">+</span></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G8_geom_boxplot_geom_violin_files/figure-html/geomviolin4-1.png" width="672" /></p>
 <hr />
 </div>
@@ -1393,13 +1422,13 @@ solapan el violin se revelan sobre mejor.</p>
 <h2>Los cuartiles y geom_violin</h2>
 <p>Ahora se muestran el cuartil 25, la mediana (50) y el cuartil 75 en
 el mismo gráfico de violín con líneas horizontales.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(CalVal, <span class="fu">aes</span>(<span class="at">y=</span>OH, <span class="at">x=</span><span class="fu">factor</span>(Year)))</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="sc">+</span></span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">draw_quantiles =</span> <span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.25</span>,<span class="fl">0.5</span>, <span class="fl">0.75</span>,<span class="fl">0.95</span>))<span class="sc">+</span></span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span><span class="dv">2</span>,<span class="at">y=</span> <span class="dv">20</span>, <span class="at">size=</span><span class="dv">8</span>,</span>
-<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;&quot;</span>)<span class="sc">+</span></span>
-<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Año&quot;</span>, <span class="at">y=</span><span class="st">&quot;OH&quot;</span>)<span class="sc">+</span></span>
-<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(CalVal, <span class="fu">aes</span>(<span class="at">y=</span>OH, <span class="at">x=</span><span class="fu">factor</span>(Year)))</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="sc">+</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">draw_quantiles =</span> <span class="fu">c</span>(<span class="fl">0.05</span>, <span class="fl">0.25</span>,<span class="fl">0.5</span>, <span class="fl">0.75</span>,<span class="fl">0.95</span>))<span class="sc">+</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span><span class="dv">2</span>,<span class="at">y=</span> <span class="dv">20</span>, <span class="at">size=</span><span class="dv">8</span>,</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;&quot;</span>)<span class="sc">+</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Año&quot;</span>, <span class="at">y=</span><span class="st">&quot;OH&quot;</span>)<span class="sc">+</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G8_geom_boxplot_geom_violin_files/figure-html/geomviolin5-1.png" width="672" /></p>
 <hr />
 </div>
@@ -1408,13 +1437,13 @@ el mismo gráfico de violín con líneas horizontales.</p>
 <h1>Añadiendo color al contorno del violin</h1>
 <p>En esta figura se le añade color al contorno de los violines y las
 líneas de los cuartiles.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(CalVal, <span class="fu">aes</span>(<span class="at">y=</span>OH, <span class="at">x=</span><span class="fu">factor</span>(Year)))</span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="sc">+</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">colour=</span><span class="st">&quot;red&quot;</span>, <span class="at">alpha=</span>.<span class="dv">2</span>, <span class="at">draw_quantiles =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>))<span class="sc">+</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span><span class="dv">2</span>,<span class="at">y=</span> <span class="dv">20</span>, <span class="at">size=</span><span class="dv">8</span>,</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;&quot;</span>)<span class="sc">+</span></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Año&quot;</span>, <span class="at">y=</span><span class="st">&quot;OH&quot;</span>)<span class="sc">+</span></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(CalVal, <span class="fu">aes</span>(<span class="at">y=</span>OH, <span class="at">x=</span><span class="fu">factor</span>(Year)))</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="sc">+</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">colour=</span><span class="st">&quot;red&quot;</span>, <span class="at">alpha=</span>.<span class="dv">2</span>, <span class="at">draw_quantiles =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>))<span class="sc">+</span></span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span><span class="dv">2</span>,<span class="at">y=</span> <span class="dv">20</span>, <span class="at">size=</span><span class="dv">8</span>,</span>
+<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;&quot;</span>)<span class="sc">+</span></span>
+<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Año&quot;</span>, <span class="at">y=</span><span class="st">&quot;OH&quot;</span>)<span class="sc">+</span></span>
+<span id="cb23-7"><a href="#cb23-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G8_geom_boxplot_geom_violin_files/figure-html/geomviolin6-1.png" width="672" /></p>
 <hr />
 <div id="geom_violin-por-categoría-o-factor" class="section level2">
@@ -1423,15 +1452,15 @@ líneas de los cuartiles.</p>
 Para lograr ese efecto se le añade otra variable para representar los
 grupos (o categorías) por color; en este caso, la distribución de los
 tamaños de las plantas en términos de si produjeron frutos o no.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="fu">na.omit</span>(CalVal), <span class="fu">aes</span>(<span class="at">y=</span>OH, <span class="at">x=</span><span class="fu">factor</span>(Year)))</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="sc">+</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="fu">aes</span>(<span class="at">fill=</span>(<span class="fu">factor</span>(Fruit_not))),</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">draw_quantiles =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>))<span class="sc">+</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span><span class="dv">2</span>,<span class="at">y=</span> <span class="dv">20</span>, <span class="at">size=</span><span class="dv">8</span>,</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;&quot;</span>)<span class="sc">+</span></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Año&quot;</span>, <span class="at">y=</span><span class="st">&quot;OH&quot;</span>)<span class="sc">+</span></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Altura de la planta&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="fu">na.omit</span>(CalVal), <span class="fu">aes</span>(<span class="at">y=</span>OH, <span class="at">x=</span><span class="fu">factor</span>(Year)))</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="sc">+</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="fu">aes</span>(<span class="at">fill=</span>(<span class="fu">factor</span>(Fruit_not))),</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">draw_quantiles =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>))<span class="sc">+</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span><span class="dv">2</span>,<span class="at">y=</span> <span class="dv">20</span>, <span class="at">size=</span><span class="dv">8</span>,</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;&quot;</span>)<span class="sc">+</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Año&quot;</span>, <span class="at">y=</span><span class="st">&quot;OH&quot;</span>)<span class="sc">+</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Altura de la planta&quot;</span>)</span></code></pre></div>
 <p><img src="G8_geom_boxplot_geom_violin_files/figure-html/geomviolin7-1.png" width="672" /></p>
 <hr />
 </div>
@@ -1446,12 +1475,12 @@ de la muestra; o sea, la escala máxima del ancho es proporcional al
 tamaño de la muestra. Entonces, en este caso vemos el año donde hubo
 mayor (2007) y menor (2008) tamaño de muestra de acuerdo al ancho que se
 muestra para cada violín.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(CalVal, <span class="fu">aes</span>(<span class="at">y=</span>OH, <span class="at">x=</span><span class="fu">factor</span>(Year)))</span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="sc">+</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">scale =</span> <span class="st">&quot;count&quot;</span>,</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">draw_quantiles =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>))<span class="sc">+</span></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Año&quot;</span>, <span class="at">y=</span><span class="st">&quot;OH&quot;</span>)<span class="sc">+</span></span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(CalVal, <span class="fu">aes</span>(<span class="at">y=</span>OH, <span class="at">x=</span><span class="fu">factor</span>(Year)))</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="sc">+</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">scale =</span> <span class="st">&quot;count&quot;</span>,</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">draw_quantiles =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>))<span class="sc">+</span></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Año&quot;</span>, <span class="at">y=</span><span class="st">&quot;OH&quot;</span>)<span class="sc">+</span></span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G8_geom_boxplot_geom_violin_files/figure-html/geomviolin8-1.png" width="672" /></p>
 <hr />
 </div>
@@ -1465,12 +1494,12 @@ de <strong>X</strong>. En otras palabras, en este caso el ancho
 forma consecutiva para los demás años. Este enfoque crea una grado de
 uniformidad para cada ancho. En este caso el ancho no esta relacionado
 con el tamaño de muestra como el ejemplo anterior.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(CalVal, <span class="fu">aes</span>(<span class="at">y=</span>OH, <span class="at">x=</span><span class="fu">factor</span>(Year)))</span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="sc">+</span></span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">scale =</span> <span class="st">&quot;width&quot;</span>,</span>
-<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">draw_quantiles =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>))<span class="sc">+</span></span>
-<span id="cb23-5"><a href="#cb23-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Año&quot;</span>, <span class="at">y=</span><span class="st">&quot;OH&quot;</span>)<span class="sc">+</span></span>
-<span id="cb23-6"><a href="#cb23-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(CalVal, <span class="fu">aes</span>(<span class="at">y=</span>OH, <span class="at">x=</span><span class="fu">factor</span>(Year)))</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="sc">+</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">scale =</span> <span class="st">&quot;width&quot;</span>,</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>              <span class="at">draw_quantiles =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>))<span class="sc">+</span></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Año&quot;</span>, <span class="at">y=</span><span class="st">&quot;OH&quot;</span>)<span class="sc">+</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G8_geom_boxplot_geom_violin_files/figure-html/geomviolin9-1.png" width="672" /></p>
 <hr />
 </div>
@@ -1478,33 +1507,33 @@ con el tamaño de muestra como el ejemplo anterior.</p>
 <h2>Geom_violin y el cambio de orientación</h2>
 <p>En la Figura cambiamos la orientación de los gráficos anteriores
 utilizando la opción <strong>coord_flip()</strong>.</p>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(CalVal, <span class="fu">aes</span>(<span class="at">y=</span>OH, <span class="at">x=</span><span class="fu">factor</span>(Year)))</span>
-<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="sc">+</span></span>
-<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>()<span class="sc">+</span></span>
-<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()<span class="sc">+</span></span>
-<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Año&quot;</span>)<span class="sc">+</span></span>
-<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Altura de la planta&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(CalVal, <span class="fu">aes</span>(<span class="at">y=</span>OH, <span class="at">x=</span><span class="fu">factor</span>(Year)))</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>violinplot3 <span class="sc">+</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_violin</span>()<span class="sc">+</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()<span class="sc">+</span></span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Año&quot;</span>)<span class="sc">+</span></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Altura de la planta&quot;</span>)</span></code></pre></div>
 <p><img src="G8_geom_boxplot_geom_violin_files/figure-html/geomviolin10-1.png" width="672" /></p>
 <hr />
 <p>Gráficos de Densidad con colores para los diferentes cuantiles</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">200</span>),<span class="at">y=</span><span class="fu">rnorm</span>(<span class="dv">200</span>)) <span class="co"># Crear un distribucion de 200 datos al azar con una distribución normal</span></span>
-<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>dens <span class="ot">&lt;-</span> <span class="fu">density</span>(dt<span class="sc">$</span>y) <span class="co"># calcular la densidad</span></span>
-<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x=</span>dens<span class="sc">$</span>x, <span class="at">y=</span>dens<span class="sc">$</span>y) <span class="co"># crear un data frame de la densidad</span></span>
-<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>probs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="fl">0.9</span>) <span class="co"># determinar cual cuantil quiere evaluar</span></span>
-<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>quantiles <span class="ot">&lt;-</span> <span class="fu">quantile</span>(dt<span class="sc">$</span>y, <span class="at">prob=</span>probs) <span class="co"># asignar cada valor a uno de los cuantiles</span></span>
-<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>quant <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">findInterval</span>(df<span class="sc">$</span>x,quantiles)) <span class="co"># Asignar los cuantiles a factores</span></span>
-<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(x,y)) <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin=</span><span class="dv">0</span>, <span class="at">ymax=</span>y, <span class="at">fill=</span>quant)) <span class="sc">+</span> <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span>quantiles) <span class="sc">+</span> <span class="fu">scale_fill_brewer</span>(<span class="at">guide=</span><span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">200</span>),<span class="at">y=</span><span class="fu">rnorm</span>(<span class="dv">200</span>)) <span class="co"># Crear un distribucion de 200 datos al azar con una distribución normal</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>dens <span class="ot">&lt;-</span> <span class="fu">density</span>(dt<span class="sc">$</span>y) <span class="co"># calcular la densidad</span></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x=</span>dens<span class="sc">$</span>x, <span class="at">y=</span>dens<span class="sc">$</span>y) <span class="co"># crear un data frame de la densidad</span></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>probs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="fl">0.9</span>) <span class="co"># determinar cual cuantil quiere evaluar</span></span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>quantiles <span class="ot">&lt;-</span> <span class="fu">quantile</span>(dt<span class="sc">$</span>y, <span class="at">prob=</span>probs) <span class="co"># asignar cada valor a uno de los cuantiles</span></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>df<span class="sc">$</span>quant <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">findInterval</span>(df<span class="sc">$</span>x,quantiles)) <span class="co"># Asignar los cuantiles a factores</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(x,y)) <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin=</span><span class="dv">0</span>, <span class="at">ymax=</span>y, <span class="at">fill=</span>quant)) <span class="sc">+</span> <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span>quantiles) <span class="sc">+</span> <span class="fu">scale_fill_brewer</span>(<span class="at">guide=</span><span class="st">&quot;none&quot;</span>)</span></code></pre></div>
 <p><img src="G8_geom_boxplot_geom_violin_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>CalVal2<span class="ot">=</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  CalVal <span class="sc">%&gt;%</span> <span class="fu">select</span>(OH) <span class="sc">%&gt;%</span> </span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()    <span class="co"># Seleccionar lo datos deseados removiendo los &quot;NA&quot;</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>dens2<span class="ot">=</span><span class="fu">density</span>(CalVal2<span class="sc">$</span>OH) </span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>dens2</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>CalVal2<span class="ot">=</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  CalVal <span class="sc">%&gt;%</span> <span class="fu">select</span>(OH) <span class="sc">%&gt;%</span> </span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">drop_na</span>()    <span class="co"># Seleccionar lo datos deseados removiendo los &quot;NA&quot;</span></span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>dens2<span class="ot">=</span><span class="fu">density</span>(CalVal2<span class="sc">$</span>OH) </span>
+<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>dens2</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ##  density.default(x = CalVal2$OH)
@@ -1518,1041 +1547,29 @@ utilizando la opción <strong>coord_flip()</strong>.</p>
 ##  Mean   :52.50   Mean   :0.0137526  
 ##  3rd Qu.:70.66   3rd Qu.:0.0262349  
 ##  Max.   :88.82   Max.   :0.0566222</code></pre>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x=</span>dens2<span class="sc">$</span>x, <span class="at">y=</span>dens2<span class="sc">$</span>y)</span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>df2</span></code></pre></div>
-<pre><code>##            x            y
-## 1   16.17920 9.649217e-06
-## 2   16.32136 1.115009e-05
-## 3   16.46352 1.283130e-05
-## 4   16.60567 1.481782e-05
-## 5   16.74783 1.704836e-05
-## 6   16.88998 1.953867e-05
-## 7   17.03214 2.230766e-05
-## 8   17.17429 2.552660e-05
-## 9   17.31645 2.912665e-05
-## 10  17.45861 3.311565e-05
-## 11  17.60076 3.751960e-05
-## 12  17.74292 4.256323e-05
-## 13  17.88507 4.818130e-05
-## 14  18.02723 5.436232e-05
-## 15  18.16938 6.114093e-05
-## 16  18.31154 6.880036e-05
-## 17  18.45370 7.729942e-05
-## 18  18.59585 8.659009e-05
-## 19  18.73801 9.671767e-05
-## 20  18.88016 1.080266e-04
-## 21  19.02232 1.205331e-04
-## 22  19.16447 1.341285e-04
-## 23  19.30663 1.488718e-04
-## 24  19.44879 1.651693e-04
-## 25  19.59094 1.831462e-04
-## 26  19.73310 2.025999e-04
-## 27  19.87525 2.236081e-04
-## 28  20.01741 2.466375e-04
-## 29  20.15956 2.720007e-04
-## 30  20.30172 2.993537e-04
-## 31  20.44388 3.288010e-04
-## 32  20.58603 3.608637e-04
-## 33  20.72819 3.961595e-04
-## 34  20.87034 4.341334e-04
-## 35  21.01250 4.749269e-04
-## 36  21.15466 5.191002e-04
-## 37  21.29681 5.677475e-04
-## 38  21.43897 6.199984e-04
-## 39  21.58112 6.760421e-04
-## 40  21.72328 7.364413e-04
-## 41  21.86543 8.030076e-04
-## 42  22.00759 8.743990e-04
-## 43  22.14975 9.508604e-04
-## 44  22.29190 1.032884e-03
-## 45  22.43406 1.123312e-03
-## 46  22.57621 1.220111e-03
-## 47  22.71837 1.323581e-03
-## 48  22.86052 1.434023e-03
-## 49  23.00268 1.555667e-03
-## 50  23.14484 1.685517e-03
-## 51  23.28699 1.823907e-03
-## 52  23.42915 1.971172e-03
-## 53  23.57130 2.132083e-03
-## 54  23.71346 2.303575e-03
-## 55  23.85561 2.485576e-03
-## 56  23.99777 2.678417e-03
-## 57  24.13993 2.887150e-03
-## 58  24.28208 3.108869e-03
-## 59  24.42424 3.342872e-03
-## 60  24.56639 3.589421e-03
-## 61  24.70855 3.853458e-03
-## 62  24.85070 4.132482e-03
-## 63  24.99286 4.424973e-03
-## 64  25.13502 4.731046e-03
-## 65  25.27717 5.055063e-03
-## 66  25.41933 5.395116e-03
-## 67  25.56148 5.748795e-03
-## 68  25.70364 6.116000e-03
-## 69  25.84580 6.500067e-03
-## 70  25.98795 6.899721e-03
-## 71  26.13011 7.311799e-03
-## 72  26.27226 7.735947e-03
-## 73  26.41442 8.174183e-03
-## 74  26.55657 8.625683e-03
-## 75  26.69873 9.086934e-03
-## 76  26.84089 9.557339e-03
-## 77  26.98304 1.003757e-02
-## 78  27.12520 1.052685e-02
-## 79  27.26735 1.102196e-02
-## 80  27.40951 1.152213e-02
-## 81  27.55166 1.202695e-02
-## 82  27.69382 1.253518e-02
-## 83  27.83598 1.304463e-02
-## 84  27.97813 1.355451e-02
-## 85  28.12029 1.406382e-02
-## 86  28.26244 1.457040e-02
-## 87  28.40460 1.507375e-02
-## 88  28.54675 1.557321e-02
-## 89  28.68891 1.606778e-02
-## 90  28.83107 1.655419e-02
-## 91  28.97322 1.703397e-02
-## 92  29.11538 1.750673e-02
-## 93  29.25753 1.797196e-02
-## 94  29.39969 1.842553e-02
-## 95  29.54184 1.887082e-02
-## 96  29.68400 1.930780e-02
-## 97  29.82616 1.973641e-02
-## 98  29.96831 2.015309e-02
-## 99  30.11047 2.056167e-02
-## 100 30.25262 2.096268e-02
-## 101 30.39478 2.135644e-02
-## 102 30.53694 2.174095e-02
-## 103 30.67909 2.211940e-02
-## 104 30.82125 2.249283e-02
-## 105 30.96340 2.286180e-02
-## 106 31.10556 2.322608e-02
-## 107 31.24771 2.358794e-02
-## 108 31.38987 2.394845e-02
-## 109 31.53203 2.430830e-02
-## 110 31.67418 2.466878e-02
-## 111 31.81634 2.503135e-02
-## 112 31.95849 2.539662e-02
-## 113 32.10065 2.576529e-02
-## 114 32.24280 2.613963e-02
-## 115 32.38496 2.652075e-02
-## 116 32.52712 2.690838e-02
-## 117 32.66927 2.730311e-02
-## 118 32.81143 2.770769e-02
-## 119 32.95358 2.812342e-02
-## 120 33.09574 2.854887e-02
-## 121 33.23789 2.898454e-02
-## 122 33.38005 2.943321e-02
-## 123 33.52221 2.989689e-02
-## 124 33.66436 3.037291e-02
-## 125 33.80652 3.086164e-02
-## 126 33.94867 3.136564e-02
-## 127 34.09083 3.188799e-02
-## 128 34.23298 3.242472e-02
-## 129 34.37514 3.297611e-02
-## 130 34.51730 3.354416e-02
-## 131 34.65945 3.413326e-02
-## 132 34.80161 3.473804e-02
-## 133 34.94376 3.535862e-02
-## 134 35.08592 3.599619e-02
-## 135 35.22808 3.665615e-02
-## 136 35.37023 3.733181e-02
-## 137 35.51239 3.802294e-02
-## 138 35.65454 3.872972e-02
-## 139 35.79670 3.945752e-02
-## 140 35.93885 4.019878e-02
-## 141 36.08101 4.095274e-02
-## 142 36.22317 4.171868e-02
-## 143 36.36532 4.249952e-02
-## 144 36.50748 4.328842e-02
-## 145 36.64963 4.408383e-02
-## 146 36.79179 4.488435e-02
-## 147 36.93394 4.568798e-02
-## 148 37.07610 4.649021e-02
-## 149 37.21826 4.728885e-02
-## 150 37.36041 4.808182e-02
-## 151 37.50257 4.886166e-02
-## 152 37.64472 4.962601e-02
-## 153 37.78688 5.037329e-02
-## 154 37.92903 5.110096e-02
-## 155 38.07119 5.179668e-02
-## 156 38.21335 5.245939e-02
-## 157 38.35550 5.308988e-02
-## 158 38.49766 5.368553e-02
-## 159 38.63981 5.423093e-02
-## 160 38.78197 5.472494e-02
-## 161 38.92413 5.517253e-02
-## 162 39.06628 5.557157e-02
-## 163 39.20844 5.590606e-02
-## 164 39.35059 5.617344e-02
-## 165 39.49275 5.638412e-02
-## 166 39.63490 5.653690e-02
-## 167 39.77706 5.661788e-02
-## 168 39.91922 5.662225e-02
-## 169 40.06137 5.656590e-02
-## 170 40.20353 5.644891e-02
-## 171 40.34568 5.626143e-02
-## 172 40.48784 5.599661e-02
-## 173 40.62999 5.567449e-02
-## 174 40.77215 5.529640e-02
-## 175 40.91431 5.485733e-02
-## 176 41.05646 5.434981e-02
-## 177 41.19862 5.379528e-02
-## 178 41.34077 5.319609e-02
-## 179 41.48293 5.255154e-02
-## 180 41.62508 5.185574e-02
-## 181 41.76724 5.112815e-02
-## 182 41.90940 5.037167e-02
-## 183 42.05155 4.958840e-02
-## 184 42.19371 4.877642e-02
-## 185 42.33586 4.794997e-02
-## 186 42.47802 4.711199e-02
-## 187 42.62017 4.626541e-02
-## 188 42.76233 4.541421e-02
-## 189 42.90449 4.456507e-02
-## 190 43.04664 4.372052e-02
-## 191 43.18880 4.288309e-02
-## 192 43.33095 4.206202e-02
-## 193 43.47311 4.125703e-02
-## 194 43.61527 4.046949e-02
-## 195 43.75742 3.970122e-02
-## 196 43.89958 3.896375e-02
-## 197 44.04173 3.825308e-02
-## 198 44.18389 3.756840e-02
-## 199 44.32604 3.691075e-02
-## 200 44.46820 3.629160e-02
-## 201 44.61036 3.570589e-02
-## 202 44.75251 3.515033e-02
-## 203 44.89467 3.462525e-02
-## 204 45.03682 3.414048e-02
-## 205 45.17898 3.369164e-02
-## 206 45.32113 3.327325e-02
-## 207 45.46329 3.288505e-02
-## 208 45.60545 3.253438e-02
-## 209 45.74760 3.221829e-02
-## 210 45.88976 3.192979e-02
-## 211 46.03191 3.166809e-02
-## 212 46.17407 3.143778e-02
-## 213 46.31622 3.123722e-02
-## 214 46.45838 3.105876e-02
-## 215 46.60054 3.090125e-02
-## 216 46.74269 3.076656e-02
-## 217 46.88485 3.065357e-02
-## 218 47.02700 3.055509e-02
-## 219 47.16916 3.046964e-02
-## 220 47.31131 3.039686e-02
-## 221 47.45347 3.033485e-02
-## 222 47.59563 3.027815e-02
-## 223 47.73778 3.022509e-02
-## 224 47.87994 3.017379e-02
-## 225 48.02209 3.012015e-02
-## 226 48.16425 3.006182e-02
-## 227 48.30641 2.999707e-02
-## 228 48.44856 2.992356e-02
-## 229 48.59072 2.983369e-02
-## 230 48.73287 2.972944e-02
-## 231 48.87503 2.960931e-02
-## 232 49.01718 2.947152e-02
-## 233 49.15934 2.930437e-02
-## 234 49.30150 2.911490e-02
-## 235 49.44365 2.890206e-02
-## 236 49.58581 2.866483e-02
-## 237 49.72796 2.838996e-02
-## 238 49.87012 2.808719e-02
-## 239 50.01227 2.775687e-02
-## 240 50.15443 2.739867e-02
-## 241 50.29659 2.700083e-02
-## 242 50.43874 2.657307e-02
-## 243 50.58090 2.611777e-02
-## 244 50.72305 2.563532e-02
-## 245 50.86521 2.511715e-02
-## 246 51.00736 2.457165e-02
-## 247 51.14952 2.400284e-02
-## 248 51.29168 2.341181e-02
-## 249 51.43383 2.279399e-02
-## 250 51.57599 2.215591e-02
-## 251 51.71814 2.150226e-02
-## 252 51.86030 2.083464e-02
-## 253 52.00245 2.015235e-02
-## 254 52.14461 1.946034e-02
-## 255 52.28677 1.876267e-02
-## 256 52.42892 1.806111e-02
-## 257 52.57108 1.735798e-02
-## 258 52.71323 1.665750e-02
-## 259 52.85539 1.596171e-02
-## 260 52.99755 1.527228e-02
-## 261 53.13970 1.459323e-02
-## 262 53.28186 1.392912e-02
-## 263 53.42401 1.327891e-02
-## 264 53.56617 1.264395e-02
-## 265 53.70832 1.202858e-02
-## 266 53.85048 1.143861e-02
-## 267 53.99264 1.086945e-02
-## 268 54.13479 1.032198e-02
-## 269 54.27695 9.799767e-03
-## 270 54.41910 9.310307e-03
-## 271 54.56126 8.845654e-03
-## 272 54.70341 8.406165e-03
-## 273 54.84557 7.994005e-03
-## 274 54.98773 7.618230e-03
-## 275 55.12988 7.268293e-03
-## 276 55.27204 6.944070e-03
-## 277 55.41419 6.646130e-03
-## 278 55.55635 6.384495e-03
-## 279 55.69850 6.147135e-03
-## 280 55.84066 5.933542e-03
-## 281 55.98282 5.743199e-03
-## 282 56.12497 5.585219e-03
-## 283 56.26713 5.448289e-03
-## 284 56.40928 5.331331e-03
-## 285 56.55144 5.233571e-03
-## 286 56.69359 5.161000e-03
-## 287 56.83575 5.105372e-03
-## 288 56.97791 5.064786e-03
-## 289 57.12006 5.038339e-03
-## 290 57.26222 5.029212e-03
-## 291 57.40437 5.031912e-03
-## 292 57.54653 5.044281e-03
-## 293 57.68869 5.065396e-03
-## 294 57.83084 5.096207e-03
-## 295 57.97300 5.133340e-03
-## 296 58.11515 5.174932e-03
-## 297 58.25731 5.220141e-03
-## 298 58.39946 5.268388e-03
-## 299 58.54162 5.317676e-03
-## 300 58.68378 5.366888e-03
-## 301 58.82593 5.415344e-03
-## 302 58.96809 5.461650e-03
-## 303 59.11024 5.504500e-03
-## 304 59.25240 5.543805e-03
-## 305 59.39455 5.579098e-03
-## 306 59.53671 5.608798e-03
-## 307 59.67887 5.631787e-03
-## 308 59.82102 5.649062e-03
-## 309 59.96318 5.660395e-03
-## 310 60.10533 5.664471e-03
-## 311 60.24749 5.660108e-03
-## 312 60.38964 5.649221e-03
-## 313 60.53180 5.631805e-03
-## 314 60.67396 5.607059e-03
-## 315 60.81611 5.573730e-03
-## 316 60.95827 5.534289e-03
-## 317 61.10042 5.488916e-03
-## 318 61.24258 5.437352e-03
-## 319 61.38473 5.378462e-03
-## 320 61.52689 5.314802e-03
-## 321 61.66905 5.246670e-03
-## 322 61.81120 5.174219e-03
-## 323 61.95336 5.096715e-03
-## 324 62.09551 5.016317e-03
-## 325 62.23767 4.933372e-03
-## 326 62.37983 4.848227e-03
-## 327 62.52198 4.760810e-03
-## 328 62.66414 4.672511e-03
-## 329 62.80629 4.583657e-03
-## 330 62.94845 4.494573e-03
-## 331 63.09060 4.405983e-03
-## 332 63.23276 4.318329e-03
-## 333 63.37492 4.231861e-03
-## 334 63.51707 4.146840e-03
-## 335 63.65923 4.064421e-03
-## 336 63.80138 3.984464e-03
-## 337 63.94354 3.906987e-03
-## 338 64.08569 3.832164e-03
-## 339 64.22785 3.761271e-03
-## 340 64.37001 3.693916e-03
-## 341 64.51216 3.629816e-03
-## 342 64.65432 3.569056e-03
-## 343 64.79647 3.512806e-03
-## 344 64.93863 3.460665e-03
-## 345 65.08078 3.412057e-03
-## 346 65.22294 3.366985e-03
-## 347 65.36510 3.326375e-03
-## 348 65.50725 3.289951e-03
-## 349 65.64941 3.256905e-03
-## 350 65.79156 3.227174e-03
-## 351 65.93372 3.201376e-03
-## 352 66.07587 3.179377e-03
-## 353 66.21803 3.160247e-03
-## 354 66.36019 3.143867e-03
-## 355 66.50234 3.130539e-03
-## 356 66.64450 3.120205e-03
-## 357 66.78665 3.111940e-03
-## 358 66.92881 3.105581e-03
-## 359 67.07097 3.101157e-03
-## 360 67.21312 3.098547e-03
-## 361 67.35528 3.096984e-03
-## 362 67.49743 3.096278e-03
-## 363 67.63959 3.096259e-03
-## 364 67.78174 3.096577e-03
-## 365 67.92390 3.096790e-03
-## 366 68.06606 3.096694e-03
-## 367 68.20821 3.096036e-03
-## 368 68.35037 3.094076e-03
-## 369 68.49252 3.090846e-03
-## 370 68.63468 3.086161e-03
-## 371 68.77683 3.079805e-03
-## 372 68.91899 3.070545e-03
-## 373 69.06115 3.058998e-03
-## 374 69.20330 3.045023e-03
-## 375 69.34546 3.028476e-03
-## 376 69.48761 3.007867e-03
-## 377 69.62977 2.984183e-03
-## 378 69.77192 2.957430e-03
-## 379 69.91408 2.927535e-03
-## 380 70.05624 2.893094e-03
-## 381 70.19839 2.855157e-03
-## 382 70.34055 2.813961e-03
-## 383 70.48270 2.769521e-03
-## 384 70.62486 2.720732e-03
-## 385 70.76702 2.668539e-03
-## 386 70.90917 2.613397e-03
-## 387 71.05133 2.555403e-03
-## 388 71.19348 2.493882e-03
-## 389 71.33564 2.429594e-03
-## 390 71.47779 2.363115e-03
-## 391 71.61995 2.294612e-03
-## 392 71.76211 2.223862e-03
-## 393 71.90426 2.151453e-03
-## 394 72.04642 2.077935e-03
-## 395 72.18857 2.003513e-03
-## 396 72.33073 1.928347e-03
-## 397 72.47288 1.852941e-03
-## 398 72.61504 1.777649e-03
-## 399 72.75720 1.702682e-03
-## 400 72.89935 1.628446e-03
-## 401 73.04151 1.555488e-03
-## 402 73.18366 1.483819e-03
-## 403 73.32582 1.413624e-03
-## 404 73.46797 1.345399e-03
-## 405 73.61013 1.279847e-03
-## 406 73.75229 1.216551e-03
-## 407 73.89444 1.155645e-03
-## 408 74.03660 1.097574e-03
-## 409 74.17875 1.043265e-03
-## 410 74.32091 9.918617e-04
-## 411 74.46306 9.434357e-04
-## 412 74.60522 8.982794e-04
-## 413 74.74738 8.575501e-04
-## 414 74.88953 8.200109e-04
-## 415 75.03169 7.856706e-04
-## 416 75.17384 7.546263e-04
-## 417 75.31600 7.281936e-04
-## 418 75.45816 7.048810e-04
-## 419 75.60031 6.846402e-04
-## 420 75.74247 6.674216e-04
-## 421 75.88462 6.544502e-04
-## 422 76.02678 6.442629e-04
-## 423 76.16893 6.367263e-04
-## 424 76.31109 6.317462e-04
-## 425 76.45325 6.301344e-04
-## 426 76.59540 6.307910e-04
-## 427 76.73756 6.334596e-04
-## 428 76.87971 6.380164e-04
-## 429 77.02187 6.448708e-04
-## 430 77.16402 6.532705e-04
-## 431 77.30618 6.629137e-04
-## 432 77.44834 6.736628e-04
-## 433 77.59049 6.855852e-04
-## 434 77.73265 6.982041e-04
-## 435 77.87480 7.112600e-04
-## 436 78.01696 7.246172e-04
-## 437 78.15911 7.380940e-04
-## 438 78.30127 7.513889e-04
-## 439 78.44343 7.643655e-04
-## 440 78.58558 7.769055e-04
-## 441 78.72774 7.886861e-04
-## 442 78.86989 7.994786e-04
-## 443 79.01205 8.093299e-04
-## 444 79.15420 8.181514e-04
-## 445 79.29636 8.255845e-04
-## 446 79.43852 8.313932e-04
-## 447 79.58067 8.358329e-04
-## 448 79.72283 8.388536e-04
-## 449 79.86498 8.401461e-04
-## 450 80.00714 8.394250e-04
-## 451 80.14930 8.371384e-04
-## 452 80.29145 8.332777e-04
-## 453 80.43361 8.276369e-04
-## 454 80.57576 8.198830e-04
-## 455 80.71792 8.106009e-04
-## 456 80.86007 7.998198e-04
-## 457 81.00223 7.874531e-04
-## 458 81.14439 7.731623e-04
-## 459 81.28654 7.575819e-04
-## 460 81.42870 7.407702e-04
-## 461 81.57085 7.227421e-04
-## 462 81.71301 7.032200e-04
-## 463 81.85516 6.827887e-04
-## 464 81.99732 6.615225e-04
-## 465 82.13948 6.394961e-04
-## 466 82.28163 6.165646e-04
-## 467 82.42379 5.931699e-04
-## 468 82.56594 5.693892e-04
-## 469 82.70810 5.452997e-04
-## 470 82.85025 5.209650e-04
-## 471 82.99241 4.965971e-04
-## 472 83.13457 4.722711e-04
-## 473 83.27672 4.480544e-04
-## 474 83.41888 4.241456e-04
-## 475 83.56103 4.005963e-04
-## 476 83.70319 3.774387e-04
-## 477 83.84534 3.547228e-04
-## 478 83.98750 3.327067e-04
-## 479 84.12966 3.113567e-04
-## 480 84.27181 2.906373e-04
-## 481 84.41397 2.705781e-04
-## 482 84.55612 2.514360e-04
-## 483 84.69828 2.331534e-04
-## 484 84.84044 2.156226e-04
-## 485 84.98259 1.988534e-04
-## 486 85.12475 1.830624e-04
-## 487 85.26690 1.682085e-04
-## 488 85.40906 1.541234e-04
-## 489 85.55121 1.408013e-04
-## 490 85.69337 1.284008e-04
-## 491 85.83553 1.169151e-04
-## 492 85.97768 1.061379e-04
-## 493 86.11984 9.605327e-05
-## 494 86.26199 8.676115e-05
-## 495 86.40415 7.828978e-05
-## 496 86.54630 7.042030e-05
-## 497 86.68846 6.313194e-05
-## 498 86.83062 5.647611e-05
-## 499 86.97277 5.050645e-05
-## 500 87.11493 4.501411e-05
-## 501 87.25708 3.997768e-05
-## 502 87.39924 3.541434e-05
-## 503 87.54139 3.139004e-05
-## 504 87.68355 2.772177e-05
-## 505 87.82571 2.439033e-05
-## 506 87.96786 2.139248e-05
-## 507 88.11002 1.879472e-05
-## 508 88.25217 1.644800e-05
-## 509 88.39433 1.433670e-05
-## 510 88.53648 1.244810e-05
-## 511 88.67864 1.084112e-05
-## 512 88.82080 9.402047e-06</code></pre>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>probs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.0001</span>, <span class="fl">0.1</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="fl">0.9</span>, <span class="fl">0.95</span>, .<span class="dv">99</span>)</span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>quantiles <span class="ot">&lt;-</span> <span class="fu">quantile</span>(CalVal2<span class="sc">$</span>OH, <span class="at">prob=</span>probs)</span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x=</span>dens2<span class="sc">$</span>x, <span class="at">y=</span>dens2<span class="sc">$</span>y)</span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>df2<span class="sc">$</span>quant <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">findInterval</span>(df2<span class="sc">$</span>x,quantiles))</span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>df2</span></code></pre></div>
-<pre><code>##            x            y quant
-## 1   16.17920 9.649217e-06     0
-## 2   16.32136 1.115009e-05     0
-## 3   16.46352 1.283130e-05     0
-## 4   16.60567 1.481782e-05     0
-## 5   16.74783 1.704836e-05     0
-## 6   16.88998 1.953867e-05     0
-## 7   17.03214 2.230766e-05     0
-## 8   17.17429 2.552660e-05     0
-## 9   17.31645 2.912665e-05     0
-## 10  17.45861 3.311565e-05     0
-## 11  17.60076 3.751960e-05     0
-## 12  17.74292 4.256323e-05     0
-## 13  17.88507 4.818130e-05     0
-## 14  18.02723 5.436232e-05     0
-## 15  18.16938 6.114093e-05     0
-## 16  18.31154 6.880036e-05     0
-## 17  18.45370 7.729942e-05     0
-## 18  18.59585 8.659009e-05     0
-## 19  18.73801 9.671767e-05     0
-## 20  18.88016 1.080266e-04     0
-## 21  19.02232 1.205331e-04     0
-## 22  19.16447 1.341285e-04     0
-## 23  19.30663 1.488718e-04     0
-## 24  19.44879 1.651693e-04     0
-## 25  19.59094 1.831462e-04     0
-## 26  19.73310 2.025999e-04     0
-## 27  19.87525 2.236081e-04     0
-## 28  20.01741 2.466375e-04     0
-## 29  20.15956 2.720007e-04     0
-## 30  20.30172 2.993537e-04     0
-## 31  20.44388 3.288010e-04     0
-## 32  20.58603 3.608637e-04     0
-## 33  20.72819 3.961595e-04     0
-## 34  20.87034 4.341334e-04     0
-## 35  21.01250 4.749269e-04     0
-## 36  21.15466 5.191002e-04     0
-## 37  21.29681 5.677475e-04     0
-## 38  21.43897 6.199984e-04     0
-## 39  21.58112 6.760421e-04     0
-## 40  21.72328 7.364413e-04     0
-## 41  21.86543 8.030076e-04     0
-## 42  22.00759 8.743990e-04     0
-## 43  22.14975 9.508604e-04     0
-## 44  22.29190 1.032884e-03     0
-## 45  22.43406 1.123312e-03     0
-## 46  22.57621 1.220111e-03     0
-## 47  22.71837 1.323581e-03     0
-## 48  22.86052 1.434023e-03     0
-## 49  23.00268 1.555667e-03     0
-## 50  23.14484 1.685517e-03     0
-## 51  23.28699 1.823907e-03     0
-## 52  23.42915 1.971172e-03     0
-## 53  23.57130 2.132083e-03     0
-## 54  23.71346 2.303575e-03     0
-## 55  23.85561 2.485576e-03     0
-## 56  23.99777 2.678417e-03     0
-## 57  24.13993 2.887150e-03     0
-## 58  24.28208 3.108869e-03     0
-## 59  24.42424 3.342872e-03     0
-## 60  24.56639 3.589421e-03     0
-## 61  24.70855 3.853458e-03     0
-## 62  24.85070 4.132482e-03     0
-## 63  24.99286 4.424973e-03     0
-## 64  25.13502 4.731046e-03     1
-## 65  25.27717 5.055063e-03     1
-## 66  25.41933 5.395116e-03     1
-## 67  25.56148 5.748795e-03     1
-## 68  25.70364 6.116000e-03     1
-## 69  25.84580 6.500067e-03     1
-## 70  25.98795 6.899721e-03     1
-## 71  26.13011 7.311799e-03     1
-## 72  26.27226 7.735947e-03     1
-## 73  26.41442 8.174183e-03     1
-## 74  26.55657 8.625683e-03     1
-## 75  26.69873 9.086934e-03     1
-## 76  26.84089 9.557339e-03     1
-## 77  26.98304 1.003757e-02     1
-## 78  27.12520 1.052685e-02     1
-## 79  27.26735 1.102196e-02     1
-## 80  27.40951 1.152213e-02     1
-## 81  27.55166 1.202695e-02     1
-## 82  27.69382 1.253518e-02     1
-## 83  27.83598 1.304463e-02     1
-## 84  27.97813 1.355451e-02     1
-## 85  28.12029 1.406382e-02     1
-## 86  28.26244 1.457040e-02     1
-## 87  28.40460 1.507375e-02     1
-## 88  28.54675 1.557321e-02     1
-## 89  28.68891 1.606778e-02     1
-## 90  28.83107 1.655419e-02     1
-## 91  28.97322 1.703397e-02     1
-## 92  29.11538 1.750673e-02     1
-## 93  29.25753 1.797196e-02     1
-## 94  29.39969 1.842553e-02     1
-## 95  29.54184 1.887082e-02     1
-## 96  29.68400 1.930780e-02     1
-## 97  29.82616 1.973641e-02     1
-## 98  29.96831 2.015309e-02     1
-## 99  30.11047 2.056167e-02     2
-## 100 30.25262 2.096268e-02     2
-## 101 30.39478 2.135644e-02     2
-## 102 30.53694 2.174095e-02     2
-## 103 30.67909 2.211940e-02     2
-## 104 30.82125 2.249283e-02     2
-## 105 30.96340 2.286180e-02     2
-## 106 31.10556 2.322608e-02     2
-## 107 31.24771 2.358794e-02     2
-## 108 31.38987 2.394845e-02     2
-## 109 31.53203 2.430830e-02     2
-## 110 31.67418 2.466878e-02     2
-## 111 31.81634 2.503135e-02     2
-## 112 31.95849 2.539662e-02     2
-## 113 32.10065 2.576529e-02     2
-## 114 32.24280 2.613963e-02     2
-## 115 32.38496 2.652075e-02     2
-## 116 32.52712 2.690838e-02     2
-## 117 32.66927 2.730311e-02     2
-## 118 32.81143 2.770769e-02     2
-## 119 32.95358 2.812342e-02     2
-## 120 33.09574 2.854887e-02     2
-## 121 33.23789 2.898454e-02     2
-## 122 33.38005 2.943321e-02     2
-## 123 33.52221 2.989689e-02     2
-## 124 33.66436 3.037291e-02     2
-## 125 33.80652 3.086164e-02     2
-## 126 33.94867 3.136564e-02     2
-## 127 34.09083 3.188799e-02     2
-## 128 34.23298 3.242472e-02     2
-## 129 34.37514 3.297611e-02     2
-## 130 34.51730 3.354416e-02     2
-## 131 34.65945 3.413326e-02     2
-## 132 34.80161 3.473804e-02     2
-## 133 34.94376 3.535862e-02     2
-## 134 35.08592 3.599619e-02     3
-## 135 35.22808 3.665615e-02     3
-## 136 35.37023 3.733181e-02     3
-## 137 35.51239 3.802294e-02     3
-## 138 35.65454 3.872972e-02     3
-## 139 35.79670 3.945752e-02     3
-## 140 35.93885 4.019878e-02     3
-## 141 36.08101 4.095274e-02     3
-## 142 36.22317 4.171868e-02     3
-## 143 36.36532 4.249952e-02     3
-## 144 36.50748 4.328842e-02     3
-## 145 36.64963 4.408383e-02     3
-## 146 36.79179 4.488435e-02     3
-## 147 36.93394 4.568798e-02     3
-## 148 37.07610 4.649021e-02     3
-## 149 37.21826 4.728885e-02     3
-## 150 37.36041 4.808182e-02     3
-## 151 37.50257 4.886166e-02     3
-## 152 37.64472 4.962601e-02     3
-## 153 37.78688 5.037329e-02     3
-## 154 37.92903 5.110096e-02     3
-## 155 38.07119 5.179668e-02     3
-## 156 38.21335 5.245939e-02     3
-## 157 38.35550 5.308988e-02     3
-## 158 38.49766 5.368553e-02     3
-## 159 38.63981 5.423093e-02     3
-## 160 38.78197 5.472494e-02     3
-## 161 38.92413 5.517253e-02     3
-## 162 39.06628 5.557157e-02     3
-## 163 39.20844 5.590606e-02     3
-## 164 39.35059 5.617344e-02     3
-## 165 39.49275 5.638412e-02     3
-## 166 39.63490 5.653690e-02     3
-## 167 39.77706 5.661788e-02     3
-## 168 39.91922 5.662225e-02     3
-## 169 40.06137 5.656590e-02     4
-## 170 40.20353 5.644891e-02     4
-## 171 40.34568 5.626143e-02     4
-## 172 40.48784 5.599661e-02     4
-## 173 40.62999 5.567449e-02     4
-## 174 40.77215 5.529640e-02     4
-## 175 40.91431 5.485733e-02     4
-## 176 41.05646 5.434981e-02     4
-## 177 41.19862 5.379528e-02     4
-## 178 41.34077 5.319609e-02     4
-## 179 41.48293 5.255154e-02     4
-## 180 41.62508 5.185574e-02     4
-## 181 41.76724 5.112815e-02     4
-## 182 41.90940 5.037167e-02     4
-## 183 42.05155 4.958840e-02     4
-## 184 42.19371 4.877642e-02     4
-## 185 42.33586 4.794997e-02     4
-## 186 42.47802 4.711199e-02     4
-## 187 42.62017 4.626541e-02     4
-## 188 42.76233 4.541421e-02     4
-## 189 42.90449 4.456507e-02     4
-## 190 43.04664 4.372052e-02     4
-## 191 43.18880 4.288309e-02     4
-## 192 43.33095 4.206202e-02     4
-## 193 43.47311 4.125703e-02     4
-## 194 43.61527 4.046949e-02     4
-## 195 43.75742 3.970122e-02     4
-## 196 43.89958 3.896375e-02     4
-## 197 44.04173 3.825308e-02     4
-## 198 44.18389 3.756840e-02     4
-## 199 44.32604 3.691075e-02     4
-## 200 44.46820 3.629160e-02     4
-## 201 44.61036 3.570589e-02     4
-## 202 44.75251 3.515033e-02     4
-## 203 44.89467 3.462525e-02     4
-## 204 45.03682 3.414048e-02     4
-## 205 45.17898 3.369164e-02     4
-## 206 45.32113 3.327325e-02     4
-## 207 45.46329 3.288505e-02     4
-## 208 45.60545 3.253438e-02     4
-## 209 45.74760 3.221829e-02     4
-## 210 45.88976 3.192979e-02     4
-## 211 46.03191 3.166809e-02     4
-## 212 46.17407 3.143778e-02     4
-## 213 46.31622 3.123722e-02     4
-## 214 46.45838 3.105876e-02     4
-## 215 46.60054 3.090125e-02     4
-## 216 46.74269 3.076656e-02     4
-## 217 46.88485 3.065357e-02     4
-## 218 47.02700 3.055509e-02     4
-## 219 47.16916 3.046964e-02     4
-## 220 47.31131 3.039686e-02     4
-## 221 47.45347 3.033485e-02     4
-## 222 47.59563 3.027815e-02     5
-## 223 47.73778 3.022509e-02     5
-## 224 47.87994 3.017379e-02     5
-## 225 48.02209 3.012015e-02     5
-## 226 48.16425 3.006182e-02     5
-## 227 48.30641 2.999707e-02     5
-## 228 48.44856 2.992356e-02     5
-## 229 48.59072 2.983369e-02     5
-## 230 48.73287 2.972944e-02     5
-## 231 48.87503 2.960931e-02     5
-## 232 49.01718 2.947152e-02     5
-## 233 49.15934 2.930437e-02     5
-## 234 49.30150 2.911490e-02     5
-## 235 49.44365 2.890206e-02     5
-## 236 49.58581 2.866483e-02     5
-## 237 49.72796 2.838996e-02     5
-## 238 49.87012 2.808719e-02     5
-## 239 50.01227 2.775687e-02     6
-## 240 50.15443 2.739867e-02     6
-## 241 50.29659 2.700083e-02     6
-## 242 50.43874 2.657307e-02     6
-## 243 50.58090 2.611777e-02     6
-## 244 50.72305 2.563532e-02     6
-## 245 50.86521 2.511715e-02     6
-## 246 51.00736 2.457165e-02     6
-## 247 51.14952 2.400284e-02     6
-## 248 51.29168 2.341181e-02     6
-## 249 51.43383 2.279399e-02     6
-## 250 51.57599 2.215591e-02     6
-## 251 51.71814 2.150226e-02     6
-## 252 51.86030 2.083464e-02     6
-## 253 52.00245 2.015235e-02     6
-## 254 52.14461 1.946034e-02     6
-## 255 52.28677 1.876267e-02     6
-## 256 52.42892 1.806111e-02     6
-## 257 52.57108 1.735798e-02     6
-## 258 52.71323 1.665750e-02     6
-## 259 52.85539 1.596171e-02     6
-## 260 52.99755 1.527228e-02     6
-## 261 53.13970 1.459323e-02     6
-## 262 53.28186 1.392912e-02     6
-## 263 53.42401 1.327891e-02     6
-## 264 53.56617 1.264395e-02     6
-## 265 53.70832 1.202858e-02     6
-## 266 53.85048 1.143861e-02     6
-## 267 53.99264 1.086945e-02     6
-## 268 54.13479 1.032198e-02     6
-## 269 54.27695 9.799767e-03     6
-## 270 54.41910 9.310307e-03     6
-## 271 54.56126 8.845654e-03     6
-## 272 54.70341 8.406165e-03     6
-## 273 54.84557 7.994005e-03     6
-## 274 54.98773 7.618230e-03     6
-## 275 55.12988 7.268293e-03     6
-## 276 55.27204 6.944070e-03     6
-## 277 55.41419 6.646130e-03     6
-## 278 55.55635 6.384495e-03     6
-## 279 55.69850 6.147135e-03     6
-## 280 55.84066 5.933542e-03     6
-## 281 55.98282 5.743199e-03     6
-## 282 56.12497 5.585219e-03     6
-## 283 56.26713 5.448289e-03     6
-## 284 56.40928 5.331331e-03     6
-## 285 56.55144 5.233571e-03     6
-## 286 56.69359 5.161000e-03     6
-## 287 56.83575 5.105372e-03     6
-## 288 56.97791 5.064786e-03     6
-## 289 57.12006 5.038339e-03     6
-## 290 57.26222 5.029212e-03     6
-## 291 57.40437 5.031912e-03     6
-## 292 57.54653 5.044281e-03     6
-## 293 57.68869 5.065396e-03     6
-## 294 57.83084 5.096207e-03     6
-## 295 57.97300 5.133340e-03     6
-## 296 58.11515 5.174932e-03     6
-## 297 58.25731 5.220141e-03     6
-## 298 58.39946 5.268388e-03     6
-## 299 58.54162 5.317676e-03     6
-## 300 58.68378 5.366888e-03     6
-## 301 58.82593 5.415344e-03     6
-## 302 58.96809 5.461650e-03     6
-## 303 59.11024 5.504500e-03     6
-## 304 59.25240 5.543805e-03     6
-## 305 59.39455 5.579098e-03     6
-## 306 59.53671 5.608798e-03     6
-## 307 59.67887 5.631787e-03     6
-## 308 59.82102 5.649062e-03     6
-## 309 59.96318 5.660395e-03     6
-## 310 60.10533 5.664471e-03     7
-## 311 60.24749 5.660108e-03     7
-## 312 60.38964 5.649221e-03     7
-## 313 60.53180 5.631805e-03     7
-## 314 60.67396 5.607059e-03     7
-## 315 60.81611 5.573730e-03     7
-## 316 60.95827 5.534289e-03     7
-## 317 61.10042 5.488916e-03     7
-## 318 61.24258 5.437352e-03     7
-## 319 61.38473 5.378462e-03     7
-## 320 61.52689 5.314802e-03     7
-## 321 61.66905 5.246670e-03     7
-## 322 61.81120 5.174219e-03     7
-## 323 61.95336 5.096715e-03     7
-## 324 62.09551 5.016317e-03     7
-## 325 62.23767 4.933372e-03     7
-## 326 62.37983 4.848227e-03     7
-## 327 62.52198 4.760810e-03     7
-## 328 62.66414 4.672511e-03     7
-## 329 62.80629 4.583657e-03     7
-## 330 62.94845 4.494573e-03     7
-## 331 63.09060 4.405983e-03     7
-## 332 63.23276 4.318329e-03     7
-## 333 63.37492 4.231861e-03     7
-## 334 63.51707 4.146840e-03     7
-## 335 63.65923 4.064421e-03     7
-## 336 63.80138 3.984464e-03     7
-## 337 63.94354 3.906987e-03     7
-## 338 64.08569 3.832164e-03     7
-## 339 64.22785 3.761271e-03     7
-## 340 64.37001 3.693916e-03     7
-## 341 64.51216 3.629816e-03     7
-## 342 64.65432 3.569056e-03     7
-## 343 64.79647 3.512806e-03     7
-## 344 64.93863 3.460665e-03     7
-## 345 65.08078 3.412057e-03     7
-## 346 65.22294 3.366985e-03     7
-## 347 65.36510 3.326375e-03     7
-## 348 65.50725 3.289951e-03     7
-## 349 65.64941 3.256905e-03     7
-## 350 65.79156 3.227174e-03     7
-## 351 65.93372 3.201376e-03     7
-## 352 66.07587 3.179377e-03     7
-## 353 66.21803 3.160247e-03     7
-## 354 66.36019 3.143867e-03     7
-## 355 66.50234 3.130539e-03     7
-## 356 66.64450 3.120205e-03     7
-## 357 66.78665 3.111940e-03     7
-## 358 66.92881 3.105581e-03     7
-## 359 67.07097 3.101157e-03     7
-## 360 67.21312 3.098547e-03     7
-## 361 67.35528 3.096984e-03     7
-## 362 67.49743 3.096278e-03     7
-## 363 67.63959 3.096259e-03     7
-## 364 67.78174 3.096577e-03     7
-## 365 67.92390 3.096790e-03     7
-## 366 68.06606 3.096694e-03     7
-## 367 68.20821 3.096036e-03     7
-## 368 68.35037 3.094076e-03     7
-## 369 68.49252 3.090846e-03     7
-## 370 68.63468 3.086161e-03     7
-## 371 68.77683 3.079805e-03     7
-## 372 68.91899 3.070545e-03     7
-## 373 69.06115 3.058998e-03     7
-## 374 69.20330 3.045023e-03     7
-## 375 69.34546 3.028476e-03     7
-## 376 69.48761 3.007867e-03     7
-## 377 69.62977 2.984183e-03     7
-## 378 69.77192 2.957430e-03     7
-## 379 69.91408 2.927535e-03     7
-## 380 70.05624 2.893094e-03     8
-## 381 70.19839 2.855157e-03     8
-## 382 70.34055 2.813961e-03     8
-## 383 70.48270 2.769521e-03     8
-## 384 70.62486 2.720732e-03     8
-## 385 70.76702 2.668539e-03     8
-## 386 70.90917 2.613397e-03     8
-## 387 71.05133 2.555403e-03     8
-## 388 71.19348 2.493882e-03     8
-## 389 71.33564 2.429594e-03     8
-## 390 71.47779 2.363115e-03     8
-## 391 71.61995 2.294612e-03     8
-## 392 71.76211 2.223862e-03     8
-## 393 71.90426 2.151453e-03     8
-## 394 72.04642 2.077935e-03     8
-## 395 72.18857 2.003513e-03     8
-## 396 72.33073 1.928347e-03     8
-## 397 72.47288 1.852941e-03     8
-## 398 72.61504 1.777649e-03     8
-## 399 72.75720 1.702682e-03     8
-## 400 72.89935 1.628446e-03     8
-## 401 73.04151 1.555488e-03     8
-## 402 73.18366 1.483819e-03     8
-## 403 73.32582 1.413624e-03     8
-## 404 73.46797 1.345399e-03     8
-## 405 73.61013 1.279847e-03     8
-## 406 73.75229 1.216551e-03     8
-## 407 73.89444 1.155645e-03     8
-## 408 74.03660 1.097574e-03     8
-## 409 74.17875 1.043265e-03     8
-## 410 74.32091 9.918617e-04     8
-## 411 74.46306 9.434357e-04     8
-## 412 74.60522 8.982794e-04     8
-## 413 74.74738 8.575501e-04     8
-## 414 74.88953 8.200109e-04     8
-## 415 75.03169 7.856706e-04     8
-## 416 75.17384 7.546263e-04     8
-## 417 75.31600 7.281936e-04     8
-## 418 75.45816 7.048810e-04     8
-## 419 75.60031 6.846402e-04     8
-## 420 75.74247 6.674216e-04     8
-## 421 75.88462 6.544502e-04     8
-## 422 76.02678 6.442629e-04     8
-## 423 76.16893 6.367263e-04     8
-## 424 76.31109 6.317462e-04     8
-## 425 76.45325 6.301344e-04     8
-## 426 76.59540 6.307910e-04     8
-## 427 76.73756 6.334596e-04     8
-## 428 76.87971 6.380164e-04     8
-## 429 77.02187 6.448708e-04     8
-## 430 77.16402 6.532705e-04     8
-## 431 77.30618 6.629137e-04     8
-## 432 77.44834 6.736628e-04     8
-## 433 77.59049 6.855852e-04     8
-## 434 77.73265 6.982041e-04     8
-## 435 77.87480 7.112600e-04     8
-## 436 78.01696 7.246172e-04     8
-## 437 78.15911 7.380940e-04     8
-## 438 78.30127 7.513889e-04     8
-## 439 78.44343 7.643655e-04     8
-## 440 78.58558 7.769055e-04     8
-## 441 78.72774 7.886861e-04     8
-## 442 78.86989 7.994786e-04     8
-## 443 79.01205 8.093299e-04     8
-## 444 79.15420 8.181514e-04     8
-## 445 79.29636 8.255845e-04     8
-## 446 79.43852 8.313932e-04     8
-## 447 79.58067 8.358329e-04     8
-## 448 79.72283 8.388536e-04     8
-## 449 79.86498 8.401461e-04     8
-## 450 80.00714 8.394250e-04     8
-## 451 80.14930 8.371384e-04     8
-## 452 80.29145 8.332777e-04     8
-## 453 80.43361 8.276369e-04     8
-## 454 80.57576 8.198830e-04     8
-## 455 80.71792 8.106009e-04     8
-## 456 80.86007 7.998198e-04     8
-## 457 81.00223 7.874531e-04     8
-## 458 81.14439 7.731623e-04     8
-## 459 81.28654 7.575819e-04     8
-## 460 81.42870 7.407702e-04     8
-## 461 81.57085 7.227421e-04     8
-## 462 81.71301 7.032200e-04     8
-## 463 81.85516 6.827887e-04     8
-## 464 81.99732 6.615225e-04     8
-## 465 82.13948 6.394961e-04     8
-## 466 82.28163 6.165646e-04     8
-## 467 82.42379 5.931699e-04     8
-## 468 82.56594 5.693892e-04     8
-## 469 82.70810 5.452997e-04     8
-## 470 82.85025 5.209650e-04     8
-## 471 82.99241 4.965971e-04     8
-## 472 83.13457 4.722711e-04     8
-## 473 83.27672 4.480544e-04     8
-## 474 83.41888 4.241456e-04     8
-## 475 83.56103 4.005963e-04     8
-## 476 83.70319 3.774387e-04     8
-## 477 83.84534 3.547228e-04     8
-## 478 83.98750 3.327067e-04     8
-## 479 84.12966 3.113567e-04     8
-## 480 84.27181 2.906373e-04     8
-## 481 84.41397 2.705781e-04     8
-## 482 84.55612 2.514360e-04     8
-## 483 84.69828 2.331534e-04     8
-## 484 84.84044 2.156226e-04     8
-## 485 84.98259 1.988534e-04     8
-## 486 85.12475 1.830624e-04     8
-## 487 85.26690 1.682085e-04     8
-## 488 85.40906 1.541234e-04     8
-## 489 85.55121 1.408013e-04     8
-## 490 85.69337 1.284008e-04     8
-## 491 85.83553 1.169151e-04     8
-## 492 85.97768 1.061379e-04     8
-## 493 86.11984 9.605327e-05     8
-## 494 86.26199 8.676115e-05     8
-## 495 86.40415 7.828978e-05     8
-## 496 86.54630 7.042030e-05     8
-## 497 86.68846 6.313194e-05     8
-## 498 86.83062 5.647611e-05     8
-## 499 86.97277 5.050645e-05     8
-## 500 87.11493 4.501411e-05     8
-## 501 87.25708 3.997768e-05     8
-## 502 87.39924 3.541434e-05     8
-## 503 87.54139 3.139004e-05     8
-## 504 87.68355 2.772177e-05     8
-## 505 87.82571 2.439033e-05     8
-## 506 87.96786 2.139248e-05     8
-## 507 88.11002 1.879472e-05     8
-## 508 88.25217 1.644800e-05     8
-## 509 88.39433 1.433670e-05     8
-## 510 88.53648 1.244810e-05     8
-## 511 88.67864 1.084112e-05     8
-## 512 88.82080 9.402047e-06     8</code></pre>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df2, <span class="fu">aes</span>(x,y)) <span class="sc">+</span>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin=</span><span class="dv">0</span>, <span class="at">ymax=</span>y, <span class="at">fill=</span>quant)) <span class="sc">+</span> <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span>quantiles) <span class="sc">+</span> <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;Set1&quot;</span>,<span class="at">guide=</span><span class="st">&quot;none&quot;</span>)<span class="sc">+</span>  <span class="co"># colores horribles</span></span>
-<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x=</span>dens2<span class="sc">$</span>x, <span class="at">y=</span>dens2<span class="sc">$</span>y)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df2)</span></code></pre></div>
+<pre><code>##          x            y
+## 1 16.17920 9.649217e-06
+## 2 16.32136 1.115009e-05
+## 3 16.46352 1.283130e-05
+## 4 16.60567 1.481782e-05
+## 5 16.74783 1.704836e-05
+## 6 16.88998 1.953867e-05</code></pre>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>probs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.0001</span>, <span class="fl">0.1</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="fl">0.9</span>, <span class="fl">0.95</span>, .<span class="dv">99</span>)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>quantiles <span class="ot">&lt;-</span> <span class="fu">quantile</span>(CalVal2<span class="sc">$</span>OH, <span class="at">prob=</span>probs)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x=</span>dens2<span class="sc">$</span>x, <span class="at">y=</span>dens2<span class="sc">$</span>y)</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>df2<span class="sc">$</span>quant <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">findInterval</span>(df2<span class="sc">$</span>x,quantiles))</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(df2)</span></code></pre></div>
+<pre><code>##          x            y quant
+## 1 16.17920 9.649217e-06     0
+## 2 16.32136 1.115009e-05     0
+## 3 16.46352 1.283130e-05     0
+## 4 16.60567 1.481782e-05     0
+## 5 16.74783 1.704836e-05     0
+## 6 16.88998 1.953867e-05     0</code></pre>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df2, <span class="fu">aes</span>(x,y)) <span class="sc">+</span>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin=</span><span class="dv">0</span>, <span class="at">ymax=</span>y, <span class="at">fill=</span>quant)) <span class="sc">+</span> <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span>quantiles) <span class="sc">+</span> <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;Set1&quot;</span>,<span class="at">guide=</span><span class="st">&quot;none&quot;</span>)<span class="sc">+</span>  <span class="co"># colores horribles</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>))</span></code></pre></div>
 <p><img src="G8_geom_boxplot_geom_violin_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <hr />
 <ol start="2" style="list-style-type: decimal">

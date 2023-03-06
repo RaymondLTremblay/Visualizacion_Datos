@@ -69,7 +69,7 @@ En este siguiente gráfico se cambia el color de linea que sigue el contorno del
 
 a=ggplot(DW, aes(distance))
 a+geom_area(stat="bin", fill="steelblue1",
-            linetype=5, color="black", size=1.0, alpha=0.1)+
+            linetype="twodash", color="black", size=0.5, alpha=0.1)+
   labs(x="Distancia", y="Frecuencia")+
   theme(axis.title=element_text(size=10,face="bold"))
 ```
@@ -88,7 +88,7 @@ Ahora al gráfico siguiente, se le cambia el color de la línea a negro a la vez
 
 a=ggplot(DW, aes(distance))
 a+geom_area(stat="bin", fill="steelblue1",
-            linetype="F1", color="black", size=.5, alpha=0.5)+
+            linetype="4C88C488", color="black", size=.5, alpha=0.5)+
   labs(x="Distancia", y="Frecuencia")+
   theme(axis.title=element_text(size=10,face="bold"))
 ```
@@ -124,7 +124,7 @@ Camas_Hospital %>%
 Uno puede utilizar la opción **stat** a la vez que identifica el eje de **Y** para visualizar la densidad y no la frecuencia de los datos con la siguiente modificación **aes(y=..density..)**. Esto modifica la visualizar del gráfico a densidad en los datos en vez de mostrar el conteo/frecuencia para cada grupo. Si uno compara las dos gráficas anteriores a estas nuevas gráficas uno observa que la densidad de camas en hospitales por 100,000 cambio con los años habitantes, hubo un aumento en densidad (proporcionalmente más camas en 2006 por habitantes). Nota que no hay un pico cerca de uno en 1996, pero en 2006 la distribución esta más dispersado entre los valores y no concentrado cerca de uno.     
 
 ```{r dipodium-area5,  echo=TRUE, tidy=FALSE,  warning=FALSE, message=FALSE, fig.align='center'}
-
+Camas_Hospital
 a=ggplot(Camas_Hospital, aes(Camas, fill=factor(Year)))
 a+geom_area(aes(y=..density..),stat="bin", alpha=0.5)+
   xlab("Número de camas por cada 1000 habitantes")+
@@ -188,14 +188,13 @@ a+geom_area(aes(y=..density..),stat="bin", alpha=0.5)+
   theme(axis.title=element_text(size=10,face="bold"))
  
 
-ggsave("Distance_to_tree.jpeg") #.tiff, .png
+#ggsave("Distance_to_tree.jpeg") #.tiff, .png
 ```
 
 
 ```{r}
-x=rnorm(1000, 10, 4)
+x=rnorm(10, 10, 4)
 x=data_frame(x)
-x
 
 a=ggplot(x, aes(x))
 a+geom_area(aes(y=..density..),stat="bin", alpha=0.5)+
@@ -311,6 +310,8 @@ geom_freqpoly(alpha=1.0, size=1.0, binwidth=.1, linetype="longdash")+
   theme(axis.title=element_text(size=14,face="bold"))
 
 # ggsave("the_name_of_my_figure.tiff") # .png, .tiff, .pdf, .jpeg
+
+DW
 ```
 
 ***

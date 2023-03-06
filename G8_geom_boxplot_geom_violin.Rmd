@@ -58,6 +58,20 @@ Las muescas (notch)
 Las muescas a los lados de un diagrama de caja se pueden interpretar como un intervalo de comparación alrededor de los valores de la mediana. La altura de la muesca es la mediana $+/- 1,57 x IQR/sqrt(n)$ donde IQR es el rango intercuartílico definido por los percentiles 25 y 75 y **n** es el número de puntos de datos
 
 
+# Teoretical boxplot
+
+```{r teoretical box plot, echo=TRUE}
+df=as.tibble(c(1,8:10, 100:120, 125:135,150:160, 800, 1000))
+df
+df %>% 
+  ggplot(aes(value, x=1))+ 
+  geom_boxplot()
+```
+
+
+
+
+
 ```{r boxplot_4_1, echo=TRUE}
 #names(dipodium)
 library(conflicted)
@@ -409,12 +423,12 @@ CalVal2=
 dens2=density(CalVal2$OH) 
 dens2
 df2 <- data.frame(x=dens2$x, y=dens2$y)
-df2
+head(df2)
 probs <- c(0.0001, 0.1, 0.25, 0.5, 0.75, 0.9, 0.95, .99)
 quantiles <- quantile(CalVal2$OH, prob=probs)
 df2 <- data.frame(x=dens2$x, y=dens2$y)
 df2$quant <- factor(findInterval(df2$x,quantiles))
-df2
+head(df2)
 
 ggplot(df2, aes(x,y)) +  geom_ribbon(aes(ymin=0, ymax=y, fill=quant)) + scale_x_continuous(breaks=quantiles) + scale_fill_brewer(palette = "Set1",guide="none")+  # colores horribles
   theme(axis.text.x = element_text(angle = 45))

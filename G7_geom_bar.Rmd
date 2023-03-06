@@ -363,7 +363,7 @@ head(Pop_PR, n=50)
 tail(Pop_PR, n=4)
 
 ggplot(data=Pop_PR) +
-  geom_bar(aes(Edad,Valor,group=Sexo,fill=Sexo),
+  geom_bar(aes(Edad, Valor, group= Sexo, fill=Sexo),
            stat = "identity",
            subset(Pop_PR,Pop_PR$Sexo=="Mujer"))+
   geom_bar(aes(Edad,-Valor,group=Sexo,fill=Sexo),  # nota el "negativo" antes de la 
@@ -374,7 +374,9 @@ ggplot(data=Pop_PR) +
                      labels=abs(seq(-140000,140000,40000)))+
   coord_flip()+
   ylab("Tamaño poblacional")+
-  theme(axis.title=element_text(size=10,face="bold"))
+  theme(axis.title=element_text(size=10,face="bold"))+
+  scale_fill_manual(values = c("green", "#36211D"))+
+ scale_color_manual(values = c("green", "#36211D"))
 
 
 #Population Pyramid de PR, del censo 2015. 
@@ -495,8 +497,10 @@ attach(ASBESTOS_QUEBEC)
 ### Identificar que la variable "Fecha" es una variable de tiempo. Habrá un modulo para discutir solamente de fechas y horas.  
 ```{r}
 # Identificar que la variable "Fecha" es una variable de tiempo.
-names(ASBESTOS_QUEBEC)[names(ASBESTOS_QUEBEC) == 'Date.Time'] <- 'Fecha'
+#names(ASBESTOS_QUEBEC)[names(ASBESTOS_QUEBEC) == 'Date.Time'] <- 'Fecha'
 
+library(lubridate)
+ASBESTOS_QUEBEC$Date=ym(ASBESTOS_QUEBEC$Fecha)
 head(ASBESTOS_QUEBEC, n=15)
 
 
