@@ -337,9 +337,55 @@ ggplot(bujo2, aes(x=as.integer(Year), y=n))+
 
 ```
 
+# https://en.wikipedia.org/wiki/List_of_mammals_of_Puerto_Rico
+
+```{r, echo=FALSE, eval=FALSE}
+library(lubridate)
+library(tidyverse)
+library(leaflet)
+library(rinat)
+library(gt)
+
+# cecropia
+# NOrwegian rat = "Rattus norvegicus"
+# Mongoose = "Herpestes auropuctatus"
+# Emerald hummingbird = "Chlorostilbon maugaeus"
+# Mexican free-tailed bat = "Tadarida brasiliensis"
+
+cajaPR <- c(17.75, -67.4, 18.75, -65.15)
+bujo <- get_inat_obs(taxon_name = "Ionopsis",
+             quality = 'research',
+             geo = TRUE,
+             maxresults = 1000,
+             bounds = cajaPR)
+
+bujo
 
 
+library(lubridate)
+#bujo$date=ymd_hms(bujo$datetime)
 
+#bujo$Year=format(date, format="%Y")
+
+
+bujo$date=ymd_hms(bujo$datetime)
+bujo$Year=format(as.POSIXct(bujo$date), format="%Y")
+gt(head(bujo, n=3))
+
+bujo2=bujo %>% 
+  select(Year) %>% 
+  group_by(Year) %>% 
+  dplyr::summarize(n=n())
+
+bujo2
+
+library(tidyverse)
+ggplot(bujo2, aes(x=as.integer(Year), y=n))+
+  geom_point(shape=22, size=3, color="blue", fill="white")+
+  geom_line(size=1)+
+  guides(color="none")
+
+```
 
 
 ***
