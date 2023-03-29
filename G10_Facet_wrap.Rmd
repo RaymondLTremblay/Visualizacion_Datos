@@ -330,8 +330,10 @@ La segunda parte es convertir estas fechas en el día del año, o sea del primer
 ```{r}
 
 library(lubridate)
-ASBESTOS_QUEBEC$fecha <- with(ASBESTOS_QUEBEC, ymd(sprintf('%04d%02d%02d',
-                                 Year, Mes, day1)))
+ASBESTOS_QUEBEC$fecha <- with(ASBESTOS_QUEBEC, ymd(sprintf('%04d%02d%02d', Year, Mes, day1)))
+
+
+
 head(ASBESTOS_QUEBEC) # note que ahora que la columna "fecha" se reconoce como una "date" y no un número
 ASBESTOS_QUEBEC$diaanual=yday(ASBESTOS_QUEBEC$fecha) # Este es para convertir las fechas del año consecutivos, de 1 al 365. 
 tail(ASBESTOS_QUEBEC)
