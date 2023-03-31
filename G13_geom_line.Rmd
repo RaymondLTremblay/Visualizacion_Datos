@@ -302,16 +302,18 @@ Tarea
 library(lubridate)
 library(leaflet)
 library(rinat)
+library(gt)
+library(tidyverse)
 
 
 cajaPR <- c(17.75, -67.4, 18.75, -65.15)
-bujo <- get_inat_obs(taxon_name = "Gymnasio nudipes",
+bujo <- get_inat_obs(taxon_name = "Ursus",
              quality = 'research',
              geo = TRUE,
              maxresults = 10000,
              bounds = cajaPR)
 
-#head(bujo)
+gt(head(bujo))
 
 
 library(lubridate)
@@ -328,6 +330,8 @@ bujo2=bujo %>%
   select(Year) %>% 
   group_by(Year) %>% 
   dplyr::summarize(n=n())
+
+bujo2
 
 library(tidyverse)
 ggplot(bujo2, aes(x=as.integer(Year), y=n))+
