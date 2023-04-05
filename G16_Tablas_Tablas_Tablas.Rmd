@@ -13,13 +13,13 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message = FALSE)
 ```
+
 Fecha de la ultima revisión
+
 ```{r echo=FALSE}
 
 Sys.Date()
 ```
-
-
 
 ```{r, eval=TRUE, echo=FALSE}
 colorize <- function(x, color) {
@@ -48,70 +48,65 @@ library(gt)
 library(gridExtra)
 ```
 
-***
+------------------------------------------------------------------------
 
 En este documento estaremos evaluando una serie de alternativas y paquetes para preparar tablas.
 
 # Tablas con Markdown
- El primer ejemplo usa el sistema de **markdown** para preparar tablas
 
-***
+El primer ejemplo usa el sistema de **markdown** para preparar tablas
 
+------------------------------------------------------------------------
 
 ## Tablas sencillas y R
 
-Las tablas sencillas se usa cuando no hay mucha información y no estamos importando los datos externo o de un objeto de R.  
+Las tablas sencillas se usa cuando no hay mucha información y no estamos importando los datos externo o de un objeto de R.
 
- - "|", para separar columnas
- - ":", para indentificar si el texto o números estan pegado a la derecha, izquierda y centrado
- - "|-----|", para separar el nombre de las columnas de la información de la tabla 
+-   "\|", para separar columnas
+-   ":", para indentificar si el texto o números estan pegado a la derecha, izquierda y centrado
+-   "\|-----\|", para separar el nombre de las columnas de la información de la tabla
 
-A ver, mire la **Tabla a** y la **Tabla b**. ¿Encuentra los errores?  Vea que la **Tabla a** muestra los valores con demasiadas cifras significativas, justificaciones ilógicas, formato inconsistente y no especifica las unidades de los valores.  Vemos en la **Tabla b** que ahora las cifras significativas aparecen de forma consistente y en el mismo formato (2da y 3ra columnas), todos los números están justificados a la derecha y las unidades de cm se especifican (3ra columna).  
+A ver, mire la **Tabla a** y la **Tabla b**. ¿Encuentra los errores? Vea que la **Tabla a** muestra los valores con demasiadas cifras significativas, justificaciones ilógicas, formato inconsistente y no especifica las unidades de los valores. Vemos en la **Tabla b** que ahora las cifras significativas aparecen de forma consistente y en el mismo formato (2da y 3ra columnas), todos los números están justificados a la derecha y las unidades de cm se especifican (3ra columna).
 
 En conclusión, no solo la **Tabla b** se ve más presentable, si no que también corrige los problemas, de ahí la importancia de presentar datos tabulados de forma que facilite su comunicación a la audiencia.
 
-***
-  
-**Tabla a.  Errores de formato, justificación y escala**
-  
-|Genero| Tamaño de muestra | El largo de la hoja | valor de p |
-|---------|:-------|:--------:|:-------------|
-| Mujeres | 27273 |  11.03  | 0.000000001 |
-| Hombres | 169019 | 13.5  | 0.098979676 |
-| Especie  | 1.087^6 | 14.5  | .0300001 |
+------------------------------------------------------------------------
 
+**Tabla a. Errores de formato, justificación y escala**
 
-***
+| Genero  | Tamaño de muestra | El largo de la hoja | valor de p  |
+|---------|:------------------|:-------------------:|:------------|
+| Mujeres | 27273             |        11.03        | 0.000000001 |
+| Hombres | 169019            |        13.5         | 0.098979676 |
+| Especie | 1.087\^6          |        14.5         | .0300001    |
+
+------------------------------------------------------------------------
 
 **Tabla b. Errores anteriores corregidos**
 
-|         | Tamaño de muestra | El largo de la hoja (cm) | valor de p  |
-|:---------|-------:|--------:|-------------:|
-| Mujeres | 27273 | 11.0  | <0.001 |
-| Hombres | 169019 | 13.5 | 0.099 |
-| Especie  | 1087669 | 14.5  | 0.030 |
+|         | Tamaño de muestra | El largo de la hoja (cm) | valor de p |
+|:--------|------------------:|-------------------------:|-----------:|
+| Mujeres |             27273 |                     11.0 |    \<0.001 |
+| Hombres |            169019 |                     13.5 |      0.099 |
+| Especie |           1087669 |                     14.5 |      0.030 |
 
-Para facilitar la producción de una tabla siempre puede usar este enlace 
+Para facilitar la producción de una tabla siempre puede usar este enlace
 
-https://www.tablesgenerator.com/markdown_tables
+<https://www.tablesgenerator.com/markdown_tables>
 
-***
+------------------------------------------------------------------------
 
-1. **Ejercicio**
+1.  **Ejercicio**
 
 Prepara una tabla de la lista de tu familia, nombre de tu madre, abuelas y cuantos hijos tienen. Los nombres deberían esta justificado a la izquierda y la cantidad de hijos a la derecha, en una tercera columna pon el municipio donde nacio esa persona.
 
-***
-
+------------------------------------------------------------------------
 
 # tibble y tribble
 
+Un tibble es una tabla que es muy similar a un data frame, con algunas diferencias que le hace más fácil encontrar errores y imprimir esas tablas. Aqui vemos un data frame que fue convertida en tibble, a evaluar la tabla no se ve ninguna diferencia. Vea este enlace para más información <https://r4ds.had.co.nz/tibbles.html>
 
-Un tibble es una tabla que es muy similar a un data frame, con algunas diferencias que le hace más fácil encontrar errores y imprimir esas tablas.  Aqui vemos un data frame que fue convertida en tibble, a evaluar la tabla no se ve ninguna diferencia. Vea este enlace para más información https://r4ds.had.co.nz/tibbles.html 
-
-
-El archivo esta un formato "data frame" y "A" esta en un formato tibble.  Nota que no se ve diferencias entre los dos a simple vista.  Pero es importante que sepa detras en el codigo del formato, hay codificación que puede facilitar o no un analisis en cada uno de las opciones.   
-
+El archivo esta un formato "data frame" y "A" esta en un formato tibble. Nota que no se ve diferencias entre los dos a simple vista. Pero es importante que sepa detras en el codigo del formato, hay codificación que puede facilitar o no un analisis en cada uno de las opciones.
 
 ```{r}
 library(ggversa)
@@ -122,8 +117,7 @@ A=as_tibble(Anolis)
 A
 ```
 
-***
-
+------------------------------------------------------------------------
 
 ## Crear un tibble en un documento .Rmd
 
@@ -141,9 +135,7 @@ Tabla=tribble(~"Nombre Cientifico de las Especies", ~"Nombre Comun", ~N,
 Tabla
 ```
 
-
-***
-
+------------------------------------------------------------------------
 
 # El paquete **gt**
 
@@ -154,10 +146,9 @@ library(gt)
 gt(head(A))
 ```
 
+Vea este enlace para información de las funciones de **gt** <https://gt.rstudio.com> y este <https://themockup.blog/static/gt-cookbook.html>
 
-Vea este enlace para información de las funciones de **gt** https://gt.rstudio.com y este https://themockup.blog/static/gt-cookbook.html
-
-***
+------------------------------------------------------------------------
 
 ## Añadiendo titulo y referencia a una tabla gt
 
@@ -167,16 +158,15 @@ A %>%
   dplyr::select(STUDY, Survey_Site, TIME, DATE, SEASON, SEX_AGE, SVL) %>% 
   head() %>% 
   gt() %>% 
-  tab_header(title = "Datos sobre la presencia y tamaño de *Anolis* en la estación El Verde, PR",
+  tab_header(title = "Datos sobre la presencia y tamaño de Anolis en la estación El Verde, PR",
              subtitle = "Datos recolectado por Douglas Reagan" )
   
 
 ```
 
+------------------------------------------------------------------------
 
-***
-
-## Añadiendo italico a algunas palabras
+## Añadiendo itálico a algunas palabras
 
 ```{r}
 
@@ -190,12 +180,11 @@ A %>%
 
 ```
 
-***
+------------------------------------------------------------------------
 
 ## Añadiendo una referencia
 
-https://luq.lter.network/data/luqmetadata1
-
+<https://luq.lter.network/data/luqmetadata1>
 
 ```{r}
 A %>% 
@@ -210,7 +199,7 @@ A %>%
 
 ```
 
-***
+------------------------------------------------------------------------
 
 ## Identificando una celda especifica con un **footnote**
 
@@ -228,19 +217,17 @@ AA=A %>%
     locations = cells_body(columns=SEX_AGE, rows = 2)
   ) %>% 
     tab_footnote(
-    footnote = "Podria ",
+    footnote = "Podria tener un texto interesante ",
     locations = cells_body(columns=SEX_AGE, rows = 3)
   )%>% 
     tab_footnote(
-    footnote = "yo ",
+    footnote = "yo, no se la diferencia entre machos y hembras",
     locations = cells_body(columns=SEX_AGE, rows = 3)
   )
 AA
 ```
 
-
-
-***
+------------------------------------------------------------------------
 
 ```{r}
 AA %>% 
@@ -255,8 +242,7 @@ AA %>%
 
 ```
 
-
-***
+------------------------------------------------------------------------
 
 ```{r}
 AA %>% 
@@ -270,8 +256,7 @@ AA %>%
   )
 ```
 
-***
-
+------------------------------------------------------------------------
 
 ```{r}
 AAA=AA %>% 
@@ -291,15 +276,11 @@ AAA=AA %>%
 AAA
 ```
 
-
-***
+------------------------------------------------------------------------
 
 # Formateo condicional
 
 Aqui usamos la condición de **SVL** sea debajo un tamaño o más grande y se le asigna un color correspondiente.
-
-
-
 
 ```{r}
 
@@ -323,21 +304,13 @@ AAAA= AAA |>
 AAAA
 ```
 
-
-
-
-
-***
-
+------------------------------------------------------------------------
 
 ## Cambiar los fonts de una columna especifica o de toda la tabla
 
 Para aceso alos fonts de google vea este enlace
 
-https://fonts.google.com
-
-
-
+<https://fonts.google.com>
 
 ```{r eval=FALSE, include=FALSE}
 small_table=AAAA %>% 
@@ -347,18 +320,20 @@ small_table=AAAA %>%
       weight = "bold",
       size = px(20)
       ),
-    locations = cells_column_labels(everything())
-  ) %>% 
+    locations = list(
+      cells_column_labels(everything())
+  )) %>% 
    tab_style(
     style = cell_text(
     font = google_font("Redressed"), size = px(14)),
-    locations = cells_body(columns = everything())
-  ) %>% 
+    locations = list(
+      cells_body(columns = everything())
+  )) %>% 
   tab_style(
     style = cell_text(
     font = google_font("Redressed"), size = px(14)),
-    locations = tab_header
-  )
+    locations = list(cells_title(groups=c("subtitle"))
+  ))
 
 
 small_table
@@ -368,27 +343,21 @@ gtsave(small_table, "gt_table_excercise.png")
 
 ```
 
-
 <br>
 
-***
+------------------------------------------------------------------------
 
-
-
-***
+------------------------------------------------------------------------
 
 # flextable package
-
 
 ```{r}
 library(flextable)
 ```
 
-
 ### Flexable website
 
-https://ardata-fr.github.io/flextable-book/index.html
-
+<https://ardata-fr.github.io/flextable-book/index.html>
 
 ```{r}
 library(flextable)
@@ -416,4 +385,3 @@ library(openxlsx)
 
 #write.xlsx(ft, "writeList2.xlsx", colWidths = 20)
 ```
-
