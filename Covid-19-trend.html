@@ -15,7 +15,7 @@
 
 <title>COVID-19 trend</title>
 
-<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.21/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
@@ -376,6 +376,30 @@ $(document).ready(function () {
     </li>
   </ul>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Otros paquetes
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="ST_ggblanket.html">El paquete ggblanket</a>
+    </li>
+    <li>
+      <a href="ST_gggibous.html">El paquete gggibous</a>
+    </li>
+    <li>
+      <a href="ST_ggiraph.html">El paquete ggiraph</a>
+    </li>
+    <li>
+      <a href="ST_ggparty.html">El paquete ggparty</a>
+    </li>
+    <li>
+      <a href="ST_ggvenn.html">El paquete ggvenn</a>
+    </li>
+  </ul>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         
@@ -396,19 +420,21 @@ $(document).ready(function () {
 
 
 <pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.3.2 ──
-## ✔ ggplot2 3.4.0      ✔ purrr   0.3.5 
-## ✔ tibble  3.1.8      ✔ dplyr   1.0.10
-## ✔ tidyr   1.2.1      ✔ stringr 1.4.1 
-## ✔ readr   2.1.3      ✔ forcats 0.5.2 
-## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+<pre><code>## ── Attaching core tidyverse packages ─────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.1     ✔ readr     2.1.4
+## ✔ forcats   1.0.0     ✔ stringr   1.5.0
+## ✔ ggplot2   3.4.2     ✔ tibble    3.2.1
+## ✔ lubridate 1.9.2     ✔ tidyr     1.3.0
+## ✔ purrr     1.0.1     
+## ── Conflicts ───────────────────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
 <pre class="r"><code>library(ggplot2)
 library(readr)
 owid_covid_data &lt;- read_csv(&quot;COVID_DATA/owid-covid-data.csv&quot;)</code></pre>
 <pre><code>## Rows: 57180 Columns: 50
-## ── Column specification ────────────────────────────────────────────────────────
+## ── Column specification ───────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr   (4): iso_code, continent, location, tests_units
 ## dbl  (45): total_cases, new_cases, new_cases_smoothed, total_deaths, new_dea...
@@ -446,44 +472,44 @@ owid_covid_data &lt;- read_csv(&quot;COVID_DATA/owid-covid-data.csv&quot;)</code
 ## [49] &quot;life_expectancy&quot;                    &quot;human_development_index&quot;</code></pre>
 <pre class="r"><code>head(owid)</code></pre>
 <pre><code>## # A tibble: 6 × 50
-##   iso_code continent  locat…¹ date       total…² new_c…³ new_c…⁴ total…⁵ new_d…⁶
-##   &lt;chr&gt;    &lt;chr&gt;      &lt;chr&gt;   &lt;date&gt;       &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
-## 1 ABW      North Ame… Aruba   2020-03-13       2       2  NA          NA       0
-## 2 ABW      North Ame… Aruba   2020-03-19      NA      NA   0.286      NA      NA
-## 3 ABW      North Ame… Aruba   2020-03-20       4       2   0.286      NA       0
-## 4 ABW      North Ame… Aruba   2020-03-21      NA      NA   0.286      NA      NA
-## 5 ABW      North Ame… Aruba   2020-03-22      NA      NA   0.286      NA      NA
-## 6 ABW      North Ame… Aruba   2020-03-23      NA      NA   0.286      NA      NA
-## # … with 41 more variables: new_deaths_smoothed &lt;dbl&gt;,
-## #   total_cases_per_million &lt;dbl&gt;, new_cases_per_million &lt;dbl&gt;,
-## #   new_cases_smoothed_per_million &lt;dbl&gt;, total_deaths_per_million &lt;dbl&gt;,
-## #   new_deaths_per_million &lt;dbl&gt;, new_deaths_smoothed_per_million &lt;dbl&gt;,
-## #   reproduction_rate &lt;dbl&gt;, icu_patients &lt;dbl&gt;,
-## #   icu_patients_per_million &lt;dbl&gt;, hosp_patients &lt;dbl&gt;,
+##   iso_code continent     location date       total_cases new_cases
+##   &lt;chr&gt;    &lt;chr&gt;         &lt;chr&gt;    &lt;date&gt;           &lt;dbl&gt;     &lt;dbl&gt;
+## 1 ABW      North America Aruba    2020-03-13           2         2
+## 2 ABW      North America Aruba    2020-03-19          NA        NA
+## 3 ABW      North America Aruba    2020-03-20           4         2
+## 4 ABW      North America Aruba    2020-03-21          NA        NA
+## 5 ABW      North America Aruba    2020-03-22          NA        NA
+## 6 ABW      North America Aruba    2020-03-23          NA        NA
+## # ℹ 44 more variables: new_cases_smoothed &lt;dbl&gt;, total_deaths &lt;dbl&gt;,
+## #   new_deaths &lt;dbl&gt;, new_deaths_smoothed &lt;dbl&gt;, total_cases_per_million &lt;dbl&gt;,
+## #   new_cases_per_million &lt;dbl&gt;, new_cases_smoothed_per_million &lt;dbl&gt;,
+## #   total_deaths_per_million &lt;dbl&gt;, new_deaths_per_million &lt;dbl&gt;,
+## #   new_deaths_smoothed_per_million &lt;dbl&gt;, reproduction_rate &lt;dbl&gt;,
+## #   icu_patients &lt;dbl&gt;, icu_patients_per_million &lt;dbl&gt;, hosp_patients &lt;dbl&gt;,
 ## #   hosp_patients_per_million &lt;dbl&gt;, weekly_icu_admissions &lt;dbl&gt;, …</code></pre>
 <pre class="r"><code>owid %&gt;% 
   filter(location==&quot;Aruba&quot;)%&gt;% 
   dplyr::mutate(new_cases = replace_na(new_cases, 0))</code></pre>
 <pre><code>## # A tibble: 244 × 50
-##    iso_code continent locat…¹ date       total…² new_c…³ new_c…⁴ total…⁵ new_d…⁶
-##    &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;   &lt;date&gt;       &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
-##  1 ABW      North Am… Aruba   2020-03-13       2       2  NA          NA       0
-##  2 ABW      North Am… Aruba   2020-03-19      NA       0   0.286      NA      NA
-##  3 ABW      North Am… Aruba   2020-03-20       4       2   0.286      NA       0
-##  4 ABW      North Am… Aruba   2020-03-21      NA       0   0.286      NA      NA
-##  5 ABW      North Am… Aruba   2020-03-22      NA       0   0.286      NA      NA
-##  6 ABW      North Am… Aruba   2020-03-23      NA       0   0.286      NA      NA
-##  7 ABW      North Am… Aruba   2020-03-24      12       8   1.43       NA       0
-##  8 ABW      North Am… Aruba   2020-03-25      17       5   2.14       NA       0
-##  9 ABW      North Am… Aruba   2020-03-26      19       2   2.43       NA       0
-## 10 ABW      North Am… Aruba   2020-03-27      28       9   3.43       NA       0
-## # … with 234 more rows, 41 more variables: new_deaths_smoothed &lt;dbl&gt;,
-## #   total_cases_per_million &lt;dbl&gt;, new_cases_per_million &lt;dbl&gt;,
-## #   new_cases_smoothed_per_million &lt;dbl&gt;, total_deaths_per_million &lt;dbl&gt;,
-## #   new_deaths_per_million &lt;dbl&gt;, new_deaths_smoothed_per_million &lt;dbl&gt;,
-## #   reproduction_rate &lt;dbl&gt;, icu_patients &lt;dbl&gt;,
-## #   icu_patients_per_million &lt;dbl&gt;, hosp_patients &lt;dbl&gt;,
-## #   hosp_patients_per_million &lt;dbl&gt;, weekly_icu_admissions &lt;dbl&gt;, …</code></pre>
+##    iso_code continent     location date       total_cases new_cases
+##    &lt;chr&gt;    &lt;chr&gt;         &lt;chr&gt;    &lt;date&gt;           &lt;dbl&gt;     &lt;dbl&gt;
+##  1 ABW      North America Aruba    2020-03-13           2         2
+##  2 ABW      North America Aruba    2020-03-19          NA         0
+##  3 ABW      North America Aruba    2020-03-20           4         2
+##  4 ABW      North America Aruba    2020-03-21          NA         0
+##  5 ABW      North America Aruba    2020-03-22          NA         0
+##  6 ABW      North America Aruba    2020-03-23          NA         0
+##  7 ABW      North America Aruba    2020-03-24          12         8
+##  8 ABW      North America Aruba    2020-03-25          17         5
+##  9 ABW      North America Aruba    2020-03-26          19         2
+## 10 ABW      North America Aruba    2020-03-27          28         9
+## # ℹ 234 more rows
+## # ℹ 44 more variables: new_cases_smoothed &lt;dbl&gt;, total_deaths &lt;dbl&gt;,
+## #   new_deaths &lt;dbl&gt;, new_deaths_smoothed &lt;dbl&gt;, total_cases_per_million &lt;dbl&gt;,
+## #   new_cases_per_million &lt;dbl&gt;, new_cases_smoothed_per_million &lt;dbl&gt;,
+## #   total_deaths_per_million &lt;dbl&gt;, new_deaths_per_million &lt;dbl&gt;,
+## #   new_deaths_smoothed_per_million &lt;dbl&gt;, reproduction_rate &lt;dbl&gt;,
+## #   icu_patients &lt;dbl&gt;, icu_patients_per_million &lt;dbl&gt;, hosp_patients &lt;dbl&gt;, …</code></pre>
 <p>Calucalting a rolling average , rolling mean</p>
 <p>From this website</p>
 <p><a
@@ -497,25 +523,25 @@ class="uri">https://www.storybench.org/how-to-calculate-a-rolling-average-in-r/<
                   new_cases_14da = zoo::rollmean(new_cases, k = 14, fill = NA))
 Aruba</code></pre>
 <pre><code>## # A tibble: 244 × 53
-##    iso_code continent locat…¹ date       total…² new_c…³ new_c…⁴ total…⁵ new_d…⁶
-##    &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;   &lt;date&gt;       &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
-##  1 ABW      North Am… Aruba   2020-03-13       2       2  NA          NA       0
-##  2 ABW      North Am… Aruba   2020-03-19      NA       0   0.286      NA      NA
-##  3 ABW      North Am… Aruba   2020-03-20       4       2   0.286      NA       0
-##  4 ABW      North Am… Aruba   2020-03-21      NA       0   0.286      NA      NA
-##  5 ABW      North Am… Aruba   2020-03-22      NA       0   0.286      NA      NA
-##  6 ABW      North Am… Aruba   2020-03-23      NA       0   0.286      NA      NA
-##  7 ABW      North Am… Aruba   2020-03-24      12       8   1.43       NA       0
-##  8 ABW      North Am… Aruba   2020-03-25      17       5   2.14       NA       0
-##  9 ABW      North Am… Aruba   2020-03-26      19       2   2.43       NA       0
-## 10 ABW      North Am… Aruba   2020-03-27      28       9   3.43       NA       0
-## # … with 234 more rows, 44 more variables: new_deaths_smoothed &lt;dbl&gt;,
-## #   total_cases_per_million &lt;dbl&gt;, new_cases_per_million &lt;dbl&gt;,
-## #   new_cases_smoothed_per_million &lt;dbl&gt;, total_deaths_per_million &lt;dbl&gt;,
-## #   new_deaths_per_million &lt;dbl&gt;, new_deaths_smoothed_per_million &lt;dbl&gt;,
-## #   reproduction_rate &lt;dbl&gt;, icu_patients &lt;dbl&gt;,
-## #   icu_patients_per_million &lt;dbl&gt;, hosp_patients &lt;dbl&gt;,
-## #   hosp_patients_per_million &lt;dbl&gt;, weekly_icu_admissions &lt;dbl&gt;, …</code></pre>
+##    iso_code continent     location date       total_cases new_cases
+##    &lt;chr&gt;    &lt;chr&gt;         &lt;chr&gt;    &lt;date&gt;           &lt;dbl&gt;     &lt;dbl&gt;
+##  1 ABW      North America Aruba    2020-03-13           2         2
+##  2 ABW      North America Aruba    2020-03-19          NA         0
+##  3 ABW      North America Aruba    2020-03-20           4         2
+##  4 ABW      North America Aruba    2020-03-21          NA         0
+##  5 ABW      North America Aruba    2020-03-22          NA         0
+##  6 ABW      North America Aruba    2020-03-23          NA         0
+##  7 ABW      North America Aruba    2020-03-24          12         8
+##  8 ABW      North America Aruba    2020-03-25          17         5
+##  9 ABW      North America Aruba    2020-03-26          19         2
+## 10 ABW      North America Aruba    2020-03-27          28         9
+## # ℹ 234 more rows
+## # ℹ 47 more variables: new_cases_smoothed &lt;dbl&gt;, total_deaths &lt;dbl&gt;,
+## #   new_deaths &lt;dbl&gt;, new_deaths_smoothed &lt;dbl&gt;, total_cases_per_million &lt;dbl&gt;,
+## #   new_cases_per_million &lt;dbl&gt;, new_cases_smoothed_per_million &lt;dbl&gt;,
+## #   total_deaths_per_million &lt;dbl&gt;, new_deaths_per_million &lt;dbl&gt;,
+## #   new_deaths_smoothed_per_million &lt;dbl&gt;, reproduction_rate &lt;dbl&gt;,
+## #   icu_patients &lt;dbl&gt;, icu_patients_per_million &lt;dbl&gt;, hosp_patients &lt;dbl&gt;, …</code></pre>
 <pre class="r"><code>library(ggplot2)
 
 
@@ -544,25 +570,25 @@ ggplot(aes(date, new_cases, colour=new_cases_07da))+
                   new_cases_14da = zoo::rollmean(new_cases, k = 14, fill = NA))
 PR</code></pre>
 <pre><code>## # A tibble: 234 × 53
-##    iso_code continent locat…¹ date       total…² new_c…³ new_c…⁴ total…⁵ new_d…⁶
-##    &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;   &lt;date&gt;       &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
-##  1 PRI      North Am… Puerto… 2020-03-28      64      64    NA         2       2
-##  2 PRI      North Am… Puerto… 2020-03-29     100      36    NA         3       1
-##  3 PRI      North Am… Puerto… 2020-03-30     127      27    NA         5       2
-##  4 PRI      North Am… Puerto… 2020-03-31     174      47    NA         6       1
-##  5 PRI      North Am… Puerto… 2020-04-01     239      65    NA         8       2
-##  6 PRI      North Am… Puerto… 2020-04-02     286      47    NA        11       3
-##  7 PRI      North Am… Puerto… 2020-04-03     316      30    45.1      12       1
-##  8 PRI      North Am… Puerto… 2020-04-04     378      62    44.9      15       3
-##  9 PRI      North Am… Puerto… 2020-04-05     452      74    50.3      18       3
-## 10 PRI      North Am… Puerto… 2020-04-06     475      23    49.7      20       2
-## # … with 224 more rows, 44 more variables: new_deaths_smoothed &lt;dbl&gt;,
-## #   total_cases_per_million &lt;dbl&gt;, new_cases_per_million &lt;dbl&gt;,
-## #   new_cases_smoothed_per_million &lt;dbl&gt;, total_deaths_per_million &lt;dbl&gt;,
-## #   new_deaths_per_million &lt;dbl&gt;, new_deaths_smoothed_per_million &lt;dbl&gt;,
-## #   reproduction_rate &lt;dbl&gt;, icu_patients &lt;dbl&gt;,
-## #   icu_patients_per_million &lt;dbl&gt;, hosp_patients &lt;dbl&gt;,
-## #   hosp_patients_per_million &lt;dbl&gt;, weekly_icu_admissions &lt;dbl&gt;, …</code></pre>
+##    iso_code continent     location    date       total_cases new_cases
+##    &lt;chr&gt;    &lt;chr&gt;         &lt;chr&gt;       &lt;date&gt;           &lt;dbl&gt;     &lt;dbl&gt;
+##  1 PRI      North America Puerto Rico 2020-03-28          64        64
+##  2 PRI      North America Puerto Rico 2020-03-29         100        36
+##  3 PRI      North America Puerto Rico 2020-03-30         127        27
+##  4 PRI      North America Puerto Rico 2020-03-31         174        47
+##  5 PRI      North America Puerto Rico 2020-04-01         239        65
+##  6 PRI      North America Puerto Rico 2020-04-02         286        47
+##  7 PRI      North America Puerto Rico 2020-04-03         316        30
+##  8 PRI      North America Puerto Rico 2020-04-04         378        62
+##  9 PRI      North America Puerto Rico 2020-04-05         452        74
+## 10 PRI      North America Puerto Rico 2020-04-06         475        23
+## # ℹ 224 more rows
+## # ℹ 47 more variables: new_cases_smoothed &lt;dbl&gt;, total_deaths &lt;dbl&gt;,
+## #   new_deaths &lt;dbl&gt;, new_deaths_smoothed &lt;dbl&gt;, total_cases_per_million &lt;dbl&gt;,
+## #   new_cases_per_million &lt;dbl&gt;, new_cases_smoothed_per_million &lt;dbl&gt;,
+## #   total_deaths_per_million &lt;dbl&gt;, new_deaths_per_million &lt;dbl&gt;,
+## #   new_deaths_smoothed_per_million &lt;dbl&gt;, reproduction_rate &lt;dbl&gt;,
+## #   icu_patients &lt;dbl&gt;, icu_patients_per_million &lt;dbl&gt;, hosp_patients &lt;dbl&gt;, …</code></pre>
 <pre class="r"><code>library(slider)
 
 PR2=owid %&gt;%
@@ -573,25 +599,25 @@ PR2=owid %&gt;%
   ungroup()
 PR2</code></pre>
 <pre><code>## # A tibble: 234 × 53
-##    iso_code continent locat…¹ date       total…² new_c…³ new_c…⁴ total…⁵ new_d…⁶
-##    &lt;chr&gt;    &lt;chr&gt;     &lt;chr&gt;   &lt;date&gt;       &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;
-##  1 PRI      North Am… Puerto… 2020-03-28      64      64    NA         2       2
-##  2 PRI      North Am… Puerto… 2020-03-29     100      36    NA         3       1
-##  3 PRI      North Am… Puerto… 2020-03-30     127      27    NA         5       2
-##  4 PRI      North Am… Puerto… 2020-03-31     174      47    NA         6       1
-##  5 PRI      North Am… Puerto… 2020-04-01     239      65    NA         8       2
-##  6 PRI      North Am… Puerto… 2020-04-02     286      47    NA        11       3
-##  7 PRI      North Am… Puerto… 2020-04-03     316      30    45.1      12       1
-##  8 PRI      North Am… Puerto… 2020-04-04     378      62    44.9      15       3
-##  9 PRI      North Am… Puerto… 2020-04-05     452      74    50.3      18       3
-## 10 PRI      North Am… Puerto… 2020-04-06     475      23    49.7      20       2
-## # … with 224 more rows, 44 more variables: new_deaths_smoothed &lt;dbl&gt;,
-## #   total_cases_per_million &lt;dbl&gt;, new_cases_per_million &lt;dbl&gt;,
-## #   new_cases_smoothed_per_million &lt;dbl&gt;, total_deaths_per_million &lt;dbl&gt;,
-## #   new_deaths_per_million &lt;dbl&gt;, new_deaths_smoothed_per_million &lt;dbl&gt;,
-## #   reproduction_rate &lt;dbl&gt;, icu_patients &lt;dbl&gt;,
-## #   icu_patients_per_million &lt;dbl&gt;, hosp_patients &lt;dbl&gt;,
-## #   hosp_patients_per_million &lt;dbl&gt;, weekly_icu_admissions &lt;dbl&gt;, …</code></pre>
+##    iso_code continent     location    date       total_cases new_cases
+##    &lt;chr&gt;    &lt;chr&gt;         &lt;chr&gt;       &lt;date&gt;           &lt;dbl&gt;     &lt;dbl&gt;
+##  1 PRI      North America Puerto Rico 2020-03-28          64        64
+##  2 PRI      North America Puerto Rico 2020-03-29         100        36
+##  3 PRI      North America Puerto Rico 2020-03-30         127        27
+##  4 PRI      North America Puerto Rico 2020-03-31         174        47
+##  5 PRI      North America Puerto Rico 2020-04-01         239        65
+##  6 PRI      North America Puerto Rico 2020-04-02         286        47
+##  7 PRI      North America Puerto Rico 2020-04-03         316        30
+##  8 PRI      North America Puerto Rico 2020-04-04         378        62
+##  9 PRI      North America Puerto Rico 2020-04-05         452        74
+## 10 PRI      North America Puerto Rico 2020-04-06         475        23
+## # ℹ 224 more rows
+## # ℹ 47 more variables: new_cases_smoothed &lt;dbl&gt;, total_deaths &lt;dbl&gt;,
+## #   new_deaths &lt;dbl&gt;, new_deaths_smoothed &lt;dbl&gt;, total_cases_per_million &lt;dbl&gt;,
+## #   new_cases_per_million &lt;dbl&gt;, new_cases_smoothed_per_million &lt;dbl&gt;,
+## #   total_deaths_per_million &lt;dbl&gt;, new_deaths_per_million &lt;dbl&gt;,
+## #   new_deaths_smoothed_per_million &lt;dbl&gt;, reproduction_rate &lt;dbl&gt;,
+## #   icu_patients &lt;dbl&gt;, icu_patients_per_million &lt;dbl&gt;, hosp_patients &lt;dbl&gt;, …</code></pre>
 <pre class="r"><code>PR %&gt;% 
 ggplot(aes(date, new_cases, colour=new_cases_14da))+
   geom_linerange(aes(x=date, ymax=new_cases, ymin=0.75))+
@@ -613,20 +639,15 @@ ggplot(aes(date, new_cases, colour=new_cases_14daSlider))+
 <pre class="r"><code>#  geom_line(aes(x=date, new_cases_07daSlider), colour=&quot;blue&quot;)+</code></pre>
 <pre class="r"><code>library(readr)
 us_counties &lt;- read_csv(&quot;COVID_DATA/us_counties.csv&quot;)</code></pre>
-<pre><code>## New names:
-## Rows: 735516 Columns: 7
-## ── Column specification
-## ──────────────────────────────────────────────────────── Delimiter: &quot;,&quot; chr
-## (3): county, state, fips dbl (3): ...1, cases, deaths date (1): date
-## ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
-## Specify the column types or set `show_col_types = FALSE` to quiet this message.
-## • `` -&gt; `...1`</code></pre>
+<pre><code>## Rows: 735516 Columns: 7
+## ── Column specification ───────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (3): date, county, us_state
+## dbl (4): List_Num, fips, cases, deaths
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <pre class="r"><code>#write.csv(us_counties, &quot;COVID_DATA/us_counties.csv&quot;)</code></pre>
-<pre class="r"><code>us_counties %&gt;% 
-  filter(state==&quot;Puerto Rico&quot;, county==&quot;San Juan&quot;) %&gt;% 
-ggplot(aes(date, cases))+
-  geom_count(size=1)</code></pre>
-<p><img src="Covid-19-trend_files/figure-html/PR%20and%20SJ-1.png" width="672" /></p>
 
 
 
