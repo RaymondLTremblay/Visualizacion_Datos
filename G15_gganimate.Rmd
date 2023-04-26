@@ -58,6 +58,8 @@ library(ggplot2)
 library(animation)
 library(gt)
 library(datasets)
+library(png)
+library(gifski)
 
 #install.packages("rgl", dependencies = TRUE)
 ```
@@ -72,6 +74,8 @@ Los datos provienen del paquete **gapminder** y el archivo **gapminder**. Estos 
 ```{r}
 #gt(head(gapminder))
 head(gapminder)
+unique(gapminder$year)
+
 gapminder2=gapminder %>% filter(year <1963)
 ```
 
@@ -85,8 +89,8 @@ Primero creamos un gráfico de puntos sin animación o sea estático.  En el eje
 p <- ggplot(
   gapminder2, 
   aes(x = gdpPercap, y=lifeExp, size = pop, colour = country)) +
-  geom_point(show.legend = FALSE, alpha = 0.8) +
-  scale_size(range = c(2, 12)) +
+  geom_point(show.legend = FALSE, alpha = 0.8)+
+  scale_size(range = c(.2, 12)) +
   scale_x_log10() +
   labs(x = "GDP per capita", y = "Expectativa de Vida")
 p
