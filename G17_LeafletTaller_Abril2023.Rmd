@@ -1,0 +1,252 @@
+---
+title: "Mapas Interactivos con Leaflet y iNaturalist"
+author: "Normandie González-Orellana"
+date: "12/9/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{=html}
+<style>
+body {
+text-align: justify}
+</style>
+```
+
+![](eulophiaofpr.png)
+
+# Importación de Paquetes y Datos
+
+```{r}
+library(tidyverse)
+library(leaflet)
+library(rinat)
+library(RColorBrewer)
+library(flextable)
+```
+
+**Obtener los datos de observaciones de una especie en iNaturalist desde R:**
+
+Los datos a utilizar se obtendrán desde iNaturalist, una aplicación con base en la ciencia ciudadana que mantiene un registro de ocurrencias de especies.
+
+La función `get_inat_obs()` permite acceder a los datos disponibles en iNaturalist, especificando los siguientes parámetros:
+
+-   `taxon_name`: La especies de interés, siempre escrita entre comillas ("). Puede utilizar nombre común o científico.
+
+-   `quality`: Siendo una aplicación basada en ciencia ciudadana, la calidad de algunos datos podría ser baja, debido a que les falta información - como nombre científico o ubicación - o que contienen información errónea - especies mal identificadas-. Colocando `'research'` en este parámetro se especifica que se desea obtener sólo aquellas observaciones con alta calidad - que tengan información completa y cuya identificación haya sido confirmada por varias personas de la comunidad -.
+
+-   `geo`: Al igual que el parámetro `quality`, este parámetro cuyo valor es lógico (`TRUE` o `FALSE`), es para especificar que se quiere obtener sólo los datos que están georeferenciados (cuando se coloca como `TRUE`).
+
+-   `maxresults`: A través del API (Interfaz de Programación de Aplicaciones) de iNaturalist se puede acceder a un máximo de 10,000 observaciones en una sola búsqueda. Con este parámetro, cuyo valor debe ser numérico, se especifica cuantas observaciones se desea obtener, y no se debe exceder de 10,000 por búsqueda.
+
+-   `bounds`: Un vector que contiene los límites geográficos de la búsqueda. Se puede insertar un cuadro delimitador ya especificado en un objeto, concatenar los valores del vector, o insertar un objeto de características simples (Simple Feature, sf). El argumento `bounds` es importante porque si obtenemos datos de iNaturalist, las unicas columnas que obtenemos con información acerca de la región o área donde se hicieron las observaciones son:\
+
+-   *place_guess*: Contiene el nombre de la región, pero su presición y los nombrs utilizados para cada región varía mucho.
+
+-   *latitue*: Posición en el eje vertical del sistema de coordenadas.
+
+-   *longitude*: Posición en el eje horizontal del sistema de coordenadas.\
+    Esto crea un problema a la hora del filtrar los datos por el nombre de una región, pues es difícil encontrar un solo valor que encompase a todas las variantes del nombre utilizado para esa región. iNaturalist se encuentra a nivel mundial, y usted puede acceder a todos esos datos. Sin embargo, hoy accederemos solamente a datos de Puerto Rico. Entonces, lo primero antes de acceder a lo datos de iNaturalist, es crear un objeto que contenga los límites geográficos de interés crea. Para esto se crea un objeto que contenga un cuadro delimitador (*bounding box*):
+
+```{r}
+cajapr <- c(
+  17.75, #Latitud Sur
+   -67.4, #Longitud Oeste
+  18.75, #Latitud Norte
+  -65.15 #Longitud Este
+  )
+```
+
+Ahora podemos acceder a datos de Puerto Rico utilizando el objeto `cajapr`. Para este ejercicio utilizaremos datos de orquídeas pertenecientes al género *Eulophia*. En Puerto Rico se han reportado 3 especies de este género *Eulophia alta*, *Eulophia maculata* y *Eulophia graminea*. De estos, sólo *E. alta* es considerada nativa de la isla. Entonces, utilizando la función `get_inat_obs` podemos acceder a los datos de *Eulophia* en Puerto Rico
+
+```{r}
+
+eulophia <- get_inat_obs(taxon_name = "Eulophia", 
+                            quality = 'research', 
+                            geo = T, 
+                            maxresults = 10000,
+                            bounds = cajapr) 
+
+eulophia$scientific_name <- as.factor(eulophia$scientific_name)
+
+flextable(head(eulophia)) # Para ver la sprimeras 6 lineas en una tabla bonita
+```
+
+Con el siguiente código podemos ver de forma rápida cuántas observaciones de cada especie hemos obtenido de iNaturalist:
+
+```{r}
+summary(as.factor(eulophia$scientific_name))
+```
+
+Ahora que hemos obtenido los datos, podemos observar su distrubución en el mapa de Puerto Rico utilizando `leaflet`.
+
+# Utilizando Leaflet
+
+La función base del paquete leaflet es `leaflet()`, con esta se activa un artilugio (*widget* en inglés) sobre el cuál se construye el mapa. Esta función debe estar unida a otra función como `addTiles()` que añade el mapa.
+
+```{r}
+leaflet() %>% 
+  addTiles() 
+```
+
+Una vez tenemos el artilugio y el mapa, añadimos una capa que incluye los datos que se desean visualizar con marcadores sobre el mapa con la función `addMarkers()` dentro del cual se deben especificar los parámetros `lng` (longitud) y `lat` (latitud). Note que también se especifica el data.frame que contiene los datos bajo la función `leaflet()`. Cuando se trabaja en Leaflet, al especificar las variables a utilizar, es necesario colocar una virgulilla (\~) antes de la variable. Esto le deja saber a R que lo que se especifica es una variable dentro del data.frame mencionado en la primera capa bajo la función `leaflet()`.
+
+```{r}
+leaflet(eulophia) %>% 
+  addTiles() %>% 
+  addMarkers(lng = ~longitude, 
+             lat = ~latitude)
+```
+
+Una vez los marcadores están establecidos, es posible añadir etiquetas que contengan información acerca de las observaciones con el parámetro `popup` de la función `addMarkers()`. Por ejemplo, se pueden colocar etiquetas que contengan información del lugar de la observación especificando que la etiqueta contenga la información de la variable *place_guess*. Para ver la etiqueta debe hacer clic sobre el marcador de interés.
+
+```{r}
+leaflet(eulophia) %>% 
+  addTiles() %>% 
+  addMarkers(lng = ~ longitude, 
+             lat = ~ latitude, 
+             popup = ~ place_guess)
+```
+
+La función `paste0` es una función base de R que concatena todos los elementos en una línea de caracteres. Los caracteres introducidos serán interpretados como UTF-8 o codificación de caracteres. Estos caracteres pueden ser mezclados con valores de una variable de caracteres en un data.frame. En el siguiente ejemplo se crea una etiqueta que contiene la ubicación y la especie observada. Se utiliza la función `paste0()` para combinar caracteres y las variables *scientific_name* y *place_guess* del data.frame.
+
+```{r}
+leaflet(eulophia) %>% 
+  addTiles() %>% 
+  addMarkers(lng = ~ longitude, 
+             lat = ~ latitude, 
+             popup = paste0("<B>Especie: </B>", "<I>", eulophia$scientific_name, "</I>",
+                            "<br/>",
+                            "<B>Colectado por: </B>", eulophia$place_guess)
+               )
+```
+
+La función `addAwesomeMarkers()` puede ser utilizada en lugar de `addMarkers()` y permite utilizar marcadores con diferentes diseños que se pueden obtener de [fontawesome](https://fontawesome.com/v5.15/icons?d=gallery&p=1). Es posible cambiar los colores de los marcadores utilizando la codificación de colores RGB en formato (#RRGGBB). La siguiente guía de colores en R creada por Melissa Clarkson (2010) explica como utilizar colores en R: [A guide to using color in R](https://bootstrappers.umassmed.edu/bootstrappers-courses/pastCourses/rCourse_2014-09/resources/helpfulGuides/Rcolorstyle.pdf). Adicional, esta [guía](https://derekogle.com/NCGraphing/resources/colors) creada por Derek H. Ogle (2022) es muy útil. En [schemecolor](https://www.schemecolor.com/github-cat-icon-colors.php) podemos encontrar las codificaciones de los colores y muchos funcionan para `leaflet`. Para hacer estos cambios utilizamos la función `awesomeIcons()` bajo el parámetro `icon` dentro de `addAwesomeMarkers()`. Dentro de la función `awesomeIcons()` podemos especificar varios parámetros como:
+
+-   `icon`: El icono que desea utilizar para su marcador. Debe poner el nombre que aparece en la página web de iconos que esté utilizando (*i.e.*, fontawesome).
+
+-   `library`: Cuando se especifica un icono, es necesario especificar la biblioteca de donde se saca el icono. Si es de fontawesome sería `'fa'`.
+
+-   `markerColor`: Para cambiar el color del marcador (parte que rodea el icono), utilizando la codificación de colores de schemecolor.
+
+-   `iconColor`: Para cambiar el color del icono del marcadora, también con la codificación de schemecolor.
+
+```{r}
+leaflet() %>% 
+  addTiles() %>% 
+  addAwesomeMarkers(lng = eulophia$longitude, lat = eulophia$latitude, 
+             popup = paste0("<B>Especie: </B>", "<I>", eulophia$scientific_name, "</I>",
+                            "<br/>",
+                            "<B>Colectado por: </B>", eulophia$place_guess),
+            icon = awesomeIcons(icon = "leaf", library = "fa", 
+                                markerColor = "darkgreen",
+                                iconColor =  "#FFFFFF")
+               ) 
+```
+
+Cuando se visualiza una gran cantidad de datos, esto puede resultar en el solapamiento de los marcadores, lo cual no es muy agradable a la vista. Es posible crear agregados que ayuden a visualizar mejor y faciliten el movimiento a través del mapa con el parámetro `clusterOptions` bajo la función `addAwesomeMarkers()`. El valor de este parámetro debe ser la función `markerClusterOptions()`.
+
+```{r}
+leaflet() %>% 
+  addTiles() %>% 
+  addAwesomeMarkers(lng = eulophia$longitude, lat = eulophia$latitude, 
+             popup = paste0("<B>Especie: </B>", "<I>", eulophia$scientific_name, "</I>",
+                            "<br/>",
+                            "<B>Colectado por: </B>", eulophia$place_guess),
+            icon = awesomeIcons(icon = "leaf", library = "fa", 
+                                markerColor = "darkgreen",
+                                iconColor =  "#FFFFFF"),
+            clusterOptions = markerClusterOptions()
+               ) 
+
+
+```
+
+Y para culminar, es posible cambiar el diseño del mapa utilizando la función `addProviderTiles()` en lugar de `addTiles()`. Puede echar un vistazo a los diferentes diseños disponibles para Leaflet la página de [proveedores de Leaflet](http://leaflet-extras.github.io/leaflet-providers/preview/) en GitHub. Actualmente Leaflet en R admite diseños de los siguientes proveedores: OpenStreetMap, MapQuestOpen, Stamen, Esri and OpenWeatherMap.
+
+```{r}
+icon1 <- awesomeIcons(icon = "smile-o",
+                      iconColor = "#FFFFFF",
+                      library = "fa",
+                      markerColor = "darkgreen")
+
+leaflet() %>% 
+  addProviderTiles("Esri.WorldImagery") %>% 
+  addAwesomeMarkers(lng = eulophia$longitude, lat = eulophia$latitude, 
+             popup = paste0("<B>Especie: </B>", "<I>", eulophia$scientific_name, "</I>",
+                            "<br/>",
+                            "<B>Colectado por: </B>", eulophia$place_guess),
+            icon = icon1
+               )
+
+```
+
+# Trabajando Variables Categóricas con Leaflet:
+
+Es posible distinguir entre especies utilizando diferentes colores, pero debe utilizar la función `addCircleMarkers()` en lugar de `addAwesomeMarkers()`. Para colorear grupos en Leaflet es necesario generar una paleta de colores para las variables de interés de acuerdo al tipo de variable (*i.e.*, numérica, factorial). Para esto se utilizan las funciones `colorFactor()`, `colorNumeric()`, `colorBin()`, o `colorQuantile()`. `colorFactor()` y `colorNumeric()` generan paletas de colores para variables factoriales y numericas, respectivamente; mientras que `colorBin()` y `colorQuantile()` generan paletas de colores para valores numéricos resumidos en grupos.
+
+En este caso se está trabajando con una variable factorial que divide las observaciones entre 3 especies de orquídeas. Primero se crea una paleta de colores para una variable factorial con la función `colorFactor()`. Bajo esta función se especifican los parámetros `palette` y `levels`. `palette`es para especificar la paleta de colores a utilizar y `levels`especifica los niveles de la variable factorial. La paleta de colores que se utiliza (`"Dark2"`) proviene del paquete RColorBrewer. Esta paleta de colores para los niveles de la variable factorial *scientific_name* del data.frame *eulophia* se guardará en un objeto llamado *pal*.
+
+```{r}
+pal <- colorFactor(palette = 'Dark2',
+            levels = levels(eulophia$scientific_name))
+```
+
+Ahora que se ha especificado los colores para los valores factoriales, es posible utilizar el objeto pal para colorear los marcadores circulares del mapa de Leaflet de acuerdo a la especie observada especificando el parámetro color
+
+```{r}
+leaflet(eulophia) %>% 
+  addTiles() %>% 
+  addCircleMarkers(lng = ~ longitude, lat = ~ latitude,
+                   popup = paste0("<B>Especie: </B>", "<I>", eulophia$scientific_name, "</I>",
+                            "<br/>",
+                            "<B>Colectado por: </B>", eulophia$place_guess),
+                   color = ~ pal(scientific_name)) 
+
+```
+
+Para ayudar con la visualización de datos pertenecientes a diferentes grupos, en ocasiones es bueno presentar una leyenda que indique los colores que representan cada grupo. Es posible añadir una leyenda al mapa de Leaflet utilizando la función `addLegend()` y especificando los siguientes parámetros:
+
+-   `position`: Para determinar la posición de la leyenda, en este caso se colocará en la parte superior derecha, `"topright"`, del mapa, pero podría colocarla en la parte inferior derecha (`"bottomright"`), la parte inferior izquierda (`"bottomleft"`), o la parte superior izquierda (`"topleft"`).
+
+-   pal: La paleta de colores a utilizar generada a través de la función `colorFactor()` o sus equivalentes (*i.e.*, `colorNumeric()`)
+
+-   `values`: Los valores o la variable u objeto que contiene los valores utilizados.
+
+-   `title`: El título de la leyenda especificado como una línea de caracteres.
+
+```{r}
+leaflet(eulophia) %>% 
+  addTiles() %>% 
+  addCircleMarkers(lng = ~ longitude, lat = ~ latitude,
+                   popup = paste0("<B>Especie: </B>", "<I>", eulophia$scientific_name, "</I>",
+                            "<br/>",
+                            "<B>Colectado por: </B>", eulophia$place_guess),
+                   color = ~ pal(scientific_name)) %>% 
+  addLegend(position = "topright", 
+            pal = pal, 
+            values = ~ scientific_name,
+            title = "Species"
+            )
+```
+
+
+```{r}
+iconcolor <- function(scienctific_name)
+
+leaflet() %>% 
+  addProviderTiles("Esri.WorldImagery") %>% 
+  addAwesomeMarkers(lng = eulophia$longitude, lat = eulophia$latitude, 
+             popup = paste0("<B>Especie: </B>", "<I>", eulophia$scientific_name, "</I>",
+                            "<br/>",
+                            "<B>Colectado por: </B>", eulophia$place_guess),
+            icon = icon1
+               )
+
+```
+
+
+

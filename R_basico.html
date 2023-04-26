@@ -13,7 +13,7 @@
 
 <title>R_Basico</title>
 
-<script src="site_libs/header-attrs-2.18/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.21/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
@@ -92,7 +92,7 @@ code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
 code span.at { color: #7d9029; } /* Attribute */
 code span.bn { color: #40a070; } /* BaseN */
-code span.bu { } /* BuiltIn */
+code span.bu { color: #008000; } /* BuiltIn */
 code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
 code span.ch { color: #4070a0; } /* Char */
 code span.cn { color: #880000; } /* Constant */
@@ -105,7 +105,7 @@ code span.er { color: #ff0000; font-weight: bold; } /* Error */
 code span.ex { } /* Extension */
 code span.fl { color: #40a070; } /* Float */
 code span.fu { color: #06287e; } /* Function */
-code span.im { } /* Import */
+code span.im { color: #008000; font-weight: bold; } /* Import */
 code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
 code span.kw { color: #007020; font-weight: bold; } /* Keyword */
 code span.op { color: #666666; } /* Operator */
@@ -405,7 +405,7 @@ div.tocify {
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="index.html">Visualización de Datos-2022</a>
+      <a class="navbar-brand" href="index.html">Visualización de Datos-2023</a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
@@ -463,6 +463,9 @@ div.tocify {
     </li>
     <li>
       <a href="G16_Tablas_Tablas_Tablas.html">Tablas y Tablas</a>
+    </li>
+    <li>
+      <a href="G17_LeafletTaller_abril2023.html">Leaflet</a>
     </li>
   </ul>
 </li>
@@ -541,6 +544,30 @@ div.tocify {
     </li>
   </ul>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Otros paquetes gg
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="ST_ggblanket.html">El paquete ggblanket</a>
+    </li>
+    <li>
+      <a href="ST_gggibous.html">El paquete gggibous</a>
+    </li>
+    <li>
+      <a href="ST_ggiraph.html">El paquete ggiraph</a>
+    </li>
+    <li>
+      <a href="ST_ggparty.html">El paquete ggparty</a>
+    </li>
+    <li>
+      <a href="ST_ggvenn.html">El paquete ggvenn</a>
+    </li>
+  </ul>
+</li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         
@@ -559,7 +586,7 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2022-12-12&quot;</code></pre>
+<pre><code>## [1] &quot;2023-04-26&quot;</code></pre>
 <p>En este modulo veremos como se hace cálculos básicos en R. Nota que
 aquí estamos usando R, como si fuese una calculadora. Realmente para la
 gran mayoría de los ejemplos aquí no hay ninguna necesidad de utilizar R
@@ -862,8 +889,8 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb120-1"><a href="#cb1
 <div class="sourceCode" id="cb122"><pre
 class="sourceCode r"><code class="sourceCode r"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a>Distancia_del_trabajo<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">10</span>, <span class="dv">100</span>, <span class="dv">10</span>)</span>
 <span id="cb122-2"><a href="#cb122-2" aria-hidden="true" tabindex="-1"></a>Distancia_del_trabajo</span></code></pre></div>
-<pre><code>##  [1] 106.02582 122.12703 106.78165  87.47454  98.46059  99.13846  96.35013
-##  [8] 101.82150 100.54107  97.14162</code></pre>
+<pre><code>##  [1] 105.04263  90.51261 103.39052  95.78472 112.06581  98.91924 105.78415
+##  [8] 102.09608 110.15582  89.57690</code></pre>
 <div class="sourceCode" id="cb124"><pre
 class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="#cb124-1" aria-hidden="true" tabindex="-1"></a>Ciudad<span class="ot">=</span><span class="fu">c</span>(<span class="st">&quot;Fajardo&quot;</span>, <span class="st">&quot;Carolina&quot;</span>, <span class="st">&quot;Luquillo&quot;</span>,<span class="st">&quot;Gurabo&quot;</span>, <span class="st">&quot;Rio_Grande&quot;</span>, <span class="st">&quot;Ceiba&quot;</span>,<span class="st">&quot;Las_Piedras&quot;</span>, <span class="st">&quot;Caguas&quot;</span>,<span class="st">&quot;Maunabo&quot;</span>, <span class="st">&quot;Sturgeon_Falls&quot;</span>)</span>
 <span id="cb124-2"><a href="#cb124-2" aria-hidden="true" tabindex="-1"></a>Ciudad</span></code></pre></div>
@@ -874,16 +901,16 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb124-1"><a href="#cb1
 class="sourceCode r"><code class="sourceCode r"><span id="cb126-1"><a href="#cb126-1" aria-hidden="true" tabindex="-1"></a>misDatos<span class="ot">=</span><span class="fu">data.frame</span>(Edad,Distancia_del_trabajo,Ciudad)  <span class="co"># La función de unir las listas en un data frame</span></span>
 <span id="cb126-2"><a href="#cb126-2" aria-hidden="true" tabindex="-1"></a>misDatos</span></code></pre></div>
 <pre><code>##    Edad Distancia_del_trabajo         Ciudad
-## 1    10             106.02582        Fajardo
-## 2     9             122.12703       Carolina
-## 3     8             106.78165       Luquillo
-## 4     7              87.47454         Gurabo
-## 5     6              98.46059     Rio_Grande
-## 6     5              99.13846          Ceiba
-## 7     4              96.35013    Las_Piedras
-## 8     3             101.82150         Caguas
-## 9     2             100.54107        Maunabo
-## 10    1              97.14162 Sturgeon_Falls</code></pre>
+## 1    10             105.04263        Fajardo
+## 2     9              90.51261       Carolina
+## 3     8             103.39052       Luquillo
+## 4     7              95.78472         Gurabo
+## 5     6             112.06581     Rio_Grande
+## 6     5              98.91924          Ceiba
+## 7     4             105.78415    Las_Piedras
+## 8     3             102.09608         Caguas
+## 9     2             110.15582        Maunabo
+## 10    1              89.57690 Sturgeon_Falls</code></pre>
 </div>
 <div id="funciones-comunes" class="section level1">
 <h1>Funciones comunes</h1>
@@ -908,32 +935,32 @@ class="sourceCode r"><code class="sourceCode r"><span id="cb138-1"><a href="#cb1
 <div class="sourceCode" id="cb140"><pre
 class="sourceCode r"><code class="sourceCode r"><span id="cb140-1"><a href="#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(misDatos)   <span class="co"># ver las primeras 6 filas </span></span></code></pre></div>
 <pre><code>##   Edad Distancia_del_trabajo     Ciudad
-## 1   10             106.02582    Fajardo
-## 2    9             122.12703   Carolina
-## 3    8             106.78165   Luquillo
-## 4    7              87.47454     Gurabo
-## 5    6              98.46059 Rio_Grande
-## 6    5              99.13846      Ceiba</code></pre>
+## 1   10             105.04263    Fajardo
+## 2    9              90.51261   Carolina
+## 3    8             103.39052   Luquillo
+## 4    7              95.78472     Gurabo
+## 5    6             112.06581 Rio_Grande
+## 6    5              98.91924      Ceiba</code></pre>
 <div class="sourceCode" id="cb142"><pre
 class="sourceCode r"><code class="sourceCode r"><span id="cb142-1"><a href="#cb142-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tail</span>(misDatos)   <span class="co"># ver las ultimas 6 filas</span></span></code></pre></div>
 <pre><code>##    Edad Distancia_del_trabajo         Ciudad
-## 5     6              98.46059     Rio_Grande
-## 6     5              99.13846          Ceiba
-## 7     4              96.35013    Las_Piedras
-## 8     3             101.82150         Caguas
-## 9     2             100.54107        Maunabo
-## 10    1              97.14162 Sturgeon_Falls</code></pre>
+## 5     6             112.06581     Rio_Grande
+## 6     5              98.91924          Ceiba
+## 7     4             105.78415    Las_Piedras
+## 8     3             102.09608         Caguas
+## 9     2             110.15582        Maunabo
+## 10    1              89.57690 Sturgeon_Falls</code></pre>
 <div class="sourceCode" id="cb144"><pre
 class="sourceCode r"><code class="sourceCode r"><span id="cb144-1"><a href="#cb144-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(misDatos, <span class="at">n=</span><span class="dv">8</span>)   <span class="co"># ver las primeras 8 filas</span></span></code></pre></div>
 <pre><code>##   Edad Distancia_del_trabajo      Ciudad
-## 1   10             106.02582     Fajardo
-## 2    9             122.12703    Carolina
-## 3    8             106.78165    Luquillo
-## 4    7              87.47454      Gurabo
-## 5    6              98.46059  Rio_Grande
-## 6    5              99.13846       Ceiba
-## 7    4              96.35013 Las_Piedras
-## 8    3             101.82150      Caguas</code></pre>
+## 1   10             105.04263     Fajardo
+## 2    9              90.51261    Carolina
+## 3    8             103.39052    Luquillo
+## 4    7              95.78472      Gurabo
+## 5    6             112.06581  Rio_Grande
+## 6    5              98.91924       Ceiba
+## 7    4             105.78415 Las_Piedras
+## 8    3             102.09608      Caguas</code></pre>
 <div class="sourceCode" id="cb146"><pre
 class="sourceCode r"><code class="sourceCode r"><span id="cb146-1"><a href="#cb146-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(misDatos) <span class="co"># saber cual tipo de organización de datos </span></span></code></pre></div>
 <pre><code>## [1] &quot;data.frame&quot;</code></pre>
