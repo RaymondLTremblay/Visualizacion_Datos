@@ -13,7 +13,7 @@
 
 <title>Evaluando_supuestos</title>
 
-<script src="site_libs/header-attrs-2.21/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.23/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
@@ -29,7 +29,7 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
@@ -464,6 +464,9 @@ div.tocify {
     <li>
       <a href="G16_Tablas_Tablas_Tablas.html">Tablas y Tablas</a>
     </li>
+    <li>
+      <a href="G17_LeafletTaller_abril2023.html">Leaflet</a>
+    </li>
   </ul>
 </li>
 <li class="dropdown">
@@ -583,7 +586,7 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2023-04-26&quot;</code></pre>
+<pre><code>## [1] &quot;2023-07-04&quot;</code></pre>
 <p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" /></p>
 <div id="la-lista-de-packetes-para-analisis-de-los-supuestos"
 class="section level2">
@@ -593,10 +596,11 @@ class="section level2">
 <span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
 <span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)</span>
 <span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reshape2)</span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggcorrplot)</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span></code></pre></div>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">#library(kableExtra)</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reshape2)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggcorrplot)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span></code></pre></div>
 <hr />
 <p>La ética en estadística esta basado en comprobar y cumplir con los
 supuestos de las pruebas estadística que se usan. La gran mayoría de las
@@ -1239,62 +1243,31 @@ Recordemos que esta correlación asume distribución normal.</p>
 <span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a> <span class="at">use=</span><span class="st">&quot;pairwise.complete.obs&quot;</span>),<span class="dv">2</span>))</span></code></pre></div>
 <table>
 <thead>
-<tr>
-<th style="text-align:left;">
-</th>
-<th style="text-align:right;">
-dbh
-</th>
-<th style="text-align:right;">
-number_of_flowers
-</th>
-<th style="text-align:right;">
-height_inflo
-</th>
+<tr class="header">
+<th align="left"></th>
+<th align="right">dbh</th>
+<th align="right">number_of_flowers</th>
+<th align="right">height_inflo</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-dbh
-</td>
-<td style="text-align:right;">
-1.000
-</td>
-<td style="text-align:right;">
--0.035
-</td>
-<td style="text-align:right;">
--0.10
-</td>
+<tr class="odd">
+<td align="left">dbh</td>
+<td align="right">1.000</td>
+<td align="right">-0.035</td>
+<td align="right">-0.10</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-number_of_flowers
-</td>
-<td style="text-align:right;">
--0.035
-</td>
-<td style="text-align:right;">
-1.000
-</td>
-<td style="text-align:right;">
-0.71
-</td>
+<tr class="even">
+<td align="left">number_of_flowers</td>
+<td align="right">-0.035</td>
+<td align="right">1.000</td>
+<td align="right">0.71</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-height_inflo
-</td>
-<td style="text-align:right;">
--0.100
-</td>
-<td style="text-align:right;">
-0.710
-</td>
-<td style="text-align:right;">
-1.00
-</td>
+<tr class="odd">
+<td align="left">height_inflo</td>
+<td align="right">-0.100</td>
+<td align="right">0.710</td>
+<td align="right">1.00</td>
 </tr>
 </tbody>
 </table>
@@ -1311,66 +1284,33 @@ en la Tabla siguiente.</p>
 <span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a> <span class="at">caption =</span></span>
 <span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;</span><span class="sc">\\</span><span class="st">label{fig:CK}Correlaciones de Kendall&quot;</span>)</span></code></pre></div>
 <table>
-<caption>
-Correlaciones de Kendall
-</caption>
+<caption>Correlaciones de Kendall</caption>
 <thead>
-<tr>
-<th style="text-align:left;">
-</th>
-<th style="text-align:right;">
-dbh
-</th>
-<th style="text-align:right;">
-number_of_flowers
-</th>
-<th style="text-align:right;">
-height_inflo
-</th>
+<tr class="header">
+<th align="left"></th>
+<th align="right">dbh</th>
+<th align="right">number_of_flowers</th>
+<th align="right">height_inflo</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-dbh
-</td>
-<td style="text-align:right;">
-1.00000
-</td>
-<td style="text-align:right;">
-0.00085
-</td>
-<td style="text-align:right;">
--0.059
-</td>
+<tr class="odd">
+<td align="left">dbh</td>
+<td align="right">1.00000</td>
+<td align="right">0.00085</td>
+<td align="right">-0.059</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-number_of_flowers
-</td>
-<td style="text-align:right;">
-0.00085
-</td>
-<td style="text-align:right;">
-1.00000
-</td>
-<td style="text-align:right;">
-0.630
-</td>
+<tr class="even">
+<td align="left">number_of_flowers</td>
+<td align="right">0.00085</td>
+<td align="right">1.00000</td>
+<td align="right">0.630</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-height_inflo
-</td>
-<td style="text-align:right;">
--0.05900
-</td>
-<td style="text-align:right;">
-0.63000
-</td>
-<td style="text-align:right;">
-1.000
-</td>
+<tr class="odd">
+<td align="left">height_inflo</td>
+<td align="right">-0.05900</td>
+<td align="right">0.63000</td>
+<td align="right">1.000</td>
 </tr>
 </tbody>
 </table>
@@ -1382,62 +1322,31 @@ height_inflo
 <span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a> <span class="at">use=</span><span class="st">&quot;pairwise.complete.obs&quot;</span>),<span class="dv">1</span>))</span></code></pre></div>
 <table>
 <thead>
-<tr>
-<th style="text-align:left;">
-</th>
-<th style="text-align:right;">
-dbh
-</th>
-<th style="text-align:right;">
-number_of_flowers
-</th>
-<th style="text-align:right;">
-height_inflo
-</th>
+<tr class="header">
+<th align="left"></th>
+<th align="right">dbh</th>
+<th align="right">number_of_flowers</th>
+<th align="right">height_inflo</th>
 </tr>
 </thead>
 <tbody>
-<tr>
-<td style="text-align:left;">
-dbh
-</td>
-<td style="text-align:right;">
-1.000
-</td>
-<td style="text-align:right;">
--0.002
-</td>
-<td style="text-align:right;">
--0.08
-</td>
+<tr class="odd">
+<td align="left">dbh</td>
+<td align="right">1.000</td>
+<td align="right">-0.002</td>
+<td align="right">-0.08</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-number_of_flowers
-</td>
-<td style="text-align:right;">
--0.002
-</td>
-<td style="text-align:right;">
-1.000
-</td>
-<td style="text-align:right;">
-0.80
-</td>
+<tr class="even">
+<td align="left">number_of_flowers</td>
+<td align="right">-0.002</td>
+<td align="right">1.000</td>
+<td align="right">0.80</td>
 </tr>
-<tr>
-<td style="text-align:left;">
-height_inflo
-</td>
-<td style="text-align:right;">
--0.080
-</td>
-<td style="text-align:right;">
-0.800
-</td>
-<td style="text-align:right;">
-1.00
-</td>
+<tr class="odd">
+<td align="left">height_inflo</td>
+<td align="right">-0.080</td>
+<td align="right">0.800</td>
+<td align="right">1.00</td>
 </tr>
 </tbody>
 </table>
