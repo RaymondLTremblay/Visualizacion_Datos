@@ -13,7 +13,7 @@
 
 <title>Evaluando_supuestos</title>
 
-<script src="site_libs/header-attrs-2.23/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
@@ -555,7 +555,7 @@ div.tocify {
       <a href="ST_ggblanket.html">El paquete ggblanket</a>
     </li>
     <li>
-      <a href="ST_gggibous.html">El paquete gggibous</a>
+      <a href="ST_gggibous2.html">El paquete gggibous</a>
     </li>
     <li>
       <a href="ST_ggiraph.html">El paquete ggiraph</a>
@@ -586,21 +586,21 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2023-07-04&quot;</code></pre>
+<pre><code>## [1] &quot;2024-01-15&quot;</code></pre>
 <p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" /></p>
 <div id="la-lista-de-packetes-para-analisis-de-los-supuestos"
 class="section level2">
 <h2>La lista de packetes para analisis de los supuestos</h2>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggversa)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(GGally)</span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">#library(kableExtra)</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(reshape2)</span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggcorrplot)</span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">library</span>(ggversa)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">library</span>(knitr)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="fu">library</span>(GGally)</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="co">#library(kableExtra)</span></span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a><span class="fu">library</span>(reshape2)</span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a><span class="fu">library</span>(ggcorrplot)</span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a><span class="fu">library</span>(gridExtra)</span></code></pre></div>
 <hr />
 <p>La ética en estadística esta basado en comprobar y cumplir con los
 supuestos de las pruebas estadística que se usan. La gran mayoría de las
@@ -677,19 +677,19 @@ biológicamente posibles y no error en la toma de los datos o cuando se
 entraron en la hoja de datos.</p>
 <div id="selección-de-los-datos" class="section level3">
 <h3>Selección de los datos</h3>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>BecasaDeMar<span class="ot">=</span>Godwits</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>BecasaDeMar<span class="ot">=</span>BecasaDeMar[<span class="sc">-</span><span class="fu">which</span>(BecasaDeMar<span class="sc">$</span>SEX<span class="sc">==</span><span class="st">&quot;0&quot;</span>),]</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>BecasaDeMar<span class="sc">$</span>fSEXO <span class="ot">&lt;-</span> <span class="fu">factor</span>(BecasaDeMar<span class="sc">$</span>SEX,</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>            <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>            <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Hembra&quot;</span>, <span class="st">&quot;Macho&quot;</span>))</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>BecasaDeMar<span class="sc">$</span>fPERIODO <span class="ot">&lt;-</span> <span class="fu">factor</span>(BecasaDeMar<span class="sc">$</span>PERIOD,</span>
-<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>            <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>),</span>
-<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>            <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Verano&quot;</span>, <span class="st">&quot;Pre-migración&quot;</span>, <span class="st">&quot;Invierno&quot;</span>))</span>
-<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a> <span class="fu">head</span>(BecasaDeMar)           </span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>BecasaDeMar<span class="ot">=</span>Godwits</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>BecasaDeMar<span class="ot">=</span>BecasaDeMar[<span class="sc">-</span><span class="fu">which</span>(BecasaDeMar<span class="sc">$</span>SEX<span class="sc">==</span><span class="st">&quot;0&quot;</span>),]</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>BecasaDeMar<span class="sc">$</span>fSEXO <span class="ot">&lt;-</span> <span class="fu">factor</span>(BecasaDeMar<span class="sc">$</span>SEX,</span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>            <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>            <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Hembra&quot;</span>, <span class="st">&quot;Macho&quot;</span>))</span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>BecasaDeMar<span class="sc">$</span>fPERIODO <span class="ot">&lt;-</span> <span class="fu">factor</span>(BecasaDeMar<span class="sc">$</span>PERIOD,</span>
+<span id="cb3-10"><a href="#cb3-10" tabindex="-1"></a>            <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>, <span class="dv">2</span>),</span>
+<span id="cb3-11"><a href="#cb3-11" tabindex="-1"></a>            <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Verano&quot;</span>, <span class="st">&quot;Pre-migración&quot;</span>, <span class="st">&quot;Invierno&quot;</span>))</span>
+<span id="cb3-12"><a href="#cb3-12" tabindex="-1"></a></span>
+<span id="cb3-13"><a href="#cb3-13" tabindex="-1"></a> <span class="fu">head</span>(BecasaDeMar)           </span></code></pre></div>
 <pre><code>##     RECORD DAY MONTH YEAR LOCATION AGE SEX PERIOD mgconsumed  fSEXO
 ## 125     53   2     4   97        1   1   1      1       0.07 Hembra
 ## 126     67  16     5   97        0   1   1      2       0.18 Hembra
@@ -704,19 +704,19 @@ entraron en la hoja de datos.</p>
 ## 128      Invierno
 ## 129      Invierno
 ## 130      Invierno</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>BecasaMar <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(BecasaDeMar,</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>                    <span class="fu">aes</span>(<span class="at">y=</span>mgconsumed, fSEXO))</span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>BecasaMar <span class="sc">+</span> <span class="fu">geom_boxplot</span>(<span class="at">notch=</span><span class="cn">TRUE</span>)<span class="sc">+</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>            <span class="fu">facet_wrap</span>(<span class="sc">~</span>fPERIODO)<span class="sc">+</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>            <span class="fu">xlab</span>(<span class="st">&quot;Sexo de las aves&quot;</span>)<span class="sc">+</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>            <span class="fu">ylab</span>(<span class="st">&quot;Razón de consumo&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>BecasaMar <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(BecasaDeMar,</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>                    <span class="fu">aes</span>(<span class="at">y=</span>mgconsumed, fSEXO))</span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>BecasaMar <span class="sc">+</span> <span class="fu">geom_boxplot</span>(<span class="at">notch=</span><span class="cn">TRUE</span>)<span class="sc">+</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>            <span class="fu">facet_wrap</span>(<span class="sc">~</span>fPERIODO)<span class="sc">+</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>        <span class="at">axis.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>            <span class="fu">xlab</span>(<span class="st">&quot;Sexo de las aves&quot;</span>)<span class="sc">+</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>            <span class="fu">ylab</span>(<span class="st">&quot;Razón de consumo&quot;</span>)</span></code></pre></div>
 <p><img src="G11_EVALUANDO_SUPUESTOS_files/figure-html/BecasaDeMarBP-1.png" width="672" /></p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co">#edad=c(19,19,23,23,19,20,23,35,19, 200)</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="co">#edad=c(19,19, 19,19, 20, 23, 23, 35, 37, 200)</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="co">#mean(edad)</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co">#median(edad)</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co">#edad=c(19,19,23,23,19,20,23,35,19, 200)</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="co">#edad=c(19,19, 19,19, 20, 23, 23, 35, 37, 200)</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="co">#mean(edad)</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a><span class="co">#median(edad)</span></span></code></pre></div>
 <hr />
 </div>
 </div>
@@ -742,12 +742,12 @@ análisis de regresión simple usando <strong>lm()</strong> y darle un
 nombre al análisis o sea el modelo. Subseguientemente uno puede llamar
 los valores necesarios para hacer el gráfico con
 <strong>.fitted</strong> y <strong>.resid</strong>.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co">#names(dipodium)</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>dipodium<span class="ot">=</span>janitor<span class="sc">::</span><span class="fu">clean_names</span>(dipodium)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>dipodium<span class="ot">=</span>dipodium <span class="sc">%&gt;%</span> </span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">add_row</span>(<span class="at">number_of_flowers =</span> <span class="dv">60</span>, <span class="at">height_inflo =</span><span class="dv">30</span>)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(dipodium)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co">#names(dipodium)</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>dipodium<span class="ot">=</span>janitor<span class="sc">::</span><span class="fu">clean_names</span>(dipodium)</span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>dipodium<span class="ot">=</span>dipodium <span class="sc">%&gt;%</span> </span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>  <span class="fu">add_row</span>(<span class="at">number_of_flowers =</span> <span class="dv">60</span>, <span class="at">height_inflo =</span><span class="dv">30</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="fu">names</span>(dipodium)</span></code></pre></div>
 <pre><code>##  [1] &quot;tree_number&quot;             &quot;tree_species&quot;           
 ##  [3] &quot;dbh&quot;                     &quot;plant_number&quot;           
 ##  [5] &quot;ramet_number&quot;            &quot;distance&quot;               
@@ -759,10 +759,10 @@ los valores necesarios para hacer el gráfico con
 ## [17] &quot;frutos_si_o_no&quot;          &quot;p_or_r_infl_lenght&quot;     
 ## [19] &quot;num_of_fruits&quot;           &quot;species_name&quot;           
 ## [21] &quot;cardinal_orientation&quot;</code></pre>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>modelflower<span class="ot">=</span><span class="fu">lm</span>(number_of_flowers<span class="sc">~</span>height_inflo,</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>         <span class="at">data=</span>dipodium)</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(modelflower)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>modelflower<span class="ot">=</span><span class="fu">lm</span>(number_of_flowers<span class="sc">~</span>height_inflo,</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>         <span class="at">data=</span>dipodium)</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="fu">summary</span>(modelflower)</span></code></pre></div>
 <pre><code>## 
 ## Call:
 ## lm(formula = number_of_flowers ~ height_inflo, data = dipodium)
@@ -795,31 +795,31 @@ se usan los valores calculados en el modelo <strong>.fitted</strong> y
 <strong>.resid</strong> para producir el gráfico. Se añade una linea
 horizontal para identificar el modelo nulo con
 <strong>geom_hline</strong>.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>  res<span class="ot">&lt;-</span><span class="fu">ggplot</span>(modelflower, <span class="fu">aes</span>(.fitted, .resid))<span class="sc">+</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="dv">0</span>,</span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">col=</span><span class="st">&quot;green&quot;</span>, <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>)<span class="sc">+</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Valores estimados&quot;</span>)<span class="sc">+</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>           <span class="fu">ylab</span>(<span class="st">&quot;Residuales&quot;</span>)<span class="sc">+</span></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Residuales vs. Valores Estimados&quot;</span>)</span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>res</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>  res<span class="ot">&lt;-</span><span class="fu">ggplot</span>(modelflower, <span class="fu">aes</span>(.fitted, .resid))<span class="sc">+</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="dv">0</span>,</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>           <span class="at">col=</span><span class="st">&quot;green&quot;</span>, <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>)<span class="sc">+</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>        <span class="at">axis.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Valores estimados&quot;</span>)<span class="sc">+</span></span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>           <span class="fu">ylab</span>(<span class="st">&quot;Residuales&quot;</span>)<span class="sc">+</span></span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Residuales vs. Valores Estimados&quot;</span>)</span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a>res</span></code></pre></div>
 <p><img src="G11_EVALUANDO_SUPUESTOS_files/figure-html/Homogeneityvariance1-1.png" width="672" /></p>
 <hr />
 </div>
 <div id="heterosescasticidad" class="section level2">
 <h2>Heterosescasticidad</h2>
 <p>Ejemplo de heteroescasticidad</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span><span class="dv">1000</span>, <span class="at">mean =</span> A, <span class="at">sd=</span><span class="fl">0.4</span><span class="sc">*</span>A)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>df<span class="ot">=</span><span class="fu">as.data.frame</span>(<span class="fu">cbind</span>(A,B))</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="co">#df</span></span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>modeldf<span class="ot">=</span><span class="fu">lm</span>(B<span class="sc">~</span>A, <span class="at">data=</span>df)</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(A, B))<span class="sc">+</span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>A <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">1000</span></span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>B <span class="ot">&lt;-</span> <span class="fu">rnorm</span>(<span class="at">n=</span><span class="dv">1000</span>, <span class="at">mean =</span> A, <span class="at">sd=</span><span class="fl">0.4</span><span class="sc">*</span>A)</span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>df<span class="ot">=</span><span class="fu">as.data.frame</span>(<span class="fu">cbind</span>(A,B))</span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="co">#df</span></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>modeldf<span class="ot">=</span><span class="fu">lm</span>(B<span class="sc">~</span>A, <span class="at">data=</span>df)</span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(A, B))<span class="sc">+</span></span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div>
 <p><img src="G11_EVALUANDO_SUPUESTOS_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 </div>
 <div
@@ -827,16 +827,16 @@ id="nota-que-la-variación-en-los-residuales-aumenta-a-medida-que-x-aumenta"
 class="section level2">
 <h2>Nota que la variación en los residuales aumenta a medida que
 <strong>x</strong> aumenta</h2>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>  Hetero<span class="ot">&lt;-</span><span class="fu">ggplot</span>(modeldf, <span class="fu">aes</span>(.fitted, .resid))<span class="sc">+</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="dv">0</span>,</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">col=</span><span class="st">&quot;green&quot;</span>, <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>)<span class="sc">+</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Valores estimados&quot;</span>)<span class="sc">+</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>           <span class="fu">ylab</span>(<span class="st">&quot;Residuales&quot;</span>)<span class="sc">+</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Residuales vs. Valores Estimados&quot;</span>)</span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>Hetero</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>  Hetero<span class="ot">&lt;-</span><span class="fu">ggplot</span>(modeldf, <span class="fu">aes</span>(.fitted, .resid))<span class="sc">+</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="dv">0</span>,</span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>           <span class="at">col=</span><span class="st">&quot;green&quot;</span>, <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>)<span class="sc">+</span></span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>        <span class="at">axis.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Valores estimados&quot;</span>)<span class="sc">+</span></span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a>           <span class="fu">ylab</span>(<span class="st">&quot;Residuales&quot;</span>)<span class="sc">+</span></span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Residuales vs. Valores Estimados&quot;</span>)</span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a>Hetero</span></code></pre></div>
 <p><img src="G11_EVALUANDO_SUPUESTOS_files/figure-html/Heterogeneityvariance1-1.png" width="672" /></p>
 <hr />
 </div>
@@ -858,15 +858,15 @@ evaluar ese punto para asegurar que es un valor real, y no error de
 poner los datos en la hoja de datos. Valores típicamente mayor de 3, son
 considerado “outliers”, sesgados, aunque los valores mayores de 2
 deberían ser evaluados.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>  ResEst<span class="ot">=</span><span class="fu">ggplot</span>(modelflower,</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">aes</span>(.fitted, <span class="fu">sqrt</span>(<span class="fu">abs</span>(.stdresid)))) <span class="sc">+</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                 <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">colour =</span> .stdresid <span class="sc">&gt;</span><span class="dv">3</span>),<span class="at">na.rm=</span><span class="cn">TRUE</span>)<span class="sc">+</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>          <span class="fu">xlab</span>(<span class="st">&quot;Valores estimados&quot;</span>)<span class="sc">+</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>          <span class="fu">ylab</span>(<span class="st">&quot;Residuales estandarizados </span><span class="sc">\n</span><span class="st"> de Student&quot;</span>)<span class="sc">+</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Residuales vs. Valores Estimados&quot;</span>)</span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>ResEst</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>  ResEst<span class="ot">=</span><span class="fu">ggplot</span>(modelflower,</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>                 <span class="fu">aes</span>(.fitted, <span class="fu">sqrt</span>(<span class="fu">abs</span>(.stdresid)))) <span class="sc">+</span></span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>                 <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">colour =</span> .stdresid <span class="sc">&gt;</span><span class="dv">3</span>),<span class="at">na.rm=</span><span class="cn">TRUE</span>)<span class="sc">+</span></span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a>        <span class="at">axis.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a>          <span class="fu">xlab</span>(<span class="st">&quot;Valores estimados&quot;</span>)<span class="sc">+</span></span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a>          <span class="fu">ylab</span>(<span class="st">&quot;Residuales estandarizados </span><span class="sc">\n</span><span class="st"> de Student&quot;</span>)<span class="sc">+</span></span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Residuales vs. Valores Estimados&quot;</span>)</span>
+<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a>ResEst</span></code></pre></div>
 <p><img src="G11_EVALUANDO_SUPUESTOS_files/figure-html/Homogeneityvariance2-1.png" width="672" /></p>
 <hr />
 </div>
@@ -908,16 +908,16 @@ valores encima de la línea roja). Note que no es que están incorrectos;
 más bien, este resultado es solamente una herramienta para evaluar
 valores que <strong>parecen</strong> tener un impacto considerable sobre
 los resultados.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggplot</span>(modelflower,</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>        <span class="fu">aes</span>(<span class="fu">seq_along</span>(.cooksd), .cooksd))<span class="sc">+</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>        <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">&quot;identity&quot;</span>,</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>        <span class="at">position=</span><span class="st">&quot;identity&quot;</span>, <span class="at">fill=</span><span class="st">&quot;steelblue&quot;</span>)<span class="sc">+</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span><span class="fl">0.022</span>, <span class="at">colour=</span><span class="st">&quot;red&quot;</span>)<span class="sc">+</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>        <span class="fu">xlab</span>(<span class="st">&quot;La secuencia de las observaciones&quot;</span>)<span class="sc">+</span></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ylab</span>(<span class="st">&quot;Distancia de Cook&quot;</span>)<span class="sc">+</span></span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>        <span class="fu">ggtitle</span>(<span class="st">&quot;Distancia de Cook&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>  <span class="fu">ggplot</span>(modelflower,</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>        <span class="fu">aes</span>(<span class="fu">seq_along</span>(.cooksd), .cooksd))<span class="sc">+</span></span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>        <span class="fu">geom_bar</span>(<span class="at">stat=</span><span class="st">&quot;identity&quot;</span>,</span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>        <span class="at">position=</span><span class="st">&quot;identity&quot;</span>, <span class="at">fill=</span><span class="st">&quot;steelblue&quot;</span>)<span class="sc">+</span></span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept =</span><span class="fl">0.022</span>, <span class="at">colour=</span><span class="st">&quot;red&quot;</span>)<span class="sc">+</span></span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a>        <span class="at">axis.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a>        <span class="fu">xlab</span>(<span class="st">&quot;La secuencia de las observaciones&quot;</span>)<span class="sc">+</span></span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a>        <span class="fu">ylab</span>(<span class="st">&quot;Distancia de Cook&quot;</span>)<span class="sc">+</span></span>
+<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a>        <span class="fu">ggtitle</span>(<span class="st">&quot;Distancia de Cook&quot;</span>)</span></code></pre></div>
 <p><img src="G11_EVALUANDO_SUPUESTOS_files/figure-html/Cookdistance-1.png" width="672" /></p>
 <hr />
 </div>
@@ -972,14 +972,14 @@ extremos no están muy cerca de la línea <strong>X-Y</strong>, lo que
 sugiere que el consumo por la Becasa de Mar no tiene una distribución
 normal. La función qplot es la manera más sencilla para generar el
 gráfico de QQ.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note que anteriormente ya habíamos depositado los datos en el data.frame BecasaDeMar</span></span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(BecasaDeMar, <span class="fu">aes</span>(<span class="at">sample=</span>mgconsumed))<span class="sc">+</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>       <span class="fu">geom_qq</span>()<span class="sc">+</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_qq_line</span>()<span class="sc">+</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>   <span class="fu">xlab</span>(<span class="st">&quot;Valores teóricos&quot;</span>)<span class="sc">+</span></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>   <span class="fu">ylab</span>(<span class="st">&quot;Valores observados&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="co"># Note que anteriormente ya habíamos depositado los datos en el data.frame BecasaDeMar</span></span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="fu">ggplot</span>(BecasaDeMar, <span class="fu">aes</span>(<span class="at">sample=</span>mgconsumed))<span class="sc">+</span></span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>       <span class="fu">geom_qq</span>()<span class="sc">+</span></span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>  <span class="fu">geom_qq_line</span>()<span class="sc">+</span></span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a>   <span class="fu">xlab</span>(<span class="st">&quot;Valores teóricos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a>   <span class="fu">ylab</span>(<span class="st">&quot;Valores observados&quot;</span>)</span></code></pre></div>
 <p><img src="G11_EVALUANDO_SUPUESTOS_files/figure-html/Becasaqqplot2-1.png" width="672" /></p>
 <hr />
 </div>
@@ -999,28 +999,28 @@ style="color: blue;">la linea azul</span>. En el segundo ejemplo se crea
 un archivo de datos que tiene una distribución normal y esta ejemplo la
 gran mayoría de los datos solapen la linea, <span style="color: red;">la
 linea roja</span></p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span> <span class="fu">ggplot</span>(Godwits, <span class="fu">aes</span>(<span class="at">sample =</span> mgconsumed)) <span class="sc">+</span></span>
-<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_qq</span>() <span class="sc">+</span></span>
-<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_qq_line</span>(<span class="at">colour=</span><span class="st">&quot;blue&quot;</span>)<span class="sc">+</span></span>
-<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Valores teóricos&quot;</span>)<span class="sc">+</span></span>
-<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Valores observados&quot;</span>)</span>
-<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">y =</span> <span class="fu">rnorm</span>(<span class="dv">2000</span>))</span>
-<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">sample =</span> y))<span class="sc">+</span> </span>
-<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_qq</span>() <span class="sc">+</span> </span>
-<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_qq_line</span>(<span class="at">colour=</span><span class="st">&quot;red&quot;</span>)</span>
-<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a><span class="co"># hay una nueva funcción en el paquete ggpubr, ggqqplot que incluye los intervalo de confianza</span></span>
-<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
-<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>c<span class="ot">=</span> <span class="fu">ggqqplot</span>(Godwits, <span class="at">x=</span><span class="st">&quot;mgconsumed&quot;</span>)</span>
-<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>d<span class="ot">=</span><span class="fu">ggqqplot</span>(df, <span class="at">x=</span><span class="st">&quot;y&quot;</span>)</span>
-<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(a,b,c,d,<span class="at">ncol=</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>a<span class="ot">=</span> <span class="fu">ggplot</span>(Godwits, <span class="fu">aes</span>(<span class="at">sample =</span> mgconsumed)) <span class="sc">+</span></span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>  <span class="fu">stat_qq</span>() <span class="sc">+</span></span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>  <span class="fu">stat_qq_line</span>(<span class="at">colour=</span><span class="st">&quot;blue&quot;</span>)<span class="sc">+</span></span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Valores teóricos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Valores observados&quot;</span>)</span>
+<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a></span>
+<span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">y =</span> <span class="fu">rnorm</span>(<span class="dv">2000</span>))</span>
+<span id="cb17-9"><a href="#cb17-9" tabindex="-1"></a>b <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(df, <span class="fu">aes</span>(<span class="at">sample =</span> y))<span class="sc">+</span> </span>
+<span id="cb17-10"><a href="#cb17-10" tabindex="-1"></a>  <span class="fu">stat_qq</span>() <span class="sc">+</span> </span>
+<span id="cb17-11"><a href="#cb17-11" tabindex="-1"></a>  <span class="fu">stat_qq_line</span>(<span class="at">colour=</span><span class="st">&quot;red&quot;</span>)</span>
+<span id="cb17-12"><a href="#cb17-12" tabindex="-1"></a></span>
+<span id="cb17-13"><a href="#cb17-13" tabindex="-1"></a><span class="co"># hay una nueva funcción en el paquete ggpubr, ggqqplot que incluye los intervalo de confianza</span></span>
+<span id="cb17-14"><a href="#cb17-14" tabindex="-1"></a></span>
+<span id="cb17-15"><a href="#cb17-15" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
+<span id="cb17-16"><a href="#cb17-16" tabindex="-1"></a></span>
+<span id="cb17-17"><a href="#cb17-17" tabindex="-1"></a>c<span class="ot">=</span> <span class="fu">ggqqplot</span>(Godwits, <span class="at">x=</span><span class="st">&quot;mgconsumed&quot;</span>)</span>
+<span id="cb17-18"><a href="#cb17-18" tabindex="-1"></a></span>
+<span id="cb17-19"><a href="#cb17-19" tabindex="-1"></a>d<span class="ot">=</span><span class="fu">ggqqplot</span>(df, <span class="at">x=</span><span class="st">&quot;y&quot;</span>)</span>
+<span id="cb17-20"><a href="#cb17-20" tabindex="-1"></a></span>
+<span id="cb17-21"><a href="#cb17-21" tabindex="-1"></a></span>
+<span id="cb17-22"><a href="#cb17-22" tabindex="-1"></a><span class="fu">grid.arrange</span>(a,b,c,d,<span class="at">ncol=</span><span class="dv">2</span>)</span></code></pre></div>
 <p><img src="G11_EVALUANDO_SUPUESTOS_files/figure-html/Becasaqqplot3-1.png" width="672" /></p>
 <hr />
 </div>
@@ -1056,37 +1056,37 @@ variable especifica <strong>mgconsumed</strong>.</p>
 <p><strong>Godwits$mgconsumed</strong></p>
 <p>Además, si hay NA en los datos, hay que añadir <strong>na.rm =
 TRUE</strong> para excluir los <strong>NA</strong>. Veamos.</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(Godwits, <span class="fu">aes</span>(mgconsumed)) <span class="sc">+</span></span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y=</span>..density..),</span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>                 <span class="at">colour=</span><span class="st">&quot;black&quot;</span>, <span class="at">fill=</span><span class="st">&quot;white&quot;</span>)<span class="sc">+</span></span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Razón de Consumo&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Densidad&quot;</span>) <span class="sc">+</span></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm,</span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>        <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> <span class="fu">mean</span>(Godwits<span class="sc">$</span>mgconsumed,</span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>                                <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd =</span> <span class="fu">sd</span>(Godwits<span class="sc">$</span>mgconsumed,<span class="at">na.rm =</span> <span class="cn">TRUE</span>)),</span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour =</span> <span class="st">&quot;red&quot;</span>, <span class="at">size =</span> <span class="dv">1</span>)</span>
-<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>b<span class="ot">=</span> <span class="fu">ggplot</span>(Godwits, <span class="fu">aes</span>(mgconsumed)) <span class="sc">+</span></span>
-<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
-<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y=</span>..density..),</span>
-<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a>                 <span class="at">colour=</span><span class="st">&quot;black&quot;</span>, <span class="at">fill=</span><span class="st">&quot;white&quot;</span>)<span class="sc">+</span></span>
-<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
-<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Razón de Consumo&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Densidad&quot;</span>) <span class="sc">+</span></span>
-<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm, <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span></span>
-<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">mean</span>(Godwits<span class="sc">$</span>mgconsumed, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a>    <span class="at">sd =</span> <span class="fu">sd</span>(Godwits<span class="sc">$</span>mgconsumed, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)),</span>
-<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a>    <span class="at">colour =</span> <span class="st">&quot;red&quot;</span>, <span class="at">size =</span> <span class="dv">1</span>)<span class="sc">+</span></span>
-<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span>PERIOD)</span>
-<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(a,b,<span class="at">ncol=</span><span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(Godwits, <span class="fu">aes</span>(mgconsumed)) <span class="sc">+</span></span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y=</span>..density..),</span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>                 <span class="at">colour=</span><span class="st">&quot;black&quot;</span>, <span class="at">fill=</span><span class="st">&quot;white&quot;</span>)<span class="sc">+</span></span>
+<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Razón de Consumo&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Densidad&quot;</span>) <span class="sc">+</span></span>
+<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm,</span>
+<span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a>        <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span> <span class="fu">mean</span>(Godwits<span class="sc">$</span>mgconsumed,</span>
+<span id="cb18-10"><a href="#cb18-10" tabindex="-1"></a>                                <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb18-11"><a href="#cb18-11" tabindex="-1"></a>    <span class="at">sd =</span> <span class="fu">sd</span>(Godwits<span class="sc">$</span>mgconsumed,<span class="at">na.rm =</span> <span class="cn">TRUE</span>)),</span>
+<span id="cb18-12"><a href="#cb18-12" tabindex="-1"></a>    <span class="at">colour =</span> <span class="st">&quot;red&quot;</span>, <span class="at">size =</span> <span class="dv">1</span>)</span>
+<span id="cb18-13"><a href="#cb18-13" tabindex="-1"></a></span>
+<span id="cb18-14"><a href="#cb18-14" tabindex="-1"></a></span>
+<span id="cb18-15"><a href="#cb18-15" tabindex="-1"></a></span>
+<span id="cb18-16"><a href="#cb18-16" tabindex="-1"></a></span>
+<span id="cb18-17"><a href="#cb18-17" tabindex="-1"></a></span>
+<span id="cb18-18"><a href="#cb18-18" tabindex="-1"></a>b<span class="ot">=</span> <span class="fu">ggplot</span>(Godwits, <span class="fu">aes</span>(mgconsumed)) <span class="sc">+</span></span>
+<span id="cb18-19"><a href="#cb18-19" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
+<span id="cb18-20"><a href="#cb18-20" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y=</span>..density..),</span>
+<span id="cb18-21"><a href="#cb18-21" tabindex="-1"></a>                 <span class="at">colour=</span><span class="st">&quot;black&quot;</span>, <span class="at">fill=</span><span class="st">&quot;white&quot;</span>)<span class="sc">+</span></span>
+<span id="cb18-22"><a href="#cb18-22" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb18-23"><a href="#cb18-23" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb18-24"><a href="#cb18-24" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Razón de Consumo&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Densidad&quot;</span>) <span class="sc">+</span></span>
+<span id="cb18-25"><a href="#cb18-25" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm, <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span></span>
+<span id="cb18-26"><a href="#cb18-26" tabindex="-1"></a>    <span class="fu">mean</span>(Godwits<span class="sc">$</span>mgconsumed, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb18-27"><a href="#cb18-27" tabindex="-1"></a>    <span class="at">sd =</span> <span class="fu">sd</span>(Godwits<span class="sc">$</span>mgconsumed, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)),</span>
+<span id="cb18-28"><a href="#cb18-28" tabindex="-1"></a>    <span class="at">colour =</span> <span class="st">&quot;red&quot;</span>, <span class="at">size =</span> <span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb18-29"><a href="#cb18-29" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span>PERIOD)</span>
+<span id="cb18-30"><a href="#cb18-30" tabindex="-1"></a></span>
+<span id="cb18-31"><a href="#cb18-31" tabindex="-1"></a><span class="fu">grid.arrange</span>(a,b,<span class="at">ncol=</span><span class="dv">1</span>)</span></code></pre></div>
 <p><img src="G11_EVALUANDO_SUPUESTOS_files/figure-html/density-1.png" width="672" /></p>
 <hr />
 </div>
@@ -1102,10 +1102,10 @@ se tuvieron muchas menos observaciones. En el segundo gráfico, Figura
 (b), observamos el histograma y la curva normal para todos los datos sin
 importar el mes. Igualmente, esta visualización nos ayuda a evaluar la
 normalidad de los datos.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>SparrowsElphick <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;Data_files_csv/SparrowsElphick.csv&quot;</span>)</span>
-<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>Sparrows<span class="ot">=</span>SparrowsElphick</span>
-<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(Sparrows)</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>SparrowsElphick <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;Data_files_csv/SparrowsElphick.csv&quot;</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>Sparrows<span class="ot">=</span>SparrowsElphick</span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a><span class="fu">head</span>(Sparrows)</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 16
 ##   wingcrd flatwing tarsus  head culmen nalospi    wt bandstat initials  Year
 ##     &lt;dbl&gt;    &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt;    &lt;dbl&gt;    &lt;dbl&gt; &lt;dbl&gt;
@@ -1117,34 +1117,34 @@ normalidad de los datos.</p>
 ## 6    53.5     54.5   20.8  30.6   12.8     8.6  14.8        1        7  2004
 ## # ℹ 6 more variables: Month &lt;dbl&gt;, Day &lt;dbl&gt;, Location &lt;dbl&gt;,
 ## #   SpeciesCode &lt;dbl&gt;, Sex &lt;dbl&gt;, Age &lt;dbl&gt;</code></pre>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>Sparrows<span class="ot">=</span>SparrowsElphick</span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>Sparrows<span class="sc">$</span>fMonth<span class="ot">&lt;-</span><span class="fu">factor</span>(Sparrows<span class="sc">$</span>Month,</span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">10</span>),</span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>             <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Mayo&quot;</span>, <span class="st">&quot;Junio&quot;</span>, <span class="st">&quot;Julio&quot;</span>, <span class="st">&quot;Agosto&quot;</span>,</span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>                                   <span class="st">&quot;Sept.&quot;</span>, <span class="st">&quot;Oct.&quot;</span>))</span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(Sparrows, <span class="fu">aes</span>(wt))<span class="sc">+</span></span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth=</span><span class="dv">1</span>, <span class="at">colour=</span><span class="st">&quot;white&quot;</span>)<span class="sc">+</span></span>
-<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>fMonth)<span class="sc">+</span></span>
-<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
-<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Peso&quot;</span>)<span class="sc">+</span></span>
-<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)</span>
-<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>b<span class="ot">=</span><span class="fu">ggplot</span>(Sparrows, <span class="fu">aes</span>(wt)) <span class="sc">+</span></span>
-<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
-<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
-<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y=</span>..density..), <span class="at">colour=</span><span class="st">&quot;black&quot;</span>,</span>
-<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>                 <span class="at">fill=</span><span class="st">&quot;white&quot;</span>) <span class="sc">+</span></span>
-<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Peso&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Densidad&quot;</span>) <span class="sc">+</span></span>
-<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm, <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span></span>
-<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>      <span class="fu">mean</span>(Sparrows<span class="sc">$</span>wt, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
-<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>      <span class="at">sd =</span> <span class="fu">sd</span>(Sparrows<span class="sc">$</span>wt, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)),</span>
-<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>      <span class="at">colour =</span> <span class="st">&quot;red&quot;</span>, <span class="at">size =</span> <span class="dv">1</span>)</span>
-<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(a,b,<span class="at">ncol=</span><span class="dv">2</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>Sparrows<span class="ot">=</span>SparrowsElphick</span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>Sparrows<span class="sc">$</span>fMonth<span class="ot">&lt;-</span><span class="fu">factor</span>(Sparrows<span class="sc">$</span>Month,</span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a>             <span class="at">levels =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">10</span>),</span>
+<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a>             <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Mayo&quot;</span>, <span class="st">&quot;Junio&quot;</span>, <span class="st">&quot;Julio&quot;</span>, <span class="st">&quot;Agosto&quot;</span>,</span>
+<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a>                                   <span class="st">&quot;Sept.&quot;</span>, <span class="st">&quot;Oct.&quot;</span>))</span>
+<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(Sparrows, <span class="fu">aes</span>(wt))<span class="sc">+</span></span>
+<span id="cb21-9"><a href="#cb21-9" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth=</span><span class="dv">1</span>, <span class="at">colour=</span><span class="st">&quot;white&quot;</span>)<span class="sc">+</span></span>
+<span id="cb21-10"><a href="#cb21-10" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>fMonth)<span class="sc">+</span></span>
+<span id="cb21-11"><a href="#cb21-11" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb21-12"><a href="#cb21-12" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb21-13"><a href="#cb21-13" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Peso&quot;</span>)<span class="sc">+</span></span>
+<span id="cb21-14"><a href="#cb21-14" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)</span>
+<span id="cb21-15"><a href="#cb21-15" tabindex="-1"></a></span>
+<span id="cb21-16"><a href="#cb21-16" tabindex="-1"></a>b<span class="ot">=</span><span class="fu">ggplot</span>(Sparrows, <span class="fu">aes</span>(wt)) <span class="sc">+</span></span>
+<span id="cb21-17"><a href="#cb21-17" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
+<span id="cb21-18"><a href="#cb21-18" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb21-19"><a href="#cb21-19" tabindex="-1"></a>        <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb21-20"><a href="#cb21-20" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(<span class="at">y=</span>..density..), <span class="at">colour=</span><span class="st">&quot;black&quot;</span>,</span>
+<span id="cb21-21"><a href="#cb21-21" tabindex="-1"></a>                 <span class="at">fill=</span><span class="st">&quot;white&quot;</span>) <span class="sc">+</span></span>
+<span id="cb21-22"><a href="#cb21-22" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Peso&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Densidad&quot;</span>) <span class="sc">+</span></span>
+<span id="cb21-23"><a href="#cb21-23" tabindex="-1"></a>  <span class="fu">stat_function</span>(<span class="at">fun =</span> dnorm, <span class="at">args =</span> <span class="fu">list</span>(<span class="at">mean =</span></span>
+<span id="cb21-24"><a href="#cb21-24" tabindex="-1"></a>      <span class="fu">mean</span>(Sparrows<span class="sc">$</span>wt, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb21-25"><a href="#cb21-25" tabindex="-1"></a>      <span class="at">sd =</span> <span class="fu">sd</span>(Sparrows<span class="sc">$</span>wt, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)),</span>
+<span id="cb21-26"><a href="#cb21-26" tabindex="-1"></a>      <span class="at">colour =</span> <span class="st">&quot;red&quot;</span>, <span class="at">size =</span> <span class="dv">1</span>)</span>
+<span id="cb21-27"><a href="#cb21-27" tabindex="-1"></a></span>
+<span id="cb21-28"><a href="#cb21-28" tabindex="-1"></a><span class="fu">grid.arrange</span>(a,b,<span class="at">ncol=</span><span class="dv">2</span>)</span></code></pre></div>
 <p><img src="G11_EVALUANDO_SUPUESTOS_files/figure-html/density3-1.png" width="672" /></p>
 <hr />
 </div>
@@ -1168,29 +1168,29 @@ significa que hay mayor densidad de datos en esa región de la variable
 en el eje de <strong>X</strong>. Podemos apreciar que la curva de
 densidad no sigue claramente una distribución normal con respecto a los
 valores en <strong>X</strong>.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note que anteriormente ya habíamos depositado los datos en el data.frame Sparrows:</span></span>
-<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span> <span class="fu">ggplot</span>(Sparrows, <span class="fu">aes</span>(wt))<span class="sc">+</span></span>
-<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="fu">geom_density</span>(<span class="fu">aes</span>(<span class="at">group=</span>fMonth, <span class="at">fill=</span>fMonth),</span>
-<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>             <span class="at">kernel=</span><span class="st">&quot;gaussian&quot;</span>)<span class="sc">+</span></span>
-<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>fMonth)<span class="sc">+</span></span>
-<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill=</span><span class="cn">FALSE</span>)<span class="sc">+</span></span>
-<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
-<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Densidad&quot;</span>)<span class="sc">+</span></span>
-<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Peso&quot;</span>)</span>
-<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>b<span class="ot">=</span> <span class="fu">ggplot</span>(Sparrows, <span class="fu">aes</span>(wt))<span class="sc">+</span></span>
-<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="fu">aes</span>(<span class="at">group=</span>fMonth,</span>
-<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>                   <span class="at">fill=</span>fMonth),</span>
-<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a>               <span class="at">alpha=</span>.<span class="dv">4</span>)<span class="sc">+</span></span>
-<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_discrete</span>()<span class="sc">+</span></span>
-<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
-<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb22-19"><a href="#cb22-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Densidad&quot;</span>)<span class="sc">+</span></span>
-<span id="cb22-20"><a href="#cb22-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Peso&quot;</span>)<span class="sc">+</span></span>
-<span id="cb22-21"><a href="#cb22-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">colour=</span><span class="st">&quot;Mes&quot;</span>)</span>
-<span id="cb22-22"><a href="#cb22-22" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb22-23"><a href="#cb22-23" aria-hidden="true" tabindex="-1"></a><span class="fu">grid.arrange</span>(a,b,<span class="at">ncol=</span><span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="co"># Note que anteriormente ya habíamos depositado los datos en el data.frame Sparrows:</span></span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>a<span class="ot">=</span> <span class="fu">ggplot</span>(Sparrows, <span class="fu">aes</span>(wt))<span class="sc">+</span></span>
+<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a><span class="fu">geom_density</span>(<span class="fu">aes</span>(<span class="at">group=</span>fMonth, <span class="at">fill=</span>fMonth),</span>
+<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a>             <span class="at">kernel=</span><span class="st">&quot;gaussian&quot;</span>)<span class="sc">+</span></span>
+<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>fMonth)<span class="sc">+</span></span>
+<span id="cb22-6"><a href="#cb22-6" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill=</span><span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb22-7"><a href="#cb22-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb22-8"><a href="#cb22-8" tabindex="-1"></a>        <span class="at">axis.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb22-9"><a href="#cb22-9" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Densidad&quot;</span>)<span class="sc">+</span></span>
+<span id="cb22-10"><a href="#cb22-10" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Peso&quot;</span>)</span>
+<span id="cb22-11"><a href="#cb22-11" tabindex="-1"></a></span>
+<span id="cb22-12"><a href="#cb22-12" tabindex="-1"></a>b<span class="ot">=</span> <span class="fu">ggplot</span>(Sparrows, <span class="fu">aes</span>(wt))<span class="sc">+</span></span>
+<span id="cb22-13"><a href="#cb22-13" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="fu">aes</span>(<span class="at">group=</span>fMonth,</span>
+<span id="cb22-14"><a href="#cb22-14" tabindex="-1"></a>                   <span class="at">fill=</span>fMonth),</span>
+<span id="cb22-15"><a href="#cb22-15" tabindex="-1"></a>               <span class="at">alpha=</span>.<span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb22-16"><a href="#cb22-16" tabindex="-1"></a>  <span class="fu">scale_color_discrete</span>()<span class="sc">+</span></span>
+<span id="cb22-17"><a href="#cb22-17" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb22-18"><a href="#cb22-18" tabindex="-1"></a>        <span class="at">axis.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb22-19"><a href="#cb22-19" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Densidad&quot;</span>)<span class="sc">+</span></span>
+<span id="cb22-20"><a href="#cb22-20" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Peso&quot;</span>)<span class="sc">+</span></span>
+<span id="cb22-21"><a href="#cb22-21" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">colour=</span><span class="st">&quot;Mes&quot;</span>)</span>
+<span id="cb22-22"><a href="#cb22-22" tabindex="-1"></a></span>
+<span id="cb22-23"><a href="#cb22-23" tabindex="-1"></a><span class="fu">grid.arrange</span>(a,b,<span class="at">ncol=</span><span class="dv">1</span>)</span></code></pre></div>
 <p><img src="G11_EVALUANDO_SUPUESTOS_files/figure-html/density4-1.png" width="672" /></p>
 <hr />
 </div>
@@ -1229,9 +1229,9 @@ altura de la inflorescencia (mostrado más adelante). Concluimos que a
 mayor distancia del árbol, menor es la altura de la inflorescencia al
 este análisis arrojar un valor de pendiente de -0.095 como se muestra en
 el ejemplo.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cor</span>(dipodium<span class="sc">$</span>distance, </span>
-<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>    dipodium<span class="sc">$</span>height_inflo,</span>
-<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">use=</span><span class="st">&quot;pairwise.complete.obs&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="fu">cor</span>(dipodium<span class="sc">$</span>distance, </span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>    dipodium<span class="sc">$</span>height_inflo,</span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>    <span class="at">use=</span><span class="st">&quot;pairwise.complete.obs&quot;</span>)</span></code></pre></div>
 <pre><code>## [1] -0.09541256</code></pre>
 <p>Otra alternativa es hacer el análisis de correlación de muchas
 variables en conjunto. En la tabla, <strong>Correlaciones de
@@ -1239,8 +1239,8 @@ Pearson</strong>, se muestra la correlación entre las tres variables
 siguientes: DBH, cantidad de flores y altura de la inflorescencia. En
 esa tabla se observa la correlación de Pearson para estos datos.
 Recordemos que esta correlación asume distribución normal.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">signif</span>(<span class="fu">cor</span>(dipodium[,<span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">8</span>, <span class="dv">9</span>)],</span>
-<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a> <span class="at">use=</span><span class="st">&quot;pairwise.complete.obs&quot;</span>),<span class="dv">2</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">signif</span>(<span class="fu">cor</span>(dipodium[,<span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">8</span>, <span class="dv">9</span>)],</span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a> <span class="at">use=</span><span class="st">&quot;pairwise.complete.obs&quot;</span>),<span class="dv">2</span>))</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1278,11 +1278,11 @@ Recordemos que esta correlación asume distribución normal.</p>
 estimados de correlación sin asumir distribución normal usando los
 métodos <strong>Kendall</strong> o <strong>Spearman</strong> mostrados
 en la Tabla siguiente.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">signif</span>(<span class="fu">cor</span>(dipodium[,<span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">8</span>, <span class="dv">9</span>)],</span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a> <span class="at">method=</span><span class="st">&quot;kendall&quot;</span>,</span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a> <span class="at">use=</span><span class="st">&quot;pairwise.complete.obs&quot;</span>),<span class="dv">2</span>), </span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a> <span class="at">caption =</span></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="st">&quot;</span><span class="sc">\\</span><span class="st">label{fig:CK}Correlaciones de Kendall&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">signif</span>(<span class="fu">cor</span>(dipodium[,<span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">8</span>, <span class="dv">9</span>)],</span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a> <span class="at">method=</span><span class="st">&quot;kendall&quot;</span>,</span>
+<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a> <span class="at">use=</span><span class="st">&quot;pairwise.complete.obs&quot;</span>),<span class="dv">2</span>), </span>
+<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a> <span class="at">caption =</span></span>
+<span id="cb26-5"><a href="#cb26-5" tabindex="-1"></a>  <span class="st">&quot;</span><span class="sc">\\</span><span class="st">label{fig:CK}Correlaciones de Kendall&quot;</span>)</span></code></pre></div>
 <table>
 <caption>Correlaciones de Kendall</caption>
 <thead>
@@ -1317,9 +1317,9 @@ en la Tabla siguiente.</p>
 </div>
 <div id="tabla-de-correlación-de-spearman" class="section level3">
 <h3>Tabla de correlación de Spearman</h3>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">signif</span>(<span class="fu">cor</span>(dipodium[,<span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">8</span>, <span class="dv">9</span>)],</span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a> <span class="at">method=</span><span class="st">&quot;spearman&quot;</span>,</span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a> <span class="at">use=</span><span class="st">&quot;pairwise.complete.obs&quot;</span>),<span class="dv">1</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">signif</span>(<span class="fu">cor</span>(dipodium[,<span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">8</span>, <span class="dv">9</span>)],</span>
+<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a> <span class="at">method=</span><span class="st">&quot;spearman&quot;</span>,</span>
+<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a> <span class="at">use=</span><span class="st">&quot;pairwise.complete.obs&quot;</span>),<span class="dv">1</span>))</span></code></pre></div>
 <table>
 <thead>
 <tr class="header">
@@ -1419,7 +1419,7 @@ herbivoría en las plantas no fue recolectada y en cambio se dejó con un
 valores. Las alternativas podrían ser <strong>H</strong> para evidenciar
 la presencia de herbaria y <strong>n</strong> para las plantas donde no
 hay evidencia de herbivoría.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(dipodium) <span class="co"># para ver los nombres de las variables/columnas</span></span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="fu">names</span>(dipodium) <span class="co"># para ver los nombres de las variables/columnas</span></span></code></pre></div>
 <pre><code>##  [1] &quot;tree_number&quot;             &quot;tree_species&quot;           
 ##  [3] &quot;dbh&quot;                     &quot;plant_number&quot;           
 ##  [5] &quot;ramet_number&quot;            &quot;distance&quot;               
@@ -1431,7 +1431,7 @@ hay evidencia de herbivoría.</p>
 ## [17] &quot;frutos_si_o_no&quot;          &quot;p_or_r_infl_lenght&quot;     
 ## [19] &quot;num_of_fruits&quot;           &quot;species_name&quot;           
 ## [21] &quot;cardinal_orientation&quot;</code></pre>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggpairs</span>(dipodium[,<span class="fu">c</span>(<span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">13</span>, <span class="dv">14</span>, <span class="dv">10</span>)], <span class="fu">aes</span>(<span class="at">colour=</span>herbivory))</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="fu">ggpairs</span>(dipodium[,<span class="fu">c</span>(<span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">13</span>, <span class="dv">14</span>, <span class="dv">10</span>)], <span class="fu">aes</span>(<span class="at">colour=</span>herbivory))</span></code></pre></div>
 <p><img src="G11_EVALUANDO_SUPUESTOS_files/figure-html/ggpairs-1.png" width="672" /></p>
 <hr />
 </div>

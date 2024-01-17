@@ -13,7 +13,7 @@
 
 <title>Geom_line</title>
 
-<script src="site_libs/header-attrs-2.23/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
@@ -555,7 +555,7 @@ div.tocify {
       <a href="ST_ggblanket.html">El paquete ggblanket</a>
     </li>
     <li>
-      <a href="ST_gggibous.html">El paquete gggibous</a>
+      <a href="ST_gggibous2.html">El paquete gggibous</a>
     </li>
     <li>
       <a href="ST_ggiraph.html">El paquete ggiraph</a>
@@ -586,12 +586,12 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2023-07-04&quot;</code></pre>
+<pre><code>## [1] &quot;2024-01-15&quot;</code></pre>
 <p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" /></p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggversa)</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(ggversa)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="fu">library</span>(gt)</span></code></pre></div>
 <hr />
 <div id="gráficos-de-línea" class="section level2">
 <h2>Gráficos de línea</h2>
@@ -621,14 +621,14 @@ de interés”),]</p>
 “New Cases”). El símbolo “==” significa “que sea exactamente igual
 a…”</p>
 <p>Aquí vemos parte de los datos originales:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggversa)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#Tiroide</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(Tiroide<span class="sc">$</span>Cases)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">library</span>(ggversa)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#Tiroide</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="fu">unique</span>(Tiroide<span class="sc">$</span>Cases)</span></code></pre></div>
 <pre><code>## [1] New Cases Deaths_US
 ## Levels: Deaths_US New Cases</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>subTiroide<span class="ot">=</span>Tiroide[<span class="fu">which</span>(Tiroide<span class="sc">$</span>Cases<span class="sc">==</span><span class="st">&quot;New Cases&quot;</span>),]</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="fu">gt</span>(<span class="fu">head</span>(subTiroide))</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>subTiroide<span class="ot">=</span>Tiroide[<span class="fu">which</span>(Tiroide<span class="sc">$</span>Cases<span class="sc">==</span><span class="st">&quot;New Cases&quot;</span>),]</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">gt</span>(<span class="fu">head</span>(subTiroide))</span></code></pre></div>
 <div id="uddirnbogl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#uddirnbogl table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -1104,14 +1104,14 @@ a…”</p>
 </div>
 <p>El procedimiento para preparar el gráfico de tiroides se presenta a
 continuación:</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(subTiroide, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">as.integer</span>(Year), <span class="at">y=</span>Rate))<span class="sc">+</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">1</span>, <span class="at">colour=</span><span class="st">&quot;red&quot;</span>)<span class="sc">+</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">1985</span>,<span class="at">y=</span> <span class="dv">9</span>, <span class="at">size=</span> <span class="dv">3</span>,</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;Nuevos casos de </span><span class="sc">\n</span><span class="st"> cancer </span><span class="sc">\n</span><span class="st"> de Tiroides&quot;</span>, <span class="at">color=</span><span class="st">&quot;black&quot;</span>)<span class="sc">+</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">&quot;Números de nuevos casos</span><span class="sc">\n</span><span class="st"> de cancer de Tiroides </span><span class="sc">\n</span><span class="st"> por 100,000 habitantes&quot;</span>)<span class="sc">+</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">&quot;Años&quot;</span>)<span class="sc">+</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>,<span class="at">face=</span><span class="st">&quot;italic&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">ggplot</span>(subTiroide, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">as.integer</span>(Year), <span class="at">y=</span>Rate))<span class="sc">+</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">1</span>, <span class="at">colour=</span><span class="st">&quot;red&quot;</span>)<span class="sc">+</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">1985</span>,<span class="at">y=</span> <span class="dv">9</span>, <span class="at">size=</span> <span class="dv">3</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;Nuevos casos de </span><span class="sc">\n</span><span class="st"> cancer </span><span class="sc">\n</span><span class="st"> de Tiroides&quot;</span>, <span class="at">color=</span><span class="st">&quot;black&quot;</span>)<span class="sc">+</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">&quot;Números de nuevos casos</span><span class="sc">\n</span><span class="st"> de cancer de Tiroides </span><span class="sc">\n</span><span class="st"> por 100,000 habitantes&quot;</span>)<span class="sc">+</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">&quot;Años&quot;</span>)<span class="sc">+</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>,<span class="at">face=</span><span class="st">&quot;italic&quot;</span>))</span></code></pre></div>
 <p><img src="G13_geom_line_files/figure-html/graficalinea1-1.png" width="672" /></p>
 <p>Note que se utilizó la función <strong>annonate</strong> para
 escribir información sobre el gráfico. Esta función será discutida con
@@ -1130,17 +1130,17 @@ de dos grupos hubiese una linea para cada grupo. Lo que se observa es
 que aunque hay mucha más gente que es diagnosticada con cáncer de la
 tiroides, la proporción de gente que muere de este tipo de cáncer es
 consistente a través del tiempo.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Tiroide, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">as.integer</span>(Year),</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">y=</span>Rate, <span class="at">group=</span>Cases, <span class="at">color=</span>Cases))<span class="sc">+</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">2</span>)<span class="sc">+</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">1990</span>,<span class="at">y=</span> <span class="dv">8</span>, <span class="at">size=</span><span class="dv">4</span>,</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;Nuevos casos&quot;</span>)<span class="sc">+</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">2000</span>,<span class="at">y=</span> <span class="dv">1</span>, <span class="at">size=</span> <span class="dv">4</span>,</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;Mortandad&quot;</span>)<span class="sc">+</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Números de nuevos casos</span><span class="sc">\n</span><span class="st"> por 100,000 habitantes&quot;</span>)<span class="sc">+</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Años&quot;</span>)<span class="sc">+</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">ggplot</span>(Tiroide, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">as.integer</span>(Year),</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>                    <span class="at">y=</span>Rate, <span class="at">group=</span>Cases, <span class="at">color=</span>Cases))<span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">2</span>)<span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">1990</span>,<span class="at">y=</span> <span class="dv">8</span>, <span class="at">size=</span><span class="dv">4</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;Nuevos casos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">2000</span>,<span class="at">y=</span> <span class="dv">1</span>, <span class="at">size=</span> <span class="dv">4</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;Mortandad&quot;</span>)<span class="sc">+</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Números de nuevos casos</span><span class="sc">\n</span><span class="st"> por 100,000 habitantes&quot;</span>)<span class="sc">+</span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Años&quot;</span>)<span class="sc">+</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G13_geom_line_files/figure-html/graficalinea2-1.png" width="672" /></p>
 <p>La función <strong>annonate</strong> nos permitió añadir la
 descripción <strong>Mortandad</strong> a la línea inferior en forma de
@@ -1162,18 +1162,18 @@ se indica en el mismo código que el límite de <strong>X</strong> en el
 eje se vea a intervalos de 10 años con la función <strong>xlim</strong>.
 Note que para expandir el eje de <strong>Y</strong> se usaría la misma
 técnica.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Tiroide, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">as.integer</span>(Year), <span class="at">y=</span>Rate,</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">group=</span>Cases, <span class="at">color=</span>Cases))<span class="sc">+</span></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">2</span>)<span class="sc">+</span></span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">1990</span>,<span class="at">y=</span> <span class="dv">10</span>, <span class="at">size=</span><span class="dv">4</span>,</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;Nuevos casos&quot;</span>)<span class="sc">+</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">1995</span>,<span class="at">y=</span> <span class="dv">1</span>, <span class="at">size=</span> <span class="dv">4</span>,</span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;Mortandad&quot;</span>)<span class="sc">+</span></span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Razón&quot;</span>)<span class="sc">+</span></span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Años&quot;</span>)<span class="sc">+</span></span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="fu">min</span>(Tiroide<span class="sc">$</span>Year<span class="dv">-5</span>), <span class="fu">max</span>(Tiroide<span class="sc">$</span>Year<span class="sc">+</span><span class="dv">6</span>))<span class="sc">+</span>  <span class="co"># expandir los ejes</span></span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">ggplot</span>(Tiroide, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">as.integer</span>(Year), <span class="at">y=</span>Rate,</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>                    <span class="at">group=</span>Cases, <span class="at">color=</span>Cases))<span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">2</span>)<span class="sc">+</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">1990</span>,<span class="at">y=</span> <span class="dv">10</span>, <span class="at">size=</span><span class="dv">4</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;Nuevos casos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">1995</span>,<span class="at">y=</span> <span class="dv">1</span>, <span class="at">size=</span> <span class="dv">4</span>,</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;Mortandad&quot;</span>)<span class="sc">+</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Razón&quot;</span>)<span class="sc">+</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Años&quot;</span>)<span class="sc">+</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="fu">min</span>(Tiroide<span class="sc">$</span>Year<span class="dv">-5</span>), <span class="fu">max</span>(Tiroide<span class="sc">$</span>Year<span class="sc">+</span><span class="dv">6</span>))<span class="sc">+</span>  <span class="co"># expandir los ejes</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G13_geom_line_files/figure-html/graficalinea-1.png" width="672" /></p>
 <hr />
 </div>
@@ -1185,19 +1185,19 @@ class="section level2">
 En el próximo ejemplo, lo mostraremos nuevamente utilizando el ejemplo
 anterior de tiroides. A continuación el código modificado que muestra
 ese efecto añadiendo <strong>geom_point</strong>:</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Tiroide, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">as.integer</span>(Year), <span class="at">y=</span>Rate, </span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">group=</span>Cases,</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">color=</span>Cases))<span class="sc">+</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">1</span>)<span class="sc">+</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">1990</span>,<span class="at">y=</span> <span class="dv">8</span>, <span class="at">size=</span><span class="dv">4</span>,</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;Nuevos casos&quot;</span>)<span class="sc">+</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">2000</span>,<span class="at">y=</span> <span class="dv">2</span>, <span class="at">size=</span><span class="dv">4</span>,</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;Mortandad&quot;</span>)<span class="sc">+</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Razón&quot;</span>)<span class="sc">+</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Años&quot;</span>)<span class="sc">+</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">size=</span>.<span class="dv">5</span>)<span class="sc">+</span></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">ggplot</span>(Tiroide, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">as.integer</span>(Year), <span class="at">y=</span>Rate, </span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>                    <span class="at">group=</span>Cases,</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>                    <span class="at">color=</span>Cases))<span class="sc">+</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">1990</span>,<span class="at">y=</span> <span class="dv">8</span>, <span class="at">size=</span><span class="dv">4</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;Nuevos casos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">2000</span>,<span class="at">y=</span> <span class="dv">2</span>, <span class="at">size=</span><span class="dv">4</span>,</span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;Mortandad&quot;</span>)<span class="sc">+</span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Razón&quot;</span>)<span class="sc">+</span></span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Años&quot;</span>)<span class="sc">+</span></span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">size=</span>.<span class="dv">5</span>)<span class="sc">+</span></span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G13_geom_line_files/figure-html/graficalinea4-1.png" width="672" /></p>
 <hr />
 <p>Los puntos son variados y representado por un número (0 al 24) o un
@@ -1230,16 +1230,16 @@ con <strong>geom_point</strong> después de la línea con
 <strong>geom_line</strong> ya que ggplot funciona con capas de
 información. En otras palabras, lo que se especifica primero, sale
 primero.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Tiroide, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">as.integer</span>(Year), <span class="at">y=</span>Rate,</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">group=</span>Cases, <span class="at">color=</span>Cases))<span class="sc">+</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">3</span>)<span class="sc">+</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">1990</span>, <span class="at">y=</span> <span class="dv">10</span>, <span class="at">label=</span><span class="st">&quot;Nuevos casos&quot;</span>)<span class="sc">+</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">1990</span>, <span class="at">y=</span> <span class="dv">2</span>, <span class="at">label=</span><span class="st">&quot;Mortandad&quot;</span>)<span class="sc">+</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Razón&quot;</span>)<span class="sc">+</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Años&quot;</span>)<span class="sc">+</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape=</span><span class="dv">17</span>, <span class="at">size=</span><span class="dv">3</span>, <span class="at">colour=</span><span class="st">&quot;blue&quot;</span>, <span class="at">fill=</span><span class="st">&quot;yellow&quot;</span>)<span class="sc">+</span></span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">ggplot</span>(Tiroide, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">as.integer</span>(Year), <span class="at">y=</span>Rate,</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>                    <span class="at">group=</span>Cases, <span class="at">color=</span>Cases))<span class="sc">+</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">3</span>)<span class="sc">+</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">1990</span>, <span class="at">y=</span> <span class="dv">10</span>, <span class="at">label=</span><span class="st">&quot;Nuevos casos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">1990</span>, <span class="at">y=</span> <span class="dv">2</span>, <span class="at">label=</span><span class="st">&quot;Mortandad&quot;</span>)<span class="sc">+</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Razón&quot;</span>)<span class="sc">+</span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Años&quot;</span>)<span class="sc">+</span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape=</span><span class="dv">17</span>, <span class="at">size=</span><span class="dv">3</span>, <span class="at">colour=</span><span class="st">&quot;blue&quot;</span>, <span class="at">fill=</span><span class="st">&quot;yellow&quot;</span>)<span class="sc">+</span></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G13_geom_line_files/figure-html/graficalinea5-1.png" width="672" /></p>
 <hr />
 <div id="ejemplo-de-modificar-el-orden-de-capas" class="section level3">
@@ -1251,15 +1251,15 @@ resultado cuando <strong>geom_point</strong> se específica antes de la
 línea. Los puntos están debajo de la línea, lo que los hace difícil de
 apreciar. Recordemos entonces que el orden de las funciones puede tener
 un impacto muy importante en la producción de un gráfico.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Tiroide, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">as.integer</span>(Year), <span class="at">y=</span>Rate,</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">group=</span>Cases, <span class="at">color=</span>Cases))<span class="sc">+</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape=</span><span class="dv">22</span>, <span class="at">size=</span><span class="dv">4</span>, <span class="at">color=</span><span class="st">&quot;blue&quot;</span>, <span class="at">fill=</span><span class="st">&quot;white&quot;</span>)<span class="sc">+</span></span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">3</span>)<span class="sc">+</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Razón&quot;</span>)<span class="sc">+</span></span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Años&quot;</span>)<span class="sc">+</span></span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits=</span><span class="fu">c</span>(<span class="dv">2000</span>, <span class="dv">2010</span>))<span class="sc">+</span></span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">ggplot</span>(Tiroide, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">as.integer</span>(Year), <span class="at">y=</span>Rate,</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>                    <span class="at">group=</span>Cases, <span class="at">color=</span>Cases))<span class="sc">+</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape=</span><span class="dv">22</span>, <span class="at">size=</span><span class="dv">4</span>, <span class="at">color=</span><span class="st">&quot;blue&quot;</span>, <span class="at">fill=</span><span class="st">&quot;white&quot;</span>)<span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">3</span>)<span class="sc">+</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Razón&quot;</span>)<span class="sc">+</span></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Años&quot;</span>)<span class="sc">+</span></span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits=</span><span class="fu">c</span>(<span class="dv">2000</span>, <span class="dv">2010</span>))<span class="sc">+</span></span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G13_geom_line_files/figure-html/graficalinea6-1.png" width="672" /></p>
 <p>Tarea</p>
 <ol style="list-style-type: decimal">
@@ -1272,21 +1272,21 @@ misma area</li>
 <li>Crea un gráfico de la dos especies y el cambio (N) en tiempo por
 especie.</li>
 </ol>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(rinat)</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>cajaPR <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">17.75</span>, <span class="sc">-</span><span class="fl">67.4</span>, <span class="fl">18.75</span>, <span class="sc">-</span><span class="fl">65.15</span>)</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>bujo <span class="ot">&lt;-</span> <span class="fu">get_inat_obs</span>(<span class="at">taxon_name =</span> <span class="st">&quot;Gymnasio nudipes&quot;</span>,</span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>             <span class="at">quality =</span> <span class="st">&#39;research&#39;</span>,</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>             <span class="at">geo =</span> <span class="cn">TRUE</span>,</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>             <span class="at">maxresults =</span> <span class="dv">10000</span>,</span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>             <span class="at">bounds =</span> cajaPR)</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a><span class="fu">gt</span>(<span class="fu">head</span>(bujo))</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="fu">library</span>(rinat)</span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>cajaPR <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">17.75</span>, <span class="sc">-</span><span class="fl">67.4</span>, <span class="fl">18.75</span>, <span class="sc">-</span><span class="fl">65.15</span>)</span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a>bujo <span class="ot">&lt;-</span> <span class="fu">get_inat_obs</span>(<span class="at">taxon_name =</span> <span class="st">&quot;Gymnasio nudipes&quot;</span>,</span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a>             <span class="at">quality =</span> <span class="st">&#39;research&#39;</span>,</span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a>             <span class="at">geo =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a>             <span class="at">maxresults =</span> <span class="dv">10000</span>,</span>
+<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a>             <span class="at">bounds =</span> cajaPR)</span>
+<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="#cb12-15" tabindex="-1"></a><span class="fu">gt</span>(<span class="fu">head</span>(bujo))</span></code></pre></div>
 <div id="calidiarqi" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#calidiarqi table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -1733,11 +1733,11 @@ especie.</li>
     <tr class="gt_col_headings">
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="scientific_name">scientific_name</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="datetime">datetime</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="description">description</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="description">description</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="place_guess">place_guess</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="latitude">latitude</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="longitude">longitude</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="tag_list">tag_list</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="tag_list">tag_list</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="common_name">common_name</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="url">url</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="image_url">image_url</th>
@@ -1754,11 +1754,11 @@ especie.</li>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="time_zone">time_zone</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="positional_accuracy">positional_accuracy</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="public_positional_accuracy">public_positional_accuracy</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="geoprivacy">geoprivacy</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="geoprivacy">geoprivacy</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="taxon_geoprivacy">taxon_geoprivacy</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="coordinates_obscured">coordinates_obscured</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="positioning_method">positioning_method</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="positioning_device">positioning_device</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="positioning_method">positioning_method</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="positioning_device">positioning_device</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="user_id">user_id</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="user_name">user_name</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="created_at">created_at</th>
@@ -1772,241 +1772,241 @@ especie.</li>
   </thead>
   <tbody class="gt_table_body">
     <tr><td headers="scientific_name" class="gt_row gt_left">Gymnasio nudipes</td>
-<td headers="datetime" class="gt_row gt_right">2023-05-09 21:00:00 -0400</td>
-<td headers="description" class="gt_row gt_right"></td>
-<td headers="place_guess" class="gt_row gt_left">Puerto Rico, Yabucoa, Puerto Rico, US</td>
-<td headers="latitude" class="gt_row gt_right">18.05144</td>
-<td headers="longitude" class="gt_row gt_right">-65.87920</td>
-<td headers="tag_list" class="gt_row gt_right"></td>
+<td headers="datetime" class="gt_row gt_right">2023-12-27 06:34:00 -0400</td>
+<td headers="description" class="gt_row gt_left">Gracias @mariadelririzarry y @eliezer por ayudarme a encontrarlo! 😎👍</td>
+<td headers="place_guess" class="gt_row gt_left">Río Piedras, San Juan, Puerto Rico</td>
+<td headers="latitude" class="gt_row gt_right">18.39300</td>
+<td headers="longitude" class="gt_row gt_right">-66.05561</td>
+<td headers="tag_list" class="gt_row gt_left"></td>
 <td headers="common_name" class="gt_row gt_left">Puerto Rican Owl</td>
-<td headers="url" class="gt_row gt_left">https://www.inaturalist.org/observations/161141522</td>
-<td headers="image_url" class="gt_row gt_left">https://static.inaturalist.org/photos/278510072/medium.jpg</td>
-<td headers="user_login" class="gt_row gt_left">jomniel</td>
-<td headers="id" class="gt_row gt_right">161141522</td>
-<td headers="species_guess" class="gt_row gt_left">Puerto Rican Owl</td>
-<td headers="iconic_taxon_name" class="gt_row gt_left">Aves</td>
-<td headers="taxon_id" class="gt_row gt_right">1289585</td>
-<td headers="num_identification_agreements" class="gt_row gt_right">1</td>
-<td headers="num_identification_disagreements" class="gt_row gt_right">0</td>
-<td headers="observed_on_string" class="gt_row gt_left">2023-05-09 21:00:00-04:00</td>
-<td headers="observed_on" class="gt_row gt_right">2023-05-09</td>
-<td headers="time_observed_at" class="gt_row gt_left">2023-05-10 01:00:00 UTC</td>
-<td headers="time_zone" class="gt_row gt_left">Puerto Rico</td>
-<td headers="positional_accuracy" class="gt_row gt_right">812</td>
-<td headers="public_positional_accuracy" class="gt_row gt_right">812</td>
-<td headers="geoprivacy" class="gt_row gt_left"></td>
-<td headers="taxon_geoprivacy" class="gt_row gt_left">open</td>
-<td headers="coordinates_obscured" class="gt_row gt_left">false</td>
-<td headers="positioning_method" class="gt_row gt_right"></td>
-<td headers="positioning_device" class="gt_row gt_right"></td>
-<td headers="user_id" class="gt_row gt_right">6857203</td>
-<td headers="user_name" class="gt_row gt_left">Jomniel Omar</td>
-<td headers="created_at" class="gt_row gt_left">2023-05-11 21:51:17 UTC</td>
-<td headers="updated_at" class="gt_row gt_left">2023-05-12 01:19:03 UTC</td>
-<td headers="quality_grade" class="gt_row gt_left">research</td>
-<td headers="license" class="gt_row gt_left"></td>
-<td headers="sound_url" class="gt_row gt_left"></td>
-<td headers="oauth_application_id" class="gt_row gt_right">3</td>
-<td headers="captive_cultivated" class="gt_row gt_left">false</td></tr>
-    <tr><td headers="scientific_name" class="gt_row gt_left">Gymnasio nudipes</td>
-<td headers="datetime" class="gt_row gt_right">2023-04-27 10:30:00 -0400</td>
-<td headers="description" class="gt_row gt_right"></td>
-<td headers="place_guess" class="gt_row gt_left">Puerto Rico, Barranquitas, Puerto Rico, US</td>
-<td headers="latitude" class="gt_row gt_right">18.22399</td>
-<td headers="longitude" class="gt_row gt_right">-66.31308</td>
-<td headers="tag_list" class="gt_row gt_right"></td>
-<td headers="common_name" class="gt_row gt_left">Puerto Rican Owl</td>
-<td headers="url" class="gt_row gt_left">https://www.inaturalist.org/observations/158760157</td>
-<td headers="image_url" class="gt_row gt_left">https://inaturalist-open-data.s3.amazonaws.com/photos/274327995/medium.jpg</td>
-<td headers="user_login" class="gt_row gt_left">joegaby</td>
-<td headers="id" class="gt_row gt_right">158760157</td>
-<td headers="species_guess" class="gt_row gt_left">Puerto Rican Owl</td>
-<td headers="iconic_taxon_name" class="gt_row gt_left">Aves</td>
-<td headers="taxon_id" class="gt_row gt_right">1289585</td>
-<td headers="num_identification_agreements" class="gt_row gt_right">2</td>
-<td headers="num_identification_disagreements" class="gt_row gt_right">0</td>
-<td headers="observed_on_string" class="gt_row gt_left">2023-04-27 10:30:00-04:00</td>
-<td headers="observed_on" class="gt_row gt_right">2023-04-27</td>
-<td headers="time_observed_at" class="gt_row gt_left">2023-04-27 14:30:00 UTC</td>
-<td headers="time_zone" class="gt_row gt_left">Puerto Rico</td>
-<td headers="positional_accuracy" class="gt_row gt_right">33</td>
-<td headers="public_positional_accuracy" class="gt_row gt_right">33</td>
-<td headers="geoprivacy" class="gt_row gt_left"></td>
-<td headers="taxon_geoprivacy" class="gt_row gt_left">open</td>
-<td headers="coordinates_obscured" class="gt_row gt_left">false</td>
-<td headers="positioning_method" class="gt_row gt_right"></td>
-<td headers="positioning_device" class="gt_row gt_right"></td>
-<td headers="user_id" class="gt_row gt_right">6454624</td>
-<td headers="user_name" class="gt_row gt_left"></td>
-<td headers="created_at" class="gt_row gt_left">2023-05-01 18:00:59 UTC</td>
-<td headers="updated_at" class="gt_row gt_left">2023-05-02 19:22:19 UTC</td>
-<td headers="quality_grade" class="gt_row gt_left">research</td>
-<td headers="license" class="gt_row gt_left">CC-BY-NC</td>
-<td headers="sound_url" class="gt_row gt_left"></td>
-<td headers="oauth_application_id" class="gt_row gt_right">3</td>
-<td headers="captive_cultivated" class="gt_row gt_left">false</td></tr>
-    <tr><td headers="scientific_name" class="gt_row gt_left">Gymnasio nudipes</td>
-<td headers="datetime" class="gt_row gt_right">2023-04-26 20:57:35 -0400</td>
-<td headers="description" class="gt_row gt_right"></td>
-<td headers="place_guess" class="gt_row gt_left">Puerto Rico, Lares, Puerto Rico, US</td>
-<td headers="latitude" class="gt_row gt_right">18.21904</td>
-<td headers="longitude" class="gt_row gt_right">-66.89284</td>
-<td headers="tag_list" class="gt_row gt_right"></td>
-<td headers="common_name" class="gt_row gt_left">Puerto Rican Owl</td>
-<td headers="url" class="gt_row gt_left">https://www.inaturalist.org/observations/156821893</td>
-<td headers="image_url" class="gt_row gt_left"></td>
-<td headers="user_login" class="gt_row gt_left">omarmcarmona</td>
-<td headers="id" class="gt_row gt_right">156821893</td>
-<td headers="species_guess" class="gt_row gt_left">Puerto Rican Owl</td>
-<td headers="iconic_taxon_name" class="gt_row gt_left">Aves</td>
-<td headers="taxon_id" class="gt_row gt_right">1289585</td>
-<td headers="num_identification_agreements" class="gt_row gt_right">1</td>
-<td headers="num_identification_disagreements" class="gt_row gt_right">0</td>
-<td headers="observed_on_string" class="gt_row gt_left">2023-04-26 20:57:35-04:00</td>
-<td headers="observed_on" class="gt_row gt_right">2023-04-26</td>
-<td headers="time_observed_at" class="gt_row gt_left">2023-04-27 00:57:35 UTC</td>
-<td headers="time_zone" class="gt_row gt_left">Puerto Rico</td>
-<td headers="positional_accuracy" class="gt_row gt_right">3</td>
-<td headers="public_positional_accuracy" class="gt_row gt_right">3</td>
-<td headers="geoprivacy" class="gt_row gt_left"></td>
-<td headers="taxon_geoprivacy" class="gt_row gt_left">open</td>
-<td headers="coordinates_obscured" class="gt_row gt_left">false</td>
-<td headers="positioning_method" class="gt_row gt_right"></td>
-<td headers="positioning_device" class="gt_row gt_right"></td>
-<td headers="user_id" class="gt_row gt_right">162314</td>
-<td headers="user_name" class="gt_row gt_left">Omar Monzon Carmona</td>
-<td headers="created_at" class="gt_row gt_left">2023-04-27 00:57:57 UTC</td>
-<td headers="updated_at" class="gt_row gt_left">2023-04-27 15:50:20 UTC</td>
-<td headers="quality_grade" class="gt_row gt_left">research</td>
-<td headers="license" class="gt_row gt_left">CC-BY-NC</td>
-<td headers="sound_url" class="gt_row gt_left">https://static.inaturalist.org/sounds/657605.m4a?1682557079</td>
-<td headers="oauth_application_id" class="gt_row gt_right">3</td>
-<td headers="captive_cultivated" class="gt_row gt_left">false</td></tr>
-    <tr><td headers="scientific_name" class="gt_row gt_left">Gymnasio nudipes</td>
-<td headers="datetime" class="gt_row gt_right">2017-11-06 00:00:00 -0400</td>
-<td headers="description" class="gt_row gt_right"></td>
-<td headers="place_guess" class="gt_row gt_left">barranquitas, puerto rico</td>
-<td headers="latitude" class="gt_row gt_right">18.18662</td>
-<td headers="longitude" class="gt_row gt_right">-66.30628</td>
-<td headers="tag_list" class="gt_row gt_right"></td>
-<td headers="common_name" class="gt_row gt_left">Puerto Rican Owl</td>
-<td headers="url" class="gt_row gt_left">https://www.inaturalist.org/observations/155469812</td>
-<td headers="image_url" class="gt_row gt_left">https://inaturalist-open-data.s3.amazonaws.com/photos/268745345/medium.jpg</td>
-<td headers="user_login" class="gt_row gt_left">eddie222</td>
-<td headers="id" class="gt_row gt_right">155469812</td>
-<td headers="species_guess" class="gt_row gt_left">Puerto Rican Owl</td>
-<td headers="iconic_taxon_name" class="gt_row gt_left">Aves</td>
-<td headers="taxon_id" class="gt_row gt_right">1289585</td>
-<td headers="num_identification_agreements" class="gt_row gt_right">2</td>
-<td headers="num_identification_disagreements" class="gt_row gt_right">0</td>
-<td headers="observed_on_string" class="gt_row gt_left">2017-11-06</td>
-<td headers="observed_on" class="gt_row gt_right">2017-11-06</td>
-<td headers="time_observed_at" class="gt_row gt_left"></td>
-<td headers="time_zone" class="gt_row gt_left">Puerto Rico</td>
-<td headers="positional_accuracy" class="gt_row gt_right">1934</td>
-<td headers="public_positional_accuracy" class="gt_row gt_right">1934</td>
-<td headers="geoprivacy" class="gt_row gt_left"></td>
-<td headers="taxon_geoprivacy" class="gt_row gt_left">open</td>
-<td headers="coordinates_obscured" class="gt_row gt_left">false</td>
-<td headers="positioning_method" class="gt_row gt_right"></td>
-<td headers="positioning_device" class="gt_row gt_right"></td>
-<td headers="user_id" class="gt_row gt_right">5174801</td>
-<td headers="user_name" class="gt_row gt_left">Eddie Carbo</td>
-<td headers="created_at" class="gt_row gt_left">2023-04-18 14:16:41 UTC</td>
-<td headers="updated_at" class="gt_row gt_left">2023-04-20 11:07:05 UTC</td>
-<td headers="quality_grade" class="gt_row gt_left">research</td>
-<td headers="license" class="gt_row gt_left">CC-BY-NC</td>
-<td headers="sound_url" class="gt_row gt_left"></td>
-<td headers="oauth_application_id" class="gt_row gt_right">NA</td>
-<td headers="captive_cultivated" class="gt_row gt_left">false</td></tr>
-    <tr><td headers="scientific_name" class="gt_row gt_left">Gymnasio nudipes</td>
-<td headers="datetime" class="gt_row gt_right">2023-04-03 19:31:55 -0400</td>
-<td headers="description" class="gt_row gt_right"></td>
-<td headers="place_guess" class="gt_row gt_left">Puerto Rico, Barranquitas, Puerto Rico, US</td>
-<td headers="latitude" class="gt_row gt_right">18.17694</td>
-<td headers="longitude" class="gt_row gt_right">-66.29257</td>
-<td headers="tag_list" class="gt_row gt_right"></td>
-<td headers="common_name" class="gt_row gt_left">Puerto Rican Owl</td>
-<td headers="url" class="gt_row gt_left">https://www.inaturalist.org/observations/153385363</td>
-<td headers="image_url" class="gt_row gt_left"></td>
-<td headers="user_login" class="gt_row gt_left">omarmcarmona</td>
-<td headers="id" class="gt_row gt_right">153385363</td>
-<td headers="species_guess" class="gt_row gt_left">Puerto Rican Owl</td>
-<td headers="iconic_taxon_name" class="gt_row gt_left">Aves</td>
-<td headers="taxon_id" class="gt_row gt_right">1289585</td>
-<td headers="num_identification_agreements" class="gt_row gt_right">1</td>
-<td headers="num_identification_disagreements" class="gt_row gt_right">0</td>
-<td headers="observed_on_string" class="gt_row gt_left">2023-04-03 19:31:55-04:00</td>
-<td headers="observed_on" class="gt_row gt_right">2023-04-03</td>
-<td headers="time_observed_at" class="gt_row gt_left">2023-04-03 23:31:55 UTC</td>
-<td headers="time_zone" class="gt_row gt_left">Puerto Rico</td>
-<td headers="positional_accuracy" class="gt_row gt_right">8</td>
-<td headers="public_positional_accuracy" class="gt_row gt_right">8</td>
-<td headers="geoprivacy" class="gt_row gt_left"></td>
-<td headers="taxon_geoprivacy" class="gt_row gt_left">open</td>
-<td headers="coordinates_obscured" class="gt_row gt_left">false</td>
-<td headers="positioning_method" class="gt_row gt_right"></td>
-<td headers="positioning_device" class="gt_row gt_right"></td>
-<td headers="user_id" class="gt_row gt_right">162314</td>
-<td headers="user_name" class="gt_row gt_left">Omar Monzon Carmona</td>
-<td headers="created_at" class="gt_row gt_left">2023-04-03 23:32:26 UTC</td>
-<td headers="updated_at" class="gt_row gt_left">2023-04-04 12:41:50 UTC</td>
-<td headers="quality_grade" class="gt_row gt_left">research</td>
-<td headers="license" class="gt_row gt_left">CC-BY-NC</td>
-<td headers="sound_url" class="gt_row gt_left">https://static.inaturalist.org/sounds/631444.m4a?1680564748</td>
-<td headers="oauth_application_id" class="gt_row gt_right">3</td>
-<td headers="captive_cultivated" class="gt_row gt_left">false</td></tr>
-    <tr><td headers="scientific_name" class="gt_row gt_left">Gymnasio nudipes</td>
-<td headers="datetime" class="gt_row gt_right">2022-12-13 16:46:00 -0400</td>
-<td headers="description" class="gt_row gt_right"></td>
-<td headers="place_guess" class="gt_row gt_left"></td>
-<td headers="latitude" class="gt_row gt_right">18.59481</td>
-<td headers="longitude" class="gt_row gt_right">-66.49255</td>
-<td headers="tag_list" class="gt_row gt_right"></td>
-<td headers="common_name" class="gt_row gt_left">Puerto Rican Owl</td>
-<td headers="url" class="gt_row gt_left">https://www.inaturalist.org/observations/151655996</td>
-<td headers="image_url" class="gt_row gt_left">https://static.inaturalist.org/photos/261697910/medium.jpeg</td>
-<td headers="user_login" class="gt_row gt_left">naturalist5716</td>
-<td headers="id" class="gt_row gt_right">151655996</td>
+<td headers="url" class="gt_row gt_left">https://www.inaturalist.org/observations/196174945</td>
+<td headers="image_url" class="gt_row gt_left">https://inaturalist-open-data.s3.amazonaws.com/photos/345310443/medium.jpg</td>
+<td headers="user_login" class="gt_row gt_left">lma82</td>
+<td headers="id" class="gt_row gt_right">196174945</td>
 <td headers="species_guess" class="gt_row gt_left">Puerto Rican Owl</td>
 <td headers="iconic_taxon_name" class="gt_row gt_left">Aves</td>
 <td headers="taxon_id" class="gt_row gt_right">1289585</td>
 <td headers="num_identification_agreements" class="gt_row gt_right">3</td>
 <td headers="num_identification_disagreements" class="gt_row gt_right">0</td>
-<td headers="observed_on_string" class="gt_row gt_left">2022/12/13 4:46 PM</td>
-<td headers="observed_on" class="gt_row gt_right">2022-12-13</td>
-<td headers="time_observed_at" class="gt_row gt_left">2022-12-13 20:46:00 UTC</td>
+<td headers="observed_on_string" class="gt_row gt_left">2023/12/27 6:34 AM</td>
+<td headers="observed_on" class="gt_row gt_right">2023-12-27</td>
+<td headers="time_observed_at" class="gt_row gt_left">2023-12-27 10:34:00 UTC</td>
 <td headers="time_zone" class="gt_row gt_left">Puerto Rico</td>
-<td headers="positional_accuracy" class="gt_row gt_right">35673</td>
-<td headers="public_positional_accuracy" class="gt_row gt_right">35673</td>
-<td headers="geoprivacy" class="gt_row gt_left">obscured</td>
+<td headers="positional_accuracy" class="gt_row gt_right">4</td>
+<td headers="public_positional_accuracy" class="gt_row gt_right">4</td>
+<td headers="geoprivacy" class="gt_row gt_right"></td>
 <td headers="taxon_geoprivacy" class="gt_row gt_left">open</td>
-<td headers="coordinates_obscured" class="gt_row gt_left">true</td>
-<td headers="positioning_method" class="gt_row gt_right"></td>
-<td headers="positioning_device" class="gt_row gt_right"></td>
-<td headers="user_id" class="gt_row gt_right">1375988</td>
-<td headers="user_name" class="gt_row gt_left">louislo</td>
-<td headers="created_at" class="gt_row gt_left">2023-03-19 21:14:19 UTC</td>
-<td headers="updated_at" class="gt_row gt_left">2023-03-29 01:55:05 UTC</td>
+<td headers="coordinates_obscured" class="gt_row gt_left">false</td>
+<td headers="positioning_method" class="gt_row gt_left"></td>
+<td headers="positioning_device" class="gt_row gt_left"></td>
+<td headers="user_id" class="gt_row gt_right">2059238</td>
+<td headers="user_name" class="gt_row gt_left">Luis Agosto</td>
+<td headers="created_at" class="gt_row gt_left">2024-01-09 03:20:30 UTC</td>
+<td headers="updated_at" class="gt_row gt_left">2024-01-10 01:37:42 UTC</td>
 <td headers="quality_grade" class="gt_row gt_left">research</td>
-<td headers="license" class="gt_row gt_left"></td>
+<td headers="license" class="gt_row gt_left">CC-BY-NC</td>
 <td headers="sound_url" class="gt_row gt_left"></td>
 <td headers="oauth_application_id" class="gt_row gt_right">NA</td>
+<td headers="captive_cultivated" class="gt_row gt_left">false</td></tr>
+    <tr><td headers="scientific_name" class="gt_row gt_left">Gymnasio nudipes</td>
+<td headers="datetime" class="gt_row gt_right">2024-01-01 20:40:00 -0400</td>
+<td headers="description" class="gt_row gt_left"></td>
+<td headers="place_guess" class="gt_row gt_left">Maricao, PR</td>
+<td headers="latitude" class="gt_row gt_right">18.17876</td>
+<td headers="longitude" class="gt_row gt_right">-66.99305</td>
+<td headers="tag_list" class="gt_row gt_left"></td>
+<td headers="common_name" class="gt_row gt_left">Puerto Rican Owl</td>
+<td headers="url" class="gt_row gt_left">https://www.inaturalist.org/observations/195522337</td>
+<td headers="image_url" class="gt_row gt_left"></td>
+<td headers="user_login" class="gt_row gt_left">tate_putman</td>
+<td headers="id" class="gt_row gt_right">195522337</td>
+<td headers="species_guess" class="gt_row gt_left">Puerto Rican Owl</td>
+<td headers="iconic_taxon_name" class="gt_row gt_left">Aves</td>
+<td headers="taxon_id" class="gt_row gt_right">1289585</td>
+<td headers="num_identification_agreements" class="gt_row gt_right">1</td>
+<td headers="num_identification_disagreements" class="gt_row gt_right">0</td>
+<td headers="observed_on_string" class="gt_row gt_left">2024-01-01 20:40:00</td>
+<td headers="observed_on" class="gt_row gt_right">2024-01-01</td>
+<td headers="time_observed_at" class="gt_row gt_left">2024-01-02 00:40:00 UTC</td>
+<td headers="time_zone" class="gt_row gt_left">Puerto Rico</td>
+<td headers="positional_accuracy" class="gt_row gt_right">116</td>
+<td headers="public_positional_accuracy" class="gt_row gt_right">116</td>
+<td headers="geoprivacy" class="gt_row gt_right"></td>
+<td headers="taxon_geoprivacy" class="gt_row gt_left">open</td>
+<td headers="coordinates_obscured" class="gt_row gt_left">false</td>
+<td headers="positioning_method" class="gt_row gt_left">gps</td>
+<td headers="positioning_device" class="gt_row gt_left">gps</td>
+<td headers="user_id" class="gt_row gt_right">4994013</td>
+<td headers="user_name" class="gt_row gt_left">Tate Putman</td>
+<td headers="created_at" class="gt_row gt_left">2024-01-02 00:40:48 UTC</td>
+<td headers="updated_at" class="gt_row gt_left">2024-01-02 13:34:27 UTC</td>
+<td headers="quality_grade" class="gt_row gt_left">research</td>
+<td headers="license" class="gt_row gt_left">CC-BY-NC</td>
+<td headers="sound_url" class="gt_row gt_left">https://static.inaturalist.org/sounds/869290.mp3?1704156050</td>
+<td headers="oauth_application_id" class="gt_row gt_right">2</td>
+<td headers="captive_cultivated" class="gt_row gt_left">false</td></tr>
+    <tr><td headers="scientific_name" class="gt_row gt_left">Gymnasio nudipes</td>
+<td headers="datetime" class="gt_row gt_right">2023-12-27 10:08:00 -0400</td>
+<td headers="description" class="gt_row gt_left"></td>
+<td headers="place_guess" class="gt_row gt_left">Río Piedras, San Juan, Puerto Rico</td>
+<td headers="latitude" class="gt_row gt_right">18.39300</td>
+<td headers="longitude" class="gt_row gt_right">-66.05561</td>
+<td headers="tag_list" class="gt_row gt_left"></td>
+<td headers="common_name" class="gt_row gt_left">Puerto Rican Owl</td>
+<td headers="url" class="gt_row gt_left">https://www.inaturalist.org/observations/195008893</td>
+<td headers="image_url" class="gt_row gt_left">https://inaturalist-open-data.s3.amazonaws.com/photos/342950057/medium.jpeg</td>
+<td headers="user_login" class="gt_row gt_left">eliezer</td>
+<td headers="id" class="gt_row gt_right">195008893</td>
+<td headers="species_guess" class="gt_row gt_left">Puerto Rican Owl</td>
+<td headers="iconic_taxon_name" class="gt_row gt_left">Aves</td>
+<td headers="taxon_id" class="gt_row gt_right">1289585</td>
+<td headers="num_identification_agreements" class="gt_row gt_right">5</td>
+<td headers="num_identification_disagreements" class="gt_row gt_right">0</td>
+<td headers="observed_on_string" class="gt_row gt_left">2023/12/27 10:08 AM</td>
+<td headers="observed_on" class="gt_row gt_right">2023-12-27</td>
+<td headers="time_observed_at" class="gt_row gt_left">2023-12-27 14:08:00 UTC</td>
+<td headers="time_zone" class="gt_row gt_left">Puerto Rico</td>
+<td headers="positional_accuracy" class="gt_row gt_right">4</td>
+<td headers="public_positional_accuracy" class="gt_row gt_right">4</td>
+<td headers="geoprivacy" class="gt_row gt_right"></td>
+<td headers="taxon_geoprivacy" class="gt_row gt_left">open</td>
+<td headers="coordinates_obscured" class="gt_row gt_left">false</td>
+<td headers="positioning_method" class="gt_row gt_left"></td>
+<td headers="positioning_device" class="gt_row gt_left"></td>
+<td headers="user_id" class="gt_row gt_right">126268</td>
+<td headers="user_name" class="gt_row gt_left">Eliezer Nieves-Rodriguez</td>
+<td headers="created_at" class="gt_row gt_left">2023-12-27 20:34:45 UTC</td>
+<td headers="updated_at" class="gt_row gt_left">2023-12-28 16:19:46 UTC</td>
+<td headers="quality_grade" class="gt_row gt_left">research</td>
+<td headers="license" class="gt_row gt_left">CC-BY-NC</td>
+<td headers="sound_url" class="gt_row gt_left"></td>
+<td headers="oauth_application_id" class="gt_row gt_right">NA</td>
+<td headers="captive_cultivated" class="gt_row gt_left">false</td></tr>
+    <tr><td headers="scientific_name" class="gt_row gt_left">Gymnasio nudipes</td>
+<td headers="datetime" class="gt_row gt_right">2022-11-13 18:26:00 -0400</td>
+<td headers="description" class="gt_row gt_left"></td>
+<td headers="place_guess" class="gt_row gt_left">Mameyes II, Río Grande 00745, Puerto Rico</td>
+<td headers="latitude" class="gt_row gt_right">18.33757</td>
+<td headers="longitude" class="gt_row gt_right">-65.76058</td>
+<td headers="tag_list" class="gt_row gt_left"></td>
+<td headers="common_name" class="gt_row gt_left">Puerto Rican Owl</td>
+<td headers="url" class="gt_row gt_left">https://www.inaturalist.org/observations/194223079</td>
+<td headers="image_url" class="gt_row gt_left">https://inaturalist-open-data.s3.amazonaws.com/photos/341343748/medium.jpg</td>
+<td headers="user_login" class="gt_row gt_left">rawcomposition</td>
+<td headers="id" class="gt_row gt_right">194223079</td>
+<td headers="species_guess" class="gt_row gt_left">Puerto Rican Owl</td>
+<td headers="iconic_taxon_name" class="gt_row gt_left">Aves</td>
+<td headers="taxon_id" class="gt_row gt_right">1289585</td>
+<td headers="num_identification_agreements" class="gt_row gt_right">2</td>
+<td headers="num_identification_disagreements" class="gt_row gt_right">0</td>
+<td headers="observed_on_string" class="gt_row gt_left">2022/11/13 6:26 PM</td>
+<td headers="observed_on" class="gt_row gt_right">2022-11-13</td>
+<td headers="time_observed_at" class="gt_row gt_left">2022-11-13 22:26:00 UTC</td>
+<td headers="time_zone" class="gt_row gt_left">Puerto Rico</td>
+<td headers="positional_accuracy" class="gt_row gt_right">NA</td>
+<td headers="public_positional_accuracy" class="gt_row gt_right">NA</td>
+<td headers="geoprivacy" class="gt_row gt_right"></td>
+<td headers="taxon_geoprivacy" class="gt_row gt_left">open</td>
+<td headers="coordinates_obscured" class="gt_row gt_left">false</td>
+<td headers="positioning_method" class="gt_row gt_left"></td>
+<td headers="positioning_device" class="gt_row gt_left"></td>
+<td headers="user_id" class="gt_row gt_right">1065381</td>
+<td headers="user_name" class="gt_row gt_left">Adam Jackson</td>
+<td headers="created_at" class="gt_row gt_left">2023-12-17 21:05:10 UTC</td>
+<td headers="updated_at" class="gt_row gt_left">2023-12-21 23:39:55 UTC</td>
+<td headers="quality_grade" class="gt_row gt_left">research</td>
+<td headers="license" class="gt_row gt_left">CC0</td>
+<td headers="sound_url" class="gt_row gt_left"></td>
+<td headers="oauth_application_id" class="gt_row gt_right">NA</td>
+<td headers="captive_cultivated" class="gt_row gt_left">false</td></tr>
+    <tr><td headers="scientific_name" class="gt_row gt_left">Gymnasio nudipes</td>
+<td headers="datetime" class="gt_row gt_right">2023-12-07 18:27:39 -0400</td>
+<td headers="description" class="gt_row gt_left"></td>
+<td headers="place_guess" class="gt_row gt_left">Puerto Rico, Lares, Puerto Rico, US</td>
+<td headers="latitude" class="gt_row gt_right">18.21566</td>
+<td headers="longitude" class="gt_row gt_right">-66.90053</td>
+<td headers="tag_list" class="gt_row gt_left"></td>
+<td headers="common_name" class="gt_row gt_left">Puerto Rican Owl</td>
+<td headers="url" class="gt_row gt_left">https://www.inaturalist.org/observations/193335833</td>
+<td headers="image_url" class="gt_row gt_left"></td>
+<td headers="user_login" class="gt_row gt_left">omarmcarmona</td>
+<td headers="id" class="gt_row gt_right">193335833</td>
+<td headers="species_guess" class="gt_row gt_left">Puerto Rican Owl</td>
+<td headers="iconic_taxon_name" class="gt_row gt_left">Aves</td>
+<td headers="taxon_id" class="gt_row gt_right">1289585</td>
+<td headers="num_identification_agreements" class="gt_row gt_right">1</td>
+<td headers="num_identification_disagreements" class="gt_row gt_right">0</td>
+<td headers="observed_on_string" class="gt_row gt_left">2023-12-07 18:27:39-04:00</td>
+<td headers="observed_on" class="gt_row gt_right">2023-12-07</td>
+<td headers="time_observed_at" class="gt_row gt_left">2023-12-07 22:27:39 UTC</td>
+<td headers="time_zone" class="gt_row gt_left">Puerto Rico</td>
+<td headers="positional_accuracy" class="gt_row gt_right">6</td>
+<td headers="public_positional_accuracy" class="gt_row gt_right">6</td>
+<td headers="geoprivacy" class="gt_row gt_right"></td>
+<td headers="taxon_geoprivacy" class="gt_row gt_left">open</td>
+<td headers="coordinates_obscured" class="gt_row gt_left">false</td>
+<td headers="positioning_method" class="gt_row gt_left"></td>
+<td headers="positioning_device" class="gt_row gt_left"></td>
+<td headers="user_id" class="gt_row gt_right">162314</td>
+<td headers="user_name" class="gt_row gt_left">Omar Monzon Carmona</td>
+<td headers="created_at" class="gt_row gt_left">2023-12-07 22:28:10 UTC</td>
+<td headers="updated_at" class="gt_row gt_left">2023-12-08 21:39:30 UTC</td>
+<td headers="quality_grade" class="gt_row gt_left">research</td>
+<td headers="license" class="gt_row gt_left">CC-BY-NC</td>
+<td headers="sound_url" class="gt_row gt_left">https://static.inaturalist.org/sounds/857236.m4a?1701988092</td>
+<td headers="oauth_application_id" class="gt_row gt_right">3</td>
+<td headers="captive_cultivated" class="gt_row gt_left">false</td></tr>
+    <tr><td headers="scientific_name" class="gt_row gt_left">Gymnasio nudipes</td>
+<td headers="datetime" class="gt_row gt_right">2021-09-23 19:19:00 -0400</td>
+<td headers="description" class="gt_row gt_left">https://ebird.org/checklist/S95075771</td>
+<td headers="place_guess" class="gt_row gt_left">Río Grande, PR</td>
+<td headers="latitude" class="gt_row gt_right">18.33758</td>
+<td headers="longitude" class="gt_row gt_right">-65.76056</td>
+<td headers="tag_list" class="gt_row gt_left">ML371955631</td>
+<td headers="common_name" class="gt_row gt_left">Puerto Rican Owl</td>
+<td headers="url" class="gt_row gt_left">https://www.inaturalist.org/observations/193327730</td>
+<td headers="image_url" class="gt_row gt_left">https://inaturalist-open-data.s3.amazonaws.com/photos/339601421/medium.jpg</td>
+<td headers="user_login" class="gt_row gt_left">rawcomposition</td>
+<td headers="id" class="gt_row gt_right">193327730</td>
+<td headers="species_guess" class="gt_row gt_left">Puerto Rican Owl</td>
+<td headers="iconic_taxon_name" class="gt_row gt_left">Aves</td>
+<td headers="taxon_id" class="gt_row gt_right">1289585</td>
+<td headers="num_identification_agreements" class="gt_row gt_right">2</td>
+<td headers="num_identification_disagreements" class="gt_row gt_right">0</td>
+<td headers="observed_on_string" class="gt_row gt_left">2021-09-23 19:19</td>
+<td headers="observed_on" class="gt_row gt_right">2021-09-23</td>
+<td headers="time_observed_at" class="gt_row gt_left">2021-09-23 23:19:00 UTC</td>
+<td headers="time_zone" class="gt_row gt_left">Puerto Rico</td>
+<td headers="positional_accuracy" class="gt_row gt_right">15</td>
+<td headers="public_positional_accuracy" class="gt_row gt_right">15</td>
+<td headers="geoprivacy" class="gt_row gt_right"></td>
+<td headers="taxon_geoprivacy" class="gt_row gt_left">open</td>
+<td headers="coordinates_obscured" class="gt_row gt_left">false</td>
+<td headers="positioning_method" class="gt_row gt_left"></td>
+<td headers="positioning_device" class="gt_row gt_left"></td>
+<td headers="user_id" class="gt_row gt_right">1065381</td>
+<td headers="user_name" class="gt_row gt_left">Adam Jackson</td>
+<td headers="created_at" class="gt_row gt_left">2023-12-07 20:57:18 UTC</td>
+<td headers="updated_at" class="gt_row gt_left">2023-12-17 21:06:13 UTC</td>
+<td headers="quality_grade" class="gt_row gt_left">research</td>
+<td headers="license" class="gt_row gt_left">CC0</td>
+<td headers="sound_url" class="gt_row gt_left"></td>
+<td headers="oauth_application_id" class="gt_row gt_right">837</td>
 <td headers="captive_cultivated" class="gt_row gt_left">false</td></tr>
   </tbody>
   
   
 </table>
 </div>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="co">#bujo$date=ymd_hms(bujo$datetime)</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="co">#bujo$Year=format(date, format=&quot;%Y&quot;)</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>bujo<span class="sc">$</span>date<span class="ot">=</span><span class="fu">ymd_hms</span>(bujo<span class="sc">$</span>datetime)</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>bujo<span class="sc">$</span>Year<span class="ot">=</span><span class="fu">format</span>(<span class="fu">as.POSIXct</span>(bujo<span class="sc">$</span>date), <span class="at">format=</span><span class="st">&quot;%Y&quot;</span>)</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a><span class="fu">gt</span>(<span class="fu">head</span>(bujo, <span class="at">n=</span><span class="dv">3</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="co">#bujo$date=ymd_hms(bujo$datetime)</span></span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="co">#bujo$Year=format(date, format=&quot;%Y&quot;)</span></span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>bujo<span class="sc">$</span>date<span class="ot">=</span><span class="fu">ymd_hms</span>(bujo<span class="sc">$</span>datetime)</span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a>bujo<span class="sc">$</span>Year<span class="ot">=</span><span class="fu">format</span>(<span class="fu">as.POSIXct</span>(bujo<span class="sc">$</span>date), <span class="at">format=</span><span class="st">&quot;%Y&quot;</span>)</span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a><span class="fu">gt</span>(<span class="fu">head</span>(bujo, <span class="at">n=</span><span class="dv">3</span>))</span></code></pre></div>
 <div id="scgxldprmf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#scgxldprmf table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -2453,7 +2453,7 @@ especie.</li>
     <tr class="gt_col_headings">
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="scientific_name">scientific_name</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="datetime">datetime</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="description">description</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="description">description</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="place_guess">place_guess</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="latitude">latitude</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="longitude">longitude</th>
@@ -2468,7 +2468,7 @@ especie.</li>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="taxon_id">taxon_id</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="num_identification_agreements">num_identification_agreements</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="num_identification_disagreements">num_identification_disagreements</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="observed_on_string">observed_on_string</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="observed_on_string">observed_on_string</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="observed_on">observed_on</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="time_observed_at">time_observed_at</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="time_zone">time_zone</th>
@@ -2477,8 +2477,8 @@ especie.</li>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="geoprivacy">geoprivacy</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="taxon_geoprivacy">taxon_geoprivacy</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="coordinates_obscured">coordinates_obscured</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="positioning_method">positioning_method</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="positioning_device">positioning_device</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="positioning_method">positioning_method</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="positioning_device">positioning_device</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="user_id">user_id</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="user_name">user_name</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="created_at">created_at</th>
@@ -2494,134 +2494,134 @@ especie.</li>
   </thead>
   <tbody class="gt_table_body">
     <tr><td headers="scientific_name" class="gt_row gt_left">Gymnasio nudipes</td>
-<td headers="datetime" class="gt_row gt_right">2023-05-09 21:00:00 -0400</td>
-<td headers="description" class="gt_row gt_right"></td>
-<td headers="place_guess" class="gt_row gt_left">Puerto Rico, Yabucoa, Puerto Rico, US</td>
-<td headers="latitude" class="gt_row gt_right">18.05144</td>
-<td headers="longitude" class="gt_row gt_right">-65.87920</td>
+<td headers="datetime" class="gt_row gt_right">2023-12-27 06:34:00 -0400</td>
+<td headers="description" class="gt_row gt_left">Gracias @mariadelririzarry y @eliezer por ayudarme a encontrarlo! 😎👍</td>
+<td headers="place_guess" class="gt_row gt_left">Río Piedras, San Juan, Puerto Rico</td>
+<td headers="latitude" class="gt_row gt_right">18.39300</td>
+<td headers="longitude" class="gt_row gt_right">-66.05561</td>
 <td headers="tag_list" class="gt_row gt_right"></td>
 <td headers="common_name" class="gt_row gt_left">Puerto Rican Owl</td>
-<td headers="url" class="gt_row gt_left">https://www.inaturalist.org/observations/161141522</td>
-<td headers="image_url" class="gt_row gt_left">https://static.inaturalist.org/photos/278510072/medium.jpg</td>
-<td headers="user_login" class="gt_row gt_left">jomniel</td>
-<td headers="id" class="gt_row gt_right">161141522</td>
+<td headers="url" class="gt_row gt_left">https://www.inaturalist.org/observations/196174945</td>
+<td headers="image_url" class="gt_row gt_left">https://inaturalist-open-data.s3.amazonaws.com/photos/345310443/medium.jpg</td>
+<td headers="user_login" class="gt_row gt_left">lma82</td>
+<td headers="id" class="gt_row gt_right">196174945</td>
 <td headers="species_guess" class="gt_row gt_left">Puerto Rican Owl</td>
 <td headers="iconic_taxon_name" class="gt_row gt_left">Aves</td>
 <td headers="taxon_id" class="gt_row gt_right">1289585</td>
-<td headers="num_identification_agreements" class="gt_row gt_right">1</td>
+<td headers="num_identification_agreements" class="gt_row gt_right">3</td>
 <td headers="num_identification_disagreements" class="gt_row gt_right">0</td>
-<td headers="observed_on_string" class="gt_row gt_right">2023-05-09 21:00:00-04:00</td>
-<td headers="observed_on" class="gt_row gt_right">2023-05-09</td>
-<td headers="time_observed_at" class="gt_row gt_left">2023-05-10 01:00:00 UTC</td>
+<td headers="observed_on_string" class="gt_row gt_left">2023/12/27 6:34 AM</td>
+<td headers="observed_on" class="gt_row gt_right">2023-12-27</td>
+<td headers="time_observed_at" class="gt_row gt_left">2023-12-27 10:34:00 UTC</td>
 <td headers="time_zone" class="gt_row gt_left">Puerto Rico</td>
-<td headers="positional_accuracy" class="gt_row gt_right">812</td>
-<td headers="public_positional_accuracy" class="gt_row gt_right">812</td>
+<td headers="positional_accuracy" class="gt_row gt_right">4</td>
+<td headers="public_positional_accuracy" class="gt_row gt_right">4</td>
 <td headers="geoprivacy" class="gt_row gt_right"></td>
 <td headers="taxon_geoprivacy" class="gt_row gt_left">open</td>
 <td headers="coordinates_obscured" class="gt_row gt_left">false</td>
-<td headers="positioning_method" class="gt_row gt_right"></td>
-<td headers="positioning_device" class="gt_row gt_right"></td>
-<td headers="user_id" class="gt_row gt_right">6857203</td>
-<td headers="user_name" class="gt_row gt_left">Jomniel Omar</td>
-<td headers="created_at" class="gt_row gt_left">2023-05-11 21:51:17 UTC</td>
-<td headers="updated_at" class="gt_row gt_left">2023-05-12 01:19:03 UTC</td>
-<td headers="quality_grade" class="gt_row gt_left">research</td>
-<td headers="license" class="gt_row gt_left"></td>
-<td headers="sound_url" class="gt_row gt_left"></td>
-<td headers="oauth_application_id" class="gt_row gt_right">3</td>
-<td headers="captive_cultivated" class="gt_row gt_left">false</td>
-<td headers="date" class="gt_row gt_right">2023-05-10 01:00:00</td>
-<td headers="Year" class="gt_row gt_right">2023</td></tr>
-    <tr><td headers="scientific_name" class="gt_row gt_left">Gymnasio nudipes</td>
-<td headers="datetime" class="gt_row gt_right">2023-04-27 10:30:00 -0400</td>
-<td headers="description" class="gt_row gt_right"></td>
-<td headers="place_guess" class="gt_row gt_left">Puerto Rico, Barranquitas, Puerto Rico, US</td>
-<td headers="latitude" class="gt_row gt_right">18.22399</td>
-<td headers="longitude" class="gt_row gt_right">-66.31308</td>
-<td headers="tag_list" class="gt_row gt_right"></td>
-<td headers="common_name" class="gt_row gt_left">Puerto Rican Owl</td>
-<td headers="url" class="gt_row gt_left">https://www.inaturalist.org/observations/158760157</td>
-<td headers="image_url" class="gt_row gt_left">https://inaturalist-open-data.s3.amazonaws.com/photos/274327995/medium.jpg</td>
-<td headers="user_login" class="gt_row gt_left">joegaby</td>
-<td headers="id" class="gt_row gt_right">158760157</td>
-<td headers="species_guess" class="gt_row gt_left">Puerto Rican Owl</td>
-<td headers="iconic_taxon_name" class="gt_row gt_left">Aves</td>
-<td headers="taxon_id" class="gt_row gt_right">1289585</td>
-<td headers="num_identification_agreements" class="gt_row gt_right">2</td>
-<td headers="num_identification_disagreements" class="gt_row gt_right">0</td>
-<td headers="observed_on_string" class="gt_row gt_right">2023-04-27 10:30:00-04:00</td>
-<td headers="observed_on" class="gt_row gt_right">2023-04-27</td>
-<td headers="time_observed_at" class="gt_row gt_left">2023-04-27 14:30:00 UTC</td>
-<td headers="time_zone" class="gt_row gt_left">Puerto Rico</td>
-<td headers="positional_accuracy" class="gt_row gt_right">33</td>
-<td headers="public_positional_accuracy" class="gt_row gt_right">33</td>
-<td headers="geoprivacy" class="gt_row gt_right"></td>
-<td headers="taxon_geoprivacy" class="gt_row gt_left">open</td>
-<td headers="coordinates_obscured" class="gt_row gt_left">false</td>
-<td headers="positioning_method" class="gt_row gt_right"></td>
-<td headers="positioning_device" class="gt_row gt_right"></td>
-<td headers="user_id" class="gt_row gt_right">6454624</td>
-<td headers="user_name" class="gt_row gt_left"></td>
-<td headers="created_at" class="gt_row gt_left">2023-05-01 18:00:59 UTC</td>
-<td headers="updated_at" class="gt_row gt_left">2023-05-02 19:22:19 UTC</td>
+<td headers="positioning_method" class="gt_row gt_left"></td>
+<td headers="positioning_device" class="gt_row gt_left"></td>
+<td headers="user_id" class="gt_row gt_right">2059238</td>
+<td headers="user_name" class="gt_row gt_left">Luis Agosto</td>
+<td headers="created_at" class="gt_row gt_left">2024-01-09 03:20:30 UTC</td>
+<td headers="updated_at" class="gt_row gt_left">2024-01-10 01:37:42 UTC</td>
 <td headers="quality_grade" class="gt_row gt_left">research</td>
 <td headers="license" class="gt_row gt_left">CC-BY-NC</td>
 <td headers="sound_url" class="gt_row gt_left"></td>
-<td headers="oauth_application_id" class="gt_row gt_right">3</td>
+<td headers="oauth_application_id" class="gt_row gt_right">NA</td>
 <td headers="captive_cultivated" class="gt_row gt_left">false</td>
-<td headers="date" class="gt_row gt_right">2023-04-27 14:30:00</td>
+<td headers="date" class="gt_row gt_right">2023-12-27 10:34:00</td>
 <td headers="Year" class="gt_row gt_right">2023</td></tr>
     <tr><td headers="scientific_name" class="gt_row gt_left">Gymnasio nudipes</td>
-<td headers="datetime" class="gt_row gt_right">2023-04-26 20:57:35 -0400</td>
-<td headers="description" class="gt_row gt_right"></td>
-<td headers="place_guess" class="gt_row gt_left">Puerto Rico, Lares, Puerto Rico, US</td>
-<td headers="latitude" class="gt_row gt_right">18.21904</td>
-<td headers="longitude" class="gt_row gt_right">-66.89284</td>
+<td headers="datetime" class="gt_row gt_right">2024-01-01 20:40:00 -0400</td>
+<td headers="description" class="gt_row gt_left"></td>
+<td headers="place_guess" class="gt_row gt_left">Maricao, PR</td>
+<td headers="latitude" class="gt_row gt_right">18.17876</td>
+<td headers="longitude" class="gt_row gt_right">-66.99305</td>
 <td headers="tag_list" class="gt_row gt_right"></td>
 <td headers="common_name" class="gt_row gt_left">Puerto Rican Owl</td>
-<td headers="url" class="gt_row gt_left">https://www.inaturalist.org/observations/156821893</td>
+<td headers="url" class="gt_row gt_left">https://www.inaturalist.org/observations/195522337</td>
 <td headers="image_url" class="gt_row gt_left"></td>
-<td headers="user_login" class="gt_row gt_left">omarmcarmona</td>
-<td headers="id" class="gt_row gt_right">156821893</td>
+<td headers="user_login" class="gt_row gt_left">tate_putman</td>
+<td headers="id" class="gt_row gt_right">195522337</td>
 <td headers="species_guess" class="gt_row gt_left">Puerto Rican Owl</td>
 <td headers="iconic_taxon_name" class="gt_row gt_left">Aves</td>
 <td headers="taxon_id" class="gt_row gt_right">1289585</td>
 <td headers="num_identification_agreements" class="gt_row gt_right">1</td>
 <td headers="num_identification_disagreements" class="gt_row gt_right">0</td>
-<td headers="observed_on_string" class="gt_row gt_right">2023-04-26 20:57:35-04:00</td>
-<td headers="observed_on" class="gt_row gt_right">2023-04-26</td>
-<td headers="time_observed_at" class="gt_row gt_left">2023-04-27 00:57:35 UTC</td>
+<td headers="observed_on_string" class="gt_row gt_left">2024-01-01 20:40:00</td>
+<td headers="observed_on" class="gt_row gt_right">2024-01-01</td>
+<td headers="time_observed_at" class="gt_row gt_left">2024-01-02 00:40:00 UTC</td>
 <td headers="time_zone" class="gt_row gt_left">Puerto Rico</td>
-<td headers="positional_accuracy" class="gt_row gt_right">3</td>
-<td headers="public_positional_accuracy" class="gt_row gt_right">3</td>
+<td headers="positional_accuracy" class="gt_row gt_right">116</td>
+<td headers="public_positional_accuracy" class="gt_row gt_right">116</td>
 <td headers="geoprivacy" class="gt_row gt_right"></td>
 <td headers="taxon_geoprivacy" class="gt_row gt_left">open</td>
 <td headers="coordinates_obscured" class="gt_row gt_left">false</td>
-<td headers="positioning_method" class="gt_row gt_right"></td>
-<td headers="positioning_device" class="gt_row gt_right"></td>
-<td headers="user_id" class="gt_row gt_right">162314</td>
-<td headers="user_name" class="gt_row gt_left">Omar Monzon Carmona</td>
-<td headers="created_at" class="gt_row gt_left">2023-04-27 00:57:57 UTC</td>
-<td headers="updated_at" class="gt_row gt_left">2023-04-27 15:50:20 UTC</td>
+<td headers="positioning_method" class="gt_row gt_left">gps</td>
+<td headers="positioning_device" class="gt_row gt_left">gps</td>
+<td headers="user_id" class="gt_row gt_right">4994013</td>
+<td headers="user_name" class="gt_row gt_left">Tate Putman</td>
+<td headers="created_at" class="gt_row gt_left">2024-01-02 00:40:48 UTC</td>
+<td headers="updated_at" class="gt_row gt_left">2024-01-02 13:34:27 UTC</td>
 <td headers="quality_grade" class="gt_row gt_left">research</td>
 <td headers="license" class="gt_row gt_left">CC-BY-NC</td>
-<td headers="sound_url" class="gt_row gt_left">https://static.inaturalist.org/sounds/657605.m4a?1682557079</td>
-<td headers="oauth_application_id" class="gt_row gt_right">3</td>
+<td headers="sound_url" class="gt_row gt_left">https://static.inaturalist.org/sounds/869290.mp3?1704156050</td>
+<td headers="oauth_application_id" class="gt_row gt_right">2</td>
 <td headers="captive_cultivated" class="gt_row gt_left">false</td>
-<td headers="date" class="gt_row gt_right">2023-04-27 00:57:35</td>
+<td headers="date" class="gt_row gt_right">2024-01-02 00:40:00</td>
+<td headers="Year" class="gt_row gt_right">2024</td></tr>
+    <tr><td headers="scientific_name" class="gt_row gt_left">Gymnasio nudipes</td>
+<td headers="datetime" class="gt_row gt_right">2023-12-27 10:08:00 -0400</td>
+<td headers="description" class="gt_row gt_left"></td>
+<td headers="place_guess" class="gt_row gt_left">Río Piedras, San Juan, Puerto Rico</td>
+<td headers="latitude" class="gt_row gt_right">18.39300</td>
+<td headers="longitude" class="gt_row gt_right">-66.05561</td>
+<td headers="tag_list" class="gt_row gt_right"></td>
+<td headers="common_name" class="gt_row gt_left">Puerto Rican Owl</td>
+<td headers="url" class="gt_row gt_left">https://www.inaturalist.org/observations/195008893</td>
+<td headers="image_url" class="gt_row gt_left">https://inaturalist-open-data.s3.amazonaws.com/photos/342950057/medium.jpeg</td>
+<td headers="user_login" class="gt_row gt_left">eliezer</td>
+<td headers="id" class="gt_row gt_right">195008893</td>
+<td headers="species_guess" class="gt_row gt_left">Puerto Rican Owl</td>
+<td headers="iconic_taxon_name" class="gt_row gt_left">Aves</td>
+<td headers="taxon_id" class="gt_row gt_right">1289585</td>
+<td headers="num_identification_agreements" class="gt_row gt_right">5</td>
+<td headers="num_identification_disagreements" class="gt_row gt_right">0</td>
+<td headers="observed_on_string" class="gt_row gt_left">2023/12/27 10:08 AM</td>
+<td headers="observed_on" class="gt_row gt_right">2023-12-27</td>
+<td headers="time_observed_at" class="gt_row gt_left">2023-12-27 14:08:00 UTC</td>
+<td headers="time_zone" class="gt_row gt_left">Puerto Rico</td>
+<td headers="positional_accuracy" class="gt_row gt_right">4</td>
+<td headers="public_positional_accuracy" class="gt_row gt_right">4</td>
+<td headers="geoprivacy" class="gt_row gt_right"></td>
+<td headers="taxon_geoprivacy" class="gt_row gt_left">open</td>
+<td headers="coordinates_obscured" class="gt_row gt_left">false</td>
+<td headers="positioning_method" class="gt_row gt_left"></td>
+<td headers="positioning_device" class="gt_row gt_left"></td>
+<td headers="user_id" class="gt_row gt_right">126268</td>
+<td headers="user_name" class="gt_row gt_left">Eliezer Nieves-Rodriguez</td>
+<td headers="created_at" class="gt_row gt_left">2023-12-27 20:34:45 UTC</td>
+<td headers="updated_at" class="gt_row gt_left">2023-12-28 16:19:46 UTC</td>
+<td headers="quality_grade" class="gt_row gt_left">research</td>
+<td headers="license" class="gt_row gt_left">CC-BY-NC</td>
+<td headers="sound_url" class="gt_row gt_left"></td>
+<td headers="oauth_application_id" class="gt_row gt_right">NA</td>
+<td headers="captive_cultivated" class="gt_row gt_left">false</td>
+<td headers="date" class="gt_row gt_right">2023-12-27 14:08:00</td>
 <td headers="Year" class="gt_row gt_right">2023</td></tr>
   </tbody>
   
   
 </table>
 </div>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>bujo2<span class="ot">=</span>bujo <span class="sc">%&gt;%</span> </span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(Year) <span class="sc">%&gt;%</span> </span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(Year) <span class="sc">%&gt;%</span> </span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarize</span>(<span class="at">n=</span><span class="fu">n</span>())</span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>bujo2</span></code></pre></div>
-<pre><code>## # A tibble: 10 × 2
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>bujo2<span class="ot">=</span>bujo <span class="sc">%&gt;%</span> </span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>  <span class="fu">select</span>(Year) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>  <span class="fu">group_by</span>(Year) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarize</span>(<span class="at">n=</span><span class="fu">n</span>())</span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a>bujo2</span></code></pre></div>
+<pre><code>## # A tibble: 11 × 2
 ##    Year      n
 ##    &lt;chr&gt; &lt;int&gt;
 ##  1 2007      1
@@ -2631,14 +2631,15 @@ especie.</li>
 ##  5 2017      2
 ##  6 2019      1
 ##  7 2020      2
-##  8 2021     13
-##  9 2022     26
-## 10 2023     15</code></pre>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(bujo2, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">as.integer</span>(Year), <span class="at">y=</span>n))<span class="sc">+</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape=</span><span class="dv">22</span>, <span class="at">size=</span><span class="dv">4</span>, <span class="at">color=</span><span class="st">&quot;blue&quot;</span>, <span class="at">fill=</span><span class="st">&quot;white&quot;</span>)<span class="sc">+</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">3</span>)<span class="sc">+</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+##  8 2021     14
+##  9 2022     27
+## 10 2023     20
+## 11 2024      1</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="fu">ggplot</span>(bujo2, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">as.integer</span>(Year), <span class="at">y=</span>n))<span class="sc">+</span></span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape=</span><span class="dv">22</span>, <span class="at">size=</span><span class="dv">4</span>, <span class="at">color=</span><span class="st">&quot;blue&quot;</span>, <span class="at">fill=</span><span class="st">&quot;white&quot;</span>)<span class="sc">+</span></span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">3</span>)<span class="sc">+</span></span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="st">&quot;none&quot;</span>)</span></code></pre></div>
 <p><img src="G13_geom_line_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 </div>
 </div>

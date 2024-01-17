@@ -13,7 +13,7 @@
 
 <title>Gráficos para conteos</title>
 
-<script src="site_libs/header-attrs-2.23/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
@@ -555,7 +555,7 @@ div.tocify {
       <a href="ST_ggblanket.html">El paquete ggblanket</a>
     </li>
     <li>
-      <a href="ST_gggibous.html">El paquete gggibous</a>
+      <a href="ST_gggibous2.html">El paquete gggibous</a>
     </li>
     <li>
       <a href="ST_ggiraph.html">El paquete ggiraph</a>
@@ -586,7 +586,7 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>[1] &quot;2023-07-04&quot;</code></pre>
+<pre><code>[1] &quot;2024-01-15&quot;</code></pre>
 <p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" /></p>
 <div id="gráficos-con-geom_point-y-geom_count" class="section level1">
 <h1>Gráficos con <strong>geom_point</strong> y
@@ -601,13 +601,13 @@ proyectan los datos distribuidos en ambos ejes.</p>
 <p>Comenzaremos la demostración de <em>geom_point</em> primero y luego
 la de <em>geom_count</em>. Así podremos apreciar mejor las ventajas de
 utilizar el gráfico <em>geom_count</em>.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># preparar las librerías primero:</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggversa) <span class="co"># la función &quot;library&quot; activa el packete de **ggversa** donde se encuentra los archivos</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2) <span class="co"># ggplot2 es la librería que se usará para graficar los datos</span></span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># una serie de paquetes para organizar y visualizar los datos</span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt) <span class="co"># para que las tablas se vean más organizadas</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">#devtools::install_github(&quot;EvaMaeRey/flipbookr&quot;)</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(flipbookr)  </span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co"># preparar las librerías primero:</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">library</span>(ggversa) <span class="co"># la función &quot;library&quot; activa el packete de **ggversa** donde se encuentra los archivos</span></span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">library</span>(ggplot2) <span class="co"># ggplot2 es la librería que se usará para graficar los datos</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># una serie de paquetes para organizar y visualizar los datos</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="fu">library</span>(gt) <span class="co"># para que las tablas se vean más organizadas</span></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="co">#devtools::install_github(&quot;EvaMaeRey/flipbookr&quot;)</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a><span class="fu">library</span>(flipbookr)  </span></code></pre></div>
 <p>Para visualizar gráficos con <strong>geom_point</strong> y
 <strong>geom_count</strong>, utilizaremos los datos que se encuentran en
 el archivo <strong>Anolis</strong> en el paquete
@@ -624,13 +624,13 @@ class="uri">https://www.stat.berkeley.edu/~s133/dates.html</a></p>
 <h1>Convertir fechas</h1>
 <p>Como convertir fechas a un formato que reconoce que son
 <strong>fechas</strong>.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>h<span class="ot">=</span><span class="fu">head</span>(Anolis) <span class="co"># la función *head* es para visualizar las primeros 6 filas</span></span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="co">#h</span></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>h<span class="sc">$</span>DATE<span class="ot">=</span><span class="fu">as.Date</span>(h<span class="sc">$</span>DATE, <span class="st">&quot;%m/%d/%y&quot;</span>) <span class="co"># convertir la columna de fecha de tipo *carácter* a tipo *fecha*</span></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>h</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>h<span class="ot">=</span><span class="fu">head</span>(Anolis) <span class="co"># la función *head* es para visualizar las primeros 6 filas</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#h</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>h<span class="sc">$</span>DATE<span class="ot">=</span><span class="fu">as.Date</span>(h<span class="sc">$</span>DATE, <span class="st">&quot;%m/%d/%y&quot;</span>) <span class="co"># convertir la columna de fecha de tipo *carácter* a tipo *fecha*</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>h</span></code></pre></div>
 <pre><code># A tibble: 6 × 15
   STUDY      Survey_Site LOCATION TIME  DATE       SEASON SPECIES SEX_AGE HEIGHT
   &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;    &lt;tim&gt; &lt;date&gt;     &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;
@@ -644,22 +644,22 @@ class="uri">https://www.stat.berkeley.edu/~s133/dates.html</a></p>
 #   PERCH_DIAMETER &lt;int&gt;, WEIGHT &lt;dbl&gt;, SVL &lt;dbl&gt;, TAIL &lt;dbl&gt;</code></pre>
 <p>Las funciones para formatear la tabla son del paquete
 <strong>gt</strong> = graphics of table</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>h<span class="sc">%&gt;%</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="fu">md</span>(<span class="st">&quot;Datos lagartija *Anolis* de Puerto Rico&quot;</span>))<span class="sc">%&gt;%</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_options</span>(</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">column_labels.font.size =</span> <span class="fu">px</span>(<span class="dv">10</span>),</span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">table.font.size =</span> <span class="fu">px</span>(<span class="dv">10</span>))<span class="sc">%&gt;%</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">style =</span> <span class="st">&quot;italic&quot;</span>),</span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">columns =</span> <span class="fu">c</span>(SPECIES)</span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>    ))<span class="sc">%&gt;%</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">fmt_date</span>(</span>
-<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">columns =</span> <span class="fu">c</span>(DATE),</span>
-<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">date_style =</span> <span class="dv">8</span></span>
-<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>h<span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>    <span class="at">title =</span> <span class="fu">md</span>(<span class="st">&quot;Datos lagartija *Anolis* de Puerto Rico&quot;</span>))<span class="sc">%&gt;%</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  <span class="fu">tab_options</span>(</span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>    <span class="at">column_labels.font.size =</span> <span class="fu">px</span>(<span class="dv">10</span>),</span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>    <span class="at">table.font.size =</span> <span class="fu">px</span>(<span class="dv">10</span>))<span class="sc">%&gt;%</span></span>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">style =</span> <span class="st">&quot;italic&quot;</span>),</span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
+<span id="cb5-11"><a href="#cb5-11" tabindex="-1"></a>      <span class="at">columns =</span> <span class="fu">c</span>(SPECIES)</span>
+<span id="cb5-12"><a href="#cb5-12" tabindex="-1"></a>    ))<span class="sc">%&gt;%</span></span>
+<span id="cb5-13"><a href="#cb5-13" tabindex="-1"></a>  <span class="fu">fmt_date</span>(</span>
+<span id="cb5-14"><a href="#cb5-14" tabindex="-1"></a>    <span class="at">columns =</span> <span class="fu">c</span>(DATE),</span>
+<span id="cb5-15"><a href="#cb5-15" tabindex="-1"></a>    <span class="at">date_style =</span> <span class="dv">8</span></span>
+<span id="cb5-16"><a href="#cb5-16" tabindex="-1"></a>  )</span></code></pre></div>
 <div id="hlftetwyzv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#hlftetwyzv table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -1244,10 +1244,10 @@ peso menor de 4 cm y un tamaño mayor de 20 cm (de la cloaca al hocico).
 Si una de las dos condiciones no se cumple, no se incluirá ese espécimen
 en particular, de tal manera que obtendremos un archivo más
 reducido.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span>  <span class="co"># pipe</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL) <span class="sc">%&gt;%</span>  </span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a> dplyr<span class="sc">::</span><span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span>  <span class="co"># pipe</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL) <span class="sc">%&gt;%</span>  </span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a> dplyr<span class="sc">::</span><span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div>
 <pre><code># A tibble: 6 × 2
   WEIGHT   SVL
    &lt;dbl&gt; &lt;dbl&gt;
@@ -1273,16 +1273,16 @@ geom_point</strong>, se muestra un gráfico básico. Como se puede
 apreciar, los puntos son negros y de un tamaño específico, y los nombres
 de los ejes de <strong>X</strong> y <strong>Y</strong> son los nombres
 de las columnas tal como aparecen en el archivo de datos.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(WEIGHT, SVL))<span class="sc">+</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(WEIGHT, SVL))<span class="sc">+</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div>
 <p><img src="G3-Graficos-por-conteos_files/figure-html/geom_point-count-1.png" width="576" /></p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL) <span class="sc">%&gt;%</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>WEIGHT, <span class="at">y=</span>SVL))<span class="sc">+</span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title=</span> <span class="st">&quot;Figura: Relación de SVL y  el peso de Anolis en </span><span class="sc">\n</span><span class="st"> El Verde, Yunque, PR&quot;</span>)<span class="sc">+</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Snout vent length&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL) <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>WEIGHT, <span class="at">y=</span>SVL))<span class="sc">+</span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title=</span> <span class="st">&quot;Figura: Relación de SVL y  el peso de Anolis en </span><span class="sc">\n</span><span class="st"> El Verde, Yunque, PR&quot;</span>)<span class="sc">+</span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Snout vent length&quot;</span>)</span></code></pre></div>
 <p><img src="G3-Graficos-por-conteos_files/figure-html/unnamed-chunk-7-1.png" width="576" /></p>
 <hr />
 <div id="paso-a-paso-1" class="section level3">
@@ -1306,25 +1306,25 @@ Ud desee”)</strong>, y el tamaño y estilo del título con
 <strong>theme(title=element_text(size=20,face=“bold”,
 colour=“green”))</strong>, tal como se muestra en el gráfico
 siguiente.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL)<span class="sc">%&gt;%</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT))<span class="sc">+</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.x=</span>                    <span class="co"># Cambiar el titulo del eje de x</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>    <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;italic&quot;</span>, </span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a>                 <span class="at">colour=</span><span class="st">&quot;deeppink2&quot;</span>),</span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title.y=</span>                        <span class="co"># Cambiar el titulo del eje de y</span></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>,</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>                 <span class="at">face=</span><span class="st">&quot;bold&quot;</span>, </span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>                 <span class="at">colour=</span><span class="st">&quot;darkred&quot;</span>),</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">title=</span>                    <span class="co"># Poner un titulo al gráfico</span></span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>    <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">18</span>,</span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>                 <span class="at">face=</span><span class="st">&quot;bold&quot;</span>, </span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>                 <span class="at">colour=</span><span class="st">&quot;green&quot;</span>))<span class="sc">+</span></span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Título con tipo/tamaño/aspecto que Ud desee&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL)<span class="sc">%&gt;%</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT))<span class="sc">+</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.x=</span>                    <span class="co"># Cambiar el titulo del eje de x</span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a>    <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;italic&quot;</span>, </span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a>                 <span class="at">colour=</span><span class="st">&quot;deeppink2&quot;</span>),</span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a>    <span class="at">axis.title.y=</span>                        <span class="co"># Cambiar el titulo del eje de y</span></span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a>    <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>,</span>
+<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a>                 <span class="at">face=</span><span class="st">&quot;bold&quot;</span>, </span>
+<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a>                 <span class="at">colour=</span><span class="st">&quot;darkred&quot;</span>),</span>
+<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a>    <span class="at">title=</span>                    <span class="co"># Poner un titulo al gráfico</span></span>
+<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a>    <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">18</span>,</span>
+<span id="cb10-17"><a href="#cb10-17" tabindex="-1"></a>                 <span class="at">face=</span><span class="st">&quot;bold&quot;</span>, </span>
+<span id="cb10-18"><a href="#cb10-18" tabindex="-1"></a>                 <span class="at">colour=</span><span class="st">&quot;green&quot;</span>))<span class="sc">+</span></span>
+<span id="cb10-19"><a href="#cb10-19" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Título con tipo/tamaño/aspecto que Ud desee&quot;</span>)</span></code></pre></div>
 <p><img src="G3-Graficos-por-conteos_files/figure-html/detalles-1.png" width="576" /></p>
 <hr />
 </div>
@@ -1359,11 +1359,11 @@ construye.</p>
 hay en cada combinación de <strong>Peso</strong> y <strong>SVL</strong>?
 Y posteriormente uno puede evaluar y gráficar la frecuencia de los
 datos.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span>  <span class="co"># pipe</span></span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL) <span class="sc">%&gt;%</span>  <span class="co"># selecciona</span></span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(SVL<span class="sc">&gt;</span><span class="dv">20</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">count</span>(WEIGHT, SVL)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span>  <span class="co"># pipe</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL) <span class="sc">%&gt;%</span>  <span class="co"># selecciona</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>  <span class="fu">filter</span>(SVL<span class="sc">&gt;</span><span class="dv">20</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>  <span class="fu">count</span>(WEIGHT, SVL)</span></code></pre></div>
 <pre><code># A tibble: 62 × 3
    WEIGHT   SVL     n
     &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
@@ -1378,15 +1378,15 @@ datos.</p>
  9   0.7     28     3
 10   0.7     32     2
 # ℹ 52 more rows</code></pre>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL)<span class="sc">%&gt;%</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT))<span class="sc">+</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_count</span>()<span class="sc">+</span></span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Figura. Puntos de acuerdo a la frecuencia&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL)<span class="sc">%&gt;%</span></span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT))<span class="sc">+</span></span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>  <span class="fu">geom_count</span>()<span class="sc">+</span></span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Figura. Puntos de acuerdo a la frecuencia&quot;</span>)</span></code></pre></div>
 <p><img src="G3-Graficos-por-conteos_files/figure-html/geom_count1-1.png" width="576" /></p>
 <hr />
 <div id="paso-a-paso-3" class="section level3">
@@ -1409,15 +1409,15 @@ que en la figura anterior los puntos representan la frecuencia. Pero,
 ahora, los puntos salen en proporción a la frecuencia. La frecuencia en
 este caso es calculada utilizando como denominador la cantidad total de
 todos los especímenes en el archivo.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL)<span class="sc">%&gt;%</span></span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT))<span class="sc">+</span></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="fu">aes</span>(<span class="at">size=</span>..prop.., <span class="at">group=</span><span class="dv">1</span>))<span class="sc">+</span></span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>   <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Figura. Puntos en proporción a la frecuencia&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL)<span class="sc">%&gt;%</span></span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT))<span class="sc">+</span></span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="fu">aes</span>(<span class="at">size=</span>..prop.., <span class="at">group=</span><span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a>   <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Figura. Puntos en proporción a la frecuencia&quot;</span>)</span></code></pre></div>
 <p><img src="G3-Graficos-por-conteos_files/figure-html/geom_count2-1.png" width="576" /></p>
 <hr />
 </div>
@@ -1442,22 +1442,22 @@ con valor 0.25, lo que da una suma de 1 (hay 4 cuatro lagartijas que
 tienen un SVL de 35cm). Note que la frecuencia en este caso es calculada
 utilizando como denominador la cantidad total de los valores que
 corresponden a un valor específico en “X”.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>x<span class="ot">=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">9</span>,<span class="dv">15</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(x)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>x<span class="ot">=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">9</span>,<span class="dv">15</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="fu">sum</span>(x)</span></code></pre></div>
 <pre><code>[1] 35</code></pre>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="dv">1</span><span class="sc">/</span><span class="dv">35</span></span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="dv">1</span><span class="sc">/</span><span class="dv">35</span></span></code></pre></div>
 <pre><code>[1] 0.02857143</code></pre>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="dv">15</span><span class="sc">/</span><span class="dv">35</span></span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="dv">15</span><span class="sc">/</span><span class="dv">35</span></span></code></pre></div>
 <pre><code>[1] 0.4285714</code></pre>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
-<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL)<span class="sc">%&gt;%</span></span>
-<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
-<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT))<span class="sc">+</span></span>
-<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="fu">aes</span>(<span class="at">size=</span>..prop.., <span class="at">group=</span>SVL))<span class="sc">+</span></span>
-<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
-<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
-<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Figura. Puntos en proporción a una variable&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL)<span class="sc">%&gt;%</span></span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT))<span class="sc">+</span></span>
+<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="fu">aes</span>(<span class="at">size=</span>..prop.., <span class="at">group=</span>SVL))<span class="sc">+</span></span>
+<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
+<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb21-9"><a href="#cb21-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Figura. Puntos en proporción a una variable&quot;</span>)</span></code></pre></div>
 <p><img src="G3-Graficos-por-conteos_files/figure-html/geom_count2a-1.png" width="576" /></p>
 <hr />
 </div>
@@ -1480,9 +1480,9 @@ de los <em>Anolis</em> pequeños se observa en el periodo lluvioso y los
 grandes en el periodo seco. Note que aquí se añade la variable que
 queremos separada por color; o sea, se identifica la estación de tiempo
 seco o húmedo con la columna <em>Season</em>.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(Anolis<span class="sc">$</span>SEASON)</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="fu">unique</span>(Anolis<span class="sc">$</span>SEASON)</span></code></pre></div>
 <pre><code>[1] &quot;dry&quot; &quot;wet&quot;</code></pre>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(Anolis)</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="fu">names</span>(Anolis)</span></code></pre></div>
 <pre><code> [1] &quot;STUDY&quot;                    &quot;Survey_Site&quot;             
  [3] &quot;LOCATION&quot;                 &quot;TIME&quot;                    
  [5] &quot;DATE&quot;                     &quot;SEASON&quot;                  
@@ -1491,15 +1491,15 @@ seco o húmedo con la columna <em>Season</em>.</p>
 [11] &quot;PERCH_SUBSTRATE&quot;          &quot;PERCH_DIAMETER&quot;          
 [13] &quot;WEIGHT&quot;                   &quot;SVL&quot;                     
 [15] &quot;TAIL&quot;                    </code></pre>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
-<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL, SEX_AGE)<span class="sc">%&gt;%</span></span>
-<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT, <span class="at">colour=</span>SEX_AGE))<span class="sc">+</span></span>
-<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="fu">aes</span>(<span class="at">size=</span>..prop.., <span class="at">group=</span>WEIGHT))<span class="sc">+</span></span>
-<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
-<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
-<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Figura. Grupos con diferentes colores&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL, SEX_AGE)<span class="sc">%&gt;%</span></span>
+<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT, <span class="at">colour=</span>SEX_AGE))<span class="sc">+</span></span>
+<span id="cb26-5"><a href="#cb26-5" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="fu">aes</span>(<span class="at">size=</span>..prop.., <span class="at">group=</span>WEIGHT))<span class="sc">+</span></span>
+<span id="cb26-6"><a href="#cb26-6" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb26-7"><a href="#cb26-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
+<span id="cb26-8"><a href="#cb26-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb26-9"><a href="#cb26-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Figura. Grupos con diferentes colores&quot;</span>)</span></code></pre></div>
 <p><img src="G3-Graficos-por-conteos_files/figure-html/geom%20count3-1.png" width="576" /></p>
 <hr />
 </div>
@@ -1516,20 +1516,20 @@ tilde, “~”, seguido del nombre de la variable, que en este caso es la
 localidad de muestreo, <strong>Survey_Site</strong>.
 (<strong>facet_wrap</strong> se explica en detalle como un tópico aparte
 de visualización.)</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co">#names(Anolis) # para mostrar los nombres de las columnas</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
-<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL, SEASON, Survey_Site, PERCH_SUBSTRATE)<span class="sc">%&gt;%</span></span>
-<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
-<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT, <span class="at">colour=</span>SEASON))<span class="sc">+</span></span>
-<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="fu">aes</span>(<span class="at">size=</span>..prop.., <span class="at">group=</span>WEIGHT))<span class="sc">+</span></span>
-<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
-<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
-<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>PERCH_SUBSTRATE)<span class="sc">+</span></span>
-<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;orange&quot;</span>, <span class="st">&quot;red&quot;</span>))<span class="sc">+</span></span>
-<span id="cb27-14"><a href="#cb27-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Figura. Grupos separados por variable discreta&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="co">#names(Anolis) # para mostrar los nombres de las columnas</span></span>
+<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a>  </span>
+<span id="cb27-4"><a href="#cb27-4" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
+<span id="cb27-5"><a href="#cb27-5" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL, SEASON, Survey_Site, PERCH_SUBSTRATE)<span class="sc">%&gt;%</span></span>
+<span id="cb27-6"><a href="#cb27-6" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb27-7"><a href="#cb27-7" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT, <span class="at">colour=</span>SEASON))<span class="sc">+</span></span>
+<span id="cb27-8"><a href="#cb27-8" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="fu">aes</span>(<span class="at">size=</span>..prop.., <span class="at">group=</span>WEIGHT))<span class="sc">+</span></span>
+<span id="cb27-9"><a href="#cb27-9" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb27-10"><a href="#cb27-10" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
+<span id="cb27-11"><a href="#cb27-11" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>PERCH_SUBSTRATE)<span class="sc">+</span></span>
+<span id="cb27-12"><a href="#cb27-12" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb27-13"><a href="#cb27-13" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;orange&quot;</span>, <span class="st">&quot;red&quot;</span>))<span class="sc">+</span></span>
+<span id="cb27-14"><a href="#cb27-14" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Figura. Grupos separados por variable discreta&quot;</span>)</span></code></pre></div>
 <p><img src="G3-Graficos-por-conteos_files/figure-html/geom_count4-1.png" width="576" /></p>
 <hr />
 </div>
@@ -1553,29 +1553,29 @@ solamente los números 21 al 25 son símbolos rellenados con color, lo que
 se hace al utilizar la opción de <strong>fill</strong> e indicando el
 color deseado, tal como se muestra en la <strong>Figura. Puntos
 rellenados en amarillo</strong>.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
-<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL, SEASON, Survey_Site)<span class="sc">%&gt;%</span></span>
-<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
-<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT, <span class="at">colour=</span>SEASON))<span class="sc">+</span></span>
-<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="at">shape=</span><span class="dv">12</span>,<span class="at">colour=</span><span class="st">&quot;red&quot;</span>,</span>
-<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">size=</span>..prop.., <span class="at">group=</span>Survey_Site))<span class="sc">+</span></span>
-<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
-<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
-<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Survey_Site)<span class="sc">+</span></span>
-<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Figura. Cambio en la forma de los puntos&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
+<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL, SEASON, Survey_Site)<span class="sc">%&gt;%</span></span>
+<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb28-4"><a href="#cb28-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT, <span class="at">colour=</span>SEASON))<span class="sc">+</span></span>
+<span id="cb28-5"><a href="#cb28-5" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="at">shape=</span><span class="dv">12</span>,<span class="at">colour=</span><span class="st">&quot;red&quot;</span>,</span>
+<span id="cb28-6"><a href="#cb28-6" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">size=</span>..prop.., <span class="at">group=</span>Survey_Site))<span class="sc">+</span></span>
+<span id="cb28-7"><a href="#cb28-7" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb28-8"><a href="#cb28-8" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
+<span id="cb28-9"><a href="#cb28-9" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Survey_Site)<span class="sc">+</span></span>
+<span id="cb28-10"><a href="#cb28-10" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb28-11"><a href="#cb28-11" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Figura. Cambio en la forma de los puntos&quot;</span>)</span></code></pre></div>
 <p><img src="G3-Graficos-por-conteos_files/figure-html/geom%20count5.1-1.png" width="576" /></p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
-<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL, SEASON, Survey_Site)<span class="sc">%&gt;%</span></span>
-<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
-<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT, <span class="at">colour=</span>SEASON))<span class="sc">+</span></span>
-<span id="cb29-5"><a href="#cb29-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="at">shape=</span><span class="dv">23</span>, <span class="at">fill=</span><span class="st">&quot;green&quot;</span>, <span class="at">colour=</span><span class="st">&quot;orange&quot;</span>,</span>
-<span id="cb29-6"><a href="#cb29-6" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">size=</span>..prop.., <span class="at">group=</span>Survey_Site))<span class="sc">+</span></span>
-<span id="cb29-7"><a href="#cb29-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
-<span id="cb29-8"><a href="#cb29-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
-<span id="cb29-9"><a href="#cb29-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Survey_Site)<span class="sc">+</span></span>
-<span id="cb29-10"><a href="#cb29-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb29-11"><a href="#cb29-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Figura. Puntos rellenados en amarillo&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
+<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL, SEASON, Survey_Site)<span class="sc">%&gt;%</span></span>
+<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT, <span class="at">colour=</span>SEASON))<span class="sc">+</span></span>
+<span id="cb29-5"><a href="#cb29-5" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="at">shape=</span><span class="dv">23</span>, <span class="at">fill=</span><span class="st">&quot;green&quot;</span>, <span class="at">colour=</span><span class="st">&quot;orange&quot;</span>,</span>
+<span id="cb29-6"><a href="#cb29-6" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">size=</span>..prop.., <span class="at">group=</span>Survey_Site))<span class="sc">+</span></span>
+<span id="cb29-7"><a href="#cb29-7" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb29-8"><a href="#cb29-8" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
+<span id="cb29-9"><a href="#cb29-9" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Survey_Site)<span class="sc">+</span></span>
+<span id="cb29-10"><a href="#cb29-10" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb29-11"><a href="#cb29-11" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Figura. Puntos rellenados en amarillo&quot;</span>)</span></code></pre></div>
 <p><img src="G3-Graficos-por-conteos_files/figure-html/geom%20count5.2-1.png" width="576" /></p>
 <hr />
 </div>
@@ -1587,17 +1587,17 @@ más gruesos</strong>, se cambian la forma de los puntos a un cuadrado
 con la opción <strong>shape</strong> y el grosor del borde con la opción
 <strong>stroke</strong>, seguido de la asignación del parámetro
 correspondiente, en este caso 22 y 2 respectivamente.</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
-<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL, SEASON, Survey_Site)<span class="sc">%&gt;%</span></span>
-<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
-<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT, <span class="at">colour=</span>SEASON))<span class="sc">+</span></span>
-<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="at">shape=</span><span class="dv">22</span>, <span class="at">stroke=</span><span class="dv">2</span>,<span class="at">alpha=</span>.<span class="dv">75</span>,</span>
-<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">size=</span>..prop.., <span class="at">group=</span>Survey_Site))<span class="sc">+</span></span>
-<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
-<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
-<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Survey_Site)<span class="sc">+</span></span>
-<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Figura. Puntos cuadrados con bordes más gruesos&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
+<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL, SEASON, Survey_Site)<span class="sc">%&gt;%</span></span>
+<span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb30-4"><a href="#cb30-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT, <span class="at">colour=</span>SEASON))<span class="sc">+</span></span>
+<span id="cb30-5"><a href="#cb30-5" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="at">shape=</span><span class="dv">22</span>, <span class="at">stroke=</span><span class="dv">2</span>,<span class="at">alpha=</span>.<span class="dv">75</span>,</span>
+<span id="cb30-6"><a href="#cb30-6" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">size=</span>..prop.., <span class="at">group=</span>Survey_Site))<span class="sc">+</span></span>
+<span id="cb30-7"><a href="#cb30-7" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb30-8"><a href="#cb30-8" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
+<span id="cb30-9"><a href="#cb30-9" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Survey_Site)<span class="sc">+</span></span>
+<span id="cb30-10"><a href="#cb30-10" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb30-11"><a href="#cb30-11" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Figura. Puntos cuadrados con bordes más gruesos&quot;</span>)</span></code></pre></div>
 <p><img src="G3-Graficos-por-conteos_files/figure-html/geom%20count6-1.png" width="576" /></p>
 <hr />
 </div>
