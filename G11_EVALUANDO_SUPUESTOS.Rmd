@@ -14,7 +14,9 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message = FALSE)
-
+library(knitr)
+knitr::opts_knit$set(root.dir= normalizePath('..'))
+knitr::opts_chunk$set(error = FALSE)
 ```
 
 Fecha de la ultima revisión
@@ -39,7 +41,7 @@ colorize <- function(x, color) {
 ```
 
 ```{r, echo=FALSE, fig.show = "hold", out.width = "20%", fig.align = "default"}
-knitr::include_graphics(c("Graficos/hex_ggversa.png", "Graficos/hex_Visualizacion_Datos.png"))
+#knitr::include_graphics(c("Graficos/hex_ggversa.png", "Graficos/hex_Visualizacion_Datos.png"))
 ```
 
 
@@ -400,8 +402,9 @@ grid.arrange(a,b,ncol=1)
 Continuaremos con este mismo análisis pero esta vez evaluaremos la distribución del peso de gorriones en un trabajo de captura y recaptura en 6 meses diferentes.  Utilizaremos la base de datos **SparrowsElphick**.  En la figura (a) observamos un histograma de la distribución de los pesos de estas aves por cada mes. Vemos claramente que hay meses (mayo, septiembre y octubre) en los que se tuvieron muchas menos observaciones.  En el segundo gráfico, Figura (b), observamos el histograma y la curva normal para todos los datos sin importar el mes. Igualmente, esta visualización nos ayuda a evaluar la normalidad de los datos. 
 
 ```{r density3}
-library(readr)
-SparrowsElphick <- read_csv("Data_files_csv/SparrowsElphick.csv")
+
+library(readxl)
+SparrowElphick <- read_excel("Visualizacion_Datos/Data_files_csv/SparrowElphick.xlsx")
 Sparrows=SparrowsElphick
 head(Sparrows)
 Sparrows=SparrowsElphick
