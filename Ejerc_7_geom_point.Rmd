@@ -1,0 +1,116 @@
+---
+title: "Ejerc_7_geom_point"
+output:
+  html_document:
+    css: tutorial.css
+    fig_caption: yes
+    highlight: pygments
+    theme: simplex
+    toc: yes
+    toc_float: yes
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message = FALSE)
+```
+
+Fecha de la ultima revisión
+```{r echo=FALSE}
+
+Sys.Date()
+```
+
+
+```{r, echo=FALSE, fig.show = "hold", out.width = "20%", fig.align = "default"}
+knitr::include_graphics(c("Graficos/hex_ggversa.png", "Graficos/hex_Visualizacion_Datos.png"))
+```
+
+***
+
+
+Esta asignación es para practicar producción de gráficos de puntos
+
+- Temas:
+
+***
+# 1
+  - Subir los datos de archivo .csv a RStudio
+  - limpiar los nombres de las variables con la función adecuada
+  - enseñar las primeras seis filas
+  
+*** 
+
+# 2 
+  - Producir una gráfica sencilla en blanco y negro (sin otro cambio)
+
+*** 
+
+# 3
+  - Producir una gráfica con múltiples cambios
+     - seleccionar las variables "tarsus" en mm  y "wt" (peso de los pájaros en gramos)
+     - remover los "outliers" de las variables usando las funciones apropiadas
+     - Cambiar los nombres de los ejes 
+     - Cambiar por lo menos una palabra a *italico*
+     - Añadir un título a la gráfica justificado a la izquierda
+     - Cambiar el color de los puntos y que este asignados a la variable "Age" 
+     
+    
+    
+Los datos son variables recolectados de los "Sparrows" (Español: Gorriones) en una investigación en Argentina. 
+  - El nombre cientifico es *Ammospiza caudacuta*
+  - El data frame tiene 16 variables 
+  - Ud van a usar la variable de "tarsus" y "wt"
+  - 
+
+gorriones
+
+```{r include=FALSE}
+library(readr)
+SparrowElphick <- read_csv("Data_files_csv/SparrowElphick.csv")
+head(SparrowElphick)
+```
+
+Names of variables
+
+
+```{r, include =FALSE}
+names(SparrowElphick)
+```
+
+
+Subir el paquete para hacer el gráfico
+
+```{r, echo=FALSE}
+library(ggplot2)
+library(tidyverse)
+
+```
+
+
+```{r eval=FALSE, include=FALSE}
+
+ggplot(SparrowElphick, aes(wt, tarsus))+
+  geom_point()
+```
+
+
+
+
+```{r eval=FALSE, include=FALSE}
+SparrowElphick |> 
+  filter(tarsus < 26) |> 
+ggplot( aes(wt, tarsus, colour=as.factor(Age)))+
+  geom_point()+
+  ylab("El largo del tarsus")+
+  ggtitle("La relación entre el peso en gramos y el tarso <br> de los Gorriones")+
+  theme(plot.title = element_text(hjust = 0.5))+
+  mdthemes::md_theme_classic() +
+  xlab("El peso de *Ammospiza caudacuta* en gramos")
+```
+
+## Recordatorio de la sintaxis de RMarkdown
+
+https://www.markdownguide.org/basic-syntax/
+
+
+
