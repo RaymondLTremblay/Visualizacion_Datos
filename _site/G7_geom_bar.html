@@ -1,0 +1,2109 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Gráficos de barras con geom_bar</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="tutorial.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Visualización de Datos-2024</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Módulos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="G1-ggplot2.html">Qué es la visualización de datos y ejemplos historicos</a>
+    </li>
+    <li>
+      <a href="G2-Errores-tipicos-en-la-visualizacion.html">Errores típicos en la visualización</a>
+    </li>
+    <li>
+      <a href="G3-Graficos-por-conteos.html">Gráficos para conteos</a>
+    </li>
+    <li>
+      <a href="G4-Grafico-de-puntos-de-Wilkinson.html">Gráficos de puntos de Wilkinson</a>
+    </li>
+    <li>
+      <a href="G5_geom_area_densidad_freqpoly.html">Gráficos de area y densidad</a>
+    </li>
+    <li>
+      <a href="G6_geom_histogram.html">Histogramas</a>
+    </li>
+    <li>
+      <a href="G7_geom_bar.html">Gráficos de barras</a>
+    </li>
+    <li>
+      <a href="G8_geom_boxplot_geom_violin.html">Gráficos de caja y de violín</a>
+    </li>
+    <li>
+      <a href="G9_Facet_Grid.html">Facet Grid</a>
+    </li>
+    <li>
+      <a href="G10_Facet_wrap.html">Facet Wrap</a>
+    </li>
+    <li>
+      <a href="G11_EVALUANDO_SUPUESTOS.html">Evaluando Supuestos</a>
+    </li>
+    <li>
+      <a href="G12_Mapas_Calor.html">Mapas de Calor</a>
+    </li>
+    <li>
+      <a href="G13_geom_line.html">Gráficos con lineas</a>
+    </li>
+    <li>
+      <a href="G14_geom_point_geom_jitter.html">Geom_point y geom_jitter</a>
+    </li>
+    <li>
+      <a href="G15_gganimate.html">Gráficos animados en movimiento</a>
+    </li>
+    <li>
+      <a href="G16_Tablas_Tablas_Tablas.html">Tablas y Tablas</a>
+    </li>
+    <li>
+      <a href="G17_LeafletTaller_abril2023.html">Leaflet</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Instalación básica
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Instalar-R-RStudio.html">Lo básico de RStudio</a>
+    </li>
+    <li>
+      <a href="Introduccion-RMarkdown.html">Lo básico de RMarkdown</a>
+    </li>
+    <li>
+      <a href="Codigos_basicos_en_R.html">R y Cheatsheets</a>
+    </li>
+    <li>
+      <a href="R_basico.html">R Básico #2</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Tareas y Ejercicios
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Ejerc_1.html">Ejercicio Básico</a>
+    </li>
+    <li>
+      <a href="Ejerc_2_geom_point.html">Ejercicio geom_point</a>
+    </li>
+    <li>
+      <a href="Ejerc_3_Wilkinson.html">Ejercicio Wilkinson</a>
+    </li>
+    <li>
+      <a href="Ejerc_4_point_count.html">Ejercicio de gráficos de puntos, conteos y histograma</a>
+    </li>
+    <li>
+      <a href="Ejerc_5_geom_line.html">Ejercicio de gráficos de lineas</a>
+    </li>
+    <li>
+      <a href="Ejerc_6_Covid_19.html">Ejercicio Final COVID19</a>
+    </li>
+    <li>
+      <a href="Ejerc_7_geom_point.html">Ejercicio geom_point</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Los Datos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Archivos_de_Datos.html">Archivos de Datos</a>
+    </li>
+    <li>
+      <a href="COVID-19.html">COVID-19</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Calendario
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="schedule.html">Calendario</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Otros paquetes gg
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="ST_ggblanket.html">El paquete ggblanket</a>
+    </li>
+    <li>
+      <a href="ST_gggibous2.html">El paquete gggibous</a>
+    </li>
+    <li>
+      <a href="ST_ggiraph.html">El paquete ggiraph</a>
+    </li>
+    <li>
+      <a href="ST_ggparty.html">El paquete ggparty</a>
+    </li>
+    <li>
+      <a href="ST_ggvenn.html">El paquete ggvenn</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Gráficos de barras con
+<strong>geom_bar</strong></h1>
+
+</div>
+
+
+<p>Fecha de la ultima revisión</p>
+<pre><code>## [1] &quot;2024-02-05&quot;</code></pre>
+<p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" /></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co">#devtools::install_github(&quot;EvaMaeRey/flipbookr&quot;)</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">library</span>(flipbookr) </span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="fu">library</span>(ggversa)</span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="fu">library</span>(gridExtra) <span class="co"># paquete para organizar los gráficos</span></span>
+<span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>DW<span class="ot">=</span>dipodium</span>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>DW<span class="ot">=</span><span class="fu">clean_names</span>(DW)</span></code></pre></div>
+<hr />
+<div id="una-variable-discreta-gráfico-de-barras-con-geom_bar"
+class="section level1">
+<h1>Una variable discreta: Gráfico de barras con
+<strong>geom_bar</strong></h1>
+<p>El gráfico de barras es una representación de la frecuencia de
+ocurrencia de eventos para valores discretos; por ejemplo, sí o no, o
+valores categóricos. La función <strong>geom_bar</strong> genera un
+gráfico que tabula la cantidad de veces que ocurre un evento. La altura
+de las barras representa el número de observaciones de una categoría
+discreta representada en el eje de <strong>X</strong>.</p>
+<p>En el siguiente ejemplo, primero removeremos los <strong>NA</strong>
+del archivo usando <strong>drop_na()</strong>, es el función que excluye
+todas las filas que contienen los <strong>NA</strong>. Nuevamente
+utilizaremos el archivo de datos de la <em>Dipodium rosea</em>:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># DW$Number_of_Flowers  # Antes de hacer los análisis mira los datos, y vea que hay muchas filas con **NA**, remueve **#** para activar la función. </span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co"># Method 1</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="fu">head</span>(DW)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 21
+##   tree_number tree_species   dbh plant_number ramet_number distance orientation
+##         &lt;int&gt; &lt;chr&gt;        &lt;dbl&gt;        &lt;int&gt;        &lt;int&gt;    &lt;dbl&gt;       &lt;dbl&gt;
+## 1           1 E.o             75            1            1     2.47          40
+## 2           1 E.o             76            2            1     1.97          50
+## 3           2 E.o             76            3            1     1.95         350
+## 4           3 E.o             58            4            1     3.24         210
+## 5           4 E.o             NA            5            1     0.85          80
+## 6           5 E.o             59            6            1     2.62         160
+## # ℹ 14 more variables: number_of_flowers &lt;dbl&gt;, height_inflo &lt;dbl&gt;,
+## #   herbivory &lt;chr&gt;, row_position_nf &lt;int&gt;, number_flowers_position &lt;int&gt;,
+## #   number_of_fruits &lt;int&gt;, perc_fr_set &lt;dbl&gt;, pardalinum_or_roseum &lt;chr&gt;,
+## #   fruit_position_effect &lt;int&gt;, frutos_si_o_no &lt;int&gt;,
+## #   p_or_r_infl_lenght &lt;chr&gt;, num_of_fruits &lt;int&gt;, species_name &lt;chr&gt;,
+## #   cardinal_orientation &lt;int&gt;</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>DW <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="fu">drop_na</span>(number_of_flowers)<span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(number_of_flowers))<span class="sc">+</span></span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill=</span><span class="st">&quot;red&quot;</span>,<span class="at">color=</span><span class="st">&quot;white&quot;</span>)<span class="sc">+</span></span>
+<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Cantidad de Flores&quot;</span>)<span class="sc">+</span></span>
+<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<p><img src="G7_geom_bar_files/figure-html/dipodiumbarrafb-1.png" width="672" /></p>
+</div>
+<div id="cambio-de-intensidad-de-color-con-alpha"
+class="section level1">
+<h1>Cambio de intensidad de color con <strong>alpha</strong></h1>
+<p>Se puede cambiar la intensidad del color de las barras usando
+<strong>alpha</strong>. los valores pueden variar de 0 a 1, donde 1 es
+mas intenso el color, aquí se utiliza un <strong>alpha=0.3</strong>.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">head</span>(DW)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 21
+##   tree_number tree_species   dbh plant_number ramet_number distance orientation
+##         &lt;int&gt; &lt;chr&gt;        &lt;dbl&gt;        &lt;int&gt;        &lt;int&gt;    &lt;dbl&gt;       &lt;dbl&gt;
+## 1           1 E.o             75            1            1     2.47          40
+## 2           1 E.o             76            2            1     1.97          50
+## 3           2 E.o             76            3            1     1.95         350
+## 4           3 E.o             58            4            1     3.24         210
+## 5           4 E.o             NA            5            1     0.85          80
+## 6           5 E.o             59            6            1     2.62         160
+## # ℹ 14 more variables: number_of_flowers &lt;dbl&gt;, height_inflo &lt;dbl&gt;,
+## #   herbivory &lt;chr&gt;, row_position_nf &lt;int&gt;, number_flowers_position &lt;int&gt;,
+## #   number_of_fruits &lt;int&gt;, perc_fr_set &lt;dbl&gt;, pardalinum_or_roseum &lt;chr&gt;,
+## #   fruit_position_effect &lt;int&gt;, frutos_si_o_no &lt;int&gt;,
+## #   p_or_r_infl_lenght &lt;chr&gt;, num_of_fruits &lt;int&gt;, species_name &lt;chr&gt;,
+## #   cardinal_orientation &lt;int&gt;</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># [df(fila,columas)]</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>b<span class="ot">=</span><span class="fu">ggplot</span>(DW[<span class="sc">!</span><span class="fu">is.na</span>(DW<span class="sc">$</span>number_of_flowers),],</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>         <span class="fu">aes</span>(number_of_flowers))</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>b<span class="sc">+</span><span class="fu">geom_bar</span>(<span class="at">alpha=</span>.<span class="dv">3</span>,</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>               <span class="at">fill=</span><span class="st">&quot;blue&quot;</span>,<span class="at">color=</span><span class="st">&quot;white&quot;</span>)<span class="sc">+</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Posiciones de las </span><span class="sc">\n</span><span class="st"> flores en la inflorescencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<p><img src="G7_geom_bar_files/figure-html/dipodium-barra1-1.png" width="672" /></p>
+<hr />
+<div class="figure">
+<img src="Graficos/L_eltoroensis.jpeg" alt="Figura: Lepanthes eltoroensis, EL Yunque, Puerto Rico" width="315" style="float:right; padding:10px" />
+<p class="caption">
+Figura: Lepanthes eltoroensis, EL Yunque, Puerto Rico
+</p>
+</div>
+<ol style="list-style-type: decimal">
+<li>Seleccione el archivo “Lelto” en el paquete “ggversa”. Seleccione la
+variable adultos o juvenil, que representa la cantidad de plantas adulto
+o juvenil que se encuentra en el árbol. Los datos son de una pequeñita
+orquídea que esta limitado las veredas del “El Toro” y de los “Vientos
+Alizios” en el Yunque.
+<ul>
+<li>Mire el nombre de las columnas primero</li>
+<li>Cambie de color las barras</li>
+<li>Cambie el nombre de los nombres de los ejes</li>
+<li>Salva el gráfico con extensión de .png</li>
+<li>Sube el gráfico a MSTeam</li>
+</ul></li>
+</ol>
+<hr />
+</div>
+<div id="multiples-grupos" class="section level1">
+<h1>Multiples grupos</h1>
+<p>Ahora le añadiremos una variable discreta que representa las
+frecuencias de las plantas con frutos y la frecuencia de plantas sin
+frutos para las posiciones de la flor en la inflorescencia. En el
+<strong>script</strong> se observa que la variable
+<strong>Frutos_si_o_no</strong> se identifica como un factor. Esto es
+necesario porque en el archivo de datos la presencia de frutos y flores
+fue identificada como 1 o 0 o sea valores numéricos. Si se hubiera
+identificado como <strong>Sí</strong> o <strong>No</strong>, no habría
+la necesidad de identificar que es un factor. En tal caso, es necesario
+identificar que estos valores son una categoría usando factor. El
+gráfico presenta las variables discretas una sobre la otra. Note en la
+Figura al igual que con <strong>geom_histogram</strong>, la frecuencia
+del segundo grupo es añadida a la frecuencia del primer grupo.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>DW<span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>  <span class="fu">select</span>(fruit_position_effect,frutos_si_o_no )<span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="fu">drop_na</span>(fruit_position_effect)<span class="sc">%&gt;%</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(fruit_position_effect))<span class="sc">+</span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">fill=</span><span class="fu">factor</span>(frutos_si_o_no)))<span class="sc">+</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Posiciones de las </span><span class="sc">\n</span><span class="st"> flores en la inflorescencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a> <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;green&quot;</span>, <span class="st">&quot;#36211D&quot;</span>))<span class="sc">+</span></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a> <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;yellow&quot;</span>, <span class="st">&quot;blue&quot;</span>))</span></code></pre></div>
+<p><img src="G7_geom_bar_files/figure-html/dipodium-barra2-1.png" width="672" /></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">head</span>(Lelto)</span></code></pre></div>
+<pre><code>##   Tree Trail Distance Alt_m Angulo Rango_rad Localizacion Inclinacion  DBH
+## 1  203    Tw        0   780    260  4.535556          230          50 18.1
+## 2  204    Tw      228   783    158  2.756222          220          40 23.2
+## 3  205    Tw       38   783     90  1.570000           30          30 10.6
+## 4  206    Tw       28   785    355  6.192778          250          40 10.8
+## 5  209    Tw       47   790    340  5.931111          260          55 14.1
+## 6  210    Tw        7   790    350  6.105556          180          30 11.4
+##   Plantulas Juveniles Adultos T_Num Lado_vereda     lat      long
+## 1         6        21       5    32   izquierda 18.2875 -65.80417
+## 2         7        12       7    26   izquierda 18.2925 -65.80580
+## 3         2         2       0     4     derecha 18.2922 -65.80670
+## 4         6        21       5    32   izquierda 18.2919 -65.80640
+## 5         5        10       0    15     derecha 18.2911 -65.80780
+## 6         0        10       8    18   izquierda 18.2914 -65.80780</code></pre>
+<hr />
+</div>
+<div id="posicionar-las-barras-uno-al-lado-del-otro"
+class="section level1">
+<h1>Posicionar las barras uno al lado del otro</h1>
+<p>Para presentar los grupos uno al lado del otro se usa el parámetro
+<strong>position =“dodge”</strong>, lo que hará que cada grupo quede
+posicionado contiguamente. Además, removeremos la leyenda con
+<strong>guides(fill=FALSE)</strong> como se muestra a continuación con
+los datos de la <em>Dipodium rosea</em>:</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>DW<span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>  <span class="fu">select</span>(fruit_position_effect,frutos_si_o_no )<span class="sc">%&gt;%</span></span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>  <span class="fu">drop_na</span>(fruit_position_effect)<span class="sc">%&gt;%</span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(fruit_position_effect))<span class="sc">+</span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">fill=</span><span class="fu">factor</span>(frutos_si_o_no)),<span class="at">color=</span><span class="st">&quot;white&quot;</span>,</span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>           <span class="at">position =</span> <span class="st">&quot;dodge&quot;</span>)<span class="sc">+</span></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Posiciones de las flores en la inflorescencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill=</span><span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<p><img src="G7_geom_bar_files/figure-html/dipodium-barra3-1.png" width="672" /></p>
+<hr />
+</div>
+<div id="posicionar-las-barras-una-encima-de-la-otra"
+class="section level1">
+<h1>Posicionar las barras una encima de la otra</h1>
+<p>En el próximo gráfico, la frecuencia de ambos grupos comienza en cero
+pero aún saldrán sobrepuestos uno al otro usando
+<strong>position=identity</strong></p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>DW<span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>  <span class="fu">select</span>(fruit_position_effect,frutos_si_o_no )<span class="sc">%&gt;%</span></span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>  <span class="fu">drop_na</span>(fruit_position_effect)<span class="sc">%&gt;%</span></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(fruit_position_effect))<span class="sc">+</span></span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">fill=</span><span class="fu">factor</span>(frutos_si_o_no)),<span class="at">color=</span><span class="st">&quot;white&quot;</span>,</span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>           <span class="at">position =</span> <span class="st">&quot;identity&quot;</span>)<span class="sc">+</span> <span class="co"># Para que cada grupo comience en cero</span></span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Posiciones de las flores en la inflorescencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill=</span><span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<p><img src="G7_geom_bar_files/figure-html/dipodium-barra3b-1.png" width="672" /></p>
+<hr />
+</div>
+<div id="porcentaje-porporcional-a-todos-los-valores"
+class="section level1">
+<h1>Porcentaje porporcional a todos los valores</h1>
+<p>Para mostrar el porcentaje de cada uno de los grupos, tenemos que
+usar una fórmula para calcular la proporción por grupo usando
+<strong>y=(..count..)/sum(..count..)</strong>. Así la suma de todas las
+barras equivale al 100%. Vemos que en las categorías altas (que aparecen
+más a la derecha en el gráfico) algunas barras están más anchas. Esto se
+debe a que, en el archivo de datos, para algunas de estas posiciones de
+las flores en la inflorescencia no hay información para la segunda
+especie (la que aparece en azul). Esto se puede resolver añadiendo la
+información en el archivo original.</p>
+<p>fill=factor(Frutos_si_o_no)</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>DW<span class="sc">%&gt;%</span></span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>  <span class="fu">select</span>(fruit_position_effect,frutos_si_o_no )<span class="sc">%&gt;%</span></span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>  <span class="fu">drop_na</span>(fruit_position_effect)<span class="sc">%&gt;%</span></span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(fruit_position_effect))<span class="sc">+</span></span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y=</span>(..count..)<span class="sc">/</span><span class="fu">sum</span>(..count..), </span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a>               <span class="at">fill=</span><span class="fu">factor</span>(frutos_si_o_no)),</span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a>               <span class="at">color=</span><span class="st">&quot;white&quot;</span>, <span class="at">position=</span><span class="st">&quot;identity&quot;</span>)<span class="sc">+</span> <span class="co"># Para que cada grupo comience en cero se usa position = &quot;identity&quot;</span></span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Posiciones de las flores en la inflorescencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill=</span><span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<p><img src="G7_geom_bar_files/figure-html/dipodium-barra3a-1.png" width="672" /></p>
+<hr />
+<hr />
+</div>
+<div id="porcentaje-por-valos-de-cada-x" class="section level1">
+<h1>Porcentaje por valos de cada <strong>X</strong></h1>
+<p>Para que cada barra represente el 100% de los grupos en el eje de
+<strong>X</strong>, se usa el parámetro
+<strong>position=“fill”</strong>. En el siguiente ejemplo se le añade la
+variable discreta en este caso; o sea, si la planta tiene frutos (verde)
+o no (rojo). Ecologicamente se observa que la posición de las flores
+arriba (&gt;27) en la inflorescencia resulta en menos frutos
+porcentualmente que las posiciones más abajo.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">require</span>(scales)</span></code></pre></div>
+<pre><code>## Loading required package: scales</code></pre>
+<pre><code>## 
+## Attaching package: &#39;scales&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     discard</code></pre>
+<pre><code>## The following object is masked from &#39;package:readr&#39;:
+## 
+##     col_factor</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>DW<span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>  <span class="fu">select</span>(fruit_position_effect,frutos_si_o_no )<span class="sc">%&gt;%</span></span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>  <span class="fu">drop_na</span>(fruit_position_effect)<span class="sc">%&gt;%</span></span>
+<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">factor</span>(fruit_position_effect),</span>
+<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a>             <span class="at">fill=</span><span class="fu">factor</span>(frutos_si_o_no)))<span class="sc">+</span></span>
+<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a><span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y=</span>(..count..)<span class="sc">/</span><span class="fu">sum</span>(..count..)),</span>
+<span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a>           <span class="at">position=</span><span class="st">&quot;fill&quot;</span>)<span class="sc">+</span> <span class="co"># Para que cada columna sume a 1.0 se usa position = &quot;fill&quot;</span></span>
+<span id="cb20-8"><a href="#cb20-8" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Posiciones de las flores en la inflorescencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb20-9"><a href="#cb20-9" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Proporción&quot;</span>)<span class="sc">+</span></span>
+<span id="cb20-10"><a href="#cb20-10" tabindex="-1"></a>    <span class="fu">guides</span>(<span class="at">fill=</span><span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb20-11"><a href="#cb20-11" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<p><img src="G7_geom_bar_files/figure-html/dipodium-barra4-1.png" width="672" /></p>
+<hr />
+<ol start="2" style="list-style-type: decimal">
+<li><p>Seleccione el archivo “Lelto” en el paquete “ggversa”. Seleccione
+la variable adultos o juvenil, que representa la cantidad de plantas
+adulto o juvenil que se encuentra en el árbol. Los datos son de una
+pequeñita orquídea que esta limitado las veredas del “El Toro” y de los
+“Vientos Alizios” en el Yunque. Primero se va unir las columnas de
+juvenil con las de adultos, para después hacer un gráfico donde cada
+columna sume a 1.0 se usa position = “fill”.</p>
+<p>– paso 1</p>
+<p>head(Lelto)</p>
+<p>– paso 2</p>
+<p>df=Lelto %&gt;% select(Juveniles, Adultos)</p>
+<p>– paso 3</p>
+<p>dfLelto = df%&gt;% gather(key=“Estado”, value=“Conteos”) # <span
+style="color: red;">gather( )</span> recuerda esta función, siempre me
+hace dificil encontrarla en el web.</p>
+<p>– Mire el nombre de las columnas primero y como esta organiado</p>
+<ul>
+<li>Cambie de color las barras</li>
+<li>Cambie el nombre de los nombres de los ejes</li>
+<li>Salva el gráfico con extensión de .png</li>
+<li>Sube el gráfico a Edmodo</li>
+</ul></li>
+</ol>
+<hr />
+</div>
+<div id="reordenar-las-barras-con-geom_bar" class="section level1">
+<h1>Reordenar las barras con <strong>geom_bar</strong></h1>
+<p>En el siguiente gráfico, reordenamos la secuencia en
+<strong>X</strong> por orden del número de flores y su frecuencia.
+Primero, hay que crear una función para reordenar la variable, la que
+llamaremos <strong>reorder_size</strong>. El segundo paso es invocar
+esta función desde <strong>ggplot</strong>. La función es aplicable a
+cualquier variable que uno quisiera ordenar y tener como factor. En la
+figura podemos observar que en el muestreo hay solamente una planta con
+la siguiente cantidad de flores (1, 3, 4, 7, 8, 34, 36, 37, 43; extremo
+izquierda), y hay 13 plantas con 23 flores (extremo derecha) y otras
+frecuencias de plantas con diferentes cantidades de flores entre
+medio.</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="co"># Aquí se crea una función para re-ordenar la variable X. </span></span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>reorder_size <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a>  <span class="fu">factor</span>(x, <span class="at">levels =</span> <span class="fu">names</span>(<span class="fu">sort</span>(<span class="fu">table</span>(x))))</span>
+<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a>}</span>
+<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a></span>
+<span id="cb21-9"><a href="#cb21-9" tabindex="-1"></a>DW<span class="sc">%&gt;%</span></span>
+<span id="cb21-10"><a href="#cb21-10" tabindex="-1"></a>  <span class="fu">select</span>(number_of_flowers )<span class="sc">%&gt;%</span></span>
+<span id="cb21-11"><a href="#cb21-11" tabindex="-1"></a>  <span class="fu">drop_na</span>(number_of_flowers)<span class="sc">%&gt;%</span></span>
+<span id="cb21-12"><a href="#cb21-12" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">reorder_size</span>(number_of_flowers)))<span class="sc">+</span></span>
+<span id="cb21-13"><a href="#cb21-13" tabindex="-1"></a><span class="fu">geom_bar</span>(<span class="at">fill=</span><span class="st">&quot;olivedrab&quot;</span>)<span class="sc">+</span></span>
+<span id="cb21-14"><a href="#cb21-14" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">13</span>))<span class="sc">+</span></span>
+<span id="cb21-15"><a href="#cb21-15" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Número de plantas con la cantidad de flores&quot;</span>, </span>
+<span id="cb21-16"><a href="#cb21-16" tabindex="-1"></a>       <span class="at">x=</span><span class="st">&quot;Cantidad de flores </span><span class="sc">\n</span><span class="st"> en la inflorescencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb21-17"><a href="#cb21-17" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<p><img src="G7_geom_bar_files/figure-html/dipodium-barra5-1.png" width="672" /></p>
+<hr />
+</div>
+<div id="pirámides-poblacionales-con-geom_bar" class="section level1">
+<h1>Pirámides poblacionales con <strong>geom_bar</strong></h1>
+<p>Un ejemplo interesante de <strong>geom_bar</strong> es cuando creamos
+pirámides poblacionales. Para el próximo ejemplo utilizaremos datos del
+censo de la base de datos de la Oficina del Censo de los EE. UU.
+<strong>US Census</strong> del 2015 sobre la población de Puerto Rico.
+Los datos representan la cantidad de mujeres en <span
+style="color: blue;">azul</span> y hombres en <span
+style="color: red;">rojo</span> en categorías de edad; o sea, de 0 a 4
+años, de 5 a 9 años y así sucesivamente. La última categoría incluye
+todos los puertorriqueños de 85 años o más. Para producir este gráfico,
+se generarán dos <strong>geom_bar</strong> uno al lado del otro; uno con
+los datos de <strong>Mujer</strong> (derecha) y otro con los datos de
+<strong>Hombre</strong> (izquierda).</p>
+<p>Para especificar que se usen solamente los datos de un subgrupo de
+cada variable, se hace de la misma manera que en R; o sea,</p>
+<pre><code>subset(Pop_PR,Pop_PR$Sexo==&quot;Mujer&quot;) # el &quot;==&quot; es para indicar que tiene que cu mplir con esta condición exclusiva</code></pre>
+<p>También note que tenemos datos a la izquierda y a la derecha del
+valor de cero. Se produce este patrón usando {-Valor} en uno de los
+grupos, donde el valor es el tamaño poblacional por grupo de edad. Por
+último, se tiene que añadir <strong>coord_flip()</strong> para que las
+barras queden de forma horizontal.</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>ggversa<span class="sc">::</span>Pop_PR</span></code></pre></div>
+<pre><code>##      Sexo  Valor Edad
+## 1  Hombre  89507    0
+## 2  Hombre 102622    5
+## 3  Hombre 112350   10
+## 4  Hombre 124179   15
+## 5  Hombre 125971   20
+## 6  Hombre 111167   25
+## 7  Hombre  99855   30
+## 8  Hombre 104890   35
+## 9  Hombre 104593   40
+## 10 Hombre 106235   45
+## 11 Hombre 107561   50
+## 12 Hombre 102377   55
+## 13 Hombre  93510   60
+## 14 Hombre  89880   65
+## 15 Hombre  70294   70
+## 16 Hombre  50879   75
+## 17 Hombre  32160   80
+## 18 Hombre  28118   85
+## 19  Mujer  85368    0
+## 20  Mujer  97790    5
+## 21  Mujer 105397   10
+## 22  Mujer 118389   15
+## 23  Mujer 122821   20
+## 24  Mujer 113504   25
+## 25  Mujer 109102   30
+## 26  Mujer 116325   35
+## 27  Mujer 115224   40
+## 28  Mujer 118525   45
+## 29  Mujer 124980   50
+## 30  Mujer 121569   55
+## 31  Mujer 113409   60
+## 32  Mujer 109224   65
+## 33  Mujer  87289   70
+## 34  Mujer  65082   75
+## 35  Mujer  46233   80
+## 36  Mujer  47803   85</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="co"># Para observar las primeras 4 filas del archivo</span></span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a><span class="fu">head</span>(Pop_PR, <span class="at">n=</span><span class="dv">50</span>)</span></code></pre></div>
+<pre><code>##      Sexo  Valor Edad
+## 1  Hombre  89507    0
+## 2  Hombre 102622    5
+## 3  Hombre 112350   10
+## 4  Hombre 124179   15
+## 5  Hombre 125971   20
+## 6  Hombre 111167   25
+## 7  Hombre  99855   30
+## 8  Hombre 104890   35
+## 9  Hombre 104593   40
+## 10 Hombre 106235   45
+## 11 Hombre 107561   50
+## 12 Hombre 102377   55
+## 13 Hombre  93510   60
+## 14 Hombre  89880   65
+## 15 Hombre  70294   70
+## 16 Hombre  50879   75
+## 17 Hombre  32160   80
+## 18 Hombre  28118   85
+## 19  Mujer  85368    0
+## 20  Mujer  97790    5
+## 21  Mujer 105397   10
+## 22  Mujer 118389   15
+## 23  Mujer 122821   20
+## 24  Mujer 113504   25
+## 25  Mujer 109102   30
+## 26  Mujer 116325   35
+## 27  Mujer 115224   40
+## 28  Mujer 118525   45
+## 29  Mujer 124980   50
+## 30  Mujer 121569   55
+## 31  Mujer 113409   60
+## 32  Mujer 109224   65
+## 33  Mujer  87289   70
+## 34  Mujer  65082   75
+## 35  Mujer  46233   80
+## 36  Mujer  47803   85</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="co"># Para observar las ultimas 4 filas del archivo</span></span>
+<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a><span class="fu">tail</span>(Pop_PR, <span class="at">n=</span><span class="dv">4</span>)</span></code></pre></div>
+<pre><code>##     Sexo Valor Edad
+## 33 Mujer 87289   70
+## 34 Mujer 65082   75
+## 35 Mujer 46233   80
+## 36 Mujer 47803   85</code></pre>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>Pop_PR) <span class="sc">+</span></span>
+<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(Edad, Valor, <span class="at">group=</span> Sexo, <span class="at">fill=</span>Sexo),</span>
+<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a>           <span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>,</span>
+<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a>           <span class="fu">subset</span>(Pop_PR,Pop_PR<span class="sc">$</span>Sexo<span class="sc">==</span><span class="st">&quot;Mujer&quot;</span>))<span class="sc">+</span></span>
+<span id="cb29-5"><a href="#cb29-5" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(Edad,<span class="sc">-</span>Valor,<span class="at">group=</span>Sexo,<span class="at">fill=</span>Sexo),  <span class="co"># nota el &quot;negativo&quot; antes de la </span></span>
+<span id="cb29-6"><a href="#cb29-6" tabindex="-1"></a>           <span class="co">#variable &quot;Valor&quot;, se le esta asignando un valor negativo a cada valor a los hombres.  </span></span>
+<span id="cb29-7"><a href="#cb29-7" tabindex="-1"></a>           <span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>,</span>
+<span id="cb29-8"><a href="#cb29-8" tabindex="-1"></a>           <span class="fu">subset</span>(Pop_PR,Pop_PR<span class="sc">$</span>Sexo<span class="sc">==</span><span class="st">&quot;Hombre&quot;</span>))<span class="sc">+</span></span>
+<span id="cb29-9"><a href="#cb29-9" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">seq</span>(<span class="sc">-</span><span class="dv">140000</span>,<span class="dv">140000</span>,<span class="dv">40000</span>),</span>
+<span id="cb29-10"><a href="#cb29-10" tabindex="-1"></a>                     <span class="at">labels=</span><span class="fu">abs</span>(<span class="fu">seq</span>(<span class="sc">-</span><span class="dv">140000</span>,<span class="dv">140000</span>,<span class="dv">40000</span>)))<span class="sc">+</span></span>
+<span id="cb29-11"><a href="#cb29-11" tabindex="-1"></a>  <span class="fu">coord_flip</span>()<span class="sc">+</span></span>
+<span id="cb29-12"><a href="#cb29-12" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Tamaño poblacional&quot;</span>)<span class="sc">+</span></span>
+<span id="cb29-13"><a href="#cb29-13" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb29-14"><a href="#cb29-14" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;green&quot;</span>, <span class="st">&quot;#36211D&quot;</span>))<span class="sc">+</span></span>
+<span id="cb29-15"><a href="#cb29-15" tabindex="-1"></a> <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;green&quot;</span>, <span class="st">&quot;#36211D&quot;</span>))</span></code></pre></div>
+<p><img src="G7_geom_bar_files/figure-html/geom-barraDemo-1.png" width="672" /></p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="co">#Population Pyramid de PR, del censo 2015. </span></span>
+<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a></span>
+<span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a><span class="co"># ggsave(&quot;Graficos/Piramide_PR_censo2015.png&quot;)</span></span>
+<span id="cb30-4"><a href="#cb30-4" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" tabindex="-1"></a>Pop_PR<span class="sc">$</span>SexoNum<span class="ot">=</span><span class="fu">as.numeric</span>(Pop_PR<span class="sc">$</span>Sexo)</span>
+<span id="cb30-6"><a href="#cb30-6" tabindex="-1"></a><span class="fu">head</span>(Pop_PR)</span></code></pre></div>
+<pre><code>##     Sexo  Valor Edad SexoNum
+## 1 Hombre  89507    0       1
+## 2 Hombre 102622    5       1
+## 3 Hombre 112350   10       1
+## 4 Hombre 124179   15       1
+## 5 Hombre 125971   20       1
+## 6 Hombre 111167   25       1</code></pre>
+<hr />
+<p>Si no se le añade coord_flip(), el gráfico quedará representado con
+las barras de forma vertical (o en columnas).</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a><span class="fu">unique</span>(Pop_PR<span class="sc">$</span>Sexo)</span></code></pre></div>
+<pre><code>## [1] Hombre Mujer 
+## Levels: Hombre Mujer</code></pre>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>Pop_PR) <span class="sc">+</span></span>
+<span id="cb34-2"><a href="#cb34-2" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(Edad,Valor,<span class="at">group=</span>Sexo,<span class="at">fill=</span>Sexo),</span>
+<span id="cb34-3"><a href="#cb34-3" tabindex="-1"></a>           <span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>,</span>
+<span id="cb34-4"><a href="#cb34-4" tabindex="-1"></a>           <span class="fu">subset</span>(Pop_PR,Pop_PR<span class="sc">$</span>Sexo<span class="sc">==</span><span class="st">&quot;Mujer&quot;</span>))<span class="sc">+</span></span>
+<span id="cb34-5"><a href="#cb34-5" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(Edad,<span class="sc">-</span>Valor,<span class="at">group=</span>Sexo,<span class="at">fill=</span>Sexo),</span>
+<span id="cb34-6"><a href="#cb34-6" tabindex="-1"></a>           <span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>,</span>
+<span id="cb34-7"><a href="#cb34-7" tabindex="-1"></a>           <span class="fu">subset</span>(Pop_PR,Pop_PR<span class="sc">$</span>Sexo<span class="sc">==</span><span class="st">&quot;Hombre&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb34-8"><a href="#cb34-8" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">seq</span>(<span class="sc">-</span><span class="dv">140000</span>,<span class="dv">140000</span>,<span class="dv">40000</span>),</span>
+<span id="cb34-9"><a href="#cb34-9" tabindex="-1"></a>                     <span class="at">labels=</span><span class="fu">abs</span>(<span class="fu">seq</span>(<span class="sc">-</span><span class="dv">140000</span>,<span class="dv">140000</span>,<span class="dv">40000</span>))) <span class="sc">+</span></span>
+<span id="cb34-10"><a href="#cb34-10" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Tamaño poblacional&quot;</span>)<span class="sc">+</span></span>
+<span id="cb34-11"><a href="#cb34-11" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<p><img src="G7_geom_bar_files/figure-html/geom-barraDemo2-1.png" width="672" /></p>
+<ol start="2" style="list-style-type: decimal">
+<li><p>Seleccione el archivo “DominicanRepublic,csv” que se encuentra en
+la pestaña “Los datos”. Estos datos provienen las naciones unidas del
+siguiente enlace <a
+href="http://data.un.org/Data.aspx?d=POP&amp;f=tableCode%3A22">PoblacionEdad_genero</a>,
+los datos fueron pre-selecionado a incluir solamente los datos la isla
+de la Republica Dominicana y no todos los países del mundo. Seleccione
+la variable solamente el país de “Dominican Republican”, mujeres y
+hombres, para el año de 2010, y el área solamente la población del
+campo. Que representa la cantidad de personas con esta edad en el
+muestreo censal del año 2013.</p>
+<p>– paso 1</p>
+<p>subir los datos</p>
+<p>– paso 2</p>
+<p>seleccionar las columnas y variables de interes</p>
+<p>– paso 3</p>
+<p>Producir una piramide de la poblacion de la Republica Dominicana</p>
+<p>– Mire el nombre de las columnas primero y como esta organiado</p>
+<ul>
+<li>Cambie de color las barras</li>
+<li>Cambie el nombre de los nombres de los ejes</li>
+<li>Salva el gráfico con extensión de .png</li>
+<li>Sube el gráfico a Edmodo</li>
+</ul></li>
+</ol>
+<hr />
+<div id="patrones-de-temperatura-en-tiempo-con-geom_bar"
+class="section level2">
+<h2>Patrones de temperatura en tiempo con <strong>geom_bar</strong></h2>
+<p>Este tipo de representación puede ser efectiva para mostrar patrones
+en donde los valores son negativos y positivos; por ejemplo, la
+temperatura. Para demostrarlo, ahora daremos un ejemplo que proviene del
+pueblo de Asbestos, Quebec, Canadá. Los datos fueron extraídos de la
+base de datos de <a
+href="http://climate.weather.gc.ca/historical_data/search_historic_data_e.html"
+class="uri">http://climate.weather.gc.ca/historical_data/search_historic_data_e.html</a>
+(identifier 7020360). El archivo de datos contiene la temperatura
+promedio (por mes) de la máxima y la mínima del 1948 al 1987.
+Seleccionaremos solamente un conjunto limitado de los datos del año 1963
+al 1968. Además, tendremos que voltear la información alrededor del eje
+de <strong>X</strong> para que se pueda leer, tal como se demuestra en
+la Figura. El primer paso es identificar que la variable Fecha es de
+tipo dato secuencial fecha y tiempo. El segundo paso es identificar si
+los valores de temperatura máxima están por debajo o por encima del
+punto de congelación, &lt; 0C°, o &gt; 0C°, creando una nueva columna
+que aquí llamamos <strong>NegPos</strong>. El tercer paso es usar
+solamente un subgrupo de información del archivo para mejorar la
+representación, ya que este tiene datos del 1948 al 1987. Se seleccionan
+los años 1963 al 1966.</p>
+<div id="primero-miramos-los-datos" class="section level3">
+<h3>Primero miramos los datos</h3>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="fu">library</span>(ggversa)</span>
+<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a><span class="fu">names</span>(ASBESTOS_QUEBEC)</span></code></pre></div>
+<pre><code>## [1] &quot;Year&quot;          &quot;Mes&quot;           &quot;Temp_Prom_Max&quot; &quot;Temp_Prom_Min&quot;
+## [5] &quot;Fecha&quot;         &quot;day1&quot;          &quot;fecha&quot;         &quot;diaanual&quot;</code></pre>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" tabindex="-1"></a><span class="fu">head</span>(ASBESTOS_QUEBEC)</span></code></pre></div>
+<pre><code>##   Year Mes Temp_Prom_Max Temp_Prom_Min   Fecha day1      fecha diaanual
+## 1 1948   6          22.2           9.9 1948-06    1 1948-06-01      153
+## 2 1948   7          25.5          14.2 1948-07    1 1948-07-01      183
+## 3 1948   8          24.9          14.2 1948-08    1 1948-08-01      214
+## 4 1948   9          21.6           8.4 1948-09    1 1948-09-01      245
+## 5 1948  10          12.0           2.6 1948-10    1 1948-10-01      275
+## 6 1948  11          10.3           1.9 1948-11    1 1948-11-01      306</code></pre>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" tabindex="-1"></a><span class="fu">is.data.frame</span>(ASBESTOS_QUEBEC) <span class="co"># para determinar si el archivo es un data frame?</span></span></code></pre></div>
+<pre><code>## [1] TRUE</code></pre>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" tabindex="-1"></a><span class="fu">attach</span>(ASBESTOS_QUEBEC)</span></code></pre></div>
+</div>
+<div
+id="identificar-que-la-variable-fecha-es-una-variable-de-tiempo.-habrá-un-modulo-para-discutir-solamente-de-fechas-y-horas."
+class="section level3">
+<h3>Identificar que la variable “Fecha” es una variable de tiempo. Habrá
+un modulo para discutir solamente de fechas y horas.</h3>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" tabindex="-1"></a><span class="co"># Identificar que la variable &quot;Fecha&quot; es una variable de tiempo.</span></span>
+<span id="cb42-2"><a href="#cb42-2" tabindex="-1"></a><span class="co">#names(ASBESTOS_QUEBEC)[names(ASBESTOS_QUEBEC) == &#39;Date.Time&#39;] &lt;- &#39;Fecha&#39;</span></span>
+<span id="cb42-3"><a href="#cb42-3" tabindex="-1"></a></span>
+<span id="cb42-4"><a href="#cb42-4" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb42-5"><a href="#cb42-5" tabindex="-1"></a>ASBESTOS_QUEBEC<span class="sc">$</span>Date<span class="ot">=</span><span class="fu">ym</span>(ASBESTOS_QUEBEC<span class="sc">$</span>Fecha)</span>
+<span id="cb42-6"><a href="#cb42-6" tabindex="-1"></a><span class="fu">head</span>(ASBESTOS_QUEBEC, <span class="at">n=</span><span class="dv">15</span>)</span></code></pre></div>
+<pre><code>##    Year Mes Temp_Prom_Max Temp_Prom_Min   Fecha day1      fecha diaanual
+## 1  1948   6          22.2           9.9 1948-06    1 1948-06-01      153
+## 2  1948   7          25.5          14.2 1948-07    1 1948-07-01      183
+## 3  1948   8          24.9          14.2 1948-08    1 1948-08-01      214
+## 4  1948   9          21.6           8.4 1948-09    1 1948-09-01      245
+## 5  1948  10          12.0           2.6 1948-10    1 1948-10-01      275
+## 6  1948  11          10.3           1.9 1948-11    1 1948-11-01      306
+## 7  1948  12           1.4          -7.8 1948-12    1 1948-12-01      336
+## 8  1949   1          -1.9         -12.3 1949-01    1 1949-01-01        1
+## 9  1949   2            NA            NA 1949-02    1 1949-02-01       32
+## 10 1949   3           1.4          -9.2 1949-03    1 1949-03-01       60
+## 11 1949   4          10.6           0.2 1949-04    1 1949-04-01       91
+## 12 1949   5          17.6           5.0 1949-05    1 1949-05-01      121
+## 13 1949   6          24.4          12.9 1949-06    1 1949-06-01      152
+## 14 1949   7          26.6          17.7 1949-07    1 1949-07-01      182
+## 15 1949   8          25.4          13.9 1949-08    1 1949-08-01      213
+##          Date
+## 1  1948-06-01
+## 2  1948-07-01
+## 3  1948-08-01
+## 4  1948-09-01
+## 5  1948-10-01
+## 6  1948-11-01
+## 7  1948-12-01
+## 8  1949-01-01
+## 9  1949-02-01
+## 10 1949-03-01
+## 11 1949-04-01
+## 12 1949-05-01
+## 13 1949-06-01
+## 14 1949-07-01
+## 15 1949-08-01</code></pre>
+</div>
+<div id="crear-la-nueva-variable-temp_prom_max" class="section level3">
+<h3>Crear la nueva variable Temp_Prom_Max;</h3>
+<p>Aquí se crea una nueva columna con para identificar si los datos son
+positivos o negativos, si es positiva = “TRUE”, si es negativa =
+“FALSE”.</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" tabindex="-1"></a>ASBESTOS_QUEBEC<span class="sc">$</span>NegPos   <span class="ot">=</span>  ASBESTOS_QUEBEC<span class="sc">$</span>Temp_Prom_Max<span class="sc">&gt;=</span><span class="dv">0</span></span>
+<span id="cb44-2"><a href="#cb44-2" tabindex="-1"></a></span>
+<span id="cb44-3"><a href="#cb44-3" tabindex="-1"></a><span class="fu">head</span>(ASBESTOS_QUEBEC, <span class="at">n=</span><span class="dv">12</span>)</span></code></pre></div>
+<pre><code>##    Year Mes Temp_Prom_Max Temp_Prom_Min   Fecha day1      fecha diaanual
+## 1  1948   6          22.2           9.9 1948-06    1 1948-06-01      153
+## 2  1948   7          25.5          14.2 1948-07    1 1948-07-01      183
+## 3  1948   8          24.9          14.2 1948-08    1 1948-08-01      214
+## 4  1948   9          21.6           8.4 1948-09    1 1948-09-01      245
+## 5  1948  10          12.0           2.6 1948-10    1 1948-10-01      275
+## 6  1948  11          10.3           1.9 1948-11    1 1948-11-01      306
+## 7  1948  12           1.4          -7.8 1948-12    1 1948-12-01      336
+## 8  1949   1          -1.9         -12.3 1949-01    1 1949-01-01        1
+## 9  1949   2            NA            NA 1949-02    1 1949-02-01       32
+## 10 1949   3           1.4          -9.2 1949-03    1 1949-03-01       60
+## 11 1949   4          10.6           0.2 1949-04    1 1949-04-01       91
+## 12 1949   5          17.6           5.0 1949-05    1 1949-05-01      121
+##          Date NegPos
+## 1  1948-06-01   TRUE
+## 2  1948-07-01   TRUE
+## 3  1948-08-01   TRUE
+## 4  1948-09-01   TRUE
+## 5  1948-10-01   TRUE
+## 6  1948-11-01   TRUE
+## 7  1948-12-01   TRUE
+## 8  1949-01-01  FALSE
+## 9  1949-02-01     NA
+## 10 1949-03-01   TRUE
+## 11 1949-04-01   TRUE
+## 12 1949-05-01   TRUE</code></pre>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" tabindex="-1"></a><span class="fu">tail</span>(ASBESTOS_QUEBEC)</span></code></pre></div>
+<pre><code>##     Year Mes Temp_Prom_Max Temp_Prom_Min   Fecha day1      fecha diaanual
+## 461 1986  10          10.5           2.7 1986-10    1 1986-10-01      274
+## 462 1986  11           2.2          -5.7 1986-11    1 1986-11-01      305
+## 463 1986  12            NA            NA 1986-12    1 1986-12-01      335
+## 464 1987   1            NA            NA 1987-01    1 1987-01-01        1
+## 465 1987   2          -7.8         -18.6 1987-02    1 1987-02-01       32
+## 466 1987   3           3.3          -6.4 1987-03    1 1987-03-01       60
+##           Date NegPos
+## 461 1986-10-01   TRUE
+## 462 1986-11-01   TRUE
+## 463 1986-12-01     NA
+## 464 1987-01-01     NA
+## 465 1987-02-01  FALSE
+## 466 1987-03-01   TRUE</code></pre>
+<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb48-2"><a href="#cb48-2" tabindex="-1"></a></span>
+<span id="cb48-3"><a href="#cb48-3" tabindex="-1"></a>ASBESTOS_QUEBEC<span class="ot">=</span><span class="fu">clean_names</span>(ASBESTOS_QUEBEC)</span>
+<span id="cb48-4"><a href="#cb48-4" tabindex="-1"></a><span class="fu">head</span>(ASBESTOS_QUEBEC)</span></code></pre></div>
+<pre><code>##   year mes temp_prom_max temp_prom_min   fecha day1    fecha_2 diaanual
+## 1 1948   6          22.2           9.9 1948-06    1 1948-06-01      153
+## 2 1948   7          25.5          14.2 1948-07    1 1948-07-01      183
+## 3 1948   8          24.9          14.2 1948-08    1 1948-08-01      214
+## 4 1948   9          21.6           8.4 1948-09    1 1948-09-01      245
+## 5 1948  10          12.0           2.6 1948-10    1 1948-10-01      275
+## 6 1948  11          10.3           1.9 1948-11    1 1948-11-01      306
+##         date neg_pos
+## 1 1948-06-01    TRUE
+## 2 1948-07-01    TRUE
+## 3 1948-08-01    TRUE
+## 4 1948-09-01    TRUE
+## 5 1948-10-01    TRUE
+## 6 1948-11-01    TRUE</code></pre>
+</div>
+<div id="selecionar-solamente-un-subgrupo-de-los-datos"
+class="section level3">
+<h3>Selecionar solamente un subgrupo de los datos</h3>
+<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb50-2"><a href="#cb50-2" tabindex="-1"></a></span>
+<span id="cb50-3"><a href="#cb50-3" tabindex="-1"></a><span class="co">#ggplot(data=ASBESTOS_QUEBEC)+</span></span>
+<span id="cb50-4"><a href="#cb50-4" tabindex="-1"></a> <span class="co"># aes(x=Fecha, y=temp_prom_max) +</span></span>
+<span id="cb50-5"><a href="#cb50-5" tabindex="-1"></a>  <span class="co">#geom_bar(stat = &quot;identity&quot;, position=&quot;identity&quot;)</span></span>
+<span id="cb50-6"><a href="#cb50-6" tabindex="-1"></a></span>
+<span id="cb50-7"><a href="#cb50-7" tabindex="-1"></a></span>
+<span id="cb50-8"><a href="#cb50-8" tabindex="-1"></a>ASBESTOSsub<span class="ot">=</span><span class="fu">subset</span>(ASBESTOS_QUEBEC, year<span class="sc">&gt;</span><span class="dv">1962</span> <span class="sc">&amp;</span> year<span class="sc">&lt;</span><span class="dv">1967</span>) <span class="co"># 1963 al 1966</span></span>
+<span id="cb50-9"><a href="#cb50-9" tabindex="-1"></a></span>
+<span id="cb50-10"><a href="#cb50-10" tabindex="-1"></a><span class="fu">head</span>(ASBESTOSsub)</span></code></pre></div>
+<pre><code>##     year mes temp_prom_max temp_prom_min   fecha day1    fecha_2 diaanual
+## 176 1963   1          -6.6         -12.7 1963-01    1 1963-01-01        1
+## 177 1963   2          -9.0         -16.7 1963-02    1 1963-02-01       32
+## 178 1963   3           0.6          -8.8 1963-03    1 1963-03-01       60
+## 179 1963   4           8.2          -0.9 1963-04    1 1963-04-01       91
+## 180 1963   5          16.9           5.7 1963-05    1 1963-05-01      121
+## 181 1963   6          23.1          12.3 1963-06    1 1963-06-01      152
+##           date neg_pos
+## 176 1963-01-01   FALSE
+## 177 1963-02-01   FALSE
+## 178 1963-03-01    TRUE
+## 179 1963-04-01    TRUE
+## 180 1963-05-01    TRUE
+## 181 1963-06-01    TRUE</code></pre>
+</div>
+<div id="uniendo-las-partes-para-crear-el-gráfico"
+class="section level3">
+<h3>Uniendo las partes para crear el gráfico</h3>
+<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>ASBESTOSsub,</span>
+<span id="cb52-2"><a href="#cb52-2" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x=</span>fecha, <span class="at">y=</span>temp_prom_max, <span class="at">fill=</span>neg_pos)) <span class="sc">+</span></span>
+<span id="cb52-3"><a href="#cb52-3" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="at">position=</span><span class="st">&quot;identity&quot;</span>)<span class="sc">+</span></span>
+<span id="cb52-4"><a href="#cb52-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">90</span>))<span class="sc">+</span></span>
+<span id="cb52-5"><a href="#cb52-5" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill=</span><span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb52-6"><a href="#cb52-6" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Fecha&quot;</span>)<span class="sc">+</span></span>
+<span id="cb52-7"><a href="#cb52-7" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Temperatura promedio </span><span class="sc">\n</span><span class="st"> máxima por mes en C°&quot;</span>)<span class="sc">+</span></span>
+<span id="cb52-8"><a href="#cb52-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<pre><code>## Warning: Removed 2 rows containing missing values (`geom_bar()`).</code></pre>
+<p><img src="G7_geom_bar_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<ol start="2" style="list-style-type: decimal">
+<li>Usando los datos de Anchorage, Alaska que se encuentra en la sección
+de datos aqui <a href="Data/Anchorage_ALASKA.csv">Anchorage_Data</a>,
+evaluar el patrón de temperatura mínima en los diferentes meses del año.
+Convertir los datos de Farenheit a Celcius.</li>
+</ol>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb54-2"><a href="#cb54-2" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb54-3"><a href="#cb54-3" tabindex="-1"></a>Anchorage_ALASKA <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;Data/Anchorage_ALASKA.csv&quot;</span>)</span></code></pre></div>
+<pre><code>## Rows: 20 Columns: 13
+## ── Column specification ────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## dbl (13): Year, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" tabindex="-1"></a><span class="fu">gt</span>(<span class="fu">head</span>(Anchorage_ALASKA))</span></code></pre></div>
+<div id="tzzcmnmgzf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#tzzcmnmgzf table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#tzzcmnmgzf thead, #tzzcmnmgzf tbody, #tzzcmnmgzf tfoot, #tzzcmnmgzf tr, #tzzcmnmgzf td, #tzzcmnmgzf th {
+  border-style: none;
+}
+
+#tzzcmnmgzf p {
+  margin: 0;
+  padding: 0;
+}
+
+#tzzcmnmgzf .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#tzzcmnmgzf .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#tzzcmnmgzf .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#tzzcmnmgzf .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#tzzcmnmgzf .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#tzzcmnmgzf .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#tzzcmnmgzf .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#tzzcmnmgzf .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#tzzcmnmgzf .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#tzzcmnmgzf .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#tzzcmnmgzf .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#tzzcmnmgzf .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#tzzcmnmgzf .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#tzzcmnmgzf .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#tzzcmnmgzf .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#tzzcmnmgzf .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#tzzcmnmgzf .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#tzzcmnmgzf .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#tzzcmnmgzf .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#tzzcmnmgzf .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#tzzcmnmgzf .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#tzzcmnmgzf .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#tzzcmnmgzf .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#tzzcmnmgzf .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#tzzcmnmgzf .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#tzzcmnmgzf .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#tzzcmnmgzf .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#tzzcmnmgzf .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#tzzcmnmgzf .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#tzzcmnmgzf .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#tzzcmnmgzf .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#tzzcmnmgzf .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#tzzcmnmgzf .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#tzzcmnmgzf .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#tzzcmnmgzf .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#tzzcmnmgzf .gt_left {
+  text-align: left;
+}
+
+#tzzcmnmgzf .gt_center {
+  text-align: center;
+}
+
+#tzzcmnmgzf .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#tzzcmnmgzf .gt_font_normal {
+  font-weight: normal;
+}
+
+#tzzcmnmgzf .gt_font_bold {
+  font-weight: bold;
+}
+
+#tzzcmnmgzf .gt_font_italic {
+  font-style: italic;
+}
+
+#tzzcmnmgzf .gt_super {
+  font-size: 65%;
+}
+
+#tzzcmnmgzf .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#tzzcmnmgzf .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#tzzcmnmgzf .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#tzzcmnmgzf .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#tzzcmnmgzf .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#tzzcmnmgzf .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#tzzcmnmgzf .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Year">Year</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Jan">Jan</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Feb">Feb</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Mar">Mar</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Apr">Apr</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="May">May</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Jun">Jun</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Jul">Jul</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Aug">Aug</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Sep">Sep</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Oct">Oct</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Nov">Nov</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Dec">Dec</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="Year" class="gt_row gt_right">2000</td>
+<td headers="Jan" class="gt_row gt_right">-10</td>
+<td headers="Feb" class="gt_row gt_right">7</td>
+<td headers="Mar" class="gt_row gt_right">11</td>
+<td headers="Apr" class="gt_row gt_right">20</td>
+<td headers="May" class="gt_row gt_right">30</td>
+<td headers="Jun" class="gt_row gt_right">37</td>
+<td headers="Jul" class="gt_row gt_right">44</td>
+<td headers="Aug" class="gt_row gt_right">36</td>
+<td headers="Sep" class="gt_row gt_right">27</td>
+<td headers="Oct" class="gt_row gt_right">16</td>
+<td headers="Nov" class="gt_row gt_right">13</td>
+<td headers="Dec" class="gt_row gt_right">4</td></tr>
+    <tr><td headers="Year" class="gt_row gt_right">2001</td>
+<td headers="Jan" class="gt_row gt_right">8</td>
+<td headers="Feb" class="gt_row gt_right">2</td>
+<td headers="Mar" class="gt_row gt_right">12</td>
+<td headers="Apr" class="gt_row gt_right">12</td>
+<td headers="May" class="gt_row gt_right">24</td>
+<td headers="Jun" class="gt_row gt_right">42</td>
+<td headers="Jul" class="gt_row gt_right">48</td>
+<td headers="Aug" class="gt_row gt_right">45</td>
+<td headers="Sep" class="gt_row gt_right">33</td>
+<td headers="Oct" class="gt_row gt_right">2</td>
+<td headers="Nov" class="gt_row gt_right">0</td>
+<td headers="Dec" class="gt_row gt_right">-15</td></tr>
+    <tr><td headers="Year" class="gt_row gt_right">2002</td>
+<td headers="Jan" class="gt_row gt_right">-11</td>
+<td headers="Feb" class="gt_row gt_right">-5</td>
+<td headers="Mar" class="gt_row gt_right">0</td>
+<td headers="Apr" class="gt_row gt_right">6</td>
+<td headers="May" class="gt_row gt_right">27</td>
+<td headers="Jun" class="gt_row gt_right">37</td>
+<td headers="Jul" class="gt_row gt_right">47</td>
+<td headers="Aug" class="gt_row gt_right">43</td>
+<td headers="Sep" class="gt_row gt_right">32</td>
+<td headers="Oct" class="gt_row gt_right">26</td>
+<td headers="Nov" class="gt_row gt_right">20</td>
+<td headers="Dec" class="gt_row gt_right">-2</td></tr>
+    <tr><td headers="Year" class="gt_row gt_right">2003</td>
+<td headers="Jan" class="gt_row gt_right">0</td>
+<td headers="Feb" class="gt_row gt_right">13</td>
+<td headers="Mar" class="gt_row gt_right">-1</td>
+<td headers="Apr" class="gt_row gt_right">16</td>
+<td headers="May" class="gt_row gt_right">33</td>
+<td headers="Jun" class="gt_row gt_right">42</td>
+<td headers="Jul" class="gt_row gt_right">47</td>
+<td headers="Aug" class="gt_row gt_right">45</td>
+<td headers="Sep" class="gt_row gt_right">28</td>
+<td headers="Oct" class="gt_row gt_right">22</td>
+<td headers="Nov" class="gt_row gt_right">-8</td>
+<td headers="Dec" class="gt_row gt_right">-14</td></tr>
+    <tr><td headers="Year" class="gt_row gt_right">2004</td>
+<td headers="Jan" class="gt_row gt_right">-18</td>
+<td headers="Feb" class="gt_row gt_right">1</td>
+<td headers="Mar" class="gt_row gt_right">-1</td>
+<td headers="Apr" class="gt_row gt_right">1</td>
+<td headers="May" class="gt_row gt_right">27</td>
+<td headers="Jun" class="gt_row gt_right">38</td>
+<td headers="Jul" class="gt_row gt_right">48</td>
+<td headers="Aug" class="gt_row gt_right">46</td>
+<td headers="Sep" class="gt_row gt_right">27</td>
+<td headers="Oct" class="gt_row gt_right">20</td>
+<td headers="Nov" class="gt_row gt_right">0</td>
+<td headers="Dec" class="gt_row gt_right">0</td></tr>
+    <tr><td headers="Year" class="gt_row gt_right">2005</td>
+<td headers="Jan" class="gt_row gt_right">-7</td>
+<td headers="Feb" class="gt_row gt_right">-8</td>
+<td headers="Mar" class="gt_row gt_right">16</td>
+<td headers="Apr" class="gt_row gt_right">20</td>
+<td headers="May" class="gt_row gt_right">33</td>
+<td headers="Jun" class="gt_row gt_right">38</td>
+<td headers="Jul" class="gt_row gt_right">50</td>
+<td headers="Aug" class="gt_row gt_right">42</td>
+<td headers="Sep" class="gt_row gt_right">39</td>
+<td headers="Oct" class="gt_row gt_right">16</td>
+<td headers="Nov" class="gt_row gt_right">-5</td>
+<td headers="Dec" class="gt_row gt_right">-1</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" tabindex="-1"></a><span class="co"># gather the data in columns</span></span>
+<span id="cb57-2"><a href="#cb57-2" tabindex="-1"></a><span class="co"># Paso 1</span></span>
+<span id="cb57-3"><a href="#cb57-3" tabindex="-1"></a>AA<span class="ot">&lt;-</span><span class="fu">gather</span>(Anchorage_ALASKA,</span>
+<span id="cb57-4"><a href="#cb57-4" tabindex="-1"></a>         <span class="at">key=</span> <span class="st">&quot;Mes&quot;</span>,</span>
+<span id="cb57-5"><a href="#cb57-5" tabindex="-1"></a>         <span class="at">value=</span><span class="st">&quot;Temp_min_F&quot;</span>, </span>
+<span id="cb57-6"><a href="#cb57-6" tabindex="-1"></a>         <span class="sc">-</span>Year)</span>
+<span id="cb57-7"><a href="#cb57-7" tabindex="-1"></a><span class="fu">head</span>(AA)      </span></code></pre></div>
+<pre><code>## # A tibble: 6 × 3
+##    Year Mes   Temp_min_F
+##   &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt;
+## 1  2000 Jan          -10
+## 2  2001 Jan            8
+## 3  2002 Jan          -11
+## 4  2003 Jan            0
+## 5  2004 Jan          -18
+## 6  2005 Jan           -7</code></pre>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" tabindex="-1"></a><span class="co"># Identificar que el Año y Mes son variables de tiempo</span></span>
+<span id="cb59-2"><a href="#cb59-2" tabindex="-1"></a></span>
+<span id="cb59-3"><a href="#cb59-3" tabindex="-1"></a><span class="co">#Paso 2</span></span>
+<span id="cb59-4"><a href="#cb59-4" tabindex="-1"></a></span>
+<span id="cb59-5"><a href="#cb59-5" tabindex="-1"></a>numMonth<span class="ot">&lt;-</span><span class="cf">function</span>(x) </span>
+<span id="cb59-6"><a href="#cb59-6" tabindex="-1"></a><span class="fu">c</span>(<span class="at">jan=</span><span class="dv">1</span>,<span class="at">feb=</span><span class="dv">2</span>,<span class="at">mar=</span><span class="dv">3</span>,<span class="at">apr=</span><span class="dv">4</span>,<span class="at">may=</span><span class="dv">5</span>,<span class="at">jun=</span><span class="dv">6</span>,<span class="at">jul=</span><span class="dv">7</span>,<span class="at">aug=</span><span class="dv">8</span>,<span class="at">sep=</span><span class="dv">9</span>,<span class="at">oct=</span><span class="dv">10</span>,<span class="at">nov=</span><span class="dv">11</span>,<span class="at">dec=</span><span class="dv">12</span>)[<span class="fu">tolower</span>(x)]</span>
+<span id="cb59-7"><a href="#cb59-7" tabindex="-1"></a></span>
+<span id="cb59-8"><a href="#cb59-8" tabindex="-1"></a>AA<span class="sc">$</span>Fecha<span class="ot">=</span><span class="fu">numMonth</span>(AA<span class="sc">$</span>Mes)</span>
+<span id="cb59-9"><a href="#cb59-9" tabindex="-1"></a><span class="fu">tail</span>(AA)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 4
+##    Year Mes   Temp_min_F Fecha
+##   &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;
+## 1  2014 Dec           13    12
+## 2  2015 Dec            4    12
+## 3  2016 Dec           -8    12
+## 4  2017 Dec            5    12
+## 5  2018 Dec           10    12
+## 6  2019 Dec           -2    12</code></pre>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" tabindex="-1"></a><span class="co">#Paso 3</span></span>
+<span id="cb61-2"><a href="#cb61-2" tabindex="-1"></a></span>
+<span id="cb61-3"><a href="#cb61-3" tabindex="-1"></a><span class="fu">library</span>(zoo)</span></code></pre></div>
+<pre><code>## 
+## Attaching package: &#39;zoo&#39;</code></pre>
+<pre><code>## The following objects are masked from &#39;package:data.table&#39;:
+## 
+##     yearmon, yearqtr</code></pre>
+<pre><code>## The following objects are masked from &#39;package:base&#39;:
+## 
+##     as.Date, as.Date.numeric</code></pre>
+<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" tabindex="-1"></a>AA<span class="sc">$</span>FechasMA <span class="ot">&lt;-</span> <span class="fu">as.yearmon</span>(<span class="fu">paste</span>(AA<span class="sc">$</span>Year, AA<span class="sc">$</span>Fecha), <span class="st">&quot;%Y %m&quot;</span>)</span>
+<span id="cb65-2"><a href="#cb65-2" tabindex="-1"></a><span class="fu">head</span>(AA)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 5
+##    Year Mes   Temp_min_F Fecha FechasMA 
+##   &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;yearmon&gt;
+## 1  2000 Jan          -10     1 Jan 2000 
+## 2  2001 Jan            8     1 Jan 2001 
+## 3  2002 Jan          -11     1 Jan 2002 
+## 4  2003 Jan            0     1 Jan 2003 
+## 5  2004 Jan          -18     1 Jan 2004 
+## 6  2005 Jan           -7     1 Jan 2005</code></pre>
+</div>
+</div>
+<div id="conversión-de-temperatura" class="section level2">
+<h2>Conversión de temperatura</h2>
+<p>Cual el punto de congelación en Farenheit?</p>
+<p>Como se convierte F° en C°</p>
+<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" tabindex="-1"></a><span class="co"># Paso 4</span></span>
+<span id="cb67-2"><a href="#cb67-2" tabindex="-1"></a>AA<span class="sc">$</span>NegPos<span class="ot">=</span>AA<span class="sc">$</span>Temp_min_F<span class="sc">&gt;=</span><span class="dv">32</span></span>
+<span id="cb67-3"><a href="#cb67-3" tabindex="-1"></a><span class="fu">head</span>(AA)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 6
+##    Year Mes   Temp_min_F Fecha FechasMA  NegPos
+##   &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;yearmon&gt; &lt;lgl&gt; 
+## 1  2000 Jan          -10     1 Jan 2000  FALSE 
+## 2  2001 Jan            8     1 Jan 2001  FALSE 
+## 3  2002 Jan          -11     1 Jan 2002  FALSE 
+## 4  2003 Jan            0     1 Jan 2003  FALSE 
+## 5  2004 Jan          -18     1 Jan 2004  FALSE 
+## 6  2005 Jan           -7     1 Jan 2005  FALSE</code></pre>
+<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" tabindex="-1"></a>AA<span class="sc">$</span>Temp_C<span class="ot">=</span>(AA<span class="sc">$</span>Temp_min_F<span class="dv">-32</span>)<span class="sc">*</span><span class="dv">5</span><span class="sc">/</span><span class="dv">9</span></span>
+<span id="cb69-2"><a href="#cb69-2" tabindex="-1"></a><span class="fu">head</span>(AA)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 7
+##    Year Mes   Temp_min_F Fecha FechasMA  NegPos Temp_C
+##   &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;yearmon&gt; &lt;lgl&gt;   &lt;dbl&gt;
+## 1  2000 Jan          -10     1 Jan 2000  FALSE   -23.3
+## 2  2001 Jan            8     1 Jan 2001  FALSE   -13.3
+## 3  2002 Jan          -11     1 Jan 2002  FALSE   -23.9
+## 4  2003 Jan            0     1 Jan 2003  FALSE   -17.8
+## 5  2004 Jan          -18     1 Jan 2004  FALSE   -27.8
+## 6  2005 Jan           -7     1 Jan 2005  FALSE   -21.7</code></pre>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" tabindex="-1"></a>AA<span class="sc">$</span>NegPosC<span class="ot">=</span>AA<span class="sc">$</span>Temp_C<span class="sc">&gt;=</span><span class="dv">0</span></span></code></pre></div>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>AA,</span>
+<span id="cb72-2"><a href="#cb72-2" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x=</span>FechasMA, <span class="at">y=</span>Temp_C, <span class="at">fill=</span>NegPosC)) <span class="sc">+</span></span>
+<span id="cb72-3"><a href="#cb72-3" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="at">position=</span><span class="st">&quot;identity&quot;</span>)<span class="sc">+</span></span>
+<span id="cb72-4"><a href="#cb72-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">90</span>))<span class="sc">+</span></span>
+<span id="cb72-5"><a href="#cb72-5" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill=</span><span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb72-6"><a href="#cb72-6" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Fecha&quot;</span>)<span class="sc">+</span></span>
+<span id="cb72-7"><a href="#cb72-7" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Temperatura promedio máxima por mes en Celsius&quot;</span>)<span class="sc">+</span></span>
+<span id="cb72-8"><a href="#cb72-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<p><img src="G7_geom_bar_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<hr />
+</div>
+<div id="gráfico-de-barras-ajuste-de-posiciones-con-geom_bar"
+class="section level2">
+<h2>Gráfico de barras: Ajuste de posiciones con
+<strong>geom_bar</strong></h2>
+<p>A veces queremos hacer que las barras luzcan de diferentes maneras;
+por ejemplo, que las posiciones de las barras no salgan verticales o tan
+gruesas. Además, se puede modificar la representación de las barras para
+que la altura de ellas no represente el número de observaciones; por
+ejemplo, que represente una suma sobre otra variable.</p>
+<p>Los datos que utilizaremos para la próxima demostración provienen del
+archivo de lagartos <strong>Anolis</strong> que contiene información
+sobre su edad, sexo, periodo de muestreo y localidad donde fueron
+muestreados.</p>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" tabindex="-1"></a><span class="fu">library</span>(ggversa)</span>
+<span id="cb73-2"><a href="#cb73-2" tabindex="-1"></a><span class="fu">names</span>(Anolis)</span></code></pre></div>
+<pre><code>##  [1] &quot;STUDY&quot;                    &quot;Survey_Site&quot;             
+##  [3] &quot;LOCATION&quot;                 &quot;TIME&quot;                    
+##  [5] &quot;DATE&quot;                     &quot;SEASON&quot;                  
+##  [7] &quot;SPECIES&quot;                  &quot;SEX_AGE&quot;                 
+##  [9] &quot;HEIGHT&quot;                   &quot;DISTANCE_FROM_CENTERLINE&quot;
+## [11] &quot;PERCH_SUBSTRATE&quot;          &quot;PERCH_DIAMETER&quot;          
+## [13] &quot;WEIGHT&quot;                   &quot;SVL&quot;                     
+## [15] &quot;TAIL&quot;</code></pre>
+<p>El primer gráfico a continuación, produce por omisión barras negras
+que representan la suma de la cantidad de observaciones.</p>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE))</span>
+<span id="cb75-2"><a href="#cb75-2" tabindex="-1"></a>barraA<span class="sc">+</span><span class="fu">geom_bar</span>(<span class="at">fill=</span><span class="fu">grey</span>(.<span class="dv">3</span>))<span class="sc">+</span></span>
+<span id="cb75-3"><a href="#cb75-3" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<p><img src="G7_geom_bar_files/figure-html/geombar2-1.png" width="672" /></p>
+<p>En el segundo, el ancho de las barras fue reducido para que se vean
+menos angostas usando la opción <strong>width</strong>, ene ejemplo se
+reduce el ancho de las barras <strong>width=.3</strong>. Además, se
+cambia la descripción de los ejes al castellano. También selecciono un
+otro color de gris y se modifico su intensidad con
+<strong>fill=grey(.5)</strong>.</p>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE))</span>
+<span id="cb76-2"><a href="#cb76-2" tabindex="-1"></a>barraA<span class="sc">+</span><span class="fu">geom_bar</span>(<span class="at">width=</span>.<span class="dv">3</span>, <span class="at">fill=</span><span class="fu">grey</span>(.<span class="dv">5</span>))<span class="sc">+</span></span>
+<span id="cb76-3"><a href="#cb76-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="at">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="sc">+</span></span>
+<span id="cb76-4"><a href="#cb76-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<p><img src="G7_geom_bar_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<p>En el tercer grafico las barras fueron rotadas usando la opción
+<strong>coord_flip()</strong> y puestas sobre lo que antes era el eje de
+<strong>Y</strong>. En el cuarto, se añadió una variable discreta como
+color; en este caso, fue usada la escala de color gris para distinguir
+entre la temporada seca <strong>dry</strong> la lluviosa
+<strong>wet</strong>. Si no se añade la opción scale_fill_grey(), las
+categorías tendrían color.</p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE))</span>
+<span id="cb77-2"><a href="#cb77-2" tabindex="-1"></a>B3<span class="ot">=</span>barraA<span class="sc">+</span><span class="fu">geom_bar</span>(<span class="at">fill=</span><span class="fu">grey</span>(.<span class="dv">5</span>))<span class="sc">+</span><span class="fu">coord_flip</span>()<span class="sc">+</span></span>
+<span id="cb77-3"><a href="#cb77-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="at">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="sc">+</span></span>
+<span id="cb77-4"><a href="#cb77-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
+<span id="cb77-5"><a href="#cb77-5" tabindex="-1"></a></span>
+<span id="cb77-6"><a href="#cb77-6" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE, <span class="at">fill=</span>SEASON))</span>
+<span id="cb77-7"><a href="#cb77-7" tabindex="-1"></a>B4<span class="ot">=</span>barraA<span class="sc">+</span><span class="fu">geom_bar</span>()<span class="sc">+</span><span class="fu">scale_fill_grey</span>()<span class="sc">+</span></span>
+<span id="cb77-8"><a href="#cb77-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="at">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="sc">+</span></span>
+<span id="cb77-9"><a href="#cb77-9" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
+<span id="cb77-10"><a href="#cb77-10" tabindex="-1"></a></span>
+<span id="cb77-11"><a href="#cb77-11" tabindex="-1"></a><span class="fu">grid.arrange</span>(B3,B4,<span class="at">ncol=</span><span class="dv">1</span>)</span></code></pre></div>
+<p><img src="G7_geom_bar_files/figure-html/geombar2a-1.png" width="672" /></p>
+<hr />
+<div id="posiciones-de-las-barras" class="section level3">
+<h3>Posiciones de las barras</h3>
+<p>Si uno quiere posicionar las categorías una al lado de la otra, se
+usa <strong>(position={dodge})</strong>. El parámetro
+<strong>dodge</strong> le indica <strong>esquivar</strong> en el sentido
+de mover al lado.</p>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE,<span class="at">fill=</span>SEASON))</span>
+<span id="cb78-2"><a href="#cb78-2" tabindex="-1"></a>B1<span class="ot">=</span>barraA<span class="sc">+</span><span class="fu">geom_bar</span>()<span class="sc">+</span></span>
+<span id="cb78-3"><a href="#cb78-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="at">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="sc">+</span></span>
+<span id="cb78-4"><a href="#cb78-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
+<span id="cb78-5"><a href="#cb78-5" tabindex="-1"></a></span>
+<span id="cb78-6"><a href="#cb78-6" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE,<span class="at">fill=</span>SEASON))</span>
+<span id="cb78-7"><a href="#cb78-7" tabindex="-1"></a>B2<span class="ot">=</span>barraA<span class="sc">+</span><span class="fu">geom_bar</span>(<span class="at">position=</span><span class="st">&quot;dodge&quot;</span>)<span class="sc">+</span></span>
+<span id="cb78-8"><a href="#cb78-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="at">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="sc">+</span></span>
+<span id="cb78-9"><a href="#cb78-9" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
+<span id="cb78-10"><a href="#cb78-10" tabindex="-1"></a></span>
+<span id="cb78-11"><a href="#cb78-11" tabindex="-1"></a><span class="fu">grid.arrange</span>(B1,B2,<span class="at">ncol=</span><span class="dv">1</span>)</span></code></pre></div>
+<p><img src="G7_geom_bar_files/figure-html/geombar3-1.png" width="672" /></p>
+</div>
+</div>
+</div>
+<div id="opciones-y-parametros-de-geom_bar" class="section level1">
+<h1>Opciones y Parametros de <strong>geom_bar</strong>:</h1>
+<ul>
+<li>ggplot(el archivo de datos, aes(la variable continua))</li>
+<li>geom_bar(stat=bin, x, y, alpha, color, fill, linetype, size)
+<ul>
+<li>alpha: la intensidad del color</li>
+<li>fill: el color de la barra</li>
+<li>color: el color de la línea alrededor de la barra</li>
+<li>linetype: representa el estilo de línea</li>
+<li>size: representa el grosor de la línea</li>
+<li>weight; para modificar el valor original; entonces no sería, por
+ejemplo, el conteo/suma de los valores si no un valor ponderado
+(promedio ponderado).</li>
+</ul></li>
+</ul>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

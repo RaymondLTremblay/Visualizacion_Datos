@@ -1,0 +1,1683 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Histogramas con geom_histogram</title>
+
+<script src="site_libs/header-attrs-2.11/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="tutorial.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Visualización de Datos-2022</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Módulos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="G1-ggplot2.html">Qué es la visualización de datos y ejemplos historicos</a>
+    </li>
+    <li>
+      <a href="G2-Errores-tipicos-en-la-visualizacion.html">Errores típicos en la visualización</a>
+    </li>
+    <li>
+      <a href="G3-Graficos-por-conteos.html">Gráficos para conteos</a>
+    </li>
+    <li>
+      <a href="G4-Grafico-de-puntos-de-Wilkinson.html">Gráficos de puntos de Wilkinson</a>
+    </li>
+    <li>
+      <a href="G5_geom_area_densidad_freqpoly.html">Gráficos de area y densidad</a>
+    </li>
+    <li>
+      <a href="G6_geom_histogram.html">Histogramas</a>
+    </li>
+    <li>
+      <a href="G7_geom_bar.html">Gráficos de barras</a>
+    </li>
+    <li>
+      <a href="G8_geom_boxplot_geom_violin.html">Gráficos de caja y de violín</a>
+    </li>
+    <li>
+      <a href="G9_Facet_Grid.html">Facet Grid</a>
+    </li>
+    <li>
+      <a href="G10_Facet_wrap.html">Facet Wrap</a>
+    </li>
+    <li>
+      <a href="G11_EVALUANDO_SUPUESTOS.html">Evaluando Supuestos</a>
+    </li>
+    <li>
+      <a href="G12_Mapas_Calor.html">Mapas de Calor</a>
+    </li>
+    <li>
+      <a href="G13_geom_line.html">Gráficos con lineas</a>
+    </li>
+    <li>
+      <a href="G14_geom_point_geom_jitter.html">Geom_point y geom_jitter</a>
+    </li>
+    <li>
+      <a href="G15_gganimate.html">Gráficos animados en movimiento</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Sreencasts
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="screencast_t_test.html">t-test Screencast</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Instalación básica
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Instalar-R-RStudio.html">Lo básico de RStudio</a>
+    </li>
+    <li>
+      <a href="Introduccion-RMarkdown.html">Lo básico de RMarkdown</a>
+    </li>
+    <li>
+      <a href="Codigos_basicos_en_R.html">R y Cheatsheets</a>
+    </li>
+    <li>
+      <a href="R_basico.html">R Básico #2</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Tareas y Ejercicios
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Ejerc_1.html">Ejercicio Básico</a>
+    </li>
+    <li>
+      <a href="Ejerc_2_geom_point.html">Ejercicio geom_point</a>
+    </li>
+    <li>
+      <a href="Ejerc_3_Wilkinson.html">Ejercicio Wilkinson</a>
+    </li>
+    <li>
+      <a href="Ejerc_4_point_count.html">Ejercicio de gráficos de puntos, conteos y histograma</a>
+    </li>
+    <li>
+      <a href="Ejerc_5_geom_line.html">Ejercicio de gráficos de lineas</a>
+    </li>
+    <li>
+      <a href="Ejerc_6_Covid_19.html">Ejercicio Final COVID19</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Los Datos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Archivos_de_Datos.html">Archivos de Datos</a>
+    </li>
+    <li>
+      <a href="COVID-19.html">COVID-19</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="schedule.html">Calendario</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Histogramas con <strong>geom_histogram</strong></h1>
+
+</div>
+
+
+<p>Fecha de la ultima revisión</p>
+<pre><code>## [1] &quot;2022-01-10&quot;</code></pre>
+<p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" /></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggversa)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span></code></pre></div>
+<hr />
+<div id="histogramas-con-geom_histogram" class="section level1">
+<h1>Histogramas con geom_histogram</h1>
+<p>Un histograma es una representación gráfica de los datos agrupados en compartimentos o <em>bins</em>. Estos compartimentos incluyen individuos con factores o agrupaciones de valores similares o cercanos numéricamente. Subsiguiente a la determinación de los compartimentos, se suma la cantidad de observaciones para cada uno de ellos. Un histograma es un tipo de gráfico muy común para visualizar la dispersión de esos datos. Continuaremos con el ejemplo de <em>Dipodium</em> para demostrar la función de <strong>geom_histogram</strong> a continuación.</p>
+<p>En el primer caso de <strong>geom_histogram</strong> la cantidad de observaciones (datos) se suma de acuerdo a la posición de los compartimentos o <em>bins</em>.</p>
+<p>En el segundo caso, para mostrar menos barras y ver la agrupación por grupos de 2, se escribe con <strong>geom_histogram (binwidth=1)</strong>. Como se puede apreciar, el número de compartimentos se cambia utilizando el parámetro <em>binwidth</em>, donde su valor representa el ancho del compartimento (en nuestro caso es igual a 1). El número de <em>bins</em> predeterminado es 30, pero no necesariamente todos tendrán una barra ya que eso depende de la distribución de los datos. Cada barra representa la frecuencia de observaciones en la categoría a un metro de distancia. En ambos casos se usó color=white (o sea, color blanco) para poner una línea blanca alrededor de cada barra y así diferenciar mejor los grupos o <em>bins</em>. Nota que el programa retorna el mensaje <strong><code>stat_bin()</code> using <code>bins = 30</code>. Pick better value with <code>binwidth</code></strong>. Esto porque se acepto la cantidad de compartimiento prederminado.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>DW<span class="ot">=</span><span class="fu">clean_names</span>(dipodium) <span class="co"># este archivo de datos se encuentra en el paquete &quot;ggversa&quot;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(DW)</span></code></pre></div>
+<pre><code>##  [1] &quot;tree_number&quot;             &quot;tree_species&quot;           
+##  [3] &quot;dbh&quot;                     &quot;plant_number&quot;           
+##  [5] &quot;ramet_number&quot;            &quot;distance&quot;               
+##  [7] &quot;orientation&quot;             &quot;number_of_flowers&quot;      
+##  [9] &quot;height_inflo&quot;            &quot;herbivory&quot;              
+## [11] &quot;row_position_nf&quot;         &quot;number_flowers_position&quot;
+## [13] &quot;number_of_fruits&quot;        &quot;perc_fr_set&quot;            
+## [15] &quot;pardalinum_or_roseum&quot;    &quot;fruit_position_effect&quot;  
+## [17] &quot;frutos_si_o_no&quot;          &quot;p_or_r_infl_lenght&quot;     
+## [19] &quot;num_of_fruits&quot;           &quot;species_name&quot;           
+## [21] &quot;cardinal_orientation&quot;</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>DW <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a> <span class="fu">gt</span>()</span></code></pre></div>
+<div id="nzcwehljut" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#nzcwehljut .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#nzcwehljut .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#nzcwehljut .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#nzcwehljut .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#nzcwehljut .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#nzcwehljut .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#nzcwehljut .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#nzcwehljut .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#nzcwehljut .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#nzcwehljut .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#nzcwehljut .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#nzcwehljut .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#nzcwehljut .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#nzcwehljut .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#nzcwehljut .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#nzcwehljut .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#nzcwehljut .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#nzcwehljut .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#nzcwehljut .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#nzcwehljut .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#nzcwehljut .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#nzcwehljut .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#nzcwehljut .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#nzcwehljut .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#nzcwehljut .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#nzcwehljut .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#nzcwehljut .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#nzcwehljut .gt_left {
+  text-align: left;
+}
+
+#nzcwehljut .gt_center {
+  text-align: center;
+}
+
+#nzcwehljut .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#nzcwehljut .gt_font_normal {
+  font-weight: normal;
+}
+
+#nzcwehljut .gt_font_bold {
+  font-weight: bold;
+}
+
+#nzcwehljut .gt_font_italic {
+  font-style: italic;
+}
+
+#nzcwehljut .gt_super {
+  font-size: 65%;
+}
+
+#nzcwehljut .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 65%;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">tree_number</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">tree_species</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">dbh</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">plant_number</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">ramet_number</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">distance</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">orientation</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">number_of_flowers</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">height_inflo</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">herbivory</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">row_position_nf</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">number_flowers_position</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">number_of_fruits</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">perc_fr_set</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">pardalinum_or_roseum</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">fruit_position_effect</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">frutos_si_o_no</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">p_or_r_infl_lenght</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">num_of_fruits</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">species_name</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">cardinal_orientation</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_right">1</td>
+<td class="gt_row gt_left">E.o</td>
+<td class="gt_row gt_right">75</td>
+<td class="gt_row gt_right">1</td>
+<td class="gt_row gt_right">1</td>
+<td class="gt_row gt_right">2.47</td>
+<td class="gt_row gt_right">40</td>
+<td class="gt_row gt_right">11</td>
+<td class="gt_row gt_right">35</td>
+<td class="gt_row gt_left">n</td>
+<td class="gt_row gt_right">1</td>
+<td class="gt_row gt_right">24</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">0.00</td>
+<td class="gt_row gt_left">r</td>
+<td class="gt_row gt_right">1</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_left">r</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_left">r</td>
+<td class="gt_row gt_right">1</td></tr>
+    <tr><td class="gt_row gt_right">1</td>
+<td class="gt_row gt_left">E.o</td>
+<td class="gt_row gt_right">76</td>
+<td class="gt_row gt_right">2</td>
+<td class="gt_row gt_right">1</td>
+<td class="gt_row gt_right">1.97</td>
+<td class="gt_row gt_right">50</td>
+<td class="gt_row gt_right">19</td>
+<td class="gt_row gt_right">47</td>
+<td class="gt_row gt_left">n</td>
+<td class="gt_row gt_right">2</td>
+<td class="gt_row gt_right">23</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">0.00</td>
+<td class="gt_row gt_left">r</td>
+<td class="gt_row gt_right">2</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_left">r</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_left">r</td>
+<td class="gt_row gt_right">2</td></tr>
+    <tr><td class="gt_row gt_right">2</td>
+<td class="gt_row gt_left">E.o</td>
+<td class="gt_row gt_right">76</td>
+<td class="gt_row gt_right">3</td>
+<td class="gt_row gt_right">1</td>
+<td class="gt_row gt_right">1.95</td>
+<td class="gt_row gt_right">350</td>
+<td class="gt_row gt_right">18</td>
+<td class="gt_row gt_right">63</td>
+<td class="gt_row gt_left">n</td>
+<td class="gt_row gt_right">3</td>
+<td class="gt_row gt_right">25</td>
+<td class="gt_row gt_right">1</td>
+<td class="gt_row gt_right">0.04</td>
+<td class="gt_row gt_left">r</td>
+<td class="gt_row gt_right">3</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_left">r</td>
+<td class="gt_row gt_right">1</td>
+<td class="gt_row gt_left">r</td>
+<td class="gt_row gt_right">8</td></tr>
+    <tr><td class="gt_row gt_right">3</td>
+<td class="gt_row gt_left">E.o</td>
+<td class="gt_row gt_right">58</td>
+<td class="gt_row gt_right">4</td>
+<td class="gt_row gt_right">1</td>
+<td class="gt_row gt_right">3.24</td>
+<td class="gt_row gt_right">210</td>
+<td class="gt_row gt_right">24</td>
+<td class="gt_row gt_right">47</td>
+<td class="gt_row gt_left">n</td>
+<td class="gt_row gt_right">4</td>
+<td class="gt_row gt_right">20</td>
+<td class="gt_row gt_right">5</td>
+<td class="gt_row gt_right">0.25</td>
+<td class="gt_row gt_left">r</td>
+<td class="gt_row gt_right">4</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_left">r</td>
+<td class="gt_row gt_right">5</td>
+<td class="gt_row gt_left">r</td>
+<td class="gt_row gt_right">5</td></tr>
+    <tr><td class="gt_row gt_right">4</td>
+<td class="gt_row gt_left">E.o</td>
+<td class="gt_row gt_right">NA</td>
+<td class="gt_row gt_right">5</td>
+<td class="gt_row gt_right">1</td>
+<td class="gt_row gt_right">0.85</td>
+<td class="gt_row gt_right">80</td>
+<td class="gt_row gt_right">25</td>
+<td class="gt_row gt_right">61</td>
+<td class="gt_row gt_left">n</td>
+<td class="gt_row gt_right">5</td>
+<td class="gt_row gt_right">13</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_right">0.00</td>
+<td class="gt_row gt_left">r</td>
+<td class="gt_row gt_right">5</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_left">r</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_left">r</td>
+<td class="gt_row gt_right">2</td></tr>
+    <tr><td class="gt_row gt_right">5</td>
+<td class="gt_row gt_left">E.o</td>
+<td class="gt_row gt_right">59</td>
+<td class="gt_row gt_right">6</td>
+<td class="gt_row gt_right">1</td>
+<td class="gt_row gt_right">2.62</td>
+<td class="gt_row gt_right">160</td>
+<td class="gt_row gt_right">17</td>
+<td class="gt_row gt_right">35</td>
+<td class="gt_row gt_left">n</td>
+<td class="gt_row gt_right">6</td>
+<td class="gt_row gt_right">25</td>
+<td class="gt_row gt_right">2</td>
+<td class="gt_row gt_right">0.08</td>
+<td class="gt_row gt_left">p</td>
+<td class="gt_row gt_right">6</td>
+<td class="gt_row gt_right">0</td>
+<td class="gt_row gt_left">r</td>
+<td class="gt_row gt_right">2</td>
+<td class="gt_row gt_left">p</td>
+<td class="gt_row gt_right">4</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(DW, <span class="fu">aes</span>(distance))</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_histogram</span>(<span class="at">color=</span><span class="st">&quot;white&quot;</span>, <span class="at">fill=</span><span class="st">&quot;blue&quot;</span>)<span class="sc">+</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Distancia&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="G6_geom_histogram_files/figure-html/dipodium-histograma-1.png" width="672" /></p>
+<hr />
+</div>
+<div id="cambio-del-tamaño-de-los-compartimiento-con-binwidth" class="section level1">
+<h1>Cambio del tamaño de los compartimiento con <em>binwidth</em></h1>
+<p>Este histograma demuestra las distancias de las orquídeas <em>Dipodium roseum</em> a los árboles más cercanos. Esta especie de orquídea es parasítica de hongos/micorrizas y no produce fotosíntesis. La hipótesis es que las micorrizas, <strong>hongos</strong>, reciben nutrientes de las raíces de los árboles y los nutrientes son transferidos a las orquídeas a través de las micorrizas. A consecuencia, se debería hipotéticamente observar una distancia óptima de la orquídea a los árboles que sostienen las micorrizas si la hipótesis tiene alguna veracidad. Como se explicó antes, en el segundo gráfico, se cambió el binwidth a 1, que representa en este caso la distancia de 1 metro, y los <strong>bins</strong> van de -.5 a .5 m., el segundo <strong>bin</strong> de &gt;0.5 a 1.5 metros y así sucesivamente.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(DW<span class="sc">$</span>distance)</span></code></pre></div>
+<pre><code>## [1] 1363</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(DW, <span class="fu">aes</span>(distance))</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_histogram</span>(<span class="at">binwidth=</span>.<span class="dv">5</span>,<span class="at">color=</span><span class="st">&quot;white&quot;</span>, <span class="at">fill=</span><span class="st">&quot;blue&quot;</span>)<span class="sc">+</span></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Distancia&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<p><img src="G6_geom_histogram_files/figure-html/num1-1.png" width="672" /></p>
+<hr />
+</div>
+<div id="números-de-camas-en-hospitales-por-1000-habitantes-en-diferenctes-paises" class="section level1">
+<h1>Números de camas en hospitales por 1000 habitantes en diferenctes paises</h1>
+<p>En el siguiente gráfico, vemos la frecuencia de número de camas de hospital por cada 1000 habitantes para 67 países utilizando la base de datos <strong>Camas_Hospital</strong>. Se hizo con la información que estaba disponible solo para los años 1996 y 2006. Tenemos dos gráficos solapados para visualizar si la distribución ha cambiado de entre el año 1996 y 2006. Note que las frecuencias del 2006 aparecen sobre las del 1996.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>Camas_Hospital <span class="sc">%&gt;%</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code></pre></div>
+<div id="wfjeeojmgx" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#wfjeeojmgx .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#wfjeeojmgx .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#wfjeeojmgx .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#wfjeeojmgx .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 6px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#wfjeeojmgx .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#wfjeeojmgx .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#wfjeeojmgx .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#wfjeeojmgx .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#wfjeeojmgx .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#wfjeeojmgx .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#wfjeeojmgx .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#wfjeeojmgx .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#wfjeeojmgx .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#wfjeeojmgx .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#wfjeeojmgx .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#wfjeeojmgx .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#wfjeeojmgx .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#wfjeeojmgx .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wfjeeojmgx .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#wfjeeojmgx .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#wfjeeojmgx .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#wfjeeojmgx .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#wfjeeojmgx .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#wfjeeojmgx .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#wfjeeojmgx .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#wfjeeojmgx .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#wfjeeojmgx .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#wfjeeojmgx .gt_left {
+  text-align: left;
+}
+
+#wfjeeojmgx .gt_center {
+  text-align: center;
+}
+
+#wfjeeojmgx .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#wfjeeojmgx .gt_font_normal {
+  font-weight: normal;
+}
+
+#wfjeeojmgx .gt_font_bold {
+  font-weight: bold;
+}
+
+#wfjeeojmgx .gt_font_italic {
+  font-style: italic;
+}
+
+#wfjeeojmgx .gt_super {
+  font-size: 65%;
+}
+
+#wfjeeojmgx .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 65%;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1">Pais</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Year</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Poblacion</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">Camas</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_center">Armenia</td>
+<td class="gt_row gt_right">1996</td>
+<td class="gt_row gt_right">3173425</td>
+<td class="gt_row gt_right">7.13</td></tr>
+    <tr><td class="gt_row gt_center">Australia</td>
+<td class="gt_row gt_right">1996</td>
+<td class="gt_row gt_right">18311000</td>
+<td class="gt_row gt_right">8.50</td></tr>
+    <tr><td class="gt_row gt_center">Austria</td>
+<td class="gt_row gt_right">1996</td>
+<td class="gt_row gt_right">7959017</td>
+<td class="gt_row gt_right">9.30</td></tr>
+    <tr><td class="gt_row gt_center">Azerbaijan</td>
+<td class="gt_row gt_right">1996</td>
+<td class="gt_row gt_right">7763000</td>
+<td class="gt_row gt_right">9.81</td></tr>
+    <tr><td class="gt_row gt_center">Bahamas, The</td>
+<td class="gt_row gt_right">1996</td>
+<td class="gt_row gt_right">283792</td>
+<td class="gt_row gt_right">3.94</td></tr>
+    <tr><td class="gt_row gt_center">Barbados</td>
+<td class="gt_row gt_right">1996</td>
+<td class="gt_row gt_right">265940</td>
+<td class="gt_row gt_right">7.56</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">unique</span>(Camas_Hospital<span class="sc">$</span>Year) <span class="co"># cual son los años de muestreo</span></span></code></pre></div>
+<pre><code>## [1] 1996 2006</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(Camas_Hospital, <span class="fu">aes</span>(Camas, <span class="at">fill=</span><span class="fu">factor</span>(Year)))</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_histogram</span>(<span class="at">stat=</span><span class="st">&quot;bin&quot;</span>)<span class="sc">+</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Número de camas por cada 1000 habitantes&quot;</span>)<span class="sc">+</span></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)</span></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="G6_geom_histogram_files/figure-html/dipodium-histogram2-1.png" width="672" /></p>
+<hr />
+<div id="modificando-las-escalas-continuas-con-scale_y_continuous-y-scale_x_continuous" class="section level2">
+<h2>Modificando las escalas continuas con scale_y_continuous y scale_x_continuous</h2>
+<p>Se demuestra también cómo modificar la escala, primero con un método poco práctico numerando en el eje de <strong>Y</strong> cada valor donde queremos una línea. Note que se excluye el número 10 y por eso no aparece en el eje de <strong>Y</strong> la función es <strong>scale_y_continuous(breaks=c(x,x,x…x)</strong>. En el eje de <strong>X</strong> se numera también pero esta vez se define la escala con <strong>scale_x_continuous(breaks=c( )</strong>, y <strong>c(x:xx)</strong> con un valor inicial de 1 y final de 15 para identificar cual son los valores que uno quiere en los ejes; eso es más práctico e incluye al valor 10. También se modifica la información de los ejes usando <strong>xlab</strong> y <strong>ylab</strong>, de manera tal que la descripción de la columnas se pueda presentar de forma específica y así hacer la información más clara para propósitos del gráfico. =</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(Camas_Hospital, <span class="fu">aes</span>(Camas, <span class="at">fill=</span><span class="fu">factor</span>(Year)))<span class="sc">+</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="at">alpha=</span><span class="fl">0.3</span>)<span class="sc">+</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>,<span class="dv">11</span>,<span class="dv">12</span>,<span class="dv">13</span>,<span class="dv">14</span>,<span class="dv">15</span>))<span class="sc">+</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">15</span>))<span class="sc">+</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>a</span></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="G6_geom_histogram_files/figure-html/num2-1.png" width="672" /></p>
+<hr />
+</div>
+</div>
+<div id="solapamiento-de-frecuencia-y-intensidad-de-color" class="section level1">
+<h1>Solapamiento de frecuencia y intensidad de color</h1>
+<p>Podríamos pensar que, debido a que las frecuencias están solapadas, es difícil tener una buena apreciación de la distribución de los datos. Para comparar las frecuencias entre los grupos con más facilidad, se pueden diferenciar las frecuencias con 3 colores; en este caso el color azul para el año 2006, el color durazno para el año 1996, y el color grisáceo para las frecuencias que se solapan con ambos años. Se usa <strong>position=identity</strong> y <strong>alpha=</strong> pata modicar la intensidades de color de la barras. Ahora vemos que, por ejemplo, en el año 1996 la frecuencia más común en los países era de menos de 2 camas por 1,000 habitantes, y que ya para el año 2006 ya era de 2 y 8 camas por cada 1,000 habitantes.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(Camas_Hospital, <span class="fu">aes</span>(Camas, <span class="at">fill=</span><span class="fu">factor</span>(Year)))</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_histogram</span>(<span class="at">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="at">alpha=</span><span class="fl">0.5</span>,</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">position=</span><span class="st">&quot;identity&quot;</span>)<span class="sc">+</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Número de camas por </span><span class="sc">\n</span><span class="st"> 1000 habitantes&quot;</span>)<span class="sc">+</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">9</span>))<span class="sc">+</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">15</span>))<span class="sc">+</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="G6_geom_histogram_files/figure-html/dipodium-histogram4-1.png" width="672" /></p>
+<hr />
+</div>
+<div id="posicionar-las-barras-uno-al-lado-del-otro-con-la-función-dodge" class="section level1">
+<h1>Posicionar las barras uno al lado del otro con la función <strong>dodge</strong></h1>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(Camas_Hospital, <span class="fu">aes</span>(Camas, <span class="at">fill=</span><span class="fu">factor</span>(Year)))</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_histogram</span>(<span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="at">alpha=</span><span class="fl">0.9</span>,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                 <span class="at">position=</span><span class="st">&quot;dodge&quot;</span>)<span class="sc">+</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Número de camas por </span><span class="sc">\n</span><span class="st"> 1000 habitantes&quot;</span>)<span class="sc">+</span></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">9</span>))<span class="sc">+</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">15</span>))<span class="sc">+</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="G6_geom_histogram_files/figure-html/dipodium-histogram5-1.png" width="672" /></p>
+<hr />
+</div>
+<div id="gráficos-para-grupo-con-facet_wrap" class="section level1">
+<h1>Gráficos para grupo con <strong>Facet_wrap</strong></h1>
+<div id="cambio-de-colores-del-gráfico-manualmente" class="section level2">
+<h2>Cambio de colores del gráfico manualmente</h2>
+<p>Otra alternativa es usar dos gráficos para cada año; o sea, uno por cada grupo. En tal caso usaremos la opción <strong>facet_wrap</strong>. <strong>facet_wrap</strong> se explican con más detalle más adelante. Podemos cambiar el color de las barras usando <strong>scale_fill_manual</strong>; en nuestro caso, <strong>cyan4</strong> para el 1996 y <strong>darkorange</strong> para el 2006. Además, note que con <strong>scale_color_manual</strong> podemos cambiar la línea alrededor de las barras; en nuestro caso la cambiamos a negro o <strong>black</strong>.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(Camas_Hospital, <span class="fu">aes</span>(Camas, <span class="at">fill=</span><span class="fu">factor</span>(Year),</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>                             <span class="at">color=</span><span class="fu">factor</span>(Year)))</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_histogram</span>(<span class="at">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Número de camas </span><span class="sc">\n</span><span class="st"> por cada 1000 habitantes&quot;</span>)<span class="sc">+</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Year)<span class="sc">+</span></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">9</span>))<span class="sc">+</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>))<span class="sc">+</span></span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;cyan4&quot;</span>, <span class="st">&quot;darkorange&quot;</span>))<span class="sc">+</span></span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;black&quot;</span>))<span class="sc">+</span></span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">family=</span><span class="st">&quot;Times&quot;</span>,<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;italic&quot;</span>))<span class="sc">+</span></span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.x=</span><span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">180</span>))<span class="sc">+</span>  <span class="co"># </span><span class="al">NOTE</span><span class="co"> the x legend text </span></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">5</span>, <span class="at">angle=</span><span class="dv">45</span>))</span></code></pre></div>
+<pre><code>## `stat_bin()` using `bins = 30`. Pick better value with `binwidth`.</code></pre>
+<p><img src="G6_geom_histogram_files/figure-html/dipodium-histogram3-1.png" width="672" /></p>
+<hr />
+</div>
+</div>
+<div id="opciones-y-parametros-de-geom_histogram" class="section level1">
+<h1>Opciones y Parametros de <strong>geom_histogram</strong>:</h1>
+<ul>
+<li><p>ggplot(el archivo de datos, aes(la variable continua))</p>
+<ul>
+<li>geom_histogram (), binwidth, x, y, alpha, color, fill, stat, position.</li>
+<li>binwidth: el ancho de los compartimentos donde por defecto es de 1/30 el rango de los datos.</li>
+<li>alpha: la intensidad del color</li>
+<li>fill: el color del área; ej., color=blue</li>
+<li>color: el color de la línea alrededor del área; ej., color=white</li>
+<li>position: “identity”, “stack”, “dodge”.</li>
+</ul></li>
+</ul>
+<hr />
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>diamonds <span class="sc">%&gt;%</span> </span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 10
+##   carat cut       color clarity depth table price     x     y     z
+##   &lt;dbl&gt; &lt;ord&gt;     &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1  0.23 Ideal     E     SI2      61.5    55   326  3.95  3.98  2.43
+## 2  0.21 Premium   E     SI1      59.8    61   326  3.89  3.84  2.31
+## 3  0.23 Good      E     VS1      56.9    65   327  4.05  4.07  2.31
+## 4  0.29 Premium   I     VS2      62.4    58   334  4.2   4.23  2.63
+## 5  0.31 Good      J     SI2      63.3    58   335  4.34  4.35  2.75
+## 6  0.24 Very Good J     VVS2     62.8    57   336  3.94  3.96  2.48</code></pre>
+<ol style="list-style-type: decimal">
+<li>Usando el archivo de datos de <strong>diamonds</strong> en el paquete <strong>ggplot2</strong>, haga un histograma del precio de los diamantes, en diferentes <strong>chunks</strong>.</li>
+</ol>
+<ul>
+<li>cambia el color de las barras</li>
+<li>pon una linea blanca alrededor de las barras</li>
+<li>separa el los diamantes de diferentes color en histograma diferentes</li>
+<li>evalúa como se ve los gráficos con las diferentes areglos: position: “identity”, “stack”, “dodge”</li>
+<li>cambia la intensidad del color</li>
+<li>cambia los nombres de los ejes al español</li>
+<li>salvar los gráficos en formato .png, .tiff o .jpeg y subir por lo menos uno de estos a Edmodo.</li>
+</ul>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
