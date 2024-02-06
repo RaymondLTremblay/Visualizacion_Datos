@@ -1,0 +1,2748 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Geom_line</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="tutorial.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Visualización de Datos</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Módulos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="G1-ggplot2.html">Qué es la visualización de datos y ejemplos historicos</a>
+    </li>
+    <li>
+      <a href="G2-Errores-tipicos-en-la-visualizacion.html">Errores típicos en la visualización</a>
+    </li>
+    <li>
+      <a href="G3-Graficos-por-conteos.html">Gráficos para conteos</a>
+    </li>
+    <li>
+      <a href="G4-Grafico-de-puntos-de-Wilkinson.html">Gráficos de puntos de Wilkinson</a>
+    </li>
+    <li>
+      <a href="G5_geom_area_densidad_freqpoly.html">Gráficos de area y densidad</a>
+    </li>
+    <li>
+      <a href="G6_geom_histogram.html">Histogramas</a>
+    </li>
+    <li>
+      <a href="G7_geom_bar.html">Gráficos de barras</a>
+    </li>
+    <li>
+      <a href="G8_geom_boxplot_geom_violin.html">Gráficos de caja y de violín</a>
+    </li>
+    <li>
+      <a href="G9_Facet_Grid.html">Facet Grid</a>
+    </li>
+    <li>
+      <a href="G10_Facet_wrap.html">Facet Wrap</a>
+    </li>
+    <li>
+      <a href="G11_EVALUANDO_SUPUESTOS.html">Evaluando Supuestos</a>
+    </li>
+    <li>
+      <a href="G12_Mapas_Calor.html">Mapas de Calor</a>
+    </li>
+    <li>
+      <a href="G13_geom_line.html">Gráficos con lineas</a>
+    </li>
+    <li>
+      <a href="G14_geom_point_geom_jitter.html">Geom_point y geom_jitter</a>
+    </li>
+    <li>
+      <a href="G15_gganimate.html">Gráficos animados en movimiento</a>
+    </li>
+    <li>
+      <a href="G16_Tablas_Tablas_Tablas.html">Tablas y Tablas</a>
+    </li>
+    <li>
+      <a href="G17_LeafletTaller_abril2023.html">Leaflet</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Instalación básica
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Instalar-R-RStudio.html">Lo básico de RStudio</a>
+    </li>
+    <li>
+      <a href="Introduccion-RMarkdown.html">Lo básico de RMarkdown</a>
+    </li>
+    <li>
+      <a href="Codigos_basicos_en_R.html">R y Cheatsheets</a>
+    </li>
+    <li>
+      <a href="R_basico.html">R Básico #2</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Tareas y Ejercicios
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Ejerc_1.html">Ejercicio Básico</a>
+    </li>
+    <li>
+      <a href="Ejerc_2_geom_point.html">Ejercicio geom_point</a>
+    </li>
+    <li>
+      <a href="Ejerc_3_Wilkinson.html">Ejercicio Wilkinson</a>
+    </li>
+    <li>
+      <a href="Ejerc_4_point_count.html">Ejercicio de gráficos de puntos, conteos y histograma</a>
+    </li>
+    <li>
+      <a href="Ejerc_5_geom_line.html">Ejercicio de gráficos de lineas</a>
+    </li>
+    <li>
+      <a href="Ejerc_6_Covid_19.html">Ejercicio Final COVID19</a>
+    </li>
+    <li>
+      <a href="Ejerc_7_geom_point.html">Ejercicio geom_point</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Los Datos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Archivos_de_Datos.html">Archivos de Datos</a>
+    </li>
+    <li>
+      <a href="COVID-19.html">COVID-19</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Calendario
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="schedule.html">Calendario</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Otros paquetes gg
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="ST_ggblanket.html">El paquete ggblanket</a>
+    </li>
+    <li>
+      <a href="ST_gggibous2.html">El paquete gggibous</a>
+    </li>
+    <li>
+      <a href="ST_ggiraph.html">El paquete ggiraph</a>
+    </li>
+    <li>
+      <a href="ST_ggparty.html">El paquete ggparty</a>
+    </li>
+    <li>
+      <a href="ST_ggvenn.html">El paquete ggvenn</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Geom_line</h1>
+
+</div>
+
+
+<p>Fecha de la ultima revisión</p>
+<pre><code>## [1] &quot;2024-02-05&quot;</code></pre>
+<p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" /></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(ggversa)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="fu">library</span>(gt)</span></code></pre></div>
+<hr />
+<div id="gráficos-de-línea" class="section level2">
+<h2>Gráficos de línea</h2>
+</div>
+<div id="gráfico-de-línea-básico-con-geom_line" class="section level2">
+<h2>Gráfico de línea básico con <strong>geom_line</strong></h2>
+<p>Los gráficos de línea se usan frecuentemente cuando hay una variable
+de datos continuos ordenada secuencialmente, como las series en tiempo
+(años, hora, minutos, u otras secuencias). En los ejemplos que veremos a
+continuación se muestra la relación entre la detección del cáncer de
+tiroides en EE. UU. entre los años 1975 y 2012, su aumento y el nivel de
+mortandad.</p>
+<p>En la Figura se muestra el cambio en número de casos de cáncer de
+tiroides por cada 100,000 habitantes. La columna <strong>Year</strong>,
+año, es una variable numérica, y típicamente no se gráfica correctamente
+porque no se toma como numérica automáticamente. Es necesario
+identificarla como que contiene valores enteros usando la opción
+<strong>as.integer</strong>.</p>
+<p>En primer lugar, crearemos un nuevo <strong>data.frame</strong> para
+agrupar solamente los nuevos casos de cáncer. Para crear un
+<strong>data.frame</strong> solamente con esos datos se usa la opción
+<strong>which</strong>, con el siguiente procedimiento:</p>
+<p>subconjunto del_archivo[which( el_archivo$la_variable == “la variable
+de interés”),]</p>
+<p>Note que la variable de interés es un conjunto de valores en
+“la_variable” o es una categoría, como en este caso, nuevos casos (o
+“New Cases”). El símbolo “==” significa “que sea exactamente igual
+a…”</p>
+<p>Aquí vemos parte de los datos originales:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">library</span>(ggversa)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="co">#Tiroide</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="fu">unique</span>(Tiroide<span class="sc">$</span>Cases)</span></code></pre></div>
+<pre><code>## [1] New Cases Deaths_US
+## Levels: Deaths_US New Cases</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>subTiroide<span class="ot">=</span>Tiroide[<span class="fu">which</span>(Tiroide<span class="sc">$</span>Cases<span class="sc">==</span><span class="st">&quot;New Cases&quot;</span>),]</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="fu">gt</span>(<span class="fu">head</span>(subTiroide))</span></code></pre></div>
+<div id="uddirnbogl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#uddirnbogl table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#uddirnbogl thead, #uddirnbogl tbody, #uddirnbogl tfoot, #uddirnbogl tr, #uddirnbogl td, #uddirnbogl th {
+  border-style: none;
+}
+
+#uddirnbogl p {
+  margin: 0;
+  padding: 0;
+}
+
+#uddirnbogl .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#uddirnbogl .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#uddirnbogl .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#uddirnbogl .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#uddirnbogl .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#uddirnbogl .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#uddirnbogl .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#uddirnbogl .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#uddirnbogl .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#uddirnbogl .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#uddirnbogl .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#uddirnbogl .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#uddirnbogl .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#uddirnbogl .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#uddirnbogl .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#uddirnbogl .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#uddirnbogl .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#uddirnbogl .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#uddirnbogl .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#uddirnbogl .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#uddirnbogl .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#uddirnbogl .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#uddirnbogl .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#uddirnbogl .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#uddirnbogl .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#uddirnbogl .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#uddirnbogl .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#uddirnbogl .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#uddirnbogl .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#uddirnbogl .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#uddirnbogl .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#uddirnbogl .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#uddirnbogl .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#uddirnbogl .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#uddirnbogl .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#uddirnbogl .gt_left {
+  text-align: left;
+}
+
+#uddirnbogl .gt_center {
+  text-align: center;
+}
+
+#uddirnbogl .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#uddirnbogl .gt_font_normal {
+  font-weight: normal;
+}
+
+#uddirnbogl .gt_font_bold {
+  font-weight: bold;
+}
+
+#uddirnbogl .gt_font_italic {
+  font-style: italic;
+}
+
+#uddirnbogl .gt_super {
+  font-size: 65%;
+}
+
+#uddirnbogl .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#uddirnbogl .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#uddirnbogl .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#uddirnbogl .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#uddirnbogl .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#uddirnbogl .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#uddirnbogl .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Year">Year</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="Cases">Cases</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Rate">Rate</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="Year" class="gt_row gt_right">1975</td>
+<td headers="Cases" class="gt_row gt_center">New Cases</td>
+<td headers="Rate" class="gt_row gt_right">4.8</td></tr>
+    <tr><td headers="Year" class="gt_row gt_right">1976</td>
+<td headers="Cases" class="gt_row gt_center">New Cases</td>
+<td headers="Rate" class="gt_row gt_right">4.8</td></tr>
+    <tr><td headers="Year" class="gt_row gt_right">1977</td>
+<td headers="Cases" class="gt_row gt_center">New Cases</td>
+<td headers="Rate" class="gt_row gt_right">5.4</td></tr>
+    <tr><td headers="Year" class="gt_row gt_right">1978</td>
+<td headers="Cases" class="gt_row gt_center">New Cases</td>
+<td headers="Rate" class="gt_row gt_right">5.1</td></tr>
+    <tr><td headers="Year" class="gt_row gt_right">1979</td>
+<td headers="Cases" class="gt_row gt_center">New Cases</td>
+<td headers="Rate" class="gt_row gt_right">4.5</td></tr>
+    <tr><td headers="Year" class="gt_row gt_right">1980</td>
+<td headers="Cases" class="gt_row gt_center">New Cases</td>
+<td headers="Rate" class="gt_row gt_right">4.3</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+<p>El procedimiento para preparar el gráfico de tiroides se presenta a
+continuación:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">ggplot</span>(subTiroide, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">as.integer</span>(Year), <span class="at">y=</span>Rate))<span class="sc">+</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">1</span>, <span class="at">colour=</span><span class="st">&quot;red&quot;</span>)<span class="sc">+</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">1985</span>,<span class="at">y=</span> <span class="dv">9</span>, <span class="at">size=</span> <span class="dv">3</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;Nuevos casos de </span><span class="sc">\n</span><span class="st"> cancer </span><span class="sc">\n</span><span class="st"> de Tiroides&quot;</span>, <span class="at">color=</span><span class="st">&quot;black&quot;</span>)<span class="sc">+</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">&quot;Números de nuevos casos</span><span class="sc">\n</span><span class="st"> de cancer de Tiroides </span><span class="sc">\n</span><span class="st"> por 100,000 habitantes&quot;</span>)<span class="sc">+</span></span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">&quot;Años&quot;</span>)<span class="sc">+</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>,<span class="at">face=</span><span class="st">&quot;italic&quot;</span>))</span></code></pre></div>
+<p><img src="G13_geom_line_files/figure-html/graficalinea1-1.png" width="672" /></p>
+<p>Note que se utilizó la función <strong>annonate</strong> para
+escribir información sobre el gráfico. Esta función será discutida con
+más detalle más adelante.</p>
+<hr />
+</div>
+<div id="gráfico-con-múltiples-líneas-con-geom_line"
+class="section level2">
+<h2>Gráfico con múltiples líneas con geom_line</h2>
+<p>A veces es importante comparar dos o más secuencias de datos. Eso se
+mostrará en la Figura continuando con el mismo ejemplo de tiroides
+anterior pero esta vez se le añadirá la razón de mortandad por
+tiroidismo en EEUU en el mismo gráfico. Usando la función
+<strong>group=</strong> identifica cual son los grupos, si hubiese más
+de dos grupos hubiese una linea para cada grupo. Lo que se observa es
+que aunque hay mucha más gente que es diagnosticada con cáncer de la
+tiroides, la proporción de gente que muere de este tipo de cáncer es
+consistente a través del tiempo.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">ggplot</span>(Tiroide, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">as.integer</span>(Year),</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>                    <span class="at">y=</span>Rate, <span class="at">group=</span>Cases, <span class="at">color=</span>Cases))<span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">2</span>)<span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">1990</span>,<span class="at">y=</span> <span class="dv">8</span>, <span class="at">size=</span><span class="dv">4</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;Nuevos casos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">2000</span>,<span class="at">y=</span> <span class="dv">1</span>, <span class="at">size=</span> <span class="dv">4</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;Mortandad&quot;</span>)<span class="sc">+</span></span>
+<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
+<span id="cb7-9"><a href="#cb7-9" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Números de nuevos casos</span><span class="sc">\n</span><span class="st"> por 100,000 habitantes&quot;</span>)<span class="sc">+</span></span>
+<span id="cb7-10"><a href="#cb7-10" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Años&quot;</span>)<span class="sc">+</span></span>
+<span id="cb7-11"><a href="#cb7-11" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<p><img src="G13_geom_line_files/figure-html/graficalinea2-1.png" width="672" /></p>
+<p>La función <strong>annonate</strong> nos permitió añadir la
+descripción <strong>Mortandad</strong> a la línea inferior en forma de
+texto <strong>text</strong> a la altura del punto 2000 en el eje de
+<strong>X</strong> y a la altura del punto 1 en el eje de
+<strong>Y</strong>. De igual manera se hizo con la descripción
+<strong>Nuevos Casos</strong> en la coordenada (1990, 8).</p>
+<hr />
+</div>
+<div id="gráfico-de-líneas-con-ejes-expandidos-con-geom_line"
+class="section level2">
+<h2>Gráfico de líneas con ejes expandidos con
+<strong>geom_line</strong></h2>
+<p>Muchas veces el intervalo de la escala de los ejes no es el óptimo.
+Continuando con el ejemplo anterior, modificamos el eje de
+<strong>X</strong> en la Figura para que incluya el último año (el
+último valor de la secuencia en el eje de <strong>X</strong>). Para ello
+se indica en el mismo código que el límite de <strong>X</strong> en el
+eje se vea a intervalos de 10 años con la función <strong>xlim</strong>.
+Note que para expandir el eje de <strong>Y</strong> se usaría la misma
+técnica.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">ggplot</span>(Tiroide, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">as.integer</span>(Year), <span class="at">y=</span>Rate,</span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>                    <span class="at">group=</span>Cases, <span class="at">color=</span>Cases))<span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">2</span>)<span class="sc">+</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">1990</span>,<span class="at">y=</span> <span class="dv">10</span>, <span class="at">size=</span><span class="dv">4</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;Nuevos casos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">1995</span>,<span class="at">y=</span> <span class="dv">1</span>, <span class="at">size=</span> <span class="dv">4</span>,</span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;Mortandad&quot;</span>)<span class="sc">+</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Razón&quot;</span>)<span class="sc">+</span></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Años&quot;</span>)<span class="sc">+</span></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="fu">min</span>(Tiroide<span class="sc">$</span>Year<span class="dv">-5</span>), <span class="fu">max</span>(Tiroide<span class="sc">$</span>Year<span class="sc">+</span><span class="dv">6</span>))<span class="sc">+</span>  <span class="co"># expandir los ejes</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<p><img src="G13_geom_line_files/figure-html/graficalinea-1.png" width="672" /></p>
+<hr />
+</div>
+<div id="gráfico-de-líneas-con-los-puntos-añadidos-con-geom_line"
+class="section level2">
+<h2>Gráfico de líneas con los puntos añadidos con
+<strong>geom_line</strong></h2>
+<p>A veces nos interesa que la línea muestre los puntos que la componen.
+En el próximo ejemplo, lo mostraremos nuevamente utilizando el ejemplo
+anterior de tiroides. A continuación el código modificado que muestra
+ese efecto añadiendo <strong>geom_point</strong>:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">ggplot</span>(Tiroide, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">as.integer</span>(Year), <span class="at">y=</span>Rate, </span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>                    <span class="at">group=</span>Cases,</span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>                    <span class="at">color=</span>Cases))<span class="sc">+</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">1</span>)<span class="sc">+</span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">1990</span>,<span class="at">y=</span> <span class="dv">8</span>, <span class="at">size=</span><span class="dv">4</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;Nuevos casos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">2000</span>,<span class="at">y=</span> <span class="dv">2</span>, <span class="at">size=</span><span class="dv">4</span>,</span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;Mortandad&quot;</span>)<span class="sc">+</span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Razón&quot;</span>)<span class="sc">+</span></span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Años&quot;</span>)<span class="sc">+</span></span>
+<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">size=</span>.<span class="dv">5</span>)<span class="sc">+</span></span>
+<span id="cb9-13"><a href="#cb9-13" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<p><img src="G13_geom_line_files/figure-html/graficalinea4-1.png" width="672" /></p>
+<hr />
+<p>Los puntos son variados y representado por un número (0 al 24) o un
+símbolo. Por ejemplo para utilizar los puntos en una gráfica se usa la
+función </p>
+<div class="figure">
+<img src="G13_geom_line_files/figure-html/PlotSimbolos-1.png" alt="Los simbolos para las gr\'aficas de puntos" width="672" />
+<p class="caption">
+Los simbolos para las gr'aficas de puntos
+</p>
+</div>
+<hr />
+</div>
+<div id="gráfico-de-línea-con-los-puntos-en-otro-estilo-con-geom_line"
+class="section level2">
+<h2>Gráfico de línea con los puntos en otro estilo con
+<strong>geom_line</strong></h2>
+<p>Para cambiar el estilo de los puntos en un gráfico de línea se usan
+los parámetros <strong>size, shape, color</strong> y
+<strong>fill</strong>. Como ya habrá notado, estas alternativas para
+modificar la apariencia de los gráficos son comunes en casi todos los
+tipos de gráficos en <strong>ggplot2</strong>. La forma
+<strong>shape</strong> de los puntos predeterminada es un círculo con
+tamaño de 2, <strong>size=2</strong>. La opción de <strong>fill</strong>
+(para rellenar el punto con un color específico) es aplicable solamente
+al parámetro <strong>shape</strong> con valor de 21 al 25.</p>
+<p>Un punto importante que hay que observar es que si las líneas y los
+puntos son de diferentes colores, se tienen que especificar los puntos
+con <strong>geom_point</strong> después de la línea con
+<strong>geom_line</strong> ya que ggplot funciona con capas de
+información. En otras palabras, lo que se especifica primero, sale
+primero.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">ggplot</span>(Tiroide, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">as.integer</span>(Year), <span class="at">y=</span>Rate,</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>                    <span class="at">group=</span>Cases, <span class="at">color=</span>Cases))<span class="sc">+</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">3</span>)<span class="sc">+</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">1990</span>, <span class="at">y=</span> <span class="dv">10</span>, <span class="at">label=</span><span class="st">&quot;Nuevos casos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">1990</span>, <span class="at">y=</span> <span class="dv">2</span>, <span class="at">label=</span><span class="st">&quot;Mortandad&quot;</span>)<span class="sc">+</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Razón&quot;</span>)<span class="sc">+</span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Años&quot;</span>)<span class="sc">+</span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape=</span><span class="dv">17</span>, <span class="at">size=</span><span class="dv">3</span>, <span class="at">colour=</span><span class="st">&quot;blue&quot;</span>, <span class="at">fill=</span><span class="st">&quot;yellow&quot;</span>)<span class="sc">+</span></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<p><img src="G13_geom_line_files/figure-html/graficalinea5-1.png" width="672" /></p>
+<hr />
+<div id="ejemplo-de-modificar-el-orden-de-capas" class="section level3">
+<h3>Ejemplo de modificar el orden de capas</h3>
+<p>Nuevamente, si las líneas y los puntos son de diferentes colores, se
+tienen que especificar los puntos <strong>geom_point</strong> después de
+la función <strong>geom_line</strong>. Por ejemplo,se puede ver el
+resultado cuando <strong>geom_point</strong> se específica antes de la
+línea. Los puntos están debajo de la línea, lo que los hace difícil de
+apreciar. Recordemos entonces que el orden de las funciones puede tener
+un impacto muy importante en la producción de un gráfico.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">ggplot</span>(Tiroide, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">as.integer</span>(Year), <span class="at">y=</span>Rate,</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>                    <span class="at">group=</span>Cases, <span class="at">color=</span>Cases))<span class="sc">+</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape=</span><span class="dv">22</span>, <span class="at">size=</span><span class="dv">4</span>, <span class="at">color=</span><span class="st">&quot;blue&quot;</span>, <span class="at">fill=</span><span class="st">&quot;white&quot;</span>)<span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">3</span>)<span class="sc">+</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Razón&quot;</span>)<span class="sc">+</span></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Años&quot;</span>)<span class="sc">+</span></span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits=</span><span class="fu">c</span>(<span class="dv">2000</span>, <span class="dv">2010</span>))<span class="sc">+</span></span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<p><img src="G13_geom_line_files/figure-html/graficalinea6-1.png" width="672" /></p>
+<p>Tarea</p>
+<ol style="list-style-type: decimal">
+<li>Seleccionar una especies en la base de datos de inaturalist</li>
+<li>Usando la fecha contabiliza la cantidad de observada por años en un
+area determinada.</li>
+<li>Selecciona otra especies del mismo genero de la base de datos de la
+misma area</li>
+<li>Une los data set en un data frame</li>
+<li>Crea un gráfico de la dos especies y el cambio (N) en tiempo por
+especie.</li>
+</ol>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a><span class="fu">library</span>(rinat)</span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>cajaPR <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">17.75</span>, <span class="sc">-</span><span class="fl">67.4</span>, <span class="fl">18.75</span>, <span class="sc">-</span><span class="fl">65.15</span>)</span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a>bujo <span class="ot">&lt;-</span> <span class="fu">get_inat_obs</span>(<span class="at">taxon_name =</span> <span class="st">&quot;Gymnasio nudipes&quot;</span>,</span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a>             <span class="at">quality =</span> <span class="st">&#39;research&#39;</span>,</span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a>             <span class="at">geo =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a>             <span class="at">maxresults =</span> <span class="dv">10000</span>,</span>
+<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a>             <span class="at">bounds =</span> cajaPR)</span>
+<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="#cb12-15" tabindex="-1"></a><span class="fu">gt</span>(<span class="fu">head</span>(bujo))</span></code></pre></div>
+<div id="calidiarqi" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#calidiarqi table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#calidiarqi thead, #calidiarqi tbody, #calidiarqi tfoot, #calidiarqi tr, #calidiarqi td, #calidiarqi th {
+  border-style: none;
+}
+
+#calidiarqi p {
+  margin: 0;
+  padding: 0;
+}
+
+#calidiarqi .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#calidiarqi .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#calidiarqi .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#calidiarqi .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#calidiarqi .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#calidiarqi .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#calidiarqi .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#calidiarqi .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#calidiarqi .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#calidiarqi .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#calidiarqi .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#calidiarqi .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#calidiarqi .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#calidiarqi .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#calidiarqi .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#calidiarqi .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#calidiarqi .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#calidiarqi .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#calidiarqi .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#calidiarqi .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#calidiarqi .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#calidiarqi .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#calidiarqi .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#calidiarqi .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#calidiarqi .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#calidiarqi .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#calidiarqi .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#calidiarqi .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#calidiarqi .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#calidiarqi .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#calidiarqi .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#calidiarqi .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#calidiarqi .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#calidiarqi .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#calidiarqi .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#calidiarqi .gt_left {
+  text-align: left;
+}
+
+#calidiarqi .gt_center {
+  text-align: center;
+}
+
+#calidiarqi .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#calidiarqi .gt_font_normal {
+  font-weight: normal;
+}
+
+#calidiarqi .gt_font_bold {
+  font-weight: bold;
+}
+
+#calidiarqi .gt_font_italic {
+  font-style: italic;
+}
+
+#calidiarqi .gt_super {
+  font-size: 65%;
+}
+
+#calidiarqi .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#calidiarqi .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#calidiarqi .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#calidiarqi .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#calidiarqi .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#calidiarqi .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#calidiarqi .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="scientific_name">scientific_name</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="datetime">datetime</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="description">description</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="place_guess">place_guess</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="latitude">latitude</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="longitude">longitude</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="tag_list">tag_list</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="common_name">common_name</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="url">url</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="image_url">image_url</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="user_login">user_login</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="id">id</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="species_guess">species_guess</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="iconic_taxon_name">iconic_taxon_name</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="taxon_id">taxon_id</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="num_identification_agreements">num_identification_agreements</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="num_identification_disagreements">num_identification_disagreements</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="observed_on_string">observed_on_string</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="observed_on">observed_on</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="time_observed_at">time_observed_at</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="time_zone">time_zone</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="positional_accuracy">positional_accuracy</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="public_positional_accuracy">public_positional_accuracy</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="geoprivacy">geoprivacy</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="taxon_geoprivacy">taxon_geoprivacy</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="coordinates_obscured">coordinates_obscured</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="positioning_method">positioning_method</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="positioning_device">positioning_device</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="user_id">user_id</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="user_name">user_name</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="created_at">created_at</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="updated_at">updated_at</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="quality_grade">quality_grade</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="license">license</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="sound_url">sound_url</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="oauth_application_id">oauth_application_id</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="captive_cultivated">captive_cultivated</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="scientific_name" class="gt_row gt_left">Gymnasio nudipes</td>
+<td headers="datetime" class="gt_row gt_right">2024-01-14 00:00:00 -0400</td>
+<td headers="description" class="gt_row gt_left"></td>
+<td headers="place_guess" class="gt_row gt_left">Jiménez, Río Grande 00745, Puerto Rico</td>
+<td headers="latitude" class="gt_row gt_right">18.33784</td>
+<td headers="longitude" class="gt_row gt_right">-65.82677</td>
+<td headers="tag_list" class="gt_row gt_right"></td>
+<td headers="common_name" class="gt_row gt_left">Puerto Rican Owl</td>
+<td headers="url" class="gt_row gt_left">https://www.inaturalist.org/observations/197223742</td>
+<td headers="image_url" class="gt_row gt_left"></td>
+<td headers="user_login" class="gt_row gt_left">liam_pentangelo</td>
+<td headers="id" class="gt_row gt_right">197223742</td>
+<td headers="species_guess" class="gt_row gt_left">Puerto Rican Owl</td>
+<td headers="iconic_taxon_name" class="gt_row gt_left">Aves</td>
+<td headers="taxon_id" class="gt_row gt_right">1289585</td>
+<td headers="num_identification_agreements" class="gt_row gt_right">1</td>
+<td headers="num_identification_disagreements" class="gt_row gt_right">0</td>
+<td headers="observed_on_string" class="gt_row gt_left">2024-01-14</td>
+<td headers="observed_on" class="gt_row gt_right">2024-01-14</td>
+<td headers="time_observed_at" class="gt_row gt_left"></td>
+<td headers="time_zone" class="gt_row gt_left">Puerto Rico</td>
+<td headers="positional_accuracy" class="gt_row gt_right">8</td>
+<td headers="public_positional_accuracy" class="gt_row gt_right">8</td>
+<td headers="geoprivacy" class="gt_row gt_right"></td>
+<td headers="taxon_geoprivacy" class="gt_row gt_left">open</td>
+<td headers="coordinates_obscured" class="gt_row gt_left">false</td>
+<td headers="positioning_method" class="gt_row gt_right"></td>
+<td headers="positioning_device" class="gt_row gt_right"></td>
+<td headers="user_id" class="gt_row gt_right">1928743</td>
+<td headers="user_name" class="gt_row gt_left">Liam Pentangelo</td>
+<td headers="created_at" class="gt_row gt_left">2024-01-21 13:47:53 UTC</td>
+<td headers="updated_at" class="gt_row gt_left">2024-01-23 05:15:49 UTC</td>
+<td headers="quality_grade" class="gt_row gt_left">research</td>
+<td headers="license" class="gt_row gt_left">CC-BY-NC</td>
+<td headers="sound_url" class="gt_row gt_left">https://static.inaturalist.org/sounds/881372.m4a?1705969185</td>
+<td headers="oauth_application_id" class="gt_row gt_right">NA</td>
+<td headers="captive_cultivated" class="gt_row gt_left">false</td></tr>
+    <tr><td headers="scientific_name" class="gt_row gt_left">Gymnasio nudipes</td>
+<td headers="datetime" class="gt_row gt_right">2024-01-20 23:42:57 -0400</td>
+<td headers="description" class="gt_row gt_left"></td>
+<td headers="place_guess" class="gt_row gt_left">Puerto Rico, Yabucoa, Puerto Rico, US</td>
+<td headers="latitude" class="gt_row gt_right">18.04126</td>
+<td headers="longitude" class="gt_row gt_right">-65.87785</td>
+<td headers="tag_list" class="gt_row gt_right"></td>
+<td headers="common_name" class="gt_row gt_left">Puerto Rican Owl</td>
+<td headers="url" class="gt_row gt_left">https://www.inaturalist.org/observations/197195317</td>
+<td headers="image_url" class="gt_row gt_left"></td>
+<td headers="user_login" class="gt_row gt_left">angel_d_vega</td>
+<td headers="id" class="gt_row gt_right">197195317</td>
+<td headers="species_guess" class="gt_row gt_left">Múcaro común</td>
+<td headers="iconic_taxon_name" class="gt_row gt_left">Aves</td>
+<td headers="taxon_id" class="gt_row gt_right">1289585</td>
+<td headers="num_identification_agreements" class="gt_row gt_right">1</td>
+<td headers="num_identification_disagreements" class="gt_row gt_right">0</td>
+<td headers="observed_on_string" class="gt_row gt_left">2024-01-20 23:42:57-04:00</td>
+<td headers="observed_on" class="gt_row gt_right">2024-01-20</td>
+<td headers="time_observed_at" class="gt_row gt_left">2024-01-21 03:42:57 UTC</td>
+<td headers="time_zone" class="gt_row gt_left">Puerto Rico</td>
+<td headers="positional_accuracy" class="gt_row gt_right">35</td>
+<td headers="public_positional_accuracy" class="gt_row gt_right">35</td>
+<td headers="geoprivacy" class="gt_row gt_right"></td>
+<td headers="taxon_geoprivacy" class="gt_row gt_left">open</td>
+<td headers="coordinates_obscured" class="gt_row gt_left">false</td>
+<td headers="positioning_method" class="gt_row gt_right"></td>
+<td headers="positioning_device" class="gt_row gt_right"></td>
+<td headers="user_id" class="gt_row gt_right">2777441</td>
+<td headers="user_name" class="gt_row gt_left">Angel D Vega</td>
+<td headers="created_at" class="gt_row gt_left">2024-01-21 03:44:11 UTC</td>
+<td headers="updated_at" class="gt_row gt_left">2024-01-24 04:22:17 UTC</td>
+<td headers="quality_grade" class="gt_row gt_left">research</td>
+<td headers="license" class="gt_row gt_left">CC-BY-NC</td>
+<td headers="sound_url" class="gt_row gt_left">https://static.inaturalist.org/sounds/880285.m4a?1705808653</td>
+<td headers="oauth_application_id" class="gt_row gt_right">3</td>
+<td headers="captive_cultivated" class="gt_row gt_left">false</td></tr>
+    <tr><td headers="scientific_name" class="gt_row gt_left">Gymnasio nudipes</td>
+<td headers="datetime" class="gt_row gt_right">2023-09-28 18:11:00 -0400</td>
+<td headers="description" class="gt_row gt_left">Rehabilitado por (CCMPR) y liberado</td>
+<td headers="place_guess" class="gt_row gt_left">Río Piedras, San Juan, Puerto Rico</td>
+<td headers="latitude" class="gt_row gt_right">18.39147</td>
+<td headers="longitude" class="gt_row gt_right">-66.05756</td>
+<td headers="tag_list" class="gt_row gt_right"></td>
+<td headers="common_name" class="gt_row gt_left">Puerto Rican Owl</td>
+<td headers="url" class="gt_row gt_left">https://www.inaturalist.org/observations/197058166</td>
+<td headers="image_url" class="gt_row gt_left">https://inaturalist-open-data.s3.amazonaws.com/photos/346977433/medium.jpg</td>
+<td headers="user_login" class="gt_row gt_left">antoniobulnes</td>
+<td headers="id" class="gt_row gt_right">197058166</td>
+<td headers="species_guess" class="gt_row gt_left">Puerto Rican Owl</td>
+<td headers="iconic_taxon_name" class="gt_row gt_left">Aves</td>
+<td headers="taxon_id" class="gt_row gt_right">1289585</td>
+<td headers="num_identification_agreements" class="gt_row gt_right">2</td>
+<td headers="num_identification_disagreements" class="gt_row gt_right">0</td>
+<td headers="observed_on_string" class="gt_row gt_left">2023/09/28 6:11 PM</td>
+<td headers="observed_on" class="gt_row gt_right">2023-09-28</td>
+<td headers="time_observed_at" class="gt_row gt_left">2023-09-28 22:11:00 UTC</td>
+<td headers="time_zone" class="gt_row gt_left">Puerto Rico</td>
+<td headers="positional_accuracy" class="gt_row gt_right">3</td>
+<td headers="public_positional_accuracy" class="gt_row gt_right">3</td>
+<td headers="geoprivacy" class="gt_row gt_right"></td>
+<td headers="taxon_geoprivacy" class="gt_row gt_left">open</td>
+<td headers="coordinates_obscured" class="gt_row gt_left">false</td>
+<td headers="positioning_method" class="gt_row gt_right"></td>
+<td headers="positioning_device" class="gt_row gt_right"></td>
+<td headers="user_id" class="gt_row gt_right">7163670</td>
+<td headers="user_name" class="gt_row gt_left"></td>
+<td headers="created_at" class="gt_row gt_left">2024-01-19 12:53:43 UTC</td>
+<td headers="updated_at" class="gt_row gt_left">2024-01-19 18:25:37 UTC</td>
+<td headers="quality_grade" class="gt_row gt_left">research</td>
+<td headers="license" class="gt_row gt_left">CC-BY-NC</td>
+<td headers="sound_url" class="gt_row gt_left"></td>
+<td headers="oauth_application_id" class="gt_row gt_right">NA</td>
+<td headers="captive_cultivated" class="gt_row gt_left">false</td></tr>
+    <tr><td headers="scientific_name" class="gt_row gt_left">Gymnasio nudipes</td>
+<td headers="datetime" class="gt_row gt_right">2023-12-25 01:05:00 -0400</td>
+<td headers="description" class="gt_row gt_left"></td>
+<td headers="place_guess" class="gt_row gt_left">Guanica State Forest, Guayanilla, Puerto Rico, US</td>
+<td headers="latitude" class="gt_row gt_right">17.95672</td>
+<td headers="longitude" class="gt_row gt_right">-66.84818</td>
+<td headers="tag_list" class="gt_row gt_right"></td>
+<td headers="common_name" class="gt_row gt_left">Puerto Rican Owl</td>
+<td headers="url" class="gt_row gt_left">https://www.inaturalist.org/observations/196951969</td>
+<td headers="image_url" class="gt_row gt_left">https://inaturalist-open-data.s3.amazonaws.com/photos/346757454/medium.jpg</td>
+<td headers="user_login" class="gt_row gt_left">diomedea_exulans_li</td>
+<td headers="id" class="gt_row gt_right">196951969</td>
+<td headers="species_guess" class="gt_row gt_left">Puerto Rican Owl</td>
+<td headers="iconic_taxon_name" class="gt_row gt_left">Aves</td>
+<td headers="taxon_id" class="gt_row gt_right">1289585</td>
+<td headers="num_identification_agreements" class="gt_row gt_right">3</td>
+<td headers="num_identification_disagreements" class="gt_row gt_right">0</td>
+<td headers="observed_on_string" class="gt_row gt_left">2023-12-24 21:05:00-08:00</td>
+<td headers="observed_on" class="gt_row gt_right">2023-12-25</td>
+<td headers="time_observed_at" class="gt_row gt_left">2023-12-25 05:05:00 UTC</td>
+<td headers="time_zone" class="gt_row gt_left">Puerto Rico</td>
+<td headers="positional_accuracy" class="gt_row gt_right">114</td>
+<td headers="public_positional_accuracy" class="gt_row gt_right">114</td>
+<td headers="geoprivacy" class="gt_row gt_right"></td>
+<td headers="taxon_geoprivacy" class="gt_row gt_left">open</td>
+<td headers="coordinates_obscured" class="gt_row gt_left">false</td>
+<td headers="positioning_method" class="gt_row gt_right"></td>
+<td headers="positioning_device" class="gt_row gt_right"></td>
+<td headers="user_id" class="gt_row gt_right">2560178</td>
+<td headers="user_name" class="gt_row gt_left"></td>
+<td headers="created_at" class="gt_row gt_left">2024-01-18 00:10:31 UTC</td>
+<td headers="updated_at" class="gt_row gt_left">2024-01-18 04:23:34 UTC</td>
+<td headers="quality_grade" class="gt_row gt_left">research</td>
+<td headers="license" class="gt_row gt_left">CC-BY-NC</td>
+<td headers="sound_url" class="gt_row gt_left"></td>
+<td headers="oauth_application_id" class="gt_row gt_right">3</td>
+<td headers="captive_cultivated" class="gt_row gt_left">false</td></tr>
+    <tr><td headers="scientific_name" class="gt_row gt_left">Gymnasio nudipes</td>
+<td headers="datetime" class="gt_row gt_right">2024-01-04 00:00:00 -0400</td>
+<td headers="description" class="gt_row gt_left"></td>
+<td headers="place_guess" class="gt_row gt_left">Sabana, Luquillo 00773, Puerto Rico</td>
+<td headers="latitude" class="gt_row gt_right">18.32501</td>
+<td headers="longitude" class="gt_row gt_right">-65.73094</td>
+<td headers="tag_list" class="gt_row gt_right"></td>
+<td headers="common_name" class="gt_row gt_left">Puerto Rican Owl</td>
+<td headers="url" class="gt_row gt_left">https://www.inaturalist.org/observations/196919715</td>
+<td headers="image_url" class="gt_row gt_left"></td>
+<td headers="user_login" class="gt_row gt_left">liam_pentangelo</td>
+<td headers="id" class="gt_row gt_right">196919715</td>
+<td headers="species_guess" class="gt_row gt_left">Puerto Rican Owl</td>
+<td headers="iconic_taxon_name" class="gt_row gt_left">Aves</td>
+<td headers="taxon_id" class="gt_row gt_right">1289585</td>
+<td headers="num_identification_agreements" class="gt_row gt_right">1</td>
+<td headers="num_identification_disagreements" class="gt_row gt_right">0</td>
+<td headers="observed_on_string" class="gt_row gt_left">2024-01-04</td>
+<td headers="observed_on" class="gt_row gt_right">2024-01-04</td>
+<td headers="time_observed_at" class="gt_row gt_left"></td>
+<td headers="time_zone" class="gt_row gt_left">Puerto Rico</td>
+<td headers="positional_accuracy" class="gt_row gt_right">8</td>
+<td headers="public_positional_accuracy" class="gt_row gt_right">8</td>
+<td headers="geoprivacy" class="gt_row gt_right"></td>
+<td headers="taxon_geoprivacy" class="gt_row gt_left">open</td>
+<td headers="coordinates_obscured" class="gt_row gt_left">false</td>
+<td headers="positioning_method" class="gt_row gt_right"></td>
+<td headers="positioning_device" class="gt_row gt_right"></td>
+<td headers="user_id" class="gt_row gt_right">1928743</td>
+<td headers="user_name" class="gt_row gt_left">Liam Pentangelo</td>
+<td headers="created_at" class="gt_row gt_left">2024-01-17 15:44:53 UTC</td>
+<td headers="updated_at" class="gt_row gt_left">2024-01-17 22:57:21 UTC</td>
+<td headers="quality_grade" class="gt_row gt_left">research</td>
+<td headers="license" class="gt_row gt_left">CC-BY-NC</td>
+<td headers="sound_url" class="gt_row gt_left">https://static.inaturalist.org/sounds/878300.m4a?1705506259</td>
+<td headers="oauth_application_id" class="gt_row gt_right">NA</td>
+<td headers="captive_cultivated" class="gt_row gt_left">false</td></tr>
+    <tr><td headers="scientific_name" class="gt_row gt_left">Gymnasio nudipes</td>
+<td headers="datetime" class="gt_row gt_right">2024-01-01 00:00:00 -0400</td>
+<td headers="description" class="gt_row gt_left"></td>
+<td headers="place_guess" class="gt_row gt_left">Luquillo, PR</td>
+<td headers="latitude" class="gt_row gt_right">18.35002</td>
+<td headers="longitude" class="gt_row gt_right">-65.70486</td>
+<td headers="tag_list" class="gt_row gt_right"></td>
+<td headers="common_name" class="gt_row gt_left">Puerto Rican Owl</td>
+<td headers="url" class="gt_row gt_left">https://www.inaturalist.org/observations/196809164</td>
+<td headers="image_url" class="gt_row gt_left"></td>
+<td headers="user_login" class="gt_row gt_left">liam_pentangelo</td>
+<td headers="id" class="gt_row gt_right">196809164</td>
+<td headers="species_guess" class="gt_row gt_left">Puerto Rican Owl</td>
+<td headers="iconic_taxon_name" class="gt_row gt_left">Aves</td>
+<td headers="taxon_id" class="gt_row gt_right">1289585</td>
+<td headers="num_identification_agreements" class="gt_row gt_right">1</td>
+<td headers="num_identification_disagreements" class="gt_row gt_right">0</td>
+<td headers="observed_on_string" class="gt_row gt_left">2024-01-01</td>
+<td headers="observed_on" class="gt_row gt_right">2024-01-01</td>
+<td headers="time_observed_at" class="gt_row gt_left"></td>
+<td headers="time_zone" class="gt_row gt_left">Puerto Rico</td>
+<td headers="positional_accuracy" class="gt_row gt_right">31</td>
+<td headers="public_positional_accuracy" class="gt_row gt_right">31</td>
+<td headers="geoprivacy" class="gt_row gt_right"></td>
+<td headers="taxon_geoprivacy" class="gt_row gt_left">open</td>
+<td headers="coordinates_obscured" class="gt_row gt_left">false</td>
+<td headers="positioning_method" class="gt_row gt_right"></td>
+<td headers="positioning_device" class="gt_row gt_right"></td>
+<td headers="user_id" class="gt_row gt_right">1928743</td>
+<td headers="user_name" class="gt_row gt_left">Liam Pentangelo</td>
+<td headers="created_at" class="gt_row gt_left">2024-01-16 02:39:31 UTC</td>
+<td headers="updated_at" class="gt_row gt_left">2024-01-17 23:00:08 UTC</td>
+<td headers="quality_grade" class="gt_row gt_left">research</td>
+<td headers="license" class="gt_row gt_left">CC-BY-NC</td>
+<td headers="sound_url" class="gt_row gt_left">https://static.inaturalist.org/sounds/876546.m4a?1705372761</td>
+<td headers="oauth_application_id" class="gt_row gt_right">NA</td>
+<td headers="captive_cultivated" class="gt_row gt_left">false</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="co">#bujo$date=ymd_hms(bujo$datetime)</span></span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a><span class="co">#bujo$Year=format(date, format=&quot;%Y&quot;)</span></span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a></span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>bujo<span class="sc">$</span>date<span class="ot">=</span><span class="fu">ymd_hms</span>(bujo<span class="sc">$</span>datetime)</span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a>bujo<span class="sc">$</span>Year<span class="ot">=</span><span class="fu">format</span>(<span class="fu">as.POSIXct</span>(bujo<span class="sc">$</span>date), <span class="at">format=</span><span class="st">&quot;%Y&quot;</span>)</span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a><span class="fu">gt</span>(<span class="fu">head</span>(bujo, <span class="at">n=</span><span class="dv">3</span>))</span></code></pre></div>
+<div id="scgxldprmf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#scgxldprmf table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#scgxldprmf thead, #scgxldprmf tbody, #scgxldprmf tfoot, #scgxldprmf tr, #scgxldprmf td, #scgxldprmf th {
+  border-style: none;
+}
+
+#scgxldprmf p {
+  margin: 0;
+  padding: 0;
+}
+
+#scgxldprmf .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#scgxldprmf .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#scgxldprmf .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#scgxldprmf .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#scgxldprmf .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#scgxldprmf .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#scgxldprmf .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#scgxldprmf .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#scgxldprmf .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#scgxldprmf .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#scgxldprmf .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#scgxldprmf .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#scgxldprmf .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#scgxldprmf .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#scgxldprmf .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#scgxldprmf .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#scgxldprmf .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#scgxldprmf .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#scgxldprmf .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#scgxldprmf .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#scgxldprmf .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#scgxldprmf .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#scgxldprmf .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#scgxldprmf .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#scgxldprmf .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#scgxldprmf .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#scgxldprmf .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#scgxldprmf .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#scgxldprmf .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#scgxldprmf .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#scgxldprmf .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#scgxldprmf .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#scgxldprmf .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#scgxldprmf .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#scgxldprmf .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#scgxldprmf .gt_left {
+  text-align: left;
+}
+
+#scgxldprmf .gt_center {
+  text-align: center;
+}
+
+#scgxldprmf .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#scgxldprmf .gt_font_normal {
+  font-weight: normal;
+}
+
+#scgxldprmf .gt_font_bold {
+  font-weight: bold;
+}
+
+#scgxldprmf .gt_font_italic {
+  font-style: italic;
+}
+
+#scgxldprmf .gt_super {
+  font-size: 65%;
+}
+
+#scgxldprmf .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#scgxldprmf .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#scgxldprmf .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#scgxldprmf .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#scgxldprmf .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#scgxldprmf .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#scgxldprmf .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="scientific_name">scientific_name</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="datetime">datetime</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="description">description</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="place_guess">place_guess</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="latitude">latitude</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="longitude">longitude</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="tag_list">tag_list</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="common_name">common_name</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="url">url</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="image_url">image_url</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="user_login">user_login</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="id">id</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="species_guess">species_guess</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="iconic_taxon_name">iconic_taxon_name</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="taxon_id">taxon_id</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="num_identification_agreements">num_identification_agreements</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="num_identification_disagreements">num_identification_disagreements</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="observed_on_string">observed_on_string</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="observed_on">observed_on</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="time_observed_at">time_observed_at</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="time_zone">time_zone</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="positional_accuracy">positional_accuracy</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="public_positional_accuracy">public_positional_accuracy</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="geoprivacy">geoprivacy</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="taxon_geoprivacy">taxon_geoprivacy</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="coordinates_obscured">coordinates_obscured</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="positioning_method">positioning_method</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="positioning_device">positioning_device</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="user_id">user_id</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="user_name">user_name</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="created_at">created_at</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="updated_at">updated_at</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="quality_grade">quality_grade</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="license">license</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="sound_url">sound_url</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="oauth_application_id">oauth_application_id</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="captive_cultivated">captive_cultivated</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="date">date</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Year">Year</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="scientific_name" class="gt_row gt_left">Gymnasio nudipes</td>
+<td headers="datetime" class="gt_row gt_right">2024-01-14 00:00:00 -0400</td>
+<td headers="description" class="gt_row gt_left"></td>
+<td headers="place_guess" class="gt_row gt_left">Jiménez, Río Grande 00745, Puerto Rico</td>
+<td headers="latitude" class="gt_row gt_right">18.33784</td>
+<td headers="longitude" class="gt_row gt_right">-65.82677</td>
+<td headers="tag_list" class="gt_row gt_right"></td>
+<td headers="common_name" class="gt_row gt_left">Puerto Rican Owl</td>
+<td headers="url" class="gt_row gt_left">https://www.inaturalist.org/observations/197223742</td>
+<td headers="image_url" class="gt_row gt_left"></td>
+<td headers="user_login" class="gt_row gt_left">liam_pentangelo</td>
+<td headers="id" class="gt_row gt_right">197223742</td>
+<td headers="species_guess" class="gt_row gt_left">Puerto Rican Owl</td>
+<td headers="iconic_taxon_name" class="gt_row gt_left">Aves</td>
+<td headers="taxon_id" class="gt_row gt_right">1289585</td>
+<td headers="num_identification_agreements" class="gt_row gt_right">1</td>
+<td headers="num_identification_disagreements" class="gt_row gt_right">0</td>
+<td headers="observed_on_string" class="gt_row gt_left">2024-01-14</td>
+<td headers="observed_on" class="gt_row gt_right">2024-01-14</td>
+<td headers="time_observed_at" class="gt_row gt_left"></td>
+<td headers="time_zone" class="gt_row gt_left">Puerto Rico</td>
+<td headers="positional_accuracy" class="gt_row gt_right">8</td>
+<td headers="public_positional_accuracy" class="gt_row gt_right">8</td>
+<td headers="geoprivacy" class="gt_row gt_right"></td>
+<td headers="taxon_geoprivacy" class="gt_row gt_left">open</td>
+<td headers="coordinates_obscured" class="gt_row gt_left">false</td>
+<td headers="positioning_method" class="gt_row gt_right"></td>
+<td headers="positioning_device" class="gt_row gt_right"></td>
+<td headers="user_id" class="gt_row gt_right">1928743</td>
+<td headers="user_name" class="gt_row gt_left">Liam Pentangelo</td>
+<td headers="created_at" class="gt_row gt_left">2024-01-21 13:47:53 UTC</td>
+<td headers="updated_at" class="gt_row gt_left">2024-01-23 05:15:49 UTC</td>
+<td headers="quality_grade" class="gt_row gt_left">research</td>
+<td headers="license" class="gt_row gt_left">CC-BY-NC</td>
+<td headers="sound_url" class="gt_row gt_left">https://static.inaturalist.org/sounds/881372.m4a?1705969185</td>
+<td headers="oauth_application_id" class="gt_row gt_right">NA</td>
+<td headers="captive_cultivated" class="gt_row gt_left">false</td>
+<td headers="date" class="gt_row gt_right">2024-01-14 04:00:00</td>
+<td headers="Year" class="gt_row gt_right">2024</td></tr>
+    <tr><td headers="scientific_name" class="gt_row gt_left">Gymnasio nudipes</td>
+<td headers="datetime" class="gt_row gt_right">2024-01-20 23:42:57 -0400</td>
+<td headers="description" class="gt_row gt_left"></td>
+<td headers="place_guess" class="gt_row gt_left">Puerto Rico, Yabucoa, Puerto Rico, US</td>
+<td headers="latitude" class="gt_row gt_right">18.04126</td>
+<td headers="longitude" class="gt_row gt_right">-65.87785</td>
+<td headers="tag_list" class="gt_row gt_right"></td>
+<td headers="common_name" class="gt_row gt_left">Puerto Rican Owl</td>
+<td headers="url" class="gt_row gt_left">https://www.inaturalist.org/observations/197195317</td>
+<td headers="image_url" class="gt_row gt_left"></td>
+<td headers="user_login" class="gt_row gt_left">angel_d_vega</td>
+<td headers="id" class="gt_row gt_right">197195317</td>
+<td headers="species_guess" class="gt_row gt_left">Múcaro común</td>
+<td headers="iconic_taxon_name" class="gt_row gt_left">Aves</td>
+<td headers="taxon_id" class="gt_row gt_right">1289585</td>
+<td headers="num_identification_agreements" class="gt_row gt_right">1</td>
+<td headers="num_identification_disagreements" class="gt_row gt_right">0</td>
+<td headers="observed_on_string" class="gt_row gt_left">2024-01-20 23:42:57-04:00</td>
+<td headers="observed_on" class="gt_row gt_right">2024-01-20</td>
+<td headers="time_observed_at" class="gt_row gt_left">2024-01-21 03:42:57 UTC</td>
+<td headers="time_zone" class="gt_row gt_left">Puerto Rico</td>
+<td headers="positional_accuracy" class="gt_row gt_right">35</td>
+<td headers="public_positional_accuracy" class="gt_row gt_right">35</td>
+<td headers="geoprivacy" class="gt_row gt_right"></td>
+<td headers="taxon_geoprivacy" class="gt_row gt_left">open</td>
+<td headers="coordinates_obscured" class="gt_row gt_left">false</td>
+<td headers="positioning_method" class="gt_row gt_right"></td>
+<td headers="positioning_device" class="gt_row gt_right"></td>
+<td headers="user_id" class="gt_row gt_right">2777441</td>
+<td headers="user_name" class="gt_row gt_left">Angel D Vega</td>
+<td headers="created_at" class="gt_row gt_left">2024-01-21 03:44:11 UTC</td>
+<td headers="updated_at" class="gt_row gt_left">2024-01-24 04:22:17 UTC</td>
+<td headers="quality_grade" class="gt_row gt_left">research</td>
+<td headers="license" class="gt_row gt_left">CC-BY-NC</td>
+<td headers="sound_url" class="gt_row gt_left">https://static.inaturalist.org/sounds/880285.m4a?1705808653</td>
+<td headers="oauth_application_id" class="gt_row gt_right">3</td>
+<td headers="captive_cultivated" class="gt_row gt_left">false</td>
+<td headers="date" class="gt_row gt_right">2024-01-21 03:42:57</td>
+<td headers="Year" class="gt_row gt_right">2024</td></tr>
+    <tr><td headers="scientific_name" class="gt_row gt_left">Gymnasio nudipes</td>
+<td headers="datetime" class="gt_row gt_right">2023-09-28 18:11:00 -0400</td>
+<td headers="description" class="gt_row gt_left">Rehabilitado por (CCMPR) y liberado</td>
+<td headers="place_guess" class="gt_row gt_left">Río Piedras, San Juan, Puerto Rico</td>
+<td headers="latitude" class="gt_row gt_right">18.39147</td>
+<td headers="longitude" class="gt_row gt_right">-66.05756</td>
+<td headers="tag_list" class="gt_row gt_right"></td>
+<td headers="common_name" class="gt_row gt_left">Puerto Rican Owl</td>
+<td headers="url" class="gt_row gt_left">https://www.inaturalist.org/observations/197058166</td>
+<td headers="image_url" class="gt_row gt_left">https://inaturalist-open-data.s3.amazonaws.com/photos/346977433/medium.jpg</td>
+<td headers="user_login" class="gt_row gt_left">antoniobulnes</td>
+<td headers="id" class="gt_row gt_right">197058166</td>
+<td headers="species_guess" class="gt_row gt_left">Puerto Rican Owl</td>
+<td headers="iconic_taxon_name" class="gt_row gt_left">Aves</td>
+<td headers="taxon_id" class="gt_row gt_right">1289585</td>
+<td headers="num_identification_agreements" class="gt_row gt_right">2</td>
+<td headers="num_identification_disagreements" class="gt_row gt_right">0</td>
+<td headers="observed_on_string" class="gt_row gt_left">2023/09/28 6:11 PM</td>
+<td headers="observed_on" class="gt_row gt_right">2023-09-28</td>
+<td headers="time_observed_at" class="gt_row gt_left">2023-09-28 22:11:00 UTC</td>
+<td headers="time_zone" class="gt_row gt_left">Puerto Rico</td>
+<td headers="positional_accuracy" class="gt_row gt_right">3</td>
+<td headers="public_positional_accuracy" class="gt_row gt_right">3</td>
+<td headers="geoprivacy" class="gt_row gt_right"></td>
+<td headers="taxon_geoprivacy" class="gt_row gt_left">open</td>
+<td headers="coordinates_obscured" class="gt_row gt_left">false</td>
+<td headers="positioning_method" class="gt_row gt_right"></td>
+<td headers="positioning_device" class="gt_row gt_right"></td>
+<td headers="user_id" class="gt_row gt_right">7163670</td>
+<td headers="user_name" class="gt_row gt_left"></td>
+<td headers="created_at" class="gt_row gt_left">2024-01-19 12:53:43 UTC</td>
+<td headers="updated_at" class="gt_row gt_left">2024-01-19 18:25:37 UTC</td>
+<td headers="quality_grade" class="gt_row gt_left">research</td>
+<td headers="license" class="gt_row gt_left">CC-BY-NC</td>
+<td headers="sound_url" class="gt_row gt_left"></td>
+<td headers="oauth_application_id" class="gt_row gt_right">NA</td>
+<td headers="captive_cultivated" class="gt_row gt_left">false</td>
+<td headers="date" class="gt_row gt_right">2023-09-28 22:11:00</td>
+<td headers="Year" class="gt_row gt_right">2023</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>bujo2<span class="ot">=</span>bujo <span class="sc">%&gt;%</span> </span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>  <span class="fu">select</span>(Year) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>  <span class="fu">group_by</span>(Year) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarize</span>(<span class="at">n=</span><span class="fu">n</span>())</span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a>bujo2</span></code></pre></div>
+<pre><code>## # A tibble: 11 × 2
+##    Year      n
+##    &lt;chr&gt; &lt;int&gt;
+##  1 2007      1
+##  2 2009      2
+##  3 2013      1
+##  4 2016      4
+##  5 2017      2
+##  6 2019      1
+##  7 2020      2
+##  8 2021     14
+##  9 2022     27
+## 10 2023     22
+## 11 2024      6</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="fu">ggplot</span>(bujo2, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">as.integer</span>(Year), <span class="at">y=</span>n))<span class="sc">+</span></span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape=</span><span class="dv">22</span>, <span class="at">size=</span><span class="dv">4</span>, <span class="at">color=</span><span class="st">&quot;blue&quot;</span>, <span class="at">fill=</span><span class="st">&quot;white&quot;</span>)<span class="sc">+</span></span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">3</span>)<span class="sc">+</span></span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<p><img src="G13_geom_line_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+</div>
+</div>
+<div id="httpsen.wikipedia.orgwikilist_of_mammals_of_puerto_rico"
+class="section level1">
+<h1><a
+href="https://en.wikipedia.org/wiki/List_of_mammals_of_Puerto_Rico"
+class="uri">https://en.wikipedia.org/wiki/List_of_mammals_of_Puerto_Rico</a></h1>
+<hr />
+<div id="opciones-y-parametros-de-geom_line" class="section level2">
+<h2>Opciones y Parametros de <strong>geom_line</strong></h2>
+<ul>
+<li><p>ggplot(el archivo de datos, aes(la variables continua))</p></li>
+<li><p>geom_line(alpha, color, group, fill, size, linetype)</p>
+<ul>
+<li>alpha: la intensidad del color</li>
+<li>color: el color de la línea</li>
+<li>group: identifica los grupos</li>
+<li>linetype: el tipo de línea</li>
+<li>size: el ancho de la línea</li>
+</ul></li>
+</ul>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

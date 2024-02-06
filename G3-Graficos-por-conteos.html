@@ -1,0 +1,1727 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Gráficos para conteos</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="tutorial.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Visualización de Datos</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Módulos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="G1-ggplot2.html">Qué es la visualización de datos y ejemplos historicos</a>
+    </li>
+    <li>
+      <a href="G2-Errores-tipicos-en-la-visualizacion.html">Errores típicos en la visualización</a>
+    </li>
+    <li>
+      <a href="G3-Graficos-por-conteos.html">Gráficos para conteos</a>
+    </li>
+    <li>
+      <a href="G4-Grafico-de-puntos-de-Wilkinson.html">Gráficos de puntos de Wilkinson</a>
+    </li>
+    <li>
+      <a href="G5_geom_area_densidad_freqpoly.html">Gráficos de area y densidad</a>
+    </li>
+    <li>
+      <a href="G6_geom_histogram.html">Histogramas</a>
+    </li>
+    <li>
+      <a href="G7_geom_bar.html">Gráficos de barras</a>
+    </li>
+    <li>
+      <a href="G8_geom_boxplot_geom_violin.html">Gráficos de caja y de violín</a>
+    </li>
+    <li>
+      <a href="G9_Facet_Grid.html">Facet Grid</a>
+    </li>
+    <li>
+      <a href="G10_Facet_wrap.html">Facet Wrap</a>
+    </li>
+    <li>
+      <a href="G11_EVALUANDO_SUPUESTOS.html">Evaluando Supuestos</a>
+    </li>
+    <li>
+      <a href="G12_Mapas_Calor.html">Mapas de Calor</a>
+    </li>
+    <li>
+      <a href="G13_geom_line.html">Gráficos con lineas</a>
+    </li>
+    <li>
+      <a href="G14_geom_point_geom_jitter.html">Geom_point y geom_jitter</a>
+    </li>
+    <li>
+      <a href="G15_gganimate.html">Gráficos animados en movimiento</a>
+    </li>
+    <li>
+      <a href="G16_Tablas_Tablas_Tablas.html">Tablas y Tablas</a>
+    </li>
+    <li>
+      <a href="G17_LeafletTaller_abril2023.html">Leaflet</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Instalación básica
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Instalar-R-RStudio.html">Lo básico de RStudio</a>
+    </li>
+    <li>
+      <a href="Introduccion-RMarkdown.html">Lo básico de RMarkdown</a>
+    </li>
+    <li>
+      <a href="Codigos_basicos_en_R.html">R y Cheatsheets</a>
+    </li>
+    <li>
+      <a href="R_basico.html">R Básico #2</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Tareas y Ejercicios
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Ejerc_1.html">Ejercicio Básico</a>
+    </li>
+    <li>
+      <a href="Ejerc_2_geom_point.html">Ejercicio geom_point</a>
+    </li>
+    <li>
+      <a href="Ejerc_3_Wilkinson.html">Ejercicio Wilkinson</a>
+    </li>
+    <li>
+      <a href="Ejerc_4_point_count.html">Ejercicio de gráficos de puntos, conteos y histograma</a>
+    </li>
+    <li>
+      <a href="Ejerc_5_geom_line.html">Ejercicio de gráficos de lineas</a>
+    </li>
+    <li>
+      <a href="Ejerc_6_Covid_19.html">Ejercicio Final COVID19</a>
+    </li>
+    <li>
+      <a href="Ejerc_7_geom_point.html">Ejercicio geom_point</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Los Datos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Archivos_de_Datos.html">Archivos de Datos</a>
+    </li>
+    <li>
+      <a href="COVID-19.html">COVID-19</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Calendario
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="schedule.html">Calendario</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Otros paquetes gg
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="ST_ggblanket.html">El paquete ggblanket</a>
+    </li>
+    <li>
+      <a href="ST_gggibous2.html">El paquete gggibous</a>
+    </li>
+    <li>
+      <a href="ST_ggiraph.html">El paquete ggiraph</a>
+    </li>
+    <li>
+      <a href="ST_ggparty.html">El paquete ggparty</a>
+    </li>
+    <li>
+      <a href="ST_ggvenn.html">El paquete ggvenn</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Gráficos para conteos</h1>
+
+</div>
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(flipbookr)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-3"><a href="#cb1-3" tabindex="-1"></a>knitr<span class="sc">::</span>opts_chunk<span class="sc">$</span><span class="fu">set</span>(<span class="at">echo =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb1-4"><a href="#cb1-4" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" tabindex="-1"></a><span class="co">#rprojroot::find_rstudio_root_file()</span></span>
+<span id="cb1-6"><a href="#cb1-6" tabindex="-1"></a><span class="co">#knitr::opts_chunk$set(fig.width = 6, message = FALSE, </span></span>
+<span id="cb1-7"><a href="#cb1-7" tabindex="-1"></a> <span class="co">#                     warning = FALSE, comment = &quot;&quot;, </span></span>
+<span id="cb1-8"><a href="#cb1-8" tabindex="-1"></a>  <span class="co">#                    cache = T)</span></span></code></pre></div>
+<p>Fecha de la ultima revisión</p>
+<pre><code>## [1] &quot;2024-02-05&quot;</code></pre>
+<div id="gráficos-con-geom_point-y-geom_count" class="section level1">
+<h1>Gráficos con <strong>geom_point</strong> y
+<strong>geom_count</strong></h1>
+<hr />
+<p>La función <em>geom_point</em> se utiliza para hacer gráficos con los
+datos en forma de puntitos. La función <em>geom_count</em> hace lo
+mismo, pero da más flexibilidad en la representación de los puntitos.
+Con esos gráficos, típicamente tenemos información en los ejes de
+<strong>X</strong> y de <strong>Y</strong>, de manera que esas funciones
+proyectan los datos distribuidos en ambos ejes.</p>
+<p>Comenzaremos la demostración de <em>geom_point</em> primero y luego
+la de <em>geom_count</em>. Así podremos apreciar mejor las ventajas de
+utilizar el gráfico <em>geom_count</em>.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># preparar las librerías primero:</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">library</span>(ggversa) <span class="co"># la función &quot;library&quot; activa el packete de **ggversa** donde se encuentra los archivos</span></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">library</span>(ggplot2) <span class="co"># ggplot2 es la librería que se usará para graficar los datos</span></span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># una serie de paquetes para organizar y visualizar los datos</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="fu">library</span>(gt) <span class="co"># para que las tablas se vean más organizadas</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a><span class="co">#devtools::install_github(&quot;EvaMaeRey/flipbookr&quot;)</span></span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a><span class="fu">library</span>(flipbookr)  </span></code></pre></div>
+<p>Para visualizar gráficos con <strong>geom_point</strong> y
+<strong>geom_count</strong>, utilizaremos los datos que se encuentran en
+el archivo <strong>Anolis</strong> en el paquete
+<strong>ggversa</strong>. Aquí se muestran las primeras seis filas del
+archivo.</p>
+<p>Enlaces para tener información de como cambiar la fechas.</p>
+<p><a href="https://www.r-bloggers.com/date-formats-in-r/"
+class="uri">https://www.r-bloggers.com/date-formats-in-r/</a></p>
+<p><a href="https://www.stat.berkeley.edu/~s133/dates.html"
+class="uri">https://www.stat.berkeley.edu/~s133/dates.html</a></p>
+<hr />
+</div>
+<div id="convertir-fechas" class="section level1">
+<h1>Convertir fechas</h1>
+<p>Como convertir fechas a un formato que reconoce que son
+<strong>fechas</strong>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>h<span class="ot">=</span><span class="fu">head</span>(Anolis) <span class="co"># la función *head* es para visualizar las primeros 6 filas</span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a><span class="co">#h</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>h<span class="sc">$</span>DATE<span class="ot">=</span><span class="fu">as.Date</span>(h<span class="sc">$</span>DATE, <span class="st">&quot;%m/%d/%y&quot;</span>) <span class="co"># convertir la columna de fecha de tipo *carácter* a tipo *fecha*</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>h</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 15
+##   STUDY      Survey_Site LOCATION TIME  DATE       SEASON SPECIES SEX_AGE HEIGHT
+##   &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;    &lt;tim&gt; &lt;date&gt;     &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;
+## 1 Mark/recap North Tower El Verde 10:46 1992-03-13 dry    Anolis… Female     0  
+## 2 Mark/recap Woods walk… El Verde 10:15 1989-02-20 dry    Anolis… Juvenil    0  
+## 3 Mark/recap Woods walk… El Verde 11:15 1989-02-21 dry    Anolis… Male       0  
+## 4 Mark/recap North Tower El Verde 11:06 1992-03-16 dry    Anolis… Juvenil    0.3
+## 5 Mark/recap North Tower El Verde 12:31 1992-03-11 dry    Anolis… Male       0.3
+## 6 Mark/recap North Tower El Verde 01:00 1992-03-09 dry    Anolis… Female     0.4
+## # ℹ 6 more variables: DISTANCE_FROM_CENTERLINE &lt;dbl&gt;, PERCH_SUBSTRATE &lt;chr&gt;,
+## #   PERCH_DIAMETER &lt;int&gt;, WEIGHT &lt;dbl&gt;, SVL &lt;dbl&gt;, TAIL &lt;dbl&gt;</code></pre>
+<p>Las funciones para formatear la tabla son del paquete
+<strong>gt</strong> = graphics of table</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>h<span class="sc">%&gt;%</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
+<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>    <span class="at">title =</span> <span class="fu">md</span>(<span class="st">&quot;Datos lagartija *Anolis* de Puerto Rico&quot;</span>))<span class="sc">%&gt;%</span></span>
+<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>  <span class="fu">tab_options</span>(</span>
+<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>    <span class="at">column_labels.font.size =</span> <span class="fu">px</span>(<span class="dv">10</span>),</span>
+<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>    <span class="at">table.font.size =</span> <span class="fu">px</span>(<span class="dv">10</span>))<span class="sc">%&gt;%</span></span>
+<span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">style =</span> <span class="st">&quot;italic&quot;</span>),</span>
+<span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
+<span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a>      <span class="at">columns =</span> <span class="fu">c</span>(SPECIES)</span>
+<span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>    ))<span class="sc">%&gt;%</span></span>
+<span id="cb6-13"><a href="#cb6-13" tabindex="-1"></a>  <span class="fu">fmt_date</span>(</span>
+<span id="cb6-14"><a href="#cb6-14" tabindex="-1"></a>    <span class="at">columns =</span> <span class="fu">c</span>(DATE),</span>
+<span id="cb6-15"><a href="#cb6-15" tabindex="-1"></a>    <span class="at">date_style =</span> <span class="dv">8</span></span>
+<span id="cb6-16"><a href="#cb6-16" tabindex="-1"></a>  )</span></code></pre></div>
+<div id="hlftetwyzv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#hlftetwyzv table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#hlftetwyzv thead, #hlftetwyzv tbody, #hlftetwyzv tfoot, #hlftetwyzv tr, #hlftetwyzv td, #hlftetwyzv th {
+  border-style: none;
+}
+
+#hlftetwyzv p {
+  margin: 0;
+  padding: 0;
+}
+
+#hlftetwyzv .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 10px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#hlftetwyzv .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#hlftetwyzv .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#hlftetwyzv .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#hlftetwyzv .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#hlftetwyzv .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#hlftetwyzv .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#hlftetwyzv .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 10px;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#hlftetwyzv .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 10px;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#hlftetwyzv .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#hlftetwyzv .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#hlftetwyzv .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#hlftetwyzv .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#hlftetwyzv .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#hlftetwyzv .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#hlftetwyzv .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#hlftetwyzv .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#hlftetwyzv .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#hlftetwyzv .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#hlftetwyzv .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#hlftetwyzv .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#hlftetwyzv .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#hlftetwyzv .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#hlftetwyzv .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#hlftetwyzv .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#hlftetwyzv .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#hlftetwyzv .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#hlftetwyzv .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#hlftetwyzv .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#hlftetwyzv .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#hlftetwyzv .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#hlftetwyzv .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#hlftetwyzv .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#hlftetwyzv .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#hlftetwyzv .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#hlftetwyzv .gt_left {
+  text-align: left;
+}
+
+#hlftetwyzv .gt_center {
+  text-align: center;
+}
+
+#hlftetwyzv .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#hlftetwyzv .gt_font_normal {
+  font-weight: normal;
+}
+
+#hlftetwyzv .gt_font_bold {
+  font-weight: bold;
+}
+
+#hlftetwyzv .gt_font_italic {
+  font-style: italic;
+}
+
+#hlftetwyzv .gt_super {
+  font-size: 65%;
+}
+
+#hlftetwyzv .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#hlftetwyzv .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#hlftetwyzv .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#hlftetwyzv .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#hlftetwyzv .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#hlftetwyzv .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#hlftetwyzv .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    <tr class="gt_heading">
+      <td colspan="15" class="gt_heading gt_title gt_font_normal gt_bottom_border" style>Datos lagartija <em>Anolis</em> de Puerto Rico</td>
+    </tr>
+    
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="STUDY">STUDY</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Survey_Site">Survey_Site</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="LOCATION">LOCATION</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="TIME">TIME</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="DATE">DATE</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="SEASON">SEASON</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="SPECIES">SPECIES</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="SEX_AGE">SEX_AGE</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="HEIGHT">HEIGHT</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="DISTANCE_FROM_CENTERLINE">DISTANCE_FROM_CENTERLINE</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="PERCH_SUBSTRATE">PERCH_SUBSTRATE</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="PERCH_DIAMETER">PERCH_DIAMETER</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="WEIGHT">WEIGHT</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="SVL">SVL</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="TAIL">TAIL</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="STUDY" class="gt_row gt_left">Mark/recap</td>
+<td headers="Survey_Site" class="gt_row gt_left">North Tower</td>
+<td headers="LOCATION" class="gt_row gt_left">El Verde</td>
+<td headers="TIME" class="gt_row gt_center">10:46:00</td>
+<td headers="DATE" class="gt_row gt_right">13 March 1992</td>
+<td headers="SEASON" class="gt_row gt_left">dry</td>
+<td headers="SPECIES" class="gt_row gt_left" style="font-style: italic;">Anolis stratulus</td>
+<td headers="SEX_AGE" class="gt_row gt_left">Female</td>
+<td headers="HEIGHT" class="gt_row gt_right">0.0</td>
+<td headers="DISTANCE_FROM_CENTERLINE" class="gt_row gt_right">2.7</td>
+<td headers="PERCH_SUBSTRATE" class="gt_row gt_left">ground</td>
+<td headers="PERCH_DIAMETER" class="gt_row gt_right">6</td>
+<td headers="WEIGHT" class="gt_row gt_right">NA</td>
+<td headers="SVL" class="gt_row gt_right">NA</td>
+<td headers="TAIL" class="gt_row gt_right">NA</td></tr>
+    <tr><td headers="STUDY" class="gt_row gt_left">Mark/recap</td>
+<td headers="Survey_Site" class="gt_row gt_left">Woods walkway tower</td>
+<td headers="LOCATION" class="gt_row gt_left">El Verde</td>
+<td headers="TIME" class="gt_row gt_center">10:15:00</td>
+<td headers="DATE" class="gt_row gt_right">20 February 1989</td>
+<td headers="SEASON" class="gt_row gt_left">dry</td>
+<td headers="SPECIES" class="gt_row gt_left" style="font-style: italic;">Anolis stratulus</td>
+<td headers="SEX_AGE" class="gt_row gt_left">Juvenil</td>
+<td headers="HEIGHT" class="gt_row gt_right">0.0</td>
+<td headers="DISTANCE_FROM_CENTERLINE" class="gt_row gt_right">2.0</td>
+<td headers="PERCH_SUBSTRATE" class="gt_row gt_left">NA</td>
+<td headers="PERCH_DIAMETER" class="gt_row gt_right">NA</td>
+<td headers="WEIGHT" class="gt_row gt_right">NA</td>
+<td headers="SVL" class="gt_row gt_right">29</td>
+<td headers="TAIL" class="gt_row gt_right">NA</td></tr>
+    <tr><td headers="STUDY" class="gt_row gt_left">Mark/recap</td>
+<td headers="Survey_Site" class="gt_row gt_left">Woods walkway tower</td>
+<td headers="LOCATION" class="gt_row gt_left">El Verde</td>
+<td headers="TIME" class="gt_row gt_center">11:15:00</td>
+<td headers="DATE" class="gt_row gt_right">21 February 1989</td>
+<td headers="SEASON" class="gt_row gt_left">dry</td>
+<td headers="SPECIES" class="gt_row gt_left" style="font-style: italic;">Anolis stratulus</td>
+<td headers="SEX_AGE" class="gt_row gt_left">Male</td>
+<td headers="HEIGHT" class="gt_row gt_right">0.0</td>
+<td headers="DISTANCE_FROM_CENTERLINE" class="gt_row gt_right">1.4</td>
+<td headers="PERCH_SUBSTRATE" class="gt_row gt_left">on root at base</td>
+<td headers="PERCH_DIAMETER" class="gt_row gt_right">0</td>
+<td headers="WEIGHT" class="gt_row gt_right">NA</td>
+<td headers="SVL" class="gt_row gt_right">NA</td>
+<td headers="TAIL" class="gt_row gt_right">NA</td></tr>
+    <tr><td headers="STUDY" class="gt_row gt_left">Mark/recap</td>
+<td headers="Survey_Site" class="gt_row gt_left">North Tower</td>
+<td headers="LOCATION" class="gt_row gt_left">El Verde</td>
+<td headers="TIME" class="gt_row gt_center">11:06:00</td>
+<td headers="DATE" class="gt_row gt_right">16 March 1992</td>
+<td headers="SEASON" class="gt_row gt_left">dry</td>
+<td headers="SPECIES" class="gt_row gt_left" style="font-style: italic;">Anolis stratulus</td>
+<td headers="SEX_AGE" class="gt_row gt_left">Juvenil</td>
+<td headers="HEIGHT" class="gt_row gt_right">0.3</td>
+<td headers="DISTANCE_FROM_CENTERLINE" class="gt_row gt_right">1.0</td>
+<td headers="PERCH_SUBSTRATE" class="gt_row gt_left">tower</td>
+<td headers="PERCH_DIAMETER" class="gt_row gt_right">30</td>
+<td headers="WEIGHT" class="gt_row gt_right">7.0</td>
+<td headers="SVL" class="gt_row gt_right">26</td>
+<td headers="TAIL" class="gt_row gt_right">3</td></tr>
+    <tr><td headers="STUDY" class="gt_row gt_left">Mark/recap</td>
+<td headers="Survey_Site" class="gt_row gt_left">North Tower</td>
+<td headers="LOCATION" class="gt_row gt_left">El Verde</td>
+<td headers="TIME" class="gt_row gt_center">12:31:00</td>
+<td headers="DATE" class="gt_row gt_right">11 March 1992</td>
+<td headers="SEASON" class="gt_row gt_left">dry</td>
+<td headers="SPECIES" class="gt_row gt_left" style="font-style: italic;">Anolis stratulus</td>
+<td headers="SEX_AGE" class="gt_row gt_left">Male</td>
+<td headers="HEIGHT" class="gt_row gt_right">0.3</td>
+<td headers="DISTANCE_FROM_CENTERLINE" class="gt_row gt_right">0.9</td>
+<td headers="PERCH_SUBSTRATE" class="gt_row gt_left">tower</td>
+<td headers="PERCH_DIAMETER" class="gt_row gt_right">5</td>
+<td headers="WEIGHT" class="gt_row gt_right">2.4</td>
+<td headers="SVL" class="gt_row gt_right">45</td>
+<td headers="TAIL" class="gt_row gt_right">71</td></tr>
+    <tr><td headers="STUDY" class="gt_row gt_left">Mark/recap</td>
+<td headers="Survey_Site" class="gt_row gt_left">North Tower</td>
+<td headers="LOCATION" class="gt_row gt_left">El Verde</td>
+<td headers="TIME" class="gt_row gt_center">01:00:00</td>
+<td headers="DATE" class="gt_row gt_right">9 March 1992</td>
+<td headers="SEASON" class="gt_row gt_left">dry</td>
+<td headers="SPECIES" class="gt_row gt_left" style="font-style: italic;">Anolis stratulus</td>
+<td headers="SEX_AGE" class="gt_row gt_left">Female</td>
+<td headers="HEIGHT" class="gt_row gt_right">0.4</td>
+<td headers="DISTANCE_FROM_CENTERLINE" class="gt_row gt_right">0.9</td>
+<td headers="PERCH_SUBSTRATE" class="gt_row gt_left">tower</td>
+<td headers="PERCH_DIAMETER" class="gt_row gt_right">5</td>
+<td headers="WEIGHT" class="gt_row gt_right">1.6</td>
+<td headers="SVL" class="gt_row gt_right">37</td>
+<td headers="TAIL" class="gt_row gt_right">58</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+<hr />
+<div id="creación-de-subgrupos-con-select-y-filter"
+class="section level2">
+<h2>Creación de subgrupos con <strong>select()</strong> y
+<strong>filter()</strong></h2>
+<p>Antes de comenzar la demostración, vamos a preparar los datos. Se
+usará un subgrupo de los datos de unas de las especies de
+<em>Anolis</em>, el pequeño lagartijo que es nativo de Puerto Rico.
+Primero se visualizan las primeras 7 filas del archivo con las dos
+variables de interés. Específicamente, utilizaremos los datos de los
+lagartijos con individuos que tienen entre 4 cm y 20 cm de largo. El
+primer paso es seleccionar las columnas de interés usando la función
+<strong>select( )</strong>. El segundo paso es filtrar los datos con la
+opción <em>filter</em> para solo obtener los <em>Anolis</em> que tienen
+un peso menor de 4 cm y un SVL mayor a 20 cm.</p>
+<p>En el primer paso se muestran las filas del 1 al 7 usando
+<strong>head( )</strong> y se seleccionan las columnas de peso, WEIGHT,
+de los lagartijos con valor menor de 4 y tamaño SVL mayor a 20. Note que
+se utiliza <strong>&amp;</strong> para indicar que cada fila tiene que
+cumplir con ambas condiciones; o sea, el lagartijo tiene que tener un
+peso menor de 4 cm y un tamaño mayor de 20 cm (de la cloaca al hocico).
+Si una de las dos condiciones no se cumple, no se incluirá ese espécimen
+en particular, de tal manera que obtendremos un archivo más
+reducido.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span>  <span class="co"># pipe</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL) <span class="sc">%&gt;%</span>  </span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a> dplyr<span class="sc">::</span><span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 2
+##   WEIGHT   SVL
+##    &lt;dbl&gt; &lt;dbl&gt;
+## 1    2.4    45
+## 2    1.6    37
+## 3    1.4    36
+## 4    2      43
+## 5    1.8    38
+## 6    1.1    35</code></pre>
+<hr />
+<div id="paso-a-paso" class="section level3">
+<h3>Paso a Paso</h3>
+<ul>
+<li>seleccionar los datos y crear una tabla</li>
+</ul>
+<hr />
+</div>
+</div>
+<div id="gráfico-geom_point" class="section level2">
+<h2>Gráfico <strong>geom_point</strong></h2>
+<p>A continuación, en la <strong>Figura. Gráfico básico con
+geom_point</strong>, se muestra un gráfico básico. Como se puede
+apreciar, los puntos son negros y de un tamaño específico, y los nombres
+de los ejes de <strong>X</strong> y <strong>Y</strong> son los nombres
+de las columnas tal como aparecen en el archivo de datos.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(WEIGHT, SVL))<span class="sc">+</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div>
+<pre><code>## Warning: Removed 426 rows containing missing values (`geom_point()`).</code></pre>
+<p><img src="G3-Graficos-por-conteos_files/figure-html/geom_point-count-1.png" width="672" /></p>
+</div>
+</div>
+<div id="ejemplos-de-como-modificar-los-titulos-con-texto-en-markdown"
+class="section level1">
+<h1>Ejemplos de como modificar los titulos con texto en markdown</h1>
+<p><em>Hola</em> itálicos</p>
+<p><strong>Hola</strong> enegrecido</p>
+<p>Te saludo estimados <br> colegas</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">library</span>(mdthemes) <span class="co"># To add  markdown rendered text within a ggplot figure</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL) <span class="sc">%&gt;%</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>WEIGHT, <span class="at">y=</span>SVL))<span class="sc">+</span></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>  mdthemes<span class="sc">::</span><span class="fu">md_theme_classic</span>()<span class="sc">+</span></span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title=</span> <span class="st">&quot;Figura: Relación de SVL y  el peso de *Anolis* en &lt;br&gt; </span></span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a><span class="st">         El Verde, Yunque, PR&quot;</span>)<span class="sc">+</span></span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Snout vent length&quot;</span>)</span></code></pre></div>
+<p><img src="G3-Graficos-por-conteos_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<hr />
+<div id="paso-a-paso-1" class="section level3">
+<h3>Paso a Paso</h3>
+<ul>
+<li><em>Mi primera gráfica</em></li>
+</ul>
+<hr />
+</div>
+<div id="añadir-detalles-al-gráfico" class="section level3">
+<h3>Añadir detalles al gráfico</h3>
+<p>Al gráfico anterior se le pueden hacer modificaciones a los nombres
+de los ejes, y el estilo y tamaño de las letras. Se cambia el nombre de
+las variables con <strong>xlab</strong> y <strong>ylab</strong>. El
+tamaño y estilo de las letras de las variables se cambian a itálicas y
+color rojo con
+<strong>theme(axis.title=element_text(size=10,face=“italic”,
+colour=“red”)</strong>. Además, se le puede añadir un título verde y en
+negrilla con <strong>ggtitle(“Nuevo título con tipo/tamaño/aspecto que
+Ud desee”)</strong>, y el tamaño y estilo del título con
+<strong>theme(title=element_text(size=20,face=“bold”,
+colour=“green”))</strong>, tal como se muestra en el gráfico
+siguiente.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL)<span class="sc">%&gt;%</span></span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT))<span class="sc">+</span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.x=</span>                    <span class="co"># Cambiar el titulo del eje de x</span></span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a>    <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;italic&quot;</span>, </span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a>                 <span class="at">colour=</span><span class="st">&quot;deeppink2&quot;</span>),</span>
+<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a>    <span class="at">axis.title.y=</span>                        <span class="co"># Cambiar el titulo del eje de y</span></span>
+<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a>    <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>,</span>
+<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a>                 <span class="at">face=</span><span class="st">&quot;bold&quot;</span>, </span>
+<span id="cb12-14"><a href="#cb12-14" tabindex="-1"></a>                 <span class="at">colour=</span><span class="st">&quot;darkred&quot;</span>),</span>
+<span id="cb12-15"><a href="#cb12-15" tabindex="-1"></a>    <span class="at">title=</span>                    <span class="co"># Poner un titulo al gráfico</span></span>
+<span id="cb12-16"><a href="#cb12-16" tabindex="-1"></a>    <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">18</span>,</span>
+<span id="cb12-17"><a href="#cb12-17" tabindex="-1"></a>                 <span class="at">face=</span><span class="st">&quot;bold&quot;</span>, </span>
+<span id="cb12-18"><a href="#cb12-18" tabindex="-1"></a>                 <span class="at">colour=</span><span class="st">&quot;green&quot;</span>))<span class="sc">+</span></span>
+<span id="cb12-19"><a href="#cb12-19" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Título con tipo/tamaño/aspecto que Ud desee&quot;</span>)</span></code></pre></div>
+<p><img src="G3-Graficos-por-conteos_files/figure-html/detalles-1.png" width="672" /></p>
+<hr />
+</div>
+<div id="paso-a-paso-2" class="section level3">
+<h3>Paso a Paso</h3>
+<ul>
+<li><em>Añadiendo detalles</em></li>
+</ul>
+<hr />
+<p>En este último gráfico tenemos la peculiaridad que hay múltiples
+lagartijas con el mismo peso y tamaño, por lo que los puntos quedarán
+solapados. A consecuencia de esto, uno no necesariamente va a poder
+apreciar la frecuencia de los datos. Más adelante se demostrará cómo
+resolver ese problema.</p>
+<hr />
+</div>
+<div id="gráfico-geom_count" class="section level2">
+<h2>Gráfico <strong>geom_count</strong></h2>
+<p>Por otro lado, la función <strong>geom_count</strong> varía el tamaño
+de los puntos de acuerdo a como varía la frecuencia de una variable.
+Esta función es una extensión de <strong>geom_point</strong>. Con
+<strong>geom_count</strong> veremos que la diferencia es que ahora el
+tamaño de los puntos está relacionado a su frecuencia en el archivo de
+datos. El tamaño de cada punto representa la frecuencia o valores de la
+cantidad de lagartijas; o sea, los puntos más grandes representan
+especímenes que son más comunes. Esto se demuestra en la <strong>Figura:
+Puntos de acuerdo a la frecuencia</strong> a continuación:</p>
+<p>Primero miramos los datos para entender que es los que la gráfica se
+construye.</p>
+<p>Calculamos la frecuencia de cada par de valores. ¿Cuantos lagartijas
+hay en cada combinación de <strong>Peso</strong> y <strong>SVL</strong>?
+Y posteriormente uno puede evaluar y gráficar la frecuencia de los
+datos.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span>  <span class="co"># pipe</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL) <span class="sc">%&gt;%</span>  <span class="co"># selecciona</span></span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>  <span class="fu">filter</span>(SVL<span class="sc">&gt;</span><span class="dv">20</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>  <span class="fu">count</span>(WEIGHT, SVL)</span></code></pre></div>
+<pre><code>## # A tibble: 62 × 3
+##    WEIGHT   SVL     n
+##     &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
+##  1   0.3     23     1
+##  2   0.4     22     1
+##  3   0.45    26     1
+##  4   0.45    27     1
+##  5   0.5     27     1
+##  6   0.6     28     1
+##  7   0.6     30     1
+##  8   0.6     31     1
+##  9   0.7     28     3
+## 10   0.7     32     2
+## # ℹ 52 more rows</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL)<span class="sc">%&gt;%</span></span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT))<span class="sc">+</span></span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>  <span class="fu">geom_count</span>()<span class="sc">+</span></span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Figura. Puntos de acuerdo a la frecuencia&quot;</span>)</span></code></pre></div>
+<p><img src="G3-Graficos-por-conteos_files/figure-html/geom_count1-1.png" width="672" /></p>
+<hr />
+<div id="paso-a-paso-3" class="section level3">
+<h3>Paso a Paso</h3>
+<ul>
+<li><em>Tamaño del punto basado en su frecuencia</em></li>
+</ul>
+<hr />
+</div>
+<div id="tamaño-de-puntos-proporcional-a-frecuencia"
+class="section level3">
+<h3>Tamaño de puntos proporcional a frecuencia</h3>
+<p>Se puede representar la frecuencia en proporción a los datos. En el
+gráfico siguiente, <strong>Figura. Puntos en proporción a la
+frecuencia</strong>, los tamaños de los puntos están proporcionales a su
+frecuencia. Note que hay que añadir <strong>(size=..prop.. y
+group=1)</strong> en la función <strong>geom_count()</strong>. Note que
+en este caso la suma de todas las frecuencias es 1. Tengamos en cuenta
+que en la figura anterior los puntos representan la frecuencia. Pero,
+ahora, los puntos salen en proporción a la frecuencia. La frecuencia en
+este caso es calculada utilizando como denominador la cantidad total de
+todos los especímenes en el archivo.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL)<span class="sc">%&gt;%</span></span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT))<span class="sc">+</span></span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="fu">aes</span>(<span class="at">size=</span>..prop.., <span class="at">group=</span><span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a>   <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Figura. Puntos en proporción a la frecuencia&quot;</span>)</span></code></pre></div>
+<p><img src="G3-Graficos-por-conteos_files/figure-html/geom_count2-1.png" width="672" /></p>
+<hr />
+</div>
+<div id="paso-a-paso-4" class="section level3">
+<h3>Paso a Paso</h3>
+<ul>
+<li><em>Tamaño del punto basado en su proporción</em></li>
+</ul>
+<hr />
+</div>
+<div id="tamaño-de-puntos-proporcional-a-una-variable"
+class="section level3">
+<h3>Tamaño de puntos proporcional a una variable</h3>
+<p>En el siguiente gráfico, <strong>Puntos en proporción a una
+variable</strong>, las variable <strong>WEIGHT</strong>, o peso de las
+lagartijas, se usa para que la suma de la proporción equivalga a 1.
+Entonces aquí cada grupo en “Y” suma 1. Note que los grupos se forman a
+base del tamaño del hocico a la cloaca (SVL) utilizando
+<strong>geom_count(aes(size=..prop.., group=SVL))</strong>. Por ejemplo,
+en los <em>Anolis</em> que tienen el tamaño de 35 hay 4 puntos cada uno
+con valor 0.25, lo que da una suma de 1 (hay 4 cuatro lagartijas que
+tienen un SVL de 35cm). Note que la frecuencia en este caso es calculada
+utilizando como denominador la cantidad total de los valores que
+corresponden a un valor específico en “X”.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>x<span class="ot">=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">9</span>,<span class="dv">15</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a><span class="fu">sum</span>(x)</span></code></pre></div>
+<pre><code>## [1] 35</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="dv">1</span><span class="sc">/</span><span class="dv">35</span></span></code></pre></div>
+<pre><code>## [1] 0.02857143</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="dv">15</span><span class="sc">/</span><span class="dv">35</span></span></code></pre></div>
+<pre><code>## [1] 0.4285714</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL)<span class="sc">%&gt;%</span></span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT))<span class="sc">+</span></span>
+<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="fu">aes</span>(<span class="at">size=</span>..prop.., <span class="at">group=</span>SVL))<span class="sc">+</span></span>
+<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
+<span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb23-9"><a href="#cb23-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Figura. Puntos en proporción a una variable&quot;</span>)</span></code></pre></div>
+<p><img src="G3-Graficos-por-conteos_files/figure-html/geom_count2a-1.png" width="672" /></p>
+<hr />
+</div>
+<div id="paso-a-paso-5" class="section level3">
+<h3>Paso a Paso</h3>
+<ul>
+<li><em>Tamaño del punto basado en su frecuencia</em></li>
+</ul>
+<hr />
+</div>
+<div id="grupos-separados-por-color" class="section level3">
+<h3>Grupos separados por color</h3>
+<p>Si hay más de un grupo (digamos, muestras tomadas en la época seca
+del año y las tomadas en la época lluviosa), se puede mostrar la
+proporción basada en los grupos/factores usando la función
+<strong>colour</strong> o <strong>color</strong>. En el gráfico
+<strong>Figura. Grupos con diferentes colores</strong>, vemos el efecto
+de usar el color. Del patrón obtenido se puede observar que la mayoría
+de los <em>Anolis</em> pequeños se observa en el periodo lluvioso y los
+grandes en el periodo seco. Note que aquí se añade la variable que
+queremos separada por color; o sea, se identifica la estación de tiempo
+seco o húmedo con la columna <em>Season</em>.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="fu">unique</span>(Anolis<span class="sc">$</span>SEASON)</span></code></pre></div>
+<pre><code>## [1] &quot;dry&quot; &quot;wet&quot;</code></pre>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="fu">names</span>(Anolis)</span></code></pre></div>
+<pre><code>##  [1] &quot;STUDY&quot;                    &quot;Survey_Site&quot;             
+##  [3] &quot;LOCATION&quot;                 &quot;TIME&quot;                    
+##  [5] &quot;DATE&quot;                     &quot;SEASON&quot;                  
+##  [7] &quot;SPECIES&quot;                  &quot;SEX_AGE&quot;                 
+##  [9] &quot;HEIGHT&quot;                   &quot;DISTANCE_FROM_CENTERLINE&quot;
+## [11] &quot;PERCH_SUBSTRATE&quot;          &quot;PERCH_DIAMETER&quot;          
+## [13] &quot;WEIGHT&quot;                   &quot;SVL&quot;                     
+## [15] &quot;TAIL&quot;</code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
+<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL, SEX_AGE)<span class="sc">%&gt;%</span></span>
+<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb28-4"><a href="#cb28-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT, <span class="at">colour=</span>SEX_AGE))<span class="sc">+</span></span>
+<span id="cb28-5"><a href="#cb28-5" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="fu">aes</span>(<span class="at">size=</span>..prop.., <span class="at">group=</span>WEIGHT))<span class="sc">+</span></span>
+<span id="cb28-6"><a href="#cb28-6" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb28-7"><a href="#cb28-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
+<span id="cb28-8"><a href="#cb28-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb28-9"><a href="#cb28-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Figura. Grupos con diferentes colores&quot;</span>)</span></code></pre></div>
+<p><img src="G3-Graficos-por-conteos_files/figure-html/geom%20count3-1.png" width="672" /></p>
+<hr />
+</div>
+<div id="grupos-separados-por-variable-discreta" class="section level3">
+<h3>Grupos separados por variable discreta</h3>
+<p>En la siguiente demostración, <strong>Figura. Grupos separados por
+variable discreta</strong>, se representan dos gráficos separados de
+acuerdo al sitio de muestreo usando <strong>facet_wrap</strong> y al
+añadir en <strong>aes(, group=la variable)</strong>. Aquí se observa que
+el muestreo en la localidad llamada <em>Torre Sur</em> se hizo solamente
+en el periodo lluvioso. Note que para crear los dos gráficos separados
+por una variable discreta se usa <strong>facet_wrap</strong> con una
+tilde, “~”, seguido del nombre de la variable, que en este caso es la
+localidad de muestreo, <strong>Survey_Site</strong>.
+(<strong>facet_wrap</strong> se explica en detalle como un tópico aparte
+de visualización.)</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="co">#names(Anolis) # para mostrar los nombres de las columnas</span></span>
+<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a>  </span>
+<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
+<span id="cb29-5"><a href="#cb29-5" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL, SEASON, Survey_Site, PERCH_SUBSTRATE)<span class="sc">%&gt;%</span></span>
+<span id="cb29-6"><a href="#cb29-6" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb29-7"><a href="#cb29-7" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT, <span class="at">colour=</span>SEASON))<span class="sc">+</span></span>
+<span id="cb29-8"><a href="#cb29-8" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="fu">aes</span>(<span class="at">size=</span>..prop.., <span class="at">group=</span>WEIGHT))<span class="sc">+</span></span>
+<span id="cb29-9"><a href="#cb29-9" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb29-10"><a href="#cb29-10" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
+<span id="cb29-11"><a href="#cb29-11" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>PERCH_SUBSTRATE)<span class="sc">+</span></span>
+<span id="cb29-12"><a href="#cb29-12" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb29-13"><a href="#cb29-13" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;orange&quot;</span>, <span class="st">&quot;red&quot;</span>))<span class="sc">+</span></span>
+<span id="cb29-14"><a href="#cb29-14" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Figura. Grupos separados por variable discreta&quot;</span>)</span></code></pre></div>
+<p><img src="G3-Graficos-por-conteos_files/figure-html/geom_count4-1.png" width="672" /></p>
+<hr />
+</div>
+<div id="paso-a-paso-6" class="section level3">
+<h3>Paso a Paso</h3>
+<ul>
+<li><em>Grupos seperados por variable discreta</em></li>
+</ul>
+<hr />
+</div>
+<div id="cambiar-la-forma-de-los-puntos" class="section level3">
+<h3>Cambiar la forma de los puntos</h3>
+<p>La opción de <strong>shape</strong> es para modificar los tipos de
+símbolo disponibles para representar los puntos. Los símbolos se escogen
+indicando un número del 0 al 25. En el gráfico siguiente,
+<strong>Figura. Cambio en la forma de los puntos</strong>, se cambia la
+forma de los puntos con esta opción y el número de símbolo 12. El
+símbolo típicamente utilizado en los gráficos de
+<strong>ggplot2</strong> es el 16 (un punto). Cabe mencionar que
+solamente los números 21 al 25 son símbolos rellenados con color, lo que
+se hace al utilizar la opción de <strong>fill</strong> e indicando el
+color deseado, tal como se muestra en la <strong>Figura. Puntos
+rellenados en amarillo</strong>.</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
+<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL, SEASON, Survey_Site)<span class="sc">%&gt;%</span></span>
+<span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb30-4"><a href="#cb30-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT, <span class="at">colour=</span>SEASON))<span class="sc">+</span></span>
+<span id="cb30-5"><a href="#cb30-5" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="at">shape=</span><span class="dv">12</span>,<span class="at">colour=</span><span class="st">&quot;red&quot;</span>,</span>
+<span id="cb30-6"><a href="#cb30-6" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">size=</span>..prop.., <span class="at">group=</span>Survey_Site))<span class="sc">+</span></span>
+<span id="cb30-7"><a href="#cb30-7" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb30-8"><a href="#cb30-8" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
+<span id="cb30-9"><a href="#cb30-9" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Survey_Site)<span class="sc">+</span></span>
+<span id="cb30-10"><a href="#cb30-10" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb30-11"><a href="#cb30-11" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Figura. Cambio en la forma de los puntos&quot;</span>)</span></code></pre></div>
+<p><img src="G3-Graficos-por-conteos_files/figure-html/geom%20count5.1-1.png" width="672" /></p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
+<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL, SEASON, Survey_Site)<span class="sc">%&gt;%</span></span>
+<span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb31-4"><a href="#cb31-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT, <span class="at">colour=</span>SEASON))<span class="sc">+</span></span>
+<span id="cb31-5"><a href="#cb31-5" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="at">shape=</span><span class="dv">23</span>, <span class="at">fill=</span><span class="st">&quot;green&quot;</span>, <span class="at">colour=</span><span class="st">&quot;orange&quot;</span>,</span>
+<span id="cb31-6"><a href="#cb31-6" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">size=</span>..prop.., <span class="at">group=</span>Survey_Site))<span class="sc">+</span></span>
+<span id="cb31-7"><a href="#cb31-7" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb31-8"><a href="#cb31-8" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
+<span id="cb31-9"><a href="#cb31-9" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Survey_Site)<span class="sc">+</span></span>
+<span id="cb31-10"><a href="#cb31-10" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb31-11"><a href="#cb31-11" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Figura. Puntos rellenados en amarillo&quot;</span>)</span></code></pre></div>
+<p><img src="G3-Graficos-por-conteos_files/figure-html/geom%20count5.2-1.png" width="672" /></p>
+<hr />
+</div>
+<div id="cambiar-las-características-de-los-puntos"
+class="section level3">
+<h3>Cambiar las características de los puntos</h3>
+<p>En el siguiente gráfico, <strong>Figura. Puntos cuadrados con bordes
+más gruesos</strong>, se cambian la forma de los puntos a un cuadrado
+con la opción <strong>shape</strong> y el grosor del borde con la opción
+<strong>stroke</strong>, seguido de la asignación del parámetro
+correspondiente, en este caso 22 y 2 respectivamente.</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
+<span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL, SEASON, Survey_Site)<span class="sc">%&gt;%</span></span>
+<span id="cb32-3"><a href="#cb32-3" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb32-4"><a href="#cb32-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT, <span class="at">colour=</span>SEASON))<span class="sc">+</span></span>
+<span id="cb32-5"><a href="#cb32-5" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="at">shape=</span><span class="dv">22</span>, <span class="at">stroke=</span><span class="dv">2</span>,<span class="at">alpha=</span>.<span class="dv">75</span>,</span>
+<span id="cb32-6"><a href="#cb32-6" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">size=</span>..prop.., <span class="at">group=</span>Survey_Site))<span class="sc">+</span></span>
+<span id="cb32-7"><a href="#cb32-7" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb32-8"><a href="#cb32-8" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
+<span id="cb32-9"><a href="#cb32-9" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Survey_Site)<span class="sc">+</span></span>
+<span id="cb32-10"><a href="#cb32-10" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb32-11"><a href="#cb32-11" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Figura. Puntos cuadrados con bordes más gruesos&quot;</span>)</span></code></pre></div>
+<p><img src="G3-Graficos-por-conteos_files/figure-html/geom%20count6-1.png" width="672" /></p>
+<hr />
+</div>
+</div>
+<div id="opciones-y-parámetros" class="section level2">
+<h2>Opciones y parámetros</h2>
+<p>A continuación se resumen las opciones y parámetros más importantes
+de <strong>geom_point</strong> y <strong>geom_count</strong>:</p>
+<ul>
+<li><p>ggplot(el archivo de datos, aes(x= la variable secuencial, y = la
+variable secuencial más de un grupo, color= si hay necesidad))</p></li>
+<li><p>geom_point(x, y, alpha, colour, fill, shape, size,
+stroke)</p></li>
+<li><p>geom_count(x, y, alpha, colour, fill, shape, size, stroke)</p>
+<ul>
+<li>alpha: la intensidad de los colores (explicado más adelante)</li>
+<li>colour: color de las líneas</li>
+<li>fill: para rellenar de color</li>
+<li>shape: la forma de los puntos</li>
+<li>size: el tamaño de los puntos</li>
+<li>stroke: para cambiar el grosor del borde del punto</li>
+</ul></li>
+</ul>
+<hr />
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

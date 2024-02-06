@@ -1,0 +1,1651 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Ejerc_3_Wilkinson</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="tutorial.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Visualización de Datos</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Módulos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="G1-ggplot2.html">Qué es la visualización de datos y ejemplos historicos</a>
+    </li>
+    <li>
+      <a href="G2-Errores-tipicos-en-la-visualizacion.html">Errores típicos en la visualización</a>
+    </li>
+    <li>
+      <a href="G3-Graficos-por-conteos.html">Gráficos para conteos</a>
+    </li>
+    <li>
+      <a href="G4-Grafico-de-puntos-de-Wilkinson.html">Gráficos de puntos de Wilkinson</a>
+    </li>
+    <li>
+      <a href="G5_geom_area_densidad_freqpoly.html">Gráficos de area y densidad</a>
+    </li>
+    <li>
+      <a href="G6_geom_histogram.html">Histogramas</a>
+    </li>
+    <li>
+      <a href="G7_geom_bar.html">Gráficos de barras</a>
+    </li>
+    <li>
+      <a href="G8_geom_boxplot_geom_violin.html">Gráficos de caja y de violín</a>
+    </li>
+    <li>
+      <a href="G9_Facet_Grid.html">Facet Grid</a>
+    </li>
+    <li>
+      <a href="G10_Facet_wrap.html">Facet Wrap</a>
+    </li>
+    <li>
+      <a href="G11_EVALUANDO_SUPUESTOS.html">Evaluando Supuestos</a>
+    </li>
+    <li>
+      <a href="G12_Mapas_Calor.html">Mapas de Calor</a>
+    </li>
+    <li>
+      <a href="G13_geom_line.html">Gráficos con lineas</a>
+    </li>
+    <li>
+      <a href="G14_geom_point_geom_jitter.html">Geom_point y geom_jitter</a>
+    </li>
+    <li>
+      <a href="G15_gganimate.html">Gráficos animados en movimiento</a>
+    </li>
+    <li>
+      <a href="G16_Tablas_Tablas_Tablas.html">Tablas y Tablas</a>
+    </li>
+    <li>
+      <a href="G17_LeafletTaller_abril2023.html">Leaflet</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Instalación básica
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Instalar-R-RStudio.html">Lo básico de RStudio</a>
+    </li>
+    <li>
+      <a href="Introduccion-RMarkdown.html">Lo básico de RMarkdown</a>
+    </li>
+    <li>
+      <a href="Codigos_basicos_en_R.html">R y Cheatsheets</a>
+    </li>
+    <li>
+      <a href="R_basico.html">R Básico #2</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Tareas y Ejercicios
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Ejerc_1.html">Ejercicio Básico</a>
+    </li>
+    <li>
+      <a href="Ejerc_2_geom_point.html">Ejercicio geom_point</a>
+    </li>
+    <li>
+      <a href="Ejerc_3_Wilkinson.html">Ejercicio Wilkinson</a>
+    </li>
+    <li>
+      <a href="Ejerc_4_point_count.html">Ejercicio de gráficos de puntos, conteos y histograma</a>
+    </li>
+    <li>
+      <a href="Ejerc_5_geom_line.html">Ejercicio de gráficos de lineas</a>
+    </li>
+    <li>
+      <a href="Ejerc_6_Covid_19.html">Ejercicio Final COVID19</a>
+    </li>
+    <li>
+      <a href="Ejerc_7_geom_point.html">Ejercicio geom_point</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Los Datos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Archivos_de_Datos.html">Archivos de Datos</a>
+    </li>
+    <li>
+      <a href="COVID-19.html">COVID-19</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Calendario
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="schedule.html">Calendario</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Otros paquetes gg
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="ST_ggblanket.html">El paquete ggblanket</a>
+    </li>
+    <li>
+      <a href="ST_gggibous2.html">El paquete gggibous</a>
+    </li>
+    <li>
+      <a href="ST_ggiraph.html">El paquete ggiraph</a>
+    </li>
+    <li>
+      <a href="ST_ggparty.html">El paquete ggparty</a>
+    </li>
+    <li>
+      <a href="ST_ggvenn.html">El paquete ggvenn</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Ejerc_3_Wilkinson</h1>
+
+</div>
+
+
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a><span class="fu">library</span>(gt)</span></code></pre></div>
+<p>Usando los datos de COVID-19</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a>mydat<span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&#39;https://raw.githubusercontent.com/owid/covid-19-data/master/public/data/owid-covid-data.csv&#39;</span>)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="co">#write.csv(mydat, &quot;COVID19_world.csv&quot;)</span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a></span>
+<span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="fu">gt</span>(<span class="fu">tail</span>(mydat, <span class="at">n=</span><span class="dv">4</span>))</span></code></pre></div>
+<div id="croicvjcck" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#croicvjcck table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#croicvjcck thead, #croicvjcck tbody, #croicvjcck tfoot, #croicvjcck tr, #croicvjcck td, #croicvjcck th {
+  border-style: none;
+}
+
+#croicvjcck p {
+  margin: 0;
+  padding: 0;
+}
+
+#croicvjcck .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#croicvjcck .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#croicvjcck .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#croicvjcck .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#croicvjcck .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#croicvjcck .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#croicvjcck .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#croicvjcck .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#croicvjcck .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#croicvjcck .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#croicvjcck .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#croicvjcck .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#croicvjcck .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#croicvjcck .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#croicvjcck .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#croicvjcck .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#croicvjcck .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#croicvjcck .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#croicvjcck .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#croicvjcck .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#croicvjcck .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#croicvjcck .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#croicvjcck .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#croicvjcck .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#croicvjcck .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#croicvjcck .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#croicvjcck .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#croicvjcck .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#croicvjcck .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#croicvjcck .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#croicvjcck .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#croicvjcck .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#croicvjcck .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#croicvjcck .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#croicvjcck .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#croicvjcck .gt_left {
+  text-align: left;
+}
+
+#croicvjcck .gt_center {
+  text-align: center;
+}
+
+#croicvjcck .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#croicvjcck .gt_font_normal {
+  font-weight: normal;
+}
+
+#croicvjcck .gt_font_bold {
+  font-weight: bold;
+}
+
+#croicvjcck .gt_font_italic {
+  font-style: italic;
+}
+
+#croicvjcck .gt_super {
+  font-size: 65%;
+}
+
+#croicvjcck .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#croicvjcck .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#croicvjcck .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#croicvjcck .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#croicvjcck .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#croicvjcck .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#croicvjcck .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="iso_code">iso_code</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="continent">continent</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="location">location</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="date">date</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="total_cases">total_cases</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="new_cases">new_cases</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="new_cases_smoothed">new_cases_smoothed</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="total_deaths">total_deaths</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="new_deaths">new_deaths</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="new_deaths_smoothed">new_deaths_smoothed</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="total_cases_per_million">total_cases_per_million</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="new_cases_per_million">new_cases_per_million</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="new_cases_smoothed_per_million">new_cases_smoothed_per_million</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="total_deaths_per_million">total_deaths_per_million</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="new_deaths_per_million">new_deaths_per_million</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="new_deaths_smoothed_per_million">new_deaths_smoothed_per_million</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="reproduction_rate">reproduction_rate</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="icu_patients">icu_patients</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="icu_patients_per_million">icu_patients_per_million</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="hosp_patients">hosp_patients</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="hosp_patients_per_million">hosp_patients_per_million</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="weekly_icu_admissions">weekly_icu_admissions</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="weekly_icu_admissions_per_million">weekly_icu_admissions_per_million</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="weekly_hosp_admissions">weekly_hosp_admissions</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="weekly_hosp_admissions_per_million">weekly_hosp_admissions_per_million</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="total_tests">total_tests</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="new_tests">new_tests</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="total_tests_per_thousand">total_tests_per_thousand</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="new_tests_per_thousand">new_tests_per_thousand</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="new_tests_smoothed">new_tests_smoothed</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="new_tests_smoothed_per_thousand">new_tests_smoothed_per_thousand</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="positive_rate">positive_rate</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="tests_per_case">tests_per_case</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="tests_units">tests_units</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="total_vaccinations">total_vaccinations</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="people_vaccinated">people_vaccinated</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="people_fully_vaccinated">people_fully_vaccinated</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="total_boosters">total_boosters</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="new_vaccinations">new_vaccinations</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="new_vaccinations_smoothed">new_vaccinations_smoothed</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="total_vaccinations_per_hundred">total_vaccinations_per_hundred</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="people_vaccinated_per_hundred">people_vaccinated_per_hundred</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="people_fully_vaccinated_per_hundred">people_fully_vaccinated_per_hundred</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="total_boosters_per_hundred">total_boosters_per_hundred</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="new_vaccinations_smoothed_per_million">new_vaccinations_smoothed_per_million</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="new_people_vaccinated_smoothed">new_people_vaccinated_smoothed</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="new_people_vaccinated_smoothed_per_hundred">new_people_vaccinated_smoothed_per_hundred</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="stringency_index">stringency_index</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="population_density">population_density</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="median_age">median_age</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="aged_65_older">aged_65_older</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="aged_70_older">aged_70_older</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="gdp_per_capita">gdp_per_capita</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="extreme_poverty">extreme_poverty</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="cardiovasc_death_rate">cardiovasc_death_rate</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="diabetes_prevalence">diabetes_prevalence</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="female_smokers">female_smokers</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="male_smokers">male_smokers</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="handwashing_facilities">handwashing_facilities</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="hospital_beds_per_thousand">hospital_beds_per_thousand</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="life_expectancy">life_expectancy</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="human_development_index">human_development_index</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="population">population</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="excess_mortality_cumulative_absolute">excess_mortality_cumulative_absolute</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="excess_mortality_cumulative">excess_mortality_cumulative</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="excess_mortality">excess_mortality</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="excess_mortality_cumulative_per_million">excess_mortality_cumulative_per_million</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="iso_code" class="gt_row gt_left">ZWE</td>
+<td headers="continent" class="gt_row gt_left">Africa</td>
+<td headers="location" class="gt_row gt_left">Zimbabwe</td>
+<td headers="date" class="gt_row gt_right">2024-01-18</td>
+<td headers="total_cases" class="gt_row gt_right">266202</td>
+<td headers="new_cases" class="gt_row gt_right">0</td>
+<td headers="new_cases_smoothed" class="gt_row gt_right">12.143</td>
+<td headers="total_deaths" class="gt_row gt_right">5737</td>
+<td headers="new_deaths" class="gt_row gt_right">0</td>
+<td headers="new_deaths_smoothed" class="gt_row gt_right">0.429</td>
+<td headers="total_cases_per_million" class="gt_row gt_right">16310.86</td>
+<td headers="new_cases_per_million" class="gt_row gt_right">0.00</td>
+<td headers="new_cases_smoothed_per_million" class="gt_row gt_right">0.744</td>
+<td headers="total_deaths_per_million" class="gt_row gt_right">351.52</td>
+<td headers="new_deaths_per_million" class="gt_row gt_right">0</td>
+<td headers="new_deaths_smoothed_per_million" class="gt_row gt_right">0.026</td>
+<td headers="reproduction_rate" class="gt_row gt_right">NA</td>
+<td headers="icu_patients" class="gt_row gt_right">NA</td>
+<td headers="icu_patients_per_million" class="gt_row gt_right">NA</td>
+<td headers="hosp_patients" class="gt_row gt_right">NA</td>
+<td headers="hosp_patients_per_million" class="gt_row gt_right">NA</td>
+<td headers="weekly_icu_admissions" class="gt_row gt_right">NA</td>
+<td headers="weekly_icu_admissions_per_million" class="gt_row gt_right">NA</td>
+<td headers="weekly_hosp_admissions" class="gt_row gt_right">NA</td>
+<td headers="weekly_hosp_admissions_per_million" class="gt_row gt_right">NA</td>
+<td headers="total_tests" class="gt_row gt_right">NA</td>
+<td headers="new_tests" class="gt_row gt_right">NA</td>
+<td headers="total_tests_per_thousand" class="gt_row gt_right">NA</td>
+<td headers="new_tests_per_thousand" class="gt_row gt_right">NA</td>
+<td headers="new_tests_smoothed" class="gt_row gt_right">NA</td>
+<td headers="new_tests_smoothed_per_thousand" class="gt_row gt_right">NA</td>
+<td headers="positive_rate" class="gt_row gt_right">NA</td>
+<td headers="tests_per_case" class="gt_row gt_right">NA</td>
+<td headers="tests_units" class="gt_row gt_right"></td>
+<td headers="total_vaccinations" class="gt_row gt_right">NA</td>
+<td headers="people_vaccinated" class="gt_row gt_right">NA</td>
+<td headers="people_fully_vaccinated" class="gt_row gt_right">NA</td>
+<td headers="total_boosters" class="gt_row gt_right">NA</td>
+<td headers="new_vaccinations" class="gt_row gt_right">NA</td>
+<td headers="new_vaccinations_smoothed" class="gt_row gt_right">NA</td>
+<td headers="total_vaccinations_per_hundred" class="gt_row gt_right">NA</td>
+<td headers="people_vaccinated_per_hundred" class="gt_row gt_right">NA</td>
+<td headers="people_fully_vaccinated_per_hundred" class="gt_row gt_right">NA</td>
+<td headers="total_boosters_per_hundred" class="gt_row gt_right">NA</td>
+<td headers="new_vaccinations_smoothed_per_million" class="gt_row gt_right">NA</td>
+<td headers="new_people_vaccinated_smoothed" class="gt_row gt_right">NA</td>
+<td headers="new_people_vaccinated_smoothed_per_hundred" class="gt_row gt_right">NA</td>
+<td headers="stringency_index" class="gt_row gt_right">NA</td>
+<td headers="population_density" class="gt_row gt_right">42.729</td>
+<td headers="median_age" class="gt_row gt_right">19.6</td>
+<td headers="aged_65_older" class="gt_row gt_right">2.822</td>
+<td headers="aged_70_older" class="gt_row gt_right">1.882</td>
+<td headers="gdp_per_capita" class="gt_row gt_right">1899.775</td>
+<td headers="extreme_poverty" class="gt_row gt_right">21.4</td>
+<td headers="cardiovasc_death_rate" class="gt_row gt_right">307.846</td>
+<td headers="diabetes_prevalence" class="gt_row gt_right">1.82</td>
+<td headers="female_smokers" class="gt_row gt_right">1.6</td>
+<td headers="male_smokers" class="gt_row gt_right">30.7</td>
+<td headers="handwashing_facilities" class="gt_row gt_right">36.791</td>
+<td headers="hospital_beds_per_thousand" class="gt_row gt_right">1.7</td>
+<td headers="life_expectancy" class="gt_row gt_right">61.49</td>
+<td headers="human_development_index" class="gt_row gt_right">0.571</td>
+<td headers="population" class="gt_row gt_right">16320539</td>
+<td headers="excess_mortality_cumulative_absolute" class="gt_row gt_right">NA</td>
+<td headers="excess_mortality_cumulative" class="gt_row gt_right">NA</td>
+<td headers="excess_mortality" class="gt_row gt_right">NA</td>
+<td headers="excess_mortality_cumulative_per_million" class="gt_row gt_right">NA</td></tr>
+    <tr><td headers="iso_code" class="gt_row gt_left">ZWE</td>
+<td headers="continent" class="gt_row gt_left">Africa</td>
+<td headers="location" class="gt_row gt_left">Zimbabwe</td>
+<td headers="date" class="gt_row gt_right">2024-01-19</td>
+<td headers="total_cases" class="gt_row gt_right">266202</td>
+<td headers="new_cases" class="gt_row gt_right">0</td>
+<td headers="new_cases_smoothed" class="gt_row gt_right">12.143</td>
+<td headers="total_deaths" class="gt_row gt_right">5737</td>
+<td headers="new_deaths" class="gt_row gt_right">0</td>
+<td headers="new_deaths_smoothed" class="gt_row gt_right">0.429</td>
+<td headers="total_cases_per_million" class="gt_row gt_right">16310.86</td>
+<td headers="new_cases_per_million" class="gt_row gt_right">0.00</td>
+<td headers="new_cases_smoothed_per_million" class="gt_row gt_right">0.744</td>
+<td headers="total_deaths_per_million" class="gt_row gt_right">351.52</td>
+<td headers="new_deaths_per_million" class="gt_row gt_right">0</td>
+<td headers="new_deaths_smoothed_per_million" class="gt_row gt_right">0.026</td>
+<td headers="reproduction_rate" class="gt_row gt_right">NA</td>
+<td headers="icu_patients" class="gt_row gt_right">NA</td>
+<td headers="icu_patients_per_million" class="gt_row gt_right">NA</td>
+<td headers="hosp_patients" class="gt_row gt_right">NA</td>
+<td headers="hosp_patients_per_million" class="gt_row gt_right">NA</td>
+<td headers="weekly_icu_admissions" class="gt_row gt_right">NA</td>
+<td headers="weekly_icu_admissions_per_million" class="gt_row gt_right">NA</td>
+<td headers="weekly_hosp_admissions" class="gt_row gt_right">NA</td>
+<td headers="weekly_hosp_admissions_per_million" class="gt_row gt_right">NA</td>
+<td headers="total_tests" class="gt_row gt_right">NA</td>
+<td headers="new_tests" class="gt_row gt_right">NA</td>
+<td headers="total_tests_per_thousand" class="gt_row gt_right">NA</td>
+<td headers="new_tests_per_thousand" class="gt_row gt_right">NA</td>
+<td headers="new_tests_smoothed" class="gt_row gt_right">NA</td>
+<td headers="new_tests_smoothed_per_thousand" class="gt_row gt_right">NA</td>
+<td headers="positive_rate" class="gt_row gt_right">NA</td>
+<td headers="tests_per_case" class="gt_row gt_right">NA</td>
+<td headers="tests_units" class="gt_row gt_right"></td>
+<td headers="total_vaccinations" class="gt_row gt_right">NA</td>
+<td headers="people_vaccinated" class="gt_row gt_right">NA</td>
+<td headers="people_fully_vaccinated" class="gt_row gt_right">NA</td>
+<td headers="total_boosters" class="gt_row gt_right">NA</td>
+<td headers="new_vaccinations" class="gt_row gt_right">NA</td>
+<td headers="new_vaccinations_smoothed" class="gt_row gt_right">NA</td>
+<td headers="total_vaccinations_per_hundred" class="gt_row gt_right">NA</td>
+<td headers="people_vaccinated_per_hundred" class="gt_row gt_right">NA</td>
+<td headers="people_fully_vaccinated_per_hundred" class="gt_row gt_right">NA</td>
+<td headers="total_boosters_per_hundred" class="gt_row gt_right">NA</td>
+<td headers="new_vaccinations_smoothed_per_million" class="gt_row gt_right">NA</td>
+<td headers="new_people_vaccinated_smoothed" class="gt_row gt_right">NA</td>
+<td headers="new_people_vaccinated_smoothed_per_hundred" class="gt_row gt_right">NA</td>
+<td headers="stringency_index" class="gt_row gt_right">NA</td>
+<td headers="population_density" class="gt_row gt_right">42.729</td>
+<td headers="median_age" class="gt_row gt_right">19.6</td>
+<td headers="aged_65_older" class="gt_row gt_right">2.822</td>
+<td headers="aged_70_older" class="gt_row gt_right">1.882</td>
+<td headers="gdp_per_capita" class="gt_row gt_right">1899.775</td>
+<td headers="extreme_poverty" class="gt_row gt_right">21.4</td>
+<td headers="cardiovasc_death_rate" class="gt_row gt_right">307.846</td>
+<td headers="diabetes_prevalence" class="gt_row gt_right">1.82</td>
+<td headers="female_smokers" class="gt_row gt_right">1.6</td>
+<td headers="male_smokers" class="gt_row gt_right">30.7</td>
+<td headers="handwashing_facilities" class="gt_row gt_right">36.791</td>
+<td headers="hospital_beds_per_thousand" class="gt_row gt_right">1.7</td>
+<td headers="life_expectancy" class="gt_row gt_right">61.49</td>
+<td headers="human_development_index" class="gt_row gt_right">0.571</td>
+<td headers="population" class="gt_row gt_right">16320539</td>
+<td headers="excess_mortality_cumulative_absolute" class="gt_row gt_right">NA</td>
+<td headers="excess_mortality_cumulative" class="gt_row gt_right">NA</td>
+<td headers="excess_mortality" class="gt_row gt_right">NA</td>
+<td headers="excess_mortality_cumulative_per_million" class="gt_row gt_right">NA</td></tr>
+    <tr><td headers="iso_code" class="gt_row gt_left">ZWE</td>
+<td headers="continent" class="gt_row gt_left">Africa</td>
+<td headers="location" class="gt_row gt_left">Zimbabwe</td>
+<td headers="date" class="gt_row gt_right">2024-01-20</td>
+<td headers="total_cases" class="gt_row gt_right">266202</td>
+<td headers="new_cases" class="gt_row gt_right">0</td>
+<td headers="new_cases_smoothed" class="gt_row gt_right">12.143</td>
+<td headers="total_deaths" class="gt_row gt_right">5737</td>
+<td headers="new_deaths" class="gt_row gt_right">0</td>
+<td headers="new_deaths_smoothed" class="gt_row gt_right">0.429</td>
+<td headers="total_cases_per_million" class="gt_row gt_right">16310.86</td>
+<td headers="new_cases_per_million" class="gt_row gt_right">0.00</td>
+<td headers="new_cases_smoothed_per_million" class="gt_row gt_right">0.744</td>
+<td headers="total_deaths_per_million" class="gt_row gt_right">351.52</td>
+<td headers="new_deaths_per_million" class="gt_row gt_right">0</td>
+<td headers="new_deaths_smoothed_per_million" class="gt_row gt_right">0.026</td>
+<td headers="reproduction_rate" class="gt_row gt_right">NA</td>
+<td headers="icu_patients" class="gt_row gt_right">NA</td>
+<td headers="icu_patients_per_million" class="gt_row gt_right">NA</td>
+<td headers="hosp_patients" class="gt_row gt_right">NA</td>
+<td headers="hosp_patients_per_million" class="gt_row gt_right">NA</td>
+<td headers="weekly_icu_admissions" class="gt_row gt_right">NA</td>
+<td headers="weekly_icu_admissions_per_million" class="gt_row gt_right">NA</td>
+<td headers="weekly_hosp_admissions" class="gt_row gt_right">NA</td>
+<td headers="weekly_hosp_admissions_per_million" class="gt_row gt_right">NA</td>
+<td headers="total_tests" class="gt_row gt_right">NA</td>
+<td headers="new_tests" class="gt_row gt_right">NA</td>
+<td headers="total_tests_per_thousand" class="gt_row gt_right">NA</td>
+<td headers="new_tests_per_thousand" class="gt_row gt_right">NA</td>
+<td headers="new_tests_smoothed" class="gt_row gt_right">NA</td>
+<td headers="new_tests_smoothed_per_thousand" class="gt_row gt_right">NA</td>
+<td headers="positive_rate" class="gt_row gt_right">NA</td>
+<td headers="tests_per_case" class="gt_row gt_right">NA</td>
+<td headers="tests_units" class="gt_row gt_right"></td>
+<td headers="total_vaccinations" class="gt_row gt_right">NA</td>
+<td headers="people_vaccinated" class="gt_row gt_right">NA</td>
+<td headers="people_fully_vaccinated" class="gt_row gt_right">NA</td>
+<td headers="total_boosters" class="gt_row gt_right">NA</td>
+<td headers="new_vaccinations" class="gt_row gt_right">NA</td>
+<td headers="new_vaccinations_smoothed" class="gt_row gt_right">NA</td>
+<td headers="total_vaccinations_per_hundred" class="gt_row gt_right">NA</td>
+<td headers="people_vaccinated_per_hundred" class="gt_row gt_right">NA</td>
+<td headers="people_fully_vaccinated_per_hundred" class="gt_row gt_right">NA</td>
+<td headers="total_boosters_per_hundred" class="gt_row gt_right">NA</td>
+<td headers="new_vaccinations_smoothed_per_million" class="gt_row gt_right">NA</td>
+<td headers="new_people_vaccinated_smoothed" class="gt_row gt_right">NA</td>
+<td headers="new_people_vaccinated_smoothed_per_hundred" class="gt_row gt_right">NA</td>
+<td headers="stringency_index" class="gt_row gt_right">NA</td>
+<td headers="population_density" class="gt_row gt_right">42.729</td>
+<td headers="median_age" class="gt_row gt_right">19.6</td>
+<td headers="aged_65_older" class="gt_row gt_right">2.822</td>
+<td headers="aged_70_older" class="gt_row gt_right">1.882</td>
+<td headers="gdp_per_capita" class="gt_row gt_right">1899.775</td>
+<td headers="extreme_poverty" class="gt_row gt_right">21.4</td>
+<td headers="cardiovasc_death_rate" class="gt_row gt_right">307.846</td>
+<td headers="diabetes_prevalence" class="gt_row gt_right">1.82</td>
+<td headers="female_smokers" class="gt_row gt_right">1.6</td>
+<td headers="male_smokers" class="gt_row gt_right">30.7</td>
+<td headers="handwashing_facilities" class="gt_row gt_right">36.791</td>
+<td headers="hospital_beds_per_thousand" class="gt_row gt_right">1.7</td>
+<td headers="life_expectancy" class="gt_row gt_right">61.49</td>
+<td headers="human_development_index" class="gt_row gt_right">0.571</td>
+<td headers="population" class="gt_row gt_right">16320539</td>
+<td headers="excess_mortality_cumulative_absolute" class="gt_row gt_right">NA</td>
+<td headers="excess_mortality_cumulative" class="gt_row gt_right">NA</td>
+<td headers="excess_mortality" class="gt_row gt_right">NA</td>
+<td headers="excess_mortality_cumulative_per_million" class="gt_row gt_right">NA</td></tr>
+    <tr><td headers="iso_code" class="gt_row gt_left">ZWE</td>
+<td headers="continent" class="gt_row gt_left">Africa</td>
+<td headers="location" class="gt_row gt_left">Zimbabwe</td>
+<td headers="date" class="gt_row gt_right">2024-01-21</td>
+<td headers="total_cases" class="gt_row gt_right">266257</td>
+<td headers="new_cases" class="gt_row gt_right">55</td>
+<td headers="new_cases_smoothed" class="gt_row gt_right">7.857</td>
+<td headers="total_deaths" class="gt_row gt_right">5737</td>
+<td headers="new_deaths" class="gt_row gt_right">0</td>
+<td headers="new_deaths_smoothed" class="gt_row gt_right">0.000</td>
+<td headers="total_cases_per_million" class="gt_row gt_right">16314.23</td>
+<td headers="new_cases_per_million" class="gt_row gt_right">3.37</td>
+<td headers="new_cases_smoothed_per_million" class="gt_row gt_right">0.481</td>
+<td headers="total_deaths_per_million" class="gt_row gt_right">351.52</td>
+<td headers="new_deaths_per_million" class="gt_row gt_right">0</td>
+<td headers="new_deaths_smoothed_per_million" class="gt_row gt_right">0.000</td>
+<td headers="reproduction_rate" class="gt_row gt_right">NA</td>
+<td headers="icu_patients" class="gt_row gt_right">NA</td>
+<td headers="icu_patients_per_million" class="gt_row gt_right">NA</td>
+<td headers="hosp_patients" class="gt_row gt_right">NA</td>
+<td headers="hosp_patients_per_million" class="gt_row gt_right">NA</td>
+<td headers="weekly_icu_admissions" class="gt_row gt_right">NA</td>
+<td headers="weekly_icu_admissions_per_million" class="gt_row gt_right">NA</td>
+<td headers="weekly_hosp_admissions" class="gt_row gt_right">NA</td>
+<td headers="weekly_hosp_admissions_per_million" class="gt_row gt_right">NA</td>
+<td headers="total_tests" class="gt_row gt_right">NA</td>
+<td headers="new_tests" class="gt_row gt_right">NA</td>
+<td headers="total_tests_per_thousand" class="gt_row gt_right">NA</td>
+<td headers="new_tests_per_thousand" class="gt_row gt_right">NA</td>
+<td headers="new_tests_smoothed" class="gt_row gt_right">NA</td>
+<td headers="new_tests_smoothed_per_thousand" class="gt_row gt_right">NA</td>
+<td headers="positive_rate" class="gt_row gt_right">NA</td>
+<td headers="tests_per_case" class="gt_row gt_right">NA</td>
+<td headers="tests_units" class="gt_row gt_right"></td>
+<td headers="total_vaccinations" class="gt_row gt_right">NA</td>
+<td headers="people_vaccinated" class="gt_row gt_right">NA</td>
+<td headers="people_fully_vaccinated" class="gt_row gt_right">NA</td>
+<td headers="total_boosters" class="gt_row gt_right">NA</td>
+<td headers="new_vaccinations" class="gt_row gt_right">NA</td>
+<td headers="new_vaccinations_smoothed" class="gt_row gt_right">NA</td>
+<td headers="total_vaccinations_per_hundred" class="gt_row gt_right">NA</td>
+<td headers="people_vaccinated_per_hundred" class="gt_row gt_right">NA</td>
+<td headers="people_fully_vaccinated_per_hundred" class="gt_row gt_right">NA</td>
+<td headers="total_boosters_per_hundred" class="gt_row gt_right">NA</td>
+<td headers="new_vaccinations_smoothed_per_million" class="gt_row gt_right">NA</td>
+<td headers="new_people_vaccinated_smoothed" class="gt_row gt_right">NA</td>
+<td headers="new_people_vaccinated_smoothed_per_hundred" class="gt_row gt_right">NA</td>
+<td headers="stringency_index" class="gt_row gt_right">NA</td>
+<td headers="population_density" class="gt_row gt_right">42.729</td>
+<td headers="median_age" class="gt_row gt_right">19.6</td>
+<td headers="aged_65_older" class="gt_row gt_right">2.822</td>
+<td headers="aged_70_older" class="gt_row gt_right">1.882</td>
+<td headers="gdp_per_capita" class="gt_row gt_right">1899.775</td>
+<td headers="extreme_poverty" class="gt_row gt_right">21.4</td>
+<td headers="cardiovasc_death_rate" class="gt_row gt_right">307.846</td>
+<td headers="diabetes_prevalence" class="gt_row gt_right">1.82</td>
+<td headers="female_smokers" class="gt_row gt_right">1.6</td>
+<td headers="male_smokers" class="gt_row gt_right">30.7</td>
+<td headers="handwashing_facilities" class="gt_row gt_right">36.791</td>
+<td headers="hospital_beds_per_thousand" class="gt_row gt_right">1.7</td>
+<td headers="life_expectancy" class="gt_row gt_right">61.49</td>
+<td headers="human_development_index" class="gt_row gt_right">0.571</td>
+<td headers="population" class="gt_row gt_right">16320539</td>
+<td headers="excess_mortality_cumulative_absolute" class="gt_row gt_right">NA</td>
+<td headers="excess_mortality_cumulative" class="gt_row gt_right">NA</td>
+<td headers="excess_mortality" class="gt_row gt_right">NA</td>
+<td headers="excess_mortality_cumulative_per_million" class="gt_row gt_right">NA</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+<div id="cual-son-los-paises-incluido-en-esta-archivo"
+class="section level2">
+<h2>Cual son los paises incluido en esta archivo</h2>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">unique</span>(mydat<span class="sc">$</span>location)</span></code></pre></div>
+<pre><code>##   [1] &quot;Afghanistan&quot;                      &quot;Africa&quot;                          
+##   [3] &quot;Albania&quot;                          &quot;Algeria&quot;                         
+##   [5] &quot;American Samoa&quot;                   &quot;Andorra&quot;                         
+##   [7] &quot;Angola&quot;                           &quot;Anguilla&quot;                        
+##   [9] &quot;Antigua and Barbuda&quot;              &quot;Argentina&quot;                       
+##  [11] &quot;Armenia&quot;                          &quot;Aruba&quot;                           
+##  [13] &quot;Asia&quot;                             &quot;Australia&quot;                       
+##  [15] &quot;Austria&quot;                          &quot;Azerbaijan&quot;                      
+##  [17] &quot;Bahamas&quot;                          &quot;Bahrain&quot;                         
+##  [19] &quot;Bangladesh&quot;                       &quot;Barbados&quot;                        
+##  [21] &quot;Belarus&quot;                          &quot;Belgium&quot;                         
+##  [23] &quot;Belize&quot;                           &quot;Benin&quot;                           
+##  [25] &quot;Bermuda&quot;                          &quot;Bhutan&quot;                          
+##  [27] &quot;Bolivia&quot;                          &quot;Bonaire Sint Eustatius and Saba&quot; 
+##  [29] &quot;Bosnia and Herzegovina&quot;           &quot;Botswana&quot;                        
+##  [31] &quot;Brazil&quot;                           &quot;British Virgin Islands&quot;          
+##  [33] &quot;Brunei&quot;                           &quot;Bulgaria&quot;                        
+##  [35] &quot;Burkina Faso&quot;                     &quot;Burundi&quot;                         
+##  [37] &quot;Cambodia&quot;                         &quot;Cameroon&quot;                        
+##  [39] &quot;Canada&quot;                           &quot;Cape Verde&quot;                      
+##  [41] &quot;Cayman Islands&quot;                   &quot;Central African Republic&quot;        
+##  [43] &quot;Chad&quot;                             &quot;Chile&quot;                           
+##  [45] &quot;China&quot;                            &quot;Colombia&quot;                        
+##  [47] &quot;Comoros&quot;                          &quot;Congo&quot;                           
+##  [49] &quot;Cook Islands&quot;                     &quot;Costa Rica&quot;                      
+##  [51] &quot;Cote d&#39;Ivoire&quot;                    &quot;Croatia&quot;                         
+##  [53] &quot;Cuba&quot;                             &quot;Curacao&quot;                         
+##  [55] &quot;Cyprus&quot;                           &quot;Czechia&quot;                         
+##  [57] &quot;Democratic Republic of Congo&quot;     &quot;Denmark&quot;                         
+##  [59] &quot;Djibouti&quot;                         &quot;Dominica&quot;                        
+##  [61] &quot;Dominican Republic&quot;               &quot;Ecuador&quot;                         
+##  [63] &quot;Egypt&quot;                            &quot;El Salvador&quot;                     
+##  [65] &quot;England&quot;                          &quot;Equatorial Guinea&quot;               
+##  [67] &quot;Eritrea&quot;                          &quot;Estonia&quot;                         
+##  [69] &quot;Eswatini&quot;                         &quot;Ethiopia&quot;                        
+##  [71] &quot;Europe&quot;                           &quot;European Union&quot;                  
+##  [73] &quot;Faeroe Islands&quot;                   &quot;Falkland Islands&quot;                
+##  [75] &quot;Fiji&quot;                             &quot;Finland&quot;                         
+##  [77] &quot;France&quot;                           &quot;French Guiana&quot;                   
+##  [79] &quot;French Polynesia&quot;                 &quot;Gabon&quot;                           
+##  [81] &quot;Gambia&quot;                           &quot;Georgia&quot;                         
+##  [83] &quot;Germany&quot;                          &quot;Ghana&quot;                           
+##  [85] &quot;Gibraltar&quot;                        &quot;Greece&quot;                          
+##  [87] &quot;Greenland&quot;                        &quot;Grenada&quot;                         
+##  [89] &quot;Guadeloupe&quot;                       &quot;Guam&quot;                            
+##  [91] &quot;Guatemala&quot;                        &quot;Guernsey&quot;                        
+##  [93] &quot;Guinea&quot;                           &quot;Guinea-Bissau&quot;                   
+##  [95] &quot;Guyana&quot;                           &quot;Haiti&quot;                           
+##  [97] &quot;High income&quot;                      &quot;Honduras&quot;                        
+##  [99] &quot;Hong Kong&quot;                        &quot;Hungary&quot;                         
+## [101] &quot;Iceland&quot;                          &quot;India&quot;                           
+## [103] &quot;Indonesia&quot;                        &quot;Iran&quot;                            
+## [105] &quot;Iraq&quot;                             &quot;Ireland&quot;                         
+## [107] &quot;Isle of Man&quot;                      &quot;Israel&quot;                          
+## [109] &quot;Italy&quot;                            &quot;Jamaica&quot;                         
+## [111] &quot;Japan&quot;                            &quot;Jersey&quot;                          
+## [113] &quot;Jordan&quot;                           &quot;Kazakhstan&quot;                      
+## [115] &quot;Kenya&quot;                            &quot;Kiribati&quot;                        
+## [117] &quot;Kosovo&quot;                           &quot;Kuwait&quot;                          
+## [119] &quot;Kyrgyzstan&quot;                       &quot;Laos&quot;                            
+## [121] &quot;Latvia&quot;                           &quot;Lebanon&quot;                         
+## [123] &quot;Lesotho&quot;                          &quot;Liberia&quot;                         
+## [125] &quot;Libya&quot;                            &quot;Liechtenstein&quot;                   
+## [127] &quot;Lithuania&quot;                        &quot;Low income&quot;                      
+## [129] &quot;Lower middle income&quot;              &quot;Luxembourg&quot;                      
+## [131] &quot;Macao&quot;                            &quot;Madagascar&quot;                      
+## [133] &quot;Malawi&quot;                           &quot;Malaysia&quot;                        
+## [135] &quot;Maldives&quot;                         &quot;Mali&quot;                            
+## [137] &quot;Malta&quot;                            &quot;Marshall Islands&quot;                
+## [139] &quot;Martinique&quot;                       &quot;Mauritania&quot;                      
+## [141] &quot;Mauritius&quot;                        &quot;Mayotte&quot;                         
+## [143] &quot;Mexico&quot;                           &quot;Micronesia (country)&quot;            
+## [145] &quot;Moldova&quot;                          &quot;Monaco&quot;                          
+## [147] &quot;Mongolia&quot;                         &quot;Montenegro&quot;                      
+## [149] &quot;Montserrat&quot;                       &quot;Morocco&quot;                         
+## [151] &quot;Mozambique&quot;                       &quot;Myanmar&quot;                         
+## [153] &quot;Namibia&quot;                          &quot;Nauru&quot;                           
+## [155] &quot;Nepal&quot;                            &quot;Netherlands&quot;                     
+## [157] &quot;New Caledonia&quot;                    &quot;New Zealand&quot;                     
+## [159] &quot;Nicaragua&quot;                        &quot;Niger&quot;                           
+## [161] &quot;Nigeria&quot;                          &quot;Niue&quot;                            
+## [163] &quot;North America&quot;                    &quot;North Korea&quot;                     
+## [165] &quot;North Macedonia&quot;                  &quot;Northern Cyprus&quot;                 
+## [167] &quot;Northern Ireland&quot;                 &quot;Northern Mariana Islands&quot;        
+## [169] &quot;Norway&quot;                           &quot;Oceania&quot;                         
+## [171] &quot;Oman&quot;                             &quot;Pakistan&quot;                        
+## [173] &quot;Palau&quot;                            &quot;Palestine&quot;                       
+## [175] &quot;Panama&quot;                           &quot;Papua New Guinea&quot;                
+## [177] &quot;Paraguay&quot;                         &quot;Peru&quot;                            
+## [179] &quot;Philippines&quot;                      &quot;Pitcairn&quot;                        
+## [181] &quot;Poland&quot;                           &quot;Portugal&quot;                        
+## [183] &quot;Puerto Rico&quot;                      &quot;Qatar&quot;                           
+## [185] &quot;Reunion&quot;                          &quot;Romania&quot;                         
+## [187] &quot;Russia&quot;                           &quot;Rwanda&quot;                          
+## [189] &quot;Saint Barthelemy&quot;                 &quot;Saint Helena&quot;                    
+## [191] &quot;Saint Kitts and Nevis&quot;            &quot;Saint Lucia&quot;                     
+## [193] &quot;Saint Martin (French part)&quot;       &quot;Saint Pierre and Miquelon&quot;       
+## [195] &quot;Saint Vincent and the Grenadines&quot; &quot;Samoa&quot;                           
+## [197] &quot;San Marino&quot;                       &quot;Sao Tome and Principe&quot;           
+## [199] &quot;Saudi Arabia&quot;                     &quot;Scotland&quot;                        
+## [201] &quot;Senegal&quot;                          &quot;Serbia&quot;                          
+## [203] &quot;Seychelles&quot;                       &quot;Sierra Leone&quot;                    
+## [205] &quot;Singapore&quot;                        &quot;Sint Maarten (Dutch part)&quot;       
+## [207] &quot;Slovakia&quot;                         &quot;Slovenia&quot;                        
+## [209] &quot;Solomon Islands&quot;                  &quot;Somalia&quot;                         
+## [211] &quot;South Africa&quot;                     &quot;South America&quot;                   
+## [213] &quot;South Korea&quot;                      &quot;South Sudan&quot;                     
+## [215] &quot;Spain&quot;                            &quot;Sri Lanka&quot;                       
+## [217] &quot;Sudan&quot;                            &quot;Suriname&quot;                        
+## [219] &quot;Sweden&quot;                           &quot;Switzerland&quot;                     
+## [221] &quot;Syria&quot;                            &quot;Taiwan&quot;                          
+## [223] &quot;Tajikistan&quot;                       &quot;Tanzania&quot;                        
+## [225] &quot;Thailand&quot;                         &quot;Timor&quot;                           
+## [227] &quot;Togo&quot;                             &quot;Tokelau&quot;                         
+## [229] &quot;Tonga&quot;                            &quot;Trinidad and Tobago&quot;             
+## [231] &quot;Tunisia&quot;                          &quot;Turkey&quot;                          
+## [233] &quot;Turkmenistan&quot;                     &quot;Turks and Caicos Islands&quot;        
+## [235] &quot;Tuvalu&quot;                           &quot;Uganda&quot;                          
+## [237] &quot;Ukraine&quot;                          &quot;United Arab Emirates&quot;            
+## [239] &quot;United Kingdom&quot;                   &quot;United States&quot;                   
+## [241] &quot;United States Virgin Islands&quot;     &quot;Upper middle income&quot;             
+## [243] &quot;Uruguay&quot;                          &quot;Uzbekistan&quot;                      
+## [245] &quot;Vanuatu&quot;                          &quot;Vatican&quot;                         
+## [247] &quot;Venezuela&quot;                        &quot;Vietnam&quot;                         
+## [249] &quot;Wales&quot;                            &quot;Wallis and Futuna&quot;               
+## [251] &quot;Western Sahara&quot;                   &quot;World&quot;                           
+## [253] &quot;Yemen&quot;                            &quot;Zambia&quot;                          
+## [255] &quot;Zimbabwe&quot;</code></pre>
+</div>
+<div id="ejercicio-1" class="section level1">
+<h1>Ejercicio 1</h1>
+<p>5 puntos</p>
+<div id="seleccionar-variables-y-filtrar" class="section level3">
+<h3>Seleccionar variables y filtrar</h3>
+<ul>
+<li>Selecciona las variables de “location”, “new_cases” y
+“total_death”</li>
+<li>Filtrar para los datos de UN pais solamente.</li>
+</ul>
+</div>
+<div id="produzca-un-gráfico-de-wilkinson" class="section level3">
+<h3>Produzca un gráfico de Wilkinson</h3>
+<ul>
+<li>Selecciona un solapamiento de los datos para poder ver toso los
+puntos</li>
+</ul>
+</div>
+</div>
+<div id="ejercicio-2" class="section level1">
+<h1>Ejercicio 2</h1>
+<p>5 puntos</p>
+<div id="seleccionar-variables-y-filtrar-1" class="section level3">
+<h3>Seleccionar variables y filtrar</h3>
+<ul>
+<li>Selecciona las variables de “location”, “new_cases” y
+“total_death”</li>
+<li>Filtrar para los datos de dos paises caribeño. Nota que no he
+enseñado como seleccionar más de un país, mira a ver si encuentra
+solución en el internet. Si no la encuentra, habla con colegas de la
+clase. Si todavía no lo encuentra comunicarse conmigo.</li>
+</ul>
+</div>
+<div id="produzca-un-gráfico-de-wilkinson-1" class="section level3">
+<h3>Produzca un gráfico de Wilkinson</h3>
+<ul>
+<li>Selecciona un solapamiento de los datos para poder ver toso los
+puntos y posiciona los datos de los dos países uno al lado del
+otro.</li>
+</ul>
+</div>
+<div id="bono" class="section level2">
+<h2>Bono</h2>
+<p>3 puntos</p>
+<p>Selecciona cinco países <strong>pequeños</strong> del Caribe y
+reproduzca la gráfica anterior. Para que la gráfica se puede apreciar
+tendrán que usar los países con poblaciones más pequeño.</p>
+</div>
+</div>
+<div id="someter-los-script-y-gráfico-en-un-documento-.html-en-msteam"
+class="section level1">
+<h1>Someter los script y gráfico en un documento .html en MSTEAM</h1>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

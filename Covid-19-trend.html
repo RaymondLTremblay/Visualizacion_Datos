@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="RLT" />
+
+<meta name="date" content="2020-11-16" />
+
+<title>COVID-19 trend</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Visualización de Datos</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Módulos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="G1-ggplot2.html">Qué es la visualización de datos y ejemplos historicos</a>
+    </li>
+    <li>
+      <a href="G2-Errores-tipicos-en-la-visualizacion.html">Errores típicos en la visualización</a>
+    </li>
+    <li>
+      <a href="G3-Graficos-por-conteos.html">Gráficos para conteos</a>
+    </li>
+    <li>
+      <a href="G4-Grafico-de-puntos-de-Wilkinson.html">Gráficos de puntos de Wilkinson</a>
+    </li>
+    <li>
+      <a href="G5_geom_area_densidad_freqpoly.html">Gráficos de area y densidad</a>
+    </li>
+    <li>
+      <a href="G6_geom_histogram.html">Histogramas</a>
+    </li>
+    <li>
+      <a href="G7_geom_bar.html">Gráficos de barras</a>
+    </li>
+    <li>
+      <a href="G8_geom_boxplot_geom_violin.html">Gráficos de caja y de violín</a>
+    </li>
+    <li>
+      <a href="G9_Facet_Grid.html">Facet Grid</a>
+    </li>
+    <li>
+      <a href="G10_Facet_wrap.html">Facet Wrap</a>
+    </li>
+    <li>
+      <a href="G11_EVALUANDO_SUPUESTOS.html">Evaluando Supuestos</a>
+    </li>
+    <li>
+      <a href="G12_Mapas_Calor.html">Mapas de Calor</a>
+    </li>
+    <li>
+      <a href="G13_geom_line.html">Gráficos con lineas</a>
+    </li>
+    <li>
+      <a href="G14_geom_point_geom_jitter.html">Geom_point y geom_jitter</a>
+    </li>
+    <li>
+      <a href="G15_gganimate.html">Gráficos animados en movimiento</a>
+    </li>
+    <li>
+      <a href="G16_Tablas_Tablas_Tablas.html">Tablas y Tablas</a>
+    </li>
+    <li>
+      <a href="G17_LeafletTaller_abril2023.html">Leaflet</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Instalación básica
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Instalar-R-RStudio.html">Lo básico de RStudio</a>
+    </li>
+    <li>
+      <a href="Introduccion-RMarkdown.html">Lo básico de RMarkdown</a>
+    </li>
+    <li>
+      <a href="Codigos_basicos_en_R.html">R y Cheatsheets</a>
+    </li>
+    <li>
+      <a href="R_basico.html">R Básico #2</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Tareas y Ejercicios
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Ejerc_1.html">Ejercicio Básico</a>
+    </li>
+    <li>
+      <a href="Ejerc_2_geom_point.html">Ejercicio geom_point</a>
+    </li>
+    <li>
+      <a href="Ejerc_3_Wilkinson.html">Ejercicio Wilkinson</a>
+    </li>
+    <li>
+      <a href="Ejerc_4_point_count.html">Ejercicio de gráficos de puntos, conteos y histograma</a>
+    </li>
+    <li>
+      <a href="Ejerc_5_geom_line.html">Ejercicio de gráficos de lineas</a>
+    </li>
+    <li>
+      <a href="Ejerc_6_Covid_19.html">Ejercicio Final COVID19</a>
+    </li>
+    <li>
+      <a href="Ejerc_7_geom_point.html">Ejercicio geom_point</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Los Datos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Archivos_de_Datos.html">Archivos de Datos</a>
+    </li>
+    <li>
+      <a href="COVID-19.html">COVID-19</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Calendario
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="schedule.html">Calendario</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Otros paquetes gg
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="ST_ggblanket.html">El paquete ggblanket</a>
+    </li>
+    <li>
+      <a href="ST_gggibous2.html">El paquete gggibous</a>
+    </li>
+    <li>
+      <a href="ST_ggiraph.html">El paquete ggiraph</a>
+    </li>
+    <li>
+      <a href="ST_ggparty.html">El paquete ggparty</a>
+    </li>
+    <li>
+      <a href="ST_ggvenn.html">El paquete ggvenn</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">COVID-19 trend</h1>
+<h4 class="author">RLT</h4>
+<h4 class="date">11/16/2020</h4>
+
+</div>
+
+
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching core tidyverse packages ───────────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+## ✔ ggplot2   3.4.4     ✔ tibble    3.2.1
+## ✔ lubridate 1.9.3     ✔ tidyr     1.3.0
+## ✔ purrr     1.0.2     
+## ── Conflicts ─────────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<pre class="r"><code>library(ggplot2)
+library(readr)
+owid_covid_data &lt;- read_csv(&quot;COVID_DATA/owid-covid-data.csv&quot;)</code></pre>
+<pre><code>## Rows: 57180 Columns: 50
+## ── Column specification ─────────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr   (4): iso_code, continent, location, tests_units
+## dbl  (45): total_cases, new_cases, new_cases_smoothed, total_deaths, new_dea...
+## date  (1): date
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>owid=owid_covid_data</code></pre>
+<p>Variable names</p>
+<pre class="r"><code>names(owid)</code></pre>
+<pre><code>##  [1] &quot;iso_code&quot;                           &quot;continent&quot;                         
+##  [3] &quot;location&quot;                           &quot;date&quot;                              
+##  [5] &quot;total_cases&quot;                        &quot;new_cases&quot;                         
+##  [7] &quot;new_cases_smoothed&quot;                 &quot;total_deaths&quot;                      
+##  [9] &quot;new_deaths&quot;                         &quot;new_deaths_smoothed&quot;               
+## [11] &quot;total_cases_per_million&quot;            &quot;new_cases_per_million&quot;             
+## [13] &quot;new_cases_smoothed_per_million&quot;     &quot;total_deaths_per_million&quot;          
+## [15] &quot;new_deaths_per_million&quot;             &quot;new_deaths_smoothed_per_million&quot;   
+## [17] &quot;reproduction_rate&quot;                  &quot;icu_patients&quot;                      
+## [19] &quot;icu_patients_per_million&quot;           &quot;hosp_patients&quot;                     
+## [21] &quot;hosp_patients_per_million&quot;          &quot;weekly_icu_admissions&quot;             
+## [23] &quot;weekly_icu_admissions_per_million&quot;  &quot;weekly_hosp_admissions&quot;            
+## [25] &quot;weekly_hosp_admissions_per_million&quot; &quot;total_tests&quot;                       
+## [27] &quot;new_tests&quot;                          &quot;total_tests_per_thousand&quot;          
+## [29] &quot;new_tests_per_thousand&quot;             &quot;new_tests_smoothed&quot;                
+## [31] &quot;new_tests_smoothed_per_thousand&quot;    &quot;tests_per_case&quot;                    
+## [33] &quot;positive_rate&quot;                      &quot;tests_units&quot;                       
+## [35] &quot;stringency_index&quot;                   &quot;population&quot;                        
+## [37] &quot;population_density&quot;                 &quot;median_age&quot;                        
+## [39] &quot;aged_65_older&quot;                      &quot;aged_70_older&quot;                     
+## [41] &quot;gdp_per_capita&quot;                     &quot;extreme_poverty&quot;                   
+## [43] &quot;cardiovasc_death_rate&quot;              &quot;diabetes_prevalence&quot;               
+## [45] &quot;female_smokers&quot;                     &quot;male_smokers&quot;                      
+## [47] &quot;handwashing_facilities&quot;             &quot;hospital_beds_per_thousand&quot;        
+## [49] &quot;life_expectancy&quot;                    &quot;human_development_index&quot;</code></pre>
+<pre class="r"><code>head(owid)</code></pre>
+<pre><code>## # A tibble: 6 × 50
+##   iso_code continent     location date       total_cases new_cases
+##   &lt;chr&gt;    &lt;chr&gt;         &lt;chr&gt;    &lt;date&gt;           &lt;dbl&gt;     &lt;dbl&gt;
+## 1 ABW      North America Aruba    2020-03-13           2         2
+## 2 ABW      North America Aruba    2020-03-19          NA        NA
+## 3 ABW      North America Aruba    2020-03-20           4         2
+## 4 ABW      North America Aruba    2020-03-21          NA        NA
+## 5 ABW      North America Aruba    2020-03-22          NA        NA
+## 6 ABW      North America Aruba    2020-03-23          NA        NA
+## # ℹ 44 more variables: new_cases_smoothed &lt;dbl&gt;, total_deaths &lt;dbl&gt;,
+## #   new_deaths &lt;dbl&gt;, new_deaths_smoothed &lt;dbl&gt;, total_cases_per_million &lt;dbl&gt;,
+## #   new_cases_per_million &lt;dbl&gt;, new_cases_smoothed_per_million &lt;dbl&gt;,
+## #   total_deaths_per_million &lt;dbl&gt;, new_deaths_per_million &lt;dbl&gt;,
+## #   new_deaths_smoothed_per_million &lt;dbl&gt;, reproduction_rate &lt;dbl&gt;,
+## #   icu_patients &lt;dbl&gt;, icu_patients_per_million &lt;dbl&gt;, hosp_patients &lt;dbl&gt;,
+## #   hosp_patients_per_million &lt;dbl&gt;, weekly_icu_admissions &lt;dbl&gt;, …</code></pre>
+<pre class="r"><code>owid %&gt;% 
+  filter(location==&quot;Aruba&quot;)%&gt;% 
+  dplyr::mutate(new_cases = replace_na(new_cases, 0))</code></pre>
+<pre><code>## # A tibble: 244 × 50
+##    iso_code continent     location date       total_cases new_cases
+##    &lt;chr&gt;    &lt;chr&gt;         &lt;chr&gt;    &lt;date&gt;           &lt;dbl&gt;     &lt;dbl&gt;
+##  1 ABW      North America Aruba    2020-03-13           2         2
+##  2 ABW      North America Aruba    2020-03-19          NA         0
+##  3 ABW      North America Aruba    2020-03-20           4         2
+##  4 ABW      North America Aruba    2020-03-21          NA         0
+##  5 ABW      North America Aruba    2020-03-22          NA         0
+##  6 ABW      North America Aruba    2020-03-23          NA         0
+##  7 ABW      North America Aruba    2020-03-24          12         8
+##  8 ABW      North America Aruba    2020-03-25          17         5
+##  9 ABW      North America Aruba    2020-03-26          19         2
+## 10 ABW      North America Aruba    2020-03-27          28         9
+## # ℹ 234 more rows
+## # ℹ 44 more variables: new_cases_smoothed &lt;dbl&gt;, total_deaths &lt;dbl&gt;,
+## #   new_deaths &lt;dbl&gt;, new_deaths_smoothed &lt;dbl&gt;, total_cases_per_million &lt;dbl&gt;,
+## #   new_cases_per_million &lt;dbl&gt;, new_cases_smoothed_per_million &lt;dbl&gt;,
+## #   total_deaths_per_million &lt;dbl&gt;, new_deaths_per_million &lt;dbl&gt;,
+## #   new_deaths_smoothed_per_million &lt;dbl&gt;, reproduction_rate &lt;dbl&gt;,
+## #   icu_patients &lt;dbl&gt;, icu_patients_per_million &lt;dbl&gt;, hosp_patients &lt;dbl&gt;, …</code></pre>
+<p>Calucalting a rolling average , rolling mean</p>
+<p>From this website</p>
+<p><a
+href="https://www.storybench.org/how-to-calculate-a-rolling-average-in-r/"
+class="uri">https://www.storybench.org/how-to-calculate-a-rolling-average-in-r/</a></p>
+<pre class="r"><code>Aruba=owid %&gt;% 
+  filter(location==&quot;Aruba&quot;) %&gt;% 
+  dplyr::mutate(new_cases = replace_na(new_cases, 0)) %&gt;% 
+    dplyr::mutate(new_cases_03da = zoo::rollmean(new_cases, k = 3, fill = NA),
+                  new_cases_07da = zoo::rollmean(new_cases, k = 7, fill = NA),
+                  new_cases_14da = zoo::rollmean(new_cases, k = 14, fill = NA))
+Aruba</code></pre>
+<pre><code>## # A tibble: 244 × 53
+##    iso_code continent     location date       total_cases new_cases
+##    &lt;chr&gt;    &lt;chr&gt;         &lt;chr&gt;    &lt;date&gt;           &lt;dbl&gt;     &lt;dbl&gt;
+##  1 ABW      North America Aruba    2020-03-13           2         2
+##  2 ABW      North America Aruba    2020-03-19          NA         0
+##  3 ABW      North America Aruba    2020-03-20           4         2
+##  4 ABW      North America Aruba    2020-03-21          NA         0
+##  5 ABW      North America Aruba    2020-03-22          NA         0
+##  6 ABW      North America Aruba    2020-03-23          NA         0
+##  7 ABW      North America Aruba    2020-03-24          12         8
+##  8 ABW      North America Aruba    2020-03-25          17         5
+##  9 ABW      North America Aruba    2020-03-26          19         2
+## 10 ABW      North America Aruba    2020-03-27          28         9
+## # ℹ 234 more rows
+## # ℹ 47 more variables: new_cases_smoothed &lt;dbl&gt;, total_deaths &lt;dbl&gt;,
+## #   new_deaths &lt;dbl&gt;, new_deaths_smoothed &lt;dbl&gt;, total_cases_per_million &lt;dbl&gt;,
+## #   new_cases_per_million &lt;dbl&gt;, new_cases_smoothed_per_million &lt;dbl&gt;,
+## #   total_deaths_per_million &lt;dbl&gt;, new_deaths_per_million &lt;dbl&gt;,
+## #   new_deaths_smoothed_per_million &lt;dbl&gt;, reproduction_rate &lt;dbl&gt;,
+## #   icu_patients &lt;dbl&gt;, icu_patients_per_million &lt;dbl&gt;, hosp_patients &lt;dbl&gt;, …</code></pre>
+<pre class="r"><code>library(ggplot2)
+
+
+Aruba %&gt;% 
+  summarize(mean=mean(new_cases_03da, na.rm=TRUE))</code></pre>
+<pre><code>## # A tibble: 1 × 1
+##    mean
+##   &lt;dbl&gt;
+## 1  19.2</code></pre>
+<pre class="r"><code>mid=mean(Aruba$new_cases_03da, na.rm=TRUE)
+mid</code></pre>
+<pre><code>## [1] 19.23691</code></pre>
+<pre class="r"><code>Aruba %&gt;% 
+ggplot(aes(date, new_cases, colour=new_cases_07da))+
+  geom_linerange(aes(x=date, ymax=new_cases, ymin=0.75))+
+  scale_color_gradient(low = &quot;grey&quot;, high = &quot;red&quot;)+
+    geom_line(aes(x=date, new_cases_07da), colour=&quot;black&quot;)+
+  ggtitle(&quot;Aruba: Covid-19 New Cases&quot;)</code></pre>
+<pre><code>## Warning: Removed 6 rows containing missing values (`geom_line()`).</code></pre>
+<p><img src="Covid-19-trend_files/figure-html/aruba%20graph-1.png" width="672" /></p>
+<pre class="r"><code>PR=owid %&gt;% 
+  filter(location==&quot;Puerto Rico&quot;) %&gt;% 
+  dplyr::mutate(new_cases = replace_na(new_cases, 0)) %&gt;% 
+    dplyr::mutate(new_cases_03da = zoo::rollmean(new_cases, k = 3, fill = NA),
+                  new_cases_07da = zoo::rollmean(new_cases, k = 7, fill = NA),
+                  new_cases_14da = zoo::rollmean(new_cases, k = 14, fill = NA))
+PR</code></pre>
+<pre><code>## # A tibble: 234 × 53
+##    iso_code continent     location    date       total_cases new_cases
+##    &lt;chr&gt;    &lt;chr&gt;         &lt;chr&gt;       &lt;date&gt;           &lt;dbl&gt;     &lt;dbl&gt;
+##  1 PRI      North America Puerto Rico 2020-03-28          64        64
+##  2 PRI      North America Puerto Rico 2020-03-29         100        36
+##  3 PRI      North America Puerto Rico 2020-03-30         127        27
+##  4 PRI      North America Puerto Rico 2020-03-31         174        47
+##  5 PRI      North America Puerto Rico 2020-04-01         239        65
+##  6 PRI      North America Puerto Rico 2020-04-02         286        47
+##  7 PRI      North America Puerto Rico 2020-04-03         316        30
+##  8 PRI      North America Puerto Rico 2020-04-04         378        62
+##  9 PRI      North America Puerto Rico 2020-04-05         452        74
+## 10 PRI      North America Puerto Rico 2020-04-06         475        23
+## # ℹ 224 more rows
+## # ℹ 47 more variables: new_cases_smoothed &lt;dbl&gt;, total_deaths &lt;dbl&gt;,
+## #   new_deaths &lt;dbl&gt;, new_deaths_smoothed &lt;dbl&gt;, total_cases_per_million &lt;dbl&gt;,
+## #   new_cases_per_million &lt;dbl&gt;, new_cases_smoothed_per_million &lt;dbl&gt;,
+## #   total_deaths_per_million &lt;dbl&gt;, new_deaths_per_million &lt;dbl&gt;,
+## #   new_deaths_smoothed_per_million &lt;dbl&gt;, reproduction_rate &lt;dbl&gt;,
+## #   icu_patients &lt;dbl&gt;, icu_patients_per_million &lt;dbl&gt;, hosp_patients &lt;dbl&gt;, …</code></pre>
+<pre class="r"><code>library(slider)
+
+PR2=owid %&gt;%
+  filter(location==&quot;Puerto Rico&quot;) %&gt;% 
+  mutate(new_cases_14daSlider = slider::slide_dbl(new_cases, mean, .before = 14, .after = 0)) %&gt;%
+  mutate(new_cases_07daSlider = slider::slide_dbl(new_cases, mean, .before = 7, .after = 0)) %&gt;%
+  mutate(new_cases_03daSlider = slider::slide_dbl(new_cases, mean, .before = 3, .after = 0)) %&gt;%
+  ungroup()
+PR2</code></pre>
+<pre><code>## # A tibble: 234 × 53
+##    iso_code continent     location    date       total_cases new_cases
+##    &lt;chr&gt;    &lt;chr&gt;         &lt;chr&gt;       &lt;date&gt;           &lt;dbl&gt;     &lt;dbl&gt;
+##  1 PRI      North America Puerto Rico 2020-03-28          64        64
+##  2 PRI      North America Puerto Rico 2020-03-29         100        36
+##  3 PRI      North America Puerto Rico 2020-03-30         127        27
+##  4 PRI      North America Puerto Rico 2020-03-31         174        47
+##  5 PRI      North America Puerto Rico 2020-04-01         239        65
+##  6 PRI      North America Puerto Rico 2020-04-02         286        47
+##  7 PRI      North America Puerto Rico 2020-04-03         316        30
+##  8 PRI      North America Puerto Rico 2020-04-04         378        62
+##  9 PRI      North America Puerto Rico 2020-04-05         452        74
+## 10 PRI      North America Puerto Rico 2020-04-06         475        23
+## # ℹ 224 more rows
+## # ℹ 47 more variables: new_cases_smoothed &lt;dbl&gt;, total_deaths &lt;dbl&gt;,
+## #   new_deaths &lt;dbl&gt;, new_deaths_smoothed &lt;dbl&gt;, total_cases_per_million &lt;dbl&gt;,
+## #   new_cases_per_million &lt;dbl&gt;, new_cases_smoothed_per_million &lt;dbl&gt;,
+## #   total_deaths_per_million &lt;dbl&gt;, new_deaths_per_million &lt;dbl&gt;,
+## #   new_deaths_smoothed_per_million &lt;dbl&gt;, reproduction_rate &lt;dbl&gt;,
+## #   icu_patients &lt;dbl&gt;, icu_patients_per_million &lt;dbl&gt;, hosp_patients &lt;dbl&gt;, …</code></pre>
+<pre class="r"><code>PR %&gt;% 
+ggplot(aes(date, new_cases, colour=new_cases_14da))+
+  geom_linerange(aes(x=date, ymax=new_cases, ymin=0.75))+
+  scale_color_gradient(low = &quot;grey&quot;, high = &quot;red&quot;)+
+    geom_line(aes(x=date, new_cases_14da), colour=&quot;black&quot;)+
+  ggtitle(&quot;Puerto Rico: Covid-19 New Cases, rolling average of 7 days&quot;)</code></pre>
+<pre><code>## Warning: Removed 13 rows containing missing values (`geom_line()`).</code></pre>
+<p><img src="Covid-19-trend_files/figure-html/PR%20graph-1.png" width="672" /></p>
+<pre class="r"><code>PR2 %&gt;% 
+ggplot(aes(date, new_cases, colour=new_cases_14daSlider))+
+  geom_linerange(aes(x=date, ymax=new_cases, ymin=0.75))+
+  scale_color_gradient(low = &quot;black&quot;, high = &quot;red&quot;)+
+    geom_line(aes(x=date, new_cases_14daSlider), colour=&quot;black&quot;)+
+ labs(colour = &quot;Average of \nlast 14 days&quot;)+
+  ggtitle(&quot;Puerto Rico: Covid-19 New Cases, \n backward rolling average of 14 days &quot;)</code></pre>
+<p><img src="Covid-19-trend_files/figure-html/slider%20function-1.png" width="672" /></p>
+<pre class="r"><code>ggsave(&quot;PR_COCID_14day_average.png&quot;)</code></pre>
+<pre><code>## Saving 7 x 5 in image</code></pre>
+<pre class="r"><code>#  geom_line(aes(x=date, new_cases_07daSlider), colour=&quot;blue&quot;)+</code></pre>
+<pre class="r"><code>library(readr)
+us_counties &lt;- read_csv(&quot;COVID_DATA/us_counties.csv&quot;)</code></pre>
+<pre><code>## Rows: 735516 Columns: 7
+## ── Column specification ─────────────────────────────────────────────────────────────
+## Delimiter: &quot;,&quot;
+## chr (3): date, county, us_state
+## dbl (4): List_Num, fips, cases, deaths
+## 
+## ℹ Use `spec()` to retrieve the full column specification for this data.
+## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<pre class="r"><code>#write.csv(us_counties, &quot;COVID_DATA/us_counties.csv&quot;)</code></pre>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
