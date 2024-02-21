@@ -58,7 +58,7 @@ El gráfico de barras es una representación de la frecuencia de ocurrencia de e
 
 En el siguiente ejemplo, primero removeremos los **NA** del archivo usando **drop_na()**, es el función que excluye todas las filas que contienen los **NA**.  Nuevamente utilizaremos el archivo de datos de la *Dipodium rosea*:
 
-```{r dipodium-barra,  echo=TRUE}
+```{r dipodium_barra,  echo=TRUE}
 
 
 # DW$Number_of_Flowers  # Antes de hacer los análisis mira los datos, y vea que hay muchas filas con **NA**, remueve **#** para activar la función. 
@@ -91,7 +91,7 @@ DW %>%
 
 Se puede cambiar la intensidad del color de las barras usando **alpha**.  los valores pueden variar de 0 a 1, donde 1 es mas intenso el color, aquí se utiliza un **alpha=0.3**. 
 
-```{r dipodium-barra1,  echo=TRUE}
+```{r dipodium_barra1,  echo=TRUE}
 
 head(DW)
 
@@ -138,7 +138,7 @@ ggplot(Lelto, aes(Adultos))+
 
 Ahora le añadiremos una variable discreta que representa las frecuencias de las plantas con frutos y la frecuencia de plantas sin frutos para las posiciones de la flor en la inflorescencia. En el **script** se observa que la variable **Frutos_si_o_no** se identifica como un factor. Esto es necesario porque en el archivo de datos la presencia de frutos y flores fue identificada como 1 o 0 o sea valores numéricos.  Si se hubiera identificado como **Sí** o **No**, no habría la necesidad de identificar que es un factor. En tal caso, es necesario identificar que estos valores son una categoría usando factor. El gráfico presenta las variables discretas una sobre la otra. Note en la Figura al igual que con **geom_histogram**, la frecuencia del segundo grupo es añadida a la frecuencia del primer grupo.
 
-```{r dipodium-barra2,  echo=TRUE}
+```{r dipodium_barra2,  echo=TRUE}
 
 
 DW%>%
@@ -165,7 +165,7 @@ head(Lelto)
 
 Para presentar los grupos uno al lado del otro se usa el parámetro **position ="dodge"**, lo que hará que cada grupo quede posicionado contiguamente. Además, removeremos la leyenda con **guides(fill=FALSE)** como se muestra a continuación con los datos de la *Dipodium rosea*:
 
-```{r dipodium-barra3,  echo=TRUE}
+```{r dipodium_barra3,  echo=TRUE}
 
 DW%>%
   select(fruit_position_effect,frutos_si_o_no )%>%
@@ -188,7 +188,7 @@ DW%>%
 
 En el próximo gráfico, la frecuencia de ambos grupos comienza en cero pero aún saldrán sobrepuestos uno al otro usando **position=identity**
 
-```{r dipodium-barra3b,  echo=TRUE}
+```{r dipodium_barra3b,  echo=TRUE}
 
 DW%>%
   select(fruit_position_effect,frutos_si_o_no )%>%
@@ -212,7 +212,7 @@ Para mostrar el porcentaje de cada uno de los grupos, tenemos que usar una fórm
 
 
 fill=factor(Frutos_si_o_no)
-```{r dipodium-barra3a,  echo=TRUE}
+```{r dipodium_barra3a,  echo=TRUE}
 
 
 DW%>%
@@ -238,7 +238,7 @@ DW%>%
 
 Para que cada barra represente el 100% de los grupos en el eje de **X**, se usa el parámetro **position="fill"**. En el siguiente ejemplo se le añade la variable discreta en este caso; o sea, si la planta tiene frutos (verde) o no (rojo). Ecologicamente se observa que la posición de las flores arriba (>27) en la inflorescencia resulta en menos frutos porcentualmente que las posiciones más abajo.  
 
-```{r dipodium-barra4,  echo=TRUE}
+```{r dipodium_barra4,  echo=TRUE}
 require(scales)
 
 DW%>%
@@ -315,7 +315,7 @@ ggplot(dfLelto, aes(Conteos, fill=Etapa_de_Vida))+
 
 En el siguiente gráfico, reordenamos la secuencia en **X** por orden del número de flores y su frecuencia. Primero, hay que crear una función para reordenar la variable, la que llamaremos **reorder_size**.  El segundo paso es invocar esta función desde **ggplot**.   La función es aplicable a cualquier variable que uno quisiera ordenar y tener como factor.  En la figura podemos observar que en el muestreo hay solamente una planta con la siguiente cantidad de flores (1, 3, 4, 7, 8, 34, 36, 37, 43; extremo izquierda), y hay 13 plantas con 23 flores (extremo derecha) y otras frecuencias de plantas con diferentes cantidades de flores entre medio.
 
-```{r dipodium-barra5,  echo=TRUE}
+```{r dipodium_barra5,  echo=TRUE}
 # Aquí se crea una función para re-ordenar la variable X. 
 
 reorder_size <- function(x) {
@@ -349,7 +349,7 @@ Para especificar que se usen solamente los datos de un subgrupo de cada variable
 
 También note que tenemos datos a la izquierda y a la derecha del valor de cero. Se produce este patrón usando {-Valor} en uno de los grupos, donde el valor es el tamaño poblacional por grupo de edad.  Por último, se tiene que añadir **coord_flip()** para que las barras queden de forma horizontal.
 
-```{r geom-barraDemo,  echo=TRUE}
+```{r geom_barraDemo,  echo=TRUE}
 ggversa::Pop_PR
 # Para observar las primeras 4 filas del archivo
 head(Pop_PR, n=50)
@@ -511,27 +511,17 @@ DR %>%
 Este tipo de representación puede ser efectiva para mostrar patrones en donde los valores son negativos y positivos; por ejemplo, la temperatura. Para demostrarlo, ahora daremos un ejemplo que proviene del pueblo de Asbestos, Quebec, Canadá.  Los datos fueron extraídos de la base de datos de http://climate.weather.gc.ca/historical_data/search_historic_data_e.html (identifier 7020360).  El archivo de datos contiene la temperatura promedio (por mes) de la máxima y la mínima del 1948 al 1987.  Seleccionaremos solamente un conjunto limitado de los datos del año 1963 al 1968. Además, tendremos que voltear la información alrededor del eje de **X** para que se pueda leer, tal como se demuestra en la Figura. El primer paso es identificar que la variable Fecha es de tipo dato secuencial fecha y tiempo.  El segundo paso es identificar si los valores de temperatura máxima están por debajo o por encima del punto de congelación, < 0C°, o > 0C°, creando una nueva columna que aquí llamamos **NegPos**.  El tercer paso es usar solamente un subgrupo de información del archivo para mejorar la representación, ya que este tiene datos del 1948 al 1987.  Se seleccionan los años 1963 al 1966.
 
 ### Primero miramos los datos
-```{r geom-Temperatura,  echo=TRUE}
+```{r geom_Temperatura,  echo=TRUE}
 library(ggversa)
 names(ASBESTOS_QUEBEC)
 head(ASBESTOS_QUEBEC)
 is.data.frame(ASBESTOS_QUEBEC) # para determinar si el archivo es un data frame?
-#attach(ASBESTOS_QUEBEC)
+ggversa::ASBESTOS_QUEBEC
 
 
 ```
 
-### Identificar que la variable "Fecha" es una variable de tiempo. Habrá un modulo para discutir solamente de fechas y horas.  
-```{r}
-# Identificar que la variable "Fecha" es una variable de tiempo.
-#names(ASBESTOS_QUEBEC)[names(ASBESTOS_QUEBEC) == 'Date.Time'] <- 'Fecha'
 
-library(lubridate)
-ASBESTOS_QUEBEC$date=ym(ASBESTOS_QUEBEC$Fecha)
-head(ASBESTOS_QUEBEC, n=15)
-
-
-```
 
 
 ```{r}
@@ -541,6 +531,19 @@ library(janitor)
 
 ASBESTOS_QUEBEC=clean_names(ASBESTOS_QUEBEC)
 head(ASBESTOS_QUEBEC)
+
+```
+
+
+### Identificar que la variable "Fecha" es una variable de tiempo. Habrá un modulo para discutir solamente de fechas y horas.  
+```{r}
+# Identificar que la variable "Fecha" es una variable de tiempo.
+#names(ASBESTOS_QUEBEC)[names(ASBESTOS_QUEBEC) == 'Date.Time'] <- 'Fecha'
+
+library(lubridate)
+ASBESTOS_QUEBEC$date=ym(ASBESTOS_QUEBEC$fecha)
+head(ASBESTOS_QUEBEC, n=15)
+
 
 ```
 
