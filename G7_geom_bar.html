@@ -590,7 +590,7 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2024-02-06&quot;</code></pre>
+<pre><code>## [1] &quot;2024-02-21&quot;</code></pre>
 <p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" /></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co">#devtools::install_github(&quot;EvaMaeRey/flipbookr&quot;)</span></span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">library</span>(flipbookr) </span>
@@ -887,7 +887,7 @@ medio.</p>
 <span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a>  <span class="fu">factor</span>(x, <span class="at">levels =</span> <span class="fu">names</span>(<span class="fu">sort</span>(<span class="fu">table</span>(x))))</span>
 <span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a>}</span>
 <span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a></span>
-<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a></span>
+<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a><span class="co">#reorder_size(DW$number_of_flowers)</span></span>
 <span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a></span>
 <span id="cb21-9"><a href="#cb21-9" tabindex="-1"></a>DW<span class="sc">%&gt;%</span></span>
 <span id="cb21-10"><a href="#cb21-10" tabindex="-1"></a>  <span class="fu">select</span>(number_of_flowers )<span class="sc">%&gt;%</span></span>
@@ -917,7 +917,7 @@ los datos de <strong>Mujer</strong> (derecha) y otro con los datos de
 <strong>Hombre</strong> (izquierda).</p>
 <p>Para especificar que se usen solamente los datos de un subgrupo de
 cada variable, se hace de la misma manera que en R; o sea,</p>
-<pre><code>subset(Pop_PR,Pop_PR$Sexo==&quot;Mujer&quot;) # el &quot;==&quot; es para indicar que tiene que cu mplir con esta condición exclusiva</code></pre>
+<pre><code>subset(Pop_PR,Pop_PR$Sexo==&quot;Mujer&quot;) # el &quot;==&quot; es para indicar que tiene que cumplir con esta condición exclusiva</code></pre>
 <p>También note que tenemos datos a la izquierda y a la derecha del
 valor de cero. Se produce este patrón usando {-Valor} en uno de los
 grupos, donde el valor es el tamaño poblacional por grupo de edad. Por
@@ -1010,25 +1010,48 @@ barras queden de forma horizontal.</p>
 <div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>Pop_PR) <span class="sc">+</span></span>
 <span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(Edad, Valor, <span class="at">group=</span> Sexo, <span class="at">fill=</span>Sexo),</span>
 <span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a>           <span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>,</span>
-<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a>           <span class="fu">subset</span>(Pop_PR,Pop_PR<span class="sc">$</span>Sexo<span class="sc">==</span><span class="st">&quot;Mujer&quot;</span>))<span class="sc">+</span></span>
-<span id="cb29-5"><a href="#cb29-5" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(Edad,<span class="sc">-</span>Valor,<span class="at">group=</span>Sexo,<span class="at">fill=</span>Sexo),  <span class="co"># nota el &quot;negativo&quot; antes de la </span></span>
-<span id="cb29-6"><a href="#cb29-6" tabindex="-1"></a>           <span class="co">#variable &quot;Valor&quot;, se le esta asignando un valor negativo a cada valor a los hombres.  </span></span>
-<span id="cb29-7"><a href="#cb29-7" tabindex="-1"></a>           <span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>,</span>
-<span id="cb29-8"><a href="#cb29-8" tabindex="-1"></a>           <span class="fu">subset</span>(Pop_PR,Pop_PR<span class="sc">$</span>Sexo<span class="sc">==</span><span class="st">&quot;Hombre&quot;</span>))<span class="sc">+</span></span>
-<span id="cb29-9"><a href="#cb29-9" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">seq</span>(<span class="sc">-</span><span class="dv">140000</span>,<span class="dv">140000</span>,<span class="dv">40000</span>),</span>
-<span id="cb29-10"><a href="#cb29-10" tabindex="-1"></a>                     <span class="at">labels=</span><span class="fu">abs</span>(<span class="fu">seq</span>(<span class="sc">-</span><span class="dv">140000</span>,<span class="dv">140000</span>,<span class="dv">40000</span>)))<span class="sc">+</span></span>
-<span id="cb29-11"><a href="#cb29-11" tabindex="-1"></a>  <span class="fu">coord_flip</span>()<span class="sc">+</span></span>
-<span id="cb29-12"><a href="#cb29-12" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Tamaño poblacional&quot;</span>)<span class="sc">+</span></span>
-<span id="cb29-13"><a href="#cb29-13" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb29-14"><a href="#cb29-14" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;green&quot;</span>, <span class="st">&quot;#36211D&quot;</span>))<span class="sc">+</span></span>
-<span id="cb29-15"><a href="#cb29-15" tabindex="-1"></a> <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;green&quot;</span>, <span class="st">&quot;#36211D&quot;</span>))</span></code></pre></div>
+<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a>           <span class="fu">subset</span>(Pop_PR,Pop_PR<span class="sc">$</span>Sexo<span class="sc">==</span><span class="st">&quot;Mujer&quot;</span>))</span></code></pre></div>
 <p><img src="G7_geom_bar_files/figure-html/geom-barraDemo-1.png" width="672" /></p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="co">#Population Pyramid de PR, del censo 2015. </span></span>
-<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a></span>
-<span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a><span class="co"># ggsave(&quot;Graficos/Piramide_PR_censo2015.png&quot;)</span></span>
-<span id="cb30-4"><a href="#cb30-4" tabindex="-1"></a></span>
-<span id="cb30-5"><a href="#cb30-5" tabindex="-1"></a>Pop_PR<span class="sc">$</span>SexoNum<span class="ot">=</span><span class="fu">as.numeric</span>(Pop_PR<span class="sc">$</span>Sexo)</span>
-<span id="cb30-6"><a href="#cb30-6" tabindex="-1"></a><span class="fu">head</span>(Pop_PR)</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>Pop_PR) <span class="sc">+</span></span>
+<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(Edad,<span class="sc">-</span>Valor,<span class="at">group=</span>Sexo,<span class="at">fill=</span>Sexo),  <span class="co"># nota el &quot;negativo&quot; antes de la </span></span>
+<span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a>           <span class="co">#variable &quot;Valor&quot;, se le esta asignando un valor negativo a cada valor a los hombres.  </span></span>
+<span id="cb30-4"><a href="#cb30-4" tabindex="-1"></a>           <span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>,</span>
+<span id="cb30-5"><a href="#cb30-5" tabindex="-1"></a>           <span class="fu">subset</span>(Pop_PR,Pop_PR<span class="sc">$</span>Sexo<span class="sc">==</span><span class="st">&quot;Hombre&quot;</span>))</span></code></pre></div>
+<p><img src="G7_geom_bar_files/figure-html/geom-barraDemo-2.png" width="672" /></p>
+</div>
+<div id="unir-los-dos-graficos-de-barras" class="section level1">
+<h1>Unir los dos graficos de barras</h1>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>Pop_PR) <span class="sc">+</span></span>
+<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(Edad, Valor, <span class="at">group=</span> Sexo, <span class="at">fill=</span>Sexo),</span>
+<span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a>           <span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>,</span>
+<span id="cb31-4"><a href="#cb31-4" tabindex="-1"></a>           <span class="fu">subset</span>(Pop_PR,Pop_PR<span class="sc">$</span>Sexo<span class="sc">==</span><span class="st">&quot;Mujer&quot;</span>))<span class="sc">+</span></span>
+<span id="cb31-5"><a href="#cb31-5" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(Edad,<span class="sc">-</span>Valor,<span class="at">group=</span>Sexo,<span class="at">fill=</span>Sexo),  <span class="co"># nota el &quot;negativo&quot; antes de la </span></span>
+<span id="cb31-6"><a href="#cb31-6" tabindex="-1"></a>           <span class="co">#variable &quot;Valor&quot;, se le esta asignando un valor negativo a cada valor a los hombres.  </span></span>
+<span id="cb31-7"><a href="#cb31-7" tabindex="-1"></a>           <span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>,</span>
+<span id="cb31-8"><a href="#cb31-8" tabindex="-1"></a>           <span class="fu">subset</span>(Pop_PR,Pop_PR<span class="sc">$</span>Sexo<span class="sc">==</span><span class="st">&quot;Hombre&quot;</span>))</span></code></pre></div>
+<p><img src="G7_geom_bar_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>Pop_PR) <span class="sc">+</span></span>
+<span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(Edad, Valor, <span class="at">group=</span> Sexo, <span class="at">fill=</span>Sexo),</span>
+<span id="cb32-3"><a href="#cb32-3" tabindex="-1"></a>           <span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>,</span>
+<span id="cb32-4"><a href="#cb32-4" tabindex="-1"></a>           <span class="fu">subset</span>(Pop_PR,Pop_PR<span class="sc">$</span>Sexo<span class="sc">==</span><span class="st">&quot;Mujer&quot;</span>))<span class="sc">+</span></span>
+<span id="cb32-5"><a href="#cb32-5" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(Edad,<span class="sc">-</span>Valor,<span class="at">group=</span>Sexo,<span class="at">fill=</span>Sexo),  <span class="co"># nota el &quot;negativo&quot; antes de la </span></span>
+<span id="cb32-6"><a href="#cb32-6" tabindex="-1"></a>           <span class="co">#variable &quot;Valor&quot;, se le esta asignando un valor negativo a cada valor a los hombres.  </span></span>
+<span id="cb32-7"><a href="#cb32-7" tabindex="-1"></a>           <span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>,</span>
+<span id="cb32-8"><a href="#cb32-8" tabindex="-1"></a>           <span class="fu">subset</span>(Pop_PR,Pop_PR<span class="sc">$</span>Sexo<span class="sc">==</span><span class="st">&quot;Hombre&quot;</span>))<span class="sc">+</span></span>
+<span id="cb32-9"><a href="#cb32-9" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">seq</span>(<span class="sc">-</span><span class="dv">140000</span>,<span class="dv">140000</span>,<span class="dv">40000</span>),</span>
+<span id="cb32-10"><a href="#cb32-10" tabindex="-1"></a>                     <span class="at">labels=</span><span class="fu">abs</span>(<span class="fu">seq</span>(<span class="sc">-</span><span class="dv">140000</span>,<span class="dv">140000</span>,<span class="dv">40000</span>)))<span class="sc">+</span></span>
+<span id="cb32-11"><a href="#cb32-11" tabindex="-1"></a>  <span class="fu">coord_flip</span>()<span class="sc">+</span></span>
+<span id="cb32-12"><a href="#cb32-12" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Tamaño poblacional&quot;</span>)<span class="sc">+</span></span>
+<span id="cb32-13"><a href="#cb32-13" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb32-14"><a href="#cb32-14" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;green&quot;</span>, <span class="st">&quot;#36211D&quot;</span>))<span class="sc">+</span></span>
+<span id="cb32-15"><a href="#cb32-15" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;green&quot;</span>, <span class="st">&quot;#36211D&quot;</span>))</span></code></pre></div>
+<p><img src="G7_geom_bar_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="co">#Population Pyramid de PR, del censo 2015. </span></span>
+<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a><span class="co"># ggsave(&quot;Graficos/Piramide_PR_censo2015.png&quot;)</span></span>
+<span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a></span>
+<span id="cb33-5"><a href="#cb33-5" tabindex="-1"></a>Pop_PR<span class="sc">$</span>SexoNum<span class="ot">=</span><span class="fu">as.numeric</span>(Pop_PR<span class="sc">$</span>Sexo)</span>
+<span id="cb33-6"><a href="#cb33-6" tabindex="-1"></a><span class="fu">head</span>(Pop_PR)</span></code></pre></div>
 <pre><code>##     Sexo  Valor Edad SexoNum
 ## 1 Hombre  89507    0       1
 ## 2 Hombre 102622    5       1
@@ -1039,21 +1062,23 @@ barras queden de forma horizontal.</p>
 <hr />
 <p>Si no se le añade coord_flip(), el gráfico quedará representado con
 las barras de forma vertical (o en columnas).</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a><span class="fu">unique</span>(Pop_PR<span class="sc">$</span>Sexo)</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="fu">unique</span>(Pop_PR<span class="sc">$</span>Sexo)</span></code></pre></div>
 <pre><code>## [1] Hombre Mujer 
 ## Levels: Hombre Mujer</code></pre>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>Pop_PR) <span class="sc">+</span></span>
-<span id="cb34-2"><a href="#cb34-2" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(Edad,Valor,<span class="at">group=</span>Sexo,<span class="at">fill=</span>Sexo),</span>
-<span id="cb34-3"><a href="#cb34-3" tabindex="-1"></a>           <span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>,</span>
-<span id="cb34-4"><a href="#cb34-4" tabindex="-1"></a>           <span class="fu">subset</span>(Pop_PR,Pop_PR<span class="sc">$</span>Sexo<span class="sc">==</span><span class="st">&quot;Mujer&quot;</span>))<span class="sc">+</span></span>
-<span id="cb34-5"><a href="#cb34-5" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(Edad,<span class="sc">-</span>Valor,<span class="at">group=</span>Sexo,<span class="at">fill=</span>Sexo),</span>
-<span id="cb34-6"><a href="#cb34-6" tabindex="-1"></a>           <span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>,</span>
-<span id="cb34-7"><a href="#cb34-7" tabindex="-1"></a>           <span class="fu">subset</span>(Pop_PR,Pop_PR<span class="sc">$</span>Sexo<span class="sc">==</span><span class="st">&quot;Hombre&quot;</span>)) <span class="sc">+</span></span>
-<span id="cb34-8"><a href="#cb34-8" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">seq</span>(<span class="sc">-</span><span class="dv">140000</span>,<span class="dv">140000</span>,<span class="dv">40000</span>),</span>
-<span id="cb34-9"><a href="#cb34-9" tabindex="-1"></a>                     <span class="at">labels=</span><span class="fu">abs</span>(<span class="fu">seq</span>(<span class="sc">-</span><span class="dv">140000</span>,<span class="dv">140000</span>,<span class="dv">40000</span>))) <span class="sc">+</span></span>
-<span id="cb34-10"><a href="#cb34-10" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Tamaño poblacional&quot;</span>)<span class="sc">+</span></span>
-<span id="cb34-11"><a href="#cb34-11" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>Pop_PR) <span class="sc">+</span></span>
+<span id="cb37-2"><a href="#cb37-2" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(Edad,Valor,<span class="at">group=</span>Sexo,<span class="at">fill=</span>Sexo),</span>
+<span id="cb37-3"><a href="#cb37-3" tabindex="-1"></a>           <span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>,</span>
+<span id="cb37-4"><a href="#cb37-4" tabindex="-1"></a>           <span class="fu">subset</span>(Pop_PR,Pop_PR<span class="sc">$</span>Sexo<span class="sc">==</span><span class="st">&quot;Mujer&quot;</span>))<span class="sc">+</span></span>
+<span id="cb37-5"><a href="#cb37-5" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(Edad,<span class="sc">-</span>Valor,<span class="at">group=</span>Sexo,<span class="at">fill=</span>Sexo),</span>
+<span id="cb37-6"><a href="#cb37-6" tabindex="-1"></a>           <span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>,</span>
+<span id="cb37-7"><a href="#cb37-7" tabindex="-1"></a>           <span class="fu">subset</span>(Pop_PR,Pop_PR<span class="sc">$</span>Sexo<span class="sc">==</span><span class="st">&quot;Hombre&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb37-8"><a href="#cb37-8" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">seq</span>(<span class="sc">-</span><span class="dv">140000</span>,<span class="dv">140000</span>,<span class="dv">40000</span>),</span>
+<span id="cb37-9"><a href="#cb37-9" tabindex="-1"></a>                     <span class="at">labels=</span><span class="fu">abs</span>(<span class="fu">seq</span>(<span class="sc">-</span><span class="dv">140000</span>,<span class="dv">140000</span>,<span class="dv">40000</span>))) <span class="sc">+</span></span>
+<span id="cb37-10"><a href="#cb37-10" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Tamaño poblacional&quot;</span>)<span class="sc">+</span></span>
+<span id="cb37-11"><a href="#cb37-11" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G7_geom_bar_files/figure-html/geom-barraDemo2-1.png" width="672" /></p>
+<div id="tarea" class="section level2">
+<h2>TAREA:</h2>
 <ol start="2" style="list-style-type: decimal">
 <li><p>Seleccione el archivo “DominicanRepublic,csv” que se encuentra en
 la pestaña “Los datos”. Estos datos provienen las naciones unidas del
@@ -1080,6 +1105,7 @@ muestreo censal del año 2013.</p>
 </ul></li>
 </ol>
 <hr />
+</div>
 <div id="patrones-de-temperatura-en-tiempo-con-geom_bar"
 class="section level2">
 <h2>Patrones de temperatura en tiempo con <strong>geom_bar</strong></h2>
@@ -1105,11 +1131,11 @@ representación, ya que este tiene datos del 1948 al 1987. Se seleccionan
 los años 1963 al 1966.</p>
 <div id="primero-miramos-los-datos" class="section level3">
 <h3>Primero miramos los datos</h3>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="fu">library</span>(ggversa)</span>
-<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a><span class="fu">names</span>(ASBESTOS_QUEBEC)</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a><span class="fu">library</span>(ggversa)</span>
+<span id="cb38-2"><a href="#cb38-2" tabindex="-1"></a><span class="fu">names</span>(ASBESTOS_QUEBEC)</span></code></pre></div>
 <pre><code>## [1] &quot;Year&quot;          &quot;Mes&quot;           &quot;Temp_Prom_Max&quot; &quot;Temp_Prom_Min&quot;
 ## [5] &quot;Fecha&quot;         &quot;day1&quot;          &quot;fecha&quot;         &quot;diaanual&quot;</code></pre>
-<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" tabindex="-1"></a><span class="fu">head</span>(ASBESTOS_QUEBEC)</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a><span class="fu">head</span>(ASBESTOS_QUEBEC)</span></code></pre></div>
 <pre><code>##   Year Mes Temp_Prom_Max Temp_Prom_Min   Fecha day1      fecha diaanual
 ## 1 1948   6          22.2           9.9 1948-06    1 1948-06-01      153
 ## 2 1948   7          25.5          14.2 1948-07    1 1948-07-01      183
@@ -1117,21 +1143,21 @@ los años 1963 al 1966.</p>
 ## 4 1948   9          21.6           8.4 1948-09    1 1948-09-01      245
 ## 5 1948  10          12.0           2.6 1948-10    1 1948-10-01      275
 ## 6 1948  11          10.3           1.9 1948-11    1 1948-11-01      306</code></pre>
-<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" tabindex="-1"></a><span class="fu">is.data.frame</span>(ASBESTOS_QUEBEC) <span class="co"># para determinar si el archivo es un data frame?</span></span></code></pre></div>
+<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" tabindex="-1"></a><span class="fu">is.data.frame</span>(ASBESTOS_QUEBEC) <span class="co"># para determinar si el archivo es un data frame?</span></span></code></pre></div>
 <pre><code>## [1] TRUE</code></pre>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" tabindex="-1"></a><span class="fu">attach</span>(ASBESTOS_QUEBEC)</span></code></pre></div>
+<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" tabindex="-1"></a><span class="co">#attach(ASBESTOS_QUEBEC)</span></span></code></pre></div>
 </div>
 <div
 id="identificar-que-la-variable-fecha-es-una-variable-de-tiempo.-habrá-un-modulo-para-discutir-solamente-de-fechas-y-horas."
 class="section level3">
 <h3>Identificar que la variable “Fecha” es una variable de tiempo. Habrá
 un modulo para discutir solamente de fechas y horas.</h3>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" tabindex="-1"></a><span class="co"># Identificar que la variable &quot;Fecha&quot; es una variable de tiempo.</span></span>
-<span id="cb42-2"><a href="#cb42-2" tabindex="-1"></a><span class="co">#names(ASBESTOS_QUEBEC)[names(ASBESTOS_QUEBEC) == &#39;Date.Time&#39;] &lt;- &#39;Fecha&#39;</span></span>
-<span id="cb42-3"><a href="#cb42-3" tabindex="-1"></a></span>
-<span id="cb42-4"><a href="#cb42-4" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
-<span id="cb42-5"><a href="#cb42-5" tabindex="-1"></a>ASBESTOS_QUEBEC<span class="sc">$</span>Date<span class="ot">=</span><span class="fu">ym</span>(ASBESTOS_QUEBEC<span class="sc">$</span>Fecha)</span>
-<span id="cb42-6"><a href="#cb42-6" tabindex="-1"></a><span class="fu">head</span>(ASBESTOS_QUEBEC, <span class="at">n=</span><span class="dv">15</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" tabindex="-1"></a><span class="co"># Identificar que la variable &quot;Fecha&quot; es una variable de tiempo.</span></span>
+<span id="cb45-2"><a href="#cb45-2" tabindex="-1"></a><span class="co">#names(ASBESTOS_QUEBEC)[names(ASBESTOS_QUEBEC) == &#39;Date.Time&#39;] &lt;- &#39;Fecha&#39;</span></span>
+<span id="cb45-3"><a href="#cb45-3" tabindex="-1"></a></span>
+<span id="cb45-4"><a href="#cb45-4" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb45-5"><a href="#cb45-5" tabindex="-1"></a>ASBESTOS_QUEBEC<span class="sc">$</span>Date<span class="ot">=</span><span class="fu">ym</span>(ASBESTOS_QUEBEC<span class="sc">$</span>Fecha)</span>
+<span id="cb45-6"><a href="#cb45-6" tabindex="-1"></a><span class="fu">head</span>(ASBESTOS_QUEBEC, <span class="at">n=</span><span class="dv">15</span>)</span></code></pre></div>
 <pre><code>##    Year Mes Temp_Prom_Max Temp_Prom_Min   Fecha day1      fecha diaanual
 ## 1  1948   6          22.2           9.9 1948-06    1 1948-06-01      153
 ## 2  1948   7          25.5          14.2 1948-07    1 1948-07-01      183
@@ -1164,60 +1190,10 @@ un modulo para discutir solamente de fechas y horas.</h3>
 ## 13 1949-06-01
 ## 14 1949-07-01
 ## 15 1949-08-01</code></pre>
-</div>
-<div id="crear-la-nueva-variable-temp_prom_max" class="section level3">
-<h3>Crear la nueva variable Temp_Prom_Max;</h3>
-<p>Aquí se crea una nueva columna con para identificar si los datos son
-positivos o negativos, si es positiva = “TRUE”, si es negativa =
-“FALSE”.</p>
-<div class="sourceCode" id="cb44"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" tabindex="-1"></a>ASBESTOS_QUEBEC<span class="sc">$</span>NegPos   <span class="ot">=</span>  ASBESTOS_QUEBEC<span class="sc">$</span>Temp_Prom_Max<span class="sc">&gt;=</span><span class="dv">0</span></span>
-<span id="cb44-2"><a href="#cb44-2" tabindex="-1"></a></span>
-<span id="cb44-3"><a href="#cb44-3" tabindex="-1"></a><span class="fu">head</span>(ASBESTOS_QUEBEC, <span class="at">n=</span><span class="dv">12</span>)</span></code></pre></div>
-<pre><code>##    Year Mes Temp_Prom_Max Temp_Prom_Min   Fecha day1      fecha diaanual
-## 1  1948   6          22.2           9.9 1948-06    1 1948-06-01      153
-## 2  1948   7          25.5          14.2 1948-07    1 1948-07-01      183
-## 3  1948   8          24.9          14.2 1948-08    1 1948-08-01      214
-## 4  1948   9          21.6           8.4 1948-09    1 1948-09-01      245
-## 5  1948  10          12.0           2.6 1948-10    1 1948-10-01      275
-## 6  1948  11          10.3           1.9 1948-11    1 1948-11-01      306
-## 7  1948  12           1.4          -7.8 1948-12    1 1948-12-01      336
-## 8  1949   1          -1.9         -12.3 1949-01    1 1949-01-01        1
-## 9  1949   2            NA            NA 1949-02    1 1949-02-01       32
-## 10 1949   3           1.4          -9.2 1949-03    1 1949-03-01       60
-## 11 1949   4          10.6           0.2 1949-04    1 1949-04-01       91
-## 12 1949   5          17.6           5.0 1949-05    1 1949-05-01      121
-##          Date NegPos
-## 1  1948-06-01   TRUE
-## 2  1948-07-01   TRUE
-## 3  1948-08-01   TRUE
-## 4  1948-09-01   TRUE
-## 5  1948-10-01   TRUE
-## 6  1948-11-01   TRUE
-## 7  1948-12-01   TRUE
-## 8  1949-01-01  FALSE
-## 9  1949-02-01     NA
-## 10 1949-03-01   TRUE
-## 11 1949-04-01   TRUE
-## 12 1949-05-01   TRUE</code></pre>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" tabindex="-1"></a><span class="fu">tail</span>(ASBESTOS_QUEBEC)</span></code></pre></div>
-<pre><code>##     Year Mes Temp_Prom_Max Temp_Prom_Min   Fecha day1      fecha diaanual
-## 461 1986  10          10.5           2.7 1986-10    1 1986-10-01      274
-## 462 1986  11           2.2          -5.7 1986-11    1 1986-11-01      305
-## 463 1986  12            NA            NA 1986-12    1 1986-12-01      335
-## 464 1987   1            NA            NA 1987-01    1 1987-01-01        1
-## 465 1987   2          -7.8         -18.6 1987-02    1 1987-02-01       32
-## 466 1987   3           3.3          -6.4 1987-03    1 1987-03-01       60
-##           Date NegPos
-## 461 1986-10-01   TRUE
-## 462 1986-11-01   TRUE
-## 463 1986-12-01     NA
-## 464 1987-01-01     NA
-## 465 1987-02-01  FALSE
-## 466 1987-03-01   TRUE</code></pre>
-<div class="sourceCode" id="cb48"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb48-1"><a href="#cb48-1" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
-<span id="cb48-2"><a href="#cb48-2" tabindex="-1"></a></span>
-<span id="cb48-3"><a href="#cb48-3" tabindex="-1"></a>ASBESTOS_QUEBEC<span class="ot">=</span><span class="fu">clean_names</span>(ASBESTOS_QUEBEC)</span>
-<span id="cb48-4"><a href="#cb48-4" tabindex="-1"></a><span class="fu">head</span>(ASBESTOS_QUEBEC)</span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb47-2"><a href="#cb47-2" tabindex="-1"></a></span>
+<span id="cb47-3"><a href="#cb47-3" tabindex="-1"></a>ASBESTOS_QUEBEC<span class="ot">=</span><span class="fu">clean_names</span>(ASBESTOS_QUEBEC)</span>
+<span id="cb47-4"><a href="#cb47-4" tabindex="-1"></a><span class="fu">head</span>(ASBESTOS_QUEBEC)</span></code></pre></div>
 <pre><code>##   year mes temp_prom_max temp_prom_min   fecha day1    fecha_2 diaanual
 ## 1 1948   6          22.2           9.9 1948-06    1 1948-06-01      153
 ## 2 1948   7          25.5          14.2 1948-07    1 1948-07-01      183
@@ -1225,27 +1201,52 @@ positivos o negativos, si es positiva = “TRUE”, si es negativa =
 ## 4 1948   9          21.6           8.4 1948-09    1 1948-09-01      245
 ## 5 1948  10          12.0           2.6 1948-10    1 1948-10-01      275
 ## 6 1948  11          10.3           1.9 1948-11    1 1948-11-01      306
-##         date neg_pos
-## 1 1948-06-01    TRUE
-## 2 1948-07-01    TRUE
-## 3 1948-08-01    TRUE
-## 4 1948-09-01    TRUE
-## 5 1948-10-01    TRUE
-## 6 1948-11-01    TRUE</code></pre>
+##         date
+## 1 1948-06-01
+## 2 1948-07-01
+## 3 1948-08-01
+## 4 1948-09-01
+## 5 1948-10-01
+## 6 1948-11-01</code></pre>
+</div>
+<div id="crear-la-nueva-variable-temp_prom_max" class="section level3">
+<h3>Crear la nueva variable Temp_Prom_Max;</h3>
+<p>Aquí se crea una nueva columna con para identificar si los datos son
+positivos o negativos, si es positiva = “TRUE”, si es negativa =
+“FALSE”.</p>
+<p>Identificar si las temperatura es por debajo o por encima de 0
+celcius</p>
+<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb49-1"><a href="#cb49-1" tabindex="-1"></a>ASBESTOS_QUEBEC<span class="sc">$</span>negpos  <span class="ot">=</span>  ASBESTOS_QUEBEC<span class="sc">$</span>temp_prom_max<span class="sc">&gt;=</span><span class="dv">0</span> <span class="co"># identificar que si una teperatura es debajo zero o no</span></span>
+<span id="cb49-2"><a href="#cb49-2" tabindex="-1"></a></span>
+<span id="cb49-3"><a href="#cb49-3" tabindex="-1"></a><span class="fu">head</span>(ASBESTOS_QUEBEC)</span></code></pre></div>
+<pre><code>##   year mes temp_prom_max temp_prom_min   fecha day1    fecha_2 diaanual
+## 1 1948   6          22.2           9.9 1948-06    1 1948-06-01      153
+## 2 1948   7          25.5          14.2 1948-07    1 1948-07-01      183
+## 3 1948   8          24.9          14.2 1948-08    1 1948-08-01      214
+## 4 1948   9          21.6           8.4 1948-09    1 1948-09-01      245
+## 5 1948  10          12.0           2.6 1948-10    1 1948-10-01      275
+## 6 1948  11          10.3           1.9 1948-11    1 1948-11-01      306
+##         date negpos
+## 1 1948-06-01   TRUE
+## 2 1948-07-01   TRUE
+## 3 1948-08-01   TRUE
+## 4 1948-09-01   TRUE
+## 5 1948-10-01   TRUE
+## 6 1948-11-01   TRUE</code></pre>
 </div>
 <div id="selecionar-solamente-un-subgrupo-de-los-datos"
 class="section level3">
 <h3>Selecionar solamente un subgrupo de los datos</h3>
-<div class="sourceCode" id="cb50"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb50-1"><a href="#cb50-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb50-2"><a href="#cb50-2" tabindex="-1"></a></span>
-<span id="cb50-3"><a href="#cb50-3" tabindex="-1"></a><span class="co">#ggplot(data=ASBESTOS_QUEBEC)+</span></span>
-<span id="cb50-4"><a href="#cb50-4" tabindex="-1"></a> <span class="co"># aes(x=Fecha, y=temp_prom_max) +</span></span>
-<span id="cb50-5"><a href="#cb50-5" tabindex="-1"></a>  <span class="co">#geom_bar(stat = &quot;identity&quot;, position=&quot;identity&quot;)</span></span>
-<span id="cb50-6"><a href="#cb50-6" tabindex="-1"></a></span>
-<span id="cb50-7"><a href="#cb50-7" tabindex="-1"></a></span>
-<span id="cb50-8"><a href="#cb50-8" tabindex="-1"></a>ASBESTOSsub<span class="ot">=</span><span class="fu">subset</span>(ASBESTOS_QUEBEC, year<span class="sc">&gt;</span><span class="dv">1962</span> <span class="sc">&amp;</span> year<span class="sc">&lt;</span><span class="dv">1967</span>) <span class="co"># 1963 al 1966</span></span>
-<span id="cb50-9"><a href="#cb50-9" tabindex="-1"></a></span>
-<span id="cb50-10"><a href="#cb50-10" tabindex="-1"></a><span class="fu">head</span>(ASBESTOSsub)</span></code></pre></div>
+<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb51-1"><a href="#cb51-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb51-2"><a href="#cb51-2" tabindex="-1"></a></span>
+<span id="cb51-3"><a href="#cb51-3" tabindex="-1"></a><span class="co">#ggplot(data=ASBESTOS_QUEBEC)+</span></span>
+<span id="cb51-4"><a href="#cb51-4" tabindex="-1"></a> <span class="co"># aes(x=Fecha, y=temp_prom_max) +</span></span>
+<span id="cb51-5"><a href="#cb51-5" tabindex="-1"></a>  <span class="co">#geom_bar(stat = &quot;identity&quot;, position=&quot;identity&quot;)</span></span>
+<span id="cb51-6"><a href="#cb51-6" tabindex="-1"></a></span>
+<span id="cb51-7"><a href="#cb51-7" tabindex="-1"></a></span>
+<span id="cb51-8"><a href="#cb51-8" tabindex="-1"></a>ASBESTOSsub<span class="ot">=</span><span class="fu">subset</span>(ASBESTOS_QUEBEC, year<span class="sc">&gt;</span><span class="dv">1962</span> <span class="sc">&amp;</span> year<span class="sc">&lt;</span><span class="dv">1967</span>) <span class="co"># 1963 al 1966</span></span>
+<span id="cb51-9"><a href="#cb51-9" tabindex="-1"></a></span>
+<span id="cb51-10"><a href="#cb51-10" tabindex="-1"></a><span class="fu">head</span>(ASBESTOSsub)</span></code></pre></div>
 <pre><code>##     year mes temp_prom_max temp_prom_min   fecha day1    fecha_2 diaanual
 ## 176 1963   1          -6.6         -12.7 1963-01    1 1963-01-01        1
 ## 177 1963   2          -9.0         -16.7 1963-02    1 1963-02-01       32
@@ -1253,44 +1254,48 @@ class="section level3">
 ## 179 1963   4           8.2          -0.9 1963-04    1 1963-04-01       91
 ## 180 1963   5          16.9           5.7 1963-05    1 1963-05-01      121
 ## 181 1963   6          23.1          12.3 1963-06    1 1963-06-01      152
-##           date neg_pos
-## 176 1963-01-01   FALSE
-## 177 1963-02-01   FALSE
-## 178 1963-03-01    TRUE
-## 179 1963-04-01    TRUE
-## 180 1963-05-01    TRUE
-## 181 1963-06-01    TRUE</code></pre>
+##           date negpos
+## 176 1963-01-01  FALSE
+## 177 1963-02-01  FALSE
+## 178 1963-03-01   TRUE
+## 179 1963-04-01   TRUE
+## 180 1963-05-01   TRUE
+## 181 1963-06-01   TRUE</code></pre>
 </div>
 <div id="uniendo-las-partes-para-crear-el-gráfico"
 class="section level3">
 <h3>Uniendo las partes para crear el gráfico</h3>
-<div class="sourceCode" id="cb52"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb52-1"><a href="#cb52-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>ASBESTOSsub,</span>
-<span id="cb52-2"><a href="#cb52-2" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x=</span>fecha, <span class="at">y=</span>temp_prom_max, <span class="at">fill=</span>neg_pos)) <span class="sc">+</span></span>
-<span id="cb52-3"><a href="#cb52-3" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="at">position=</span><span class="st">&quot;identity&quot;</span>)<span class="sc">+</span></span>
-<span id="cb52-4"><a href="#cb52-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">90</span>))<span class="sc">+</span></span>
-<span id="cb52-5"><a href="#cb52-5" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill=</span><span class="cn">FALSE</span>)<span class="sc">+</span></span>
-<span id="cb52-6"><a href="#cb52-6" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Fecha&quot;</span>)<span class="sc">+</span></span>
-<span id="cb52-7"><a href="#cb52-7" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Temperatura promedio </span><span class="sc">\n</span><span class="st"> máxima por mes en C°&quot;</span>)<span class="sc">+</span></span>
-<span id="cb52-8"><a href="#cb52-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb53-1"><a href="#cb53-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>ASBESTOSsub,</span>
+<span id="cb53-2"><a href="#cb53-2" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x=</span>fecha, <span class="at">y=</span>temp_prom_max, <span class="at">fill=</span>negpos)) <span class="sc">+</span></span>
+<span id="cb53-3"><a href="#cb53-3" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="at">position=</span><span class="st">&quot;identity&quot;</span>)<span class="sc">+</span></span>
+<span id="cb53-4"><a href="#cb53-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">90</span>))<span class="sc">+</span></span>
+<span id="cb53-5"><a href="#cb53-5" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill=</span><span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb53-6"><a href="#cb53-6" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Fecha&quot;</span>)<span class="sc">+</span></span>
+<span id="cb53-7"><a href="#cb53-7" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Temperatura promedio </span><span class="sc">\n</span><span class="st"> máxima por mes en C°&quot;</span>)<span class="sc">+</span></span>
+<span id="cb53-8"><a href="#cb53-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <pre><code>## Warning: Removed 2 rows containing missing values (`geom_bar()`).</code></pre>
-<p><img src="G7_geom_bar_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p><img src="G7_geom_bar_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+</div>
+</div>
+<div id="tarea-2" class="section level2">
+<h2>Tarea #2</h2>
 <ol start="2" style="list-style-type: decimal">
 <li>Usando los datos de Anchorage, Alaska que se encuentra en la sección
 de datos aqui <a href="Data/Anchorage_ALASKA.csv">Anchorage_Data</a>,
 evaluar el patrón de temperatura mínima en los diferentes meses del año.
 Convertir los datos de Farenheit a Celcius.</li>
 </ol>
-<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb54-1"><a href="#cb54-1" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb54-2"><a href="#cb54-2" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
-<span id="cb54-3"><a href="#cb54-3" tabindex="-1"></a>Anchorage_ALASKA <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;Data/Anchorage_ALASKA.csv&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb55-2"><a href="#cb55-2" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb55-3"><a href="#cb55-3" tabindex="-1"></a>Anchorage_ALASKA <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;Data/Anchorage_ALASKA.csv&quot;</span>)</span></code></pre></div>
 <pre><code>## Rows: 20 Columns: 13
-## ── Column specification ───────────────────────────────────
+## ── Column specification ────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## dbl (13): Year, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" tabindex="-1"></a><span class="fu">gt</span>(<span class="fu">head</span>(Anchorage_ALASKA))</span></code></pre></div>
+<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" tabindex="-1"></a><span class="fu">gt</span>(<span class="fu">head</span>(Anchorage_ALASKA))</span></code></pre></div>
 <div id="tzzcmnmgzf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#tzzcmnmgzf table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -1833,13 +1838,13 @@ Convertir los datos de Farenheit a Celcius.</li>
   
 </table>
 </div>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" tabindex="-1"></a><span class="co"># gather the data in columns</span></span>
-<span id="cb57-2"><a href="#cb57-2" tabindex="-1"></a><span class="co"># Paso 1</span></span>
-<span id="cb57-3"><a href="#cb57-3" tabindex="-1"></a>AA<span class="ot">&lt;-</span><span class="fu">gather</span>(Anchorage_ALASKA,</span>
-<span id="cb57-4"><a href="#cb57-4" tabindex="-1"></a>         <span class="at">key=</span> <span class="st">&quot;Mes&quot;</span>,</span>
-<span id="cb57-5"><a href="#cb57-5" tabindex="-1"></a>         <span class="at">value=</span><span class="st">&quot;Temp_min_F&quot;</span>, </span>
-<span id="cb57-6"><a href="#cb57-6" tabindex="-1"></a>         <span class="sc">-</span>Year)</span>
-<span id="cb57-7"><a href="#cb57-7" tabindex="-1"></a><span class="fu">head</span>(AA)      </span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" tabindex="-1"></a><span class="co"># gather the data in columns</span></span>
+<span id="cb58-2"><a href="#cb58-2" tabindex="-1"></a><span class="co"># Paso 1</span></span>
+<span id="cb58-3"><a href="#cb58-3" tabindex="-1"></a>AA<span class="ot">&lt;-</span><span class="fu">gather</span>(Anchorage_ALASKA,</span>
+<span id="cb58-4"><a href="#cb58-4" tabindex="-1"></a>         <span class="at">key=</span> <span class="st">&quot;Mes&quot;</span>,</span>
+<span id="cb58-5"><a href="#cb58-5" tabindex="-1"></a>         <span class="at">value=</span><span class="st">&quot;Temp_min_F&quot;</span>, </span>
+<span id="cb58-6"><a href="#cb58-6" tabindex="-1"></a>         <span class="sc">-</span>Year)</span>
+<span id="cb58-7"><a href="#cb58-7" tabindex="-1"></a><span class="fu">head</span>(AA)      </span></code></pre></div>
 <pre><code>## # A tibble: 6 × 3
 ##    Year Mes   Temp_min_F
 ##   &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt;
@@ -1849,15 +1854,15 @@ Convertir los datos de Farenheit a Celcius.</li>
 ## 4  2003 Jan            0
 ## 5  2004 Jan          -18
 ## 6  2005 Jan           -7</code></pre>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" tabindex="-1"></a><span class="co"># Identificar que el Año y Mes son variables de tiempo</span></span>
-<span id="cb59-2"><a href="#cb59-2" tabindex="-1"></a></span>
-<span id="cb59-3"><a href="#cb59-3" tabindex="-1"></a><span class="co">#Paso 2</span></span>
-<span id="cb59-4"><a href="#cb59-4" tabindex="-1"></a></span>
-<span id="cb59-5"><a href="#cb59-5" tabindex="-1"></a>numMonth<span class="ot">&lt;-</span><span class="cf">function</span>(x) </span>
-<span id="cb59-6"><a href="#cb59-6" tabindex="-1"></a><span class="fu">c</span>(<span class="at">jan=</span><span class="dv">1</span>,<span class="at">feb=</span><span class="dv">2</span>,<span class="at">mar=</span><span class="dv">3</span>,<span class="at">apr=</span><span class="dv">4</span>,<span class="at">may=</span><span class="dv">5</span>,<span class="at">jun=</span><span class="dv">6</span>,<span class="at">jul=</span><span class="dv">7</span>,<span class="at">aug=</span><span class="dv">8</span>,<span class="at">sep=</span><span class="dv">9</span>,<span class="at">oct=</span><span class="dv">10</span>,<span class="at">nov=</span><span class="dv">11</span>,<span class="at">dec=</span><span class="dv">12</span>)[<span class="fu">tolower</span>(x)]</span>
-<span id="cb59-7"><a href="#cb59-7" tabindex="-1"></a></span>
-<span id="cb59-8"><a href="#cb59-8" tabindex="-1"></a>AA<span class="sc">$</span>Fecha<span class="ot">=</span><span class="fu">numMonth</span>(AA<span class="sc">$</span>Mes)</span>
-<span id="cb59-9"><a href="#cb59-9" tabindex="-1"></a><span class="fu">tail</span>(AA)</span></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" tabindex="-1"></a><span class="co"># Identificar que el Año y Mes son variables de tiempo</span></span>
+<span id="cb60-2"><a href="#cb60-2" tabindex="-1"></a></span>
+<span id="cb60-3"><a href="#cb60-3" tabindex="-1"></a><span class="co">#Paso 2</span></span>
+<span id="cb60-4"><a href="#cb60-4" tabindex="-1"></a></span>
+<span id="cb60-5"><a href="#cb60-5" tabindex="-1"></a>numMonth<span class="ot">&lt;-</span><span class="cf">function</span>(x) </span>
+<span id="cb60-6"><a href="#cb60-6" tabindex="-1"></a><span class="fu">c</span>(<span class="at">jan=</span><span class="dv">1</span>,<span class="at">feb=</span><span class="dv">2</span>,<span class="at">mar=</span><span class="dv">3</span>,<span class="at">apr=</span><span class="dv">4</span>,<span class="at">may=</span><span class="dv">5</span>,<span class="at">jun=</span><span class="dv">6</span>,<span class="at">jul=</span><span class="dv">7</span>,<span class="at">aug=</span><span class="dv">8</span>,<span class="at">sep=</span><span class="dv">9</span>,<span class="at">oct=</span><span class="dv">10</span>,<span class="at">nov=</span><span class="dv">11</span>,<span class="at">dec=</span><span class="dv">12</span>)[<span class="fu">tolower</span>(x)]</span>
+<span id="cb60-7"><a href="#cb60-7" tabindex="-1"></a></span>
+<span id="cb60-8"><a href="#cb60-8" tabindex="-1"></a>AA<span class="sc">$</span>Fecha<span class="ot">=</span><span class="fu">numMonth</span>(AA<span class="sc">$</span>Mes)</span>
+<span id="cb60-9"><a href="#cb60-9" tabindex="-1"></a><span class="fu">tail</span>(AA)</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 4
 ##    Year Mes   Temp_min_F Fecha
 ##   &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt;
@@ -1867,9 +1872,9 @@ Convertir los datos de Farenheit a Celcius.</li>
 ## 4  2017 Dec            5    12
 ## 5  2018 Dec           10    12
 ## 6  2019 Dec           -2    12</code></pre>
-<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" tabindex="-1"></a><span class="co">#Paso 3</span></span>
-<span id="cb61-2"><a href="#cb61-2" tabindex="-1"></a></span>
-<span id="cb61-3"><a href="#cb61-3" tabindex="-1"></a><span class="fu">library</span>(zoo)</span></code></pre></div>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb62-1"><a href="#cb62-1" tabindex="-1"></a><span class="co">#Paso 3</span></span>
+<span id="cb62-2"><a href="#cb62-2" tabindex="-1"></a></span>
+<span id="cb62-3"><a href="#cb62-3" tabindex="-1"></a><span class="fu">library</span>(zoo)</span></code></pre></div>
 <pre><code>## 
 ## Attaching package: &#39;zoo&#39;</code></pre>
 <pre><code>## The following objects are masked from &#39;package:data.table&#39;:
@@ -1878,8 +1883,8 @@ Convertir los datos de Farenheit a Celcius.</li>
 <pre><code>## The following objects are masked from &#39;package:base&#39;:
 ## 
 ##     as.Date, as.Date.numeric</code></pre>
-<div class="sourceCode" id="cb65"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb65-1"><a href="#cb65-1" tabindex="-1"></a>AA<span class="sc">$</span>FechasMA <span class="ot">&lt;-</span> <span class="fu">as.yearmon</span>(<span class="fu">paste</span>(AA<span class="sc">$</span>Year, AA<span class="sc">$</span>Fecha), <span class="st">&quot;%Y %m&quot;</span>)</span>
-<span id="cb65-2"><a href="#cb65-2" tabindex="-1"></a><span class="fu">head</span>(AA)</span></code></pre></div>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb66-1"><a href="#cb66-1" tabindex="-1"></a>AA<span class="sc">$</span>FechasMA <span class="ot">&lt;-</span> <span class="fu">as.yearmon</span>(<span class="fu">paste</span>(AA<span class="sc">$</span>Year, AA<span class="sc">$</span>Fecha), <span class="st">&quot;%Y %m&quot;</span>)</span>
+<span id="cb66-2"><a href="#cb66-2" tabindex="-1"></a><span class="fu">head</span>(AA)</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 5
 ##    Year Mes   Temp_min_F Fecha FechasMA 
 ##   &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;yearmon&gt;
@@ -1890,14 +1895,13 @@ Convertir los datos de Farenheit a Celcius.</li>
 ## 5  2004 Jan          -18     1 Jan 2004 
 ## 6  2005 Jan           -7     1 Jan 2005</code></pre>
 </div>
-</div>
 <div id="conversión-de-temperatura" class="section level2">
 <h2>Conversión de temperatura</h2>
 <p>Cual el punto de congelación en Farenheit?</p>
 <p>Como se convierte F° en C°</p>
-<div class="sourceCode" id="cb67"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb67-1"><a href="#cb67-1" tabindex="-1"></a><span class="co"># Paso 4</span></span>
-<span id="cb67-2"><a href="#cb67-2" tabindex="-1"></a>AA<span class="sc">$</span>NegPos<span class="ot">=</span>AA<span class="sc">$</span>Temp_min_F<span class="sc">&gt;=</span><span class="dv">32</span></span>
-<span id="cb67-3"><a href="#cb67-3" tabindex="-1"></a><span class="fu">head</span>(AA)</span></code></pre></div>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb68-1"><a href="#cb68-1" tabindex="-1"></a><span class="co"># Paso 4</span></span>
+<span id="cb68-2"><a href="#cb68-2" tabindex="-1"></a>AA<span class="sc">$</span>NegPos<span class="ot">=</span>AA<span class="sc">$</span>Temp_min_F<span class="sc">&gt;=</span><span class="dv">32</span></span>
+<span id="cb68-3"><a href="#cb68-3" tabindex="-1"></a><span class="fu">head</span>(AA)</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 6
 ##    Year Mes   Temp_min_F Fecha FechasMA  NegPos
 ##   &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;yearmon&gt; &lt;lgl&gt; 
@@ -1907,8 +1911,8 @@ Convertir los datos de Farenheit a Celcius.</li>
 ## 4  2003 Jan            0     1 Jan 2003  FALSE 
 ## 5  2004 Jan          -18     1 Jan 2004  FALSE 
 ## 6  2005 Jan           -7     1 Jan 2005  FALSE</code></pre>
-<div class="sourceCode" id="cb69"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb69-1"><a href="#cb69-1" tabindex="-1"></a>AA<span class="sc">$</span>Temp_C<span class="ot">=</span>(AA<span class="sc">$</span>Temp_min_F<span class="dv">-32</span>)<span class="sc">*</span><span class="dv">5</span><span class="sc">/</span><span class="dv">9</span></span>
-<span id="cb69-2"><a href="#cb69-2" tabindex="-1"></a><span class="fu">head</span>(AA)</span></code></pre></div>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb70-1"><a href="#cb70-1" tabindex="-1"></a>AA<span class="sc">$</span>Temp_C<span class="ot">=</span>(AA<span class="sc">$</span>Temp_min_F<span class="dv">-32</span>)<span class="sc">*</span><span class="dv">5</span><span class="sc">/</span><span class="dv">9</span></span>
+<span id="cb70-2"><a href="#cb70-2" tabindex="-1"></a><span class="fu">head</span>(AA)</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 7
 ##    Year Mes   Temp_min_F Fecha FechasMA  NegPos Temp_C
 ##   &lt;dbl&gt; &lt;chr&gt;      &lt;dbl&gt; &lt;dbl&gt; &lt;yearmon&gt; &lt;lgl&gt;   &lt;dbl&gt;
@@ -1918,16 +1922,16 @@ Convertir los datos de Farenheit a Celcius.</li>
 ## 4  2003 Jan            0     1 Jan 2003  FALSE   -17.8
 ## 5  2004 Jan          -18     1 Jan 2004  FALSE   -27.8
 ## 6  2005 Jan           -7     1 Jan 2005  FALSE   -21.7</code></pre>
-<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb71-1"><a href="#cb71-1" tabindex="-1"></a>AA<span class="sc">$</span>NegPosC<span class="ot">=</span>AA<span class="sc">$</span>Temp_C<span class="sc">&gt;=</span><span class="dv">0</span></span></code></pre></div>
-<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>AA,</span>
-<span id="cb72-2"><a href="#cb72-2" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x=</span>FechasMA, <span class="at">y=</span>Temp_C, <span class="at">fill=</span>NegPosC)) <span class="sc">+</span></span>
-<span id="cb72-3"><a href="#cb72-3" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="at">position=</span><span class="st">&quot;identity&quot;</span>)<span class="sc">+</span></span>
-<span id="cb72-4"><a href="#cb72-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">90</span>))<span class="sc">+</span></span>
-<span id="cb72-5"><a href="#cb72-5" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill=</span><span class="cn">FALSE</span>)<span class="sc">+</span></span>
-<span id="cb72-6"><a href="#cb72-6" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Fecha&quot;</span>)<span class="sc">+</span></span>
-<span id="cb72-7"><a href="#cb72-7" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Temperatura promedio máxima por mes en Celsius&quot;</span>)<span class="sc">+</span></span>
-<span id="cb72-8"><a href="#cb72-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<p><img src="G7_geom_bar_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<div class="sourceCode" id="cb72"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb72-1"><a href="#cb72-1" tabindex="-1"></a>AA<span class="sc">$</span>NegPosC<span class="ot">=</span>AA<span class="sc">$</span>Temp_C<span class="sc">&gt;=</span><span class="dv">0</span></span></code></pre></div>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="at">data=</span>AA,</span>
+<span id="cb73-2"><a href="#cb73-2" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x=</span>FechasMA, <span class="at">y=</span>Temp_C, <span class="at">fill=</span>NegPosC)) <span class="sc">+</span></span>
+<span id="cb73-3"><a href="#cb73-3" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">&quot;identity&quot;</span>, <span class="at">position=</span><span class="st">&quot;identity&quot;</span>)<span class="sc">+</span></span>
+<span id="cb73-4"><a href="#cb73-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">90</span>))<span class="sc">+</span></span>
+<span id="cb73-5"><a href="#cb73-5" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill=</span><span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb73-6"><a href="#cb73-6" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Fecha&quot;</span>)<span class="sc">+</span></span>
+<span id="cb73-7"><a href="#cb73-7" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Temperatura promedio máxima por mes en Celsius&quot;</span>)<span class="sc">+</span></span>
+<span id="cb73-8"><a href="#cb73-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<p><img src="G7_geom_bar_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
 <hr />
 </div>
 <div id="gráfico-de-barras-ajuste-de-posiciones-con-geom_bar"
@@ -1943,8 +1947,8 @@ ejemplo, que represente una suma sobre otra variable.</p>
 archivo de lagartos <strong>Anolis</strong> que contiene información
 sobre su edad, sexo, periodo de muestreo y localidad donde fueron
 muestreados.</p>
-<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb73-1"><a href="#cb73-1" tabindex="-1"></a><span class="fu">library</span>(ggversa)</span>
-<span id="cb73-2"><a href="#cb73-2" tabindex="-1"></a><span class="fu">names</span>(Anolis)</span></code></pre></div>
+<div class="sourceCode" id="cb74"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb74-1"><a href="#cb74-1" tabindex="-1"></a><span class="fu">library</span>(ggversa)</span>
+<span id="cb74-2"><a href="#cb74-2" tabindex="-1"></a><span class="fu">names</span>(Anolis)</span></code></pre></div>
 <pre><code>##  [1] &quot;STUDY&quot;                    &quot;Survey_Site&quot;             
 ##  [3] &quot;LOCATION&quot;                 &quot;TIME&quot;                    
 ##  [5] &quot;DATE&quot;                     &quot;SEASON&quot;                  
@@ -1955,9 +1959,9 @@ muestreados.</p>
 ## [15] &quot;TAIL&quot;</code></pre>
 <p>El primer gráfico a continuación, produce por omisión barras negras
 que representan la suma de la cantidad de observaciones.</p>
-<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb75-1"><a href="#cb75-1" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE))</span>
-<span id="cb75-2"><a href="#cb75-2" tabindex="-1"></a>barraA<span class="sc">+</span><span class="fu">geom_bar</span>(<span class="at">fill=</span><span class="fu">grey</span>(.<span class="dv">3</span>))<span class="sc">+</span></span>
-<span id="cb75-3"><a href="#cb75-3" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE))</span>
+<span id="cb76-2"><a href="#cb76-2" tabindex="-1"></a>barraA<span class="sc">+</span><span class="fu">geom_bar</span>(<span class="at">fill=</span><span class="fu">grey</span>(.<span class="dv">3</span>))<span class="sc">+</span></span>
+<span id="cb76-3"><a href="#cb76-3" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G7_geom_bar_files/figure-html/geombar2-1.png" width="672" /></p>
 <p>En el segundo, el ancho de las barras fue reducido para que se vean
 menos angostas usando la opción <strong>width</strong>, ene ejemplo se
@@ -1965,11 +1969,11 @@ reduce el ancho de las barras <strong>width=.3</strong>. Además, se
 cambia la descripción de los ejes al castellano. También selecciono un
 otro color de gris y se modifico su intensidad con
 <strong>fill=grey(.5)</strong>.</p>
-<div class="sourceCode" id="cb76"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb76-1"><a href="#cb76-1" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE))</span>
-<span id="cb76-2"><a href="#cb76-2" tabindex="-1"></a>barraA<span class="sc">+</span><span class="fu">geom_bar</span>(<span class="at">width=</span>.<span class="dv">3</span>, <span class="at">fill=</span><span class="fu">grey</span>(.<span class="dv">5</span>))<span class="sc">+</span></span>
-<span id="cb76-3"><a href="#cb76-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="at">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="sc">+</span></span>
-<span id="cb76-4"><a href="#cb76-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<p><img src="G7_geom_bar_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE))</span>
+<span id="cb77-2"><a href="#cb77-2" tabindex="-1"></a>barraA<span class="sc">+</span><span class="fu">geom_bar</span>(<span class="at">width=</span>.<span class="dv">3</span>, <span class="at">fill=</span><span class="fu">grey</span>(.<span class="dv">5</span>))<span class="sc">+</span></span>
+<span id="cb77-3"><a href="#cb77-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="at">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="sc">+</span></span>
+<span id="cb77-4"><a href="#cb77-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<p><img src="G7_geom_bar_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
 <p>En el tercer grafico las barras fueron rotadas usando la opción
 <strong>coord_flip()</strong> y puestas sobre lo que antes era el eje de
 <strong>Y</strong>. En el cuarto, se añadió una variable discreta como
@@ -1977,17 +1981,17 @@ color; en este caso, fue usada la escala de color gris para distinguir
 entre la temporada seca <strong>dry</strong> la lluviosa
 <strong>wet</strong>. Si no se añade la opción scale_fill_grey(), las
 categorías tendrían color.</p>
-<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb77-1"><a href="#cb77-1" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE))</span>
-<span id="cb77-2"><a href="#cb77-2" tabindex="-1"></a>B3<span class="ot">=</span>barraA<span class="sc">+</span><span class="fu">geom_bar</span>(<span class="at">fill=</span><span class="fu">grey</span>(.<span class="dv">5</span>))<span class="sc">+</span><span class="fu">coord_flip</span>()<span class="sc">+</span></span>
-<span id="cb77-3"><a href="#cb77-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="at">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="sc">+</span></span>
-<span id="cb77-4"><a href="#cb77-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
-<span id="cb77-5"><a href="#cb77-5" tabindex="-1"></a></span>
-<span id="cb77-6"><a href="#cb77-6" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE, <span class="at">fill=</span>SEASON))</span>
-<span id="cb77-7"><a href="#cb77-7" tabindex="-1"></a>B4<span class="ot">=</span>barraA<span class="sc">+</span><span class="fu">geom_bar</span>()<span class="sc">+</span><span class="fu">scale_fill_grey</span>()<span class="sc">+</span></span>
-<span id="cb77-8"><a href="#cb77-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="at">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="sc">+</span></span>
-<span id="cb77-9"><a href="#cb77-9" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
-<span id="cb77-10"><a href="#cb77-10" tabindex="-1"></a></span>
-<span id="cb77-11"><a href="#cb77-11" tabindex="-1"></a><span class="fu">grid.arrange</span>(B3,B4,<span class="at">ncol=</span><span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE))</span>
+<span id="cb78-2"><a href="#cb78-2" tabindex="-1"></a>B3<span class="ot">=</span>barraA<span class="sc">+</span><span class="fu">geom_bar</span>(<span class="at">fill=</span><span class="fu">grey</span>(.<span class="dv">5</span>))<span class="sc">+</span><span class="fu">coord_flip</span>()<span class="sc">+</span></span>
+<span id="cb78-3"><a href="#cb78-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="at">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="sc">+</span></span>
+<span id="cb78-4"><a href="#cb78-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
+<span id="cb78-5"><a href="#cb78-5" tabindex="-1"></a></span>
+<span id="cb78-6"><a href="#cb78-6" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE, <span class="at">fill=</span>SEASON))</span>
+<span id="cb78-7"><a href="#cb78-7" tabindex="-1"></a>B4<span class="ot">=</span>barraA<span class="sc">+</span><span class="fu">geom_bar</span>()<span class="sc">+</span><span class="fu">scale_fill_grey</span>()<span class="sc">+</span></span>
+<span id="cb78-8"><a href="#cb78-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="at">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="sc">+</span></span>
+<span id="cb78-9"><a href="#cb78-9" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
+<span id="cb78-10"><a href="#cb78-10" tabindex="-1"></a></span>
+<span id="cb78-11"><a href="#cb78-11" tabindex="-1"></a><span class="fu">grid.arrange</span>(B3,B4,<span class="at">ncol=</span><span class="dv">1</span>)</span></code></pre></div>
 <p><img src="G7_geom_bar_files/figure-html/geombar2a-1.png" width="672" /></p>
 <hr />
 <div id="posiciones-de-las-barras" class="section level3">
@@ -1996,17 +2000,17 @@ categorías tendrían color.</p>
 usa <strong>(position={dodge})</strong>. El parámetro
 <strong>dodge</strong> le indica <strong>esquivar</strong> en el sentido
 de mover al lado.</p>
-<div class="sourceCode" id="cb78"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb78-1"><a href="#cb78-1" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE,<span class="at">fill=</span>SEASON))</span>
-<span id="cb78-2"><a href="#cb78-2" tabindex="-1"></a>B1<span class="ot">=</span>barraA<span class="sc">+</span><span class="fu">geom_bar</span>()<span class="sc">+</span></span>
-<span id="cb78-3"><a href="#cb78-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="at">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="sc">+</span></span>
-<span id="cb78-4"><a href="#cb78-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
-<span id="cb78-5"><a href="#cb78-5" tabindex="-1"></a></span>
-<span id="cb78-6"><a href="#cb78-6" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE,<span class="at">fill=</span>SEASON))</span>
-<span id="cb78-7"><a href="#cb78-7" tabindex="-1"></a>B2<span class="ot">=</span>barraA<span class="sc">+</span><span class="fu">geom_bar</span>(<span class="at">position=</span><span class="st">&quot;dodge&quot;</span>)<span class="sc">+</span></span>
-<span id="cb78-8"><a href="#cb78-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="at">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="sc">+</span></span>
-<span id="cb78-9"><a href="#cb78-9" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
-<span id="cb78-10"><a href="#cb78-10" tabindex="-1"></a></span>
-<span id="cb78-11"><a href="#cb78-11" tabindex="-1"></a><span class="fu">grid.arrange</span>(B1,B2,<span class="at">ncol=</span><span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb79-1"><a href="#cb79-1" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE,<span class="at">fill=</span>SEASON))</span>
+<span id="cb79-2"><a href="#cb79-2" tabindex="-1"></a>B1<span class="ot">=</span>barraA<span class="sc">+</span><span class="fu">geom_bar</span>()<span class="sc">+</span></span>
+<span id="cb79-3"><a href="#cb79-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="at">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="sc">+</span></span>
+<span id="cb79-4"><a href="#cb79-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
+<span id="cb79-5"><a href="#cb79-5" tabindex="-1"></a></span>
+<span id="cb79-6"><a href="#cb79-6" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE,<span class="at">fill=</span>SEASON))</span>
+<span id="cb79-7"><a href="#cb79-7" tabindex="-1"></a>B2<span class="ot">=</span>barraA<span class="sc">+</span><span class="fu">geom_bar</span>(<span class="at">position=</span><span class="st">&quot;dodge&quot;</span>)<span class="sc">+</span></span>
+<span id="cb79-8"><a href="#cb79-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="at">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="sc">+</span></span>
+<span id="cb79-9"><a href="#cb79-9" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
+<span id="cb79-10"><a href="#cb79-10" tabindex="-1"></a></span>
+<span id="cb79-11"><a href="#cb79-11" tabindex="-1"></a><span class="fu">grid.arrange</span>(B1,B2,<span class="at">ncol=</span><span class="dv">1</span>)</span></code></pre></div>
 <p><img src="G7_geom_bar_files/figure-html/geombar3-1.png" width="672" /></p>
 </div>
 </div>

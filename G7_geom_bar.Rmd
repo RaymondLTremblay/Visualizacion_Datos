@@ -322,7 +322,7 @@ reorder_size <- function(x) {
   factor(x, levels = names(sort(table(x))))
 }
 
-
+#reorder_size(DW$number_of_flowers)
 
 DW%>%
   select(number_of_flowers )%>%
@@ -344,7 +344,7 @@ Un ejemplo interesante de **geom_bar** es cuando creamos pirámides poblacionale
 
 Para especificar que se usen solamente los datos de un subgrupo de cada variable, se hace de la misma manera que en R; o sea, 
 
-    subset(Pop_PR,Pop_PR$Sexo=="Mujer") # el "==" es para indicar que tiene que cu mplir con esta condición exclusiva
+    subset(Pop_PR,Pop_PR$Sexo=="Mujer") # el "==" es para indicar que tiene que cumplir con esta condición exclusiva
 
 
 También note que tenemos datos a la izquierda y a la derecha del valor de cero. Se produce este patrón usando {-Valor} en uno de los grupos, donde el valor es el tamaño poblacional por grupo de edad.  Por último, se tiene que añadir **coord_flip()** para que las barras queden de forma horizontal.
@@ -360,6 +360,37 @@ tail(Pop_PR, n=4)
 ggplot(data=Pop_PR) +
   geom_bar(aes(Edad, Valor, group= Sexo, fill=Sexo),
            stat = "identity",
+           subset(Pop_PR,Pop_PR$Sexo=="Mujer"))
+
+
+
+ggplot(data=Pop_PR) +
+  geom_bar(aes(Edad,-Valor,group=Sexo,fill=Sexo),  # nota el "negativo" antes de la 
+           #variable "Valor", se le esta asignando un valor negativo a cada valor a los hombres.  
+           stat = "identity",
+           subset(Pop_PR,Pop_PR$Sexo=="Hombre"))
+```
+
+
+# Unir los dos graficos de barras
+
+```{r}
+ggplot(data=Pop_PR) +
+  geom_bar(aes(Edad, Valor, group= Sexo, fill=Sexo),
+           stat = "identity",
+           subset(Pop_PR,Pop_PR$Sexo=="Mujer"))+
+  geom_bar(aes(Edad,-Valor,group=Sexo,fill=Sexo),  # nota el "negativo" antes de la 
+           #variable "Valor", se le esta asignando un valor negativo a cada valor a los hombres.  
+           stat = "identity",
+           subset(Pop_PR,Pop_PR$Sexo=="Hombre"))
+
+```
+
+
+```{r}
+ggplot(data=Pop_PR) +
+  geom_bar(aes(Edad, Valor, group= Sexo, fill=Sexo),
+           stat = "identity",
            subset(Pop_PR,Pop_PR$Sexo=="Mujer"))+
   geom_bar(aes(Edad,-Valor,group=Sexo,fill=Sexo),  # nota el "negativo" antes de la 
            #variable "Valor", se le esta asignando un valor negativo a cada valor a los hombres.  
@@ -371,7 +402,7 @@ ggplot(data=Pop_PR) +
   ylab("Tamaño poblacional")+
   theme(axis.title=element_text(size=10,face="bold"))+
   scale_fill_manual(values = c("green", "#36211D"))+
- scale_color_manual(values = c("green", "#36211D"))
+  scale_color_manual(values = c("green", "#36211D"))
 
 
 #Population Pyramid de PR, del censo 2015. 
@@ -405,6 +436,7 @@ ggplot(data=Pop_PR) +
 ```
 
 
+## TAREA: 
 
 2. Seleccione el archivo "DominicanRepublic,csv" que se encuentra en la pestaña "Los datos".  Estos datos provienen las naciones unidas del siguiente enlace [PoblacionEdad_genero](http://data.un.org/Data.aspx?d=POP&f=tableCode%3A22), los datos fueron pre-selecionado a incluir solamente los datos la isla de la Republica Dominicana y no todos los países del mundo.  Seleccione la variable solamente el país de "Dominican Republican", mujeres y hombres, para el año de 2010, y el área solamente la población del campo. Que representa la cantidad de personas con esta edad en el muestreo censal del año 2013. 
   
@@ -484,7 +516,7 @@ library(ggversa)
 names(ASBESTOS_QUEBEC)
 head(ASBESTOS_QUEBEC)
 is.data.frame(ASBESTOS_QUEBEC) # para determinar si el archivo es un data frame?
-attach(ASBESTOS_QUEBEC)
+#attach(ASBESTOS_QUEBEC)
 
 
 ```
@@ -501,23 +533,30 @@ head(ASBESTOS_QUEBEC, n=15)
 
 ```
 
-### Crear la nueva variable Temp_Prom_Max; 
-
-Aquí se crea una nueva columna con para identificar si los datos son positivos o negativos, si es positiva = "TRUE", si es negativa = "FALSE". 
-
 
 ```{r}
 
-ASBESTOS_QUEBEC$NegPos   =  ASBESTOS_QUEBEC$Temp_Prom_Max>=0
-
-head(ASBESTOS_QUEBEC, n=12)
-tail(ASBESTOS_QUEBEC)
 
 library(janitor)
 
 ASBESTOS_QUEBEC=clean_names(ASBESTOS_QUEBEC)
 head(ASBESTOS_QUEBEC)
+
 ```
+
+### Crear la nueva variable Temp_Prom_Max; 
+
+Aquí se crea una nueva columna con para identificar si los datos son positivos o negativos, si es positiva = "TRUE", si es negativa = "FALSE". 
+
+Identificar si las temperatura es por debajo o por encima de 0 celcius
+
+```{r}
+ASBESTOS_QUEBEC$negpos  =  ASBESTOS_QUEBEC$temp_prom_max>=0 # identificar que si una teperatura es debajo zero o no
+
+head(ASBESTOS_QUEBEC)
+
+```
+
 ### Selecionar solamente un subgrupo de los datos  
 ```{r}
 library(tidyverse)
@@ -538,7 +577,7 @@ head(ASBESTOSsub)
 ```{r}
 
 ggplot(data=ASBESTOSsub,
-  aes(x=fecha, y=temp_prom_max, fill=neg_pos)) +
+  aes(x=fecha, y=temp_prom_max, fill=negpos)) +
   geom_bar(stat = "identity", position="identity")+
   theme(axis.text.x=element_text(angle=90))+
   guides(fill=FALSE)+
@@ -547,6 +586,8 @@ ggplot(data=ASBESTOSsub,
   theme(axis.title=element_text(size=10,face="bold"))
 
 ```
+
+## Tarea #2
 
 
 2. Usando los datos de Anchorage, Alaska que se encuentra en la sección de datos aqui [Anchorage_Data](Data/Anchorage_ALASKA.csv), evaluar el patrón de temperatura mínima en los diferentes meses del año.  Convertir los datos de Farenheit a Celcius.  
