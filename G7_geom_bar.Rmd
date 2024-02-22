@@ -335,7 +335,29 @@ geom_bar(fill="olivedrab")+
   theme(axis.title=element_text(size=10,face="bold"))
 ```
 
+***
 
+## Orden decreciente. 
+
+```{r dipodium_barra6,  echo=TRUE}
+# Aquí se crea una función para re-ordenar la variable X. 
+
+reorder_size_D <- function(x) {
+  factor(x, levels = names(sort(table(x), decreasing = TRUE)))
+}
+
+#reorder_size(DW$number_of_flowers)
+
+DW%>%
+  select(number_of_flowers )%>%
+  drop_na(number_of_flowers)%>%
+ggplot(aes(reorder_size_D(number_of_flowers)))+
+geom_bar(fill="olivedrab")+
+  scale_y_continuous(breaks=c(0:13))+
+  labs(y="Número de plantas con la cantidad de flores", 
+       x="Cantidad de flores \n en la inflorescencia")+
+  theme(axis.title=element_text(size=10,face="bold"))
+```
 
 # Opciones y Parametros de **geom_bar**:
 
