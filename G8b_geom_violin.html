@@ -647,12 +647,12 @@ a los violines y se le cambia la intensidad al color con
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>dfnorm<span class="ot">=</span><span class="fu">data.frame</span>(normal_data)</span>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="fu">head</span>(dfnorm)</span></code></pre></div>
 <pre><code>##   normal_data
-## 1   0.1935699
-## 2   5.0240626
-## 3  -4.4411186
-## 4  -4.0317404
-## 5  -5.5985502
-## 6  -1.6595799</code></pre>
+## 1 -4.32401507
+## 2  0.09868081
+## 3  2.73802328
+## 4  1.93398939
+## 5  1.28446582
+## 6  0.07287847</code></pre>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">ggplot</span>(dfnorm,<span class="fu">aes</span>(normal_data, <span class="at">x=</span><span class="dv">1</span>))<span class="sc">+</span></span>
 <span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="fu">geom_violin</span>()<span class="sc">+</span></span>
@@ -832,7 +832,10 @@ utilizando la opción <strong>coord_flip()</strong>.</p>
 <span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a>df<span class="sc">$</span>quant <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">findInterval</span>(df<span class="sc">$</span>x,quantiles)) <span class="co"># Asignar los cuantiles a factores</span></span>
 <span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a></span>
 <span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a></span>
-<span id="cb18-10"><a href="#cb18-10" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(x,y)) <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin=</span><span class="dv">0</span>, <span class="at">ymax=</span>y, <span class="at">fill=</span>quant)) <span class="sc">+</span> <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span>quantiles) <span class="sc">+</span> <span class="fu">scale_fill_brewer</span>(<span class="at">guide=</span><span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<span id="cb18-10"><a href="#cb18-10" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(x,y)) <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span></span>
+<span id="cb18-11"><a href="#cb18-11" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin=</span><span class="dv">0</span>, <span class="at">ymax=</span>y, <span class="at">fill=</span>quant)) <span class="sc">+</span> </span>
+<span id="cb18-12"><a href="#cb18-12" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span>quantiles) <span class="sc">+</span> </span>
+<span id="cb18-13"><a href="#cb18-13" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">guide=</span><span class="st">&quot;none&quot;</span>)</span></code></pre></div>
 <p><img src="G8b_geom_violin_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>CalVal2<span class="ot">=</span></span>
 <span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>  CalVal <span class="sc">%&gt;%</span> <span class="fu">select</span>(OH) <span class="sc">%&gt;%</span> </span>
@@ -874,8 +877,11 @@ utilizando la opción <strong>coord_flip()</strong>.</p>
 ## 4 16.60567 1.481782e-05     0
 ## 5 16.74783 1.704836e-05     0
 ## 6 16.88998 1.953867e-05     0</code></pre>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="fu">ggplot</span>(df2, <span class="fu">aes</span>(x,y)) <span class="sc">+</span>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin=</span><span class="dv">0</span>, <span class="at">ymax=</span>y, <span class="at">fill=</span>quant)) <span class="sc">+</span> <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span>quantiles) <span class="sc">+</span> <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;Set1&quot;</span>,<span class="at">guide=</span><span class="st">&quot;none&quot;</span>)<span class="sc">+</span>  <span class="co"># colores horribles</span></span>
-<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="fu">ggplot</span>(df2, <span class="fu">aes</span>(x,y)) <span class="sc">+</span>  </span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin=</span><span class="dv">0</span>, <span class="at">ymax=</span>y, <span class="at">fill=</span>quant)) <span class="sc">+</span> </span>
+<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span>quantiles) <span class="sc">+</span> </span>
+<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;Set1&quot;</span>,<span class="at">guide=</span><span class="st">&quot;none&quot;</span>)<span class="sc">+</span>  <span class="co"># colores horribles</span></span>
+<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>))</span></code></pre></div>
 <p><img src="G8b_geom_violin_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <hr />
 <ol start="2" style="list-style-type: decimal">
