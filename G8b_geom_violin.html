@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Gráficos de violín</title>
+
+<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { color: #008000; } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { color: #008000; font-weight: bold; } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    var j = 0;
+    while (j < rules.length) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="tutorial.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Visualización de Datos</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Módulos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="G1-ggplot2.html">Qué es la visualización de datos y ejemplos historicos</a>
+    </li>
+    <li>
+      <a href="G2-Errores-tipicos-en-la-visualizacion.html">Errores típicos en la visualización</a>
+    </li>
+    <li>
+      <a href="G3-Graficos-por-conteos.html">Gráficos para conteos</a>
+    </li>
+    <li>
+      <a href="G4-Grafico-de-puntos-de-Wilkinson.html">Gráficos de puntos de Wilkinson</a>
+    </li>
+    <li>
+      <a href="G5_geom_area_densidad_freqpoly.html">Gráficos de area y densidad</a>
+    </li>
+    <li>
+      <a href="G6_geom_histogram.html">Histogramas</a>
+    </li>
+    <li>
+      <a href="G7_geom_bar.html">Gráficos de barras</a>
+    </li>
+    <li>
+      <a href="G7b_geom_bar.html">Gráficos de Temperatura y Poblacional</a>
+    </li>
+    <li>
+      <a href="G8_geom_boxplot.html">Gráficos de caja</a>
+    </li>
+    <li>
+      <a href="G8b_geom_violin.html">Gráficos de violín</a>
+    </li>
+    <li>
+      <a href="G9_Facet_Grid.html">Facet Grid</a>
+    </li>
+    <li>
+      <a href="G10_Facet_wrap.html">Facet Wrap</a>
+    </li>
+    <li>
+      <a href="G11_EVALUANDO_SUPUESTOS.html">Evaluando Supuestos</a>
+    </li>
+    <li>
+      <a href="G12_Mapas_Calor.html">Mapas de Calor</a>
+    </li>
+    <li>
+      <a href="G13_geom_line.html">Gráficos con lineas</a>
+    </li>
+    <li>
+      <a href="G14_geom_point_geom_jitter.html">Geom_point y geom_jitter</a>
+    </li>
+    <li>
+      <a href="G15_gganimate.html">Gráficos animados en movimiento</a>
+    </li>
+    <li>
+      <a href="G16_Tablas_Tablas_Tablas.html">Tablas y Tablas</a>
+    </li>
+    <li>
+      <a href="G17_LeafletTaller_abril2023.html">Leaflet</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Instalación básica
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Instalar-R-RStudio.html">Lo básico de RStudio</a>
+    </li>
+    <li>
+      <a href="Introduccion-RMarkdown.html">Lo básico de RMarkdown</a>
+    </li>
+    <li>
+      <a href="Codigos_basicos_en_R.html">R y Cheatsheets</a>
+    </li>
+    <li>
+      <a href="R_basico.html">R Básico #2</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Tareas y Ejercicios
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Ejerc_1.html">Ejercicio Básico</a>
+    </li>
+    <li>
+      <a href="Ejerc_2_geom_point.html">Ejercicio geom_point</a>
+    </li>
+    <li>
+      <a href="Ejerc_3_Wilkinson.html">Ejercicio Wilkinson</a>
+    </li>
+    <li>
+      <a href="Ejerc_4_point_count.html">Ejercicio de gráficos de puntos, conteos y histograma</a>
+    </li>
+    <li>
+      <a href="Ejerc_5_geom_line.html">Ejercicio de gráficos de lineas</a>
+    </li>
+    <li>
+      <a href="Ejerc_6_Covid_19.html">Ejercicio Final COVID19</a>
+    </li>
+    <li>
+      <a href="Ejerc_7_geom_point.html">Ejercicio geom_point</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Los Datos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Archivos_de_Datos.html">Archivos de Datos</a>
+    </li>
+    <li>
+      <a href="COVID-19.html">COVID-19</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Calendario
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="schedule.html">Calendario</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Otros paquetes gg
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="ST_ggblanket.html">El paquete ggblanket</a>
+    </li>
+    <li>
+      <a href="ST_gggibous2.html">El paquete gggibous</a>
+    </li>
+    <li>
+      <a href="ST_ggiraph.html">El paquete ggiraph</a>
+    </li>
+    <li>
+      <a href="ST_ggparty.html">El paquete ggparty</a>
+    </li>
+    <li>
+      <a href="ST_ggvenn.html">El paquete ggvenn</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">Gráficos de violín</h1>
+
+</div>
+
+
+<p>Fecha de la ultima revisión</p>
+<pre><code>## [1] &quot;2024-02-28&quot;</code></pre>
+<p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" /></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(gridExtra)<span class="co"># Para organizar múltiples gráficos juntos</span></span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">library</span>(ggversa)</span></code></pre></div>
+<hr />
+<div id="diagrama-de-violín-con-geom_violin" class="section level1">
+<h1>Diagrama de violín con <strong>geom_violin</strong></h1>
+<p>El gráfico de violín es similar al gráfico de caja, pero la caja es
+curvada para dar una apreciación de la densidad de los datos. Si la
+distribución de los datos sigue una curva normal, saldrá entonces como
+una curva de campana orientada verticalmente. Para los ejemplos a
+continuación, utilizaremos los datos de la orquídea terestre australiana
+<em>Caladenia valida</em>.</p>
+<p>El modelo básico del gráfico de violín se muestra en la Figura, Note
+que, tal como ocurre con <strong>geom_boxplot</strong>, si se tiene
+solamente un grupo, se tiene que incluir <strong>x=1</strong>. Lo que
+uno observa es que la mayoria de la información encuentre cerca del
+valor 5 y 10</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>CalVal<span class="ot">=</span>caladeniavalida </span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>violinplot1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(CalVal, <span class="fu">aes</span>(DCL, <span class="at">x=</span><span class="dv">1</span>))</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a>violinplot1 <span class="sc">+</span></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>  <span class="fu">geom_violin</span>()<span class="sc">+</span></span>
+<span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="fl">0.75</span>,<span class="at">y=</span> <span class="dv">19</span>, <span class="at">size=</span><span class="dv">8</span>,</span>
+<span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;&quot;</span>, <span class="at">na.rm=</span><span class="cn">TRUE</span>)<span class="sc">+</span></span>
+<span id="cb3-8"><a href="#cb3-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb3-9"><a href="#cb3-9" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;EL largo del apendizaje dorsal&quot;</span>)</span></code></pre></div>
+<p><img src="G8b_geom_violin_files/figure-html/geomviolin1-1.png" width="672" /></p>
+<hr />
+<div id="geom_violin-con-múltiples-grupos" class="section level2">
+<h2><strong>Geom_violin</strong> con múltiples grupos</h2>
+<p>A continuación vamos a producir el gráfico de violín por diferentes
+factores o grupos de acuerdo al año, a la vez que se le añade color azul
+a los violines y se le cambia la intensidad al color con
+<strong>alpha=()</strong>.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>violinplot2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(CalVal, <span class="fu">aes</span>(<span class="at">y=</span>LCL, <span class="at">x=</span><span class="fu">factor</span>(Year)))</span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>violinplot2 <span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">fill=</span><span class="st">&quot;blue&quot;</span>, <span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span><span class="dv">2</span>,<span class="at">y=</span> <span class="dv">19</span>, <span class="at">size=</span><span class="dv">8</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;&quot;</span>, <span class="at">na.rm=</span><span class="cn">TRUE</span>)<span class="sc">+</span></span>
+<span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Año&quot;</span>, <span class="at">y=</span><span class="st">&quot;LCL&quot;</span>)<span class="sc">+</span></span>
+<span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb4-8"><a href="#cb4-8" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;EL largo del apendizaje lateral&quot;</span>)</span></code></pre></div>
+<p><img src="G8b_geom_violin_files/figure-html/geomviolin2-1.png" width="672" /></p>
+<hr />
+<p>El gráfico de violín con datos distribución normal</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>normal_data<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="dv">0</span>, <span class="dv">4</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="co">#normal_data</span></span>
+<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>dfnorm<span class="ot">=</span><span class="fu">data.frame</span>(normal_data)</span>
+<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="fu">head</span>(dfnorm)</span></code></pre></div>
+<pre><code>##   normal_data
+## 1   0.1935699
+## 2   5.0240626
+## 3  -4.4411186
+## 4  -4.0317404
+## 5  -5.5985502
+## 6  -1.6595799</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">ggplot</span>(dfnorm,<span class="fu">aes</span>(normal_data, <span class="at">x=</span><span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="fu">geom_violin</span>()<span class="sc">+</span></span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span></span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="fu">geom_jitter</span>(<span class="at">position =</span> <span class="fu">position_jitter</span>(<span class="at">width =</span> .<span class="dv">1</span>))</span></code></pre></div>
+<p><img src="G8b_geom_violin_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+</div>
+<div id="geom_violin-utilizado-con-geom_point-y-geom_jitter"
+class="section level2">
+<h2><strong>Geom_violin</strong> utilizado con
+<strong>geom_point</strong> y <strong>geom_jitter</strong></h2>
+<p>Al gráfico anterior se le pueden añadir los datos para visualizar
+mejor la distribución. Los datos de altura de la planta
+<strong>OH</strong> fueron recolectado de forma discreta en unidades de
+5 cm, por lo que todos los valores similares aparecerán solapados unos
+sobre otros. Debido a esta situación particular de ese tipo de datos,
+añadirle puntos para visualizarlos con la función
+<strong>geom_point</strong> realmente no ayuda mucho a entender su
+distribución. Esto es debido a que no se puede apreciar la cantidad de
+datos utilizados para construir los violines. Por otro lado, uno puedo
+utilizar <strong>geom_jitter</strong> y tener una mejor apreciación de
+su distribución.</p>
+<p>Es importante tomar en consideración que si se le añade
+<strong>geom_point</strong> antes de <strong>geom_violin</strong>, los
+puntos podrían quedar escondidos detrás del violín.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>violingp<span class="ot">=</span>violinplot3a <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(CalVal, <span class="fu">aes</span>(<span class="at">y=</span>OH, <span class="at">x=</span><span class="fu">factor</span>(Year)))<span class="sc">+</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="fu">geom_violin</span>()<span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span>  <span class="co"># Note que los puntos serán sobrepuestos sobre el violín </span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span><span class="dv">2</span>,<span class="at">y=</span> <span class="dv">20</span>, <span class="at">size=</span><span class="dv">8</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;&quot;</span>, <span class="at">na.rm=</span><span class="cn">TRUE</span>)<span class="sc">+</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Año&quot;</span>, <span class="at">y=</span><span class="st">&quot;OH&quot;</span>)<span class="sc">+</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a></span>
+<span id="cb8-11"><a href="#cb8-11" tabindex="-1"></a>violingv<span class="ot">=</span>violinplot3a <span class="sc">+</span></span>
+<span id="cb8-12"><a href="#cb8-12" tabindex="-1"></a>  <span class="fu">geom_violin</span>()<span class="sc">+</span></span>
+<span id="cb8-13"><a href="#cb8-13" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">position =</span> <span class="fu">position_jitter</span>(<span class="at">width =</span> .<span class="dv">1</span>))<span class="sc">+</span> <span class="co"># Note que los puntos serán sobrepuestos sobre el violín pero no solapan uno encima del otro.    </span></span>
+<span id="cb8-14"><a href="#cb8-14" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span><span class="dv">2</span>,<span class="at">y=</span> <span class="dv">20</span>, <span class="at">size=</span><span class="dv">8</span>,</span>
+<span id="cb8-15"><a href="#cb8-15" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;&quot;</span>, <span class="at">na.rm=</span><span class="cn">TRUE</span>)<span class="sc">+</span></span>
+<span id="cb8-16"><a href="#cb8-16" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Año&quot;</span>, <span class="at">y=</span><span class="st">&quot;OH&quot;</span>)<span class="sc">+</span></span>
+<span id="cb8-17"><a href="#cb8-17" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb8-18"><a href="#cb8-18" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Overall height, mm&quot;</span>)</span>
+<span id="cb8-19"><a href="#cb8-19" tabindex="-1"></a></span>
+<span id="cb8-20"><a href="#cb8-20" tabindex="-1"></a><span class="fu">grid.arrange</span>(violingp, violingv, <span class="at">ncol=</span><span class="dv">2</span>)</span></code></pre></div>
+<p><img src="G8b_geom_violin_files/figure-html/geomviolin3-1.png" width="672" /></p>
+<hr />
+</div>
+<div id="geom_jitter-y-solapamiento-de-geom" class="section level2">
+<h2>geom_jitter y solapamiento de <strong>geom</strong></h2>
+<p>En el próximo gráfico, se invocó <strong>geom_jitter</strong> antes
+que <strong>geom_violin</strong>, pero a la misma vez se le cambió la
+intensidad del color para que se vean mejor los puntos. Vemos que
+algunos de los puntos que antes están medio escondidos y los que no
+solapan el violin se revelan sobre mejor.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>violinplot3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(CalVal, <span class="fu">aes</span>(<span class="at">y=</span>OH, <span class="at">x=</span><span class="fu">factor</span>(Year)))</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>violinplot3 <span class="sc">+</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">position =</span> <span class="fu">position_jitter</span>(<span class="at">width =</span> .<span class="dv">2</span>), <span class="at">colour=</span><span class="st">&quot;red&quot;</span>)<span class="sc">+</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">fill=</span><span class="st">&quot;yellow&quot;</span>, <span class="at">colour=</span><span class="st">&quot;blue&quot;</span>, <span class="at">alpha=</span><span class="fl">0.3</span>)<span class="sc">+</span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span><span class="dv">2</span>,<span class="at">y=</span> <span class="dv">20</span>, <span class="at">size=</span><span class="dv">8</span>,</span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;&quot;</span>)<span class="sc">+</span></span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Año&quot;</span>, <span class="at">y=</span><span class="st">&quot;OH&quot;</span>)<span class="sc">+</span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<p><img src="G8b_geom_violin_files/figure-html/geomviolin4-1.png" width="672" /></p>
+<hr />
+</div>
+<div id="los-cuartiles-y-geom_violin" class="section level2">
+<h2>Los cuartiles y geom_violin</h2>
+<p>Ahora se muestran el cuartil 25, la mediana (50) y el cuartil 75 en
+el mismo gráfico de violín con líneas horizontales.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>violinplot3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(CalVal, <span class="fu">aes</span>(<span class="at">y=</span>OH, <span class="at">x=</span><span class="fu">factor</span>(Year)))</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>violinplot3 <span class="sc">+</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">draw_quantiles =</span> <span class="fu">c</span>(<span class="fl">0.025</span>, <span class="fl">0.25</span>,<span class="fl">0.5</span>, <span class="fl">0.75</span>,<span class="fl">0.975</span>))<span class="sc">+</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span><span class="dv">2</span>,<span class="at">y=</span> <span class="dv">20</span>, <span class="at">size=</span><span class="dv">8</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;&quot;</span>)<span class="sc">+</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Año&quot;</span>, <span class="at">y=</span><span class="st">&quot;OH&quot;</span>)<span class="sc">+</span></span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<p><img src="G8b_geom_violin_files/figure-html/geomviolin5-1.png" width="672" /></p>
+<hr />
+</div>
+</div>
+<div id="añadiendo-color-al-contorno-del-violin" class="section level1">
+<h1>Añadiendo color al contorno del violin</h1>
+<p>En esta figura se le añade color al contorno de los violines y las
+líneas de los cuartiles.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">library</span>(ggversa)</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="fu">names</span>(caladeniavalida)</span></code></pre></div>
+<pre><code>##  [1] &quot;Population&quot; &quot;Year&quot;       &quot;Plant_num&quot;  &quot;OH&quot;         &quot;OD&quot;        
+##  [6] &quot;OW&quot;         &quot;DSL&quot;        &quot;DCL&quot;        &quot;LSL&quot;        &quot;LCL&quot;       
+## [11] &quot;LSW&quot;        &quot;PL&quot;         &quot;LL&quot;         &quot;LW&quot;         &quot;Fruit_not&quot;</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>violinplot3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(CalVal, <span class="fu">aes</span>(<span class="at">y=</span>OH, <span class="at">x=</span>Population))</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>violinplot3 <span class="sc">+</span></span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">colour=</span><span class="st">&quot;red&quot;</span>, <span class="at">alpha=</span>.<span class="dv">2</span>, <span class="at">draw_quantiles =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>))<span class="sc">+</span></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span><span class="dv">2</span>,<span class="at">y=</span> <span class="dv">20</span>, <span class="at">size=</span><span class="dv">8</span>,</span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;&quot;</span>)<span class="sc">+</span></span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Año&quot;</span>, <span class="at">y=</span><span class="st">&quot;OH&quot;</span>)<span class="sc">+</span></span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<p><img src="G8b_geom_violin_files/figure-html/geomviolin6-1.png" width="672" /></p>
+<hr />
+<div id="geom_violin-por-categoría-o-factor" class="section level2">
+<h2>Geom_violin por categoría o factor</h2>
+<p>En la Figura se cambia el color de cada grupo, <strong>Year</strong>.
+Para lograr ese efecto se le añade otra variable para representar los
+grupos (o categorías) por color; en este caso, la distribución de los
+tamaños de las plantas en términos de si produjeron frutos o no.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>violinplot3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(<span class="fu">na.omit</span>(CalVal), <span class="fu">aes</span>(<span class="at">y=</span>OH, <span class="at">x=</span><span class="fu">factor</span>(Year)))</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>violinplot3 <span class="sc">+</span></span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="fu">aes</span>(<span class="at">fill=</span>(<span class="fu">factor</span>(Fruit_not))),</span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>              <span class="at">draw_quantiles =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>))<span class="sc">+</span></span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span><span class="dv">2</span>,<span class="at">y=</span> <span class="dv">20</span>, <span class="at">size=</span><span class="dv">8</span>,</span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;&quot;</span>)<span class="sc">+</span></span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Año&quot;</span>, <span class="at">y=</span><span class="st">&quot;OH&quot;</span>)<span class="sc">+</span></span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Altura de la planta&quot;</span>)</span></code></pre></div>
+<p><img src="G8b_geom_violin_files/figure-html/geomviolin7-1.png" width="672" /></p>
+<hr />
+</div>
+<div id="geom_violin-en-proporción-al-tamaño-de-la-muestra"
+class="section level2">
+<h2>Geom_violin en proporción al tamaño de la muestra</h2>
+<p>En la Figura se modifica el mismo gráfico para que tome en
+consideración el tamaño de muestra utilizando la opción de
+<strong>scale</strong> con el parámetro <strong>count</strong>. En otras
+palabras, los violines van a quedar modificados para incluir el tamaño
+de la muestra; o sea, la escala máxima del ancho es proporcional al
+tamaño de la muestra. Entonces, en este caso vemos el año donde hubo
+mayor (2007) y menor (2008) tamaño de muestra de acuerdo al ancho que se
+muestra para cada violín.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>violinplot3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(CalVal, <span class="fu">aes</span>(<span class="at">y=</span>OH, <span class="at">x=</span><span class="fu">factor</span>(Year)))</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>violinplot3 <span class="sc">+</span></span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">scale =</span> <span class="st">&quot;count&quot;</span>,</span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>              <span class="at">draw_quantiles =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>))<span class="sc">+</span></span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Año&quot;</span>, <span class="at">y=</span><span class="st">&quot;OH&quot;</span>)<span class="sc">+</span></span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<p><img src="G8b_geom_violin_files/figure-html/geomviolin8-1.png" width="672" /></p>
+<hr />
+</div>
+<div id="geom_violin-no-en-proporción-al-tamaño-de-la-muestra"
+class="section level2">
+<h2>Geom_violin no en proporción al tamaño de la muestra</h2>
+<p>En la Figura se modifica el ancho del violín a 1 en la escala del eje
+de <strong>X</strong>. En otras palabras, en este caso el ancho
+<strong>width</strong> del violín para el primer año va de 2003.5 al
+2004.5, para el segundo violín de 2004.5 a 2005.5 y así sucesivamente en
+forma consecutiva para los demás años. Este enfoque crea una grado de
+uniformidad para cada ancho. En este caso el ancho no esta relacionado
+con el tamaño de muestra como el ejemplo anterior.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>violinplot3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(CalVal, <span class="fu">aes</span>(<span class="at">y=</span>OH, <span class="at">x=</span><span class="fu">factor</span>(Year)))</span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>violinplot3 <span class="sc">+</span></span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">scale =</span> <span class="st">&quot;width&quot;</span>,</span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>              <span class="at">draw_quantiles =</span> <span class="fu">c</span>(<span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>))<span class="sc">+</span></span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Año&quot;</span>, <span class="at">y=</span><span class="st">&quot;OH&quot;</span>)<span class="sc">+</span></span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<p><img src="G8b_geom_violin_files/figure-html/geomviolin9-1.png" width="672" /></p>
+<hr />
+</div>
+<div id="geom_violin-y-el-cambio-de-orientación" class="section level2">
+<h2>Geom_violin y el cambio de orientación</h2>
+<p>En la Figura cambiamos la orientación de los gráficos anteriores
+utilizando la opción <strong>coord_flip()</strong>.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>violinplot3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(CalVal, <span class="fu">aes</span>(<span class="at">y=</span>OH, <span class="at">x=</span><span class="fu">factor</span>(Year)))</span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>violinplot3 <span class="sc">+</span></span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>  <span class="fu">geom_violin</span>()<span class="sc">+</span></span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>  <span class="fu">coord_flip</span>()<span class="sc">+</span></span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Año&quot;</span>)<span class="sc">+</span></span>
+<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Altura de la planta&quot;</span>)</span></code></pre></div>
+<p><img src="G8b_geom_violin_files/figure-html/geomviolin10-1.png" width="672" /></p>
+<hr />
+<p>Gráficos de Densidad con colores para los diferentes cuantiles</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>dt <span class="ot">&lt;-</span> <span class="fu">data.table</span>(<span class="at">x=</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">200</span>),<span class="at">y=</span><span class="fu">rnorm</span>(<span class="dv">200</span>)) <span class="co"># Crear un distribucion de 200 datos al azar con una distribución normal</span></span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>dens <span class="ot">&lt;-</span> <span class="fu">density</span>(dt<span class="sc">$</span>y) <span class="co"># calcular la densidad</span></span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x=</span>dens<span class="sc">$</span>x, <span class="at">y=</span>dens<span class="sc">$</span>y) <span class="co"># crear un data frame de la densidad</span></span>
+<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>probs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.1</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="fl">0.9</span>) <span class="co"># determinar cual cuantil quiere evaluar</span></span>
+<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a>quantiles <span class="ot">&lt;-</span> <span class="fu">quantile</span>(dt<span class="sc">$</span>y, <span class="at">prob=</span>probs) <span class="co"># asignar cada valor a uno de los cuantiles</span></span>
+<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a>df<span class="sc">$</span>quant <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">findInterval</span>(df<span class="sc">$</span>x,quantiles)) <span class="co"># Asignar los cuantiles a factores</span></span>
+<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a></span>
+<span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a></span>
+<span id="cb18-10"><a href="#cb18-10" tabindex="-1"></a><span class="fu">ggplot</span>(df, <span class="fu">aes</span>(x,y)) <span class="sc">+</span> <span class="fu">geom_line</span>() <span class="sc">+</span> <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin=</span><span class="dv">0</span>, <span class="at">ymax=</span>y, <span class="at">fill=</span>quant)) <span class="sc">+</span> <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span>quantiles) <span class="sc">+</span> <span class="fu">scale_fill_brewer</span>(<span class="at">guide=</span><span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<p><img src="G8b_geom_violin_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>CalVal2<span class="ot">=</span></span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>  CalVal <span class="sc">%&gt;%</span> <span class="fu">select</span>(OH) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>  <span class="fu">drop_na</span>()    <span class="co"># Seleccionar lo datos deseados removiendo los &quot;NA&quot;</span></span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a></span>
+<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a>dens2<span class="ot">=</span><span class="fu">density</span>(CalVal2<span class="sc">$</span>OH) </span>
+<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a>dens2</span></code></pre></div>
+<pre><code>## 
+## Call:
+##  density.default(x = CalVal2$OH)
+## 
+## Data: CalVal2$OH (163 obs.); Bandwidth &#39;bw&#39; = 2.94
+## 
+##        x               y            
+##  Min.   :16.18   Min.   :0.0000094  
+##  1st Qu.:34.34   1st Qu.:0.0008163  
+##  Median :52.50   Median :0.0050413  
+##  Mean   :52.50   Mean   :0.0137526  
+##  3rd Qu.:70.66   3rd Qu.:0.0262349  
+##  Max.   :88.82   Max.   :0.0566222</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x=</span>dens2<span class="sc">$</span>x, <span class="at">y=</span>dens2<span class="sc">$</span>y)</span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a><span class="fu">head</span>(df2)</span></code></pre></div>
+<pre><code>##          x            y
+## 1 16.17920 9.649217e-06
+## 2 16.32136 1.115009e-05
+## 3 16.46352 1.283130e-05
+## 4 16.60567 1.481782e-05
+## 5 16.74783 1.704836e-05
+## 6 16.88998 1.953867e-05</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>probs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.01</span>, <span class="fl">0.1</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="fl">0.9</span>, <span class="fl">0.95</span>, .<span class="dv">99</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>quantiles <span class="ot">&lt;-</span> <span class="fu">quantile</span>(CalVal2<span class="sc">$</span>OH, <span class="at">prob=</span>probs)</span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x=</span>dens2<span class="sc">$</span>x, <span class="at">y=</span>dens2<span class="sc">$</span>y)</span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a>df2<span class="sc">$</span>quant <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">findInterval</span>(df2<span class="sc">$</span>x,quantiles))</span>
+<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a><span class="fu">head</span>(df2)</span></code></pre></div>
+<pre><code>##          x            y quant
+## 1 16.17920 9.649217e-06     0
+## 2 16.32136 1.115009e-05     0
+## 3 16.46352 1.283130e-05     0
+## 4 16.60567 1.481782e-05     0
+## 5 16.74783 1.704836e-05     0
+## 6 16.88998 1.953867e-05     0</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="fu">ggplot</span>(df2, <span class="fu">aes</span>(x,y)) <span class="sc">+</span>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin=</span><span class="dv">0</span>, <span class="at">ymax=</span>y, <span class="at">fill=</span>quant)) <span class="sc">+</span> <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span>quantiles) <span class="sc">+</span> <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;Set1&quot;</span>,<span class="at">guide=</span><span class="st">&quot;none&quot;</span>)<span class="sc">+</span>  <span class="co"># colores horribles</span></span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>))</span></code></pre></div>
+<p><img src="G8b_geom_violin_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<hr />
+<ol start="2" style="list-style-type: decimal">
+<li>Preparar un gráfico de violín. Utiliza los datos
+<strong>CypripediumA</strong> en el paquete <strong>ggversa</strong>.
+Utiliza la columna <strong>Lip_length_mm</strong>, que es el largo de
+labelo de la orquidea <em>Cypripedium acaule</em>. La especies de
+orquídea vive en el norte de Canada en bosques cerados (Forest) o
+pantanos (Wetlands). Utiliza la columna <strong>Forest_Wetland</strong>
+para crear una caja de violín por cada sitio de muestreo. Poner color a
+los dos grupos. Evaluando la distribución de los datos sobre el tamaño
+del labello, Ud. cree que la distribución de tamaño es igual?
+<ul>
+<li>Salva el gráfico en formato .png y subirla a MSteam</li>
+</ul></li>
+</ol>
+<div class="figure">
+<img src="Graficos/Cypripedium_acaule.png" alt="Las fotos son de Dr. Peter Nosko de University of Nipissing, North Bay, Canada" width="70%" style="float:right; padding:10px" />
+<p class="caption">
+Las fotos son de Dr. Peter Nosko de University of Nipissing, North Bay,
+Canada
+</p>
+</div>
+<hr />
+</div>
+</div>
+<div id="opciones-y-parametros-de-geom_violin" class="section level1">
+<h1>Opciones y Parametros de <strong>geom_violin</strong>:</h1>
+<ul>
+<li><p>ggplot(el archivo de datos, aes(la variable continua, x=1)):
+{x=1} si es un grupo o el nombre de la variable discreta si hay
+múltiples grupos</p></li>
+<li><p>geom_violin(x, y, alpha, colour, fill, linetype, size,
+weight)</p>
+<ul>
+<li>alpha: la intensidad del color</li>
+<li>color: el color de la línea alrededor del violín</li>
+<li>fill: el color que se usa para rellenar el violín</li>
+<li>linetype: representa el estilo de línea; vea la sección</li>
+<li>size: representa el grosor de la línea</li>
+<li>scale: la escala que se usa para producir el violín tomando en
+cuenta el tamaño de muestra proporcionalmente; utiliza los parámetros
+<strong>count</strong> o <strong>width</strong></li>
+<li>weight: para modificar el valor original; entonces no sería, por
+ejemplo, el conteo/suma de los valores si no un valor ponderado
+(promedio ponderado).</li>
+</ul></li>
+</ul>
+<hr />
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
