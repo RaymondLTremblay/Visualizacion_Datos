@@ -14,7 +14,7 @@
 
 <title>gganimate</title>
 
-<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.26/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
@@ -629,10 +629,10 @@ expectativa de supervivencia en diferentes 142 países entre 1952 y 2007.
 Aquí observamos las primeras 6 filas del archivo. Para facilitar el
 trabajo, reducimos el archivo a un subgrupo de años (1952 a 1962).</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co">#gt(head(gapminder))</span></span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">head</span>(gapminder)</span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a><span class="fu">head</span>(gapminder, <span class="at">n=</span><span class="dv">20</span>)</span>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">unique</span>(gapminder<span class="sc">$</span>year)</span>
 <span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>gapminder2<span class="ot">=</span>gapminder <span class="sc">%&gt;%</span> <span class="fu">filter</span>(year <span class="sc">&lt;</span><span class="dv">1963</span>)</span></code></pre></div>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>gapminder2<span class="ot">=</span>gapminder <span class="sc">%&gt;%</span> <span class="fu">filter</span>(year <span class="sc">&lt;</span><span class="dv">1980</span>)</span></code></pre></div>
 <p>Primero creamos un gráfico de puntos sin animación o sea estático. En
 el eje de <strong>X</strong> representa el GDP per capita en cada país,
 y en el eje de <strong>Y</strong> la supervivencia. El tamaño del punto
@@ -642,8 +642,8 @@ es relativo el tamaño del país. La escala en el eje de
 diferencia cada país tiene su proprio color.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(</span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>  gapminder2, </span>
-<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> gdpPercap, <span class="at">y=</span>lifeExp, <span class="at">size =</span> pop, <span class="at">colour =</span> country)) <span class="sc">+</span></span>
-<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>)<span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x =</span> gdpPercap, <span class="at">y =</span> lifeExp, <span class="at">size =</span> pop, <span class="at">colour =</span> country)) <span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">show.legend =</span> <span class="cn">FALSE</span>, <span class="at">alpha =</span> <span class="fl">0.8</span>) <span class="sc">+</span> </span>
 <span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a>  <span class="fu">scale_size</span>(<span class="at">range =</span> <span class="fu">c</span>(.<span class="dv">2</span>, <span class="dv">12</span>)) <span class="sc">+</span></span>
 <span id="cb4-6"><a href="#cb4-6" tabindex="-1"></a>  <span class="fu">scale_x_log10</span>() <span class="sc">+</span></span>
 <span id="cb4-7"><a href="#cb4-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;GDP per capita&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Expectativa de Vida&quot;</span>)</span>
@@ -725,9 +725,9 @@ los datos futuros y no del pasado. El alternativa basica
 TRUE, future = FALSE)</strong></p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>final_animation <span class="ot">=</span> p <span class="sc">+</span> <span class="fu">transition_time</span>(year) <span class="sc">+</span></span>
 <span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Year: {frame_time}&quot;</span>) <span class="sc">+</span></span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="fu">shadow_mark</span>(<span class="at">alpha =</span> <span class="fl">0.3</span>, <span class="at">size =</span> <span class="fl">0.5</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="fu">shadow_mark</span>(<span class="at">past=</span><span class="cn">TRUE</span>)</span>
 <span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a></span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>animation<span class="ot">=</span>final_animation</span></code></pre></div>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>final_animation</span></code></pre></div>
 <hr />
 </div>
 <div id="data-from-covid-19" class="section level1">
@@ -743,7 +743,8 @@ el cambio de casos de COVID-19 en tiempo en diferentes paises</li>
 interesa con la función <strong>select()</strong> de tidyverse.</li>
 <li>remover los <strong>NA</strong></li>
 <li>puede seleccionar un subgrupos de datos como de un continente
-solamente, o paises selecionado especificos</li>
+solamente, o un subgrupo de paises<br />
+</li>
 <li>hacer un “facet_wrap” por continentes o otra variable</li>
 <li>Puede cambiar el nombre de las leyenda en <strong>y</strong> y
 <strong>x</strong>.</li>
@@ -758,12 +759,14 @@ variable.</li>
 <span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a><span class="fu">names</span>(owid_covid_data)</span></code></pre></div>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>owid_covid_data2<span class="ot">=</span> owid_covid_data <span class="sc">%&gt;%</span></span>
-<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>  <span class="fu">select</span>(date, location, total_deaths, total_cases_per_million, continent, total_deaths_per_million, population) <span class="sc">%&gt;%</span>  <span class="co"># Seleccionar aquí sus variables del data frame</span></span>
-<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="co"># remover los &quot;NA&quot;. Esto remueve toda la fila si una de las variables tiene un &quot;NA&quot;</span></span>
-<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="fu">head</span>(owid_covid_data2)  <span class="co"># Visualizar su nuevo data frame</span></span>
-<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a></span>
-<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a></span>
-<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a><span class="fu">unique</span>(owid_covid_data2<span class="sc">$</span>continent)</span></code></pre></div>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>  <span class="fu">select</span>(date, location, total_deaths, </span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>         total_cases_per_million, continent, </span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>         total_deaths_per_million, population) <span class="sc">%&gt;%</span>  <span class="co"># Seleccionar aquí sus variables del data frame</span></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="co"># remover los &quot;NA&quot;. Esto remueve toda la fila si una de las variables tiene un &quot;NA&quot;</span></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a><span class="fu">head</span>(owid_covid_data2)  <span class="co"># Visualizar su nuevo data frame</span></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a><span class="fu">unique</span>(owid_covid_data2<span class="sc">$</span>continent)</span></code></pre></div>
 <hr />
 <div id="transiciones-graduales" class="section level2">
 <h2>Transiciones graduales</h2>
@@ -787,7 +790,7 @@ variable de <strong>Day</strong>, añadiendo
 <strong>transition_reveal(Day)</strong></p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">transition_reveal</span>(Day)</span>
 <span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>final<span class="ot">=</span>p <span class="sc">+</span> <span class="fu">transition_reveal</span>(Day)</span>
-<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a><span class="fu">anim_save</span>(<span class="st">&quot;GDP_time4.gif&quot;</span>)</span></code></pre></div>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a><span class="co">#anim_save(&quot;GDP_time4.gif&quot;)</span></span></code></pre></div>
 <hr />
 </div>
 <div id="anadiendo-un-punto-a-la-linea" class="section level2">

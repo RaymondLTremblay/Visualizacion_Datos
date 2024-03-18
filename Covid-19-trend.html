@@ -15,7 +15,7 @@
 
 <title>COVID-19 trend</title>
 
-<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.26/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
@@ -432,13 +432,13 @@ $(document).ready(function () {
 
 
 <pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching core tidyverse packages ────────────────────
+<pre><code>## ── Attaching core tidyverse packages ──────────────────
 ## ✔ dplyr     1.1.4     ✔ readr     2.1.5
 ## ✔ forcats   1.0.0     ✔ stringr   1.5.1
-## ✔ ggplot2   3.4.4     ✔ tibble    3.2.1
+## ✔ ggplot2   3.5.0     ✔ tibble    3.2.1
 ## ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
 ## ✔ purrr     1.0.2     
-## ── Conflicts ─────────────────── tidyverse_conflicts() ──
+## ── Conflicts ───────────────── tidyverse_conflicts() ──
 ## ✖ dplyr::filter() masks stats::filter()
 ## ✖ dplyr::lag()    masks stats::lag()
 ## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
@@ -446,7 +446,7 @@ $(document).ready(function () {
 library(readr)
 owid_covid_data &lt;- read_csv(&quot;COVID_DATA/owid-covid-data.csv&quot;)</code></pre>
 <pre><code>## Rows: 57180 Columns: 50
-## ── Column specification ─────────────────────────────────
+## ── Column specification ───────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr   (4): iso_code, continent, location, tests_units
 ## dbl  (45): total_cases, new_cases, new_cases_smoothed, total_deaths, new_dea...
@@ -572,8 +572,8 @@ ggplot(aes(date, new_cases, colour=new_cases_07da))+
   scale_color_gradient(low = &quot;grey&quot;, high = &quot;red&quot;)+
     geom_line(aes(x=date, new_cases_07da), colour=&quot;black&quot;)+
   ggtitle(&quot;Aruba: Covid-19 New Cases&quot;)</code></pre>
-<pre><code>## Warning: Removed 6 rows containing missing values
-## (`geom_line()`).</code></pre>
+<pre><code>## Warning: Removed 6 rows containing missing values or values
+## outside the scale range (`geom_line()`).</code></pre>
 <p><img src="Covid-19-trend_files/figure-html/aruba%20graph-1.png" width="672" /></p>
 <pre class="r"><code>PR=owid %&gt;% 
   filter(location==&quot;Puerto Rico&quot;) %&gt;% 
@@ -637,8 +637,8 @@ ggplot(aes(date, new_cases, colour=new_cases_14da))+
   scale_color_gradient(low = &quot;grey&quot;, high = &quot;red&quot;)+
     geom_line(aes(x=date, new_cases_14da), colour=&quot;black&quot;)+
   ggtitle(&quot;Puerto Rico: Covid-19 New Cases, rolling average of 7 days&quot;)</code></pre>
-<pre><code>## Warning: Removed 13 rows containing missing values
-## (`geom_line()`).</code></pre>
+<pre><code>## Warning: Removed 13 rows containing missing values or values
+## outside the scale range (`geom_line()`).</code></pre>
 <p><img src="Covid-19-trend_files/figure-html/PR%20graph-1.png" width="672" /></p>
 <pre class="r"><code>PR2 %&gt;% 
 ggplot(aes(date, new_cases, colour=new_cases_14daSlider))+
@@ -654,7 +654,7 @@ ggplot(aes(date, new_cases, colour=new_cases_14daSlider))+
 <pre class="r"><code>library(readr)
 us_counties &lt;- read_csv(&quot;COVID_DATA/us_counties.csv&quot;)</code></pre>
 <pre><code>## Rows: 735516 Columns: 7
-## ── Column specification ─────────────────────────────────
+## ── Column specification ───────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr (3): date, county, us_state
 ## dbl (4): List_Num, fips, cases, deaths

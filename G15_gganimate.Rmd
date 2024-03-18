@@ -73,10 +73,10 @@ Los datos provienen del paquete **gapminder** y el archivo **gapminder**. Estos 
 
 ```{r}
 #gt(head(gapminder))
-head(gapminder)
+head(gapminder, n=20)
 unique(gapminder$year)
 
-gapminder2=gapminder %>% filter(year <1963)
+gapminder2=gapminder %>% filter(year <1980)
 ```
 
 
@@ -88,8 +88,8 @@ Primero creamos un gráfico de puntos sin animación o sea estático.  En el eje
 ```{r}
 p <- ggplot(
   gapminder2, 
-  aes(x = gdpPercap, y=lifeExp, size = pop, colour = country)) +
-  geom_point(show.legend = FALSE, alpha = 0.8)+
+  aes(x = gdpPercap, y = lifeExp, size = pop, colour = country)) +
+  geom_point(show.legend = FALSE, alpha = 0.8) + 
   scale_size(range = c(.2, 12)) +
   scale_x_log10() +
   labs(x = "GDP per capita", y = "Expectativa de Vida")
@@ -171,9 +171,9 @@ Con la función **shadow_mark** se puede ver los datos originales. Tanto los dat
 ```{r}
 final_animation = p + transition_time(year) +
   labs(title = "Year: {frame_time}") +
-  shadow_mark(alpha = 0.3, size = 0.5)
+  shadow_mark(past=TRUE)
 
-animation=final_animation
+final_animation
 ```
 
 
@@ -187,7 +187,7 @@ Located at https://ourworldindata.org/covid-deaths
 Producir un gráfico con **gganimate** sobre el cambio de casos de COVID-19 en tiempo en diferentes paises
   + Seleccionar variables del archivo de covid-deaths que UD. le interesa con la función **select()** de tidyverse.
   + remover los **NA**
-  + puede seleccionar un subgrupos de datos como de un continente solamente, o paises selecionado especificos 
+  + puede seleccionar un subgrupos de datos como de un continente solamente, o un subgrupo de paises  
   + hacer un "facet_wrap" por continentes o otra variable 
   + Puede cambiar el nombre de las leyenda en **y** y **x**.
   + Puede modificar el tamaño del punto que representa el paises por una variable.
@@ -205,7 +205,9 @@ names(owid_covid_data)
 ```{r}
 library(tidyverse)
 owid_covid_data2= owid_covid_data %>%
-  select(date, location, total_deaths, total_cases_per_million, continent, total_deaths_per_million, population) %>%  # Seleccionar aquí sus variables del data frame
+  select(date, location, total_deaths, 
+         total_cases_per_million, continent, 
+         total_deaths_per_million, population) %>%  # Seleccionar aquí sus variables del data frame
   drop_na() # remover los "NA". Esto remueve toda la fila si una de las variables tiene un "NA"
 head(owid_covid_data2)  # Visualizar su nuevo data frame
 
@@ -258,7 +260,7 @@ Ahora animamos el gráfico en el eje de **x** con la variable de **Day**, añadi
 ```{r}
 p + transition_reveal(Day)
 final=p + transition_reveal(Day)
-anim_save("GDP_time4.gif")
+#anim_save("GDP_time4.gif")
 ```
 
 

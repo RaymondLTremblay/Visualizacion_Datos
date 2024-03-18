@@ -13,7 +13,7 @@
 
 <title>Gráficos Poblacional y Temperatura</title>
 
-<script src="site_libs/header-attrs-2.25/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.26/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
@@ -595,7 +595,7 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2024-02-28&quot;</code></pre>
+<pre><code>## [1] &quot;2024-03-18&quot;</code></pre>
 <p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" /></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co">#devtools::install_github(&quot;EvaMaeRey/flipbookr&quot;)</span></span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a></span>
@@ -916,7 +916,8 @@ class="section level3">
 <span id="cb34-6"><a href="#cb34-6" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Fecha&quot;</span>)<span class="sc">+</span></span>
 <span id="cb34-7"><a href="#cb34-7" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Temperatura promedio </span><span class="sc">\n</span><span class="st"> máxima por mes en C°&quot;</span>)<span class="sc">+</span></span>
 <span id="cb34-8"><a href="#cb34-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<pre><code>## Warning: Removed 2 rows containing missing values (`geom_bar()`).</code></pre>
+<pre><code>## Warning: Removed 2 rows containing missing values or values
+## outside the scale range (`geom_bar()`).</code></pre>
 <p><img src="G7b_geom_bar_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 </div>
 </div>
@@ -932,7 +933,7 @@ Convertir los datos de Farenheit a Celcius.</li>
 <span id="cb36-2"><a href="#cb36-2" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
 <span id="cb36-3"><a href="#cb36-3" tabindex="-1"></a>Anchorage_ALASKA <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;Data/Anchorage_ALASKA.csv&quot;</span>)</span></code></pre></div>
 <pre><code>## Rows: 20 Columns: 13
-## ── Column specification ─────────────────────────────────
+## ── Column specification ───────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## dbl (13): Year, Jan, Feb, Mar, Apr, May, Jun, Jul, Aug, Sep, Oct, Nov, Dec
 ## 
@@ -1574,6 +1575,12 @@ Convertir los datos de Farenheit a Celcius.</li>
 <span id="cb54-6"><a href="#cb54-6" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Fecha&quot;</span>)<span class="sc">+</span></span>
 <span id="cb54-7"><a href="#cb54-7" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Temperatura promedio máxima por mes en Celsius&quot;</span>)<span class="sc">+</span></span>
 <span id="cb54-8"><a href="#cb54-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<pre><code>## Warning: The `trans` argument of `continuous_scale()` is
+## deprecated as of ggplot2 3.5.0.
+## ℹ Please use the `transform` argument instead.
+## This warning is displayed once every 8 hours.
+## Call `lifecycle::last_lifecycle_warnings()` to see
+## where this warning was generated.</code></pre>
 <p><img src="G7b_geom_bar_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
 <hr />
 </div>
@@ -1590,8 +1597,8 @@ ejemplo, que represente una suma sobre otra variable.</p>
 archivo de lagartos <strong>Anolis</strong> que contiene información
 sobre su edad, sexo, periodo de muestreo y localidad donde fueron
 muestreados.</p>
-<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb55-1"><a href="#cb55-1" tabindex="-1"></a><span class="fu">library</span>(ggversa)</span>
-<span id="cb55-2"><a href="#cb55-2" tabindex="-1"></a><span class="fu">names</span>(Anolis)</span></code></pre></div>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb56-1"><a href="#cb56-1" tabindex="-1"></a><span class="fu">library</span>(ggversa)</span>
+<span id="cb56-2"><a href="#cb56-2" tabindex="-1"></a><span class="fu">names</span>(Anolis)</span></code></pre></div>
 <pre><code>##  [1] &quot;STUDY&quot;                    &quot;Survey_Site&quot;             
 ##  [3] &quot;LOCATION&quot;                 &quot;TIME&quot;                    
 ##  [5] &quot;DATE&quot;                     &quot;SEASON&quot;                  
@@ -1602,9 +1609,9 @@ muestreados.</p>
 ## [15] &quot;TAIL&quot;</code></pre>
 <p>El primer gráfico a continuación, produce por omisión barras negras
 que representan la suma de la cantidad de observaciones.</p>
-<div class="sourceCode" id="cb57"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb57-1"><a href="#cb57-1" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE))</span>
-<span id="cb57-2"><a href="#cb57-2" tabindex="-1"></a>barraA<span class="sc">+</span><span class="fu">geom_bar</span>(<span class="at">fill=</span><span class="fu">grey</span>(.<span class="dv">3</span>))<span class="sc">+</span></span>
-<span id="cb57-3"><a href="#cb57-3" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE))</span>
+<span id="cb58-2"><a href="#cb58-2" tabindex="-1"></a>barraA<span class="sc">+</span><span class="fu">geom_bar</span>(<span class="at">fill=</span><span class="fu">grey</span>(.<span class="dv">3</span>))<span class="sc">+</span></span>
+<span id="cb58-3"><a href="#cb58-3" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G7b_geom_bar_files/figure-html/geombar2-1.png" width="672" /></p>
 <p>En el segundo, el ancho de las barras fue reducido para que se vean
 menos angostas usando la opción <strong>width</strong>, ene ejemplo se
@@ -1612,10 +1619,10 @@ reduce el ancho de las barras <strong>width=.3</strong>. Además, se
 cambia la descripción de los ejes al castellano. También selecciono un
 otro color de gris y se modifico su intensidad con
 <strong>fill=grey(.5)</strong>.</p>
-<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb58-1"><a href="#cb58-1" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE))</span>
-<span id="cb58-2"><a href="#cb58-2" tabindex="-1"></a>barraA<span class="sc">+</span><span class="fu">geom_bar</span>(<span class="at">width=</span>.<span class="dv">3</span>, <span class="at">fill=</span><span class="fu">grey</span>(.<span class="dv">5</span>))<span class="sc">+</span></span>
-<span id="cb58-3"><a href="#cb58-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="at">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="sc">+</span></span>
-<span id="cb58-4"><a href="#cb58-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE))</span>
+<span id="cb59-2"><a href="#cb59-2" tabindex="-1"></a>barraA<span class="sc">+</span><span class="fu">geom_bar</span>(<span class="at">width=</span>.<span class="dv">3</span>, <span class="at">fill=</span><span class="fu">grey</span>(.<span class="dv">5</span>))<span class="sc">+</span></span>
+<span id="cb59-3"><a href="#cb59-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="at">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="sc">+</span></span>
+<span id="cb59-4"><a href="#cb59-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G7b_geom_bar_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 <p>En el tercer grafico las barras fueron rotadas usando la opción
 <strong>coord_flip()</strong> y puestas sobre lo que antes era el eje de
@@ -1624,17 +1631,17 @@ color; en este caso, fue usada la escala de color gris para distinguir
 entre la temporada seca <strong>dry</strong> la lluviosa
 <strong>wet</strong>. Si no se añade la opción scale_fill_grey(), las
 categorías tendrían color.</p>
-<div class="sourceCode" id="cb59"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb59-1"><a href="#cb59-1" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE))</span>
-<span id="cb59-2"><a href="#cb59-2" tabindex="-1"></a>B3<span class="ot">=</span>barraA<span class="sc">+</span><span class="fu">geom_bar</span>(<span class="at">fill=</span><span class="fu">grey</span>(.<span class="dv">5</span>))<span class="sc">+</span><span class="fu">coord_flip</span>()<span class="sc">+</span></span>
-<span id="cb59-3"><a href="#cb59-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="at">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="sc">+</span></span>
-<span id="cb59-4"><a href="#cb59-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
-<span id="cb59-5"><a href="#cb59-5" tabindex="-1"></a></span>
-<span id="cb59-6"><a href="#cb59-6" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE, <span class="at">fill=</span>SEASON))</span>
-<span id="cb59-7"><a href="#cb59-7" tabindex="-1"></a>B4<span class="ot">=</span>barraA<span class="sc">+</span><span class="fu">geom_bar</span>()<span class="sc">+</span><span class="fu">scale_fill_grey</span>()<span class="sc">+</span></span>
-<span id="cb59-8"><a href="#cb59-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="at">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="sc">+</span></span>
-<span id="cb59-9"><a href="#cb59-9" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
-<span id="cb59-10"><a href="#cb59-10" tabindex="-1"></a></span>
-<span id="cb59-11"><a href="#cb59-11" tabindex="-1"></a><span class="fu">grid.arrange</span>(B3,B4,<span class="at">ncol=</span><span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE))</span>
+<span id="cb60-2"><a href="#cb60-2" tabindex="-1"></a>B3<span class="ot">=</span>barraA<span class="sc">+</span><span class="fu">geom_bar</span>(<span class="at">fill=</span><span class="fu">grey</span>(.<span class="dv">5</span>))<span class="sc">+</span><span class="fu">coord_flip</span>()<span class="sc">+</span></span>
+<span id="cb60-3"><a href="#cb60-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="at">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="sc">+</span></span>
+<span id="cb60-4"><a href="#cb60-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
+<span id="cb60-5"><a href="#cb60-5" tabindex="-1"></a></span>
+<span id="cb60-6"><a href="#cb60-6" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE, <span class="at">fill=</span>SEASON))</span>
+<span id="cb60-7"><a href="#cb60-7" tabindex="-1"></a>B4<span class="ot">=</span>barraA<span class="sc">+</span><span class="fu">geom_bar</span>()<span class="sc">+</span><span class="fu">scale_fill_grey</span>()<span class="sc">+</span></span>
+<span id="cb60-8"><a href="#cb60-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="at">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="sc">+</span></span>
+<span id="cb60-9"><a href="#cb60-9" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
+<span id="cb60-10"><a href="#cb60-10" tabindex="-1"></a></span>
+<span id="cb60-11"><a href="#cb60-11" tabindex="-1"></a><span class="fu">grid.arrange</span>(B3,B4,<span class="at">ncol=</span><span class="dv">1</span>)</span></code></pre></div>
 <p><img src="G7b_geom_bar_files/figure-html/geombar2a-1.png" width="672" /></p>
 <hr />
 <div id="posiciones-de-las-barras" class="section level3">
@@ -1643,17 +1650,17 @@ categorías tendrían color.</p>
 usa <strong>(position={dodge})</strong>. El parámetro
 <strong>dodge</strong> le indica <strong>esquivar</strong> en el sentido
 de mover al lado.</p>
-<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb60-1"><a href="#cb60-1" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE,<span class="at">fill=</span>SEASON))</span>
-<span id="cb60-2"><a href="#cb60-2" tabindex="-1"></a>B1<span class="ot">=</span>barraA<span class="sc">+</span><span class="fu">geom_bar</span>()<span class="sc">+</span></span>
-<span id="cb60-3"><a href="#cb60-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="at">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="sc">+</span></span>
-<span id="cb60-4"><a href="#cb60-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
-<span id="cb60-5"><a href="#cb60-5" tabindex="-1"></a></span>
-<span id="cb60-6"><a href="#cb60-6" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE,<span class="at">fill=</span>SEASON))</span>
-<span id="cb60-7"><a href="#cb60-7" tabindex="-1"></a>B2<span class="ot">=</span>barraA<span class="sc">+</span><span class="fu">geom_bar</span>(<span class="at">position=</span><span class="st">&quot;dodge&quot;</span>)<span class="sc">+</span></span>
-<span id="cb60-8"><a href="#cb60-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="at">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="sc">+</span></span>
-<span id="cb60-9"><a href="#cb60-9" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
-<span id="cb60-10"><a href="#cb60-10" tabindex="-1"></a></span>
-<span id="cb60-11"><a href="#cb60-11" tabindex="-1"></a><span class="fu">grid.arrange</span>(B1,B2,<span class="at">ncol=</span><span class="dv">1</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb61"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb61-1"><a href="#cb61-1" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE,<span class="at">fill=</span>SEASON))</span>
+<span id="cb61-2"><a href="#cb61-2" tabindex="-1"></a>B1<span class="ot">=</span>barraA<span class="sc">+</span><span class="fu">geom_bar</span>()<span class="sc">+</span></span>
+<span id="cb61-3"><a href="#cb61-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="at">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="sc">+</span></span>
+<span id="cb61-4"><a href="#cb61-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
+<span id="cb61-5"><a href="#cb61-5" tabindex="-1"></a></span>
+<span id="cb61-6"><a href="#cb61-6" tabindex="-1"></a>barraA<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SEX_AGE,<span class="at">fill=</span>SEASON))</span>
+<span id="cb61-7"><a href="#cb61-7" tabindex="-1"></a>B2<span class="ot">=</span>barraA<span class="sc">+</span><span class="fu">geom_bar</span>(<span class="at">position=</span><span class="st">&quot;dodge&quot;</span>)<span class="sc">+</span></span>
+<span id="cb61-8"><a href="#cb61-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>, <span class="at">x=</span><span class="st">&quot;Género y edad&quot;</span>)<span class="sc">+</span></span>
+<span id="cb61-9"><a href="#cb61-9" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
+<span id="cb61-10"><a href="#cb61-10" tabindex="-1"></a></span>
+<span id="cb61-11"><a href="#cb61-11" tabindex="-1"></a><span class="fu">grid.arrange</span>(B1,B2,<span class="at">ncol=</span><span class="dv">1</span>)</span></code></pre></div>
 <p><img src="G7b_geom_bar_files/figure-html/geombar3-1.png" width="672" /></p>
 </div>
 </div>
