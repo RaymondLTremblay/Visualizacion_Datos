@@ -1,0 +1,186 @@
+---
+title: "G18_3D"
+author: "Raymond_L_Tremblay"
+date: "2024-03-18"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+# gg3D
+
+
+```{r, message=FALSE}
+#devtools::install_github("AckerDWM/gg3D")
+
+library("gg3D")
+```
+
+## Un gráfico sin datos, solamente los ejes 
+
+```{r}
+## An empty plot with 3 axes
+qplot(x=0, y=0, z=0, geom="blank") + 
+  theme_void() +
+  axes_3D()
+
+
+```
+
+
+
+```{r}
+data(iris)
+ggplot(iris, aes(x=Petal.Width, y=Sepal.Width, z=Petal.Length, color=Species)) + 
+  theme_void() +
+  axes_3D() +
+  stat_3D()
+```
+
+
+```{r}
+# Packages
+library(deSolve)
+library(ggplot2)
+library(gg3D)  # remotes::install_github("AckerDWM/gg3D")
+
+
+
+# Parameters
+parms <- c(a=10, b=8/3, c=28)
+
+# Initial state 
+state <- c(x=0.01, y=0.0, z=0.0)
+
+# Time span
+times <- seq(0, 50, by=1/200)
+
+# Lorenz system
+lorenz <- function(times, state, parms) {
+  with(as.list(c(state, parms)), {
+    dxdt <- a*(y-x)
+    dydt <- x*(c-z)-y
+    dzdt <- x*y-b*z
+    return(list(c(dxdt, dydt, dzdt)))
+  })
+}
+
+# Make dataframe
+df <- as.data.frame(ode(func=lorenz, y=state, parms=parms, times=times))
+
+# Make plot
+make_plot <- function(theta=0, phi=0){
+  ggplot(df, aes(x=x, y=y, z=z, colour=time)) +
+    axes_3D(theta=theta, phi=phi) +
+    stat_3D(theta=theta, phi=phi, geom="path") +
+    labs_3D(theta=theta, phi=phi, 
+            labs=c("x", "y", "z"), 
+            angle=c(0,0,0),
+            hjust=c(0,2,2), 
+            vjust=c(2,2,-2)) +
+    ggtitle("Lorenz butterfly") +
+    theme_void() +
+    theme(legend.position = "none")
+}
+
+make_plot()
+
+make_plot(theta=180,phi=0)
+
+# Save plot as PDF
+ggsave(last_plot(), filename="lorenz-gg3d.pdf")
+```
+
+
+
+
+```{r}
+# Packages
+library(deSolve)
+library(ggplot2)
+library(rgl)
+  #remotes::install_github("dmurdoch/rgl")
+library(ggrgl) 
+  # remotes::install_github('coolbutuseless/ggrgl', ref='main')
+  #remotes::install_github("coolbutuseless/devout")
+library(devout)
+
+# install.packages("remotes")
+#remotes::install_github("coolbutuseless/snowcrash")  # Store R objects as images
+#remotes::install_github("coolbutuseless/cryogenic")  # Freeze R calls + replay
+#remotes::install_github("coolbutuseless/triangular") # Polygon Triangulation
+#remotes::install_github("coolbutuseless/devout")     # R device framework
+#remotes::install_github("coolbutuseless/devoutrgl")  # This device
+library(devoutrgl) 
+ #  remotes::install_github('coolbutuseless/devoutrgl', ref='main')
+library(webshot2)
+#   remotes::install_github("rstudio/webshot2")
+library(ggthemes)
+
+
+
+## Parameters
+parms <- c(a=10, b=8/3, c=26.48)
+
+# Initial state 
+state <- c(x=0.01, y=0.0, z=0.0)
+
+# Time span
+times <- seq(0, 100, by=1/500)
+
+# Lorenz system
+lorenz <- function(times, state, parms) {
+  with(as.list(c(state, parms)), {
+    dxdt <- a*(y-x)
+    dydt <- x*(c-z)-y
+    dzdt <- x*y-b*z
+    return(list(c(dxdt, dydt, dzdt)))
+  })
+}
+
+# Make dataframe
+df <- as.data.frame(ode(func=lorenz, y=state, parms=parms, times=times))
+
+# Make plot
+ggplot(df, aes(x=x, y=y, z=z)) +
+  geom_path_3d() +
+  ggtitle("Lorenz butterfly") -> p
+
+# Render Plot in window
+rgldev(fov=30, view_angle=-10, zoom=0.7)
+p + theme_ggrgl(16) 
+
+# Save plot as PNG
+#rgldev(fov=30, view_angle=-10, zoom=0.7,
+  #     file = "~/R/Work/plots/lorenz-attractor/ggrgl/lorenz-ggrgl.png", 
+ #      close_window = TRUE, dpi = 300)
+p + theme_ggrgl(16) 
+dev.off()
+```
+
+
+
+```{r}
+library(rgl)
+```
+
+
+
+
+```{r}
+
+with(iris, plot3d(Sepal.Length, Sepal.Width, Petal.Length, type="s", col=as.integer(Species)))
+rglwidget()
+```
+
+
+## Creating a surface
+
+```{r}
+persp3d(volcano, n=3)
+rglwidget()
+```
