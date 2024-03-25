@@ -259,7 +259,7 @@ Ahora animamos el gráfico en el eje de **x** con la variable de **Day**, añadi
 
 ```{r}
 p + transition_reveal(Day)
-final=p + transition_reveal(Day)
+#final=p + transition_reveal(Day)
 #anim_save("GDP_time4.gif")
 ```
 
@@ -278,13 +278,13 @@ cambio_m
 ```
 
 ```{r}
-animate(cambio_m, height = 400, width =400)
+animate(cambio_m, height = 200, width =200)
 # anim_save("cambio_m.gif")
 ```
 
 ***
 
-## Poniendo un punto para valor
+## Poniendo un punto por valor
 
 Los puntos se pueden quedar en el gráfico añadiendo **(group = seq_along(Day)**. 
 
@@ -305,8 +305,8 @@ Preparación de los datos
 ```{r}
 head(airquality)
 temp.promedio <- airquality %>%
-  select(Day, Temp) %>% 
-  group_by(Day) %>%
+  select(Month, Temp) %>% 
+  group_by(Month) %>%
   summarise(Temp2 = mean(Temp, na.rm = TRUE))
 temp.promedio
 ```
@@ -320,7 +320,7 @@ Ahora creamos un gráfico estático de los datos con **geom_col**.
 
 
 ```{r}
-p <- ggplot(temp.promedio, aes(Day, Temp2, fill=Day)) +
+p <- ggplot(temp.promedio, aes(Month, Temp2, fill=Month)) +
   geom_col() +
   scale_fill_distiller(palette = "Blues", direction = 1) +
   theme_minimal() +

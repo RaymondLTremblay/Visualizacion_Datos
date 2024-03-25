@@ -795,7 +795,7 @@ con la función <strong>group</strong>.</p>
 variable de <strong>Day</strong>, añadiendo
 <strong>transition_reveal(Day)</strong></p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>p <span class="sc">+</span> <span class="fu">transition_reveal</span>(Day)</span>
-<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>final<span class="ot">=</span>p <span class="sc">+</span> <span class="fu">transition_reveal</span>(Day)</span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="co">#final=p + transition_reveal(Day)</span></span>
 <span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a><span class="co">#anim_save(&quot;GDP_time4.gif&quot;)</span></span></code></pre></div>
 <hr />
 </div>
@@ -806,12 +806,12 @@ variable de <strong>Day</strong>, añadiendo
 <span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>  <span class="fu">geom_point</span>() <span class="sc">+</span></span>
 <span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>  <span class="fu">transition_reveal</span>(Day)</span>
 <span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>cambio_m</span></code></pre></div>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">animate</span>(cambio_m, <span class="at">height =</span> <span class="dv">400</span>, <span class="at">width =</span><span class="dv">400</span>)</span>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">animate</span>(cambio_m, <span class="at">height =</span> <span class="dv">200</span>, <span class="at">width =</span><span class="dv">200</span>)</span>
 <span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="co"># anim_save(&quot;cambio_m.gif&quot;)</span></span></code></pre></div>
 <hr />
 </div>
-<div id="poniendo-un-punto-para-valor" class="section level2">
-<h2>Poniendo un punto para valor</h2>
+<div id="poniendo-un-punto-por-valor" class="section level2">
+<h2>Poniendo un punto por valor</h2>
 <p>Los puntos se pueden quedar en el gráfico añadiendo <strong>(group =
 seq_along(Day)</strong>.</p>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>p <span class="sc">+</span> </span>
@@ -830,8 +830,8 @@ un nuevo data frame que llamamos <strong>temp.promedio</strong>.</p>
 <p>Preparación de los datos</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">head</span>(airquality)</span>
 <span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>temp.promedio <span class="ot">&lt;-</span> airquality <span class="sc">%&gt;%</span></span>
-<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>  <span class="fu">select</span>(Day, Temp) <span class="sc">%&gt;%</span> </span>
-<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>  <span class="fu">group_by</span>(Day) <span class="sc">%&gt;%</span></span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>  <span class="fu">select</span>(Month, Temp) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>  <span class="fu">group_by</span>(Month) <span class="sc">%&gt;%</span></span>
 <span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>  <span class="fu">summarise</span>(<span class="at">Temp2 =</span> <span class="fu">mean</span>(Temp, <span class="at">na.rm =</span> <span class="cn">TRUE</span>))</span>
 <span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a>temp.promedio</span></code></pre></div>
 <hr />
@@ -839,7 +839,7 @@ un nuevo data frame que llamamos <strong>temp.promedio</strong>.</p>
 <h2>Gráfico de barra estático</h2>
 <p>Ahora creamos un gráfico estático de los datos con
 <strong>geom_col</strong>.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(temp.promedio, <span class="fu">aes</span>(Day, Temp2, <span class="at">fill=</span>Day)) <span class="sc">+</span></span>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>p <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(temp.promedio, <span class="fu">aes</span>(Month, Temp2, <span class="at">fill=</span>Month)) <span class="sc">+</span></span>
 <span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>  <span class="fu">geom_col</span>() <span class="sc">+</span></span>
 <span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>  <span class="fu">scale_fill_distiller</span>(<span class="at">palette =</span> <span class="st">&quot;Blues&quot;</span>, <span class="at">direction =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
 <span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
