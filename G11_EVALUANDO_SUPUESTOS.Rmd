@@ -524,10 +524,10 @@ Brevemente recapitulamos, si los datos no siguen una distribución normal, se de
 
 ***
 
-## Seleción de parametros pra correlaciones cuando hay NA
+## Selección de parametros para correlaciones cuando hay NA (datos faltantes)
 
 
-Además, los analísis anteriores utilizados emplearon el parámetro **pairwise.complete.obs**, ya que obviaría los **NA** en las columnas que se utilizan para calcular la correlación. Por lo tanto, la cantidad de pares de datos utilizados para calcular las diferentes correlaciones entre variables puede variar si hay **NA** en el archivo.  Tome en consideración que hay otras cuatro alternativas para analizar los datos cuando tenemos **NA** presentes: **everything**, **all.obs**, **complete.obs** y **na.or.complete**.  No vamos a discutir esas alternativas en el presente libro.  Sería bueno que busque información en R para sus usos. Estas alternativas se discutiran en otros modulos.  
+Además, los analísis anteriores utilizados emplearon el parámetro **pairwise.complete.obs**, ya que obviaría los **NA** en las columnas que se utilizan para calcular la correlación. Por lo tanto, la cantidad de pares de datos utilizados para calcular las diferentes correlaciones entre variables puede variar si hay **NA** en el archivo.  Tome en consideración que hay otras cuatro alternativas para analizar los datos cuando tenemos **NA** presentes: **everything**, **all.obs**, **complete.obs** y **na.or.complete**.  No vamos a discutir esas alternativas en el presente libro.  Sería bueno que busque información en R para sus usos. Estas alternativas se discutirán en otros modulos.  Para más información vea (cor) en el help de RStudio. 
 
 Finalmente, también se utilizó el comando **kable** ya que es una manera efectiva de organizar los resultados en una tabla.
 
@@ -549,6 +549,23 @@ ggpairs(dipodium[,c(8, 9, 13, 14, 10)], aes(colour=herbivory))
 
 ***
 
+Explorando el uso de "everything", "na.or.complete", "all.obs" y "pairwise.complete.obs" con el paquete "corrplot"
+
+```{r}
+library(corrplot)
+data(mtcars)
+carros_mini <- mtcars[,3:6]
+# remover algo datos y subsituirlos por "NA"
+carros_mini[1,1] <- NA
+carros_mini[1,2] <- NA
+
+carros_mini # mirar el df
+
+library(corrplot)
+corrplot(corr=cor(carros_mini, use="everything"), method="ellipse")
+corrplot(corr=cor(carros_mini, use="na.or.complete"), method="shade")
+corrplot(corr=cor(carros_mini, use="pairwise.complete.obs"), method="square")
+```
 
 
 
