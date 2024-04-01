@@ -257,3 +257,119 @@ crm %>%
   addAwesomeMarkers(~longitud, ~latitud,  popup = ~paste0("Delito: ",delitos_code), clusterOptions = markerClusterOptions(), icon = awesomeIcons(icon = "fa-solid fa-car", library = "fa"))
 ```
 
+
+***
+
+***
+
+## Distribución de pingüinos y ballenas
+
+
+Los datos provienen del siguiente enlace <<https://www.bco-dmo.org/dataset/3421>>
+
+
+
+Información del website
+
+"Visual surveys for cetaceans and penguins were conducted during daylight hours on all days when weather conditions allowed on the Antarctic Peninsula, in the austral autumns and winters of 2000-2002.
+
+Objectives:
+
+ -  1) to characterize foraging behavior and movements of individual baleen whales in relation to prey characteristics and physical environment, 
+ -  2) to relate distribution, abundance and biomass of baleen whales species to same for krill in a large area in a single season, and 
+ -  3) to monitor interannual variability in whale distribution and abundance in relation to physical environment and prey characteristics."
+
+
+
+
+
+```{r, echo=FALSE}
+library(readr)
+library(gt)
+Whale_Penguin_sighthing <- read_csv("Whale_Penguin_sighthing.csv")
+WP=Whale_Penguin_sighthing
+
+gt(head(WP))
+```
+
+***
+
+## CONTESTA la siguientes preguntas
+
+ - Cuantos avistamiento de ballenas esta el data file
+ - Cuantos avistamiento de pingüinos esta en el data file
+ - Convierte la "date_gmt" en fecha antes de seguir los próximos pasos
+
+***
+
+ - 1. Haz un mapa básico de todos los avistamiento
+
+
+```{r, echo=FALSE, eval=FALSE}
+library(leaflet)
+library(lubridate)
+WP$date_gmt=mdy(WP$date_gmt) # convierte la columna de fecha de "character" as "mdy" con el paquete lubridate
+
+WP %>%
+  leaflet() %>%
+  addTiles() %>%
+  addCircles(~lon, ~lat, radius=3)
+```
+
+
+
+***
+
+- 2. Buscar una manera de colorear los puntos de color diferentes por el tipo de avistamiento (ballenas y pinguinos). 
+
+
+```{r, eval=FALSE, echo=FALSE}
+
+#unique(WP$taxon)
+pal <- colorFactor(palette = c("green", "yellow"), domain = WP$taxon,  alpha=0.5)
+
+WP %>%
+  leaflet() %>%
+  addTiles() %>%
+  addCircles(~lon, ~lat, radius=2, color = ~pal(WP$taxon))
+```
+
+
+***
+
+- 3. Ahora rehacer su gráfico usando "Awesome markers"
+
+ - Añadele clusters
+ - Añade un popup, identificando si es ballena o pingüino
+ - Añade awesomeIcons con un icon a su gusto.
+ 
+ 
+
+```{r, eval=FALSE, echo=FALSE}
+WP %>%
+  leaflet() %>%
+  addTiles() %>%
+  addAwesomeMarkers(~lon, ~lat,  
+                    popup = ~paste0("Taxon:",taxon), 
+                    clusterOptions = markerClusterOptions(), 
+                    icon = awesomeIcons(icon = "fa-solid fa-bug", library = "fa"))
+```
+
+***
+
+- 4. HAGA dos mapas uno para cada año de muestreo
+
+
+```{r}
+unique(WP$year)
+```
+
+
+
+
+
+### BONO: CAMBIAR los colores de los marcadores (los markers) un tipo diferente para ballena y otro para pingüinos.
+
+Por ejemplo aqui: https://github.com/lennardv2/Leaflet.awesome-markers
+
+
