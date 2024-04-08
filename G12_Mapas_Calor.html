@@ -603,56 +603,56 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2024-04-01&quot;</code></pre>
+<pre><code>## [1] &quot;2024-04-08&quot;</code></pre>
 <p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" /></p>
 <hr />
-<div id="la-lista-de-packetes-para-analisis-de-los-mapas-de-calor"
+<div id="la-lista-de-paquetes-para-análisis-de-los-mapas-de-calor"
 class="section level2">
-<h2>La lista de packetes para analisis de los Mapas de calor</h2>
+<h2>La lista de paquetes para análisis de los Mapas de calor</h2>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(ggversa)</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">library</span>(GGally)</span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="fu">library</span>(kableExtra)</span>
 <span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="fu">library</span>(reshape2)</span></code></pre></div>
 </div>
-<div id="mapas-de-calor-o-mapas-críticos-o-heat-maps-con-geom_tile"
+<div id="mapas-de-calormapas-críticosheat-maps-con-geom_tile"
 class="section level2">
-<h2>Mapas de calor o mapas críticos o Heat Maps con
+<h2>Mapas de calor/mapas críticos/Heat Maps con
 <strong>geom_tile</strong></h2>
 <p>Cuando hay muchas variables en el análisis, a veces podría ser más
 fácil observar las diferencias entre ellas usando colores en vez de
 números; por ejemplo, para visualizar los coeficientes de correlación
-entre pares de variables continuas. Un mapa de calor (heat map en
-inglés) nos puede ayudar pues justamente es una visualización con
-gradientes de colores de valores continuos. Continuaremos utilizando la
-base de datos de la orquídea <em>Dipodium</em> para explicar los tres
-pasos para construir un mapa de calor de los coeficientes de
-correlación.</p>
+entre muchos pares de variables continuas. Un mapa de calor (heat map en
+inglés) nos puede ayudar a visualización correlaciones con gradientes de
+colores. Eso es práctico para las variables continuas. Continuaremos
+utilizando la base de datos de la orquídea <em>Dipodium</em> para
+explicar los tres pasos para construir un mapa de calor de los
+coeficientes de correlación.</p>
 <p>Primero, necesitamos calcular los coeficientes de correlación con la
 opción <strong>cor</strong>. Luego visualizaremos los datos con la
 función <strong>kable</strong>.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>dipodium</span></code></pre></div>
-<pre><code>## # A tibble: 1,365 × 21
-##    tree_number tree_species   dbh plant_number ramet_number distance orientation
-##          &lt;int&gt; &lt;chr&gt;        &lt;dbl&gt;        &lt;int&gt;        &lt;int&gt;    &lt;dbl&gt;       &lt;dbl&gt;
-##  1           1 E.o           75              1            1     2.47          40
-##  2           1 E.o           76              2            1     1.97          50
-##  3           2 E.o           76              3            1     1.95         350
-##  4           3 E.o           58              4            1     3.24         210
-##  5           4 E.o           NA              5            1     0.85          80
-##  6           5 E.o           59              6            1     2.62         160
-##  7           5 E.o           59              7            1     2.82         170
-##  8           6 E.o            8              8            1     3.12         245
-##  9           7 E.o           11.5            9            1     1.12         208
-## 10           8 E.o            8.5           10            1     0.75         360
-## # ℹ 1,355 more rows
-## # ℹ 14 more variables: number_of_flowers &lt;dbl&gt;, height_inflo &lt;dbl&gt;,
-## #   herbivory &lt;chr&gt;, row_position_nf &lt;int&gt;, number_flowers_position &lt;int&gt;,
-## #   number_of_fruits &lt;int&gt;, perc_fr_set &lt;dbl&gt;, pardalinum_or_roseum &lt;chr&gt;,
-## #   fruit_position_effect &lt;int&gt;, frutos_si_o_no &lt;int&gt;,
-## #   p_or_r_infl_lenght &lt;chr&gt;, num_of_fruits &lt;int&gt;, species_name &lt;chr&gt;,
-## #   cardinal_orientation &lt;int&gt;</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>DWCor<span class="ot">=</span><span class="fu">round</span>(<span class="fu">cor</span>(dipodium[<span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">6</span>,<span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">13</span>)],</span>
+<pre><code>## # A tibble: 1,363 × 21
+##    `Tree Number` `Tree species`   DBH `Plant number` `Ramet number` Distance
+##            &lt;int&gt; &lt;chr&gt;          &lt;dbl&gt;          &lt;int&gt;          &lt;int&gt;    &lt;dbl&gt;
+##  1             1 E.o             75                1              1     2.47
+##  2             1 E.o             76                2              1     1.97
+##  3             2 E.o             76                3              1     1.95
+##  4             3 E.o             58                4              1     3.24
+##  5             4 E.o             NA                5              1     0.85
+##  6             5 E.o             59                6              1     2.62
+##  7             5 E.o             59                7              1     2.82
+##  8             6 E.o              8                8              1     3.12
+##  9             7 E.o             11.5              9              1     1.12
+## 10             8 E.o              8.5             10              1     0.75
+## # ℹ 1,353 more rows
+## # ℹ 15 more variables: Orientation &lt;dbl&gt;, Number_of_Flowers &lt;int&gt;,
+## #   Height_Inflo &lt;int&gt;, Herbivory &lt;chr&gt;, RowPosition_NF &lt;int&gt;,
+## #   Number_Flowers_position &lt;int&gt;, Number_of_fruits &lt;int&gt;, Perc_FR_set &lt;dbl&gt;,
+## #   pardalinum_or_roseum &lt;chr&gt;, Fruit_position_effect &lt;int&gt;,
+## #   Frutos_si_o_no &lt;int&gt;, P_or_R_Infl_Lenght &lt;chr&gt;, `Num of fruits` &lt;int&gt;,
+## #   Species_Name &lt;chr&gt;, `Cardinal orientation` &lt;int&gt;</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>DWCor<span class="ot">=</span><span class="fu">round</span>(<span class="fu">cor</span>(dipodium[<span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">13</span>)],</span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>                <span class="at">use=</span><span class="st">&quot;pairwise.complete.obs&quot;</span>),<span class="dv">3</span>)</span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a></span>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a><span class="fu">kable</span>(DWCor) <span class="sc">%&gt;%</span></span>
@@ -663,29 +663,29 @@ función <strong>kable</strong>.</p>
 <th style="text-align:left;">
 </th>
 <th style="text-align:right;">
-dbh
+DBH
 </th>
 <th style="text-align:right;">
-distance
+Distance
 </th>
 <th style="text-align:right;">
-orientation
+Orientation
 </th>
 <th style="text-align:right;">
-number_of_flowers
+Number_of_Flowers
 </th>
 <th style="text-align:right;">
-height_inflo
+Height_Inflo
 </th>
 <th style="text-align:right;">
-number_of_fruits
+Number_of_fruits
 </th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td style="text-align:left;">
-dbh
+DBH
 </td>
 <td style="text-align:right;">
 1.000
@@ -708,7 +708,7 @@ dbh
 </tr>
 <tr>
 <td style="text-align:left;">
-distance
+Distance
 </td>
 <td style="text-align:right;">
 0.329
@@ -731,7 +731,7 @@ distance
 </tr>
 <tr>
 <td style="text-align:left;">
-orientation
+Orientation
 </td>
 <td style="text-align:right;">
 0.116
@@ -754,7 +754,7 @@ orientation
 </tr>
 <tr>
 <td style="text-align:left;">
-number_of_flowers
+Number_of_Flowers
 </td>
 <td style="text-align:right;">
 -0.035
@@ -769,7 +769,7 @@ number_of_flowers
 1.000
 </td>
 <td style="text-align:right;">
-0.628
+0.818
 </td>
 <td style="text-align:right;">
 0.234
@@ -777,7 +777,7 @@ number_of_flowers
 </tr>
 <tr>
 <td style="text-align:left;">
-height_inflo
+Height_Inflo
 </td>
 <td style="text-align:right;">
 -0.100
@@ -789,7 +789,7 @@ height_inflo
 -0.093
 </td>
 <td style="text-align:right;">
-0.628
+0.818
 </td>
 <td style="text-align:right;">
 1.000
@@ -800,7 +800,7 @@ height_inflo
 </tr>
 <tr>
 <td style="text-align:left;">
-number_of_fruits
+Number_of_fruits
 </td>
 <td style="text-align:right;">
 -0.009
@@ -827,9 +827,9 @@ number_of_fruits
 librería <strong>reshape2</strong> y la opción <strong>melt</strong>. En
 nuestro caso, lo que queremos es producir un data.frame con solo dos
 columnas con las variables en pares con su respectivo valor de
-correlación. En el nuevo data.frame, <strong>DWMelt</strong>, vemos tres
-columnas cada una representando las variables y la última con el valor
-de correlación.</p>
+correlación. En el nuevo data.frame que llamamos
+<strong>DWMelt</strong>, vemos tres columnas cada una representando las
+variables y la última con el valor de correlación.</p>
 <hr />
 </div>
 <div id="matriz-de-correlaciones" class="section level2">
@@ -838,12 +838,13 @@ de correlación.</p>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>             <span class="at">value.name =</span> <span class="st">&quot;Correlation&quot;</span>)</span>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="fu">head</span>(DWMelt)</span></code></pre></div>
 <pre><code>##                  x1  y1 Correlation
-## 1               dbh dbh       1.000
-## 2          distance dbh       0.329
-## 3       orientation dbh       0.116
-## 4 number_of_flowers dbh      -0.035
-## 5      height_inflo dbh      -0.100
-## 6  number_of_fruits dbh      -0.009</code></pre>
+## 1               DBH DBH       1.000
+## 2          Distance DBH       0.329
+## 3       Orientation DBH       0.116
+## 4 Number_of_Flowers DBH      -0.035
+## 5      Height_Inflo DBH      -0.100
+## 6  Number_of_fruits DBH      -0.009</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># DWMelt Para ver todas las filas</span></span></code></pre></div>
 <p>Finalmente, el tercer paso es producir la figura con
 <strong>geom_tile</strong>. El gráfico de la Figura se produce sin
 modificar los parámetros. En el segundo gráfico se modifican los colores
@@ -859,13 +860,17 @@ para remover el nombre de la columna en los ejes se usa
 <strong>xlab(““)</strong> y <strong>ylab(““)<strong>. Aqui se añade
 solamente </strong>xlab(”“)</strong> y nota que ahora no se ve el nombre
 de la columna.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">ggplot</span>(DWMelt, <span class="fu">aes</span>(<span class="at">x=</span>x1, <span class="at">y=</span>y1))<span class="sc">+</span></span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="fu">aes</span>(<span class="at">fill=</span>Correlation))<span class="sc">+</span></span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>        <span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>, <span class="at">angle =</span> <span class="dv">90</span>, <span class="at">hjust =</span> <span class="dv">1</span>))<span class="sc">+</span></span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">fill=</span><span class="st">&quot;Correlación&quot;</span>)<span class="sc">+</span></span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">ggplot</span>(DWMelt, <span class="fu">aes</span>(<span class="at">x=</span>x1, <span class="at">y=</span>y1))<span class="sc">+</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="fu">aes</span>(<span class="at">fill=</span>Correlation))<span class="sc">+</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>        <span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>, <span class="at">angle =</span> <span class="dv">90</span>, <span class="at">hjust =</span> <span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">fill=</span><span class="st">&quot;Correlación&quot;</span>)<span class="sc">+</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;&quot;</span>)</span></code></pre></div>
 <p><img src="G12_Mapas_Calor_files/figure-html/heatmap1-1.png" width="672" /></p>
+<hr />
+</div>
+<div id="cambio-de-colores-al-mapa-de-calor" class="section level2">
+<h2>Cambio de colores al mapa de calor</h2>
 <p>Le cambiamos los colores del gráfico, usando
 <strong>scale_fill_gradient2</strong>. Asignamos los valores más bajos
 al color amarillo, los más altos al rojo y los valores intermedios al
@@ -876,48 +881,57 @@ que los valores de correlaciones varían de -1 a +1. El límite del rango
 se asigna especificando <strong>limits=c(valor mínimo, valor
 máximo)</strong>. Dado esto, en este ejemplo la intensidad de colores no
 es tan amplia porque no hay valores muy negativos.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">ggplot</span>(DWMelt, <span class="fu">aes</span>(<span class="at">x=</span>x1, <span class="at">y=</span>y1))<span class="sc">+</span></span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="fu">aes</span>(<span class="at">fill=</span>Correlation))<span class="sc">+</span></span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low=</span><span class="st">&quot;black&quot;</span>,</span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>                       <span class="at">mid=</span><span class="st">&quot;white&quot;</span>, <span class="at">high=</span><span class="st">&quot;red&quot;</span>,</span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  <span class="at">guide=</span><span class="fu">guide_colorbar</span>(<span class="at">ticks=</span><span class="cn">FALSE</span>,</span>
-<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>                       <span class="at">barheight=</span><span class="dv">5</span>, <span class="at">limits=</span><span class="fu">c</span>(<span class="sc">-</span>.<span class="dv">5</span>,<span class="dv">1</span>)))<span class="sc">+</span></span>
-<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
-<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="cn">NULL</span>)<span class="sc">+</span></span>
-<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
-<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>        <span class="at">axis.text.y=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
-<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a>        <span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>, <span class="at">angle =</span> <span class="dv">90</span>, <span class="at">hjust =</span> <span class="dv">1</span>))<span class="sc">+</span></span>
-<span id="cb9-12"><a href="#cb9-12" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">fill=</span><span class="st">&quot;Correlación&quot;</span>)</span></code></pre></div>
-<p><img src="G12_Mapas_Calor_files/figure-html/heatmap2-1.png" width="672" /></p>
-<p>En el siguiente gráfico, se cambia el valor intermedio a blanco (para
-valores más cercanos a cero).</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">ggplot</span>(DWMelt, <span class="fu">aes</span>(<span class="at">x=</span>x1, <span class="at">y=</span>y1))<span class="sc">+</span></span>
 <span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="fu">aes</span>(<span class="at">fill=</span>Correlation))<span class="sc">+</span></span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low=</span><span class="st">&quot;yellow&quot;</span>,</span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>                       <span class="at">mid=</span><span class="st">&quot;white&quot;</span>, <span class="at">high=</span><span class="st">&quot;red&quot;</span>,</span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low=</span><span class="st">&quot;black&quot;</span>,</span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>                       <span class="at">mid=</span><span class="st">&quot;blue&quot;</span>, <span class="at">high=</span><span class="st">&quot;red&quot;</span>,</span>
 <span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>  <span class="at">guide=</span><span class="fu">guide_colorbar</span>(<span class="at">ticks=</span><span class="cn">FALSE</span>,</span>
-<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>                       <span class="at">barheight=</span><span class="dv">5</span>, <span class="at">limits=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)))<span class="sc">+</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>                       <span class="at">barheight=</span><span class="dv">5</span>, <span class="at">limits=</span><span class="fu">c</span>(<span class="sc">-</span>.<span class="dv">5</span>,<span class="dv">1</span>)))<span class="sc">+</span></span>
 <span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
 <span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="cn">NULL</span>)<span class="sc">+</span></span>
 <span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
 <span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a>        <span class="at">axis.text.y=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
 <span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a>        <span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>, <span class="at">angle =</span> <span class="dv">90</span>, <span class="at">hjust =</span> <span class="dv">1</span>))<span class="sc">+</span></span>
 <span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">fill=</span><span class="st">&quot;Correlación&quot;</span>)</span></code></pre></div>
+<p><img src="G12_Mapas_Calor_files/figure-html/heatmap2-1.png" width="672" /></p>
+<hr />
+</div>
+<div id="cambio-a-otros-colores-al-mapa-de-calor"
+class="section level2">
+<h2>Cambio a otros colores al mapa de calor</h2>
+<p>En el siguiente gráfico, se cambia el valor intermedio a blanco (para
+valores más cercanos a cero).</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">ggplot</span>(DWMelt, <span class="fu">aes</span>(<span class="at">x=</span>x1, <span class="at">y=</span>y1))<span class="sc">+</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="fu">aes</span>(<span class="at">fill=</span>Correlation))<span class="sc">+</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low=</span><span class="st">&quot;yellow&quot;</span>,</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>                       <span class="at">mid=</span><span class="st">&quot;white&quot;</span>, <span class="at">high=</span><span class="st">&quot;red&quot;</span>,</span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>  <span class="at">guide=</span><span class="fu">guide_colorbar</span>(<span class="at">ticks=</span><span class="cn">FALSE</span>,</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>                       <span class="at">barheight=</span><span class="dv">5</span>, <span class="at">limits=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)))<span class="sc">+</span></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span></span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="cn">NULL</span>)<span class="sc">+</span></span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a>        <span class="at">axis.text.y=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb11-11"><a href="#cb11-11" tabindex="-1"></a>        <span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>, <span class="at">angle =</span> <span class="dv">90</span>, <span class="at">hjust =</span> <span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb11-12"><a href="#cb11-12" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">fill=</span><span class="st">&quot;Correlación&quot;</span>)</span></code></pre></div>
 <p><img src="G12_Mapas_Calor_files/figure-html/heatmap3-1.png" width="672" /></p>
+<hr />
+</div>
+<div id="cambio-a-solamente-dos-colores" class="section level2">
+<h2>Cambio a solamente dos colores</h2>
 <p>Se puede también hacer la selección de solamente dos colores con la
 función <strong>scale_fill_gradient</strong> (vea que esa opción no es
 lo mismo que <strong>scale_fill_gradient2</strong>). En este caso los
 gradientes de colores en el centro de la distribución (el cero) no está
-definido.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">ggplot</span>(DWMelt, <span class="fu">aes</span>(<span class="at">x=</span>x1, <span class="at">y=</span>y1))<span class="sc">+</span></span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="fu">aes</span>(<span class="at">fill=</span>Correlation))<span class="sc">+</span></span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  <span class="fu">scale_fill_gradient</span>(<span class="at">low=</span><span class="st">&quot;white&quot;</span>,</span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>                      <span class="at">high=</span><span class="st">&quot;red&quot;</span>, <span class="at">limits=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>))<span class="sc">+</span></span>
-<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span><span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="cn">NULL</span>)<span class="sc">+</span></span>
-<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>        <span class="at">axis.text.y=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
-<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>        <span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>, <span class="at">face=</span><span class="st">&quot;italic&quot;</span>, <span class="at">angle =</span> <span class="dv">90</span>, <span class="at">hjust =</span> <span class="dv">1</span>))<span class="sc">+</span></span>
-<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">fill=</span><span class="st">&quot;Correlación&quot;</span>)</span></code></pre></div>
+definido, y pudiese ser más difícil visualizar valores cerca de 0.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">ggplot</span>(DWMelt, <span class="fu">aes</span>(<span class="at">x=</span>x1, <span class="at">y=</span>y1))<span class="sc">+</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="fu">aes</span>(<span class="at">fill=</span>Correlation))<span class="sc">+</span></span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>  <span class="fu">scale_fill_gradient</span>(<span class="at">low=</span><span class="st">&quot;white&quot;</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>                      <span class="at">high=</span><span class="st">&quot;red&quot;</span>, <span class="at">limits=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()<span class="sc">+</span><span class="fu">labs</span>(<span class="at">x=</span><span class="cn">NULL</span>, <span class="at">y=</span><span class="cn">NULL</span>)<span class="sc">+</span></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>        <span class="at">axis.text.y=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>        <span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>, <span class="at">face=</span><span class="st">&quot;italic&quot;</span>, <span class="at">angle =</span> <span class="dv">90</span>, <span class="at">hjust =</span> <span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">fill=</span><span class="st">&quot;Correlación&quot;</span>)</span></code></pre></div>
 <p><img src="G12_Mapas_Calor_files/figure-html/heatmap4-1.png" width="672" /></p>
 <hr />
 </div>
@@ -926,14 +940,59 @@ definido.</p>
 <p>La función <strong>ggcor</strong> tiene la ventaja de producir un
 gráfico de calor que representa solamente un espejo de los resultados.
 En los gráficos anteriores las misma información estaba ariba y abajo de
-la diagonal. Este represente solamente uno de los dos.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">ggcorr</span>(DWCor, <span class="at">low =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="at">mid =</span> <span class="st">&quot;white&quot;</span>, <span class="at">high =</span> <span class="st">&quot;darkred&quot;</span>, <span class="at">nbreaks=</span><span class="dv">4</span>)</span></code></pre></div>
+la diagonal. Este represente solamente uno de los dos. Nota aqui que la
+función <strong>ggcorr</strong> no es parte de ggplot2, pero es una
+función que se puede usar para visualizar correlaciones del paquete
+<strong>GGally</strong>. En este caso, se usa la función
+<strong>ggcorr</strong> para visualizar las correlaciones entre las
+variables de la base de datos de la orquídea <em>Dipodium</em>. Para
+cambiar el area, puede usar dentro de la misma parentesis geom con uno
+de los siguiente “tile”, “circle”, “text” or “blank”.</p>
+<p>En este caso se usa <strong>geom = “blank”</strong> para no mostrar
+los cuadros de correlación. Se añade la opción <strong>label =
+TRUE</strong> para mostrar los valores de correlación en los cuadros. Se
+añade la opción <strong>hjust = 0.75</strong> para ajustar la posición
+de los valores de correlación en los cuadros. Se añade la opción
+<strong>method = c(“pairwise”, “pearson”)</strong> para seleccionar el
+método de correlación. En este caso se usa el método de correlación de
+Pearson. Para ver los valores de correlación, se añade la opción
+<strong>geom_point</strong>. Se añade la opción <strong>size =
+20</strong> para aumentar el tamaño de los puntos. Se añade la opción
+<strong>aes(color = coefficient &gt; 0, alpha = abs(coefficient) &gt;
+0.5)</strong> para asignar colores a los puntos dependiendo de si la
+correlación es positiva o negativa. Se añade la opción
+<strong>scale_alpha_manual</strong> para asignar transparencia a los
+puntos dependiendo de si la correlación es mayor a 0.5. Se añade la
+opción <strong>guides</strong> para remover las guías de color y
+transparencia. En este caso, se remueven las</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">ggcorr</span>(DWCor, <span class="at">low =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="at">mid =</span> <span class="st">&quot;white&quot;</span>, <span class="at">high =</span> <span class="st">&quot;darkred&quot;</span>, <span class="at">nbreaks=</span><span class="dv">4</span>)</span></code></pre></div>
 <p><img src="G12_Mapas_Calor_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<hr />
 <p>Para un segundo ejemplo de <strong>ggcorr</strong></p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">ggcorr</span>(DWCor, <span class="at">geom =</span> <span class="st">&quot;blank&quot;</span>, <span class="at">label =</span> <span class="cn">TRUE</span>, <span class="at">hjust =</span> <span class="fl">0.75</span>) <span class="sc">+</span></span>
-<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">20</span>, <span class="fu">aes</span>(<span class="at">color =</span> coefficient <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="at">alpha =</span> <span class="fu">abs</span>(coefficient) <span class="sc">&gt;</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
-<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>  <span class="fu">scale_alpha_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;TRUE&quot;</span> <span class="ot">=</span> <span class="fl">0.25</span>, <span class="st">&quot;FALSE&quot;</span> <span class="ot">=</span> <span class="dv">0</span>)) <span class="sc">+</span><span class="fu">guides</span>(<span class="at">scale =</span> <span class="st">&quot;none&quot;</span>, <span class="at">alpha =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p>En el segundo gráfico, se usa geom = “blank”, y se añade la opción
+<strong>geom_point</strong> para añadir puntos en los cuadros de
+correlación. Se añade la opción <strong>color = coefficient &gt;
+0</strong> para asignar colores a los puntos dependiendo de si la
+correlación es positiva o negativa. Se añade la opción <strong>alpha =
+abs(coefficient) &gt; 0.5</strong> para asignar transparencia a los
+puntos dependiendo de si la correlación es mayor a 0.5. Se añade la
+opción <strong>scale_alpha_manual</strong> para tener colores más
+tenue.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">ggcorr</span>(DWCor, <span class="at">geom =</span> <span class="st">&quot;blank&quot;</span>, <span class="at">label =</span> <span class="cn">TRUE</span>, <span class="at">hjust =</span> <span class="fl">0.75</span>) <span class="sc">+</span></span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">20</span>, <span class="fu">aes</span>(<span class="at">color =</span> coefficient <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="at">alpha =</span> <span class="fu">abs</span>(coefficient) <span class="sc">&gt;</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>  <span class="fu">scale_alpha_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;TRUE&quot;</span> <span class="ot">=</span> <span class="fl">0.25</span>, <span class="st">&quot;FALSE&quot;</span> <span class="ot">=</span> <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">scale =</span> <span class="st">&quot;none&quot;</span>, <span class="at">alpha =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <p><img src="G12_Mapas_Calor_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<hr />
+<p>Con datos originales</p>
+<p>Aquí los análisis con los datos originales, no hay que calcular los
+coeffcientes antes de hacer el mapa de calor.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>Ori<span class="ot">=</span>dipodium[<span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">6</span>, <span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">13</span>)]</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="fu">ggcorr</span>(Ori, <span class="at">geom =</span> <span class="st">&quot;blank&quot;</span>, <span class="at">method=</span><span class="fu">c</span>(<span class="st">&quot;pairwise.complete.obs&quot;</span>, <span class="st">&quot;kendall&quot;</span>) , <span class="at">label =</span> <span class="cn">TRUE</span>, <span class="at">hjust =</span> <span class="fl">0.75</span>) <span class="sc">+</span></span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">20</span>, <span class="fu">aes</span>(<span class="at">color =</span> coefficient <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="at">alpha =</span> <span class="fu">abs</span>(coefficient) <span class="sc">&gt;</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>  <span class="fu">scale_alpha_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;TRUE&quot;</span> <span class="ot">=</span> <span class="fl">0.25</span>, <span class="st">&quot;FALSE&quot;</span> <span class="ot">=</span> <span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">scale =</span> <span class="st">&quot;none&quot;</span>, <span class="at">alpha =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<p><img src="G12_Mapas_Calor_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <p>Para muchos ejemplos vea este enlace. <a
 href="https://briatte.github.io/ggcorr/"
 class="uri">https://briatte.github.io/ggcorr/</a></p>
@@ -955,14 +1014,14 @@ mínimo))</p></li>
 </div>
 <div id="opciones-y-parametros-de-ggcorr" class="section level2">
 <h2>Opciones y Parametros de <strong>ggcorr()</strong></h2>
-<p>ggcorr(df, method=c(“pairwise”, “pearson”))</p>
+<p>ggcorr(df, method=c(“pairwise”, “pearson”, “kendall”,
+“spearman”))</p>
 <ul>
 <li>nbreaks: a cantidad de categorias</li>
 <li>digits: la cantidad de digitos para visualizar la correlación</li>
-<li>low = “#3B9AB2”, El color básico de las corrlea ciones
-negativas</li>
+<li>low = “#3B9AB2”, El color básico de las correlaciones negativas</li>
 <li>mid = “#EEEEEE”, El color básico</li>
-<li>high = “#F21A00”,El color básico</li>
+<li>high = “#F21A00”, El color básico</li>
 <li>midpoint = 0: la correlación central que sera el color “mid”</li>
 <li>ver <strong>ggcorr</strong> para otras opciones</li>
 </ul>
