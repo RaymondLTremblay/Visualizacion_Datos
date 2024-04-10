@@ -132,11 +132,15 @@ ggplot(DWMelt, aes(x=x1, y=y1))+
 
 En el siguiente gráfico, se cambia el valor intermedio a blanco (para valores más cercanos a cero). 
 
+
+
+
+
 ```{r heatmap3}
 
 ggplot(DWMelt, aes(x=x1, y=y1))+
   geom_tile(aes(fill=Correlation))+
-  scale_fill_gradient2(low="yellow",
+  scale_fill_gradient2(low="black",
                        mid="white", high="red",
   guide=guide_colorbar(ticks=FALSE,
                        barheight=5, limits=c(-1,1)))+
@@ -180,7 +184,7 @@ En este caso se usa **geom = "blank"** para no mostrar los cuadros de correlaci�
 
 ```{r}
 
-ggcorr(DWCor, low = "steelblue", mid = "white", high = "darkred", nbreaks=4)
+ggcorr(DWCor, low = "steelblue", mid = "white", high = "darkred", nbreaks=6)
 ```
 
 ***
@@ -190,11 +194,16 @@ Para un segundo ejemplo de **ggcorr**
 En el segundo gráfico, se usa geom = "blank", y se añade la opción **geom_point** para añadir puntos en los cuadros de correlación.  Se añade la opción **color = coefficient > 0** para asignar colores a los puntos dependiendo de si la correlación es positiva o negativa.  Se añade la opción **alpha = abs(coefficient) > 0.5** para asignar transparencia a los puntos dependiendo de si la correlación es mayor a 0.5.  Se añade la opción **scale_alpha_manual** para tener colores más tenue.  
 
 
+How do you change low and high colors in ggcorr?
+
+
+
 ```{r}
 
-ggcorr(DWCor, geom = "blank", label = TRUE, hjust = 0.75) +
+ggcorr(DWCor, geom = "blank", label = TRUE, hjust = 0.75 ) +
   geom_point(size = 20, aes(color = coefficient > 0, alpha = abs(coefficient) > 0.5)) +
   scale_alpha_manual(values = c("TRUE" = 0.25, "FALSE" = 0)) +
+  scale_color_manual(values = c("TRUE" = "pink", "FALSE" = "orange")) +
   guides(scale = "none", alpha = FALSE)
 ```
 
