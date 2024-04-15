@@ -603,7 +603,7 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2024-04-08&quot;</code></pre>
+<pre><code>## [1] &quot;2024-04-15&quot;</code></pre>
 <p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" /></p>
 <hr />
 <div id="la-lista-de-paquetes-para-análisis-de-los-mapas-de-calor"
@@ -903,7 +903,7 @@ class="section level2">
 valores más cercanos a cero).</p>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">ggplot</span>(DWMelt, <span class="fu">aes</span>(<span class="at">x=</span>x1, <span class="at">y=</span>y1))<span class="sc">+</span></span>
 <span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>  <span class="fu">geom_tile</span>(<span class="fu">aes</span>(<span class="at">fill=</span>Correlation))<span class="sc">+</span></span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low=</span><span class="st">&quot;yellow&quot;</span>,</span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  <span class="fu">scale_fill_gradient2</span>(<span class="at">low=</span><span class="st">&quot;black&quot;</span>,</span>
 <span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>                       <span class="at">mid=</span><span class="st">&quot;white&quot;</span>, <span class="at">high=</span><span class="st">&quot;red&quot;</span>,</span>
 <span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>  <span class="at">guide=</span><span class="fu">guide_colorbar</span>(<span class="at">ticks=</span><span class="cn">FALSE</span>,</span>
 <span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>                       <span class="at">barheight=</span><span class="dv">5</span>, <span class="at">limits=</span><span class="fu">c</span>(<span class="sc">-</span><span class="dv">1</span>,<span class="dv">1</span>)))<span class="sc">+</span></span>
@@ -965,7 +965,7 @@ correlación es positiva o negativa. Se añade la opción
 puntos dependiendo de si la correlación es mayor a 0.5. Se añade la
 opción <strong>guides</strong> para remover las guías de color y
 transparencia. En este caso, se remueven las</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">ggcorr</span>(DWCor, <span class="at">low =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="at">mid =</span> <span class="st">&quot;white&quot;</span>, <span class="at">high =</span> <span class="st">&quot;darkred&quot;</span>, <span class="at">nbreaks=</span><span class="dv">4</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">ggcorr</span>(DWCor, <span class="at">low =</span> <span class="st">&quot;steelblue&quot;</span>, <span class="at">mid =</span> <span class="st">&quot;white&quot;</span>, <span class="at">high =</span> <span class="st">&quot;darkred&quot;</span>, <span class="at">nbreaks=</span><span class="dv">6</span>)</span></code></pre></div>
 <p><img src="G12_Mapas_Calor_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <hr />
 <p>Para un segundo ejemplo de <strong>ggcorr</strong></p>
@@ -978,10 +978,12 @@ abs(coefficient) &gt; 0.5</strong> para asignar transparencia a los
 puntos dependiendo de si la correlación es mayor a 0.5. Se añade la
 opción <strong>scale_alpha_manual</strong> para tener colores más
 tenue.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">ggcorr</span>(DWCor, <span class="at">geom =</span> <span class="st">&quot;blank&quot;</span>, <span class="at">label =</span> <span class="cn">TRUE</span>, <span class="at">hjust =</span> <span class="fl">0.75</span>) <span class="sc">+</span></span>
+<p>How do you change low and high colors in ggcorr?</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">ggcorr</span>(DWCor, <span class="at">geom =</span> <span class="st">&quot;blank&quot;</span>, <span class="at">label =</span> <span class="cn">TRUE</span>, <span class="at">hjust =</span> <span class="fl">0.75</span> ) <span class="sc">+</span></span>
 <span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">20</span>, <span class="fu">aes</span>(<span class="at">color =</span> coefficient <span class="sc">&gt;</span> <span class="dv">0</span>, <span class="at">alpha =</span> <span class="fu">abs</span>(coefficient) <span class="sc">&gt;</span> <span class="fl">0.5</span>)) <span class="sc">+</span></span>
 <span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>  <span class="fu">scale_alpha_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;TRUE&quot;</span> <span class="ot">=</span> <span class="fl">0.25</span>, <span class="st">&quot;FALSE&quot;</span> <span class="ot">=</span> <span class="dv">0</span>)) <span class="sc">+</span></span>
-<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">scale =</span> <span class="st">&quot;none&quot;</span>, <span class="at">alpha =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;TRUE&quot;</span> <span class="ot">=</span> <span class="st">&quot;pink&quot;</span>, <span class="st">&quot;FALSE&quot;</span> <span class="ot">=</span> <span class="st">&quot;orange&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">scale =</span> <span class="st">&quot;none&quot;</span>, <span class="at">alpha =</span> <span class="cn">FALSE</span>)</span></code></pre></div>
 <p><img src="G12_Mapas_Calor_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <hr />
 <p>Con datos originales</p>
