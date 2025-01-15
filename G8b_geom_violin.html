@@ -13,7 +13,7 @@
 
 <title>Gráficos de violín</title>
 
-<script src="site_libs/header-attrs-2.26/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
@@ -55,7 +55,7 @@
 </style>
 <style type="text/css" data-origin="pandoc">
 pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span { line-height: 1.25; }
 pre > code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
@@ -66,7 +66,7 @@ div.sourceCode { overflow: auto; }
 }
 @media print {
 pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -601,7 +601,7 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2024-04-15&quot;</code></pre>
+<pre><code>## [1] &quot;2025-01-15&quot;</code></pre>
 <p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" /></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(gridExtra)<span class="co"># Para organizar múltiples gráficos juntos</span></span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -856,33 +856,33 @@ utilizando la opción <strong>coord_flip()</strong>.</p>
 ## Data: CalVal2$OH (163 obs.); Bandwidth &#39;bw&#39; = 2.94
 ## 
 ##        x               y            
-##  Min.   :16.18   Min.   :0.0000094  
-##  1st Qu.:34.34   1st Qu.:0.0008163  
-##  Median :52.50   Median :0.0050413  
-##  Mean   :52.50   Mean   :0.0137526  
-##  3rd Qu.:70.66   3rd Qu.:0.0262349  
-##  Max.   :88.82   Max.   :0.0566222</code></pre>
+##  Min.   :16.18   Min.   :9.320e-06  
+##  1st Qu.:34.34   1st Qu.:8.159e-04  
+##  Median :52.50   Median :5.032e-03  
+##  Mean   :52.50   Mean   :1.374e-02  
+##  3rd Qu.:70.66   3rd Qu.:2.621e-02  
+##  Max.   :88.82   Max.   :5.660e-02</code></pre>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x=</span>dens2<span class="sc">$</span>x, <span class="at">y=</span>dens2<span class="sc">$</span>y)</span>
 <span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a><span class="fu">head</span>(df2)</span></code></pre></div>
 <pre><code>##          x            y
-## 1 16.17920 9.649217e-06
-## 2 16.32136 1.115009e-05
-## 3 16.46352 1.283130e-05
-## 4 16.60567 1.481782e-05
-## 5 16.74783 1.704836e-05
-## 6 16.88998 1.953867e-05</code></pre>
+## 1 16.17920 9.561940e-06
+## 2 16.32136 1.105205e-05
+## 3 16.46352 1.272153e-05
+## 4 16.60567 1.469481e-05
+## 5 16.74783 1.691094e-05
+## 6 16.88998 1.938565e-05</code></pre>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>probs <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">0.01</span>, <span class="fl">0.1</span>, <span class="fl">0.25</span>, <span class="fl">0.5</span>, <span class="fl">0.75</span>, <span class="fl">0.9</span>, <span class="fl">0.95</span>, .<span class="dv">99</span>)</span>
 <span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>quantiles <span class="ot">&lt;-</span> <span class="fu">quantile</span>(CalVal2<span class="sc">$</span>OH, <span class="at">prob=</span>probs)</span>
 <span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>df2 <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">x=</span>dens2<span class="sc">$</span>x, <span class="at">y=</span>dens2<span class="sc">$</span>y)</span>
 <span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a>df2<span class="sc">$</span>quant <span class="ot">&lt;-</span> <span class="fu">factor</span>(<span class="fu">findInterval</span>(df2<span class="sc">$</span>x,quantiles))</span>
 <span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a><span class="fu">head</span>(df2)</span></code></pre></div>
 <pre><code>##          x            y quant
-## 1 16.17920 9.649217e-06     0
-## 2 16.32136 1.115009e-05     0
-## 3 16.46352 1.283130e-05     0
-## 4 16.60567 1.481782e-05     0
-## 5 16.74783 1.704836e-05     0
-## 6 16.88998 1.953867e-05     0</code></pre>
+## 1 16.17920 9.561940e-06     0
+## 2 16.32136 1.105205e-05     0
+## 3 16.46352 1.272153e-05     0
+## 4 16.60567 1.469481e-05     0
+## 5 16.74783 1.691094e-05     0
+## 6 16.88998 1.938565e-05     0</code></pre>
 <div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="fu">ggplot</span>(df2, <span class="fu">aes</span>(x,y)) <span class="sc">+</span>  </span>
 <span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin=</span><span class="dv">0</span>, <span class="at">ymax=</span>y, <span class="at">fill=</span>quant)) <span class="sc">+</span> </span>
 <span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span>quantiles) <span class="sc">+</span> </span>
