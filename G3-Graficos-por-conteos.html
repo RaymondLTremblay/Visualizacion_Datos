@@ -619,7 +619,7 @@ div.tocify {
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a> <span class="co">#                     warning = FALSE, comment = &quot;&quot;, </span></span>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="co">#                    cache = T)</span></span></code></pre></div>
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2025-01-15&quot;</code></pre>
+<pre><code>## [1] &quot;2025-01-29&quot;</code></pre>
 <div id="gráficos-con-geom_point-y-geom_count" class="section level1">
 <h1>Gráficos con <strong>geom_point</strong> y
 <strong>geom_count</strong></h1>
@@ -633,13 +633,14 @@ proyectan los datos distribuidos en ambos ejes.</p>
 <p>Comenzaremos la demostración de <em>geom_point</em> primero y luego
 la de <em>geom_count</em>. Así podremos apreciar mejor las ventajas de
 utilizar el gráfico <em>geom_count</em>.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co"># preparar las librerías primero:</span></span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">library</span>(ggversa) <span class="co"># la función &quot;library&quot; activa el packete de **ggversa** donde se encuentra los archivos</span></span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="fu">library</span>(ggplot2) <span class="co"># ggplot2 es la librería que se usará para graficar los datos</span></span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># una serie de paquetes para organizar y visualizar los datos</span></span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="fu">library</span>(gt) <span class="co"># para que las tablas se vean más organizadas</span></span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="co">#devtools::install_github(&quot;EvaMaeRey/flipbookr&quot;)</span></span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a><span class="fu">library</span>(flipbookr)  </span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">library</span>(ggversa)</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># preparar las librerías primero:</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="fu">library</span>(ggversa) <span class="co"># la función &quot;library&quot; activa el paquete de **ggversa** donde se encuentra los archivos</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="fu">library</span>(ggplot2) <span class="co"># ggplot2 es la librería que se usará para graficar los datos</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># una serie de paquetes para organizar y visualizar los datos</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a><span class="fu">library</span>(gt) <span class="co"># para que las tablas se vean más organizadas</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="co">#devtools::install_github(&quot;EvaMaeRey/flipbookr&quot;)</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a><span class="co">#library(flipbookr)  </span></span></code></pre></div>
 <p>Para visualizar gráficos con <strong>geom_point</strong> y
 <strong>geom_count</strong>, utilizaremos los datos que se encuentran en
 el archivo <strong>Anolis</strong> en el paquete
@@ -656,42 +657,58 @@ class="uri">https://www.stat.berkeley.edu/~s133/dates.html</a></p>
 <h1>Convertir fechas</h1>
 <p>Como convertir fechas a un formato que reconoce que son
 <strong>fechas</strong>.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>h<span class="ot">=</span><span class="fu">head</span>(Anolis) <span class="co"># la función *head* es para visualizar las primeros 6 filas</span></span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co">#h</span></span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a></span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a></span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a></span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>h<span class="sc">$</span>DATE<span class="ot">=</span><span class="fu">as.Date</span>(h<span class="sc">$</span>DATE, <span class="st">&quot;%m/%d/%y&quot;</span>) <span class="co"># convertir la columna de fecha de tipo *carácter* a tipo *fecha*</span></span>
-<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>h</span></code></pre></div>
-<pre><code>## # A tibble: 6 × 15
-##   STUDY      Survey_Site LOCATION TIME  DATE       SEASON SPECIES SEX_AGE HEIGHT
-##   &lt;chr&gt;      &lt;chr&gt;       &lt;chr&gt;    &lt;tim&gt; &lt;date&gt;     &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;
-## 1 Mark/recap North Tower El Verde 10:46 1992-03-13 dry    Anolis… Female     0  
-## 2 Mark/recap Woods walk… El Verde 10:15 1989-02-20 dry    Anolis… Juvenil    0  
-## 3 Mark/recap Woods walk… El Verde 11:15 1989-02-21 dry    Anolis… Male       0  
-## 4 Mark/recap North Tower El Verde 11:06 1992-03-16 dry    Anolis… Juvenil    0.3
-## 5 Mark/recap North Tower El Verde 12:31 1992-03-11 dry    Anolis… Male       0.3
-## 6 Mark/recap North Tower El Verde 01:00 1992-03-09 dry    Anolis… Female     0.4
+<p>Buscar datos</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>Anolis</span></code></pre></div>
+<pre><code>## # A tibble: 503 × 15
+##    STUDY      Survey_Site     LOCATION TIME  DATE  SEASON SPECIES SEX_AGE HEIGHT
+##    &lt;chr&gt;      &lt;chr&gt;           &lt;chr&gt;    &lt;tim&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;
+##  1 Mark/recap North Tower     El Verde 10:46 3/13… dry    Anolis… Female     0  
+##  2 Mark/recap Woods walkway … El Verde 10:15 2/20… dry    Anolis… Juvenil    0  
+##  3 Mark/recap Woods walkway … El Verde 11:15 2/21… dry    Anolis… Male       0  
+##  4 Mark/recap North Tower     El Verde 11:06 3/16… dry    Anolis… Juvenil    0.3
+##  5 Mark/recap North Tower     El Verde 12:31 3/11… dry    Anolis… Male       0.3
+##  6 Mark/recap North Tower     El Verde 01:00 3/9/… dry    Anolis… Female     0.4
+##  7 Mark/recap Woods walkway … El Verde 10:22 2/22… dry    Anolis… Female     0.4
+##  8 Mark/recap North Tower     El Verde 11:55 3/12… dry    Anolis… Juvenil    0.4
+##  9 Mark/recap Woods walkway … El Verde 10:15 2/20… dry    Anolis… Juvenil    0.4
+## 10 Mark/recap North Tower     El Verde 12:31 3/11… dry    Anolis… Female     0.5
+## # ℹ 493 more rows
 ## # ℹ 6 more variables: DISTANCE_FROM_CENTERLINE &lt;dbl&gt;, PERCH_SUBSTRATE &lt;chr&gt;,
 ## #   PERCH_DIAMETER &lt;int&gt;, WEIGHT &lt;dbl&gt;, SVL &lt;dbl&gt;, TAIL &lt;dbl&gt;</code></pre>
-<p>Las funciones para formatear la tabla son del paquete
-<strong>gt</strong> = graphics of table</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>h<span class="sc">%&gt;%</span></span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>    <span class="at">title =</span> <span class="fu">md</span>(<span class="st">&quot;Datos lagartija *Anolis* de Puerto Rico&quot;</span>))<span class="sc">%&gt;%</span></span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>  <span class="fu">tab_options</span>(</span>
-<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>    <span class="at">column_labels.font.size =</span> <span class="fu">px</span>(<span class="dv">10</span>),</span>
-<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>    <span class="at">table.font.size =</span> <span class="fu">px</span>(<span class="dv">10</span>))<span class="sc">%&gt;%</span></span>
-<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
-<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">style =</span> <span class="st">&quot;italic&quot;</span>),</span>
-<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
-<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a>      <span class="at">columns =</span> <span class="fu">c</span>(SPECIES)</span>
-<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a>    ))<span class="sc">%&gt;%</span></span>
-<span id="cb10-13"><a href="#cb10-13" tabindex="-1"></a>  <span class="fu">fmt_date</span>(</span>
-<span id="cb10-14"><a href="#cb10-14" tabindex="-1"></a>    <span class="at">columns =</span> <span class="fu">c</span>(DATE),</span>
-<span id="cb10-15"><a href="#cb10-15" tabindex="-1"></a>    <span class="at">date_style =</span> <span class="dv">8</span></span>
-<span id="cb10-16"><a href="#cb10-16" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>h<span class="ot">=</span><span class="fu">head</span>(Anolis, <span class="at">n=</span><span class="dv">10</span>) <span class="co"># la función *head* es para visualizar las primeros 6 filas</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="fu">tail</span>(Anolis)</span></code></pre></div>
+<pre><code>## # A tibble: 6 × 15
+##   STUDY      Survey_Site      LOCATION TIME  DATE  SEASON SPECIES SEX_AGE HEIGHT
+##   &lt;chr&gt;      &lt;chr&gt;            &lt;chr&gt;    &lt;tim&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;
+## 1 Mark/recap Gap tower        El Verde 10:30 2/18… dry    Anolis… Male      21.6
+## 2 Mark/recap Woods walkway t… El Verde 10:15 2/20… dry    Anolis… Female    21.9
+## 3 Mark/recap Gap tower        El Verde 11:35 2/20… dry    Anolis… Male      22  
+## 4 Mark/recap Woods walkway t… El Verde 12:05 2/19… dry    Anolis… Male      22  
+## 5 Mark/recap Gap tower        El Verde 10:30 2/18… dry    Anolis… Female    NA  
+## 6 Mark/recap South Tower      El Verde 08:12 10/2… wet    Anolis… Juvenil   NA  
+## # ℹ 6 more variables: DISTANCE_FROM_CENTERLINE &lt;dbl&gt;, PERCH_SUBSTRATE &lt;chr&gt;,
+## #   PERCH_DIAMETER &lt;int&gt;, WEIGHT &lt;dbl&gt;, SVL &lt;dbl&gt;, TAIL &lt;dbl&gt;</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>h</span></code></pre></div>
+<pre><code>## # A tibble: 10 × 15
+##    STUDY      Survey_Site     LOCATION TIME  DATE  SEASON SPECIES SEX_AGE HEIGHT
+##    &lt;chr&gt;      &lt;chr&gt;           &lt;chr&gt;    &lt;tim&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;
+##  1 Mark/recap North Tower     El Verde 10:46 3/13… dry    Anolis… Female     0  
+##  2 Mark/recap Woods walkway … El Verde 10:15 2/20… dry    Anolis… Juvenil    0  
+##  3 Mark/recap Woods walkway … El Verde 11:15 2/21… dry    Anolis… Male       0  
+##  4 Mark/recap North Tower     El Verde 11:06 3/16… dry    Anolis… Juvenil    0.3
+##  5 Mark/recap North Tower     El Verde 12:31 3/11… dry    Anolis… Male       0.3
+##  6 Mark/recap North Tower     El Verde 01:00 3/9/… dry    Anolis… Female     0.4
+##  7 Mark/recap Woods walkway … El Verde 10:22 2/22… dry    Anolis… Female     0.4
+##  8 Mark/recap North Tower     El Verde 11:55 3/12… dry    Anolis… Juvenil    0.4
+##  9 Mark/recap Woods walkway … El Verde 10:15 2/20… dry    Anolis… Juvenil    0.4
+## 10 Mark/recap North Tower     El Verde 12:31 3/11… dry    Anolis… Female     0.5
+## # ℹ 6 more variables: DISTANCE_FROM_CENTERLINE &lt;dbl&gt;, PERCH_SUBSTRATE &lt;chr&gt;,
+## #   PERCH_DIAMETER &lt;int&gt;, WEIGHT &lt;dbl&gt;, SVL &lt;dbl&gt;, TAIL &lt;dbl&gt;</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>h<span class="sc">$</span>DATE2<span class="ot">=</span><span class="fu">as.Date</span>(h<span class="sc">$</span>DATE, <span class="st">&quot;%m/%d/%y&quot;</span>) <span class="co"># convertir la columna de fecha de tipo *carácter* a tipo *fecha*</span></span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a><span class="fu">gt</span>(<span class="fu">head</span>(Anolis)) <span class="co"># visualizar las primeras 6 filas de la tabla con el paquete gt</span></span></code></pre></div>
 <div id="hlftetwyzv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#hlftetwyzv table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -715,7 +732,7 @@ class="uri">https://www.stat.berkeley.edu/~s133/dates.html</a></p>
   margin-left: auto;
   margin-right: auto;
   color: #333333;
-  font-size: 10px;
+  font-size: 16px;
   font-weight: normal;
   font-style: normal;
   background-color: #FFFFFF;
@@ -799,7 +816,7 @@ class="uri">https://www.stat.berkeley.edu/~s133/dates.html</a></p>
 #hlftetwyzv .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 10px;
+  font-size: 100%;
   font-weight: normal;
   text-transform: inherit;
   border-left-style: none;
@@ -819,7 +836,7 @@ class="uri">https://www.stat.berkeley.edu/~s133/dates.html</a></p>
 #hlftetwyzv .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
-  font-size: 10px;
+  font-size: 100%;
   font-weight: normal;
   text-transform: inherit;
   padding-top: 0;
@@ -1143,10 +1160,6 @@ class="uri">https://www.stat.berkeley.edu/~s133/dates.html</a></p>
 </style>
 <table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
   <thead>
-    <tr class="gt_heading">
-      <td colspan="15" class="gt_heading gt_title gt_font_normal gt_bottom_border" style><span class='gt_from_md'>Datos lagartija <em>Anolis</em> de Puerto Rico</span></td>
-    </tr>
-    
     <tr class="gt_col_headings">
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="STUDY">STUDY</th>
       <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Survey_Site">Survey_Site</th>
@@ -1170,9 +1183,9 @@ class="uri">https://www.stat.berkeley.edu/~s133/dates.html</a></p>
 <td headers="Survey_Site" class="gt_row gt_left">North Tower</td>
 <td headers="LOCATION" class="gt_row gt_left">El Verde</td>
 <td headers="TIME" class="gt_row gt_center">10:46:00</td>
-<td headers="DATE" class="gt_row gt_right">13 March 1992</td>
+<td headers="DATE" class="gt_row gt_right">3/13/92 0:00</td>
 <td headers="SEASON" class="gt_row gt_left">dry</td>
-<td headers="SPECIES" class="gt_row gt_left" style="font-style: italic;">Anolis stratulus</td>
+<td headers="SPECIES" class="gt_row gt_left">Anolis stratulus</td>
 <td headers="SEX_AGE" class="gt_row gt_left">Female</td>
 <td headers="HEIGHT" class="gt_row gt_right">0.0</td>
 <td headers="DISTANCE_FROM_CENTERLINE" class="gt_row gt_right">2.7</td>
@@ -1185,9 +1198,9 @@ class="uri">https://www.stat.berkeley.edu/~s133/dates.html</a></p>
 <td headers="Survey_Site" class="gt_row gt_left">Woods walkway tower</td>
 <td headers="LOCATION" class="gt_row gt_left">El Verde</td>
 <td headers="TIME" class="gt_row gt_center">10:15:00</td>
-<td headers="DATE" class="gt_row gt_right">20 February 1989</td>
+<td headers="DATE" class="gt_row gt_right">2/20/89 0:00</td>
 <td headers="SEASON" class="gt_row gt_left">dry</td>
-<td headers="SPECIES" class="gt_row gt_left" style="font-style: italic;">Anolis stratulus</td>
+<td headers="SPECIES" class="gt_row gt_left">Anolis stratulus</td>
 <td headers="SEX_AGE" class="gt_row gt_left">Juvenil</td>
 <td headers="HEIGHT" class="gt_row gt_right">0.0</td>
 <td headers="DISTANCE_FROM_CENTERLINE" class="gt_row gt_right">2.0</td>
@@ -1200,9 +1213,9 @@ class="uri">https://www.stat.berkeley.edu/~s133/dates.html</a></p>
 <td headers="Survey_Site" class="gt_row gt_left">Woods walkway tower</td>
 <td headers="LOCATION" class="gt_row gt_left">El Verde</td>
 <td headers="TIME" class="gt_row gt_center">11:15:00</td>
-<td headers="DATE" class="gt_row gt_right">21 February 1989</td>
+<td headers="DATE" class="gt_row gt_right">2/21/89 0:00</td>
 <td headers="SEASON" class="gt_row gt_left">dry</td>
-<td headers="SPECIES" class="gt_row gt_left" style="font-style: italic;">Anolis stratulus</td>
+<td headers="SPECIES" class="gt_row gt_left">Anolis stratulus</td>
 <td headers="SEX_AGE" class="gt_row gt_left">Male</td>
 <td headers="HEIGHT" class="gt_row gt_right">0.0</td>
 <td headers="DISTANCE_FROM_CENTERLINE" class="gt_row gt_right">1.4</td>
@@ -1215,9 +1228,9 @@ class="uri">https://www.stat.berkeley.edu/~s133/dates.html</a></p>
 <td headers="Survey_Site" class="gt_row gt_left">North Tower</td>
 <td headers="LOCATION" class="gt_row gt_left">El Verde</td>
 <td headers="TIME" class="gt_row gt_center">11:06:00</td>
-<td headers="DATE" class="gt_row gt_right">16 March 1992</td>
+<td headers="DATE" class="gt_row gt_right">3/16/92 0:00</td>
 <td headers="SEASON" class="gt_row gt_left">dry</td>
-<td headers="SPECIES" class="gt_row gt_left" style="font-style: italic;">Anolis stratulus</td>
+<td headers="SPECIES" class="gt_row gt_left">Anolis stratulus</td>
 <td headers="SEX_AGE" class="gt_row gt_left">Juvenil</td>
 <td headers="HEIGHT" class="gt_row gt_right">0.3</td>
 <td headers="DISTANCE_FROM_CENTERLINE" class="gt_row gt_right">1.0</td>
@@ -1230,9 +1243,9 @@ class="uri">https://www.stat.berkeley.edu/~s133/dates.html</a></p>
 <td headers="Survey_Site" class="gt_row gt_left">North Tower</td>
 <td headers="LOCATION" class="gt_row gt_left">El Verde</td>
 <td headers="TIME" class="gt_row gt_center">12:31:00</td>
-<td headers="DATE" class="gt_row gt_right">11 March 1992</td>
+<td headers="DATE" class="gt_row gt_right">3/11/92 0:00</td>
 <td headers="SEASON" class="gt_row gt_left">dry</td>
-<td headers="SPECIES" class="gt_row gt_left" style="font-style: italic;">Anolis stratulus</td>
+<td headers="SPECIES" class="gt_row gt_left">Anolis stratulus</td>
 <td headers="SEX_AGE" class="gt_row gt_left">Male</td>
 <td headers="HEIGHT" class="gt_row gt_right">0.3</td>
 <td headers="DISTANCE_FROM_CENTERLINE" class="gt_row gt_right">0.9</td>
@@ -1245,7 +1258,600 @@ class="uri">https://www.stat.berkeley.edu/~s133/dates.html</a></p>
 <td headers="Survey_Site" class="gt_row gt_left">North Tower</td>
 <td headers="LOCATION" class="gt_row gt_left">El Verde</td>
 <td headers="TIME" class="gt_row gt_center">01:00:00</td>
-<td headers="DATE" class="gt_row gt_right">9 March 1992</td>
+<td headers="DATE" class="gt_row gt_right">3/9/92 0:00</td>
+<td headers="SEASON" class="gt_row gt_left">dry</td>
+<td headers="SPECIES" class="gt_row gt_left">Anolis stratulus</td>
+<td headers="SEX_AGE" class="gt_row gt_left">Female</td>
+<td headers="HEIGHT" class="gt_row gt_right">0.4</td>
+<td headers="DISTANCE_FROM_CENTERLINE" class="gt_row gt_right">0.9</td>
+<td headers="PERCH_SUBSTRATE" class="gt_row gt_left">tower</td>
+<td headers="PERCH_DIAMETER" class="gt_row gt_right">5</td>
+<td headers="WEIGHT" class="gt_row gt_right">1.6</td>
+<td headers="SVL" class="gt_row gt_right">37</td>
+<td headers="TAIL" class="gt_row gt_right">58</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+<p>Las funciones para formatear la tabla son del paquete
+<strong>gt</strong> = graphics of table</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>h<span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>    <span class="at">title =</span> <span class="fu">md</span>(<span class="st">&quot;Datos lagartija *Anolis* de Puerto Rico&quot;</span>))<span class="sc">%&gt;%</span></span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>  <span class="fu">tab_options</span>(</span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a>    <span class="at">column_labels.font.size =</span> <span class="fu">px</span>(<span class="dv">10</span>),</span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a>    <span class="at">table.font.size =</span> <span class="fu">px</span>(<span class="dv">10</span>))<span class="sc">%&gt;%</span></span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">style =</span> <span class="st">&quot;italic&quot;</span>),</span>
+<span id="cb16-10"><a href="#cb16-10" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
+<span id="cb16-11"><a href="#cb16-11" tabindex="-1"></a>      <span class="at">columns =</span> <span class="fu">c</span>(SPECIES)</span>
+<span id="cb16-12"><a href="#cb16-12" tabindex="-1"></a>    ))<span class="sc">%&gt;%</span></span>
+<span id="cb16-13"><a href="#cb16-13" tabindex="-1"></a>  <span class="fu">fmt_date</span>(</span>
+<span id="cb16-14"><a href="#cb16-14" tabindex="-1"></a>    <span class="at">columns =</span> <span class="fu">c</span>(DATE2),</span>
+<span id="cb16-15"><a href="#cb16-15" tabindex="-1"></a>    <span class="at">date_style =</span> <span class="dv">8</span></span>
+<span id="cb16-16"><a href="#cb16-16" tabindex="-1"></a>  )</span></code></pre></div>
+<div id="zwxhrdfesf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#zwxhrdfesf table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#zwxhrdfesf thead, #zwxhrdfesf tbody, #zwxhrdfesf tfoot, #zwxhrdfesf tr, #zwxhrdfesf td, #zwxhrdfesf th {
+  border-style: none;
+}
+
+#zwxhrdfesf p {
+  margin: 0;
+  padding: 0;
+}
+
+#zwxhrdfesf .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 10px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#zwxhrdfesf .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#zwxhrdfesf .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#zwxhrdfesf .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#zwxhrdfesf .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#zwxhrdfesf .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#zwxhrdfesf .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#zwxhrdfesf .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 10px;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#zwxhrdfesf .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 10px;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#zwxhrdfesf .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#zwxhrdfesf .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#zwxhrdfesf .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#zwxhrdfesf .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#zwxhrdfesf .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#zwxhrdfesf .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#zwxhrdfesf .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#zwxhrdfesf .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#zwxhrdfesf .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#zwxhrdfesf .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#zwxhrdfesf .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#zwxhrdfesf .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#zwxhrdfesf .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#zwxhrdfesf .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#zwxhrdfesf .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#zwxhrdfesf .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#zwxhrdfesf .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#zwxhrdfesf .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#zwxhrdfesf .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#zwxhrdfesf .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#zwxhrdfesf .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#zwxhrdfesf .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#zwxhrdfesf .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#zwxhrdfesf .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#zwxhrdfesf .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#zwxhrdfesf .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#zwxhrdfesf .gt_left {
+  text-align: left;
+}
+
+#zwxhrdfesf .gt_center {
+  text-align: center;
+}
+
+#zwxhrdfesf .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#zwxhrdfesf .gt_font_normal {
+  font-weight: normal;
+}
+
+#zwxhrdfesf .gt_font_bold {
+  font-weight: bold;
+}
+
+#zwxhrdfesf .gt_font_italic {
+  font-style: italic;
+}
+
+#zwxhrdfesf .gt_super {
+  font-size: 65%;
+}
+
+#zwxhrdfesf .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#zwxhrdfesf .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#zwxhrdfesf .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#zwxhrdfesf .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#zwxhrdfesf .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#zwxhrdfesf .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#zwxhrdfesf .gt_indent_5 {
+  text-indent: 25px;
+}
+
+#zwxhrdfesf .katex-display {
+  display: inline-flex !important;
+  margin-bottom: 0.75em !important;
+}
+
+#zwxhrdfesf div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+  height: 0px !important;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    <tr class="gt_heading">
+      <td colspan="16" class="gt_heading gt_title gt_font_normal gt_bottom_border" style><span class='gt_from_md'>Datos lagartija <em>Anolis</em> de Puerto Rico</span></td>
+    </tr>
+    
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="STUDY">STUDY</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="Survey_Site">Survey_Site</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="LOCATION">LOCATION</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="TIME">TIME</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="DATE">DATE</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="SEASON">SEASON</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="SPECIES">SPECIES</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="SEX_AGE">SEX_AGE</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="HEIGHT">HEIGHT</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="DISTANCE_FROM_CENTERLINE">DISTANCE_FROM_CENTERLINE</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="PERCH_SUBSTRATE">PERCH_SUBSTRATE</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="PERCH_DIAMETER">PERCH_DIAMETER</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="WEIGHT">WEIGHT</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="SVL">SVL</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="TAIL">TAIL</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="DATE2">DATE2</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="STUDY" class="gt_row gt_left">Mark/recap</td>
+<td headers="Survey_Site" class="gt_row gt_left">North Tower</td>
+<td headers="LOCATION" class="gt_row gt_left">El Verde</td>
+<td headers="TIME" class="gt_row gt_center">10:46:00</td>
+<td headers="DATE" class="gt_row gt_right">3/13/92 0:00</td>
+<td headers="SEASON" class="gt_row gt_left">dry</td>
+<td headers="SPECIES" class="gt_row gt_left" style="font-style: italic;">Anolis stratulus</td>
+<td headers="SEX_AGE" class="gt_row gt_left">Female</td>
+<td headers="HEIGHT" class="gt_row gt_right">0.0</td>
+<td headers="DISTANCE_FROM_CENTERLINE" class="gt_row gt_right">2.7</td>
+<td headers="PERCH_SUBSTRATE" class="gt_row gt_left">ground</td>
+<td headers="PERCH_DIAMETER" class="gt_row gt_right">6</td>
+<td headers="WEIGHT" class="gt_row gt_right">NA</td>
+<td headers="SVL" class="gt_row gt_right">NA</td>
+<td headers="TAIL" class="gt_row gt_right">NA</td>
+<td headers="DATE2" class="gt_row gt_right">13 March 1992</td></tr>
+    <tr><td headers="STUDY" class="gt_row gt_left">Mark/recap</td>
+<td headers="Survey_Site" class="gt_row gt_left">Woods walkway tower</td>
+<td headers="LOCATION" class="gt_row gt_left">El Verde</td>
+<td headers="TIME" class="gt_row gt_center">10:15:00</td>
+<td headers="DATE" class="gt_row gt_right">2/20/89 0:00</td>
+<td headers="SEASON" class="gt_row gt_left">dry</td>
+<td headers="SPECIES" class="gt_row gt_left" style="font-style: italic;">Anolis stratulus</td>
+<td headers="SEX_AGE" class="gt_row gt_left">Juvenil</td>
+<td headers="HEIGHT" class="gt_row gt_right">0.0</td>
+<td headers="DISTANCE_FROM_CENTERLINE" class="gt_row gt_right">2.0</td>
+<td headers="PERCH_SUBSTRATE" class="gt_row gt_left">NA</td>
+<td headers="PERCH_DIAMETER" class="gt_row gt_right">NA</td>
+<td headers="WEIGHT" class="gt_row gt_right">NA</td>
+<td headers="SVL" class="gt_row gt_right">29</td>
+<td headers="TAIL" class="gt_row gt_right">NA</td>
+<td headers="DATE2" class="gt_row gt_right">20 February 1989</td></tr>
+    <tr><td headers="STUDY" class="gt_row gt_left">Mark/recap</td>
+<td headers="Survey_Site" class="gt_row gt_left">Woods walkway tower</td>
+<td headers="LOCATION" class="gt_row gt_left">El Verde</td>
+<td headers="TIME" class="gt_row gt_center">11:15:00</td>
+<td headers="DATE" class="gt_row gt_right">2/21/89 0:00</td>
+<td headers="SEASON" class="gt_row gt_left">dry</td>
+<td headers="SPECIES" class="gt_row gt_left" style="font-style: italic;">Anolis stratulus</td>
+<td headers="SEX_AGE" class="gt_row gt_left">Male</td>
+<td headers="HEIGHT" class="gt_row gt_right">0.0</td>
+<td headers="DISTANCE_FROM_CENTERLINE" class="gt_row gt_right">1.4</td>
+<td headers="PERCH_SUBSTRATE" class="gt_row gt_left">on root at base</td>
+<td headers="PERCH_DIAMETER" class="gt_row gt_right">0</td>
+<td headers="WEIGHT" class="gt_row gt_right">NA</td>
+<td headers="SVL" class="gt_row gt_right">NA</td>
+<td headers="TAIL" class="gt_row gt_right">NA</td>
+<td headers="DATE2" class="gt_row gt_right">21 February 1989</td></tr>
+    <tr><td headers="STUDY" class="gt_row gt_left">Mark/recap</td>
+<td headers="Survey_Site" class="gt_row gt_left">North Tower</td>
+<td headers="LOCATION" class="gt_row gt_left">El Verde</td>
+<td headers="TIME" class="gt_row gt_center">11:06:00</td>
+<td headers="DATE" class="gt_row gt_right">3/16/92 0:00</td>
+<td headers="SEASON" class="gt_row gt_left">dry</td>
+<td headers="SPECIES" class="gt_row gt_left" style="font-style: italic;">Anolis stratulus</td>
+<td headers="SEX_AGE" class="gt_row gt_left">Juvenil</td>
+<td headers="HEIGHT" class="gt_row gt_right">0.3</td>
+<td headers="DISTANCE_FROM_CENTERLINE" class="gt_row gt_right">1.0</td>
+<td headers="PERCH_SUBSTRATE" class="gt_row gt_left">tower</td>
+<td headers="PERCH_DIAMETER" class="gt_row gt_right">30</td>
+<td headers="WEIGHT" class="gt_row gt_right">7.0</td>
+<td headers="SVL" class="gt_row gt_right">26</td>
+<td headers="TAIL" class="gt_row gt_right">3</td>
+<td headers="DATE2" class="gt_row gt_right">16 March 1992</td></tr>
+    <tr><td headers="STUDY" class="gt_row gt_left">Mark/recap</td>
+<td headers="Survey_Site" class="gt_row gt_left">North Tower</td>
+<td headers="LOCATION" class="gt_row gt_left">El Verde</td>
+<td headers="TIME" class="gt_row gt_center">12:31:00</td>
+<td headers="DATE" class="gt_row gt_right">3/11/92 0:00</td>
+<td headers="SEASON" class="gt_row gt_left">dry</td>
+<td headers="SPECIES" class="gt_row gt_left" style="font-style: italic;">Anolis stratulus</td>
+<td headers="SEX_AGE" class="gt_row gt_left">Male</td>
+<td headers="HEIGHT" class="gt_row gt_right">0.3</td>
+<td headers="DISTANCE_FROM_CENTERLINE" class="gt_row gt_right">0.9</td>
+<td headers="PERCH_SUBSTRATE" class="gt_row gt_left">tower</td>
+<td headers="PERCH_DIAMETER" class="gt_row gt_right">5</td>
+<td headers="WEIGHT" class="gt_row gt_right">2.4</td>
+<td headers="SVL" class="gt_row gt_right">45</td>
+<td headers="TAIL" class="gt_row gt_right">71</td>
+<td headers="DATE2" class="gt_row gt_right">11 March 1992</td></tr>
+    <tr><td headers="STUDY" class="gt_row gt_left">Mark/recap</td>
+<td headers="Survey_Site" class="gt_row gt_left">North Tower</td>
+<td headers="LOCATION" class="gt_row gt_left">El Verde</td>
+<td headers="TIME" class="gt_row gt_center">01:00:00</td>
+<td headers="DATE" class="gt_row gt_right">3/9/92 0:00</td>
 <td headers="SEASON" class="gt_row gt_left">dry</td>
 <td headers="SPECIES" class="gt_row gt_left" style="font-style: italic;">Anolis stratulus</td>
 <td headers="SEX_AGE" class="gt_row gt_left">Female</td>
@@ -1255,7 +1861,72 @@ class="uri">https://www.stat.berkeley.edu/~s133/dates.html</a></p>
 <td headers="PERCH_DIAMETER" class="gt_row gt_right">5</td>
 <td headers="WEIGHT" class="gt_row gt_right">1.6</td>
 <td headers="SVL" class="gt_row gt_right">37</td>
-<td headers="TAIL" class="gt_row gt_right">58</td></tr>
+<td headers="TAIL" class="gt_row gt_right">58</td>
+<td headers="DATE2" class="gt_row gt_right">9 March 1992</td></tr>
+    <tr><td headers="STUDY" class="gt_row gt_left">Mark/recap</td>
+<td headers="Survey_Site" class="gt_row gt_left">Woods walkway tower</td>
+<td headers="LOCATION" class="gt_row gt_left">El Verde</td>
+<td headers="TIME" class="gt_row gt_center">10:22:00</td>
+<td headers="DATE" class="gt_row gt_right">2/22/89 0:00</td>
+<td headers="SEASON" class="gt_row gt_left">dry</td>
+<td headers="SPECIES" class="gt_row gt_left" style="font-style: italic;">Anolis stratulus</td>
+<td headers="SEX_AGE" class="gt_row gt_left">Female</td>
+<td headers="HEIGHT" class="gt_row gt_right">0.4</td>
+<td headers="DISTANCE_FROM_CENTERLINE" class="gt_row gt_right">0.6</td>
+<td headers="PERCH_SUBSTRATE" class="gt_row gt_left">stairs</td>
+<td headers="PERCH_DIAMETER" class="gt_row gt_right">5</td>
+<td headers="WEIGHT" class="gt_row gt_right">NA</td>
+<td headers="SVL" class="gt_row gt_right">NA</td>
+<td headers="TAIL" class="gt_row gt_right">NA</td>
+<td headers="DATE2" class="gt_row gt_right">22 February 1989</td></tr>
+    <tr><td headers="STUDY" class="gt_row gt_left">Mark/recap</td>
+<td headers="Survey_Site" class="gt_row gt_left">North Tower</td>
+<td headers="LOCATION" class="gt_row gt_left">El Verde</td>
+<td headers="TIME" class="gt_row gt_center">11:55:00</td>
+<td headers="DATE" class="gt_row gt_right">3/12/92 0:00</td>
+<td headers="SEASON" class="gt_row gt_left">dry</td>
+<td headers="SPECIES" class="gt_row gt_left" style="font-style: italic;">Anolis stratulus</td>
+<td headers="SEX_AGE" class="gt_row gt_left">Juvenil</td>
+<td headers="HEIGHT" class="gt_row gt_right">0.4</td>
+<td headers="DISTANCE_FROM_CENTERLINE" class="gt_row gt_right">0.9</td>
+<td headers="PERCH_SUBSTRATE" class="gt_row gt_left">tower base</td>
+<td headers="PERCH_DIAMETER" class="gt_row gt_right">30</td>
+<td headers="WEIGHT" class="gt_row gt_right">1.4</td>
+<td headers="SVL" class="gt_row gt_right">36</td>
+<td headers="TAIL" class="gt_row gt_right">57</td>
+<td headers="DATE2" class="gt_row gt_right">12 March 1992</td></tr>
+    <tr><td headers="STUDY" class="gt_row gt_left">Mark/recap</td>
+<td headers="Survey_Site" class="gt_row gt_left">Woods walkway tower</td>
+<td headers="LOCATION" class="gt_row gt_left">El Verde</td>
+<td headers="TIME" class="gt_row gt_center">10:15:00</td>
+<td headers="DATE" class="gt_row gt_right">2/20/89 0:00</td>
+<td headers="SEASON" class="gt_row gt_left">dry</td>
+<td headers="SPECIES" class="gt_row gt_left" style="font-style: italic;">Anolis stratulus</td>
+<td headers="SEX_AGE" class="gt_row gt_left">Juvenil</td>
+<td headers="HEIGHT" class="gt_row gt_right">0.4</td>
+<td headers="DISTANCE_FROM_CENTERLINE" class="gt_row gt_right">0.4</td>
+<td headers="PERCH_SUBSTRATE" class="gt_row gt_left">step</td>
+<td headers="PERCH_DIAMETER" class="gt_row gt_right">5</td>
+<td headers="WEIGHT" class="gt_row gt_right">NA</td>
+<td headers="SVL" class="gt_row gt_right">33</td>
+<td headers="TAIL" class="gt_row gt_right">NA</td>
+<td headers="DATE2" class="gt_row gt_right">20 February 1989</td></tr>
+    <tr><td headers="STUDY" class="gt_row gt_left">Mark/recap</td>
+<td headers="Survey_Site" class="gt_row gt_left">North Tower</td>
+<td headers="LOCATION" class="gt_row gt_left">El Verde</td>
+<td headers="TIME" class="gt_row gt_center">12:31:00</td>
+<td headers="DATE" class="gt_row gt_right">3/11/92 0:00</td>
+<td headers="SEASON" class="gt_row gt_left">dry</td>
+<td headers="SPECIES" class="gt_row gt_left" style="font-style: italic;">Anolis stratulus</td>
+<td headers="SEX_AGE" class="gt_row gt_left">Female</td>
+<td headers="HEIGHT" class="gt_row gt_right">0.5</td>
+<td headers="DISTANCE_FROM_CENTERLINE" class="gt_row gt_right">0.9</td>
+<td headers="PERCH_SUBSTRATE" class="gt_row gt_left">tower</td>
+<td headers="PERCH_DIAMETER" class="gt_row gt_right">5</td>
+<td headers="WEIGHT" class="gt_row gt_right">2.0</td>
+<td headers="SVL" class="gt_row gt_right">43</td>
+<td headers="TAIL" class="gt_row gt_right">55</td>
+<td headers="DATE2" class="gt_row gt_right">11 March 1992</td></tr>
   </tbody>
   
   
@@ -1285,19 +1956,14 @@ peso menor de 4 cm y un tamaño mayor de 20 cm (de la cloaca al hocico).
 Si una de las dos condiciones no se cumple, no se incluirá ese espécimen
 en particular, de tal manera que obtendremos un archivo más
 reducido.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span>  <span class="co"># pipe</span></span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL) <span class="sc">%&gt;%</span>  </span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a> dplyr<span class="sc">::</span><span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div>
-<pre><code>## # A tibble: 6 × 2
-##   WEIGHT   SVL
-##    &lt;dbl&gt; &lt;dbl&gt;
-## 1    2.4    45
-## 2    1.6    37
-## 3    1.4    36
-## 4    2      43
-## 5    1.8    38
-## 6    1.1    35</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span>  <span class="co"># pipe </span></span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL) <span class="sc">%&gt;%</span>  </span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>WEIGHT, <span class="at">y=</span>SVL))<span class="sc">+</span></span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Snout Vent Length of *Anolis*&quot;</span>)<span class="sc">+</span></span>
+<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)</span></code></pre></div>
+<p><img src="G3-Graficos-por-conteos_files/figure-html/Anolis-1.png" width="672" /></p>
 <hr />
 <div id="paso-a-paso" class="section level3">
 <h3>Paso a Paso</h3>
@@ -1314,10 +1980,12 @@ geom_point</strong>, se muestra un gráfico básico. Como se puede
 apreciar, los puntos son negros y de un tamaño específico, y los nombres
 de los ejes de <strong>X</strong> y <strong>Y</strong> son los nombres
 de las columnas tal como aparecen en el archivo de datos.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(WEIGHT, SVL))<span class="sc">+</span></span>
-<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>  <span class="fu">geom_point</span>()</span></code></pre></div>
-<pre><code>## Warning: Removed 426 rows containing missing values or
-## values outside the scale range (`geom_point()`).</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(WEIGHT, SVL))<span class="sc">+</span></span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Snout Vent Length&quot;</span>)</span></code></pre></div>
+<pre><code>## Warning: Removed 426 rows containing missing
+## values or values outside the scale
+## range (`geom_point()`).</code></pre>
 <p><img src="G3-Graficos-por-conteos_files/figure-html/geom_point-count-1.png" width="672" /></p>
 </div>
 </div>
@@ -1327,26 +1995,20 @@ class="section level1">
 <p><em>Hola</em> itálicos</p>
 <p><strong>Hola</strong> enegrecido</p>
 <p>Te saludo estimados <br> colegas</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">library</span>(mdthemes) <span class="co"># To add  markdown rendered text within a ggplot figure</span></span>
-<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
-<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL) <span class="sc">%&gt;%</span></span>
-<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>WEIGHT, <span class="at">y=</span>SVL))<span class="sc">+</span></span>
-<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
-<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a>  mdthemes<span class="sc">::</span><span class="fu">md_theme_classic</span>()<span class="sc">+</span></span>
-<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title=</span> <span class="st">&quot;Figura: Relación de SVL y  el peso de *Anolis* en &lt;br&gt; </span></span>
-<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a><span class="st">         El Verde, Yunque, PR&quot;</span>)<span class="sc">+</span></span>
-<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Snout vent length&quot;</span>)</span></code></pre></div>
-<p><img src="G3-Graficos-por-conteos_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">library</span>(mdthemes) <span class="co"># To add  markdown rendered text within a ggplot figure</span></span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
+<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL) <span class="sc">%&gt;%</span></span>
+<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x=</span>WEIGHT, <span class="at">y=</span>SVL))<span class="sc">+</span></span>
+<span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb20-8"><a href="#cb20-8" tabindex="-1"></a>  mdthemes<span class="sc">::</span><span class="fu">md_theme_classic</span>()<span class="sc">+</span></span>
+<span id="cb20-9"><a href="#cb20-9" tabindex="-1"></a>    <span class="fu">labs</span>(<span class="at">title=</span> <span class="st">&quot;Figura: Relación de SVL y  el peso de *Anolis* en &lt;br&gt; </span></span>
+<span id="cb20-10"><a href="#cb20-10" tabindex="-1"></a><span class="st">         **El Verde**, Yunque, PR&quot;</span>)<span class="sc">+</span></span>
+<span id="cb20-11"><a href="#cb20-11" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Snout vent length&quot;</span>)</span></code></pre></div>
+<p><img src="G3-Graficos-por-conteos_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <hr />
-<div id="paso-a-paso-1" class="section level3">
-<h3>Paso a Paso</h3>
-<ul>
-<li><em>Mi primera gráfica</em></li>
-</ul>
 <hr />
-</div>
 <div id="añadir-detalles-al-gráfico" class="section level3">
 <h3>Añadir detalles al gráfico</h3>
 <p>Al gráfico anterior se le pueden hacer modificaciones a los nombres
@@ -1361,33 +2023,25 @@ Ud desee”)</strong>, y el tamaño y estilo del título con
 <strong>theme(title=element_text(size=20,face=“bold”,
 colour=“green”))</strong>, tal como se muestra en el gráfico
 siguiente.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
-<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL)<span class="sc">%&gt;%</span></span>
-<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
-<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT))<span class="sc">+</span></span>
-<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
-<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
-<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
-<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.x=</span>                    <span class="co"># Cambiar el titulo del eje de x</span></span>
-<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a>    <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;italic&quot;</span>, </span>
-<span id="cb16-10"><a href="#cb16-10" tabindex="-1"></a>                 <span class="at">colour=</span><span class="st">&quot;deeppink2&quot;</span>),</span>
-<span id="cb16-11"><a href="#cb16-11" tabindex="-1"></a>    <span class="at">axis.title.y=</span>                        <span class="co"># Cambiar el titulo del eje de y</span></span>
-<span id="cb16-12"><a href="#cb16-12" tabindex="-1"></a>    <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>,</span>
-<span id="cb16-13"><a href="#cb16-13" tabindex="-1"></a>                 <span class="at">face=</span><span class="st">&quot;bold&quot;</span>, </span>
-<span id="cb16-14"><a href="#cb16-14" tabindex="-1"></a>                 <span class="at">colour=</span><span class="st">&quot;darkred&quot;</span>),</span>
-<span id="cb16-15"><a href="#cb16-15" tabindex="-1"></a>    <span class="at">title=</span>                    <span class="co"># Poner un titulo al gráfico</span></span>
-<span id="cb16-16"><a href="#cb16-16" tabindex="-1"></a>    <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">18</span>,</span>
-<span id="cb16-17"><a href="#cb16-17" tabindex="-1"></a>                 <span class="at">face=</span><span class="st">&quot;bold&quot;</span>, </span>
-<span id="cb16-18"><a href="#cb16-18" tabindex="-1"></a>                 <span class="at">colour=</span><span class="st">&quot;green&quot;</span>))<span class="sc">+</span></span>
-<span id="cb16-19"><a href="#cb16-19" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Título con tipo/tamaño/aspecto que Ud desee&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL)<span class="sc">%&gt;%</span></span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT))<span class="sc">+</span></span>
+<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
+<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb21-9"><a href="#cb21-9" tabindex="-1"></a>    <span class="at">axis.title.x=</span>                    <span class="co"># Cambiar el titulo del eje de x</span></span>
+<span id="cb21-10"><a href="#cb21-10" tabindex="-1"></a>    <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>, <span class="at">face=</span><span class="st">&quot;italic&quot;</span>, </span>
+<span id="cb21-11"><a href="#cb21-11" tabindex="-1"></a>                 <span class="at">colour=</span><span class="st">&quot;#EED5B7&quot;</span>),</span>
+<span id="cb21-12"><a href="#cb21-12" tabindex="-1"></a>    <span class="at">axis.title.y=</span>                    <span class="co"># Cambiar el titulo del eje de x</span></span>
+<span id="cb21-13"><a href="#cb21-13" tabindex="-1"></a>    <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">5</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>, </span>
+<span id="cb21-14"><a href="#cb21-14" tabindex="-1"></a>                 <span class="at">colour=</span><span class="st">&quot;purple&quot;</span>),</span>
+<span id="cb21-15"><a href="#cb21-15" tabindex="-1"></a>    <span class="at">title=</span>                    <span class="co"># Poner un titulo al gráfico</span></span>
+<span id="cb21-16"><a href="#cb21-16" tabindex="-1"></a>    <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>, </span>
+<span id="cb21-17"><a href="#cb21-17" tabindex="-1"></a>                 <span class="at">colour=</span><span class="st">&quot;blue&quot;</span>))<span class="sc">+</span></span>
+<span id="cb21-18"><a href="#cb21-18" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Título con tipo/tamaño/aspecto que Ud desee&quot;</span>)</span></code></pre></div>
 <p><img src="G3-Graficos-por-conteos_files/figure-html/detalles-1.png" width="672" /></p>
-<hr />
-</div>
-<div id="paso-a-paso-2" class="section level3">
-<h3>Paso a Paso</h3>
-<ul>
-<li><em>Añadiendo detalles</em></li>
-</ul>
 <hr />
 <p>En este último gráfico tenemos la peculiaridad que hay múltiples
 lagartijas con el mismo peso y tamaño, por lo que los puntos quedarán
@@ -1413,11 +2067,11 @@ construye.</p>
 hay en cada combinación de <strong>Peso</strong> y <strong>SVL</strong>?
 Y posteriormente uno puede evaluar y gráficar la frecuencia de los
 datos.</p>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span>  <span class="co"># pipe</span></span>
-<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL) <span class="sc">%&gt;%</span>  <span class="co"># selecciona</span></span>
-<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>  <span class="fu">filter</span>(SVL<span class="sc">&gt;</span><span class="dv">20</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a>  <span class="fu">count</span>(WEIGHT, SVL)</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span>  <span class="co"># pipe</span></span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL) <span class="sc">%&gt;%</span>  <span class="co"># selecciona</span></span>
+<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a>  <span class="fu">filter</span>(SVL<span class="sc">&gt;</span><span class="dv">20</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a>  <span class="fu">count</span>(WEIGHT, SVL)</span></code></pre></div>
 <pre><code>## # A tibble: 62 × 3
 ##    WEIGHT   SVL     n
 ##     &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt;
@@ -1432,24 +2086,17 @@ datos.</p>
 ##  9   0.7     28     3
 ## 10   0.7     32     2
 ## # ℹ 52 more rows</code></pre>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
-<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL)<span class="sc">%&gt;%</span></span>
-<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
-<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT))<span class="sc">+</span></span>
-<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a>  <span class="fu">geom_count</span>()<span class="sc">+</span></span>
-<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
-<span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
-<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb19-9"><a href="#cb19-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Figura. Puntos de acuerdo a la frecuencia&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL)<span class="sc">%&gt;%</span></span>
+<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb24-4"><a href="#cb24-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT))<span class="sc">+</span></span>
+<span id="cb24-5"><a href="#cb24-5" tabindex="-1"></a>  <span class="fu">geom_count</span>()<span class="sc">+</span></span>
+<span id="cb24-6"><a href="#cb24-6" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb24-7"><a href="#cb24-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
+<span id="cb24-8"><a href="#cb24-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb24-9"><a href="#cb24-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Figura. Puntos de acuerdo a la frecuencia&quot;</span>)</span></code></pre></div>
 <p><img src="G3-Graficos-por-conteos_files/figure-html/geom_count1-1.png" width="672" /></p>
 <hr />
-<div id="paso-a-paso-3" class="section level3">
-<h3>Paso a Paso</h3>
-<ul>
-<li><em>Tamaño del punto basado en su frecuencia</em></li>
-</ul>
-<hr />
-</div>
 <div id="tamaño-de-puntos-proporcional-a-frecuencia"
 class="section level3">
 <h3>Tamaño de puntos proporcional a frecuencia</h3>
@@ -1463,23 +2110,17 @@ que en la figura anterior los puntos representan la frecuencia. Pero,
 ahora, los puntos salen en proporción a la frecuencia. La frecuencia en
 este caso es calculada utilizando como denominador la cantidad total de
 todos los especímenes en el archivo.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
-<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL)<span class="sc">%&gt;%</span></span>
-<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
-<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT))<span class="sc">+</span></span>
-<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="fu">aes</span>(<span class="at">size=</span>..prop.., <span class="at">group=</span><span class="dv">1</span>))<span class="sc">+</span></span>
-<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a>   <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
-<span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
-<span id="cb20-8"><a href="#cb20-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb20-9"><a href="#cb20-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Figura. Puntos en proporción a la frecuencia&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL)<span class="sc">%&gt;%</span></span>
+<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT))<span class="sc">+</span></span>
+<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="fu">aes</span>(<span class="at">size=</span>..prop.., <span class="at">group=</span><span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb25-6"><a href="#cb25-6" tabindex="-1"></a>   <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb25-7"><a href="#cb25-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
+<span id="cb25-8"><a href="#cb25-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb25-9"><a href="#cb25-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Figura. Puntos en proporción a la frecuencia&quot;</span>)</span></code></pre></div>
 <p><img src="G3-Graficos-por-conteos_files/figure-html/geom_count2-1.png" width="672" /></p>
 <hr />
-</div>
-<div id="paso-a-paso-4" class="section level3">
-<h3>Paso a Paso</h3>
-<ul>
-<li><em>Tamaño del punto basado en su proporción</em></li>
-</ul>
 <hr />
 </div>
 <div id="tamaño-de-puntos-proporcional-a-una-variable"
@@ -1496,30 +2137,24 @@ con valor 0.25, lo que da una suma de 1 (hay 4 cuatro lagartijas que
 tienen un SVL de 35cm). Note que la frecuencia en este caso es calculada
 utilizando como denominador la cantidad total de los valores que
 corresponden a un valor específico en “X”.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>x<span class="ot">=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">9</span>,<span class="dv">15</span>)</span>
-<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a><span class="fu">sum</span>(x)</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a>x<span class="ot">=</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">5</span>,<span class="dv">9</span>,<span class="dv">15</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a><span class="fu">sum</span>(x)</span></code></pre></div>
 <pre><code>## [1] 35</code></pre>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="dv">1</span><span class="sc">/</span><span class="dv">35</span></span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="dv">1</span><span class="sc">/</span><span class="dv">35</span></span></code></pre></div>
 <pre><code>## [1] 0.02857143</code></pre>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="dv">15</span><span class="sc">/</span><span class="dv">35</span></span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="dv">15</span><span class="sc">/</span><span class="dv">35</span></span></code></pre></div>
 <pre><code>## [1] 0.4285714</code></pre>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
-<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL)<span class="sc">%&gt;%</span></span>
-<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
-<span id="cb27-4"><a href="#cb27-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT))<span class="sc">+</span></span>
-<span id="cb27-5"><a href="#cb27-5" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="fu">aes</span>(<span class="at">size=</span>..prop.., <span class="at">group=</span>SVL))<span class="sc">+</span></span>
-<span id="cb27-6"><a href="#cb27-6" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
-<span id="cb27-7"><a href="#cb27-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
-<span id="cb27-8"><a href="#cb27-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb27-9"><a href="#cb27-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Figura. Puntos en proporción a una variable&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
+<span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL)<span class="sc">%&gt;%</span></span>
+<span id="cb32-3"><a href="#cb32-3" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb32-4"><a href="#cb32-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT))<span class="sc">+</span></span>
+<span id="cb32-5"><a href="#cb32-5" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="fu">aes</span>(<span class="at">size=</span>..prop.., <span class="at">group=</span>SVL))<span class="sc">+</span></span>
+<span id="cb32-6"><a href="#cb32-6" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb32-7"><a href="#cb32-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
+<span id="cb32-8"><a href="#cb32-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb32-9"><a href="#cb32-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Figura. Puntos en proporción a una variable&quot;</span>)</span></code></pre></div>
 <p><img src="G3-Graficos-por-conteos_files/figure-html/geom_count2a-1.png" width="672" /></p>
 <hr />
-</div>
-<div id="paso-a-paso-5" class="section level3">
-<h3>Paso a Paso</h3>
-<ul>
-<li><em>Tamaño del punto basado en su frecuencia</em></li>
-</ul>
 <hr />
 </div>
 <div id="grupos-separados-por-color" class="section level3">
@@ -1534,9 +2169,9 @@ de los <em>Anolis</em> pequeños se observa en el periodo lluvioso y los
 grandes en el periodo seco. Note que aquí se añade la variable que
 queremos separada por color; o sea, se identifica la estación de tiempo
 seco o húmedo con la columna <em>Season</em>.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="fu">unique</span>(Anolis<span class="sc">$</span>SEASON)</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="fu">unique</span>(Anolis<span class="sc">$</span>SEASON)</span></code></pre></div>
 <pre><code>## [1] &quot;dry&quot; &quot;wet&quot;</code></pre>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="fu">names</span>(Anolis)</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="fu">names</span>(Anolis)</span></code></pre></div>
 <pre><code>##  [1] &quot;STUDY&quot;                    &quot;Survey_Site&quot;             
 ##  [3] &quot;LOCATION&quot;                 &quot;TIME&quot;                    
 ##  [5] &quot;DATE&quot;                     &quot;SEASON&quot;                  
@@ -1545,15 +2180,15 @@ seco o húmedo con la columna <em>Season</em>.</p>
 ## [11] &quot;PERCH_SUBSTRATE&quot;          &quot;PERCH_DIAMETER&quot;          
 ## [13] &quot;WEIGHT&quot;                   &quot;SVL&quot;                     
 ## [15] &quot;TAIL&quot;</code></pre>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
-<span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL, SEX_AGE)<span class="sc">%&gt;%</span></span>
-<span id="cb32-3"><a href="#cb32-3" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb32-4"><a href="#cb32-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT, <span class="at">colour=</span>SEX_AGE))<span class="sc">+</span></span>
-<span id="cb32-5"><a href="#cb32-5" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="fu">aes</span>(<span class="at">size=</span>..prop.., <span class="at">group=</span>WEIGHT))<span class="sc">+</span></span>
-<span id="cb32-6"><a href="#cb32-6" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
-<span id="cb32-7"><a href="#cb32-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
-<span id="cb32-8"><a href="#cb32-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb32-9"><a href="#cb32-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Figura. Grupos con diferentes colores&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb37"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
+<span id="cb37-2"><a href="#cb37-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL, SEX_AGE)<span class="sc">%&gt;%</span></span>
+<span id="cb37-3"><a href="#cb37-3" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb37-4"><a href="#cb37-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT, <span class="at">colour=</span>SEX_AGE))<span class="sc">+</span></span>
+<span id="cb37-5"><a href="#cb37-5" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="fu">aes</span>(<span class="at">size=</span>..prop.., <span class="at">group=</span>WEIGHT))<span class="sc">+</span></span>
+<span id="cb37-6"><a href="#cb37-6" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb37-7"><a href="#cb37-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
+<span id="cb37-8"><a href="#cb37-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb37-9"><a href="#cb37-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Figura. Grupos con diferentes colores&quot;</span>)</span></code></pre></div>
 <p><img src="G3-Graficos-por-conteos_files/figure-html/geom%20count3-1.png" width="672" /></p>
 <hr />
 </div>
@@ -1570,28 +2205,22 @@ tilde, “~”, seguido del nombre de la variable, que en este caso es la
 localidad de muestreo, <strong>Survey_Site</strong>.
 (<strong>facet_wrap</strong> se explica en detalle como un tópico aparte
 de visualización.)</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="co">#names(Anolis) # para mostrar los nombres de las columnas</span></span>
-<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a></span>
-<span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a>  </span>
-<span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
-<span id="cb33-5"><a href="#cb33-5" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL, SEASON, Survey_Site, PERCH_SUBSTRATE)<span class="sc">%&gt;%</span></span>
-<span id="cb33-6"><a href="#cb33-6" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
-<span id="cb33-7"><a href="#cb33-7" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT, <span class="at">colour=</span>SEASON))<span class="sc">+</span></span>
-<span id="cb33-8"><a href="#cb33-8" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="fu">aes</span>(<span class="at">size=</span>..prop.., <span class="at">group=</span>WEIGHT))<span class="sc">+</span></span>
-<span id="cb33-9"><a href="#cb33-9" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
-<span id="cb33-10"><a href="#cb33-10" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
-<span id="cb33-11"><a href="#cb33-11" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>PERCH_SUBSTRATE)<span class="sc">+</span></span>
-<span id="cb33-12"><a href="#cb33-12" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb33-13"><a href="#cb33-13" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;orange&quot;</span>, <span class="st">&quot;red&quot;</span>))<span class="sc">+</span></span>
-<span id="cb33-14"><a href="#cb33-14" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Figura. Grupos separados por variable discreta&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" tabindex="-1"></a><span class="co">#names(Anolis) # para mostrar los nombres de las columnas</span></span>
+<span id="cb38-2"><a href="#cb38-2" tabindex="-1"></a></span>
+<span id="cb38-3"><a href="#cb38-3" tabindex="-1"></a>  </span>
+<span id="cb38-4"><a href="#cb38-4" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
+<span id="cb38-5"><a href="#cb38-5" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL, SEASON, Survey_Site, PERCH_SUBSTRATE)<span class="sc">%&gt;%</span></span>
+<span id="cb38-6"><a href="#cb38-6" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb38-7"><a href="#cb38-7" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT, <span class="at">colour=</span>SEASON))<span class="sc">+</span></span>
+<span id="cb38-8"><a href="#cb38-8" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="fu">aes</span>(<span class="at">size=</span>..prop.., <span class="at">group=</span>WEIGHT))<span class="sc">+</span></span>
+<span id="cb38-9"><a href="#cb38-9" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb38-10"><a href="#cb38-10" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
+<span id="cb38-11"><a href="#cb38-11" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>PERCH_SUBSTRATE)<span class="sc">+</span></span>
+<span id="cb38-12"><a href="#cb38-12" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb38-13"><a href="#cb38-13" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;orange&quot;</span>, <span class="st">&quot;red&quot;</span>))<span class="sc">+</span></span>
+<span id="cb38-14"><a href="#cb38-14" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Figura. Grupos separados por variable discreta&quot;</span>)</span></code></pre></div>
 <p><img src="G3-Graficos-por-conteos_files/figure-html/geom_count4-1.png" width="672" /></p>
 <hr />
-</div>
-<div id="paso-a-paso-6" class="section level3">
-<h3>Paso a Paso</h3>
-<ul>
-<li><em>Grupos seperados por variable discreta</em></li>
-</ul>
 <hr />
 </div>
 <div id="cambiar-la-forma-de-los-puntos" class="section level3">
@@ -1607,29 +2236,29 @@ solamente los números 21 al 25 son símbolos rellenados con color, lo que
 se hace al utilizar la opción de <strong>fill</strong> e indicando el
 color deseado, tal como se muestra en la <strong>Figura. Puntos
 rellenados en amarillo</strong>.</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
-<span id="cb34-2"><a href="#cb34-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL, SEASON, Survey_Site)<span class="sc">%&gt;%</span></span>
-<span id="cb34-3"><a href="#cb34-3" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
-<span id="cb34-4"><a href="#cb34-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT, <span class="at">colour=</span>SEASON))<span class="sc">+</span></span>
-<span id="cb34-5"><a href="#cb34-5" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="at">shape=</span><span class="dv">12</span>,<span class="at">colour=</span><span class="st">&quot;red&quot;</span>,</span>
-<span id="cb34-6"><a href="#cb34-6" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">size=</span>..prop.., <span class="at">group=</span>Survey_Site))<span class="sc">+</span></span>
-<span id="cb34-7"><a href="#cb34-7" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
-<span id="cb34-8"><a href="#cb34-8" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
-<span id="cb34-9"><a href="#cb34-9" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Survey_Site)<span class="sc">+</span></span>
-<span id="cb34-10"><a href="#cb34-10" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb34-11"><a href="#cb34-11" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Figura. Cambio en la forma de los puntos&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb39"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
+<span id="cb39-2"><a href="#cb39-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL, SEASON, Survey_Site)<span class="sc">%&gt;%</span></span>
+<span id="cb39-3"><a href="#cb39-3" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb39-4"><a href="#cb39-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT, <span class="at">colour=</span>SEASON))<span class="sc">+</span></span>
+<span id="cb39-5"><a href="#cb39-5" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="at">shape=</span><span class="dv">12</span>,<span class="at">colour=</span><span class="st">&quot;red&quot;</span>,</span>
+<span id="cb39-6"><a href="#cb39-6" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">size=</span>..prop.., <span class="at">group=</span>Survey_Site))<span class="sc">+</span></span>
+<span id="cb39-7"><a href="#cb39-7" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb39-8"><a href="#cb39-8" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
+<span id="cb39-9"><a href="#cb39-9" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Survey_Site)<span class="sc">+</span></span>
+<span id="cb39-10"><a href="#cb39-10" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb39-11"><a href="#cb39-11" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Figura. Cambio en la forma de los puntos&quot;</span>)</span></code></pre></div>
 <p><img src="G3-Graficos-por-conteos_files/figure-html/geom%20count5.1-1.png" width="672" /></p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
-<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL, SEASON, Survey_Site)<span class="sc">%&gt;%</span></span>
-<span id="cb35-3"><a href="#cb35-3" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
-<span id="cb35-4"><a href="#cb35-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT, <span class="at">colour=</span>SEASON))<span class="sc">+</span></span>
-<span id="cb35-5"><a href="#cb35-5" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="at">shape=</span><span class="dv">23</span>, <span class="at">fill=</span><span class="st">&quot;green&quot;</span>, <span class="at">colour=</span><span class="st">&quot;orange&quot;</span>,</span>
-<span id="cb35-6"><a href="#cb35-6" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">size=</span>..prop.., <span class="at">group=</span>Survey_Site))<span class="sc">+</span></span>
-<span id="cb35-7"><a href="#cb35-7" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
-<span id="cb35-8"><a href="#cb35-8" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
-<span id="cb35-9"><a href="#cb35-9" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Survey_Site)<span class="sc">+</span></span>
-<span id="cb35-10"><a href="#cb35-10" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb35-11"><a href="#cb35-11" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Figura. Puntos rellenados en amarillo&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
+<span id="cb40-2"><a href="#cb40-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL, SEASON, Survey_Site)<span class="sc">%&gt;%</span></span>
+<span id="cb40-3"><a href="#cb40-3" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb40-4"><a href="#cb40-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT, <span class="at">colour=</span>SEASON))<span class="sc">+</span></span>
+<span id="cb40-5"><a href="#cb40-5" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="at">shape=</span><span class="dv">23</span>, <span class="at">fill=</span><span class="st">&quot;green&quot;</span>, <span class="at">colour=</span><span class="st">&quot;orange&quot;</span>,</span>
+<span id="cb40-6"><a href="#cb40-6" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">size=</span>..prop.., <span class="at">group=</span>Survey_Site))<span class="sc">+</span></span>
+<span id="cb40-7"><a href="#cb40-7" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb40-8"><a href="#cb40-8" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
+<span id="cb40-9"><a href="#cb40-9" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Survey_Site)<span class="sc">+</span></span>
+<span id="cb40-10"><a href="#cb40-10" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb40-11"><a href="#cb40-11" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Figura. Puntos rellenados en amarillo&quot;</span>)</span></code></pre></div>
 <p><img src="G3-Graficos-por-conteos_files/figure-html/geom%20count5.2-1.png" width="672" /></p>
 <hr />
 </div>
@@ -1641,17 +2270,17 @@ más gruesos</strong>, se cambian la forma de los puntos a un cuadrado
 con la opción <strong>shape</strong> y el grosor del borde con la opción
 <strong>stroke</strong>, seguido de la asignación del parámetro
 correspondiente, en este caso 22 y 2 respectivamente.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
-<span id="cb36-2"><a href="#cb36-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL, SEASON, Survey_Site)<span class="sc">%&gt;%</span></span>
-<span id="cb36-3"><a href="#cb36-3" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
-<span id="cb36-4"><a href="#cb36-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT, <span class="at">colour=</span>SEASON))<span class="sc">+</span></span>
-<span id="cb36-5"><a href="#cb36-5" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="at">shape=</span><span class="dv">22</span>, <span class="at">stroke=</span><span class="dv">2</span>,<span class="at">alpha=</span>.<span class="dv">75</span>,</span>
-<span id="cb36-6"><a href="#cb36-6" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">size=</span>..prop.., <span class="at">group=</span>Survey_Site))<span class="sc">+</span></span>
-<span id="cb36-7"><a href="#cb36-7" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
-<span id="cb36-8"><a href="#cb36-8" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
-<span id="cb36-9"><a href="#cb36-9" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Survey_Site)<span class="sc">+</span></span>
-<span id="cb36-10"><a href="#cb36-10" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb36-11"><a href="#cb36-11" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Figura. Puntos cuadrados con bordes más gruesos&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" tabindex="-1"></a>Anolis <span class="sc">%&gt;%</span></span>
+<span id="cb41-2"><a href="#cb41-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL, SEASON, Survey_Site)<span class="sc">%&gt;%</span></span>
+<span id="cb41-3"><a href="#cb41-3" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb41-4"><a href="#cb41-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT, <span class="at">colour=</span>SEASON))<span class="sc">+</span></span>
+<span id="cb41-5"><a href="#cb41-5" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="at">shape=</span><span class="dv">22</span>, <span class="at">stroke=</span><span class="dv">2</span>,<span class="at">alpha=</span>.<span class="dv">75</span>,</span>
+<span id="cb41-6"><a href="#cb41-6" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">size=</span>..prop.., <span class="at">group=</span>Survey_Site))<span class="sc">+</span></span>
+<span id="cb41-7"><a href="#cb41-7" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb41-8"><a href="#cb41-8" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
+<span id="cb41-9"><a href="#cb41-9" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Survey_Site)<span class="sc">+</span></span>
+<span id="cb41-10"><a href="#cb41-10" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb41-11"><a href="#cb41-11" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title=</span><span class="st">&quot;Figura. Puntos cuadrados con bordes más gruesos&quot;</span>)</span></code></pre></div>
 <p><img src="G3-Graficos-por-conteos_files/figure-html/geom%20count6-1.png" width="672" /></p>
 <hr />
 </div>

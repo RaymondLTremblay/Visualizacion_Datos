@@ -63,14 +63,26 @@ La función *geom_point* se utiliza para hacer gráficos con los datos en forma 
 
 Comenzaremos la demostración de *geom_point* primero y luego la de *geom_count*. Así podremos apreciar mejor las ventajas de utilizar el gráfico *geom_count*.
 
+```{r}
+
+library(ggversa)
+
+
+
+```
+
+
+
+
+
 ```{r, message=FALSE}
 # preparar las librerías primero:
-library(ggversa) # la función "library" activa el packete de **ggversa** donde se encuentra los archivos
+library(ggversa) # la función "library" activa el paquete de **ggversa** donde se encuentra los archivos
 library(ggplot2) # ggplot2 es la librería que se usará para graficar los datos
 library(tidyverse) # una serie de paquetes para organizar y visualizar los datos
 library(gt) # para que las tablas se vean más organizadas
 #devtools::install_github("EvaMaeRey/flipbookr")
-library(flipbookr)  
+#library(flipbookr)  
 ```
 
 Para visualizar gráficos con **geom_point** y **geom_count**, utilizaremos los datos que se encuentran en el archivo **Anolis** en el paquete **ggversa**. Aquí se muestran las primeras seis filas del archivo.
@@ -87,14 +99,22 @@ Enlaces para tener información de como cambiar la fechas.
 
 Como convertir fechas a un formato que reconoce que son **fechas**.
 
+Buscar datos 
+
 ```{r}
-h=head(Anolis) # la función *head* es para visualizar las primeros 6 filas
-#h
+Anolis
 
+h=head(Anolis, n=10) # la función *head* es para visualizar las primeros 6 filas
 
-
-h$DATE=as.Date(h$DATE, "%m/%d/%y") # convertir la columna de fecha de tipo *carácter* a tipo *fecha*
+tail(Anolis)
 h
+
+
+
+h$DATE2=as.Date(h$DATE, "%m/%d/%y") # convertir la columna de fecha de tipo *carácter* a tipo *fecha*
+
+
+gt(head(Anolis)) # visualizar las primeras 6 filas de la tabla con el paquete gt
 ```
 
 Las funciones para formatear la tabla son del paquete **gt** = graphics of table
@@ -113,7 +133,7 @@ h%>%
       columns = c(SPECIES)
     ))%>%
   fmt_date(
-    columns = c(DATE),
+    columns = c(DATE2),
     date_style = 8
   )
 
@@ -130,10 +150,13 @@ En el primer paso se muestran las filas del 1 al 7 usando **head( )** y se selec
 
 ```{r Anolis}
 
-Anolis %>%  # pipe
+Anolis %>%  # pipe 
   select(WEIGHT, SVL) %>%  
- dplyr::filter(WEIGHT<4 & SVL>20) %>%
-  head()
+  dplyr::filter(WEIGHT<4 & SVL>20) %>% 
+  ggplot(aes(x=WEIGHT, y=SVL))+
+  geom_point()+
+  ylab("Snout Vent Length of *Anolis*")+
+  xlab("Peso en gramos")
 
 ```
 
@@ -155,7 +178,8 @@ A continuación, en la **Figura. Gráfico básico con geom_point**, se muestra u
 
 ```{r geom_point-count}
 ggplot(Anolis, aes(WEIGHT, SVL))+
-  geom_point()
+  geom_point()+
+  ylab("Snout Vent Length")
 ```
 
 
@@ -179,20 +203,13 @@ ggplot(aes(x=WEIGHT, y=SVL))+
   geom_point()+
   mdthemes::md_theme_classic()+
     labs(title= "Figura: Relación de SVL y  el peso de *Anolis* en <br> 
-         El Verde, Yunque, PR")+
+         **El Verde**, Yunque, PR")+
   ylab("Snout vent length")
 ```
 
 ------------------------------------------------------------------------
 
-### Paso a Paso
 
--   *Mi primera gráfica*
-
-```{r echo=FALSE}
-#chunk_reveal(chunk_name = "geom_point-count", 
-#                         display_type = c("code", "output"))
-```
 
 ------------------------------------------------------------------------
 
@@ -206,33 +223,26 @@ Anolis %>%
   filter(WEIGHT<4 & SVL>20)%>%
 ggplot(aes(SVL, WEIGHT))+
   geom_point()+
-  ylab("Peso en gramos")+
-  xlab("Tamaño del hocico a la cloaca")+
-  theme(axis.title.x=                    # Cambiar el titulo del eje de x
-    element_text(size=14,face="italic", 
-                 colour="deeppink2"),
-    axis.title.y=                        # Cambiar el titulo del eje de y
-    element_text(size=12,
-                 face="bold", 
-                 colour="darkred"),
+  xlab("Peso en gramos")+
+  ylab("Tamaño del hocico a la cloaca")+
+  theme(
+    axis.title.x=                    # Cambiar el titulo del eje de x
+    element_text(size=10, face="italic", 
+                 colour="#EED5B7"),
+    axis.title.y=                    # Cambiar el titulo del eje de x
+    element_text(size=5, face="bold", 
+                 colour="purple"),
     title=                    # Poner un titulo al gráfico
-    element_text(size=18,
-                 face="bold", 
-                 colour="green"))+
+    element_text(size=8, face="bold", 
+                 colour="blue"))+
   ggtitle("Título con tipo/tamaño/aspecto que Ud desee")
+  
 
 ```
 
-------------------------------------------------------------------------
 
-### Paso a Paso
 
--   *Añadiendo detalles*
 
-```{r echo=FALSE}
-#chunk_reveal(chunk_name = "detalles",
- #              display_type = c("code", "output"))
-```
 
 ------------------------------------------------------------------------
 
@@ -271,16 +281,7 @@ ggplot(aes(SVL, WEIGHT))+
 
 ```
 
-------------------------------------------------------------------------
 
-### Paso a Paso
-
--   *Tamaño del punto basado en su frecuencia*
-
-```{r echo=FALSE}
-#chunk_reveal(chunk_name = "geom_count1",
- #              display_type = c("code", "output"))
-```
 
 ------------------------------------------------------------------------
 
@@ -303,14 +304,7 @@ ggplot(aes(SVL, WEIGHT))+
 
 ------------------------------------------------------------------------
 
-### Paso a Paso
 
--   *Tamaño del punto basado en su proporción*
-
-```{r echo=FALSE}
-#chunk_reveal(chunk_name = "geom_count2",
-#               display_type = c("code", "output"))
-```
 
 ------------------------------------------------------------------------
 
@@ -340,14 +334,7 @@ ggplot(aes(SVL, WEIGHT))+
 
 ------------------------------------------------------------------------
 
-### Paso a Paso
 
--   *Tamaño del punto basado en su frecuencia*
-
-```{r echo=FALSE}
-#chunk_reveal(chunk_name = "geom_count2a",
- #              display_type = c("code", "output"))
-```
 
 ------------------------------------------------------------------------
 
@@ -400,14 +387,7 @@ ggplot(aes(SVL, WEIGHT, colour=SEASON))+
 
 ------------------------------------------------------------------------
 
-### Paso a Paso
 
--   *Grupos seperados por variable discreta*
-
-```{r echo=FALSE}
-#chunk_reveal(chunk_name = "geom_count4",
-#               display_type = c("code", "output"))
-```
 
 ------------------------------------------------------------------------
 
