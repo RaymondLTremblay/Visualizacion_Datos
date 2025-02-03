@@ -619,7 +619,7 @@ div.tocify {
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a> <span class="co">#                     warning = FALSE, comment = &quot;&quot;, </span></span>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="co">#                    cache = T)</span></span></code></pre></div>
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2025-01-29&quot;</code></pre>
+<pre><code>## [1] &quot;2025-02-03&quot;</code></pre>
 <div id="gráficos-con-geom_point-y-geom_count" class="section level1">
 <h1>Gráficos con <strong>geom_point</strong> y
 <strong>geom_count</strong></h1>
@@ -1983,9 +1983,10 @@ de las columnas tal como aparecen en el archivo de datos.</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(WEIGHT, SVL))<span class="sc">+</span></span>
 <span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
 <span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Snout Vent Length&quot;</span>)</span></code></pre></div>
-<pre><code>## Warning: Removed 426 rows containing missing
-## values or values outside the scale
-## range (`geom_point()`).</code></pre>
+<pre><code>## Warning: Removed 426 rows containing
+## missing values or values
+## outside the scale range
+## (`geom_point()`).</code></pre>
 <p><img src="G3-Graficos-por-conteos_files/figure-html/geom_point-count-1.png" width="672" /></p>
 </div>
 </div>
@@ -2148,7 +2149,7 @@ corresponden a un valor específico en “X”.</p>
 <span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL)<span class="sc">%&gt;%</span></span>
 <span id="cb32-3"><a href="#cb32-3" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
 <span id="cb32-4"><a href="#cb32-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT))<span class="sc">+</span></span>
-<span id="cb32-5"><a href="#cb32-5" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="fu">aes</span>(<span class="at">size=</span>..prop.., <span class="at">group=</span>SVL))<span class="sc">+</span></span>
+<span id="cb32-5"><a href="#cb32-5" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="fu">aes</span>(<span class="at">size=</span>..prop.., <span class="at">group=</span>WEIGHT))<span class="sc">+</span></span>
 <span id="cb32-6"><a href="#cb32-6" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
 <span id="cb32-7"><a href="#cb32-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
 <span id="cb32-8"><a href="#cb32-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
@@ -2240,7 +2241,7 @@ rellenados en amarillo</strong>.</p>
 <span id="cb39-2"><a href="#cb39-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL, SEASON, Survey_Site)<span class="sc">%&gt;%</span></span>
 <span id="cb39-3"><a href="#cb39-3" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
 <span id="cb39-4"><a href="#cb39-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT, <span class="at">colour=</span>SEASON))<span class="sc">+</span></span>
-<span id="cb39-5"><a href="#cb39-5" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="at">shape=</span><span class="dv">12</span>,<span class="at">colour=</span><span class="st">&quot;red&quot;</span>,</span>
+<span id="cb39-5"><a href="#cb39-5" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="at">shape=</span><span class="dv">24</span>,<span class="at">colour=</span><span class="st">&quot;red&quot;</span>, <span class="at">fill=</span><span class="st">&quot;yellow&quot;</span>,</span>
 <span id="cb39-6"><a href="#cb39-6" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">size=</span>..prop.., <span class="at">group=</span>Survey_Site))<span class="sc">+</span></span>
 <span id="cb39-7"><a href="#cb39-7" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
 <span id="cb39-8"><a href="#cb39-8" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>
@@ -2274,7 +2275,7 @@ correspondiente, en este caso 22 y 2 respectivamente.</p>
 <span id="cb41-2"><a href="#cb41-2" tabindex="-1"></a>  <span class="fu">select</span>(WEIGHT, SVL, SEASON, Survey_Site)<span class="sc">%&gt;%</span></span>
 <span id="cb41-3"><a href="#cb41-3" tabindex="-1"></a>  <span class="fu">filter</span>(WEIGHT<span class="sc">&lt;</span><span class="dv">4</span> <span class="sc">&amp;</span> SVL<span class="sc">&gt;</span><span class="dv">20</span>)<span class="sc">%&gt;%</span></span>
 <span id="cb41-4"><a href="#cb41-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(SVL, WEIGHT, <span class="at">colour=</span>SEASON))<span class="sc">+</span></span>
-<span id="cb41-5"><a href="#cb41-5" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="at">shape=</span><span class="dv">22</span>, <span class="at">stroke=</span><span class="dv">2</span>,<span class="at">alpha=</span>.<span class="dv">75</span>,</span>
+<span id="cb41-5"><a href="#cb41-5" tabindex="-1"></a>  <span class="fu">geom_count</span>(<span class="at">shape=</span><span class="dv">22</span>, <span class="at">stroke=</span><span class="fl">1.5</span>,<span class="at">alpha=</span>.<span class="dv">5</span>,</span>
 <span id="cb41-6"><a href="#cb41-6" tabindex="-1"></a>             <span class="fu">aes</span>(<span class="at">size=</span>..prop.., <span class="at">group=</span>Survey_Site))<span class="sc">+</span></span>
 <span id="cb41-7"><a href="#cb41-7" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Peso en gramos&quot;</span>)<span class="sc">+</span></span>
 <span id="cb41-8"><a href="#cb41-8" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Tamaño del hocico a la cloaca&quot;</span>)<span class="sc">+</span></span>

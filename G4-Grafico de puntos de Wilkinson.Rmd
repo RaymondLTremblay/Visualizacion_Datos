@@ -73,6 +73,8 @@ Los gráficos de una variable frecuentemente tienen como objetivo evaluar la dis
 
 En el gráfico de puntos, conocido como *Wilkinson dotplot*, la posición de los compartimentos (bins), depende de los datos, mientras que la concentración de los puntos determina el ancho máximo de los compartimentos. De forma predeterminada los datos serán agrupados uno por encima de los otros en el eje de *Y*. Esto se demuestra en la siguiente figura utilizando los datos de la orquídea *dipodium* en el archivo de **ggversa**. Note que se podría haber usado **geom_dotplot** sin parámetros adicional y los puntos quedarían representados de color negro. El parámetro **fill** cambia el color de los puntos y el parámetro **colour o color** cambia el color de la línea que rodea el círculo.
 
+How to remove y axis in ggplot?
+
 
 
 ```{r dipodium-puntos, message=FALSE, warning=FALSE}
@@ -82,8 +84,9 @@ dipodium %>%
   ggplot(aes(number_of_fruits))+
   geom_dotplot(stackratio=.5, 
                fill="yellow", colour = "red")+
-  labs(x="Número de Frutos", y="Frecuencia")+
-  theme(axis.title=element_text(size=10,face="bold"))
+  labs(x="Número de Frutos", y="Cantidad")+
+  theme(axis.title=element_text(size=10,face="bold")
+        )
 ```
 
 ------------------------------------------------------------------------
@@ -164,8 +167,8 @@ name_graphic=d+geom_dotplot(fill="black", colour="white",
 
 ```
 
-```{r grid dotplot, echo=FALSE}
-grid.arrange(a,b,c,name_graphic, ncol=2)
+```{r grid dotplot, echo=FALSE, warning=FALSE}
+grid.arrange(a,b,c,name_graphic, ncol=2) # del paquete gridExtra
 ```
 
 ------------------------------------------------------------------------
@@ -205,9 +208,9 @@ g2
 ```
 
 
-## Organizando los graficos en filas o columnas
+## Organizando los graficos en filas o en columnas
 
-```{r grid dotplot2, echo=FALSE}
+```{r grid dotplot2, echo=FALSE, warning=FALSE}
 grid.arrange(g1,g2,nrow=2)
 
 grid.arrange(g1,g2,ncol=2)
@@ -215,7 +218,7 @@ grid.arrange(g1,g2,ncol=2)
 
 ------------------------------------------------------------------------
 
-## El solapamiento de los puntos con **stackratio**
+## El solapamiento de los puntos con **stackratio** y **dodge**
 
 La opción de **stackratio** es para especificar el grado de solapamiento de los puntos uno sobre el otro, o el espacio que separa cada punto. A la figura anteriormente, ahora se le añade un solapamiento diferente. Además, para que los puntos no se solapen unos con otros se usa la función **position=dodge**. Si quiere modificar el solapamiento tiene que usar **position=position_dodge(width = 0.1)** para identificar la cantidad de solapamiento de los grupos, más pequeño el número más solapamiento entre los grupos
 
@@ -288,7 +291,7 @@ geom_dotplot(dotsize=.5, stackdir="center", alpha=.9, binaxis = "y") +
   scale_y_continuous(NULL, breaks = NULL)
 ```
 
-```{r grid dotplot3, echo=FALSE}
+```{r grid dotplot3, echo=FALSE, warning=FALSE}
 grid.arrange(conNA,sinNA,ncol=2)
 ```
 
@@ -311,7 +314,9 @@ b=ggplot(dipodium, aes(number_of_fruits))+
   geom_dotplot(binwidth = 1, dotsize=0.3) +
   labs(x="Número de Frutos", y="Frecuencia")+
   theme(axis.title=element_text(size=10,face="bold"))+
-  scale_y_continuous(NULL, breaks = NULL)
+  scale_y_continuous(NULL, breaks = NULL)+
+  scale_x_continuous(limits = c(0, 8), breaks = seq(0, 20, by = 1))
+  
 ```
 
 ```{r grid dotplot4, echo=FALSE}
@@ -324,7 +329,7 @@ grid.arrange(a,b,ncol=2)
 
 Otra alternativa para lograr la misma representación de poner los puntos uno encima de los otros por grupo es utilizando la opción **binpositions= all**.
 
-```{r dipodium-puntos7}
+```{r dipodium-puntos7, warning=FALSE}
 
 a=ggplot(dipodium, aes(number_of_fruits, fill=species_name))
 a+geom_dotplot(stackgroups = TRUE, binwidth = .5, binpositions = "all", dotsize = .5) +
