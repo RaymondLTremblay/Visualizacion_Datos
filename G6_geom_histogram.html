@@ -602,7 +602,7 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2025-02-03&quot;</code></pre>
+<pre><code>## [1] &quot;2025-02-12&quot;</code></pre>
 <p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" /></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(ggversa)</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
@@ -626,19 +626,97 @@ grupos de 2, se escribe con <strong>geom_histogram
 (binwidth=1)</strong>. Como se puede apreciar, el número de
 compartimentos se cambia utilizando el parámetro <em>binwidth</em>,
 donde su valor representa el ancho del compartimento (en nuestro caso es
-igual a 1). El número de <em>bins</em> predeterminado es 30, pero no
-necesariamente todos tendrán una barra ya que eso depende de la
-distribución de los datos. Cada barra representa la frecuencia de
-observaciones en la categoría a un metro de distancia. En ambos casos se
-usó color=white (o sea, color blanco) para poner una línea blanca
-alrededor de cada barra y así diferenciar mejor los grupos o
-<em>bins</em>. Nota que el programa retorna el mensaje
-<strong><code>stat_bin()</code> using <code>bins = 30</code>. Pick
-better value with <code>binwidth</code></strong>. Esto porque se acepto
-la cantidad de compartimiento prederminado.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>DW<span class="ot">=</span><span class="fu">clean_names</span>(dipodium) <span class="co"># este archivo de datos se encuentra en el paquete &quot;ggversa&quot;</span></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="fu">names</span>(DW)</span></code></pre></div>
+igual a 1). El número de <em>bins</em> predeterminado es 30. Cada barra
+representa la <strong>frecuencia</strong> de observaciones en la
+categoría a un metro de distancia. En ambos casos se usó color=white (o
+sea, color blanco) para poner una línea blanca alrededor de cada barra y
+así diferenciar mejor los grupos o <em>bins</em>. Nota que el programa
+retorna el mensaje <strong><code>stat_bin()</code> using
+<code>bins = 30</code>. Pick better value with
+<code>binwidth</code></strong>. Esto porque se acepto la cantidad de
+compartimiento prederminado.</p>
+<div id="calcular-el-intervalo-de-los-bins" class="section level2">
+<h2>Calcular el intervalo de los bins</h2>
+<p>Para calcular el intervalo de los bins se usa la siguiente
+fórmula:</p>
+<p><span class="math display">\[\text{binwidth} =
+\frac{\text{max}(\text{data}) -
+\text{min}(\text{data})}{\text{bins}}\]</span> Nota que el valor de
+<strong>bins</strong> es 30 por defecto, pero se puede cambiar a su
+conveniencia con el parámetro <strong>binwidth</strong>.</p>
+<p>Hacemos un ejercicio a mano para calcular el intervalo de los bins
+con un dataset al azar, de una distribución normal con media de 10 y
+desviación estándar de 2.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>) <span class="do">## usar la misma semilla para reproducibilidad</span></span>
+<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>datos<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean=</span><span class="dv">10</span>, <span class="at">sd=</span><span class="dv">2</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a>datos <span class="co"># 100 datos de una distribución normal con media de 10 y desviación estándar de 2</span></span></code></pre></div>
+<pre><code>##   [1]  7.585869 10.554858 12.168882  5.308605 10.858249 11.012112  8.850520
+##   [8]  8.906736  8.871096  8.219924  9.045615  8.003227  8.447492 10.128918
+##  [15] 11.918988  9.779429  8.977981  8.177609  8.325657 14.831670 10.268176
+##  [22]  9.018628  9.118904 10.919179  8.612560  7.103590 11.149511  7.952689
+##  [29]  9.969723  8.128103 12.204595  9.048814  8.581120  8.997484  6.741813
+##  [36]  7.664761  5.639921  7.318014  9.411412  9.068205 12.898993  7.862715
+##  [43]  8.289271  9.438754  8.011320  8.062971  7.785364  7.496028  8.952344
+##  [50]  9.006300  6.387937  8.835848  7.782221  7.970076  9.675381 11.126112
+##  [57] 13.295635  8.453293 13.211819  7.684383 11.313177 15.097982  9.930479
+##  [64]  8.660733  9.984790 13.554169  7.722785 12.735654 12.659130 10.672946
+##  [71] 10.013786  9.089063  9.266952 11.296573 14.140542  9.693203  7.218598
+##  [78]  8.552836 10.516524  9.365882  9.644420  9.660012  7.255396  9.652426
+##  [85] 11.700465 11.395217 11.099995  9.194536  9.616812  7.610944  9.893682
+##  [92] 10.510392 13.411928 12.003027  9.008833 10.711101  7.730784 11.756407
+##  [99] 11.945834 14.242234</code></pre>
+<p>Cual es valor mínimo y máximo de los datos?</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">min</span>(datos) <span class="co"># valor mínimo</span></span></code></pre></div>
+<pre><code>## [1] 5.308605</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">max</span>(datos) <span class="co"># valor máximo</span></span></code></pre></div>
+<pre><code>## [1] 15.09798</code></pre>
+<p>Usamos la formula anterior para calcular el intervalo de los
+<em>bins</em>, y queremos 10 bins</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>binwidth<span class="ot">=</span>(<span class="fu">max</span>(datos)<span class="sc">-</span><span class="fu">min</span>(datos))<span class="sc">/</span><span class="dv">10</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>binwidth</span></code></pre></div>
+<pre><code>## [1] 0.9789378</code></pre>
+<p>Ahora calculamos los <em>bins</em> con la función
+<strong>cut</strong> para ver la frecuencia de los datos en cada
+bin.</p>
+<p>Que quiere decir la parentesis y el corchete en los bins?</p>
+<ul>
+<li><p>(a,b] significa que el bin incluye el valor a pero no el valor
+b</p></li>
+<li><p>[a,b] significa que el bin incluye el valor a y el valor
+b</p></li>
+<li><p>(a,b) significa que el bin no incluye el valor a ni el valor
+b</p></li>
+<li><p>[a,b) significa que el bin incluye el valor a pero no el valor
+b</p></li>
+</ul>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>bins<span class="ot">=</span><span class="fu">cut</span>(datos, <span class="at">breaks=</span><span class="fu">seq</span>(<span class="fu">min</span>(datos), <span class="fu">max</span>(datos), binwidth), <span class="at">right=</span><span class="cn">TRUE</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="co">#bins # cada valor y en cual bin estará </span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="fu">levels</span>(bins) <span class="co"># los niveles de los bins</span></span></code></pre></div>
+<pre><code>##  [1] &quot;(5.31,6.29]&quot; &quot;(6.29,7.27]&quot; &quot;(7.27,8.25]&quot; &quot;(8.25,9.22]&quot; &quot;(9.22,10.2]&quot;
+##  [6] &quot;(10.2,11.2]&quot; &quot;(11.2,12.2]&quot; &quot;(12.2,13.1]&quot; &quot;(13.1,14.1]&quot; &quot;(14.1,15.1]&quot;</code></pre>
+</div>
+<div
+id="histograma-de-la-distancia-de-la-orquidea-focal-al-arbol-más-cercano"
+class="section level2">
+<h2>Histograma de la distancia de la orquidea focal al arbol más
+cercano</h2>
+<p>En el siguiente histograma, se muestra la distancia de las orquídeas
+<em>Dipodium roseum</em> a los árboles más cercanos. Este histograma se
+hizo con la base de datos <strong>dipodium</strong> que se encuentra en
+el paquete <strong>ggversa</strong>. Se puede ver que la mayoría de las
+orquídeas están a menos de 5 metros de los árboles más cercanos. La
+función <strong>geom_histogram</strong> se usa para hacer el histograma.
+Se puede ver que la función <strong>geom_histogram</strong> tiene varios
+parámetros que se pueden modificar para cambiar la apariencia del
+histograma. En este caso, se cambió el color de las barras a azul y el
+color de la línea alrededor de las barras a blanco. También se cambiaron
+los nombres de los ejes a español.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>DW<span class="ot">=</span><span class="fu">clean_names</span>(dipodium) <span class="co"># este archivo de datos se encuentra en el paquete &quot;ggversa&quot;</span></span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a><span class="fu">names</span>(DW)</span></code></pre></div>
 <pre><code>##  [1] &quot;tree_number&quot;             &quot;tree_species&quot;           
 ##  [3] &quot;dbh&quot;                     &quot;plant_number&quot;           
 ##  [5] &quot;ramet_number&quot;            &quot;distance&quot;               
@@ -650,27 +728,27 @@ la cantidad de compartimiento prederminado.</p>
 ## [17] &quot;frutos_si_o_no&quot;          &quot;p_or_r_infl_lenght&quot;     
 ## [19] &quot;num_of_fruits&quot;           &quot;species_name&quot;           
 ## [21] &quot;cardinal_orientation&quot;</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>DW <span class="sc">%&gt;%</span></span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a> <span class="fu">gt</span>()</span></code></pre></div>
-<div id="ntuorohywb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ntuorohywb table {
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>DW <span class="sc">%&gt;%</span></span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a> <span class="fu">gt</span>()</span></code></pre></div>
+<div id="hchsydxtsz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#hchsydxtsz table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#ntuorohywb thead, #ntuorohywb tbody, #ntuorohywb tfoot, #ntuorohywb tr, #ntuorohywb td, #ntuorohywb th {
+#hchsydxtsz thead, #hchsydxtsz tbody, #hchsydxtsz tfoot, #hchsydxtsz tr, #hchsydxtsz td, #hchsydxtsz th {
   border-style: none;
 }
 
-#ntuorohywb p {
+#hchsydxtsz p {
   margin: 0;
   padding: 0;
 }
 
-#ntuorohywb .gt_table {
+#hchsydxtsz .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -696,12 +774,12 @@ la cantidad de compartimiento prederminado.</p>
   border-left-color: #D3D3D3;
 }
 
-#ntuorohywb .gt_caption {
+#hchsydxtsz .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#ntuorohywb .gt_title {
+#hchsydxtsz .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -713,7 +791,7 @@ la cantidad de compartimiento prederminado.</p>
   border-bottom-width: 0;
 }
 
-#ntuorohywb .gt_subtitle {
+#hchsydxtsz .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -725,7 +803,7 @@ la cantidad de compartimiento prederminado.</p>
   border-top-width: 0;
 }
 
-#ntuorohywb .gt_heading {
+#hchsydxtsz .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -737,13 +815,13 @@ la cantidad de compartimiento prederminado.</p>
   border-right-color: #D3D3D3;
 }
 
-#ntuorohywb .gt_bottom_border {
+#hchsydxtsz .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#ntuorohywb .gt_col_headings {
+#hchsydxtsz .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -758,7 +836,7 @@ la cantidad de compartimiento prederminado.</p>
   border-right-color: #D3D3D3;
 }
 
-#ntuorohywb .gt_col_heading {
+#hchsydxtsz .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -778,7 +856,7 @@ la cantidad de compartimiento prederminado.</p>
   overflow-x: hidden;
 }
 
-#ntuorohywb .gt_column_spanner_outer {
+#hchsydxtsz .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -790,15 +868,15 @@ la cantidad de compartimiento prederminado.</p>
   padding-right: 4px;
 }
 
-#ntuorohywb .gt_column_spanner_outer:first-child {
+#hchsydxtsz .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#ntuorohywb .gt_column_spanner_outer:last-child {
+#hchsydxtsz .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#ntuorohywb .gt_column_spanner {
+#hchsydxtsz .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -810,11 +888,11 @@ la cantidad de compartimiento prederminado.</p>
   width: 100%;
 }
 
-#ntuorohywb .gt_spanner_row {
+#hchsydxtsz .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#ntuorohywb .gt_group_heading {
+#hchsydxtsz .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -840,7 +918,7 @@ la cantidad de compartimiento prederminado.</p>
   text-align: left;
 }
 
-#ntuorohywb .gt_empty_group_heading {
+#hchsydxtsz .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -855,15 +933,15 @@ la cantidad de compartimiento prederminado.</p>
   vertical-align: middle;
 }
 
-#ntuorohywb .gt_from_md > :first-child {
+#hchsydxtsz .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#ntuorohywb .gt_from_md > :last-child {
+#hchsydxtsz .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#ntuorohywb .gt_row {
+#hchsydxtsz .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -882,7 +960,7 @@ la cantidad de compartimiento prederminado.</p>
   overflow-x: hidden;
 }
 
-#ntuorohywb .gt_stub {
+#hchsydxtsz .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -895,7 +973,7 @@ la cantidad de compartimiento prederminado.</p>
   padding-right: 5px;
 }
 
-#ntuorohywb .gt_stub_row_group {
+#hchsydxtsz .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -909,15 +987,15 @@ la cantidad de compartimiento prederminado.</p>
   vertical-align: top;
 }
 
-#ntuorohywb .gt_row_group_first td {
+#hchsydxtsz .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#ntuorohywb .gt_row_group_first th {
+#hchsydxtsz .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#ntuorohywb .gt_summary_row {
+#hchsydxtsz .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -927,16 +1005,16 @@ la cantidad de compartimiento prederminado.</p>
   padding-right: 5px;
 }
 
-#ntuorohywb .gt_first_summary_row {
+#hchsydxtsz .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#ntuorohywb .gt_first_summary_row.thick {
+#hchsydxtsz .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#ntuorohywb .gt_last_summary_row {
+#hchsydxtsz .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -946,7 +1024,7 @@ la cantidad de compartimiento prederminado.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#ntuorohywb .gt_grand_summary_row {
+#hchsydxtsz .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -956,7 +1034,7 @@ la cantidad de compartimiento prederminado.</p>
   padding-right: 5px;
 }
 
-#ntuorohywb .gt_first_grand_summary_row {
+#hchsydxtsz .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -966,7 +1044,7 @@ la cantidad de compartimiento prederminado.</p>
   border-top-color: #D3D3D3;
 }
 
-#ntuorohywb .gt_last_grand_summary_row_top {
+#hchsydxtsz .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -976,11 +1054,11 @@ la cantidad de compartimiento prederminado.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#ntuorohywb .gt_striped {
+#hchsydxtsz .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#ntuorohywb .gt_table_body {
+#hchsydxtsz .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -989,7 +1067,7 @@ la cantidad de compartimiento prederminado.</p>
   border-bottom-color: #D3D3D3;
 }
 
-#ntuorohywb .gt_footnotes {
+#hchsydxtsz .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1003,7 +1081,7 @@ la cantidad de compartimiento prederminado.</p>
   border-right-color: #D3D3D3;
 }
 
-#ntuorohywb .gt_footnote {
+#hchsydxtsz .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1012,7 +1090,7 @@ la cantidad de compartimiento prederminado.</p>
   padding-right: 5px;
 }
 
-#ntuorohywb .gt_sourcenotes {
+#hchsydxtsz .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1026,7 +1104,7 @@ la cantidad de compartimiento prederminado.</p>
   border-right-color: #D3D3D3;
 }
 
-#ntuorohywb .gt_sourcenote {
+#hchsydxtsz .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1034,72 +1112,72 @@ la cantidad de compartimiento prederminado.</p>
   padding-right: 5px;
 }
 
-#ntuorohywb .gt_left {
+#hchsydxtsz .gt_left {
   text-align: left;
 }
 
-#ntuorohywb .gt_center {
+#hchsydxtsz .gt_center {
   text-align: center;
 }
 
-#ntuorohywb .gt_right {
+#hchsydxtsz .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#ntuorohywb .gt_font_normal {
+#hchsydxtsz .gt_font_normal {
   font-weight: normal;
 }
 
-#ntuorohywb .gt_font_bold {
+#hchsydxtsz .gt_font_bold {
   font-weight: bold;
 }
 
-#ntuorohywb .gt_font_italic {
+#hchsydxtsz .gt_font_italic {
   font-style: italic;
 }
 
-#ntuorohywb .gt_super {
+#hchsydxtsz .gt_super {
   font-size: 65%;
 }
 
-#ntuorohywb .gt_footnote_marks {
+#hchsydxtsz .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#ntuorohywb .gt_asterisk {
+#hchsydxtsz .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#ntuorohywb .gt_indent_1 {
+#hchsydxtsz .gt_indent_1 {
   text-indent: 5px;
 }
 
-#ntuorohywb .gt_indent_2 {
+#hchsydxtsz .gt_indent_2 {
   text-indent: 10px;
 }
 
-#ntuorohywb .gt_indent_3 {
+#hchsydxtsz .gt_indent_3 {
   text-indent: 15px;
 }
 
-#ntuorohywb .gt_indent_4 {
+#hchsydxtsz .gt_indent_4 {
   text-indent: 20px;
 }
 
-#ntuorohywb .gt_indent_5 {
+#hchsydxtsz .gt_indent_5 {
   text-indent: 25px;
 }
 
-#ntuorohywb .katex-display {
+#hchsydxtsz .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#ntuorohywb div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#hchsydxtsz div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1261,15 +1339,16 @@ la cantidad de compartimiento prederminado.</p>
   
 </table>
 </div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(DW, <span class="fu">aes</span>(distance))</span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_histogram</span>(<span class="at">color=</span><span class="st">&quot;white&quot;</span>, <span class="at">fill=</span><span class="st">&quot;blue&quot;</span>)<span class="sc">+</span></span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Distancia&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(DW, <span class="fu">aes</span>(distance))</span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_histogram</span>(<span class="at">color=</span><span class="st">&quot;white&quot;</span>, <span class="at">fill=</span><span class="st">&quot;blue&quot;</span>)<span class="sc">+</span></span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Distancia&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <pre><code>## `stat_bin()` using `bins =
 ## 30`. Pick better value with
 ## `binwidth`.</code></pre>
 <p><img src="G6_geom_histogram_files/figure-html/dipodium-histograma-1.png" width="672" /></p>
 <hr />
+</div>
 </div>
 <div id="cambio-del-tamaño-de-los-compartimiento-con-binwidth"
 class="section level1">
@@ -1286,12 +1365,12 @@ veracidad. Como se explicó antes, en el segundo gráfico, se cambió el
 binwidth a 1, que representa en este caso la distancia de 1 metro, y los
 <strong>bins</strong> van de -.5 a .5 m., el segundo
 <strong>bin</strong> de &gt;0.5 a 1.5 metros y así sucesivamente.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">length</span>(DW<span class="sc">$</span>distance)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">length</span>(DW<span class="sc">$</span>distance)</span></code></pre></div>
 <pre><code>## [1] 1365</code></pre>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(DW, <span class="fu">aes</span>(distance))</span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_histogram</span>(<span class="at">binwidth=</span>.<span class="dv">5</span>,<span class="at">color=</span><span class="st">&quot;white&quot;</span>, <span class="at">fill=</span><span class="st">&quot;blue&quot;</span>)<span class="sc">+</span></span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Distancia&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
-<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(DW, <span class="fu">aes</span>(distance))</span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_histogram</span>(<span class="at">binwidth=</span>.<span class="dv">5</span>,<span class="at">color=</span><span class="st">&quot;white&quot;</span>, <span class="at">fill=</span><span class="st">&quot;blue&quot;</span>)<span class="sc">+</span></span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Distancia&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G6_geom_histogram_files/figure-html/num1-1.png" width="672" /></p>
 <hr />
 </div>
@@ -1307,26 +1386,26 @@ estaba disponible solo para los años 1996 y 2006. Tenemos dos gráficos
 solapados para visualizar si la distribución ha cambiado de entre el año
 1996 y 2006. Note que las frecuencias del 2006 aparecen sobre las del
 1996.</p>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>Camas_Hospital <span class="sc">%&gt;%</span> </span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code></pre></div>
-<div id="xbbesolfhe" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#xbbesolfhe table {
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>Camas_Hospital <span class="sc">%&gt;%</span> </span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code></pre></div>
+<div id="gqycbeoojv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#gqycbeoojv table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#xbbesolfhe thead, #xbbesolfhe tbody, #xbbesolfhe tfoot, #xbbesolfhe tr, #xbbesolfhe td, #xbbesolfhe th {
+#gqycbeoojv thead, #gqycbeoojv tbody, #gqycbeoojv tfoot, #gqycbeoojv tr, #gqycbeoojv td, #gqycbeoojv th {
   border-style: none;
 }
 
-#xbbesolfhe p {
+#gqycbeoojv p {
   margin: 0;
   padding: 0;
 }
 
-#xbbesolfhe .gt_table {
+#gqycbeoojv .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1352,12 +1431,12 @@ solapados para visualizar si la distribución ha cambiado de entre el año
   border-left-color: #D3D3D3;
 }
 
-#xbbesolfhe .gt_caption {
+#gqycbeoojv .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#xbbesolfhe .gt_title {
+#gqycbeoojv .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1369,7 +1448,7 @@ solapados para visualizar si la distribución ha cambiado de entre el año
   border-bottom-width: 0;
 }
 
-#xbbesolfhe .gt_subtitle {
+#gqycbeoojv .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1381,7 +1460,7 @@ solapados para visualizar si la distribución ha cambiado de entre el año
   border-top-width: 0;
 }
 
-#xbbesolfhe .gt_heading {
+#gqycbeoojv .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1393,13 +1472,13 @@ solapados para visualizar si la distribución ha cambiado de entre el año
   border-right-color: #D3D3D3;
 }
 
-#xbbesolfhe .gt_bottom_border {
+#gqycbeoojv .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#xbbesolfhe .gt_col_headings {
+#gqycbeoojv .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1414,7 +1493,7 @@ solapados para visualizar si la distribución ha cambiado de entre el año
   border-right-color: #D3D3D3;
 }
 
-#xbbesolfhe .gt_col_heading {
+#gqycbeoojv .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1434,7 +1513,7 @@ solapados para visualizar si la distribución ha cambiado de entre el año
   overflow-x: hidden;
 }
 
-#xbbesolfhe .gt_column_spanner_outer {
+#gqycbeoojv .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1446,15 +1525,15 @@ solapados para visualizar si la distribución ha cambiado de entre el año
   padding-right: 4px;
 }
 
-#xbbesolfhe .gt_column_spanner_outer:first-child {
+#gqycbeoojv .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#xbbesolfhe .gt_column_spanner_outer:last-child {
+#gqycbeoojv .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#xbbesolfhe .gt_column_spanner {
+#gqycbeoojv .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1466,11 +1545,11 @@ solapados para visualizar si la distribución ha cambiado de entre el año
   width: 100%;
 }
 
-#xbbesolfhe .gt_spanner_row {
+#gqycbeoojv .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#xbbesolfhe .gt_group_heading {
+#gqycbeoojv .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1496,7 +1575,7 @@ solapados para visualizar si la distribución ha cambiado de entre el año
   text-align: left;
 }
 
-#xbbesolfhe .gt_empty_group_heading {
+#gqycbeoojv .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1511,15 +1590,15 @@ solapados para visualizar si la distribución ha cambiado de entre el año
   vertical-align: middle;
 }
 
-#xbbesolfhe .gt_from_md > :first-child {
+#gqycbeoojv .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#xbbesolfhe .gt_from_md > :last-child {
+#gqycbeoojv .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#xbbesolfhe .gt_row {
+#gqycbeoojv .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1538,7 +1617,7 @@ solapados para visualizar si la distribución ha cambiado de entre el año
   overflow-x: hidden;
 }
 
-#xbbesolfhe .gt_stub {
+#gqycbeoojv .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1551,7 +1630,7 @@ solapados para visualizar si la distribución ha cambiado de entre el año
   padding-right: 5px;
 }
 
-#xbbesolfhe .gt_stub_row_group {
+#gqycbeoojv .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1565,15 +1644,15 @@ solapados para visualizar si la distribución ha cambiado de entre el año
   vertical-align: top;
 }
 
-#xbbesolfhe .gt_row_group_first td {
+#gqycbeoojv .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#xbbesolfhe .gt_row_group_first th {
+#gqycbeoojv .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#xbbesolfhe .gt_summary_row {
+#gqycbeoojv .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1583,16 +1662,16 @@ solapados para visualizar si la distribución ha cambiado de entre el año
   padding-right: 5px;
 }
 
-#xbbesolfhe .gt_first_summary_row {
+#gqycbeoojv .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#xbbesolfhe .gt_first_summary_row.thick {
+#gqycbeoojv .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#xbbesolfhe .gt_last_summary_row {
+#gqycbeoojv .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1602,7 +1681,7 @@ solapados para visualizar si la distribución ha cambiado de entre el año
   border-bottom-color: #D3D3D3;
 }
 
-#xbbesolfhe .gt_grand_summary_row {
+#gqycbeoojv .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1612,7 +1691,7 @@ solapados para visualizar si la distribución ha cambiado de entre el año
   padding-right: 5px;
 }
 
-#xbbesolfhe .gt_first_grand_summary_row {
+#gqycbeoojv .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1622,7 +1701,7 @@ solapados para visualizar si la distribución ha cambiado de entre el año
   border-top-color: #D3D3D3;
 }
 
-#xbbesolfhe .gt_last_grand_summary_row_top {
+#gqycbeoojv .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1632,11 +1711,11 @@ solapados para visualizar si la distribución ha cambiado de entre el año
   border-bottom-color: #D3D3D3;
 }
 
-#xbbesolfhe .gt_striped {
+#gqycbeoojv .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#xbbesolfhe .gt_table_body {
+#gqycbeoojv .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1645,7 +1724,7 @@ solapados para visualizar si la distribución ha cambiado de entre el año
   border-bottom-color: #D3D3D3;
 }
 
-#xbbesolfhe .gt_footnotes {
+#gqycbeoojv .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1659,7 +1738,7 @@ solapados para visualizar si la distribución ha cambiado de entre el año
   border-right-color: #D3D3D3;
 }
 
-#xbbesolfhe .gt_footnote {
+#gqycbeoojv .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1668,7 +1747,7 @@ solapados para visualizar si la distribución ha cambiado de entre el año
   padding-right: 5px;
 }
 
-#xbbesolfhe .gt_sourcenotes {
+#gqycbeoojv .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1682,7 +1761,7 @@ solapados para visualizar si la distribución ha cambiado de entre el año
   border-right-color: #D3D3D3;
 }
 
-#xbbesolfhe .gt_sourcenote {
+#gqycbeoojv .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1690,72 +1769,72 @@ solapados para visualizar si la distribución ha cambiado de entre el año
   padding-right: 5px;
 }
 
-#xbbesolfhe .gt_left {
+#gqycbeoojv .gt_left {
   text-align: left;
 }
 
-#xbbesolfhe .gt_center {
+#gqycbeoojv .gt_center {
   text-align: center;
 }
 
-#xbbesolfhe .gt_right {
+#gqycbeoojv .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#xbbesolfhe .gt_font_normal {
+#gqycbeoojv .gt_font_normal {
   font-weight: normal;
 }
 
-#xbbesolfhe .gt_font_bold {
+#gqycbeoojv .gt_font_bold {
   font-weight: bold;
 }
 
-#xbbesolfhe .gt_font_italic {
+#gqycbeoojv .gt_font_italic {
   font-style: italic;
 }
 
-#xbbesolfhe .gt_super {
+#gqycbeoojv .gt_super {
   font-size: 65%;
 }
 
-#xbbesolfhe .gt_footnote_marks {
+#gqycbeoojv .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#xbbesolfhe .gt_asterisk {
+#gqycbeoojv .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#xbbesolfhe .gt_indent_1 {
+#gqycbeoojv .gt_indent_1 {
   text-indent: 5px;
 }
 
-#xbbesolfhe .gt_indent_2 {
+#gqycbeoojv .gt_indent_2 {
   text-indent: 10px;
 }
 
-#xbbesolfhe .gt_indent_3 {
+#gqycbeoojv .gt_indent_3 {
   text-indent: 15px;
 }
 
-#xbbesolfhe .gt_indent_4 {
+#gqycbeoojv .gt_indent_4 {
   text-indent: 20px;
 }
 
-#xbbesolfhe .gt_indent_5 {
+#gqycbeoojv .gt_indent_5 {
   text-indent: 25px;
 }
 
-#xbbesolfhe .katex-display {
+#gqycbeoojv .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#xbbesolfhe div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#gqycbeoojv div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1798,18 +1877,18 @@ solapados para visualizar si la distribución ha cambiado de entre el año
   
 </table>
 </div>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">str</span>(Camas_Hospital)</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="fu">str</span>(Camas_Hospital)</span></code></pre></div>
 <pre><code>## &#39;data.frame&#39;:    134 obs. of  4 variables:
 ##  $ Pais     : Factor w/ 67 levels &quot;Armenia&quot;,&quot;Australia&quot;,..: 1 2 3 4 5 6 7 8 9 10 ...
 ##  $ Year     : int  1996 1996 1996 1996 1996 1996 1996 1996 1996 1996 ...
 ##  $ Poblacion: int  3173425 18311000 7959017 7763000 283792 265940 10160000 213674 7717445 8362826 ...
 ##  $ Camas    : num  7.13 8.5 9.3 9.81 3.94 ...</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">unique</span>(Camas_Hospital<span class="sc">$</span>Year) <span class="co"># cual son los años de muestreo</span></span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="fu">unique</span>(Camas_Hospital<span class="sc">$</span>Year) <span class="co"># cual son los años de muestreo</span></span></code></pre></div>
 <pre><code>## [1] 1996 2006</code></pre>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(Camas_Hospital, <span class="fu">aes</span>(Camas, <span class="at">fill=</span><span class="fu">factor</span>(Year)))</span>
-<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_histogram</span>(<span class="at">stat=</span><span class="st">&quot;bin&quot;</span>)<span class="sc">+</span></span>
-<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Número de camas por cada 1000 habitantes&quot;</span>)<span class="sc">+</span></span>
-<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(Camas_Hospital, <span class="fu">aes</span>(Camas, <span class="at">fill=</span><span class="fu">factor</span>(Year)))</span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_histogram</span>(<span class="at">stat=</span><span class="st">&quot;bin&quot;</span>)<span class="sc">+</span></span>
+<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Número de camas por cada 1000 habitantes&quot;</span>)<span class="sc">+</span></span>
+<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)</span></code></pre></div>
 <pre><code>## `stat_bin()` using `bins =
 ## 30`. Pick better value with
 ## `binwidth`.</code></pre>
@@ -1834,12 +1913,12 @@ los ejes usando <strong>xlab</strong> y <strong>ylab</strong>, de manera
 tal que la descripción de la columnas se pueda presentar de forma
 específica y así hacer la información más clara para propósitos del
 gráfico. =</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(Camas_Hospital, <span class="fu">aes</span>(Camas, <span class="at">fill=</span><span class="fu">factor</span>(Year)))<span class="sc">+</span></span>
-<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="at">alpha=</span><span class="fl">0.3</span>)<span class="sc">+</span></span>
-<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>,<span class="dv">11</span>,<span class="dv">12</span>,<span class="dv">13</span>,<span class="dv">14</span>,<span class="dv">15</span>))<span class="sc">+</span></span>
-<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">15</span>))<span class="sc">+</span></span>
-<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
-<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a>a</span></code></pre></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(Camas_Hospital, <span class="fu">aes</span>(Camas, <span class="at">fill=</span><span class="fu">factor</span>(Year)))<span class="sc">+</span></span>
+<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="at">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="at">alpha=</span><span class="fl">0.3</span>)<span class="sc">+</span></span>
+<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">4</span>,<span class="dv">5</span>,<span class="dv">6</span>,<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>,<span class="dv">11</span>,<span class="dv">12</span>,<span class="dv">13</span>,<span class="dv">14</span>,<span class="dv">15</span>))<span class="sc">+</span></span>
+<span id="cb28-4"><a href="#cb28-4" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">15</span>))<span class="sc">+</span></span>
+<span id="cb28-5"><a href="#cb28-5" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
+<span id="cb28-6"><a href="#cb28-6" tabindex="-1"></a>a</span></code></pre></div>
 <pre><code>## `stat_bin()` using `bins =
 ## 30`. Pick better value with
 ## `binwidth`.</code></pre>
@@ -1861,14 +1940,14 @@ modicar la intensidades de color de la barras. Ahora vemos que, por
 ejemplo, en el año 1996 la frecuencia más común en los países era de
 menos de 2 camas por 1,000 habitantes, y que ya para el año 2006 ya era
 de 2 y 8 camas por cada 1,000 habitantes.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(Camas_Hospital, <span class="fu">aes</span>(Camas, <span class="at">fill=</span><span class="fu">factor</span>(Year)))</span>
-<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_histogram</span>(<span class="at">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="at">alpha=</span><span class="fl">0.5</span>,</span>
-<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>                 <span class="at">position=</span><span class="st">&quot;identity&quot;</span>)<span class="sc">+</span></span>
-<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Número de camas por </span><span class="sc">\n</span><span class="st"> 1000 habitantes&quot;</span>)<span class="sc">+</span></span>
-<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
-<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">9</span>))<span class="sc">+</span></span>
-<span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">15</span>))<span class="sc">+</span></span>
-<span id="cb20-8"><a href="#cb20-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(Camas_Hospital, <span class="fu">aes</span>(Camas, <span class="at">fill=</span><span class="fu">factor</span>(Year)))</span>
+<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_histogram</span>(<span class="at">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="at">alpha=</span><span class="fl">0.5</span>,</span>
+<span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a>                 <span class="at">position=</span><span class="st">&quot;identity&quot;</span>)<span class="sc">+</span></span>
+<span id="cb30-4"><a href="#cb30-4" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Número de camas por </span><span class="sc">\n</span><span class="st"> 1000 habitantes&quot;</span>)<span class="sc">+</span></span>
+<span id="cb30-5"><a href="#cb30-5" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb30-6"><a href="#cb30-6" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">9</span>))<span class="sc">+</span></span>
+<span id="cb30-7"><a href="#cb30-7" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">15</span>))<span class="sc">+</span></span>
+<span id="cb30-8"><a href="#cb30-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <pre><code>## `stat_bin()` using `bins =
 ## 30`. Pick better value with
 ## `binwidth`.</code></pre>
@@ -1880,15 +1959,23 @@ id="posicionar-las-barras-uno-al-lado-del-otro-con-la-función-dodge"
 class="section level1">
 <h1>Posicionar las barras uno al lado del otro con la función
 <strong>dodge</strong></h1>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(Camas_Hospital, <span class="fu">aes</span>(Camas, <span class="at">fill=</span><span class="fu">factor</span>(Year)))</span>
-<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_histogram</span>(<span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">bins=</span><span class="dv">15</span>, <span class="at">alpha=</span><span class="fl">0.9</span>,</span>
-<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a>                 <span class="at">position=</span><span class="st">&quot;dodge&quot;</span>)<span class="sc">+</span></span>
-<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Número de camas por </span><span class="sc">\n</span><span class="st"> 1000 habitantes&quot;</span>)<span class="sc">+</span></span>
-<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
-<span id="cb22-6"><a href="#cb22-6" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">9</span>))<span class="sc">+</span></span>
-<span id="cb22-7"><a href="#cb22-7" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">15</span>))<span class="sc">+</span></span>
-<span id="cb22-8"><a href="#cb22-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb22-9"><a href="#cb22-9" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Year)</span></code></pre></div>
+<p>Para posicionar las barras unos al lado de los otros, se usa la
+función <strong>dodge</strong>. En este caso, se usó
+<strong>position=“dodge”</strong> para posicionar las barras uno al lado
+del otro. Se puede ver que la frecuencia de camas por 1,000 habitantes
+en los países ha aumentado en el año 2006 comparado con el año 1996. Se
+puede ver que en el año 2006 hay más países con más de 5 camas por 1,000
+habitantes que en el año 1996. Se puede ver que en el año 1996 la
+frecuencia más común en los países era de menos de 2 camas por 1,000
+habitantes, y que ya para el año</p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(Camas_Hospital, <span class="fu">aes</span>(Camas, <span class="at">fill=</span><span class="fu">factor</span>(Year)))</span>
+<span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_histogram</span>(<span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">bins=</span><span class="dv">15</span>, <span class="at">alpha=</span><span class="fl">0.9</span>,</span>
+<span id="cb32-3"><a href="#cb32-3" tabindex="-1"></a>                 <span class="at">position=</span><span class="st">&quot;dodge&quot;</span>)<span class="sc">+</span></span>
+<span id="cb32-4"><a href="#cb32-4" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Número de camas por </span><span class="sc">\n</span><span class="st"> 1000 habitantes&quot;</span>)<span class="sc">+</span></span>
+<span id="cb32-5"><a href="#cb32-5" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb32-6"><a href="#cb32-6" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">9</span>))<span class="sc">+</span></span>
+<span id="cb32-7"><a href="#cb32-7" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">15</span>))<span class="sc">+</span></span>
+<span id="cb32-8"><a href="#cb32-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G6_geom_histogram_files/figure-html/dipodium-histogram5-1.png" width="672" /></p>
 <hr />
 </div>
@@ -1906,19 +1993,19 @@ Podemos cambiar el color de las barras usando
 el 2006. Además, note que con <strong>scale_color_manual</strong>
 podemos cambiar la línea alrededor de las barras; en nuestro caso la
 cambiamos a negro o <strong>black</strong>.</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(Camas_Hospital, <span class="fu">aes</span>(Camas, <span class="at">fill=</span><span class="fu">factor</span>(Year),</span>
-<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>                             <span class="at">color=</span><span class="fu">factor</span>(Year)))</span>
-<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_histogram</span>(<span class="at">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
-<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Número de camas </span><span class="sc">\n</span><span class="st"> por cada 1000 habitantes&quot;</span>)<span class="sc">+</span></span>
-<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
-<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;cyan4&quot;</span>, <span class="st">&quot;darkorange&quot;</span>))<span class="sc">+</span></span>
-<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">family=</span><span class="st">&quot;Times&quot;</span>,<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;italic&quot;</span>, <span class="at">colour=</span><span class="st">&quot;#4ea7ad&quot;</span>))<span class="sc">+</span></span>
-<span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Year)<span class="sc">+</span></span>
-<span id="cb23-9"><a href="#cb23-9" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">9</span>))<span class="sc">+</span></span>
-<span id="cb23-10"><a href="#cb23-10" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>))<span class="sc">+</span></span>
-<span id="cb23-11"><a href="#cb23-11" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;black&quot;</span>))<span class="sc">+</span></span>
-<span id="cb23-12"><a href="#cb23-12" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.x=</span><span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">10</span>))<span class="sc">+</span>  <span class="co"># </span><span class="al">NOTE</span><span class="co"> the x legend text </span></span>
-<span id="cb23-13"><a href="#cb23-13" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>, <span class="at">angle=</span><span class="dv">45</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(Camas_Hospital, <span class="fu">aes</span>(Camas, <span class="at">fill=</span><span class="fu">factor</span>(Year),</span>
+<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a>                             <span class="at">color=</span><span class="fu">factor</span>(Year)))</span>
+<span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_histogram</span>(<span class="at">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Número de camas </span><span class="sc">\n</span><span class="st"> por cada 1000 habitantes&quot;</span>)<span class="sc">+</span></span>
+<span id="cb33-5"><a href="#cb33-5" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb33-6"><a href="#cb33-6" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;cyan4&quot;</span>, <span class="st">&quot;darkorange&quot;</span>))<span class="sc">+</span></span>
+<span id="cb33-7"><a href="#cb33-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">family=</span><span class="st">&quot;Times&quot;</span>,<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;italic&quot;</span>, <span class="at">colour=</span><span class="st">&quot;#4ea7ad&quot;</span>))<span class="sc">+</span></span>
+<span id="cb33-8"><a href="#cb33-8" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Year)<span class="sc">+</span></span>
+<span id="cb33-9"><a href="#cb33-9" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">9</span>))<span class="sc">+</span></span>
+<span id="cb33-10"><a href="#cb33-10" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>))<span class="sc">+</span></span>
+<span id="cb33-11"><a href="#cb33-11" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;black&quot;</span>))<span class="sc">+</span></span>
+<span id="cb33-12"><a href="#cb33-12" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.x=</span><span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">10</span>))<span class="sc">+</span>  <span class="co"># </span><span class="al">NOTE</span><span class="co"> the x legend text </span></span>
+<span id="cb33-13"><a href="#cb33-13" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>, <span class="at">angle=</span><span class="dv">45</span>))</span></code></pre></div>
 <pre><code>## `stat_bin()` using `bins =
 ## 30`. Pick better value with
 ## `binwidth`.</code></pre>
@@ -1944,27 +2031,27 @@ color=white</li>
 </ul></li>
 </ul>
 <hr />
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
-<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>diamonds <span class="sc">%&gt;%</span> </span>
-<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code></pre></div>
-<div id="tzzcmnmgzf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#tzzcmnmgzf table {
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a>diamonds <span class="sc">%&gt;%</span> </span>
+<span id="cb35-3"><a href="#cb35-3" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb35-4"><a href="#cb35-4" tabindex="-1"></a>  <span class="fu">gt</span>()</span></code></pre></div>
+<div id="yqcypitleq" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#yqcypitleq table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#tzzcmnmgzf thead, #tzzcmnmgzf tbody, #tzzcmnmgzf tfoot, #tzzcmnmgzf tr, #tzzcmnmgzf td, #tzzcmnmgzf th {
+#yqcypitleq thead, #yqcypitleq tbody, #yqcypitleq tfoot, #yqcypitleq tr, #yqcypitleq td, #yqcypitleq th {
   border-style: none;
 }
 
-#tzzcmnmgzf p {
+#yqcypitleq p {
   margin: 0;
   padding: 0;
 }
 
-#tzzcmnmgzf .gt_table {
+#yqcypitleq .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1990,12 +2077,12 @@ color=white</li>
   border-left-color: #D3D3D3;
 }
 
-#tzzcmnmgzf .gt_caption {
+#yqcypitleq .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#tzzcmnmgzf .gt_title {
+#yqcypitleq .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -2007,7 +2094,7 @@ color=white</li>
   border-bottom-width: 0;
 }
 
-#tzzcmnmgzf .gt_subtitle {
+#yqcypitleq .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -2019,7 +2106,7 @@ color=white</li>
   border-top-width: 0;
 }
 
-#tzzcmnmgzf .gt_heading {
+#yqcypitleq .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -2031,13 +2118,13 @@ color=white</li>
   border-right-color: #D3D3D3;
 }
 
-#tzzcmnmgzf .gt_bottom_border {
+#yqcypitleq .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#tzzcmnmgzf .gt_col_headings {
+#yqcypitleq .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2052,7 +2139,7 @@ color=white</li>
   border-right-color: #D3D3D3;
 }
 
-#tzzcmnmgzf .gt_col_heading {
+#yqcypitleq .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2072,7 +2159,7 @@ color=white</li>
   overflow-x: hidden;
 }
 
-#tzzcmnmgzf .gt_column_spanner_outer {
+#yqcypitleq .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2084,15 +2171,15 @@ color=white</li>
   padding-right: 4px;
 }
 
-#tzzcmnmgzf .gt_column_spanner_outer:first-child {
+#yqcypitleq .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#tzzcmnmgzf .gt_column_spanner_outer:last-child {
+#yqcypitleq .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#tzzcmnmgzf .gt_column_spanner {
+#yqcypitleq .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -2104,11 +2191,11 @@ color=white</li>
   width: 100%;
 }
 
-#tzzcmnmgzf .gt_spanner_row {
+#yqcypitleq .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#tzzcmnmgzf .gt_group_heading {
+#yqcypitleq .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2134,7 +2221,7 @@ color=white</li>
   text-align: left;
 }
 
-#tzzcmnmgzf .gt_empty_group_heading {
+#yqcypitleq .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -2149,15 +2236,15 @@ color=white</li>
   vertical-align: middle;
 }
 
-#tzzcmnmgzf .gt_from_md > :first-child {
+#yqcypitleq .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#tzzcmnmgzf .gt_from_md > :last-child {
+#yqcypitleq .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#tzzcmnmgzf .gt_row {
+#yqcypitleq .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2176,7 +2263,7 @@ color=white</li>
   overflow-x: hidden;
 }
 
-#tzzcmnmgzf .gt_stub {
+#yqcypitleq .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2189,7 +2276,7 @@ color=white</li>
   padding-right: 5px;
 }
 
-#tzzcmnmgzf .gt_stub_row_group {
+#yqcypitleq .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -2203,15 +2290,15 @@ color=white</li>
   vertical-align: top;
 }
 
-#tzzcmnmgzf .gt_row_group_first td {
+#yqcypitleq .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#tzzcmnmgzf .gt_row_group_first th {
+#yqcypitleq .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#tzzcmnmgzf .gt_summary_row {
+#yqcypitleq .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2221,16 +2308,16 @@ color=white</li>
   padding-right: 5px;
 }
 
-#tzzcmnmgzf .gt_first_summary_row {
+#yqcypitleq .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#tzzcmnmgzf .gt_first_summary_row.thick {
+#yqcypitleq .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#tzzcmnmgzf .gt_last_summary_row {
+#yqcypitleq .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2240,7 +2327,7 @@ color=white</li>
   border-bottom-color: #D3D3D3;
 }
 
-#tzzcmnmgzf .gt_grand_summary_row {
+#yqcypitleq .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -2250,7 +2337,7 @@ color=white</li>
   padding-right: 5px;
 }
 
-#tzzcmnmgzf .gt_first_grand_summary_row {
+#yqcypitleq .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2260,7 +2347,7 @@ color=white</li>
   border-top-color: #D3D3D3;
 }
 
-#tzzcmnmgzf .gt_last_grand_summary_row_top {
+#yqcypitleq .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -2270,11 +2357,11 @@ color=white</li>
   border-bottom-color: #D3D3D3;
 }
 
-#tzzcmnmgzf .gt_striped {
+#yqcypitleq .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#tzzcmnmgzf .gt_table_body {
+#yqcypitleq .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2283,7 +2370,7 @@ color=white</li>
   border-bottom-color: #D3D3D3;
 }
 
-#tzzcmnmgzf .gt_footnotes {
+#yqcypitleq .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2297,7 +2384,7 @@ color=white</li>
   border-right-color: #D3D3D3;
 }
 
-#tzzcmnmgzf .gt_footnote {
+#yqcypitleq .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2306,7 +2393,7 @@ color=white</li>
   padding-right: 5px;
 }
 
-#tzzcmnmgzf .gt_sourcenotes {
+#yqcypitleq .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2320,7 +2407,7 @@ color=white</li>
   border-right-color: #D3D3D3;
 }
 
-#tzzcmnmgzf .gt_sourcenote {
+#yqcypitleq .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2328,72 +2415,72 @@ color=white</li>
   padding-right: 5px;
 }
 
-#tzzcmnmgzf .gt_left {
+#yqcypitleq .gt_left {
   text-align: left;
 }
 
-#tzzcmnmgzf .gt_center {
+#yqcypitleq .gt_center {
   text-align: center;
 }
 
-#tzzcmnmgzf .gt_right {
+#yqcypitleq .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#tzzcmnmgzf .gt_font_normal {
+#yqcypitleq .gt_font_normal {
   font-weight: normal;
 }
 
-#tzzcmnmgzf .gt_font_bold {
+#yqcypitleq .gt_font_bold {
   font-weight: bold;
 }
 
-#tzzcmnmgzf .gt_font_italic {
+#yqcypitleq .gt_font_italic {
   font-style: italic;
 }
 
-#tzzcmnmgzf .gt_super {
+#yqcypitleq .gt_super {
   font-size: 65%;
 }
 
-#tzzcmnmgzf .gt_footnote_marks {
+#yqcypitleq .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#tzzcmnmgzf .gt_asterisk {
+#yqcypitleq .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#tzzcmnmgzf .gt_indent_1 {
+#yqcypitleq .gt_indent_1 {
   text-indent: 5px;
 }
 
-#tzzcmnmgzf .gt_indent_2 {
+#yqcypitleq .gt_indent_2 {
   text-indent: 10px;
 }
 
-#tzzcmnmgzf .gt_indent_3 {
+#yqcypitleq .gt_indent_3 {
   text-indent: 15px;
 }
 
-#tzzcmnmgzf .gt_indent_4 {
+#yqcypitleq .gt_indent_4 {
   text-indent: 20px;
 }
 
-#tzzcmnmgzf .gt_indent_5 {
+#yqcypitleq .gt_indent_5 {
   text-indent: 25px;
 }
 
-#tzzcmnmgzf .katex-display {
+#yqcypitleq .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#tzzcmnmgzf div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#yqcypitleq div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>

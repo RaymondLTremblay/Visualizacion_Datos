@@ -116,7 +116,7 @@ Ahora al gráfico siguiente, se le cambia el color de la línea a negro a la vez
 
 a=ggplot(DW, aes(distance))
 a+geom_area(stat="bin", fill="steelblue1",
-            linetype="4C88C488", color="black", size=.5, alpha=0.5)+
+            linetype="4C88C488", color="orange", size=.4, alpha=0.5)+
   labs(x="Distancia", y="Frecuencia")+
   theme(axis.title=element_text(size=10,face="bold"))
 ```
@@ -131,14 +131,18 @@ Finalmente, en el siguiente gráfico, se muestran los datos de la frecuencia de 
 ```{r dipodium-area4,  echo=TRUE, tidy=FALSE,  warning=FALSE, message=FALSE, fig.align='center'}
 tail(Camas_Hospital, n=6)
 
+unique(Camas_Hospital$Year)
+unique(Camas_Hospital$Pais)
+
 a=ggplot(Camas_Hospital, aes(Camas, fill=factor(Year)))
-a+geom_area(stat="bin",bins=60, alpha=0.5)+
+a+geom_area(stat="bin",bins=30, alpha=0.5)+
   xlab("Número de camas por \n cada 1000 habitantes")+
   ylab("Frecuencia")+
-  scale_y_continuous(breaks=c(0,1,2,3))+ # Cambio en la escala de eje
+  scale_y_continuous(breaks=c(0,1,2,3, 5:8))+ # Cambio en la escala de eje
   scale_x_continuous(breaks=c(0:15))+
   theme(axis.title=element_text(size=10,face="bold"))+
-  facet_wrap(~Year)
+  facet_wrap(~Year)+
+  theme(legend.position=c(0.8, 0.8))
 
 Camas_Hospital %>% 
   group_by(Year) %>% 
@@ -147,12 +151,12 @@ Camas_Hospital %>%
 
 ***
 
-## La función densidad **aes(y=..density..)**
+## La función densidad **aes(after_stat(density))**
 
-Uno puede utilizar la opción **stat** a la vez que identifica el eje de **Y** para visualizar la densidad y no la frecuencia de los datos con la siguiente modificación **aes(y=..density..)**. Esto modifica la visualizar del gráfico a densidad en los datos en vez de mostrar el conteo/frecuencia para cada grupo. Si uno compara las dos gráficas anteriores a estas nuevas gráficas uno observa que la densidad de camas en hospitales por 100,000 cambio con los años habitantes, hubo un aumento en densidad (proporcionalmente más camas en 2006 por habitantes). Nota que no hay un pico cerca de uno en 1996, pero en 2006 la distribución esta más dispersado entre los valores y no concentrado cerca de uno.     
+Uno puede utilizar la opción **stat** a la vez que identifica el eje de **Y** para visualizar la densidad y no la frecuencia de los datos con la siguiente modificación **aes(after_stat(density))**. Esto modifica la visualizar del gráfico a densidad en los datos en vez de mostrar el conteo/frecuencia para cada grupo. Si uno compara las dos gráficas anteriores a estas nuevas gráficas uno observa que la densidad de camas en hospitales por 100,000 cambio con los años habitantes, hubo un aumento en densidad (proporcionalmente más camas en 2006 por habitantes). Nota que no hay un pico cerca de uno en 1996, pero en 2006 la distribución esta más dispersado entre los valores y no concentrado cerca de uno.     
 
 ```{r dipodium-area5,  echo=TRUE, tidy=FALSE,  warning=FALSE, message=FALSE, fig.align='center'}
-Camas_Hospital
+head(Camas_Hospital)
 a=ggplot(Camas_Hospital, aes(Camas, fill=factor(Year)))
 a+geom_area(aes(y=..density..),stat="bin", alpha=0.5)+
   xlab("Número de camas por cada 1000 habitantes")+
@@ -183,7 +187,7 @@ a+geom_area(aes(y=..density..),stat="bin", alpha=0.5)+
 ***
 
 ## Gráfico de densidad con **geom_density**
-Un gráfico de densidad, también conocido como una función de probabilidad de densidad, **pdf** o **probability density function** en inglés, se utiliza con variables que contienen datos continuos.  La función de densidad es continua en el rango de los valores, y la suma de todas la probabilidades es igual a uno. Vimos anteriormente que se puede visualizar la densidad también con **geom_area** y **geom_histogram**. La función **geom_density** facilita la producción del gráfico y amplía las alternativas como se explica en breve.
+Un gráfico de densidad, también conocido como una función de probabilidad de densidad, **pdf** o *probability density function* en inglés, se utiliza con variables que contienen datos continuos.  La función de densidad es continua en el rango de los valores, y la suma de todas la probabilidades es igual a uno. Vimos anteriormente que se puede visualizar la densidad también con **geom_area** y **geom_histogram**. La función **geom_density** facilita la producción del gráfico y amplía las alternativas como se explica en breve.
 
 
 ### ¿Qué es un kernel?
@@ -208,7 +212,8 @@ Note que en el gráfico siguiente se usó el parámetro *alpha=0.4*.  Este modif
 
 
 a=ggplot(DW, aes(distance))
-a+geom_area(aes(y=..density..),stat="bin", alpha=0.5)+
+a+
+  geom_area(aes(y=..density..),stat="bin", alpha=0.5)+
   geom_density(kernel = c(kernel="gaussian"),
                alpha=0.4, fill="blue")+
   labs(x="Distancia", y="Densidad")+
@@ -220,14 +225,15 @@ a+geom_area(aes(y=..density..),stat="bin", alpha=0.5)+
 
 
 ```{r}
-x=rnorm(10, 10, 4)
+x=rnorm(10000, 10, 4)
+
 x=data_frame(x)
 
 a=ggplot(x, aes(x))
 a+geom_area(aes(y=..density..),stat="bin", alpha=0.5)+
   geom_density(kernel = c(kernel="gaussian"),
                alpha=0.4, fill="blue")+
-  labs(x="valus", y="Densidad")+
+  labs(x="values", y="Densidad")+
   theme(axis.title=element_text(size=10,face="bold"))
 
 ```
@@ -284,8 +290,69 @@ d=ggplot(d, aes(d))+
 grid.arrange(a,b,c,d,ncol=2)
 ```
 
+Excercise
 
 
+According to data from Our World in Data, the mean world human height is approximately 170.8 cm for men and 164.7 cm for women, with a standard deviation of around 7 cm for both genders. 
+## Key points:
+
+  - Male mean: 170.8 cm
+  - Female mean: 164.7 cm
+  - Standard deviation (both genders): around 7 cm 
+
+
+DO a figure of the density distribution of male and female human height and compare with the mean and standard deviation of world data
+
+
+```{r}
+male_students=c(170, 180, 197) # height in cm
+male_students=as.data.frame(male_students)
+
+
+female_students=c()  # height in cm
+
+```
+
+
+
+```{r}
+# Simulate
+world_male=rnorm(10^3, 170.8, 7)
+world_male=as.data.frame(world_male)
+head(world_male)
+
+world_female=rnorm(10^6, 164.7, 7)
+head(world_female)
+```
+
+
+OVERLAY two figures from different data sets
+
+
+
+
+
+```{r}
+
+
+male=ggplot()+
+  geom_density(aes(world_male), kernel = c(kernel="gaussian"),
+               alpha=0.4, fill="yellow", data=world_male)+
+  geom_histogram(aes(male_students, y=..density..), position="identity", data=male_students)
+
+male
+
+
+## NEW script, see after_stat(density)
+
+male_2=ggplot()+
+  geom_density(aes(world_male), kernel = c(kernel="gaussian"),
+               alpha=0.4, fill="red", data=world_male)+
+  geom_histogram(aes(male_students, after_stat(density)), position="identity", data=male_students)
+
+
+male_2
+```
 
 
 

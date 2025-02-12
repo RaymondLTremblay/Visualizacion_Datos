@@ -33,7 +33,7 @@ library(gt) # Un paquete para que las tablas se vean más organizada.
 library(gridExtra) # Un paquete para organizar las figuras de ggplot2
 library(janitor) # un paquete para limpiar los nombres
 
-citation("ggversa")
+citation("janitor")
 ```
 
 ***
@@ -82,10 +82,10 @@ names(dipodium)
 dipodium %>%
   select(number_of_fruits, species_name) %>%  # r representa la especie de Dipodium roseum
   ggplot(aes(number_of_fruits))+
-  geom_dotplot(stackratio=.5, 
+  geom_dotplot(stackratio=.9, 
                fill="yellow", colour = "red")+
   labs(x="Número de Frutos", y="Cantidad")+
-  theme(axis.title=element_text(size=10,face="bold")
+  theme(axis.title=element_text(size=15,face="bold")
         )
 ```
 
@@ -167,7 +167,7 @@ name_graphic=d+geom_dotplot(fill="black", colour="white",
 
 ```
 
-```{r grid dotplot, echo=FALSE, warning=FALSE}
+```{r grid dotplot, warning=FALSE}
 grid.arrange(a,b,c,name_graphic, ncol=2) # del paquete gridExtra
 ```
 
@@ -335,7 +335,8 @@ a=ggplot(dipodium, aes(number_of_fruits, fill=species_name))
 a+geom_dotplot(stackgroups = TRUE, binwidth = .5, binpositions = "all", dotsize = .5) +
   labs(x="Número de Frutos", y="Frecuencia")+
   theme(axis.title=element_text(size=10,face="bold"))+
-  scale_y_continuous(NULL, breaks = NULL)
+  scale_y_continuous(NULL, breaks = NULL)+
+  theme(legend.position=c(0.8, 0.8))
 ```
 
 ------------------------------------------------------------------------

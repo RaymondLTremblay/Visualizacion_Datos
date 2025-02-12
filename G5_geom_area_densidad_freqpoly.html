@@ -601,7 +601,7 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2025-02-03&quot;</code></pre>
+<pre><code>## [1] &quot;2025-02-12&quot;</code></pre>
 <p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" /></p>
 <div
 id="gráficos-de-área-densidad-y-histograma-de-linea-con-geom_dotplot-geom_density-y-geom-freqpoly"
@@ -687,7 +687,7 @@ a la vez que se le cambia el estilo de la línea con <em>linetype</em> y
 el grosor de la misma con <em>size</em>.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(DW, <span class="fu">aes</span>(distance))</span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_area</span>(<span class="at">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="at">fill=</span><span class="st">&quot;steelblue1&quot;</span>,</span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>            <span class="at">linetype=</span><span class="st">&quot;4C88C488&quot;</span>, <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">size=</span>.<span class="dv">5</span>, <span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>            <span class="at">linetype=</span><span class="st">&quot;4C88C488&quot;</span>, <span class="at">color=</span><span class="st">&quot;orange&quot;</span>, <span class="at">size=</span>.<span class="dv">4</span>, <span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
 <span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Distancia&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
 <span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G5_geom_area_densidad_freqpoly_files/figure-html/dipodium-area3-1.png" width="672" /></p>
@@ -705,18 +705,46 @@ años.</p>
 ## 132 United States 2006 298379912 3.1000
 ## 133       Uruguay 2006   3331041 2.9000
 ## 134   Yemen, Rep. 2006  21093973 0.7000</code></pre>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(Camas_Hospital, <span class="fu">aes</span>(Camas, <span class="at">fill=</span><span class="fu">factor</span>(Year)))</span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_area</span>(<span class="at">stat=</span><span class="st">&quot;bin&quot;</span>,<span class="at">bins=</span><span class="dv">60</span>, <span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Número de camas por </span><span class="sc">\n</span><span class="st"> cada 1000 habitantes&quot;</span>)<span class="sc">+</span></span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>))<span class="sc">+</span> <span class="co"># Cambio en la escala de eje</span></span>
-<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">15</span>))<span class="sc">+</span></span>
-<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Year)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">unique</span>(Camas_Hospital<span class="sc">$</span>Year)</span></code></pre></div>
+<pre><code>## [1] 1996 2006</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">unique</span>(Camas_Hospital<span class="sc">$</span>Pais)</span></code></pre></div>
+<pre><code>##  [1] Armenia              Australia            Austria             
+##  [4] Azerbaijan           Bahamas, The         Barbados            
+##  [7] Belarus              Belize               Bolivia             
+## [10] Bulgaria             Burkina Faso         Canada              
+## [13] Chile                China                Colombia            
+## [16] Costa Rica           Croatia              Cuba                
+## [19] Egypt, Arab Rep.     El Salvador          Estonia             
+## [22] Finland              France               Georgia             
+## [25] Germany              Greece               Guyana              
+## [28] Hungary              Iran, Islamic Rep.   Ireland             
+## [31] Israel               Italy                Jamaica             
+## [34] Japan                Kazakhstan           Korea, Rep.         
+## [37] Kyrgyz Republic      Latvia               Lithuania           
+## [40] Macedonia, FYR       Malaysia             Malta               
+## [43] Mexico               Moldova              Nepal               
+## [46] Nicaragua            Norway               Paraguay            
+## [49] Poland               Portugal             Romania             
+## [52] Russian Federation   Slovak Republic      Slovenia            
+## [55] Spain                St. Lucia            Suriname            
+## [58] Syrian Arab Republic Tajikistan           Trinidad and Tobago 
+## [61] Tunisia              Turkey               Turkmenistan        
+## [64] Ukraine              United States        Uruguay             
+## [67] Yemen, Rep.         
+## 67 Levels: Armenia Australia Austria Azerbaijan Bahamas, The ... Yemen, Rep.</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(Camas_Hospital, <span class="fu">aes</span>(Camas, <span class="at">fill=</span><span class="fu">factor</span>(Year)))</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_area</span>(<span class="at">stat=</span><span class="st">&quot;bin&quot;</span>,<span class="at">bins=</span><span class="dv">30</span>, <span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Número de camas por </span><span class="sc">\n</span><span class="st"> cada 1000 habitantes&quot;</span>)<span class="sc">+</span></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">3</span>, <span class="dv">5</span><span class="sc">:</span><span class="dv">8</span>))<span class="sc">+</span> <span class="co"># Cambio en la escala de eje</span></span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">15</span>))<span class="sc">+</span></span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span>Year)<span class="sc">+</span></span>
+<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="fu">c</span>(<span class="fl">0.8</span>, <span class="fl">0.8</span>))</span></code></pre></div>
 <p><img src="G5_geom_area_densidad_freqpoly_files/figure-html/dipodium-area4-1.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>Camas_Hospital <span class="sc">%&gt;%</span> </span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  <span class="fu">group_by</span>(Year) <span class="sc">%&gt;%</span> </span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="fu">count</span>()</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>Camas_Hospital <span class="sc">%&gt;%</span> </span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>  <span class="fu">group_by</span>(Year) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>  <span class="fu">count</span>()</span></code></pre></div>
 <pre><code>## # A tibble: 2 × 2
 ## # Groups:   Year [2]
 ##    Year     n
@@ -725,160 +753,34 @@ años.</p>
 ## 2  2006    67</code></pre>
 <hr />
 </div>
-<div id="la-función-densidad-aesy..density.." class="section level2">
-<h2>La función densidad <strong>aes(y=..density..)</strong></h2>
+<div id="la-función-densidad-aesafter_statdensity"
+class="section level2">
+<h2>La función densidad <strong>aes(after_stat(density))</strong></h2>
 <p>Uno puede utilizar la opción <strong>stat</strong> a la vez que
 identifica el eje de <strong>Y</strong> para visualizar la densidad y no
 la frecuencia de los datos con la siguiente modificación
-<strong>aes(y=..density..)</strong>. Esto modifica la visualizar del
-gráfico a densidad en los datos en vez de mostrar el conteo/frecuencia
-para cada grupo. Si uno compara las dos gráficas anteriores a estas
-nuevas gráficas uno observa que la densidad de camas en hospitales por
-100,000 cambio con los años habitantes, hubo un aumento en densidad
-(proporcionalmente más camas en 2006 por habitantes). Nota que no hay un
-pico cerca de uno en 1996, pero en 2006 la distribución esta más
-dispersado entre los valores y no concentrado cerca de uno.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>Camas_Hospital</span></code></pre></div>
-<pre><code>##                     Pais Year  Poblacion   Camas
-## 1                Armenia 1996    3173425  7.1300
-## 2              Australia 1996   18311000  8.5000
-## 3                Austria 1996    7959017  9.3000
-## 4             Azerbaijan 1996    7763000  9.8100
-## 5           Bahamas, The 1996     283792  3.9400
-## 6               Barbados 1996     265940  7.5600
-## 7                Belarus 1996   10160000 12.2700
-## 8                 Belize 1996     213674  2.1300
-## 9                Bolivia 1996    7717445  1.6700
-## 10              Bulgaria 1996    8362826 10.4700
-## 11          Burkina Faso 1996   10372809  1.4200
-## 12                Canada 1996   29671900  4.6000
-## 13                 Chile 1996   14396020  2.6700
-## 14                 China 1996 1217550000  2.5500
-## 15              Colombia 1996   38049040  1.4600
-## 16            Costa Rica 1996    3596733  1.7500
-## 17               Croatia 1996    4494000  6.1900
-## 18                  Cuba 1996   10955372  5.1300
-## 19      Egypt, Arab Rep. 1996   63595629  2.1000
-## 20           El Salvador 1996    5643363  1.6500
-## 21               Estonia 1996    1415594  7.9000
-## 22               Finland 1996    5124573  9.2000
-## 23                France 1996   59753098  8.8000
-## 24               Georgia 1996    4616100  5.6700
-## 25               Germany 1996   81914831  9.6000
-## 26                Greece 1996   10608800  4.9000
-## 27                Guyana 1996     730193  3.8700
-## 28               Hungary 1996   10311238  8.8000
-## 29    Iran, Islamic Rep. 1996   61306632  1.6000
-## 30               Ireland 1996    3637510  5.1000
-## 31                Israel 1996    5692000  6.0300
-## 32                 Italy 1996   56860281  6.5000
-## 33               Jamaica 1996    2509923  2.1200
-## 34                 Japan 1996  125757000 15.2000
-## 35            Kazakhstan 1996   15577894 10.3300
-## 36           Korea, Rep. 1996   45524681  4.6000
-## 37       Kyrgyz Republic 1996    4628400  8.4100
-## 38                Latvia 1996    2457222 10.4400
-## 39             Lithuania 1996    3601613 10.8800
-## 40        Macedonia, FYR 1996    1958303  5.2000
-## 41              Malaysia 1996   21260881  2.0100
-## 42                 Malta 1996     372687  5.7800
-## 43                Mexico 1996   96181710  1.2000
-## 44               Moldova 1996    3667748 12.1300
-## 45                 Nepal 1996   21902534  0.1600
-## 46             Nicaragua 1996    4700777  1.4800
-## 47                Norway 1996    4381336  4.0000
-## 48              Paraguay 1996    4870695  1.3400
-## 49                Poland 1996   38624370  5.5000
-## 50              Portugal 1996   10063945  4.0000
-## 51               Romania 1996   22619004  7.5600
-## 52    Russian Federation 1996  148160042 11.6300
-## 53       Slovak Republic 1996    5373361  8.3000
-## 54              Slovenia 1996    1988628  5.6600
-## 55                 Spain 1996   39478186  4.3000
-## 56             St. Lucia 1996     148962  3.3800
-## 57              Suriname 1996     453653  3.7400
-## 58  Syrian Arab Republic 1996   14736209  1.5000
-## 59            Tajikistan 1996    5862224  7.4700
-## 60   Trinidad and Tobago 1996    1258365  5.1100
-## 61               Tunisia 1996    9089300  2.0000
-## 62                Turkey 1996   59451488  2.5000
-## 63          Turkmenistan 1996    4267690  8.0100
-## 64               Ukraine 1996   51057189 10.8400
-## 65         United States 1996  269394000  3.9000
-## 66               Uruguay 1996    3248039  4.3900
-## 67           Yemen, Rep. 1996   15834747  0.6900
-## 68               Armenia 2006    3002161  4.4000
-## 69             Australia 2006   20697900  3.9700
-## 70               Austria 2006    8268641  7.6496
-## 71            Azerbaijan 2006    8484550  8.1000
-## 72          Bahamas, The 2006     335801  3.2000
-## 73              Barbados 2006     275040  6.6000
-## 74               Belarus 2006    9604000 11.2000
-## 75                Belize 2006     290751  1.3000
-## 76               Bolivia 2006    9283345  1.1000
-## 77              Bulgaria 2006    7699020  6.2000
-## 78          Burkina Faso 2006   13834195  0.9000
-## 79                Canada 2006   32570505  3.4000
-## 80                 Chile 2006   16279728  2.3000
-## 81                 China 2006 1311020000  2.2300
-## 82              Colombia 2006   43835744  1.0000
-## 83            Costa Rica 2006    4308790  1.3000
-## 84               Croatia 2006    4440000  5.5000
-## 85                  Cuba 2006   11275199  4.9000
-## 86      Egypt, Arab Rep. 2006   76274285  2.1020
-## 87           El Salvador 2006    5967556  0.9000
-## 88               Estonia 2006    1346810  5.6000
-## 89               Finland 2006    5266268  7.0000
-## 90                France 2006   63621376  7.2000
-## 91               Georgia 2006    4136000  3.7000
-## 92               Germany 2006   82376451  8.3000
-## 93                Greece 2006   11020362  4.8000
-## 94                Guyana 2006     743705  2.5000
-## 95               Hungary 2006   10071370  7.9000
-## 96    Iran, Islamic Rep. 2006   70923164  1.4000
-## 97               Ireland 2006    4273591  5.3000
-## 98                Israel 2006    7053700  6.0000
-## 99                 Italy 2006   58143979  3.9000
-## 100              Jamaica 2006    2653042  2.0000
-## 101                Japan 2006  127854000 13.9800
-## 102           Kazakhstan 2006   15308084  7.8000
-## 103          Korea, Rep. 2006   48371946  8.6400
-## 104      Kyrgyz Republic 2006    5218400  5.1000
-## 105               Latvia 2006    2218357  7.6000
-## 106            Lithuania 2006    3269909  8.0000
-## 107       Macedonia, FYR 2006    2047330  4.6000
-## 108             Malaysia 2006   26263048  1.9000
-## 109                Malta 2006     405308  7.6129
-## 110               Mexico 2006  111382857  1.6000
-## 111              Moldova 2006    3585209  6.3000
-## 112                Nepal 2006   25794344  5.0000
-## 113            Nicaragua 2006    5450217  1.0000
-## 114               Norway 2006    4660677  4.1000
-## 115             Paraguay 2006    5882797  1.3000
-## 116               Poland 2006   38141267  5.2000
-## 117             Portugal 2006   10522288  3.5000
-## 118              Romania 2006   21193760  6.5000
-## 119   Russian Federation 2006  143049528  9.7000
-## 120      Slovak Republic 2006    5373054  6.8100
-## 121             Slovenia 2006    2006868  4.8000
-## 122                Spain 2006   44397319  3.4000
-## 123            St. Lucia 2006     167656  2.9000
-## 124             Suriname 2006     495953  3.3000
-## 125 Syrian Arab Republic 2006   18728200  1.4000
-## 126           Tajikistan 2006    6949566  6.1000
-## 127  Trinidad and Tobago 2006    1303141  2.7000
-## 128              Tunisia 2006   10127900  1.9000
-## 129               Turkey 2006   68704721  2.7000
-## 130         Turkmenistan 2006    4801594  4.3331
-## 131              Ukraine 2006   46787750  8.7000
-## 132        United States 2006  298379912  3.1000
-## 133              Uruguay 2006    3331041  2.9000
-## 134          Yemen, Rep. 2006   21093973  0.7000</code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(Camas_Hospital, <span class="fu">aes</span>(Camas, <span class="at">fill=</span><span class="fu">factor</span>(Year)))</span>
-<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_area</span>(<span class="fu">aes</span>(<span class="at">y=</span>..density..),<span class="at">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
-<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Número de camas por cada 1000 habitantes&quot;</span>)<span class="sc">+</span></span>
-<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Densidad&quot;</span>)<span class="sc">+</span></span>
-<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<strong>aes(after_stat(density))</strong>. Esto modifica la visualizar
+del gráfico a densidad en los datos en vez de mostrar el
+conteo/frecuencia para cada grupo. Si uno compara las dos gráficas
+anteriores a estas nuevas gráficas uno observa que la densidad de camas
+en hospitales por 100,000 cambio con los años habitantes, hubo un
+aumento en densidad (proporcionalmente más camas en 2006 por
+habitantes). Nota que no hay un pico cerca de uno en 1996, pero en 2006
+la distribución esta más dispersado entre los valores y no concentrado
+cerca de uno.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">head</span>(Camas_Hospital)</span></code></pre></div>
+<pre><code>##           Pais Year Poblacion Camas
+## 1      Armenia 1996   3173425  7.13
+## 2    Australia 1996  18311000  8.50
+## 3      Austria 1996   7959017  9.30
+## 4   Azerbaijan 1996   7763000  9.81
+## 5 Bahamas, The 1996    283792  3.94
+## 6     Barbados 1996    265940  7.56</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(Camas_Hospital, <span class="fu">aes</span>(Camas, <span class="at">fill=</span><span class="fu">factor</span>(Year)))</span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_area</span>(<span class="fu">aes</span>(<span class="at">y=</span>..density..),<span class="at">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Número de camas por cada 1000 habitantes&quot;</span>)<span class="sc">+</span></span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Densidad&quot;</span>)<span class="sc">+</span></span>
+<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G5_geom_area_densidad_freqpoly_files/figure-html/dipodium-area5-1.png" width="672" style="display: block; margin: auto;" /></p>
 <hr />
 </div>
@@ -902,11 +804,11 @@ datos, o la transformación estadística</li>
 <div id="gráfico-de-densidad-con-geom_density" class="section level2">
 <h2>Gráfico de densidad con <strong>geom_density</strong></h2>
 <p>Un gráfico de densidad, también conocido como una función de
-probabilidad de densidad, <strong>pdf</strong> o <strong>probability
-density function</strong> en inglés, se utiliza con variables que
-contienen datos continuos. La función de densidad es continua en el
-rango de los valores, y la suma de todas la probabilidades es igual a
-uno. Vimos anteriormente que se puede visualizar la densidad también con
+probabilidad de densidad, <strong>pdf</strong> o <em>probability density
+function</em> en inglés, se utiliza con variables que contienen datos
+continuos. La función de densidad es continua en el rango de los
+valores, y la suma de todas la probabilidades es igual a uno. Vimos
+anteriormente que se puede visualizar la densidad también con
 <strong>geom_area</strong> y <strong>geom_histogram</strong>. La función
 <strong>geom_density</strong> facilita la producción del gráfico y
 amplía las alternativas como se explica en breve.</p>
@@ -944,23 +846,25 @@ parámetro fill=blue. La intensidad de <strong>alpha=0.4</strong> puede
 variar de 0 a 1, tal como se ha explicado anteriormente. En el ejemplo a
 continuación se utilizan los datos de la <em>Dipodium rosea</em> otra
 vez.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(DW, <span class="fu">aes</span>(distance))</span>
-<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_area</span>(<span class="fu">aes</span>(<span class="at">y=</span>..density..),<span class="at">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
-<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">kernel =</span> <span class="fu">c</span>(<span class="at">kernel=</span><span class="st">&quot;gaussian&quot;</span>),</span>
-<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>               <span class="at">alpha=</span><span class="fl">0.4</span>, <span class="at">fill=</span><span class="st">&quot;blue&quot;</span>)<span class="sc">+</span></span>
-<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Distancia&quot;</span>, <span class="at">y=</span><span class="st">&quot;Densidad&quot;</span>)<span class="sc">+</span></span>
-<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(DW, <span class="fu">aes</span>(distance))</span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>a<span class="sc">+</span></span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>  <span class="fu">geom_area</span>(<span class="fu">aes</span>(<span class="at">y=</span>..density..),<span class="at">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">kernel =</span> <span class="fu">c</span>(<span class="at">kernel=</span><span class="st">&quot;gaussian&quot;</span>),</span>
+<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a>               <span class="at">alpha=</span><span class="fl">0.4</span>, <span class="at">fill=</span><span class="st">&quot;blue&quot;</span>)<span class="sc">+</span></span>
+<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Distancia&quot;</span>, <span class="at">y=</span><span class="st">&quot;Densidad&quot;</span>)<span class="sc">+</span></span>
+<span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G5_geom_area_densidad_freqpoly_files/figure-html/dipodium-densidad-1.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="co">#ggsave(&quot;Distance_to_tree.jpeg&quot;) #.tiff, .png</span></span></code></pre></div>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>x<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">10</span>, <span class="dv">10</span>, <span class="dv">4</span>)</span>
-<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>x<span class="ot">=</span><span class="fu">data_frame</span>(x)</span>
-<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a></span>
-<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(x, <span class="fu">aes</span>(x))</span>
-<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_area</span>(<span class="fu">aes</span>(<span class="at">y=</span>..density..),<span class="at">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
-<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">kernel =</span> <span class="fu">c</span>(<span class="at">kernel=</span><span class="st">&quot;gaussian&quot;</span>),</span>
-<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a>               <span class="at">alpha=</span><span class="fl">0.4</span>, <span class="at">fill=</span><span class="st">&quot;blue&quot;</span>)<span class="sc">+</span></span>
-<span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;valus&quot;</span>, <span class="at">y=</span><span class="st">&quot;Densidad&quot;</span>)<span class="sc">+</span></span>
-<span id="cb17-9"><a href="#cb17-9" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="co">#ggsave(&quot;Distance_to_tree.jpeg&quot;) #.tiff, .png</span></span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>x<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">10000</span>, <span class="dv">10</span>, <span class="dv">4</span>)</span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a></span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>x<span class="ot">=</span><span class="fu">data_frame</span>(x)</span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a></span>
+<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(x, <span class="fu">aes</span>(x))</span>
+<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_area</span>(<span class="fu">aes</span>(<span class="at">y=</span>..density..),<span class="at">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
+<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">kernel =</span> <span class="fu">c</span>(<span class="at">kernel=</span><span class="st">&quot;gaussian&quot;</span>),</span>
+<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a>               <span class="at">alpha=</span><span class="fl">0.4</span>, <span class="at">fill=</span><span class="st">&quot;blue&quot;</span>)<span class="sc">+</span></span>
+<span id="cb21-9"><a href="#cb21-9" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;values&quot;</span>, <span class="at">y=</span><span class="st">&quot;Densidad&quot;</span>)<span class="sc">+</span></span>
+<span id="cb21-10"><a href="#cb21-10" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G5_geom_area_densidad_freqpoly_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <hr />
 </div>
@@ -978,41 +882,90 @@ distribución normal, entre más datos se incluyan, la distribución
 correspondiente se acerca más a como debe lucir una distribución normal.
 Pero, lo contrario es que con pocos datos, es probable que la densidad
 no se asemeje a la distribución teórica (normal).</p>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">20000</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">as.data.frame</span>(a)</span>
-<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(a, <span class="fu">aes</span>(a))<span class="sc">+</span></span>
-<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">kernel =</span> <span class="fu">c</span>(<span class="at">kernel=</span><span class="st">&quot;gaussian&quot;</span>),</span>
-<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>               <span class="at">alpha=</span><span class="fl">0.4</span>, <span class="at">fill=</span><span class="st">&quot;yellow&quot;</span>)<span class="sc">+</span></span>
-<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Densidad&quot;</span>)<span class="sc">+</span></span>
-<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
-<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a></span>
-<span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a></span>
-<span id="cb18-10"><a href="#cb18-10" tabindex="-1"></a>b<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">500</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb18-11"><a href="#cb18-11" tabindex="-1"></a>b<span class="ot">=</span><span class="fu">as.data.frame</span>(b)</span>
-<span id="cb18-12"><a href="#cb18-12" tabindex="-1"></a>b<span class="ot">=</span><span class="fu">ggplot</span>(b, <span class="fu">aes</span>(b))<span class="sc">+</span></span>
-<span id="cb18-13"><a href="#cb18-13" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">kernel =</span> <span class="fu">c</span>(<span class="at">kernel=</span><span class="st">&quot;gaussian&quot;</span>),</span>
-<span id="cb18-14"><a href="#cb18-14" tabindex="-1"></a>               <span class="at">alpha=</span><span class="fl">0.4</span>, <span class="at">fill=</span><span class="st">&quot;red&quot;</span>)<span class="sc">+</span></span>
-<span id="cb18-15"><a href="#cb18-15" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Densidad&quot;</span>)<span class="sc">+</span></span>
-<span id="cb18-16"><a href="#cb18-16" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
-<span id="cb18-17"><a href="#cb18-17" tabindex="-1"></a></span>
-<span id="cb18-18"><a href="#cb18-18" tabindex="-1"></a></span>
-<span id="cb18-19"><a href="#cb18-19" tabindex="-1"></a>c<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">50</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb18-20"><a href="#cb18-20" tabindex="-1"></a>c<span class="ot">=</span><span class="fu">as.data.frame</span>(c)</span>
-<span id="cb18-21"><a href="#cb18-21" tabindex="-1"></a>c<span class="ot">=</span><span class="fu">ggplot</span>(c, <span class="fu">aes</span>(c))<span class="sc">+</span></span>
-<span id="cb18-22"><a href="#cb18-22" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">kernel =</span> <span class="fu">c</span>(<span class="at">kernel=</span><span class="st">&quot;gaussian&quot;</span>),</span>
-<span id="cb18-23"><a href="#cb18-23" tabindex="-1"></a>               <span class="at">alpha=</span><span class="fl">0.4</span>, <span class="at">fill=</span><span class="st">&quot;blue&quot;</span>)<span class="sc">+</span></span>
-<span id="cb18-24"><a href="#cb18-24" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Densidad&quot;</span>)<span class="sc">+</span></span>
-<span id="cb18-25"><a href="#cb18-25" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
-<span id="cb18-26"><a href="#cb18-26" tabindex="-1"></a></span>
-<span id="cb18-27"><a href="#cb18-27" tabindex="-1"></a></span>
-<span id="cb18-28"><a href="#cb18-28" tabindex="-1"></a>d<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">10</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
-<span id="cb18-29"><a href="#cb18-29" tabindex="-1"></a>d<span class="ot">=</span><span class="fu">as.data.frame</span>(d)</span>
-<span id="cb18-30"><a href="#cb18-30" tabindex="-1"></a>d<span class="ot">=</span><span class="fu">ggplot</span>(d, <span class="fu">aes</span>(d))<span class="sc">+</span></span>
-<span id="cb18-31"><a href="#cb18-31" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">kernel =</span> <span class="fu">c</span>(<span class="at">kernel=</span><span class="st">&quot;gaussian&quot;</span>),</span>
-<span id="cb18-32"><a href="#cb18-32" tabindex="-1"></a>               <span class="at">alpha=</span><span class="fl">0.4</span>, <span class="at">fill=</span><span class="st">&quot;grey&quot;</span>)<span class="sc">+</span></span>
-<span id="cb18-33"><a href="#cb18-33" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Densidad&quot;</span>)<span class="sc">+</span></span>
-<span id="cb18-34"><a href="#cb18-34" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">20000</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">as.data.frame</span>(a)</span>
+<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(a, <span class="fu">aes</span>(a))<span class="sc">+</span></span>
+<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">kernel =</span> <span class="fu">c</span>(<span class="at">kernel=</span><span class="st">&quot;gaussian&quot;</span>),</span>
+<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a>               <span class="at">alpha=</span><span class="fl">0.4</span>, <span class="at">fill=</span><span class="st">&quot;yellow&quot;</span>)<span class="sc">+</span></span>
+<span id="cb22-6"><a href="#cb22-6" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Densidad&quot;</span>)<span class="sc">+</span></span>
+<span id="cb22-7"><a href="#cb22-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
+<span id="cb22-8"><a href="#cb22-8" tabindex="-1"></a></span>
+<span id="cb22-9"><a href="#cb22-9" tabindex="-1"></a></span>
+<span id="cb22-10"><a href="#cb22-10" tabindex="-1"></a>b<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">500</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb22-11"><a href="#cb22-11" tabindex="-1"></a>b<span class="ot">=</span><span class="fu">as.data.frame</span>(b)</span>
+<span id="cb22-12"><a href="#cb22-12" tabindex="-1"></a>b<span class="ot">=</span><span class="fu">ggplot</span>(b, <span class="fu">aes</span>(b))<span class="sc">+</span></span>
+<span id="cb22-13"><a href="#cb22-13" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">kernel =</span> <span class="fu">c</span>(<span class="at">kernel=</span><span class="st">&quot;gaussian&quot;</span>),</span>
+<span id="cb22-14"><a href="#cb22-14" tabindex="-1"></a>               <span class="at">alpha=</span><span class="fl">0.4</span>, <span class="at">fill=</span><span class="st">&quot;red&quot;</span>)<span class="sc">+</span></span>
+<span id="cb22-15"><a href="#cb22-15" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Densidad&quot;</span>)<span class="sc">+</span></span>
+<span id="cb22-16"><a href="#cb22-16" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
+<span id="cb22-17"><a href="#cb22-17" tabindex="-1"></a></span>
+<span id="cb22-18"><a href="#cb22-18" tabindex="-1"></a></span>
+<span id="cb22-19"><a href="#cb22-19" tabindex="-1"></a>c<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">50</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb22-20"><a href="#cb22-20" tabindex="-1"></a>c<span class="ot">=</span><span class="fu">as.data.frame</span>(c)</span>
+<span id="cb22-21"><a href="#cb22-21" tabindex="-1"></a>c<span class="ot">=</span><span class="fu">ggplot</span>(c, <span class="fu">aes</span>(c))<span class="sc">+</span></span>
+<span id="cb22-22"><a href="#cb22-22" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">kernel =</span> <span class="fu">c</span>(<span class="at">kernel=</span><span class="st">&quot;gaussian&quot;</span>),</span>
+<span id="cb22-23"><a href="#cb22-23" tabindex="-1"></a>               <span class="at">alpha=</span><span class="fl">0.4</span>, <span class="at">fill=</span><span class="st">&quot;blue&quot;</span>)<span class="sc">+</span></span>
+<span id="cb22-24"><a href="#cb22-24" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Densidad&quot;</span>)<span class="sc">+</span></span>
+<span id="cb22-25"><a href="#cb22-25" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
+<span id="cb22-26"><a href="#cb22-26" tabindex="-1"></a></span>
+<span id="cb22-27"><a href="#cb22-27" tabindex="-1"></a></span>
+<span id="cb22-28"><a href="#cb22-28" tabindex="-1"></a>d<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">10</span>, <span class="dv">0</span>, <span class="dv">1</span>)</span>
+<span id="cb22-29"><a href="#cb22-29" tabindex="-1"></a>d<span class="ot">=</span><span class="fu">as.data.frame</span>(d)</span>
+<span id="cb22-30"><a href="#cb22-30" tabindex="-1"></a>d<span class="ot">=</span><span class="fu">ggplot</span>(d, <span class="fu">aes</span>(d))<span class="sc">+</span></span>
+<span id="cb22-31"><a href="#cb22-31" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="at">kernel =</span> <span class="fu">c</span>(<span class="at">kernel=</span><span class="st">&quot;gaussian&quot;</span>),</span>
+<span id="cb22-32"><a href="#cb22-32" tabindex="-1"></a>               <span class="at">alpha=</span><span class="fl">0.4</span>, <span class="at">fill=</span><span class="st">&quot;grey&quot;</span>)<span class="sc">+</span></span>
+<span id="cb22-33"><a href="#cb22-33" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Densidad&quot;</span>)<span class="sc">+</span></span>
+<span id="cb22-34"><a href="#cb22-34" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G5_geom_area_densidad_freqpoly_files/figure-html/grid%20dotplot-1.png" width="672" /></p>
+<p>Excercise</p>
+<p>According to data from Our World in Data, the mean world human height
+is approximately 170.8 cm for men and 164.7 cm for women, with a
+standard deviation of around 7 cm for both genders. ## Key points:</p>
+<ul>
+<li>Male mean: 170.8 cm</li>
+<li>Female mean: 164.7 cm</li>
+<li>Standard deviation (both genders): around 7 cm</li>
+</ul>
+<p>DO a figure of the density distribution of male and female human
+height and compare with the mean and standard deviation of world
+data</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>male_students<span class="ot">=</span><span class="fu">c</span>(<span class="dv">170</span>, <span class="dv">180</span>, <span class="dv">197</span>) <span class="co"># height in cm</span></span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>male_students<span class="ot">=</span><span class="fu">as.data.frame</span>(male_students)</span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a></span>
+<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a>female_students<span class="ot">=</span><span class="fu">c</span>()  <span class="co"># height in cm</span></span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="co"># Simulate</span></span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a>world_male<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">10</span><span class="sc">^</span><span class="dv">3</span>, <span class="fl">170.8</span>, <span class="dv">7</span>)</span>
+<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a>world_male<span class="ot">=</span><span class="fu">as.data.frame</span>(world_male)</span>
+<span id="cb24-4"><a href="#cb24-4" tabindex="-1"></a><span class="fu">head</span>(world_male)</span></code></pre></div>
+<pre><code>##   world_male
+## 1   171.3864
+## 2   160.5825
+## 3   177.8093
+## 4   183.1093
+## 5   177.2793
+## 6   172.9522</code></pre>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a>world_female<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="fl">164.7</span>, <span class="dv">7</span>)</span>
+<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a><span class="fu">head</span>(world_female)</span></code></pre></div>
+<pre><code>## [1] 176.4460 169.8710 158.7453 163.4275 177.0931 171.2756</code></pre>
+<p>OVERLAY two figures from different data sets</p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a>male<span class="ot">=</span><span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="fu">aes</span>(world_male), <span class="at">kernel =</span> <span class="fu">c</span>(<span class="at">kernel=</span><span class="st">&quot;gaussian&quot;</span>),</span>
+<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a>               <span class="at">alpha=</span><span class="fl">0.4</span>, <span class="at">fill=</span><span class="st">&quot;yellow&quot;</span>, <span class="at">data=</span>world_male)<span class="sc">+</span></span>
+<span id="cb28-4"><a href="#cb28-4" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(male_students, <span class="at">y=</span>..density..), <span class="at">position=</span><span class="st">&quot;identity&quot;</span>, <span class="at">data=</span>male_students)</span>
+<span id="cb28-5"><a href="#cb28-5" tabindex="-1"></a></span>
+<span id="cb28-6"><a href="#cb28-6" tabindex="-1"></a>male</span></code></pre></div>
+<p><img src="G5_geom_area_densidad_freqpoly_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="do">## NEW script, see after_stat(density)</span></span>
+<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a></span>
+<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a>male_2<span class="ot">=</span><span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="fu">aes</span>(world_male), <span class="at">kernel =</span> <span class="fu">c</span>(<span class="at">kernel=</span><span class="st">&quot;gaussian&quot;</span>),</span>
+<span id="cb29-5"><a href="#cb29-5" tabindex="-1"></a>               <span class="at">alpha=</span><span class="fl">0.4</span>, <span class="at">fill=</span><span class="st">&quot;red&quot;</span>, <span class="at">data=</span>world_male)<span class="sc">+</span></span>
+<span id="cb29-6"><a href="#cb29-6" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(male_students, <span class="fu">after_stat</span>(density)), <span class="at">position=</span><span class="st">&quot;identity&quot;</span>, <span class="at">data=</span>male_students)</span>
+<span id="cb29-7"><a href="#cb29-7" tabindex="-1"></a></span>
+<span id="cb29-8"><a href="#cb29-8" tabindex="-1"></a></span>
+<span id="cb29-9"><a href="#cb29-9" tabindex="-1"></a>male_2</span></code></pre></div>
+<p><img src="G5_geom_area_densidad_freqpoly_files/figure-html/unnamed-chunk-7-2.png" width="672" /></p>
 <hr />
 </div>
 <div id="opciones-y-parametros-de-geom_density" class="section level1">
@@ -1047,26 +1000,26 @@ También se puede cambiar la cantidad de compartimentos usando
 <strong>binwidth</strong>. En el gráfico de polígono, es solamente la
 línea la que gráficamos y no hay parámetro de <strong>fill</strong> del
 área debajo de la línea.</p>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(DW, <span class="fu">aes</span>(distance))</span>
-<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_freqpoly</span>(<span class="at">binwidth=</span>.<span class="dv">1</span>, <span class="at">color=</span><span class="st">&quot;#e3cc36&quot;</span>)<span class="sc">+</span>  <span class="co"># Nota como seleccionar el color con &quot;color picker&quot; en el web.</span></span>
-<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Distancia (m)&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span> <span class="co"># labels = labs</span></span>
-<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;italic&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(DW, <span class="fu">aes</span>(distance))</span>
+<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_freqpoly</span>(<span class="at">binwidth=</span>.<span class="dv">1</span>, <span class="at">color=</span><span class="st">&quot;#e3cc36&quot;</span>)<span class="sc">+</span>  <span class="co"># Nota como seleccionar el color con &quot;color picker&quot; en el web.</span></span>
+<span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Distancia (m)&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span> <span class="co"># labels = labs</span></span>
+<span id="cb30-4"><a href="#cb30-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;italic&quot;</span>))</span></code></pre></div>
 <p><img src="G5_geom_area_densidad_freqpoly_files/figure-html/dipodium-poligono-1.png" width="672" style="display: block; margin: auto;" /></p>
 <hr />
 <p>Se modifica otras opciones como sigue: intensidad del color con
 <strong>alpha</strong>, el tipo de línea con <strong>linetype</strong> y
 el grosor de la línea con <strong>size</strong> tal como se muestra a
 continuación.</p>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>DW<span class="sc">%&gt;%</span></span>
-<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>  <span class="fu">drop_na</span>()<span class="sc">%&gt;%</span></span>
-<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(distance, <span class="at">colour=</span>species_name))<span class="sc">+</span></span>
-<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a><span class="fu">geom_freqpoly</span>(<span class="at">alpha=</span><span class="fl">1.0</span>, <span class="at">size=</span><span class="fl">1.0</span>, <span class="at">binwidth=</span>.<span class="dv">1</span>, <span class="at">linetype=</span><span class="st">&quot;longdash&quot;</span>)<span class="sc">+</span></span>
-<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Distancia&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
-<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a>DW<span class="sc">%&gt;%</span></span>
+<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a>  <span class="fu">drop_na</span>()<span class="sc">%&gt;%</span></span>
+<span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(distance, <span class="at">colour=</span>species_name))<span class="sc">+</span></span>
+<span id="cb31-4"><a href="#cb31-4" tabindex="-1"></a><span class="fu">geom_freqpoly</span>(<span class="at">alpha=</span><span class="fl">1.0</span>, <span class="at">size=</span><span class="fl">1.0</span>, <span class="at">binwidth=</span>.<span class="dv">1</span>, <span class="at">linetype=</span><span class="st">&quot;longdash&quot;</span>)<span class="sc">+</span></span>
+<span id="cb31-5"><a href="#cb31-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Distancia&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb31-6"><a href="#cb31-6" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G5_geom_area_densidad_freqpoly_files/figure-html/dipodium-poligono2-1.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="co"># ggsave(&quot;the_name_of_my_figure.tiff&quot;) # .png, .tiff, .pdf, .jpeg</span></span>
-<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a></span>
-<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>DW</span></code></pre></div>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a><span class="co"># ggsave(&quot;the_name_of_my_figure.tiff&quot;) # .png, .tiff, .pdf, .jpeg</span></span>
+<span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" tabindex="-1"></a>DW</span></code></pre></div>
 <pre><code>## # A tibble: 1,365 × 21
 ##    tree_number tree_species   dbh plant_number ramet_number distance orientation
 ##          &lt;int&gt; &lt;chr&gt;        &lt;dbl&gt;        &lt;int&gt;        &lt;int&gt;    &lt;dbl&gt;       &lt;dbl&gt;

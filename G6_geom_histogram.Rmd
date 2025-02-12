@@ -40,10 +40,66 @@ Un histograma es una representación gráfica de los datos agrupados en comparti
 
 En el primer caso de **geom_histogram** la cantidad de observaciones (datos) se suma de acuerdo a la posición de los compartimentos o *bins*.
 
-En el segundo caso, para mostrar menos barras y ver la agrupación por grupos de 2, se escribe con **geom_histogram (binwidth=1)**. Como se puede apreciar, el número de compartimentos se cambia utilizando el parámetro *binwidth*, donde su valor representa el ancho del compartimento (en nuestro caso es igual a 1).  El número de *bins* predeterminado es 30, pero no necesariamente todos tendrán una barra ya que eso depende de la distribución de los datos.  Cada barra representa la frecuencia de observaciones en la categoría a un metro de distancia.  En ambos casos se usó color=white (o sea, color blanco) para poner una línea blanca alrededor de cada barra y así diferenciar mejor los grupos o *bins*.  Nota que el programa retorna el mensaje **`stat_bin()` using `bins = 30`. Pick better value with `binwidth`**. Esto porque se acepto la cantidad de compartimiento prederminado.  
+En el segundo caso, para mostrar menos barras y ver la agrupación por grupos de 2, se escribe con **geom_histogram (binwidth=1)**. Como se puede apreciar, el número de compartimentos se cambia utilizando el parámetro *binwidth*, donde su valor representa el ancho del compartimento (en nuestro caso es igual a 1).  El número de *bins* predeterminado es 30.  Cada barra representa la **frecuencia** de observaciones en la categoría a un metro de distancia.  En ambos casos se usó color=white (o sea, color blanco) para poner una línea blanca alrededor de cada barra y así diferenciar mejor los grupos o *bins*.  Nota que el programa retorna el mensaje **`stat_bin()` using `bins = 30`. Pick better value with `binwidth`**. Esto porque se acepto la cantidad de compartimiento prederminado.  
+ 
+## Calcular el intervalo de los bins
+
+Para calcular el intervalo de los bins se usa la siguiente fórmula: 
+
+
+
+$$\text{binwidth} = \frac{\text{max}(\text{data}) - \text{min}(\text{data})}{\text{bins}}$$
+Nota que el valor de **bins** es 30 por defecto, pero se puede cambiar a su conveniencia con el parámetro **binwidth**. 
+
+Hacemos un ejercicio a mano para calcular el intervalo de los bins con un dataset al azar, de una distribución normal con media de 10 y desviación estándar de 2. 
+
+```{r}
+set.seed(1234) ## usar la misma semilla para reproducibilidad
+
+datos=rnorm(100, mean=10, sd=2)
+
+datos # 100 datos de una distribución normal con media de 10 y desviación estándar de 2
+```
+
+Cual es valor mínimo y máximo de los datos?
+
+```{r}
+min(datos) # valor mínimo
+max(datos) # valor máximo
+```
+
+
+Usamos la formula anterior para calcular el intervalo de los *bins*, y queremos 10 bins
+
+
+```{r}
+binwidth=(max(datos)-min(datos))/10
+
+binwidth
+```
+
+Ahora calculamos los *bins* con la función **cut** para ver la frecuencia de los datos en cada bin. 
+
+Que quiere decir la parentesis y el corchete en los bins?
+
+ - (a,b] significa que el bin incluye el valor a pero no el valor b
+ 
+ - [a,b] significa que el bin incluye el valor a y el valor b
+ - (a,b) significa que el bin no incluye el valor a ni el valor b
+ - [a,b) significa que el bin incluye el valor a pero no el valor b
  
 
 
+
+```{r}
+bins=cut(datos, breaks=seq(min(datos), max(datos), binwidth), right=TRUE)
+#bins # cada valor y en cual bin estará 
+levels(bins) # los niveles de los bins
+```
+
+## Histograma de la distancia de la orquidea focal al arbol más cercano
+
+En el siguiente histograma, se muestra la distancia de las orquídeas *Dipodium roseum* a los árboles más cercanos.  Este histograma se hizo con la base de datos **dipodium** que se encuentra en el paquete **ggversa**.  Se puede ver que la mayoría de las orquídeas están a menos de 5 metros de los árboles más cercanos.  La función **geom_histogram** se usa para hacer el histograma.  Se puede ver que la función **geom_histogram** tiene varios parámetros que se pueden modificar para cambiar la apariencia del histograma.  En este caso, se cambió el color de las barras a azul y el color de la línea alrededor de las barras a blanco.  También se cambiaron los nombres de los ejes a español.
 
 ```{r dipodium-histograma, echo=TRUE, warning=FALSE}
 
@@ -143,7 +199,7 @@ a+geom_histogram(stat="bin", alpha=0.5,
 
 # Posicionar las barras uno al lado del otro con la función **dodge**
 
-
+Para posicionar las barras unos al lado de los otros, se usa la función **dodge**.  En este caso, se usó **position="dodge"** para posicionar las barras uno al lado del otro.  Se puede ver que la frecuencia de camas por 1,000 habitantes en los países ha aumentado en el año 2006 comparado con el año 1996.  Se puede ver que en el año 2006 hay más países con más de 5 camas por 1,000 habitantes que en el año 1996.  Se puede ver que en el año 1996 la frecuencia más común en los países era de menos de 2 camas por 1,000 habitantes, y que ya para el año
 
 ```{r dipodium-histogram5}
 
@@ -154,8 +210,7 @@ a+geom_histogram(color="black", bins=15, alpha=0.9,
   ylab("Frecuencia")+
   scale_y_continuous(breaks=c(0:9))+
   scale_x_continuous(breaks=c(0:15))+
-  theme(axis.title=element_text(size=10,face="bold"))+
-  facet_wrap(~Year)
+  theme(axis.title=element_text(size=10,face="bold"))
 ```
 
 ***
