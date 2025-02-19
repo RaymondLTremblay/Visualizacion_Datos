@@ -117,19 +117,24 @@ knitr::include_graphics("Graficos/L_eltoroensis.jpeg")
 
 
 
-1. Seleccione el archivo "Lelto" en el paquete "ggversa".  Seleccione la variable adultos o juvenil, que representa la cantidad de plantas adulto o juvenil que se encuentra en el árbol. Los datos son de una pequeñita orquídea que esta limitado las veredas del "El Toro" y de los "Vientos Alizios" en el Yunque. 
+1. Seleccione el archivo "Lelto" en el paquete "ggversa".  Seleccione la variable adultos y juvenil, que representa la cantidad de plantas adulto y juvenil que se encuentra en el árbol. Los datos son de una pequeñita orquídea que esta limitado las veredas del "El Toro" y de los "Vientos Alizios" en el Yunque. 
      - Mire el nombre de las columnas primero
-     - Cambie de color las barras
+     - haz un grafico de los adultos y otro de los juveniles
+     - Cambie de color las barras en por lo menos una de las graficas
      - Cambie el nombre de los nombres de los ejes
-     - Salva el gráfico con extensión de .png
-     - Sube el gráfico a MSTeam
+     - Une las dos figuras en una sola
+     - Sube el .html a MSTeam
 
-
+How to put two ggplot2 plots side by side using the cowplot package in R
 ```{r, eval=FALSE, echo=FALSE}
 
-ggplot(Lelto, aes(Adultos))+
-  geom_bar()
+a= ggplot(Lelto, aes(Adultos))+  # Mire el nombre de las columnas primero
+    geom_bar()
 
+b= ggplot(Lelto, aes(Juveniles))+  # Mire el nombre de las columnas primero
+    geom_bar(fill="blue",color="white")
+
+cowplot::plot_grid(a, b, labels = c("A", "B"))
 ```
 
 ***
@@ -142,10 +147,10 @@ Ahora le añadiremos una variable discreta que representa las frecuencias de las
 
 
 DW%>%
-  select(fruit_position_effect,frutos_si_o_no )%>%
-  drop_na(fruit_position_effect)%>%
-ggplot(aes(fruit_position_effect))+
-geom_bar(aes(fill=factor(frutos_si_o_no)))+
+  select(fruit_position_effect,frutos_si_o_no )%>% # Selecciona las variables
+  drop_na(fruit_position_effect)%>% # Remueve los NA
+ggplot(aes(fruit_position_effect))+ # Asigna la variable continua
+geom_bar(aes(fill=factor(frutos_si_o_no)))+ # Asigna la variable discreta
   xlab("Posiciones de las \n flores en la inflorescencia")+
   ylab("Frecuencia")+
   theme(axis.title=element_text(size=14,face="bold"))+
@@ -221,7 +226,7 @@ DW%>%
   ggplot(aes(fruit_position_effect))+
   geom_bar(aes(y=(..count..)/sum(..count..), 
                fill=factor(frutos_si_o_no)),
-               color="white", position="identity")+ # Para que cada grupo comience en cero se usa position = "identity"
+               color="white", position="dodge")+ # Para que cada grupo comience en cero se usa position = "identity"
   xlab("Posiciones de las flores en la inflorescencia")+
   ylab("Frecuencia")+
   guides(fill=FALSE)+
@@ -310,31 +315,30 @@ ggplot(dfLelto, aes(Conteos, fill=Etapa_de_Vida))+
 ***
 
 
+# Cambiar el orden de las barras
 
-# Reordenar las barras con **geom_bar**
-
-En el siguiente gráfico, reordenamos la secuencia en **X** por orden del número de flores y su frecuencia. Primero, hay que crear una función para reordenar la variable, la que llamaremos **reorder_size**.  El segundo paso es invocar esta función desde **ggplot**.   La función es aplicable a cualquier variable que uno quisiera ordenar y tener como factor.  En la figura podemos observar que en el muestreo hay solamente una planta con la siguiente cantidad de flores (1, 3, 4, 7, 8, 34, 36, 37, 43; extremo izquierda), y hay 13 plantas con 23 flores (extremo derecha) y otras frecuencias de plantas con diferentes cantidades de flores entre medio.
+Para cambiar el orden de las barras, se puede usar la función **reorder**. En el siguiente ejemplo, se ordenan las barras de mayor a menor.  En el archivo de datos de la *Dipodium rosea*, se observa que la posición de las flores en la inflorescencia se ordena de mayor a menor. 
 
 ```{r dipodium_barra5,  echo=TRUE}
-# Aquí se crea una función para re-ordenar la variable X. 
-
-reorder_size <- function(x) {
-  factor(x, levels = names(order(table(x))))
-}
-
-#reorder_size(DW$number_of_flowers)
+library(forcats)
 
 DW%>%
-  select(number_of_flowers )%>%
-  drop_na(number_of_flowers)%>%
-ggplot(aes(reorder_size(-number_of_flowers)))+
-geom_bar(fill="olivedrab")+
-  scale_y_continuous(breaks=c(0:13))+
-  labs(y="Número de plantas con la cantidad de flores", 
-       x="Cantidad de flores \n en la inflorescencia")+
-  theme(axis.title=element_text(size=10,face="bold"))
+  select(fruit_position_effect,frutos_si_o_no )%>%
+  drop_na(fruit_position_effect)%>%
+ggplot(aes(reorder(factor(fruit_position_effect),-fruit_position_effect),
+             fill=factor(frutos_si_o_no)))+
+  geom_bar(aes(y=(..count..)/sum(..count..)))+
+  xlab("Posiciones de las flores en la inflorescencia")+
+  ylab("Proporción de flores con frutos")+
+  guides(fill=FALSE)+
+  theme(axis.title=element_text(size=14,face="bold"))+
+  scale_fill_manual(values = c("red", "green"))
+
+
 ```
 
+
+### 
 
 
 ```{r}

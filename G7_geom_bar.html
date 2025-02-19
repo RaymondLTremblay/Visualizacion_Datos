@@ -602,7 +602,7 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2025-02-12&quot;</code></pre>
+<pre><code>## [1] &quot;2025-02-19&quot;</code></pre>
 <p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" /></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co">#devtools::install_github(&quot;EvaMaeRey/flipbookr&quot;)</span></span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">library</span>(flipbookr) </span>
@@ -697,18 +697,21 @@ Figura: Lepanthes eltoroensis, EL Yunque, Puerto Rico
 </div>
 <ol style="list-style-type: decimal">
 <li>Seleccione el archivo “Lelto” en el paquete “ggversa”. Seleccione la
-variable adultos o juvenil, que representa la cantidad de plantas adulto
-o juvenil que se encuentra en el árbol. Los datos son de una pequeñita
+variable adultos y juvenil, que representa la cantidad de plantas adulto
+y juvenil que se encuentra en el árbol. Los datos son de una pequeñita
 orquídea que esta limitado las veredas del “El Toro” y de los “Vientos
 Alizios” en el Yunque.
 <ul>
 <li>Mire el nombre de las columnas primero</li>
-<li>Cambie de color las barras</li>
+<li>haz un grafico de los adultos y otro de los juveniles</li>
+<li>Cambie de color las barras en por lo menos una de las graficas</li>
 <li>Cambie el nombre de los nombres de los ejes</li>
-<li>Salva el gráfico con extensión de .png</li>
-<li>Sube el gráfico a MSTeam</li>
+<li>Une las dos figuras en una sola</li>
+<li>Sube el .html a MSTeam</li>
 </ul></li>
 </ol>
+<p>How to put two ggplot2 plots side by side using the cowplot package
+in R</p>
 <hr />
 </div>
 <div id="multiples-grupos" class="section level1">
@@ -727,10 +730,10 @@ gráfico presenta las variables discretas una sobre la otra. Note en la
 Figura al igual que con <strong>geom_histogram</strong>, la frecuencia
 del segundo grupo es añadida a la frecuencia del primer grupo.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>DW<span class="sc">%&gt;%</span></span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>  <span class="fu">select</span>(fruit_position_effect,frutos_si_o_no )<span class="sc">%&gt;%</span></span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="fu">drop_na</span>(fruit_position_effect)<span class="sc">%&gt;%</span></span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(fruit_position_effect))<span class="sc">+</span></span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">fill=</span><span class="fu">factor</span>(frutos_si_o_no)))<span class="sc">+</span></span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>  <span class="fu">select</span>(fruit_position_effect,frutos_si_o_no )<span class="sc">%&gt;%</span> <span class="co"># Selecciona las variables</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="fu">drop_na</span>(fruit_position_effect)<span class="sc">%&gt;%</span> <span class="co"># Remueve los NA</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(fruit_position_effect))<span class="sc">+</span> <span class="co"># Asigna la variable continua</span></span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">fill=</span><span class="fu">factor</span>(frutos_si_o_no)))<span class="sc">+</span> <span class="co"># Asigna la variable discreta</span></span>
 <span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Posiciones de las </span><span class="sc">\n</span><span class="st"> flores en la inflorescencia&quot;</span>)<span class="sc">+</span></span>
 <span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
 <span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
@@ -813,7 +816,7 @@ información en el archivo original.</p>
 <span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(fruit_position_effect))<span class="sc">+</span></span>
 <span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y=</span>(..count..)<span class="sc">/</span><span class="fu">sum</span>(..count..), </span>
 <span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a>               <span class="at">fill=</span><span class="fu">factor</span>(frutos_si_o_no)),</span>
-<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a>               <span class="at">color=</span><span class="st">&quot;white&quot;</span>, <span class="at">position=</span><span class="st">&quot;identity&quot;</span>)<span class="sc">+</span> <span class="co"># Para que cada grupo comience en cero se usa position = &quot;identity&quot;</span></span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a>               <span class="at">color=</span><span class="st">&quot;white&quot;</span>, <span class="at">position=</span><span class="st">&quot;dodge&quot;</span>)<span class="sc">+</span> <span class="co"># Para que cada grupo comience en cero se usa position = &quot;identity&quot;</span></span>
 <span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Posiciones de las flores en la inflorescencia&quot;</span>)<span class="sc">+</span></span>
 <span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
 <span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill=</span><span class="cn">FALSE</span>)<span class="sc">+</span></span>
@@ -872,37 +875,29 @@ hace dificil encontrarla en el web.</p>
 </ol>
 <hr />
 </div>
-<div id="reordenar-las-barras-con-geom_bar" class="section level1">
-<h1>Reordenar las barras con <strong>geom_bar</strong></h1>
-<p>En el siguiente gráfico, reordenamos la secuencia en
-<strong>X</strong> por orden del número de flores y su frecuencia.
-Primero, hay que crear una función para reordenar la variable, la que
-llamaremos <strong>reorder_size</strong>. El segundo paso es invocar
-esta función desde <strong>ggplot</strong>. La función es aplicable a
-cualquier variable que uno quisiera ordenar y tener como factor. En la
-figura podemos observar que en el muestreo hay solamente una planta con
-la siguiente cantidad de flores (1, 3, 4, 7, 8, 34, 36, 37, 43; extremo
-izquierda), y hay 13 plantas con 23 flores (extremo derecha) y otras
-frecuencias de plantas con diferentes cantidades de flores entre
-medio.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="co"># Aquí se crea una función para re-ordenar la variable X. </span></span>
+<div id="cambiar-el-orden-de-las-barras" class="section level1">
+<h1>Cambiar el orden de las barras</h1>
+<p>Para cambiar el orden de las barras, se puede usar la función
+<strong>reorder</strong>. En el siguiente ejemplo, se ordenan las barras
+de mayor a menor. En el archivo de datos de la <em>Dipodium rosea</em>,
+se observa que la posición de las flores en la inflorescencia se ordena
+de mayor a menor.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">library</span>(forcats)</span>
 <span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a></span>
-<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>reorder_size <span class="ot">&lt;-</span> <span class="cf">function</span>(x) {</span>
-<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>  <span class="fu">factor</span>(x, <span class="at">levels =</span> <span class="fu">names</span>(<span class="fu">order</span>(<span class="fu">table</span>(x))))</span>
-<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>}</span>
-<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a></span>
-<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a><span class="co">#reorder_size(DW$number_of_flowers)</span></span>
-<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a></span>
-<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a>DW<span class="sc">%&gt;%</span></span>
-<span id="cb16-10"><a href="#cb16-10" tabindex="-1"></a>  <span class="fu">select</span>(number_of_flowers )<span class="sc">%&gt;%</span></span>
-<span id="cb16-11"><a href="#cb16-11" tabindex="-1"></a>  <span class="fu">drop_na</span>(number_of_flowers)<span class="sc">%&gt;%</span></span>
-<span id="cb16-12"><a href="#cb16-12" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">reorder_size</span>(<span class="sc">-</span>number_of_flowers)))<span class="sc">+</span></span>
-<span id="cb16-13"><a href="#cb16-13" tabindex="-1"></a><span class="fu">geom_bar</span>(<span class="at">fill=</span><span class="st">&quot;olivedrab&quot;</span>)<span class="sc">+</span></span>
-<span id="cb16-14"><a href="#cb16-14" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">0</span><span class="sc">:</span><span class="dv">13</span>))<span class="sc">+</span></span>
-<span id="cb16-15"><a href="#cb16-15" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Número de plantas con la cantidad de flores&quot;</span>, </span>
-<span id="cb16-16"><a href="#cb16-16" tabindex="-1"></a>       <span class="at">x=</span><span class="st">&quot;Cantidad de flores </span><span class="sc">\n</span><span class="st"> en la inflorescencia&quot;</span>)<span class="sc">+</span></span>
-<span id="cb16-17"><a href="#cb16-17" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>DW<span class="sc">%&gt;%</span></span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>  <span class="fu">select</span>(fruit_position_effect,frutos_si_o_no )<span class="sc">%&gt;%</span></span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>  <span class="fu">drop_na</span>(fruit_position_effect)<span class="sc">%&gt;%</span></span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">reorder</span>(<span class="fu">factor</span>(fruit_position_effect),<span class="sc">-</span>fruit_position_effect),</span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a>             <span class="at">fill=</span><span class="fu">factor</span>(frutos_si_o_no)))<span class="sc">+</span></span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y=</span>(..count..)<span class="sc">/</span><span class="fu">sum</span>(..count..)))<span class="sc">+</span></span>
+<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Posiciones de las flores en la inflorescencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb16-10"><a href="#cb16-10" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Proporción de flores con frutos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb16-11"><a href="#cb16-11" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill=</span><span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb16-12"><a href="#cb16-12" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb16-13"><a href="#cb16-13" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;green&quot;</span>))</span></code></pre></div>
 <p><img src="G7_geom_bar_files/figure-html/dipodium_barra5-1.png" width="672" /></p>
+<div id="section" class="section level3">
+<h3></h3>
 <div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>df<span class="ot">=</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
 <span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>df</span></code></pre></div>
 <pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
@@ -910,6 +905,7 @@ medio.</p>
 <pre><code>##  [1]  -1  -2  -3  -4  -5  -6  -7  -8  -9 -10</code></pre>
 <div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">order</span>(<span class="sc">-</span>df)</span></code></pre></div>
 <pre><code>##  [1] 10  9  8  7  6  5  4  3  2  1</code></pre>
+</div>
 </div>
 <div id="opciones-y-parametros-de-geom_bar" class="section level1">
 <h1>Opciones y Parametros de <strong>geom_bar</strong>:</h1>

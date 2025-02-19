@@ -104,6 +104,7 @@ En el siguiente histograma, se muestra la distancia de las orquídeas *Dipodium 
 ```{r dipodium-histograma, echo=TRUE, warning=FALSE}
 
 library(janitor)
+library(ggversa)
 DW=clean_names(dipodium) # este archivo de datos se encuentra en el paquete "ggversa"
 names(DW)
 library(gt)
@@ -154,7 +155,7 @@ str(Camas_Hospital)
 unique(Camas_Hospital$Year) # cual son los años de muestreo
 
 a=ggplot(Camas_Hospital, aes(Camas, fill=factor(Year)))
-a+geom_histogram(stat="bin")+
+a+geom_histogram(stat="bin", alpha=.5)+
   xlab("Número de camas por cada 1000 habitantes")+
   ylab("Frecuencia")
 
@@ -208,7 +209,7 @@ a+geom_histogram(color="black", bins=15, alpha=0.9,
                  position="dodge")+
   xlab("Número de camas por \n 1000 habitantes")+
   ylab("Frecuencia")+
-  scale_y_continuous(breaks=c(0:9))+
+  scale_y_continuous(breaks=c(0:12))+
   scale_x_continuous(breaks=c(0:15))+
   theme(axis.title=element_text(size=10,face="bold"))
 ```
@@ -230,13 +231,13 @@ a+geom_histogram(stat="bin", alpha=0.5)+
   xlab("Número de camas \n por cada 1000 habitantes")+
   ylab("Frecuencia")+
   scale_fill_manual(values=c("cyan4", "darkorange"))+
-  theme(axis.title=element_text(family="Times",size=10,face="italic", colour="#4ea7ad"))+
+  theme(axis.title=element_text(family="Arial",size=10,face="italic", colour="#4ea7ad"))+
   facet_wrap(~Year)+
   scale_y_continuous(breaks=c(0:9))+
   scale_x_continuous(breaks=c(1:15))+
   scale_color_manual(values=c("black", "black"))+
-  theme(axis.title.x=element_text(angle=10))+  # NOTE the x legend text 
-  theme(axis.text.x=element_text(size=8, angle=45))
+  theme(axis.title.x=element_text(angle=180))+  # NOTE the x legend text 
+  theme(axis.text.x=element_text(size=8, angle=90))
 
 ```
 
@@ -270,7 +271,7 @@ diamonds %>%
   - evalúa como se ve los gráficos con las diferentes arreglos: position: “identity”, “stack”, “dodge”
   - cambia la intensidad del color
   - cambia los nombres de los ejes al español
-  - salvar los gráficos en formato .png, .tiff o .jpeg y subir por lo menos uno de estos a MSTeam. 
+  - salvar los gráficos en formato .png, o .tiff o .jpeg y subir por lo menos uno de estos a MSTeam. 
   
   
    

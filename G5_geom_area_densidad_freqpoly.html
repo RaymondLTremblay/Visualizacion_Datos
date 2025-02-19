@@ -601,7 +601,7 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2025-02-12&quot;</code></pre>
+<pre><code>## [1] &quot;2025-02-19&quot;</code></pre>
 <p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" /></p>
 <div
 id="gráficos-de-área-densidad-y-histograma-de-linea-con-geom_dotplot-geom_density-y-geom-freqpoly"
@@ -855,7 +855,7 @@ vez.</p>
 <span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G5_geom_area_densidad_freqpoly_files/figure-html/dipodium-densidad-1.png" width="672" style="display: block; margin: auto;" /></p>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="co">#ggsave(&quot;Distance_to_tree.jpeg&quot;) #.tiff, .png</span></span></code></pre></div>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>x<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">10000</span>, <span class="dv">10</span>, <span class="dv">4</span>)</span>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>x<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="dv">10</span>, <span class="dv">4</span>)</span>
 <span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a></span>
 <span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>x<span class="ot">=</span><span class="fu">data_frame</span>(x)</span>
 <span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a></span>
@@ -929,43 +929,61 @@ standard deviation of around 7 cm for both genders. ## Key points:</p>
 <p>DO a figure of the density distribution of male and female human
 height and compare with the mean and standard deviation of world
 data</p>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>male_students<span class="ot">=</span><span class="fu">c</span>(<span class="dv">170</span>, <span class="dv">180</span>, <span class="dv">197</span>) <span class="co"># height in cm</span></span>
-<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>male_students<span class="ot">=</span><span class="fu">as.data.frame</span>(male_students)</span>
-<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a></span>
-<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a></span>
-<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a>female_students<span class="ot">=</span><span class="fu">c</span>()  <span class="co"># height in cm</span></span></code></pre></div>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="co"># Simulate</span></span>
-<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a>world_male<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">10</span><span class="sc">^</span><span class="dv">3</span>, <span class="fl">170.8</span>, <span class="dv">7</span>)</span>
-<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a>world_male<span class="ot">=</span><span class="fu">as.data.frame</span>(world_male)</span>
-<span id="cb24-4"><a href="#cb24-4" tabindex="-1"></a><span class="fu">head</span>(world_male)</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>male_students<span class="ot">=</span><span class="fu">c</span>(<span class="fl">170.6</span>, <span class="dv">180</span>, <span class="fl">167.64</span>, <span class="fl">185.93</span>, <span class="dv">177</span>, <span class="dv">177</span>) <span class="co"># height in cm</span></span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>male_students</span></code></pre></div>
+<pre><code>## [1] 170.60 180.00 167.64 185.93 177.00 177.00</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a>male_students<span class="ot">=</span><span class="fu">as.data.frame</span>(male_students)</span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a></span>
+<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a></span>
+<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a>female_students<span class="ot">=</span><span class="fu">c</span>(<span class="fl">152.4</span>, <span class="fl">170.68</span>, <span class="fl">167.64</span>, <span class="fl">121.92</span>, <span class="fl">164.59</span>, <span class="fl">152.4</span>, <span class="fl">152.4</span>, <span class="dv">163</span>, <span class="dv">157</span>)  <span class="co"># height in cm</span></span>
+<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a>female_students<span class="ot">=</span><span class="fu">as.data.frame</span>(female_students)</span>
+<span id="cb25-6"><a href="#cb25-6" tabindex="-1"></a>female_students</span></code></pre></div>
+<pre><code>##   female_students
+## 1          152.40
+## 2          170.68
+## 3          167.64
+## 4          121.92
+## 5          164.59
+## 6          152.40
+## 7          152.40
+## 8          163.00
+## 9          157.00</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="fu">ggplot</span>(female_students)<span class="sc">+</span></span>
+<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(female_students))</span></code></pre></div>
+<p><img src="G5_geom_area_densidad_freqpoly_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="co">#set.seed(123987)</span></span>
+<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a><span class="co"># Simulate</span></span>
+<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a>world_male<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">10</span><span class="sc">^</span><span class="dv">4</span>, <span class="fl">170.8</span>, <span class="dv">7</span>)</span>
+<span id="cb28-4"><a href="#cb28-4" tabindex="-1"></a>world_male<span class="ot">=</span><span class="fu">as.data.frame</span>(world_male)</span>
+<span id="cb28-5"><a href="#cb28-5" tabindex="-1"></a><span class="fu">head</span>(world_male)</span></code></pre></div>
 <pre><code>##   world_male
-## 1   171.3864
-## 2   160.5825
-## 3   177.8093
-## 4   183.1093
-## 5   177.2793
-## 6   172.9522</code></pre>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a>world_female<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="fl">164.7</span>, <span class="dv">7</span>)</span>
-<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a><span class="fu">head</span>(world_female)</span></code></pre></div>
-<pre><code>## [1] 176.4460 169.8710 158.7453 163.4275 177.0931 171.2756</code></pre>
+## 1   170.6479
+## 2   167.4021
+## 3   175.1365
+## 4   167.2406
+## 5   166.6943
+## 6   183.2184</code></pre>
+<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a>world_female<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">10</span><span class="sc">^</span><span class="dv">6</span>, <span class="fl">164.7</span>, <span class="dv">7</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a><span class="fu">head</span>(world_female)</span></code></pre></div>
+<pre><code>## [1] 166.9031 163.4059 154.6277 161.2618 164.1513 146.7427</code></pre>
 <p>OVERLAY two figures from different data sets</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a>male<span class="ot">=</span><span class="fu">ggplot</span>()<span class="sc">+</span></span>
-<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="fu">aes</span>(world_male), <span class="at">kernel =</span> <span class="fu">c</span>(<span class="at">kernel=</span><span class="st">&quot;gaussian&quot;</span>),</span>
-<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a>               <span class="at">alpha=</span><span class="fl">0.4</span>, <span class="at">fill=</span><span class="st">&quot;yellow&quot;</span>, <span class="at">data=</span>world_male)<span class="sc">+</span></span>
-<span id="cb28-4"><a href="#cb28-4" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(male_students, <span class="at">y=</span>..density..), <span class="at">position=</span><span class="st">&quot;identity&quot;</span>, <span class="at">data=</span>male_students)</span>
-<span id="cb28-5"><a href="#cb28-5" tabindex="-1"></a></span>
-<span id="cb28-6"><a href="#cb28-6" tabindex="-1"></a>male</span></code></pre></div>
-<p><img src="G5_geom_area_densidad_freqpoly_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" tabindex="-1"></a><span class="do">## NEW script, see after_stat(density)</span></span>
-<span id="cb29-2"><a href="#cb29-2" tabindex="-1"></a></span>
-<span id="cb29-3"><a href="#cb29-3" tabindex="-1"></a>male_2<span class="ot">=</span><span class="fu">ggplot</span>()<span class="sc">+</span></span>
-<span id="cb29-4"><a href="#cb29-4" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="fu">aes</span>(world_male), <span class="at">kernel =</span> <span class="fu">c</span>(<span class="at">kernel=</span><span class="st">&quot;gaussian&quot;</span>),</span>
-<span id="cb29-5"><a href="#cb29-5" tabindex="-1"></a>               <span class="at">alpha=</span><span class="fl">0.4</span>, <span class="at">fill=</span><span class="st">&quot;red&quot;</span>, <span class="at">data=</span>world_male)<span class="sc">+</span></span>
-<span id="cb29-6"><a href="#cb29-6" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(male_students, <span class="fu">after_stat</span>(density)), <span class="at">position=</span><span class="st">&quot;identity&quot;</span>, <span class="at">data=</span>male_students)</span>
-<span id="cb29-7"><a href="#cb29-7" tabindex="-1"></a></span>
-<span id="cb29-8"><a href="#cb29-8" tabindex="-1"></a></span>
-<span id="cb29-9"><a href="#cb29-9" tabindex="-1"></a>male_2</span></code></pre></div>
-<p><img src="G5_geom_area_densidad_freqpoly_files/figure-html/unnamed-chunk-7-2.png" width="672" /></p>
+<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a>male<span class="ot">=</span><span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="fu">aes</span>(world_male), <span class="at">kernel =</span> <span class="fu">c</span>(<span class="at">kernel=</span><span class="st">&quot;gaussian&quot;</span>),</span>
+<span id="cb32-3"><a href="#cb32-3" tabindex="-1"></a>               <span class="at">alpha=</span><span class="fl">0.4</span>, <span class="at">fill=</span><span class="st">&quot;yellow&quot;</span>, <span class="at">data=</span>world_male)<span class="sc">+</span></span>
+<span id="cb32-4"><a href="#cb32-4" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(male_students, <span class="at">y=</span>..density..), <span class="at">position=</span><span class="st">&quot;identity&quot;</span>, <span class="at">data=</span>male_students)</span>
+<span id="cb32-5"><a href="#cb32-5" tabindex="-1"></a></span>
+<span id="cb32-6"><a href="#cb32-6" tabindex="-1"></a>male</span></code></pre></div>
+<p><img src="G5_geom_area_densidad_freqpoly_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="do">## NEW script, see after_stat(density)</span></span>
+<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a></span>
+<span id="cb33-3"><a href="#cb33-3" tabindex="-1"></a>male_2<span class="ot">=</span><span class="fu">ggplot</span>()<span class="sc">+</span></span>
+<span id="cb33-4"><a href="#cb33-4" tabindex="-1"></a>  <span class="fu">geom_density</span>(<span class="fu">aes</span>(world_male), <span class="at">kernel =</span> <span class="fu">c</span>(<span class="at">kernel=</span><span class="st">&quot;gaussian&quot;</span>),</span>
+<span id="cb33-5"><a href="#cb33-5" tabindex="-1"></a>               <span class="at">alpha=</span><span class="fl">0.4</span>, <span class="at">fill=</span><span class="st">&quot;red&quot;</span>, <span class="at">data=</span>world_male)<span class="sc">+</span></span>
+<span id="cb33-6"><a href="#cb33-6" tabindex="-1"></a>  <span class="fu">geom_histogram</span>(<span class="fu">aes</span>(male_students, <span class="fu">after_stat</span>(density)), <span class="at">position=</span><span class="st">&quot;identity&quot;</span>, <span class="at">data=</span>male_students)</span>
+<span id="cb33-7"><a href="#cb33-7" tabindex="-1"></a></span>
+<span id="cb33-8"><a href="#cb33-8" tabindex="-1"></a></span>
+<span id="cb33-9"><a href="#cb33-9" tabindex="-1"></a>male_2</span></code></pre></div>
+<p><img src="G5_geom_area_densidad_freqpoly_files/figure-html/unnamed-chunk-8-2.png" width="672" /></p>
 <hr />
 </div>
 <div id="opciones-y-parametros-de-geom_density" class="section level1">
@@ -1000,26 +1018,26 @@ También se puede cambiar la cantidad de compartimentos usando
 <strong>binwidth</strong>. En el gráfico de polígono, es solamente la
 línea la que gráficamos y no hay parámetro de <strong>fill</strong> del
 área debajo de la línea.</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(DW, <span class="fu">aes</span>(distance))</span>
-<span id="cb30-2"><a href="#cb30-2" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_freqpoly</span>(<span class="at">binwidth=</span>.<span class="dv">1</span>, <span class="at">color=</span><span class="st">&quot;#e3cc36&quot;</span>)<span class="sc">+</span>  <span class="co"># Nota como seleccionar el color con &quot;color picker&quot; en el web.</span></span>
-<span id="cb30-3"><a href="#cb30-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Distancia (m)&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span> <span class="co"># labels = labs</span></span>
-<span id="cb30-4"><a href="#cb30-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;italic&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(DW, <span class="fu">aes</span>(distance))</span>
+<span id="cb34-2"><a href="#cb34-2" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_freqpoly</span>(<span class="at">binwidth=</span>.<span class="dv">1</span>, <span class="at">color=</span><span class="st">&quot;#e3cc36&quot;</span>)<span class="sc">+</span>  <span class="co"># Nota como seleccionar el color con &quot;color picker&quot; en el web.</span></span>
+<span id="cb34-3"><a href="#cb34-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Distancia (m)&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span> <span class="co"># labels = labs</span></span>
+<span id="cb34-4"><a href="#cb34-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;italic&quot;</span>))</span></code></pre></div>
 <p><img src="G5_geom_area_densidad_freqpoly_files/figure-html/dipodium-poligono-1.png" width="672" style="display: block; margin: auto;" /></p>
 <hr />
 <p>Se modifica otras opciones como sigue: intensidad del color con
 <strong>alpha</strong>, el tipo de línea con <strong>linetype</strong> y
 el grosor de la línea con <strong>size</strong> tal como se muestra a
 continuación.</p>
-<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a>DW<span class="sc">%&gt;%</span></span>
-<span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a>  <span class="fu">drop_na</span>()<span class="sc">%&gt;%</span></span>
-<span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(distance, <span class="at">colour=</span>species_name))<span class="sc">+</span></span>
-<span id="cb31-4"><a href="#cb31-4" tabindex="-1"></a><span class="fu">geom_freqpoly</span>(<span class="at">alpha=</span><span class="fl">1.0</span>, <span class="at">size=</span><span class="fl">1.0</span>, <span class="at">binwidth=</span>.<span class="dv">1</span>, <span class="at">linetype=</span><span class="st">&quot;longdash&quot;</span>)<span class="sc">+</span></span>
-<span id="cb31-5"><a href="#cb31-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Distancia&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
-<span id="cb31-6"><a href="#cb31-6" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a>DW<span class="sc">%&gt;%</span></span>
+<span id="cb35-2"><a href="#cb35-2" tabindex="-1"></a>  <span class="fu">drop_na</span>()<span class="sc">%&gt;%</span></span>
+<span id="cb35-3"><a href="#cb35-3" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(distance, <span class="at">colour=</span>species_name))<span class="sc">+</span></span>
+<span id="cb35-4"><a href="#cb35-4" tabindex="-1"></a><span class="fu">geom_freqpoly</span>(<span class="at">alpha=</span><span class="fl">1.0</span>, <span class="at">size=</span><span class="fl">1.0</span>, <span class="at">binwidth=</span>.<span class="dv">1</span>, <span class="at">linetype=</span><span class="st">&quot;longdash&quot;</span>)<span class="sc">+</span></span>
+<span id="cb35-5"><a href="#cb35-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Distancia&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb35-6"><a href="#cb35-6" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G5_geom_area_densidad_freqpoly_files/figure-html/dipodium-poligono2-1.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" tabindex="-1"></a><span class="co"># ggsave(&quot;the_name_of_my_figure.tiff&quot;) # .png, .tiff, .pdf, .jpeg</span></span>
-<span id="cb32-2"><a href="#cb32-2" tabindex="-1"></a></span>
-<span id="cb32-3"><a href="#cb32-3" tabindex="-1"></a>DW</span></code></pre></div>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a><span class="co"># ggsave(&quot;the_name_of_my_figure.tiff&quot;) # .png, .tiff, .pdf, .jpeg</span></span>
+<span id="cb36-2"><a href="#cb36-2" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" tabindex="-1"></a>DW</span></code></pre></div>
 <pre><code>## # A tibble: 1,365 × 21
 ##    tree_number tree_species   dbh plant_number ramet_number distance orientation
 ##          &lt;int&gt; &lt;chr&gt;        &lt;dbl&gt;        &lt;int&gt;        &lt;int&gt;    &lt;dbl&gt;       &lt;dbl&gt;
