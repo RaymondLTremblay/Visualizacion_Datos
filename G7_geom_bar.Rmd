@@ -33,21 +33,26 @@ colorize <- function(x, color) {
 #`r colorize("some words in red", "red")`
 ```
 
-```{r, echo=FALSE, fig.show = "hold", out.width = "20%", fig.align = "default"}
+```{r, bar_1, echo=FALSE, fig.show = "hold", out.width = "20%", fig.align = "default"}
 knitr::include_graphics(c("Graficos/hex_ggversa.png", "Graficos/hex_Visualizacion_Datos.png"))
 ```
 
-```{r}
+```{r, bar_2}
 
 #devtools::install_github("EvaMaeRey/flipbookr")
-library(flipbookr) 
-library(tidyverse)
-library(ggversa)
-library(janitor)
+ 
+library(tidyverse) # paquete para manipulación de datos
+library(ggversa) # paquete con datos 
+library(janitor) # paquete para limpiar los nombres de las columnas
 library(gridExtra) # paquete para organizar los gráficos
 DW=dipodium
 DW=clean_names(DW)
+
+DW
 ```
+
+
+
 
 
 ***
@@ -58,19 +63,19 @@ El gráfico de barras es una representación de la frecuencia de ocurrencia de e
 
 En el siguiente ejemplo, primero removeremos los **NA** del archivo usando **drop_na()**, es el función que excluye todas las filas que contienen los **NA**.  Nuevamente utilizaremos el archivo de datos de la *Dipodium rosea*:
 
-```{r dipodium_barra,  echo=TRUE}
+```{r bar_3,  echo=TRUE}
 
 
 # DW$Number_of_Flowers  # Antes de hacer los análisis mira los datos, y vea que hay muchas filas con **NA**, remueve **#** para activar la función. 
 
 # Method 1
 
-head(DW)
-
+head(DW, n=7)
+tail(DW, n=7)
 ```
 
 
-```{r dipodiumbarrafb}
+```{r bar_4}
 DW %>%
   drop_na(number_of_flowers)%>%
   ggplot(aes(number_of_flowers))+
@@ -91,7 +96,7 @@ DW %>%
 
 Se puede cambiar la intensidad del color de las barras usando **alpha**.  los valores pueden variar de 0 a 1, donde 1 es mas intenso el color, aquí se utiliza un **alpha=0.3**. 
 
-```{r dipodium_barra1,  echo=TRUE}
+```{r bar_5,  echo=TRUE}
 
 head(DW)
 
@@ -111,7 +116,7 @@ b+geom_bar(alpha=.3,
 ***
 
 
-```{r, echo=FALSE, size='50%', out.extra='style="float:right; padding:10px"',  fig.cap='Figura: Lepanthes eltoroensis, EL Yunque, Puerto Rico'}
+```{r, bar_7, echo=FALSE, size='50%', out.extra='style="float:right; padding:10px"',  fig.cap='Figura: Lepanthes eltoroensis, EL Yunque, Puerto Rico'}
 knitr::include_graphics("Graficos/L_eltoroensis.jpeg")
 ```
 
@@ -126,9 +131,9 @@ knitr::include_graphics("Graficos/L_eltoroensis.jpeg")
      - Sube el .html a MSTeam
 
 How to put two ggplot2 plots side by side using the cowplot package in R
-```{r, eval=FALSE, echo=FALSE}
+```{r, bar_8, eval=FALSE, echo=FALSE}
 
-a= ggplot(Lelto, aes(Adultos))+  # Mire el nombre de las columnas primero
+a= (Lelto, aes(Adultos))+  # Mire el nombre de las columnas primero
     geom_bar()
 
 b= ggplot(Lelto, aes(Juveniles))+  # Mire el nombre de las columnas primero
@@ -143,7 +148,7 @@ cowplot::plot_grid(a, b, labels = c("A", "B"))
 
 Ahora le añadiremos una variable discreta que representa las frecuencias de las plantas con frutos y la frecuencia de plantas sin frutos para las posiciones de la flor en la inflorescencia. En el **script** se observa que la variable **Frutos_si_o_no** se identifica como un factor. Esto es necesario porque en el archivo de datos la presencia de frutos y flores fue identificada como 1 o 0 o sea valores numéricos.  Si se hubiera identificado como **Sí** o **No**, no habría la necesidad de identificar que es un factor. En tal caso, es necesario identificar que estos valores son una categoría usando factor. El gráfico presenta las variables discretas una sobre la otra. Note en la Figura al igual que con **geom_histogram**, la frecuencia del segundo grupo es añadida a la frecuencia del primer grupo.
 
-```{r dipodium_barra2,  echo=TRUE}
+```{r bar_9,  echo=TRUE}
 
 
 DW%>%
@@ -151,7 +156,7 @@ DW%>%
   drop_na(fruit_position_effect)%>% # Remueve los NA
 ggplot(aes(fruit_position_effect))+ # Asigna la variable continua
 geom_bar(aes(fill=factor(frutos_si_o_no)))+ # Asigna la variable discreta
-  xlab("Posiciones de las \n flores en la inflorescencia")+
+  xlab("Posiciones de las flores \n en la inflorescencia")+
   ylab("Frecuencia")+
   theme(axis.title=element_text(size=14,face="bold"))+
  scale_fill_manual(values = c("green", "#36211D"))+

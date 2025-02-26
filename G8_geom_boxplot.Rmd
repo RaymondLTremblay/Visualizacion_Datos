@@ -55,7 +55,7 @@ En el primer gráfico a continuación, Fig. 1 (arriba a la izquierda), se muestr
 
 Las muescas (notch)
 
-Las muescas a los lados de un diagrama de caja se pueden interpretar como un intervalo de comparación alrededor de los valores de la mediana. La altura de la muesca es la mediana $+/- 1,57 x IQR/sqrt(n)$ donde IQR es el rango intercuartílico definido por los percentiles 25 y 75 y **n** es el número de puntos de datos
+Las muescas a los lados de un diagrama de caja se pueden interpretar como un intervalo de comparación alrededor de los valores de la mediana. La altura de la muesca es la mediana $+/- 1,57 x IQR/sqrt(n)$ donde IQR es el rango intercuartíl definido por los percentiles 25 y 75 y **n** es el número de puntos de datos
 
 
 # Teoretical boxplot
@@ -64,7 +64,7 @@ Las muescas a los lados de un diagrama de caja se pueden interpretar como un int
 df=as.tibble(c(1,8:10, 100:120, 125:135,150:160, 800, 1000))
 df
 df %>% 
-  ggplot(aes(value, x=1))+ 
+  ggplot(aes(value, x=1))+ # x=1 representa que hay solamente un grupo
   geom_boxplot()
 ```
 
@@ -133,6 +133,11 @@ gridExtra::grid.arrange(boxplot1,boxplot2, boxplot3, boxplot4,ncol=2)
 ### Cambiar el ancho de las cajas
 
 Cambiar el ancho de las cajas con **varwidth**. Esto produce un diagrama de caja estándar y por defecto es FALSE; si es TRUE, produce un diagrama donde el ancho en el eje de **X** es proporcional a la raíz cuadrada del número de observaciones en los grupos. 
+
+$$x=\sqrt(n)$$
+
+
+
 
 
 ```{r, boxplot_flower}

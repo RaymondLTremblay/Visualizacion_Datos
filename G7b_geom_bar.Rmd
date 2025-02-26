@@ -39,7 +39,7 @@ knitr::include_graphics(c("Graficos/hex_ggversa.png", "Graficos/hex_Visualizacio
 
 ```{r}
 
-#devtools::install_github("EvaMaeRey/flipbookr")
+
 
 library(tidyverse)
 library(ggversa)
@@ -110,13 +110,14 @@ ggplot(data=Pop_PR) +
            #variable "Valor", se le esta asignando un valor negativo a cada valor a los hombres.  
            stat = "identity",
            subset(Pop_PR,Pop_PR$Sexo=="Hombre"))+
-  scale_y_continuous(breaks=seq(-140000,140000,40000),
-                     labels=abs(seq(-140000,140000,40000)))+
+  scale_y_continuous(breaks=seq(-140000,140000,20000),
+                     labels=abs(seq(-140000,140000,20000)))+
   coord_flip()+
   ylab("Tamaño poblacional")+
   theme(axis.title=element_text(size=10,face="bold"))+
   scale_fill_manual(values = c("green", "#36211D"))+
-  scale_color_manual(values = c("green", "#36211D"))
+  scale_color_manual(values = c("green", "#36211D"))+
+  theme(axis.text.x=element_text( angle=45)) # change the angle of the text
 
 
 #Population Pyramid de PR, del censo 2015. 
@@ -279,8 +280,8 @@ head(ASBESTOS_QUEBEC)
 library(tidyverse)
 
 #ggplot(data=ASBESTOS_QUEBEC)+
- # aes(x=Fecha, y=temp_prom_max) +
-  #geom_bar(stat = "identity", position="identity")
+#  aes(x=fecha, y=temp_prom_max) +
+#  geom_bar(stat = "identity", position="identity")
 
 
 ASBESTOSsub=subset(ASBESTOS_QUEBEC, year>1962 & year<1967) # 1963 al 1966

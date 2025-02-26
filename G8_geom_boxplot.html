@@ -601,7 +601,7 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2025-02-19&quot;</code></pre>
+<pre><code>## [1] &quot;2025-02-26&quot;</code></pre>
 <p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" /></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(gridExtra)<span class="co"># Para organizar múltiples gráficos juntos</span></span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -639,9 +639,9 @@ que para este último caso en particular, hay más de un grupo.</p>
 <p>Las muescas a los lados de un diagrama de caja se pueden interpretar
 como un intervalo de comparación alrededor de los valores de la mediana.
 La altura de la muesca es la mediana <span class="math inline">\(+/-
-1,57 x IQR/sqrt(n)\)</span> donde IQR es el rango intercuartílico
-definido por los percentiles 25 y 75 y <strong>n</strong> es el número
-de puntos de datos</p>
+1,57 x IQR/sqrt(n)\)</span> donde IQR es el rango intercuartíl definido
+por los percentiles 25 y 75 y <strong>n</strong> es el número de puntos
+de datos</p>
 </div>
 <div id="teoretical-boxplot" class="section level1">
 <h1>Teoretical boxplot</h1>
@@ -662,7 +662,7 @@ de puntos de datos</p>
 ## 10   105
 ## # ℹ 39 more rows</code></pre>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>df <span class="sc">%&gt;%</span> </span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(value, <span class="at">x=</span><span class="dv">1</span>))<span class="sc">+</span> </span>
+<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(value, <span class="at">x=</span><span class="dv">1</span>))<span class="sc">+</span> <span class="co"># x=1 representa que hay solamente un grupo</span></span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code></pre></div>
 <p><img src="G8_geom_boxplot_files/figure-html/teoretical%20box%20plot-1.png" width="672" /></p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="co">#names(dipodium)</span></span>
@@ -1315,6 +1315,7 @@ produce un diagrama de caja estándar y por defecto es FALSE; si es TRUE,
 produce un diagrama donde el ancho en el eje de <strong>X</strong> es
 proporcional a la raíz cuadrada del número de observaciones en los
 grupos.</p>
+<p><span class="math display">\[x=\sqrt(n)\]</span></p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>dipodium <span class="sc">%&gt;%</span> </span>
 <span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(number_of_flowers, number_of_fruits) <span class="sc">%&gt;%</span> </span>
 <span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span> </span>

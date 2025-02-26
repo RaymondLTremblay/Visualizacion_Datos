@@ -602,16 +602,38 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2025-02-19&quot;</code></pre>
+<pre><code>## [1] &quot;2025-02-26&quot;</code></pre>
 <p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" /></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="co">#devtools::install_github(&quot;EvaMaeRey/flipbookr&quot;)</span></span>
-<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">library</span>(flipbookr) </span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="fu">library</span>(ggversa)</span>
-<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a> </span>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># paquete para manipulación de datos</span></span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="fu">library</span>(ggversa) <span class="co"># paquete con datos </span></span>
+<span id="cb2-5"><a href="#cb2-5" tabindex="-1"></a><span class="fu">library</span>(janitor) <span class="co"># paquete para limpiar los nombres de las columnas</span></span>
 <span id="cb2-6"><a href="#cb2-6" tabindex="-1"></a><span class="fu">library</span>(gridExtra) <span class="co"># paquete para organizar los gráficos</span></span>
 <span id="cb2-7"><a href="#cb2-7" tabindex="-1"></a>DW<span class="ot">=</span>dipodium</span>
-<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>DW<span class="ot">=</span><span class="fu">clean_names</span>(DW)</span></code></pre></div>
+<span id="cb2-8"><a href="#cb2-8" tabindex="-1"></a>DW<span class="ot">=</span><span class="fu">clean_names</span>(DW)</span>
+<span id="cb2-9"><a href="#cb2-9" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" tabindex="-1"></a>DW</span></code></pre></div>
+<pre><code>## # A tibble: 1,365 × 21
+##    tree_number tree_species   dbh plant_number ramet_number distance orientation
+##          &lt;int&gt; &lt;chr&gt;        &lt;dbl&gt;        &lt;int&gt;        &lt;int&gt;    &lt;dbl&gt;       &lt;dbl&gt;
+##  1           1 E.o           75              1            1     2.47          40
+##  2           1 E.o           76              2            1     1.97          50
+##  3           2 E.o           76              3            1     1.95         350
+##  4           3 E.o           58              4            1     3.24         210
+##  5           4 E.o           NA              5            1     0.85          80
+##  6           5 E.o           59              6            1     2.62         160
+##  7           5 E.o           59              7            1     2.82         170
+##  8           6 E.o            8              8            1     3.12         245
+##  9           7 E.o           11.5            9            1     1.12         208
+## 10           8 E.o            8.5           10            1     0.75         360
+## # ℹ 1,355 more rows
+## # ℹ 14 more variables: number_of_flowers &lt;dbl&gt;, height_inflo &lt;dbl&gt;,
+## #   herbivory &lt;chr&gt;, row_position_nf &lt;int&gt;, number_flowers_position &lt;int&gt;,
+## #   number_of_fruits &lt;int&gt;, perc_fr_set &lt;dbl&gt;, pardalinum_or_roseum &lt;chr&gt;,
+## #   fruit_position_effect &lt;int&gt;, frutos_si_o_no &lt;int&gt;,
+## #   p_or_r_infl_lenght &lt;chr&gt;, num_of_fruits &lt;int&gt;, species_name &lt;chr&gt;,
+## #   cardinal_orientation &lt;int&gt;</code></pre>
 <hr />
 <div id="una-variable-discreta-gráfico-de-barras-con-geom_bar"
 class="section level1">
@@ -627,12 +649,12 @@ discreta representada en el eje de <strong>X</strong>.</p>
 del archivo usando <strong>drop_na()</strong>, es el función que excluye
 todas las filas que contienen los <strong>NA</strong>. Nuevamente
 utilizaremos el archivo de datos de la <em>Dipodium rosea</em>:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="co"># DW$Number_of_Flowers  # Antes de hacer los análisis mira los datos, y vea que hay muchas filas con **NA**, remueve **#** para activar la función. </span></span>
-<span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a><span class="co"># Method 1</span></span>
-<span id="cb3-4"><a href="#cb3-4" tabindex="-1"></a></span>
-<span id="cb3-5"><a href="#cb3-5" tabindex="-1"></a><span class="fu">head</span>(DW)</span></code></pre></div>
-<pre><code>## # A tibble: 6 × 21
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a><span class="co"># DW$Number_of_Flowers  # Antes de hacer los análisis mira los datos, y vea que hay muchas filas con **NA**, remueve **#** para activar la función. </span></span>
+<span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a><span class="co"># Method 1</span></span>
+<span id="cb4-4"><a href="#cb4-4" tabindex="-1"></a></span>
+<span id="cb4-5"><a href="#cb4-5" tabindex="-1"></a><span class="fu">head</span>(DW, <span class="at">n=</span><span class="dv">7</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 7 × 21
 ##   tree_number tree_species   dbh plant_number ramet_number distance orientation
 ##         &lt;int&gt; &lt;chr&gt;        &lt;dbl&gt;        &lt;int&gt;        &lt;int&gt;    &lt;dbl&gt;       &lt;dbl&gt;
 ## 1           1 E.o             75            1            1     2.47          40
@@ -641,20 +663,38 @@ utilizaremos el archivo de datos de la <em>Dipodium rosea</em>:</p>
 ## 4           3 E.o             58            4            1     3.24         210
 ## 5           4 E.o             NA            5            1     0.85          80
 ## 6           5 E.o             59            6            1     2.62         160
+## 7           5 E.o             59            7            1     2.82         170
 ## # ℹ 14 more variables: number_of_flowers &lt;dbl&gt;, height_inflo &lt;dbl&gt;,
 ## #   herbivory &lt;chr&gt;, row_position_nf &lt;int&gt;, number_flowers_position &lt;int&gt;,
 ## #   number_of_fruits &lt;int&gt;, perc_fr_set &lt;dbl&gt;, pardalinum_or_roseum &lt;chr&gt;,
 ## #   fruit_position_effect &lt;int&gt;, frutos_si_o_no &lt;int&gt;,
 ## #   p_or_r_infl_lenght &lt;chr&gt;, num_of_fruits &lt;int&gt;, species_name &lt;chr&gt;,
 ## #   cardinal_orientation &lt;int&gt;</code></pre>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>DW <span class="sc">%&gt;%</span></span>
-<span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="fu">drop_na</span>(number_of_flowers)<span class="sc">%&gt;%</span></span>
-<span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(number_of_flowers))<span class="sc">+</span></span>
-<span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill=</span><span class="st">&quot;red&quot;</span>,<span class="at">color=</span><span class="st">&quot;white&quot;</span>)<span class="sc">+</span></span>
-<span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Cantidad de Flores&quot;</span>)<span class="sc">+</span></span>
-<span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<p><img src="G7_geom_bar_files/figure-html/dipodiumbarrafb-1.png" width="672" /></p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">tail</span>(DW, <span class="at">n=</span><span class="dv">7</span>)</span></code></pre></div>
+<pre><code>## # A tibble: 7 × 21
+##   tree_number tree_species   dbh plant_number ramet_number distance orientation
+##         &lt;int&gt; &lt;chr&gt;        &lt;dbl&gt;        &lt;int&gt;        &lt;int&gt;    &lt;dbl&gt;       &lt;dbl&gt;
+## 1          NA &lt;NA&gt;            NA           NA           NA       NA          NA
+## 2          NA &lt;NA&gt;            NA           NA           NA       NA          NA
+## 3          NA &lt;NA&gt;            NA           NA           NA       NA          NA
+## 4          NA &lt;NA&gt;            NA           NA           NA       NA          NA
+## 5          NA &lt;NA&gt;            NA           NA           NA       NA          NA
+## 6          NA &lt;NA&gt;            NA           NA           NA       NA          NA
+## 7          NA &lt;NA&gt;            NA           NA           NA       NA          NA
+## # ℹ 14 more variables: number_of_flowers &lt;dbl&gt;, height_inflo &lt;dbl&gt;,
+## #   herbivory &lt;chr&gt;, row_position_nf &lt;int&gt;, number_flowers_position &lt;int&gt;,
+## #   number_of_fruits &lt;int&gt;, perc_fr_set &lt;dbl&gt;, pardalinum_or_roseum &lt;chr&gt;,
+## #   fruit_position_effect &lt;int&gt;, frutos_si_o_no &lt;int&gt;,
+## #   p_or_r_infl_lenght &lt;chr&gt;, num_of_fruits &lt;int&gt;, species_name &lt;chr&gt;,
+## #   cardinal_orientation &lt;int&gt;</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>DW <span class="sc">%&gt;%</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="fu">drop_na</span>(number_of_flowers)<span class="sc">%&gt;%</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(number_of_flowers))<span class="sc">+</span></span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">fill=</span><span class="st">&quot;red&quot;</span>,<span class="at">color=</span><span class="st">&quot;white&quot;</span>)<span class="sc">+</span></span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Cantidad de Flores&quot;</span>)<span class="sc">+</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<p><img src="G7_geom_bar_files/figure-html/bar_4-1.png" width="672" /></p>
 </div>
 <div id="cambio-de-intensidad-de-color-con-alpha"
 class="section level1">
@@ -662,7 +702,7 @@ class="section level1">
 <p>Se puede cambiar la intensidad del color de las barras usando
 <strong>alpha</strong>. los valores pueden variar de 0 a 1, donde 1 es
 mas intenso el color, aquí se utiliza un <strong>alpha=0.3</strong>.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">head</span>(DW)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">head</span>(DW)</span></code></pre></div>
 <pre><code>## # A tibble: 6 × 21
 ##   tree_number tree_species   dbh plant_number ramet_number distance orientation
 ##         &lt;int&gt; &lt;chr&gt;        &lt;dbl&gt;        &lt;int&gt;        &lt;int&gt;    &lt;dbl&gt;       &lt;dbl&gt;
@@ -678,16 +718,16 @@ mas intenso el color, aquí se utiliza un <strong>alpha=0.3</strong>.</p>
 ## #   fruit_position_effect &lt;int&gt;, frutos_si_o_no &lt;int&gt;,
 ## #   p_or_r_infl_lenght &lt;chr&gt;, num_of_fruits &lt;int&gt;, species_name &lt;chr&gt;,
 ## #   cardinal_orientation &lt;int&gt;</code></pre>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co"># [df(fila,columas)]</span></span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>b<span class="ot">=</span><span class="fu">ggplot</span>(DW[<span class="sc">!</span><span class="fu">is.na</span>(DW<span class="sc">$</span>number_of_flowers),],</span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>         <span class="fu">aes</span>(number_of_flowers))</span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>b<span class="sc">+</span><span class="fu">geom_bar</span>(<span class="at">alpha=</span>.<span class="dv">3</span>,</span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>               <span class="at">fill=</span><span class="st">&quot;blue&quot;</span>,<span class="at">color=</span><span class="st">&quot;white&quot;</span>)<span class="sc">+</span></span>
-<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Posiciones de las </span><span class="sc">\n</span><span class="st"> flores en la inflorescencia&quot;</span>)<span class="sc">+</span></span>
-<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
-<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<p><img src="G7_geom_bar_files/figure-html/dipodium_barra1-1.png" width="672" /></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="co"># [df(fila,columas)]</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>b<span class="ot">=</span><span class="fu">ggplot</span>(DW[<span class="sc">!</span><span class="fu">is.na</span>(DW<span class="sc">$</span>number_of_flowers),],</span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>         <span class="fu">aes</span>(number_of_flowers))</span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>b<span class="sc">+</span><span class="fu">geom_bar</span>(<span class="at">alpha=</span>.<span class="dv">3</span>,</span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>               <span class="at">fill=</span><span class="st">&quot;blue&quot;</span>,<span class="at">color=</span><span class="st">&quot;white&quot;</span>)<span class="sc">+</span></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Posiciones de las </span><span class="sc">\n</span><span class="st"> flores en la inflorescencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<p><img src="G7_geom_bar_files/figure-html/bar_5-1.png" width="672" /></p>
 <hr />
 <div class="figure">
 <img src="Graficos/L_eltoroensis.jpeg" alt="Figura: Lepanthes eltoroensis, EL Yunque, Puerto Rico" width="315" style="float:right; padding:10px" />
@@ -729,18 +769,18 @@ identificar que estos valores son una categoría usando factor. El
 gráfico presenta las variables discretas una sobre la otra. Note en la
 Figura al igual que con <strong>geom_histogram</strong>, la frecuencia
 del segundo grupo es añadida a la frecuencia del primer grupo.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>DW<span class="sc">%&gt;%</span></span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>  <span class="fu">select</span>(fruit_position_effect,frutos_si_o_no )<span class="sc">%&gt;%</span> <span class="co"># Selecciona las variables</span></span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="fu">drop_na</span>(fruit_position_effect)<span class="sc">%&gt;%</span> <span class="co"># Remueve los NA</span></span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(fruit_position_effect))<span class="sc">+</span> <span class="co"># Asigna la variable continua</span></span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">fill=</span><span class="fu">factor</span>(frutos_si_o_no)))<span class="sc">+</span> <span class="co"># Asigna la variable discreta</span></span>
-<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Posiciones de las </span><span class="sc">\n</span><span class="st"> flores en la inflorescencia&quot;</span>)<span class="sc">+</span></span>
-<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
-<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a> <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;green&quot;</span>, <span class="st">&quot;#36211D&quot;</span>))<span class="sc">+</span></span>
-<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a> <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;yellow&quot;</span>, <span class="st">&quot;blue&quot;</span>))</span></code></pre></div>
-<p><img src="G7_geom_bar_files/figure-html/dipodium_barra2-1.png" width="672" /></p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">head</span>(Lelto)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>DW<span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>  <span class="fu">select</span>(fruit_position_effect,frutos_si_o_no )<span class="sc">%&gt;%</span> <span class="co"># Selecciona las variables</span></span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>  <span class="fu">drop_na</span>(fruit_position_effect)<span class="sc">%&gt;%</span> <span class="co"># Remueve los NA</span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(fruit_position_effect))<span class="sc">+</span> <span class="co"># Asigna la variable continua</span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a><span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">fill=</span><span class="fu">factor</span>(frutos_si_o_no)))<span class="sc">+</span> <span class="co"># Asigna la variable discreta</span></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Posiciones de las flores </span><span class="sc">\n</span><span class="st"> en la inflorescencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a> <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;green&quot;</span>, <span class="st">&quot;#36211D&quot;</span>))<span class="sc">+</span></span>
+<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a> <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;yellow&quot;</span>, <span class="st">&quot;blue&quot;</span>))</span></code></pre></div>
+<p><img src="G7_geom_bar_files/figure-html/bar_9-1.png" width="672" /></p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">head</span>(Lelto)</span></code></pre></div>
 <pre><code>##   Tree Trail Distance Alt_m Angulo Rango_rad Localizacion Inclinacion  DBH
 ## 1  203    Tw        0   780    260  4.535556          230          50 18.1
 ## 2  204    Tw      228   783    158  2.756222          220          40 23.2
@@ -765,16 +805,16 @@ class="section level1">
 posicionado contiguamente. Además, removeremos la leyenda con
 <strong>guides(fill=FALSE)</strong> como se muestra a continuación con
 los datos de la <em>Dipodium rosea</em>:</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>DW<span class="sc">%&gt;%</span></span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>  <span class="fu">select</span>(fruit_position_effect,frutos_si_o_no )<span class="sc">%&gt;%</span></span>
-<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>  <span class="fu">drop_na</span>(fruit_position_effect)<span class="sc">%&gt;%</span></span>
-<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(fruit_position_effect))<span class="sc">+</span></span>
-<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">fill=</span><span class="fu">factor</span>(frutos_si_o_no)),<span class="at">color=</span><span class="st">&quot;white&quot;</span>,</span>
-<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>           <span class="at">position =</span> <span class="st">&quot;dodge&quot;</span>)<span class="sc">+</span></span>
-<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Posiciones de las flores en la inflorescencia&quot;</span>)<span class="sc">+</span></span>
-<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
-<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill=</span><span class="cn">FALSE</span>)<span class="sc">+</span></span>
-<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>DW<span class="sc">%&gt;%</span></span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>  <span class="fu">select</span>(fruit_position_effect,frutos_si_o_no )<span class="sc">%&gt;%</span></span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>  <span class="fu">drop_na</span>(fruit_position_effect)<span class="sc">%&gt;%</span></span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(fruit_position_effect))<span class="sc">+</span></span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">fill=</span><span class="fu">factor</span>(frutos_si_o_no)),<span class="at">color=</span><span class="st">&quot;white&quot;</span>,</span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>           <span class="at">position =</span> <span class="st">&quot;dodge&quot;</span>)<span class="sc">+</span></span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Posiciones de las flores en la inflorescencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill=</span><span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G7_geom_bar_files/figure-html/dipodium_barra3-1.png" width="672" /></p>
 <hr />
 </div>
@@ -784,16 +824,16 @@ class="section level1">
 <p>En el próximo gráfico, la frecuencia de ambos grupos comienza en cero
 pero aún saldrán sobrepuestos uno al otro usando
 <strong>position=identity</strong></p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>DW<span class="sc">%&gt;%</span></span>
-<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>  <span class="fu">select</span>(fruit_position_effect,frutos_si_o_no )<span class="sc">%&gt;%</span></span>
-<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>  <span class="fu">drop_na</span>(fruit_position_effect)<span class="sc">%&gt;%</span></span>
-<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(fruit_position_effect))<span class="sc">+</span></span>
-<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">fill=</span><span class="fu">factor</span>(frutos_si_o_no)),<span class="at">color=</span><span class="st">&quot;white&quot;</span>,</span>
-<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>           <span class="at">position =</span> <span class="st">&quot;identity&quot;</span>)<span class="sc">+</span> <span class="co"># Para que cada grupo comience en cero</span></span>
-<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Posiciones de las flores en la inflorescencia&quot;</span>)<span class="sc">+</span></span>
-<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
-<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill=</span><span class="cn">FALSE</span>)<span class="sc">+</span></span>
-<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>DW<span class="sc">%&gt;%</span></span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>  <span class="fu">select</span>(fruit_position_effect,frutos_si_o_no )<span class="sc">%&gt;%</span></span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>  <span class="fu">drop_na</span>(fruit_position_effect)<span class="sc">%&gt;%</span></span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(fruit_position_effect))<span class="sc">+</span></span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">fill=</span><span class="fu">factor</span>(frutos_si_o_no)),<span class="at">color=</span><span class="st">&quot;white&quot;</span>,</span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a>           <span class="at">position =</span> <span class="st">&quot;identity&quot;</span>)<span class="sc">+</span> <span class="co"># Para que cada grupo comience en cero</span></span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Posiciones de las flores en la inflorescencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill=</span><span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb16-10"><a href="#cb16-10" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G7_geom_bar_files/figure-html/dipodium_barra3b-1.png" width="672" /></p>
 <hr />
 </div>
@@ -810,17 +850,17 @@ las flores en la inflorescencia no hay información para la segunda
 especie (la que aparece en azul). Esto se puede resolver añadiendo la
 información en el archivo original.</p>
 <p>fill=factor(Frutos_si_o_no)</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>DW<span class="sc">%&gt;%</span></span>
-<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>  <span class="fu">select</span>(fruit_position_effect,frutos_si_o_no )<span class="sc">%&gt;%</span></span>
-<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>  <span class="fu">drop_na</span>(fruit_position_effect)<span class="sc">%&gt;%</span></span>
-<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(fruit_position_effect))<span class="sc">+</span></span>
-<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y=</span>(..count..)<span class="sc">/</span><span class="fu">sum</span>(..count..), </span>
-<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a>               <span class="at">fill=</span><span class="fu">factor</span>(frutos_si_o_no)),</span>
-<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a>               <span class="at">color=</span><span class="st">&quot;white&quot;</span>, <span class="at">position=</span><span class="st">&quot;dodge&quot;</span>)<span class="sc">+</span> <span class="co"># Para que cada grupo comience en cero se usa position = &quot;identity&quot;</span></span>
-<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Posiciones de las flores en la inflorescencia&quot;</span>)<span class="sc">+</span></span>
-<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
-<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill=</span><span class="cn">FALSE</span>)<span class="sc">+</span></span>
-<span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>DW<span class="sc">%&gt;%</span></span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>  <span class="fu">select</span>(fruit_position_effect,frutos_si_o_no )<span class="sc">%&gt;%</span></span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>  <span class="fu">drop_na</span>(fruit_position_effect)<span class="sc">%&gt;%</span></span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(fruit_position_effect))<span class="sc">+</span></span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y=</span>(..count..)<span class="sc">/</span><span class="fu">sum</span>(..count..), </span>
+<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a>               <span class="at">fill=</span><span class="fu">factor</span>(frutos_si_o_no)),</span>
+<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a>               <span class="at">color=</span><span class="st">&quot;white&quot;</span>, <span class="at">position=</span><span class="st">&quot;dodge&quot;</span>)<span class="sc">+</span> <span class="co"># Para que cada grupo comience en cero se usa position = &quot;identity&quot;</span></span>
+<span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Posiciones de las flores en la inflorescencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb17-9"><a href="#cb17-9" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb17-10"><a href="#cb17-10" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill=</span><span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb17-11"><a href="#cb17-11" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G7_geom_bar_files/figure-html/dipodium_barra3a-1.png" width="672" /></p>
 <hr />
 <hr />
@@ -834,19 +874,19 @@ variable discreta en este caso; o sea, si la planta tiene frutos (verde)
 o no (rojo). Ecologicamente se observa que la posición de las flores
 arriba (&gt;27) en la inflorescencia resulta en menos frutos
 porcentualmente que las posiciones más abajo.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">require</span>(scales)</span>
-<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a></span>
-<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>DW<span class="sc">%&gt;%</span></span>
-<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>  <span class="fu">select</span>(fruit_position_effect,frutos_si_o_no )<span class="sc">%&gt;%</span></span>
-<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>  <span class="fu">drop_na</span>(fruit_position_effect)<span class="sc">%&gt;%</span></span>
-<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">factor</span>(fruit_position_effect),</span>
-<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a>             <span class="at">fill=</span><span class="fu">factor</span>(frutos_si_o_no)))<span class="sc">+</span></span>
-<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a><span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y=</span>(..count..)<span class="sc">/</span><span class="fu">sum</span>(..count..)),</span>
-<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a>           <span class="at">position=</span><span class="st">&quot;fill&quot;</span>)<span class="sc">+</span> <span class="co"># Para que cada columna sume a 1.0 se usa position = &quot;fill&quot;</span></span>
-<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Posiciones de las flores en la inflorescencia&quot;</span>)<span class="sc">+</span></span>
-<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Proporción&quot;</span>)<span class="sc">+</span></span>
-<span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a>    <span class="fu">guides</span>(<span class="at">fill=</span><span class="cn">FALSE</span>)<span class="sc">+</span></span>
-<span id="cb15-13"><a href="#cb15-13" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">require</span>(scales)</span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>DW<span class="sc">%&gt;%</span></span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>  <span class="fu">select</span>(fruit_position_effect,frutos_si_o_no )<span class="sc">%&gt;%</span></span>
+<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>  <span class="fu">drop_na</span>(fruit_position_effect)<span class="sc">%&gt;%</span></span>
+<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">factor</span>(fruit_position_effect),</span>
+<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a>             <span class="at">fill=</span><span class="fu">factor</span>(frutos_si_o_no)))<span class="sc">+</span></span>
+<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a><span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y=</span>(..count..)<span class="sc">/</span><span class="fu">sum</span>(..count..)),</span>
+<span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a>           <span class="at">position=</span><span class="st">&quot;fill&quot;</span>)<span class="sc">+</span> <span class="co"># Para que cada columna sume a 1.0 se usa position = &quot;fill&quot;</span></span>
+<span id="cb18-10"><a href="#cb18-10" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Posiciones de las flores en la inflorescencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb18-11"><a href="#cb18-11" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Proporción&quot;</span>)<span class="sc">+</span></span>
+<span id="cb18-12"><a href="#cb18-12" tabindex="-1"></a>    <span class="fu">guides</span>(<span class="at">fill=</span><span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb18-13"><a href="#cb18-13" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G7_geom_bar_files/figure-html/dipodium_barra4-1.png" width="672" /></p>
 <hr />
 <ol start="2" style="list-style-type: decimal">
@@ -882,28 +922,28 @@ hace dificil encontrarla en el web.</p>
 de mayor a menor. En el archivo de datos de la <em>Dipodium rosea</em>,
 se observa que la posición de las flores en la inflorescencia se ordena
 de mayor a menor.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">library</span>(forcats)</span>
-<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a></span>
-<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>DW<span class="sc">%&gt;%</span></span>
-<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>  <span class="fu">select</span>(fruit_position_effect,frutos_si_o_no )<span class="sc">%&gt;%</span></span>
-<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>  <span class="fu">drop_na</span>(fruit_position_effect)<span class="sc">%&gt;%</span></span>
-<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">reorder</span>(<span class="fu">factor</span>(fruit_position_effect),<span class="sc">-</span>fruit_position_effect),</span>
-<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a>             <span class="at">fill=</span><span class="fu">factor</span>(frutos_si_o_no)))<span class="sc">+</span></span>
-<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y=</span>(..count..)<span class="sc">/</span><span class="fu">sum</span>(..count..)))<span class="sc">+</span></span>
-<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Posiciones de las flores en la inflorescencia&quot;</span>)<span class="sc">+</span></span>
-<span id="cb16-10"><a href="#cb16-10" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Proporción de flores con frutos&quot;</span>)<span class="sc">+</span></span>
-<span id="cb16-11"><a href="#cb16-11" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill=</span><span class="cn">FALSE</span>)<span class="sc">+</span></span>
-<span id="cb16-12"><a href="#cb16-12" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb16-13"><a href="#cb16-13" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;green&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">library</span>(forcats)</span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>DW<span class="sc">%&gt;%</span></span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a>  <span class="fu">select</span>(fruit_position_effect,frutos_si_o_no )<span class="sc">%&gt;%</span></span>
+<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a>  <span class="fu">drop_na</span>(fruit_position_effect)<span class="sc">%&gt;%</span></span>
+<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">reorder</span>(<span class="fu">factor</span>(fruit_position_effect),<span class="sc">-</span>fruit_position_effect),</span>
+<span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a>             <span class="at">fill=</span><span class="fu">factor</span>(frutos_si_o_no)))<span class="sc">+</span></span>
+<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="fu">aes</span>(<span class="at">y=</span>(..count..)<span class="sc">/</span><span class="fu">sum</span>(..count..)))<span class="sc">+</span></span>
+<span id="cb19-9"><a href="#cb19-9" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Posiciones de las flores en la inflorescencia&quot;</span>)<span class="sc">+</span></span>
+<span id="cb19-10"><a href="#cb19-10" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Proporción de flores con frutos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb19-11"><a href="#cb19-11" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">fill=</span><span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb19-12"><a href="#cb19-12" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb19-13"><a href="#cb19-13" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;red&quot;</span>, <span class="st">&quot;green&quot;</span>))</span></code></pre></div>
 <p><img src="G7_geom_bar_files/figure-html/dipodium_barra5-1.png" width="672" /></p>
 <div id="section" class="section level3">
 <h3></h3>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>df<span class="ot">=</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
-<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>df</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>df<span class="ot">=</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>)</span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>df</span></code></pre></div>
 <pre><code>##  [1]  1  2  3  4  5  6  7  8  9 10</code></pre>
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="sc">-</span><span class="fu">sort</span>(df)</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="sc">-</span><span class="fu">sort</span>(df)</span></code></pre></div>
 <pre><code>##  [1]  -1  -2  -3  -4  -5  -6  -7  -8  -9 -10</code></pre>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="fu">order</span>(<span class="sc">-</span>df)</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="fu">order</span>(<span class="sc">-</span>df)</span></code></pre></div>
 <pre><code>##  [1] 10  9  8  7  6  5  4  3  2  1</code></pre>
 </div>
 </div>
