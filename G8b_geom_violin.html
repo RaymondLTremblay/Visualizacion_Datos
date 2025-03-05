@@ -601,7 +601,7 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2025-02-26&quot;</code></pre>
+<pre><code>## [1] &quot;2025-03-05&quot;</code></pre>
 <p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" /></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(gridExtra)<span class="co"># Para organizar múltiples gráficos juntos</span></span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -620,6 +620,23 @@ que, tal como ocurre con <strong>geom_boxplot</strong>, si se tiene
 solamente un grupo, se tiene que incluir <strong>x=1</strong>. Lo que
 uno observa es que la mayoria de la información encuentre cerca del
 valor 5 y 10</p>
+<p>Figura de la caracteristicas morfologicas de la orquídea
+<em>Caladenia valida</em> recolectado</p>
+<div class="figure">
+<img src="Graficos/Caladenia_valida_morphological_characters.png" alt="Caladenia valida, una orquídea terrestre australiana" width="70%" style="float:right; padding:10px" />
+<p class="caption">
+Caladenia valida, una orquídea terrestre australiana
+</p>
+</div>
+<p>Foto de <em>Caladenia valida</em>, una orquídea terrestre
+australiana. Foto de Andrew Bould</p>
+<div class="figure">
+<img src="Graficos/Caladenia_valida_3_A_Bould.jpg" alt="Caladenia valida, Foto de Andrew Bould" width="60%" />
+<p class="caption">
+Caladenia valida, Foto de Andrew Bould
+</p>
+</div>
+<hr />
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>CalVal<span class="ot">=</span>caladeniavalida </span>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>violinplot1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(CalVal, <span class="fu">aes</span>(DCL, <span class="at">x=</span><span class="dv">1</span>))</span>
@@ -664,7 +681,7 @@ a los violines y se le cambia la intensidad al color con
 <span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="fu">geom_violin</span>()<span class="sc">+</span></span>
 <span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span></span>
 <span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="fu">geom_jitter</span>(<span class="at">position =</span> <span class="fu">position_jitter</span>(<span class="at">width =</span> .<span class="dv">1</span>))</span></code></pre></div>
-<p><img src="G8b_geom_violin_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="G8b_geom_violin_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 </div>
 <div id="geom_violin-utilizado-con-geom_point-y-geom_jitter"
 class="section level2">
@@ -842,7 +859,7 @@ utilizando la opción <strong>coord_flip()</strong>.</p>
 <span id="cb18-11"><a href="#cb18-11" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin=</span><span class="dv">0</span>, <span class="at">ymax=</span>y, <span class="at">fill=</span>quant)) <span class="sc">+</span> </span>
 <span id="cb18-12"><a href="#cb18-12" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span>quantiles) <span class="sc">+</span> </span>
 <span id="cb18-13"><a href="#cb18-13" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">guide=</span><span class="st">&quot;none&quot;</span>)</span></code></pre></div>
-<p><img src="G8b_geom_violin_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="G8b_geom_violin_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>CalVal2<span class="ot">=</span></span>
 <span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>  CalVal <span class="sc">%&gt;%</span> <span class="fu">select</span>(OH) <span class="sc">%&gt;%</span> </span>
 <span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>  <span class="fu">drop_na</span>()    <span class="co"># Seleccionar lo datos deseados removiendo los &quot;NA&quot;</span></span>
@@ -888,7 +905,7 @@ utilizando la opción <strong>coord_flip()</strong>.</p>
 <span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span>quantiles) <span class="sc">+</span> </span>
 <span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a>  <span class="fu">scale_fill_brewer</span>(<span class="at">palette =</span> <span class="st">&quot;Set1&quot;</span>,<span class="at">guide=</span><span class="st">&quot;none&quot;</span>)<span class="sc">+</span>  <span class="co"># colores horribles</span></span>
 <span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>))</span></code></pre></div>
-<p><img src="G8b_geom_violin_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="G8b_geom_violin_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <hr />
 <ol start="2" style="list-style-type: decimal">
 <li>Preparar un gráfico de violín. Utiliza los datos

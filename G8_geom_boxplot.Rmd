@@ -61,11 +61,18 @@ Las muescas a los lados de un diagrama de caja se pueden interpretar como un int
 # Teoretical boxplot
 
 ```{r teoretical box plot, echo=TRUE}
-df=as.tibble(c(1,8:10, 100:120, 125:135,150:160, 800, 1000))
+df=as.tibble(c(1,8:10, 100:120, 125:135,150:160))
 df
 df %>% 
   ggplot(aes(value, x=1))+ # x=1 representa que hay solamente un grupo
   geom_boxplot()
+
+
+df2=as_tibble(c(2,3,2,2,4,11,8,2,5,5,3,4,2,3,3,3,4,9,2))
+df2 %>% 
+  ggplot(aes(value, x=1))+ # x=1 representa que hay solamente un grupo
+  geom_boxplot()
+
 ```
 
 
@@ -90,7 +97,7 @@ d1=dipodium %>%
 ```{r, boxplot4-2}
 boxplot1 <- ggplot(d1, aes(number_of_fruits, x=1))+ 
   geom_boxplot()+
-           annotate("text", x= 1,y= 5, label="Fig. 1")+
+           annotate("text", x= .5,y= 5, label="Fig. 1")+
   labs(x="", y="Cantidad de Frutos")+
   theme(axis.title=element_text(size=10,face="bold"))
 ```
@@ -129,6 +136,9 @@ gridExtra::grid.arrange(boxplot1,boxplot2, boxplot3, boxplot4,ncol=2)
 ```
 
 ***
+
+
+
 
 ### Cambiar el ancho de las cajas
 
