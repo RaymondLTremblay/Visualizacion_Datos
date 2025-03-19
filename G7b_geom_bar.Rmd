@@ -187,13 +187,15 @@ DominicanRepublic <- read_csv("Data/DominicanRepublic.csv")
 
 head(DominicanRepublic)
 unique(DominicanRepublic$Area)
-DR=DominicanRepublic%>% 
-  select(Year, Age, Sex, Area, Value) %>% 
-  filter(Year==2010)%>% 
-  filter(Area=="Urban") %>% 
-filter(Sex %in% c("Female", "Male"))
+DR=DominicanRepublic %>% 
+  dplyr::select(Year, Age, Sex, Area, Value) %>% 
+  dplyr::filter(Year==2010)%>% 
+  dplyr::filter(Area=="Rural") %>% 
+  dplyr::filter(Sex %in% c("Female", "Male")) %>% 
+ mutate(Age=as.numeric(Age))
 
-
+DR %>% 
+  arrange(Sex, Age)
 
 
 unique(DR$AgeN)

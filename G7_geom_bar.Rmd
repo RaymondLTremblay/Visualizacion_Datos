@@ -144,6 +144,7 @@ cowplot::plot_grid(a, b, labels = c("A", "B"))
 
 ***
 
+
 # Multiples grupos 
 
 Ahora le añadiremos una variable discreta que representa las frecuencias de las plantas con frutos y la frecuencia de plantas sin frutos para las posiciones de la flor en la inflorescencia. En el **script** se observa que la variable **Frutos_si_o_no** se identifica como un factor. Esto es necesario porque en el archivo de datos la presencia de frutos y flores fue identificada como 1 o 0 o sea valores numéricos.  Si se hubiera identificado como **Sí** o **No**, no habría la necesidad de identificar que es un factor. En tal caso, es necesario identificar que estos valores son una categoría usando factor. El gráfico presenta las variables discretas una sobre la otra. Note en la Figura al igual que con **geom_histogram**, la frecuencia del segundo grupo es añadida a la frecuencia del primer grupo.
@@ -289,7 +290,7 @@ geom_bar(aes(y=(..count..)/sum(..count..)),
      - Cambie de color las barras
      - Cambie el nombre de los nombres de los ejes
      - Salva el gráfico con extensión de .png
-     - Sube el gráfico a Edmodo
+     - Sube el gráfico a .png a MSTeam
      
      
 
@@ -311,9 +312,11 @@ dfLelto # mire como esta organizado los datos
 
 
 ggplot(dfLelto, aes(Conteos, fill=Etapa_de_Vida))+
-  geom_bar()
+  geom_bar(aes(y=(..count..)/sum(..count..)), position="fill")+
+  xlab("Cantidad de plantas")+
+  ylab("Proporción")
  
-
+ggsave("Graficos/Lelto_ejercicio.png")
 ```
 
 

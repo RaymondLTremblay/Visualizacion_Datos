@@ -601,7 +601,7 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2025-03-05&quot;</code></pre>
+<pre><code>## [1] &quot;2025-03-19&quot;</code></pre>
 <p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" /></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(gridExtra)<span class="co"># Para organizar múltiples gráficos juntos</span></span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -680,7 +680,8 @@ a los violines y se le cambia la intensidad al color con
 <span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">ggplot</span>(dfnorm,<span class="fu">aes</span>(normal_data, <span class="at">x=</span><span class="dv">1</span>))<span class="sc">+</span></span>
 <span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="fu">geom_violin</span>()<span class="sc">+</span></span>
 <span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span></span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a><span class="fu">geom_jitter</span>(<span class="at">position =</span> <span class="fu">position_jitter</span>(<span class="at">width =</span> .<span class="dv">1</span>))</span></code></pre></div>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color=</span><span class="st">&quot;red&quot;</span>)<span class="sc">+</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="fu">geom_jitter</span>(<span class="at">position =</span> <span class="fu">position_jitter</span>(<span class="at">width =</span> .<span class="dv">2</span>))</span></code></pre></div>
 <p><img src="G8b_geom_violin_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 </div>
 <div id="geom_violin-utilizado-con-geom_point-y-geom_jitter"
@@ -735,10 +736,11 @@ solapan el violin se revelan sobre mejor.</p>
 <span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>violinplot3 <span class="sc">+</span></span>
 <span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="fu">geom_jitter</span>(<span class="at">position =</span> <span class="fu">position_jitter</span>(<span class="at">width =</span> .<span class="dv">2</span>), <span class="at">colour=</span><span class="st">&quot;red&quot;</span>)<span class="sc">+</span></span>
 <span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>  <span class="fu">geom_violin</span>(<span class="at">fill=</span><span class="st">&quot;yellow&quot;</span>, <span class="at">colour=</span><span class="st">&quot;blue&quot;</span>, <span class="at">alpha=</span><span class="fl">0.3</span>)<span class="sc">+</span></span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span><span class="dv">2</span>,<span class="at">y=</span> <span class="dv">20</span>, <span class="at">size=</span><span class="dv">8</span>,</span>
-<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;&quot;</span>)<span class="sc">+</span></span>
-<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Año&quot;</span>, <span class="at">y=</span><span class="st">&quot;OH&quot;</span>)<span class="sc">+</span></span>
-<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span><span class="dv">2</span>,<span class="at">y=</span> <span class="dv">20</span>, <span class="at">size=</span><span class="dv">8</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;&quot;</span>)<span class="sc">+</span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Año&quot;</span>, <span class="at">y=</span><span class="st">&quot;OH&quot;</span>)<span class="sc">+</span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G8b_geom_violin_files/figure-html/geomviolin4-1.png" width="672" /></p>
 <hr />
 </div>

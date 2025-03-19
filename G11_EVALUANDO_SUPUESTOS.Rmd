@@ -162,6 +162,7 @@ dipodium=janitor::clean_names(dipodium)
 dipodium=dipodium %>% 
   add_row(number_of_flowers = 60, height_inflo =30)
 names(dipodium)
+
 modelflower=lm(number_of_flowers~height_inflo,
          data=dipodium)
 
@@ -176,7 +177,7 @@ Lo que observaremos es que la distribución de los residuales luce más o menos 
   res<-ggplot(modelflower, aes(.fitted, .resid))+
   geom_point()+
   geom_hline(yintercept=0,
-           col="green", linetype="dashed")+
+           col="red", linetype="dashed")+
   theme(axis.title=element_text(size=20,face="bold"),
         axis.text=element_text(size=20, face="bold"))+
   xlab("Valores estimados")+
@@ -224,14 +225,14 @@ Hetero
 
 ## Los residuales de Student para detectar valores sesgados
 
-A continuación se ilustra otro enfoque para evaluar los residuales. En este caso, para detectar valores sesgados (ouliers). Se puede visualizar los residuales se usa los residuales estandarizados divido por la desviación estandard. Valores que mayores de 3 serian considerados sesgados. Esta alternativa es apropiada si detectar valores sesgados.  Note en la figura que se usa otra vez el modelo **modelflower** y los valores calculados en el modelo **.fitted** y los residuales de student con **.stdresid**. Note ahora también que todos los valores en el eje de **Y** son mayores de cero.  Nota que el residual de estandarizado de Student es mayor de 2, por consecuencia se debería evaluar ese punto para asegurar que es un valor real, y no error de poner los datos en la hoja de datos.  Valores típicamente mayor de 3, son considerado "outliers", sesgados, aunque los valores mayores de 2 deberían ser evaluados.
+A continuación se ilustra otro enfoque para evaluar los residuales. En este caso, para detectar valores sesgados (ouliers). Se puede visualizar los residuales se usa los residuales estandarizados divido por la desviación estandard. Valores que son mayores de 3 serian considerados sesgados. Esta alternativa es apropiada para detectar valores sesgados.  Note en la figura que se usa otra vez el modelo **modelflower** y los valores calculados en el modelo **.fitted** y los residuales de Student con **.stdresid**. Note ahora también que todos los valores en el eje de **Y** son mayores de cero.  Nota que el residual de estandarizado de Student es mayor de 2, por consecuencia se debería evaluar ese punto para asegurar que es un valor real, y no error de poner los datos en la hoja de datos.  Valores típicamente mayor de 3, son considerado "outliers", sesgados, aunque los valores mayores de 2 deberían ser evaluados.
 
 ```{r Homogeneityvariance2}
   ResEst=ggplot(modelflower,
                  aes(.fitted, sqrt(abs(.stdresid)))) +
-                 geom_point(aes(colour = .stdresid >3),na.rm=TRUE)+
-  theme(axis.title=element_text(size=20,face="bold"),
-        axis.text=element_text(size=20, face="bold"))+
+                 geom_point(aes(colour = .stdresid >3.0),na.rm=TRUE)+
+  theme(axis.title=element_text(size=10,face="bold"),
+        axis.text=element_text(size=10, face="bold"))+
           xlab("Valores estimados")+
           ylab("Residuales estandarizados \n de Student")+
   ggtitle("Residuales vs. Valores Estimados")
@@ -320,7 +321,7 @@ b <- ggplot(df, aes(sample = y))+
   stat_qq() + 
   stat_qq_line(colour="red")
 
-# hay una nueva funcción en el paquete ggpubr, ggqqplot que incluye los intervalo de confianza
+# hay una nueva función en el paquete ggpubr, ggqqplot que incluye los intervalo de confianza
 
 library(ggpubr)
 
@@ -336,7 +337,15 @@ grid.arrange(a,b,c,d,ncol=2)
 
 ## La distribución normal
 
-Una segunda alternativa para visualizar si los datos siguen una distribución normal es construir un histograma de los datos y gráficar sobre este la curva normal basándonos en el promedio y la desviación estándar de los mismos datos.  Para construir el histograma se usa la función **geom_histogram** y para la  distribución teorica normal de estos datos se usa la función **stat_function**.  Esto lo demostramos con gráficos adicionales de la Becasa del Mar, donde se representa la razón de consumo y el período en que esto ocurrió. En la Figura (a) vemos la distribución para todos los períodos, y los otros tres en la Figura (b) muestran una distribución para cada uno de los períodos.  Se observa en todos los casos que las distribuciones están sesgadas hacia los valores pequeños (hacia la izquierda).  Esta visualización nos ayuda a evaluar la normalidad de esos datos. NOta que no es una prueba estadística igual como el gráfico de qqplot
+Una segunda alternativa para visualizar si los datos siguen una distribución normal es construir un histograma de los datos y gráficar sobre este la curva normal basándonos en el promedio y la desviación estándar de los mismos datos.  Para construir el histograma se usa la función **geom_histogram** y para la  distribución teorica normal de estos datos se usa la función **stat_function**.  Esto lo demostramos con gráficos adicionales de la Becasa del Mar, donde se representa la razón de consumo y el período en que esto ocurrió. En la Figura (a) vemos la distribución para todos los períodos, y los otros tres en la Figura (b) muestran una distribución para cada uno de los períodos.  Se observa en todos los casos que las distribuciones están sesgadas hacia los valores pequeños (hacia la izquierda).  Esta visualización nos ayuda a evaluar la normalidad de esos datos. Nota que no es una prueba estadística igual como el gráfico de qqplot.
+
+La distribución normal tiene una función especifica
+
+$$f(x) = \frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}$$
+
+donde **$\mu$** es el promedio y **$\sigma$** es la desviación estándar y **$\sigma^2$** es la varianca. La **$\e$** es la base de los logaritmos naturales y **$\pi$** es la constante matemática.
+
+En el gráfico se representa la distribución normal para los datos de la razón de consumo de la Becasa de Mar.
 
 Note que en **geom_histogram** se tiene que incluir 
 
@@ -349,8 +358,8 @@ y añadir dentro de la función **stat_function** todo lo siguiente:
         args = list(mean = mean(Godwits$mgconsumed,
                                 na.rm = TRUE),
         sd = sd(Godwits$mgconsumed,
-            na.rm = TRUE)),
-            colour = "red", size = 1)
+                                na.rm = TRUE)),
+                                colour = "red", size = 1)
 
 
 El parámetro **dnorm** quiere decir densidad de la distribución normal.  También se necesitan dos parámetros para calcular la densidad, el promedio (mean) y la desviación estándar (sd).  Con ambos hay que especificar de dónde provienen los datos; en este caso, de una variable especifica **mgconsumed**. 
@@ -390,7 +399,7 @@ b= ggplot(Godwits, aes(mgconsumed)) +
     mean(Godwits$mgconsumed, na.rm = TRUE),
     sd = sd(Godwits$mgconsumed, na.rm = TRUE)),
     colour = "red", size = 1)+
-    facet_wrap(~PERIOD)
+    facet_wrap(~PERIOD) # nota que ahora la fun=dnorm es aplicado a cada grupo individualmente
 
 grid.arrange(a,b,ncol=1)
 ```
@@ -445,7 +454,7 @@ A continuación se muestra otra alternativa para observar los datos anteriores. 
 
 ```{r density4}
 
-# Note que anteriormente ya habíamos depositado los datos en el data.frame Sparrows:
+# Note que anteriormente ya habíamos depositado los datos en el data.frame "Sparrows":
 a= ggplot(Sparrows, aes(wt))+
 geom_density(aes(group=fMonth, fill=fMonth),
              kernel="gaussian")+
@@ -479,7 +488,7 @@ Hoy en día la cantidad de datos que se obtienen en diferentes estudios puede se
 
 Un ejemplo sencillo de variables con colinealidad podría incluir la relación entre el largo y ancho de las hojas de una herbácea y cómo estas están correlacionadas con la producción de flores. Es probable que la correlación entre el largo y el ancho de la hoja estén correlacionadas con la producción de las flores de formas muy similares; o sea, con una pendiente que explicaría ambas relaciones de formas similares. Entonces, al añadir ambas variables al modelo de regresión múltiple, no estaríamos explicando variaciones distintas, si no más bien la misma variación. Cuando hay mucha colinealidad entre variables explicativas, se debería seleccionar un subgrupo de estas variables que expliquen variaciones distintas para el modelo y no incluir todas las variables.
 
-A continuación exploraremos diferentes alternativas para llevar a cabo este tipo de análisis utilizando otra vez los datos de la orquídea *Dipodium*.  En el primer ejemplo, se utiliza la función **cor** para evaluar solo una relación: la correlación entre la distancia de la planta a un árbol y la altura de la planta, dejando otras variables a un lado.  Como deseamos el estimado de la correlación solamente, utilizamos un par de variables a la vez para evaluar la correlación entre la distancia de la orquídea al árbol y la altura de la inflorescencia (mostrado más adelante).  Concluimos que a mayor distancia del árbol, menor es la altura de la inflorescencia al este análisis arrojar un valor de pendiente de -0.095 como se muestra en el ejemplo.
+A continuación exploraremos diferentes alternativas para llevar a cabo este tipo de análisis utilizando otra vez los datos de la orquídea *Dipodium*.  En el primer ejemplo, se utiliza la función **cor** para evaluar solo una relación: la correlación entre la distancia de la planta a un árbol y la altura de la planta, dejando otras variables a un lado.  Como deseamos el estimado de la correlación solamente, utilizamos un par de variables a la vez para evaluar la correlación entre la distancia de la orquídea al árbol y la altura de la inflorescencia (mostrado más adelante).  Concluimos que a mayor distancia del árbol, menor es la altura de la inflorescencia al este análisis arrojar un valor de pendiente de -0.095 como se muestra en el ejemplo. **Note que la correlación de Pearson asume una distribución normal en ambas variable**.
 
 ```{r correlation1, rexample=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
 cor(dipodium$distance, 
@@ -499,7 +508,7 @@ kable(signif(cor(dipodium[,c(3, 8, 9)],
 
 ### Tabla de correlación de Kendall
 
-Usando la función **cor** se puede también calcular estimados de correlación sin asumir distribución normal usando los métodos **Kendall** o **Spearman** mostrados en la Tabla siguiente. 
+Usando la función **cor** se puede también calcular estimados de correlación sin asumir distribución normal usando los métodos **Kendall** o **Spearman** mostrados en la Tabla siguiente. Note que la correlación de Kendall es una alternativa a la correlación de Pearson cuando los datos tienen que siguir una distribución normal.  En la tabla se observa la correlación de Kendall para las mismas variables que en la tabla anterior.  Note que la correlación de Kendall es una alternativa a la correlación de Pearson cuando los datos no siguen una distribución normal.  En la tabla se observa la correlación de Kendall para las mismas variables que en la tabla anterior.
 
 ```{r correlation3}
 kable(signif(cor(dipodium[,c(3, 8, 9)],
@@ -508,6 +517,7 @@ kable(signif(cor(dipodium[,c(3, 8, 9)],
  caption =
   "\\label{fig:CK}Correlaciones de Kendall")
 ```
+
 ### Tabla de correlación de Spearman 
 ```{r correlation4}
 
@@ -527,13 +537,13 @@ Brevemente recapitulamos, si los datos no siguen una distribución normal, se de
 ## Selección de parametros para correlaciones cuando hay NA (datos faltantes)
 
 
-Además, los analísis anteriores utilizados emplearon el parámetro **pairwise.complete.obs**, ya que obviaría los **NA** en las columnas que se utilizan para calcular la correlación. Por lo tanto, la cantidad de pares de datos utilizados para calcular las diferentes correlaciones entre variables puede variar si hay **NA** en el archivo.  Tome en consideración que hay otras cuatro alternativas para analizar los datos cuando tenemos **NA** presentes: **everything**, **all.obs**, **complete.obs** y **na.or.complete**.  No vamos a discutir esas alternativas en el presente libro.  Sería bueno que busque información en R para sus usos. Estas alternativas se discutirán en otros modulos.  Para más información vea (cor) en el help de RStudio. 
+Además, los analísis anteriores utilizados emplearon el parámetro **pairwise.complete.obs**, ya que obviaría los **NA** en las columnas que se utilizan para calcular la correlación. Por lo tanto, la cantidad de pares de datos utilizados para calcular las diferentes correlaciones entre variables puede variar si hay **NA** en el archivo.  Tome en consideración que hay otras cuatro alternativas para analizar los datos cuando tenemos **NA** presentes: **everything**, **all.obs**, **complete.obs** y **na.or.complete**.  No vamos a discutir esas alternativas en el presente libro.  Sería bueno que busque información en R para sus usos. Estas alternativas se discutirán en otros módulos.  Para más información vea (cor) en el **help** de RStudio. 
 
 Finalmente, también se utilizó el comando **kable** ya que es una manera efectiva de organizar los resultados en una tabla.
 
 ***
 
-## Uso de GGally para ver correlaciones
+## Uso de **GGally** para ver correlaciones
 
 Continuando con el mismo tema, una tercera opción para descubrir la colinealidad entre covariables es utilizar el paquete **GGally**, ya que no solamente nos calcula las correlaciones, si no que también nos permite hacer los gráficos de densidad de la distribución de las variables y un gráfico de dispersión por pares de variables evaluadas.
 
@@ -549,7 +559,7 @@ ggpairs(dipodium[,c(8, 9, 13, 14, 10)], aes(colour=herbivory))
 
 ***
 
-Explorando el uso de "everything", "na.or.complete", "all.obs" y "pairwise.complete.obs" con el paquete "corrplot"
+Explorando la diferencia entre las opciones de "everything", "na.or.complete", "all.obs" y "pairwise.complete.obs" con el paquete **corrplot**
 
 ```{r}
 library(corrplot)
@@ -559,12 +569,13 @@ carros_mini <- mtcars[,3:6]
 carros_mini[1,1] <- NA
 carros_mini[1,2] <- NA
 
-carros_mini # mirar el df
+head(carros_mini) # mirar el df
 
 library(corrplot)
-corrplot(corr=cor(carros_mini, use="everything"), method="ellipse")
-corrplot(corr=cor(carros_mini, use="na.or.complete"), method="shade")
-corrplot(corr=cor(carros_mini, use="pairwise.complete.obs"), method="square")
+corrplot(corr=cor(carros_mini, use="everything"), method="ellipse") # las variables que tienen NA no se pueden calcular
+corrplot(corr=cor(carros_mini, use="na.or.complete"), method="ellipse") 
+corrplot(corr=cor(carros_mini, use="pairwise.complete.obs"), method="ellipse")
+#corrplot(corr=cor(carros_mini, use="all.obs"), method="ellipse") # no puede calcular nada
 ```
 
 

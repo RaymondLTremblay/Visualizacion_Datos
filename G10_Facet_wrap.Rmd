@@ -58,7 +58,7 @@ En este modulo se muestra una de las grandes ventajas de usar ggplot2.  Para la 
 head(Anolis)
 barraA=ggplot(Anolis, aes(SEX_AGE, fill=SEASON))
 barraA+geom_bar()+  # contabiliza la cantidad de información por factor
-  facet_wrap(Survey_Site~.)+
+  facet_wrap(~Survey_Site)+
   labs(y="Frecuencia", x="Género y edad")+
   theme(axis.title=element_text(size=10,face="bold"))
 ```
@@ -209,7 +209,7 @@ ggplot(Anolis, aes(x=SVL, y=HEIGHT, colour=Survey_Site))+
   geom_point(data = transform(Anolis,
             Survey_Site = NULL), colour = "grey85")+
   geom_point()+
-  facet_wrap(~Survey_Site, strip.position = "left")+
+  facet_wrap(~Survey_Site, strip.position = "right")+
   labs(y="Altitud")+
   theme(legend.position="none")
 ```
@@ -235,7 +235,7 @@ MM=MORELIA.MICH.Tmin%>%
   filter(Year>1950 & Year<=1960)
 
 
-
+MM
 
 #Una función para seleccionar un conjunto de datos
 #M=MORELIA.MICH.Tmin %>%
@@ -265,7 +265,7 @@ library(lubridate)
 MM$diaanual=yday(MM$fecha)
 tail(MM)
 
-yday("1959-03-01") # El día del año que nací
+#yday("1959-03-01") # El día del año que nací
 
 ```
 

@@ -601,7 +601,7 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2025-03-05&quot;</code></pre>
+<pre><code>## [1] &quot;2025-03-19&quot;</code></pre>
 <div id="la-lista-de-packetes-para-analisis-de-los-supuestos"
 class="section level2">
 <h2>La lista de packetes para analisis de los supuestos</h2>
@@ -812,7 +812,7 @@ horizontal para identificar el modelo nulo con
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>  res<span class="ot">&lt;-</span><span class="fu">ggplot</span>(modelflower, <span class="fu">aes</span>(.fitted, .resid))<span class="sc">+</span></span>
 <span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>  <span class="fu">geom_point</span>()<span class="sc">+</span></span>
 <span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  <span class="fu">geom_hline</span>(<span class="at">yintercept=</span><span class="dv">0</span>,</span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>           <span class="at">col=</span><span class="st">&quot;green&quot;</span>, <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>)<span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>           <span class="at">col=</span><span class="st">&quot;red&quot;</span>, <span class="at">linetype=</span><span class="st">&quot;dashed&quot;</span>)<span class="sc">+</span></span>
 <span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
 <span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>        <span class="at">axis.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
 <span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Valores estimados&quot;</span>)<span class="sc">+</span></span>
@@ -860,11 +860,11 @@ class="section level2">
 <p>A continuación se ilustra otro enfoque para evaluar los residuales.
 En este caso, para detectar valores sesgados (ouliers). Se puede
 visualizar los residuales se usa los residuales estandarizados divido
-por la desviación estandard. Valores que mayores de 3 serian
-considerados sesgados. Esta alternativa es apropiada si detectar valores
-sesgados. Note en la figura que se usa otra vez el modelo
+por la desviación estandard. Valores que son mayores de 3 serian
+considerados sesgados. Esta alternativa es apropiada para detectar
+valores sesgados. Note en la figura que se usa otra vez el modelo
 <strong>modelflower</strong> y los valores calculados en el modelo
-<strong>.fitted</strong> y los residuales de student con
+<strong>.fitted</strong> y los residuales de Student con
 <strong>.stdresid</strong>. Note ahora también que todos los valores en
 el eje de <strong>Y</strong> son mayores de cero. Nota que el residual
 de estandarizado de Student es mayor de 2, por consecuencia se debería
@@ -874,9 +874,9 @@ considerado “outliers”, sesgados, aunque los valores mayores de 2
 deberían ser evaluados.</p>
 <div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>  ResEst<span class="ot">=</span><span class="fu">ggplot</span>(modelflower,</span>
 <span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>                 <span class="fu">aes</span>(.fitted, <span class="fu">sqrt</span>(<span class="fu">abs</span>(.stdresid)))) <span class="sc">+</span></span>
-<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>                 <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">colour =</span> .stdresid <span class="sc">&gt;</span><span class="dv">3</span>),<span class="at">na.rm=</span><span class="cn">TRUE</span>)<span class="sc">+</span></span>
-<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
-<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a>        <span class="at">axis.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">20</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>                 <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">colour =</span> .stdresid <span class="sc">&gt;</span><span class="fl">3.0</span>),<span class="at">na.rm=</span><span class="cn">TRUE</span>)<span class="sc">+</span></span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a>        <span class="at">axis.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
 <span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a>          <span class="fu">xlab</span>(<span class="st">&quot;Valores estimados&quot;</span>)<span class="sc">+</span></span>
 <span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a>          <span class="fu">ylab</span>(<span class="st">&quot;Residuales estandarizados </span><span class="sc">\n</span><span class="st"> de Student&quot;</span>)<span class="sc">+</span></span>
 <span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a>  <span class="fu">ggtitle</span>(<span class="st">&quot;Residuales vs. Valores Estimados&quot;</span>)</span>
@@ -1025,7 +1025,7 @@ linea roja</span></p>
 <span id="cb17-10"><a href="#cb17-10" tabindex="-1"></a>  <span class="fu">stat_qq</span>() <span class="sc">+</span> </span>
 <span id="cb17-11"><a href="#cb17-11" tabindex="-1"></a>  <span class="fu">stat_qq_line</span>(<span class="at">colour=</span><span class="st">&quot;red&quot;</span>)</span>
 <span id="cb17-12"><a href="#cb17-12" tabindex="-1"></a></span>
-<span id="cb17-13"><a href="#cb17-13" tabindex="-1"></a><span class="co"># hay una nueva funcción en el paquete ggpubr, ggqqplot que incluye los intervalo de confianza</span></span>
+<span id="cb17-13"><a href="#cb17-13" tabindex="-1"></a><span class="co"># hay una nueva función en el paquete ggpubr, ggqqplot que incluye los intervalo de confianza</span></span>
 <span id="cb17-14"><a href="#cb17-14" tabindex="-1"></a></span>
 <span id="cb17-15"><a href="#cb17-15" tabindex="-1"></a><span class="fu">library</span>(ggpubr)</span>
 <span id="cb17-16"><a href="#cb17-16" tabindex="-1"></a></span>
@@ -1052,8 +1052,21 @@ la Figura (a) vemos la distribución para todos los períodos, y los otros
 tres en la Figura (b) muestran una distribución para cada uno de los
 períodos. Se observa en todos los casos que las distribuciones están
 sesgadas hacia los valores pequeños (hacia la izquierda). Esta
-visualización nos ayuda a evaluar la normalidad de esos datos. NOta que
-no es una prueba estadística igual como el gráfico de qqplot</p>
+visualización nos ayuda a evaluar la normalidad de esos datos. Nota que
+no es una prueba estadística igual como el gráfico de qqplot.</p>
+<p>La distribución normal tiene una función especifica</p>
+<p><span class="math display">\[f(x) =
+\frac{1}{\sqrt{2\pi\sigma^2}}e^{-\frac{(x-\mu)^2}{2\sigma^2}}\]</span></p>
+<p>donde <strong><span class="math inline">\(\mu\)</span></strong> es el
+promedio y <strong><span class="math inline">\(\sigma\)</span></strong>
+es la desviación estándar y <strong><span
+class="math inline">\(\sigma^2\)</span></strong> es la varianca. La
+<strong><span class="math inline">\(\e\)</span></strong> es la base de
+los logaritmos naturales y <strong><span
+class="math inline">\(\pi\)</span></strong> es la constante
+matemática.</p>
+<p>En el gráfico se representa la distribución normal para los datos de
+la razón de consumo de la Becasa de Mar.</p>
 <p>Note que en <strong>geom_histogram</strong> se tiene que incluir</p>
 <p><strong>aes(..density..)</strong></p>
 <p>y añadir dentro de la función <strong>stat_function</strong> todo lo
@@ -1099,7 +1112,7 @@ TRUE</strong> para excluir los <strong>NA</strong>. Veamos.</p>
 <span id="cb18-26"><a href="#cb18-26" tabindex="-1"></a>    <span class="fu">mean</span>(Godwits<span class="sc">$</span>mgconsumed, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
 <span id="cb18-27"><a href="#cb18-27" tabindex="-1"></a>    <span class="at">sd =</span> <span class="fu">sd</span>(Godwits<span class="sc">$</span>mgconsumed, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)),</span>
 <span id="cb18-28"><a href="#cb18-28" tabindex="-1"></a>    <span class="at">colour =</span> <span class="st">&quot;red&quot;</span>, <span class="at">size =</span> <span class="dv">1</span>)<span class="sc">+</span></span>
-<span id="cb18-29"><a href="#cb18-29" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span>PERIOD)</span>
+<span id="cb18-29"><a href="#cb18-29" tabindex="-1"></a>    <span class="fu">facet_wrap</span>(<span class="sc">~</span>PERIOD) <span class="co"># nota que ahora la fun=dnorm es aplicado a cada grupo individualmente</span></span>
 <span id="cb18-30"><a href="#cb18-30" tabindex="-1"></a></span>
 <span id="cb18-31"><a href="#cb18-31" tabindex="-1"></a><span class="fu">grid.arrange</span>(a,b,<span class="at">ncol=</span><span class="dv">1</span>)</span></code></pre></div>
 <p><img src="G11_EVALUANDO_SUPUESTOS_files/figure-html/density-1.png" width="672" /></p>
@@ -1186,7 +1199,7 @@ significa que hay mayor densidad de datos en esa región de la variable
 en el eje de <strong>X</strong>. Podemos apreciar que la curva de
 densidad no sigue claramente una distribución normal con respecto a los
 valores en <strong>X</strong>.</p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="co"># Note que anteriormente ya habíamos depositado los datos en el data.frame Sparrows:</span></span>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="co"># Note que anteriormente ya habíamos depositado los datos en el data.frame &quot;Sparrows&quot;:</span></span>
 <span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>a<span class="ot">=</span> <span class="fu">ggplot</span>(Sparrows, <span class="fu">aes</span>(wt))<span class="sc">+</span></span>
 <span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a><span class="fu">geom_density</span>(<span class="fu">aes</span>(<span class="at">group=</span>fMonth, <span class="at">fill=</span>fMonth),</span>
 <span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a>             <span class="at">kernel=</span><span class="st">&quot;gaussian&quot;</span>)<span class="sc">+</span></span>
@@ -1246,7 +1259,8 @@ evaluar la correlación entre la distancia de la orquídea al árbol y la
 altura de la inflorescencia (mostrado más adelante). Concluimos que a
 mayor distancia del árbol, menor es la altura de la inflorescencia al
 este análisis arrojar un valor de pendiente de -0.095 como se muestra en
-el ejemplo.</p>
+el ejemplo. <strong>Note que la correlación de Pearson asume una
+distribución normal en ambas variable</strong>.</p>
 <div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="fu">cor</span>(dipodium<span class="sc">$</span>distance, </span>
 <span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>    dipodium<span class="sc">$</span>height_inflo,</span>
 <span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>    <span class="at">use=</span><span class="st">&quot;pairwise.complete.obs&quot;</span>)</span></code></pre></div>
@@ -1295,7 +1309,14 @@ Recordemos que esta correlación asume distribución normal.</p>
 <p>Usando la función <strong>cor</strong> se puede también calcular
 estimados de correlación sin asumir distribución normal usando los
 métodos <strong>Kendall</strong> o <strong>Spearman</strong> mostrados
-en la Tabla siguiente.</p>
+en la Tabla siguiente. Note que la correlación de Kendall es una
+alternativa a la correlación de Pearson cuando los datos tienen que
+siguir una distribución normal. En la tabla se observa la correlación de
+Kendall para las mismas variables que en la tabla anterior. Note que la
+correlación de Kendall es una alternativa a la correlación de Pearson
+cuando los datos no siguen una distribución normal. En la tabla se
+observa la correlación de Kendall para las mismas variables que en la
+tabla anterior.</p>
 <div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="fu">kable</span>(<span class="fu">signif</span>(<span class="fu">cor</span>(dipodium[,<span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">8</span>, <span class="dv">9</span>)],</span>
 <span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a> <span class="at">method=</span><span class="st">&quot;kendall&quot;</span>,</span>
 <span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a> <span class="at">use=</span><span class="st">&quot;pairwise.complete.obs&quot;</span>),<span class="dv">2</span>), </span>
@@ -1401,14 +1422,14 @@ otras cuatro alternativas para analizar los datos cuando tenemos
 <strong>all.obs</strong>, <strong>complete.obs</strong> y
 <strong>na.or.complete</strong>. No vamos a discutir esas alternativas
 en el presente libro. Sería bueno que busque información en R para sus
-usos. Estas alternativas se discutirán en otros modulos. Para más
-información vea (cor) en el help de RStudio.</p>
+usos. Estas alternativas se discutirán en otros módulos. Para más
+información vea (cor) en el <strong>help</strong> de RStudio.</p>
 <p>Finalmente, también se utilizó el comando <strong>kable</strong> ya
 que es una manera efectiva de organizar los resultados en una tabla.</p>
 <hr />
 </div>
 <div id="uso-de-ggally-para-ver-correlaciones" class="section level2">
-<h2>Uso de GGally para ver correlaciones</h2>
+<h2>Uso de <strong>GGally</strong> para ver correlaciones</h2>
 <p>Continuando con el mismo tema, una tercera opción para descubrir la
 colinealidad entre covariables es utilizar el paquete
 <strong>GGally</strong>, ya que no solamente nos calcula las
@@ -1455,8 +1476,9 @@ hay evidencia de herbivoría.</p>
 <div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" tabindex="-1"></a><span class="fu">ggpairs</span>(dipodium[,<span class="fu">c</span>(<span class="dv">8</span>, <span class="dv">9</span>, <span class="dv">13</span>, <span class="dv">14</span>, <span class="dv">10</span>)], <span class="fu">aes</span>(<span class="at">colour=</span>herbivory))</span></code></pre></div>
 <p><img src="G11_EVALUANDO_SUPUESTOS_files/figure-html/ggpairs-1.png" width="672" /></p>
 <hr />
-<p>Explorando el uso de “everything”, “na.or.complete”, “all.obs” y
-“pairwise.complete.obs” con el paquete “corrplot”</p>
+<p>Explorando la diferencia entre las opciones de “everything”,
+“na.or.complete”, “all.obs” y “pairwise.complete.obs” con el paquete
+<strong>corrplot</strong></p>
 <div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" tabindex="-1"></a><span class="fu">library</span>(corrplot)</span>
 <span id="cb31-2"><a href="#cb31-2" tabindex="-1"></a><span class="fu">data</span>(mtcars)</span>
 <span id="cb31-3"><a href="#cb31-3" tabindex="-1"></a>carros_mini <span class="ot">&lt;-</span> mtcars[,<span class="dv">3</span><span class="sc">:</span><span class="dv">6</span>]</span>
@@ -1464,47 +1486,22 @@ hay evidencia de herbivoría.</p>
 <span id="cb31-5"><a href="#cb31-5" tabindex="-1"></a>carros_mini[<span class="dv">1</span>,<span class="dv">1</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
 <span id="cb31-6"><a href="#cb31-6" tabindex="-1"></a>carros_mini[<span class="dv">1</span>,<span class="dv">2</span>] <span class="ot">&lt;-</span> <span class="cn">NA</span></span>
 <span id="cb31-7"><a href="#cb31-7" tabindex="-1"></a></span>
-<span id="cb31-8"><a href="#cb31-8" tabindex="-1"></a>carros_mini <span class="co"># mirar el df</span></span></code></pre></div>
-<pre><code>##                      disp  hp drat    wt
-## Mazda RX4              NA  NA 3.90 2.620
-## Mazda RX4 Wag       160.0 110 3.90 2.875
-## Datsun 710          108.0  93 3.85 2.320
-## Hornet 4 Drive      258.0 110 3.08 3.215
-## Hornet Sportabout   360.0 175 3.15 3.440
-## Valiant             225.0 105 2.76 3.460
-## Duster 360          360.0 245 3.21 3.570
-## Merc 240D           146.7  62 3.69 3.190
-## Merc 230            140.8  95 3.92 3.150
-## Merc 280            167.6 123 3.92 3.440
-## Merc 280C           167.6 123 3.92 3.440
-## Merc 450SE          275.8 180 3.07 4.070
-## Merc 450SL          275.8 180 3.07 3.730
-## Merc 450SLC         275.8 180 3.07 3.780
-## Cadillac Fleetwood  472.0 205 2.93 5.250
-## Lincoln Continental 460.0 215 3.00 5.424
-## Chrysler Imperial   440.0 230 3.23 5.345
-## Fiat 128             78.7  66 4.08 2.200
-## Honda Civic          75.7  52 4.93 1.615
-## Toyota Corolla       71.1  65 4.22 1.835
-## Toyota Corona       120.1  97 3.70 2.465
-## Dodge Challenger    318.0 150 2.76 3.520
-## AMC Javelin         304.0 150 3.15 3.435
-## Camaro Z28          350.0 245 3.73 3.840
-## Pontiac Firebird    400.0 175 3.08 3.845
-## Fiat X1-9            79.0  66 4.08 1.935
-## Porsche 914-2       120.3  91 4.43 2.140
-## Lotus Europa         95.1 113 3.77 1.513
-## Ford Pantera L      351.0 264 4.22 3.170
-## Ferrari Dino        145.0 175 3.62 2.770
-## Maserati Bora       301.0 335 3.54 3.570
-## Volvo 142E          121.0 109 4.11 2.780</code></pre>
+<span id="cb31-8"><a href="#cb31-8" tabindex="-1"></a><span class="fu">head</span>(carros_mini) <span class="co"># mirar el df</span></span></code></pre></div>
+<pre><code>##                   disp  hp drat    wt
+## Mazda RX4           NA  NA 3.90 2.620
+## Mazda RX4 Wag      160 110 3.90 2.875
+## Datsun 710         108  93 3.85 2.320
+## Hornet 4 Drive     258 110 3.08 3.215
+## Hornet Sportabout  360 175 3.15 3.440
+## Valiant            225 105 2.76 3.460</code></pre>
 <div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" tabindex="-1"></a><span class="fu">library</span>(corrplot)</span>
-<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a><span class="fu">corrplot</span>(<span class="at">corr=</span><span class="fu">cor</span>(carros_mini, <span class="at">use=</span><span class="st">&quot;everything&quot;</span>), <span class="at">method=</span><span class="st">&quot;ellipse&quot;</span>)</span></code></pre></div>
+<span id="cb33-2"><a href="#cb33-2" tabindex="-1"></a><span class="fu">corrplot</span>(<span class="at">corr=</span><span class="fu">cor</span>(carros_mini, <span class="at">use=</span><span class="st">&quot;everything&quot;</span>), <span class="at">method=</span><span class="st">&quot;ellipse&quot;</span>) <span class="co"># las variables que tienen NA no se pueden calcular</span></span></code></pre></div>
 <p><img src="G11_EVALUANDO_SUPUESTOS_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a><span class="fu">corrplot</span>(<span class="at">corr=</span><span class="fu">cor</span>(carros_mini, <span class="at">use=</span><span class="st">&quot;na.or.complete&quot;</span>), <span class="at">method=</span><span class="st">&quot;shade&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" tabindex="-1"></a><span class="fu">corrplot</span>(<span class="at">corr=</span><span class="fu">cor</span>(carros_mini, <span class="at">use=</span><span class="st">&quot;na.or.complete&quot;</span>), <span class="at">method=</span><span class="st">&quot;ellipse&quot;</span>) </span></code></pre></div>
 <p><img src="G11_EVALUANDO_SUPUESTOS_files/figure-html/unnamed-chunk-6-2.png" width="672" /></p>
-<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="fu">corrplot</span>(<span class="at">corr=</span><span class="fu">cor</span>(carros_mini, <span class="at">use=</span><span class="st">&quot;pairwise.complete.obs&quot;</span>), <span class="at">method=</span><span class="st">&quot;square&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" tabindex="-1"></a><span class="fu">corrplot</span>(<span class="at">corr=</span><span class="fu">cor</span>(carros_mini, <span class="at">use=</span><span class="st">&quot;pairwise.complete.obs&quot;</span>), <span class="at">method=</span><span class="st">&quot;ellipse&quot;</span>)</span></code></pre></div>
 <p><img src="G11_EVALUANDO_SUPUESTOS_files/figure-html/unnamed-chunk-6-3.png" width="672" /></p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" tabindex="-1"></a><span class="co">#corrplot(corr=cor(carros_mini, use=&quot;all.obs&quot;), method=&quot;ellipse&quot;) # no puede calcular nada</span></span></code></pre></div>
 </div>
 </div>
 
