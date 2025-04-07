@@ -601,7 +601,7 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2025-03-19&quot;</code></pre>
+<pre><code>## [1] &quot;2025-04-07&quot;</code></pre>
 <p><img src="Graficos/hex_ggversa.png" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" width="20%" /></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">library</span>(ggversa)</span>
@@ -686,7 +686,7 @@ leyenda en otra ubicación.</p>
 <span id="cb5-4"><a href="#cb5-4" tabindex="-1"></a>  <span class="fu">scale_colour_gradient2</span>(<span class="at">low=</span><span class="st">&quot;blue&quot;</span>,</span>
 <span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>                         <span class="at">high=</span><span class="st">&quot;red&quot;</span>,</span>
 <span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>                         <span class="at">mid=</span><span class="st">&quot;yellow&quot;</span>,</span>
-<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>                         <span class="at">midpoint=</span><span class="dv">4</span>)<span class="sc">+</span></span>
+<span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>                         <span class="at">midpoint=</span><span class="dv">4</span>)<span class="sc">+</span> <span class="co"># NOTA importante el punto considerado como el color medio </span></span>
 <span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">color=</span><span class="st">&quot;Cantidad de Frutos&quot;</span>)<span class="sc">+</span></span>
 <span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G14_geom_point_geom_jitter_files/figure-html/graficadepuntosA1-1.png" width="672" /></p>
@@ -711,7 +711,7 @@ gráfico.</p>
 <span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>                         <span class="at">high=</span><span class="st">&quot;red&quot;</span>,<span class="at">mid=</span><span class="st">&quot;yellow&quot;</span>,</span>
 <span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>                         <span class="at">midpoint=</span><span class="dv">4</span>)<span class="sc">+</span></span>
 <span id="cb6-8"><a href="#cb6-8" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">color=</span><span class="st">&quot;Cantidad de Frutos&quot;</span>)<span class="sc">+</span></span>
-<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</span>
+<span id="cb6-9"><a href="#cb6-9" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="fu">c</span>(<span class="dv">0</span>, <span class="dv">1</span>),</span>
 <span id="cb6-10"><a href="#cb6-10" tabindex="-1"></a>        <span class="at">legend.justification=</span><span class="fu">c</span>(<span class="dv">0</span>,<span class="dv">1</span>),</span>
 <span id="cb6-11"><a href="#cb6-11" tabindex="-1"></a></span>
 <span id="cb6-12"><a href="#cb6-12" tabindex="-1"></a>        <span class="at">legend.background =</span> <span class="fu">element_blank</span>())<span class="sc">+</span></span>
@@ -721,7 +721,7 @@ gráfico.</p>
 </div>
 <div id="geom_point-y-la-mortandad-infantil" class="section level2">
 <h2>Geom_point y la mortandad infantil</h2>
-<p>Visualicemos ahora otro gráfico utilizando datos sobre la mortandad
+<p>Visualizamos ahora otro gráfico utilizando datos sobre la mortandad
 infantil (NMI) y su relación con la mortandad maternal (NMP) durante el
 parto. En el ejemplo de la Figura <span
 class="math inline">\(\ref{fig:graficadepuntosDemo2}\)</span> se observa
@@ -1269,9 +1269,9 @@ de América y de la Unión Europea. Eso se demuestra a continuación:</p>
 </table>
 </div>
 <p>Ahora veamos el resultado en la Figura a continuación.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">ggplot</span>(Partosub, <span class="fu">aes</span>(logNMP, <span class="fu">log</span>(NMI<span class="sc">+</span><span class="dv">1</span>), <span class="at">colour=</span>Grupo))<span class="sc">+</span></span>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">ggplot</span>(Partosub, <span class="fu">aes</span>(logGSPC, logNMI, <span class="at">colour=</span>Grupo))<span class="sc">+</span></span>
 <span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="fu">geom_point</span>()<span class="sc">+</span></span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Mortandad durante el parto (log)&quot;</span>)<span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Log GSPC&quot;</span>)<span class="sc">+</span></span>
 <span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Mortandad infantil (log)&quot;</span>)<span class="sc">+</span></span>
 <span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G14_geom_point_geom_jitter_files/figure-html/graficadepuntosDemo2-1.png" width="672" /></p>
@@ -1327,6 +1327,10 @@ visualizar mejor la cantidad de datos del análisis.</p>
 <span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a></span>
 <span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a><span class="fu">grid.arrange</span>(a,b,<span class="at">ncol=</span><span class="dv">2</span>)</span></code></pre></div>
 <p><img src="G14_geom_point_geom_jitter_files/figure-html/graficajitter-1.png" width="672" /></p>
+</div>
+<div id="geom_jitter-y-la-dispersión-en-los-puntos-solapados"
+class="section level2">
+<h2>Geom_jitter y la dispersión en los puntos solapados</h2>
 <p>Veamos un ejemplo más contundente de la utilidad de
 <strong>geom_jitter</strong>. En el próximo ejemplo a continuación,
 Figura (a), el gráfico nuevamente tiene los datos posicionados

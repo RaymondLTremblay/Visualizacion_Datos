@@ -41,7 +41,6 @@ knitr::include_graphics(c("Graficos/hex_ggversa.png", "Graficos/hex_Visualizacio
 
 ```{r}
 library(ggversa)
-library(ggplot2)
 library(tidyverse)
 library(gt)
 ```
@@ -74,7 +73,14 @@ library(ggversa)
 Tiroide
 
 unique(Tiroide$Cases)
+
+subTiroide=Tiroide %>% 
+  filter(Cases=="New Cases") 
+
 subTiroide=Tiroide[which(Tiroide$Cases=="New Cases"),]
+
+
+
 gt(head(subTiroide))
 
 ```
@@ -93,7 +99,7 @@ ggplot(subTiroide, aes(x=as.integer(Year), y=Rate))+
         axis.title.y.left = element_text(size=10,face="bold"))
 ```
 
-Note que se utilizó la función **annonate** para escribir información sobre el gráfico.  Esta función será discutida con más detalle más adelante.
+Note que se utilizó la función **annotate** para escribir información sobre el gráfico.  Esta función será discutida con más detalle más adelante.
 
 ***
 
@@ -109,7 +115,7 @@ ggplot(Tiroide, aes(x=as.integer(Year),
            label="Nuevos casos")+
   annotate("text", x= 2000,y= 1, size= 4,
            label="Mortandad")+
-  guides(color="none")+
+ guides(color="none")+
   ylab("Números de nuevos casos\n por 100,000 habitantes")+
   xlab("Años")+
   theme(axis.title=element_text(size=10,face="bold"))
@@ -134,7 +140,7 @@ ggplot(Tiroide, aes(x=as.integer(Year), y=Rate,
            label="Nuevos casos")+
   annotate("text", x= 1995,y= 1, size= 4,
            label="Mortandad")+ 
-  scale_color_manual(values=c("New Cases"="orange", "Deaths_US"="pink")) + 
+  scale_color_manual(values=c("New Cases"="#00674F", "Deaths_US"="pink")) + 
   guides(color="none")+
   ylab("Razón")+
   xlab("Años")+
@@ -270,7 +276,7 @@ ggplot(Tiroide, aes(x=as.integer(Year), y=Rate,
   guides(color="none")+
   ylab("Razón")+
   xlab("Años")+
-  geom_point(shape=21, size=3, colour="blue", fill="yellow")+
+  geom_point(shape="|", size=3, colour="blue", fill="yellow")+
   theme(axis.title=element_text(size=10,face="bold"))
 
 ```
@@ -310,12 +316,14 @@ library(gt)
 library(tidyverse)
 
 
-cajaPR <- c(17.75, -67.4, 18.75, -65.15)
-bujo <- get_inat_obs(taxon_name = "Gymnasio nudipes",
-             quality = 'research',
-             geo = TRUE,
-             maxresults = 1000,
-             bounds = cajaPR)
+cajaPR <- c(17.75, -67.4, 18.75, -65.15) # Puerto Rico bounding box coordinates the order is c(min long, min lat, max long, max lat)
+
+
+bujo <- get_inat_obs(taxon_name = "Gymnasio nudipes", # Puerto Rican owl species
+             quality = 'research', # only research grade observations
+             geo = TRUE, # only observations with coordinates
+             maxresults = 1000, # maximum number of observations
+             bounds = cajaPR) # bounding box coordinates
 
 gt(head(bujo))
 

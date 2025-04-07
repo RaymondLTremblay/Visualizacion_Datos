@@ -337,7 +337,7 @@ grid.arrange(a,b,c,d,ncol=2)
 
 ## La distribución normal
 
-Una segunda alternativa para visualizar si los datos siguen una distribución normal es construir un histograma de los datos y gráficar sobre este la curva normal basándonos en el promedio y la desviación estándar de los mismos datos.  Para construir el histograma se usa la función **geom_histogram** y para la  distribución teorica normal de estos datos se usa la función **stat_function**.  Esto lo demostramos con gráficos adicionales de la Becasa del Mar, donde se representa la razón de consumo y el período en que esto ocurrió. En la Figura (a) vemos la distribución para todos los períodos, y los otros tres en la Figura (b) muestran una distribución para cada uno de los períodos.  Se observa en todos los casos que las distribuciones están sesgadas hacia los valores pequeños (hacia la izquierda).  Esta visualización nos ayuda a evaluar la normalidad de esos datos. Nota que no es una prueba estadística igual como el gráfico de qqplot.
+Una segunda alternativa para visualizar si los datos siguen una distribución normal es construir un histograma de los datos y graficar sobre este la curva normal basándonos en el promedio y la desviación estándar de los mismos datos.  Para construir el histograma se usa la función **geom_histogram** y para la  distribución teórica normal de estos datos se usa la función **stat_function**.  Esto lo demostramos con gráficos adicionales de la Becasa del Mar, donde se representa la razón de consumo y el período en que esto ocurrió. En la Figura (a) vemos la distribución para todos los períodos, y los otros tres en la Figura (b) muestran una distribución para cada uno de los períodos.  Se observa en todos los casos que las distribuciones están sesgadas hacia los valores pequeños (hacia la izquierda).  Esta visualización nos ayuda a evaluar la normalidad de esos datos. Nota que no es una prueba estadística igual como el gráfico de qqplot.
 
 La distribución normal tiene una función especifica
 
@@ -375,9 +375,6 @@ a=ggplot(Godwits, aes(mgconsumed)) +
   theme(legend.position = "none") +
   geom_histogram(aes(y=..density..),
                  colour="black", fill="white")+
-  theme(axis.title=element_text(size=12,face="bold"),
-        axis.text = element_text(size=12,face="bold"))+
-  labs(x = "Razón de Consumo", y = "Densidad") +
   stat_function(fun = dnorm,
         args = list(mean = mean(Godwits$mgconsumed,
                                 na.rm = TRUE),
@@ -456,8 +453,9 @@ A continuación se muestra otra alternativa para observar los datos anteriores. 
 
 # Note que anteriormente ya habíamos depositado los datos en el data.frame "Sparrows":
 a= ggplot(Sparrows, aes(wt))+
+  geom_histogram(aes(y=..density..))+
 geom_density(aes(group=fMonth, fill=fMonth),
-             kernel="gaussian")+
+             kernel="gaussian", alpha=.5)+
   facet_wrap(~fMonth)+
   guides(fill=FALSE)+
   theme(axis.title=element_text(size=12,face="bold"),
@@ -511,6 +509,8 @@ kable(signif(cor(dipodium[,c(3, 8, 9)],
 Usando la función **cor** se puede también calcular estimados de correlación sin asumir distribución normal usando los métodos **Kendall** o **Spearman** mostrados en la Tabla siguiente. Note que la correlación de Kendall es una alternativa a la correlación de Pearson cuando los datos tienen que siguir una distribución normal.  En la tabla se observa la correlación de Kendall para las mismas variables que en la tabla anterior.  Note que la correlación de Kendall es una alternativa a la correlación de Pearson cuando los datos no siguen una distribución normal.  En la tabla se observa la correlación de Kendall para las mismas variables que en la tabla anterior.
 
 ```{r correlation3}
+
+
 kable(signif(cor(dipodium[,c(3, 8, 9)],
  method="kendall",
  use="pairwise.complete.obs"),2), 
@@ -567,7 +567,7 @@ data(mtcars)
 carros_mini <- mtcars[,3:6]
 # remover algo datos y subsituirlos por "NA"
 carros_mini[1,1] <- NA
-carros_mini[1,2] <- NA
+carros_mini[2,2] <- NA
 
 head(carros_mini) # mirar el df
 
