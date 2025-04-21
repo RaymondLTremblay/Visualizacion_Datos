@@ -603,9 +603,8 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2025-04-07&quot;</code></pre>
+<pre><code>## [1] &quot;2025-04-21&quot;</code></pre>
 <p><img src="Visualizacion_Datos/Graficos/hex_ggversa.png" width="20%" /><img src="Visualizacion_Datos/Graficos/hex_Visualizacion_Datos.png" width="20%" /></p>
-<p>test</p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">library</span>(ggversa)</span>
@@ -1407,12 +1406,29 @@ class="uri">https://themockup.blog/static/gt-cookbook.html</a></p>
 <div id="añadiendo-titulo-y-referencia-a-una-tabla-gt"
 class="section level2">
 <h2>Añadiendo titulo y referencia a una tabla gt</h2>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>A <span class="sc">%&gt;%</span> </span>
-<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(STUDY, Survey_Site, TIME, DATE, SEASON, SEX_AGE, SVL) <span class="sc">%&gt;%</span> </span>
-<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="st">&quot;Datos sobre la presencia y tamaño de Anolis en la estación El Verde, PR&quot;</span>,</span>
-<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a>             <span class="at">subtitle =</span> <span class="st">&quot;Datos recolectado por Douglas Reagan&quot;</span> )</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>A</span></code></pre></div>
+<pre><code>## # A tibble: 503 × 15
+##    STUDY      Survey_Site     LOCATION TIME  DATE  SEASON SPECIES SEX_AGE HEIGHT
+##    &lt;chr&gt;      &lt;chr&gt;           &lt;chr&gt;    &lt;tim&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt;    &lt;dbl&gt;
+##  1 Mark/recap North Tower     El Verde 10:46 3/13… dry    Anolis… Female     0  
+##  2 Mark/recap Woods walkway … El Verde 10:15 2/20… dry    Anolis… Juvenil    0  
+##  3 Mark/recap Woods walkway … El Verde 11:15 2/21… dry    Anolis… Male       0  
+##  4 Mark/recap North Tower     El Verde 11:06 3/16… dry    Anolis… Juvenil    0.3
+##  5 Mark/recap North Tower     El Verde 12:31 3/11… dry    Anolis… Male       0.3
+##  6 Mark/recap North Tower     El Verde 01:00 3/9/… dry    Anolis… Female     0.4
+##  7 Mark/recap Woods walkway … El Verde 10:22 2/22… dry    Anolis… Female     0.4
+##  8 Mark/recap North Tower     El Verde 11:55 3/12… dry    Anolis… Juvenil    0.4
+##  9 Mark/recap Woods walkway … El Verde 10:15 2/20… dry    Anolis… Juvenil    0.4
+## 10 Mark/recap North Tower     El Verde 12:31 3/11… dry    Anolis… Female     0.5
+## # ℹ 493 more rows
+## # ℹ 6 more variables: DISTANCE_FROM_CENTERLINE &lt;dbl&gt;, PERCH_SUBSTRATE &lt;chr&gt;,
+## #   PERCH_DIAMETER &lt;int&gt;, WEIGHT &lt;dbl&gt;, SVL &lt;dbl&gt;, TAIL &lt;dbl&gt;</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>A <span class="sc">%&gt;%</span> </span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(STUDY, Survey_Site, TIME, DATE, SEASON, SEX_AGE, SVL) <span class="sc">%&gt;%</span> </span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="st">&quot;Datos sobre la presencia y tamaño de Anolis en la estación El Verde, PR&quot;</span>,</span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a>             <span class="at">subtitle =</span> <span class="st">&quot;Datos recolectado por Douglas Reagan&quot;</span> )</span></code></pre></div>
 <div id="bmxzajulmn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#bmxzajulmn table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -1932,12 +1948,12 @@ class="section level2">
 </div>
 <div id="añadiendo-itálico-a-algunas-palabras" class="section level2">
 <h2>Añadiendo itálico a algunas palabras</h2>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>A <span class="sc">%&gt;%</span> </span>
-<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(STUDY, Survey_Site, TIME, DATE, SEASON, SEX_AGE, SVL) <span class="sc">%&gt;%</span> </span>
-<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="fu">md</span>(<span class="st">&quot;Datos sobre la presencia y tamanõ de *Anolis* en la estación **El Verde**, PR&quot;</span>),</span>
-<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>             <span class="at">subtitle =</span> <span class="st">&quot;Datos recolectado por Douglas Reagan&quot;</span> )</span></code></pre></div>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>A <span class="sc">%&gt;%</span> </span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(STUDY, Survey_Site, TIME, DATE, SEASON, SEX_AGE, SVL) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="fu">md</span>(<span class="st">&quot;Datos sobre la presencia y tamanõ de *Anolis* en la estación **El Verde**, PR&quot;</span>),</span>
+<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a>             <span class="at">subtitle =</span> <span class="st">&quot;Datos recolectado por Douglas Reagan&quot;</span> )</span></code></pre></div>
 <div id="koyrixpzzt" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#koyrixpzzt table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -2459,14 +2475,14 @@ class="section level2">
 <h2>Añadiendo una referencia</h2>
 <p><a href="https://luq.lter.network/data/luqmetadata1"
 class="uri">https://luq.lter.network/data/luqmetadata1</a></p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a>A <span class="sc">%&gt;%</span> </span>
-<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>  <span class="fu">select</span>(STUDY, Survey_Site, TIME, DATE, SEASON, SEX_AGE, SVL) <span class="sc">%&gt;%</span> </span>
-<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="fu">md</span>(<span class="st">&quot;Datos sobre la presencia y tamanõ de *Anolis* en la estación El Verde, PR&quot;</span>),</span>
-<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a>             <span class="at">subtitle =</span> <span class="st">&quot;Datos recolectado por Douglas Reagan&quot;</span> ) <span class="sc">%&gt;%</span> </span>
-<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a>  <span class="fu">tab_source_note</span>(</span>
-<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a>    <span class="at">source_note =</span> <span class="st">&quot;https://luq.lter.network/data/luqmetadata1&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>A <span class="sc">%&gt;%</span> </span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>  <span class="fu">select</span>(STUDY, Survey_Site, TIME, DATE, SEASON, SEX_AGE, SVL) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="fu">md</span>(<span class="st">&quot;Datos sobre la presencia y tamanõ de *Anolis* en la estación El Verde, PR&quot;</span>),</span>
+<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a>             <span class="at">subtitle =</span> <span class="st">&quot;Datos recolectado por Douglas Reagan&quot;</span> ) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a>  <span class="fu">tab_source_note</span>(</span>
+<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a>    <span class="at">source_note =</span> <span class="st">&quot;https://luq.lter.network/data/luqmetadata1&quot;</span>)</span></code></pre></div>
 <div id="alehxtqiab" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#alehxtqiab table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -2992,27 +3008,27 @@ class="uri">https://luq.lter.network/data/luqmetadata1</a></p>
 class="section level2">
 <h2>Identificando una celda especifica con un
 <strong>footnote</strong></h2>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a>AA<span class="ot">=</span>A <span class="sc">%&gt;%</span> </span>
-<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>  <span class="fu">select</span>(STUDY, Survey_Site, TIME, DATE, SEASON, SEX_AGE, SVL) <span class="sc">%&gt;%</span> </span>
-<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="fu">md</span>(<span class="st">&quot;Datos sobre la presencia y tamanõ de *Anolis* en la estación El Verde, PR&quot;</span>),</span>
-<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a>             <span class="at">subtitle =</span> <span class="st">&quot;Datos recolectado por Douglas Reagan&quot;</span> ) <span class="sc">%&gt;%</span> </span>
-<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a>  <span class="fu">tab_source_note</span>(</span>
-<span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a>    <span class="at">source_note =</span> <span class="st">&quot;https://luq.lter.network/data/luqmetadata1&quot;</span>) <span class="sc">%&gt;%</span> </span>
-<span id="cb17-9"><a href="#cb17-9" tabindex="-1"></a>  <span class="fu">tab_footnote</span>(</span>
-<span id="cb17-10"><a href="#cb17-10" tabindex="-1"></a>    <span class="at">footnote =</span> <span class="st">&quot;Podria haber sido confundido con un extraterrestre&quot;</span>,</span>
-<span id="cb17-11"><a href="#cb17-11" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(<span class="at">columns=</span>SEX_AGE, <span class="at">rows =</span> <span class="dv">2</span>)</span>
-<span id="cb17-12"><a href="#cb17-12" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb17-13"><a href="#cb17-13" tabindex="-1"></a>    <span class="fu">tab_footnote</span>(</span>
-<span id="cb17-14"><a href="#cb17-14" tabindex="-1"></a>    <span class="at">footnote =</span> <span class="st">&quot;Podria tener un texto interesante &quot;</span>,</span>
-<span id="cb17-15"><a href="#cb17-15" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(<span class="at">columns=</span>SEX_AGE, <span class="at">rows =</span> <span class="dv">3</span>)</span>
-<span id="cb17-16"><a href="#cb17-16" tabindex="-1"></a>  )<span class="sc">%&gt;%</span> </span>
-<span id="cb17-17"><a href="#cb17-17" tabindex="-1"></a>    <span class="fu">tab_footnote</span>(</span>
-<span id="cb17-18"><a href="#cb17-18" tabindex="-1"></a>    <span class="at">footnote =</span> <span class="st">&quot;yo, no se la diferencia entre machos y hembras&quot;</span>,</span>
-<span id="cb17-19"><a href="#cb17-19" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(<span class="at">columns=</span>SEX_AGE, <span class="at">rows =</span> <span class="dv">3</span>)</span>
-<span id="cb17-20"><a href="#cb17-20" tabindex="-1"></a>  )</span>
-<span id="cb17-21"><a href="#cb17-21" tabindex="-1"></a>AA</span></code></pre></div>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>AA<span class="ot">=</span>A <span class="sc">%&gt;%</span> </span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>  <span class="fu">select</span>(STUDY, Survey_Site, TIME, DATE, SEASON, SEX_AGE, SVL) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>  <span class="fu">head</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a>  <span class="fu">gt</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a>  <span class="fu">tab_header</span>(<span class="at">title =</span> <span class="fu">md</span>(<span class="st">&quot;Datos sobre la presencia y tamanõ de *Anolis* en la estación El Verde, PR&quot;</span>),</span>
+<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a>             <span class="at">subtitle =</span> <span class="st">&quot;Datos recolectado por Douglas Reagan&quot;</span> ) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a>  <span class="fu">tab_source_note</span>(</span>
+<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a>    <span class="at">source_note =</span> <span class="st">&quot;https://luq.lter.network/data/luqmetadata1&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-9"><a href="#cb19-9" tabindex="-1"></a>  <span class="fu">tab_footnote</span>(</span>
+<span id="cb19-10"><a href="#cb19-10" tabindex="-1"></a>    <span class="at">footnote =</span> <span class="st">&quot;Podria haber sido confundido con un extraterrestre&quot;</span>,</span>
+<span id="cb19-11"><a href="#cb19-11" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(<span class="at">columns=</span>SEX_AGE, <span class="at">rows =</span> <span class="dv">2</span>)</span>
+<span id="cb19-12"><a href="#cb19-12" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-13"><a href="#cb19-13" tabindex="-1"></a>    <span class="fu">tab_footnote</span>(</span>
+<span id="cb19-14"><a href="#cb19-14" tabindex="-1"></a>    <span class="at">footnote =</span> <span class="st">&quot;Podria tener un texto interesante &quot;</span>,</span>
+<span id="cb19-15"><a href="#cb19-15" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(<span class="at">columns=</span>SEX_AGE, <span class="at">rows =</span> <span class="dv">3</span>)</span>
+<span id="cb19-16"><a href="#cb19-16" tabindex="-1"></a>  )<span class="sc">%&gt;%</span> </span>
+<span id="cb19-17"><a href="#cb19-17" tabindex="-1"></a>    <span class="fu">tab_footnote</span>(</span>
+<span id="cb19-18"><a href="#cb19-18" tabindex="-1"></a>    <span class="at">footnote =</span> <span class="st">&quot;yo, no se la diferencia entre machos y hembras&quot;</span>,</span>
+<span id="cb19-19"><a href="#cb19-19" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(<span class="at">columns=</span>SEX_AGE, <span class="at">rows =</span> <span class="dv">3</span>)</span>
+<span id="cb19-20"><a href="#cb19-20" tabindex="-1"></a>  )</span>
+<span id="cb19-21"><a href="#cb19-21" tabindex="-1"></a>AA</span></code></pre></div>
 <div id="bgogplkaam" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#bgogplkaam table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -3543,15 +3559,15 @@ class="section level2">
 </table>
 </div>
 <hr />
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>AA <span class="sc">%&gt;%</span> </span>
-<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
-<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(<span class="fu">cell_fill</span>(<span class="at">color =</span> <span class="st">&quot;Orange&quot;</span>)),</span>
-<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(<span class="at">columns =</span> STUDY)</span>
-<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>  )<span class="sc">%&gt;%</span> </span>
-<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
-<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(<span class="fu">cell_fill</span>(<span class="at">color =</span> <span class="st">&quot;Red&quot;</span>)),</span>
-<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(<span class="at">columns =</span> DATE)</span>
-<span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>AA <span class="sc">%&gt;%</span> </span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(<span class="fu">cell_fill</span>(<span class="at">color =</span> <span class="st">&quot;Orange&quot;</span>)),</span>
+<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(<span class="at">columns =</span> STUDY)</span>
+<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a>  )<span class="sc">%&gt;%</span> </span>
+<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(<span class="fu">cell_fill</span>(<span class="at">color =</span> <span class="st">&quot;Red&quot;</span>)),</span>
+<span id="cb20-8"><a href="#cb20-8" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(<span class="at">columns =</span> DATE)</span>
+<span id="cb20-9"><a href="#cb20-9" tabindex="-1"></a>  )</span></code></pre></div>
 <div id="dvnytdvjrn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#dvnytdvjrn table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -4082,15 +4098,15 @@ class="section level2">
 </table>
 </div>
 <hr />
-<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a>AA <span class="sc">%&gt;%</span> </span>
-<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
-<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(<span class="fu">cell_fill</span>(<span class="at">color =</span> <span class="st">&quot;Orange&quot;</span>)),</span>
-<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(<span class="at">columns =</span> STUDY, <span class="at">rows =</span> <span class="dv">1</span>)</span>
-<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
-<span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(<span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">&quot;Orange&quot;</span>)),</span>
-<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(<span class="at">columns=</span>SEX_AGE, <span class="at">rows =</span> <span class="dv">3</span>)</span>
-<span id="cb19-9"><a href="#cb19-9" tabindex="-1"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>AA <span class="sc">%&gt;%</span> </span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(<span class="fu">cell_fill</span>(<span class="at">color =</span> <span class="st">&quot;Orange&quot;</span>)),</span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(<span class="at">columns =</span> STUDY, <span class="at">rows =</span> <span class="dv">1</span>)</span>
+<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(<span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">&quot;Orange&quot;</span>)),</span>
+<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(<span class="at">columns=</span>SEX_AGE, <span class="at">rows =</span><span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">3</span>))</span>
+<span id="cb21-9"><a href="#cb21-9" tabindex="-1"></a>  )</span></code></pre></div>
 <div id="prvbznahds" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#prvbznahds table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -4564,7 +4580,7 @@ class="section level2">
 <td headers="TIME" class="gt_row gt_center">10:46:00</td>
 <td headers="DATE" class="gt_row gt_right">3/13/92 0:00</td>
 <td headers="SEASON" class="gt_row gt_left">dry</td>
-<td headers="SEX_AGE" class="gt_row gt_left">Female</td>
+<td headers="SEX_AGE" class="gt_row gt_left" style="color: #FFA500;">Female</td>
 <td headers="SVL" class="gt_row gt_right">NA</td></tr>
     <tr><td headers="STUDY" class="gt_row gt_left">Mark/recap</td>
 <td headers="Survey_Site" class="gt_row gt_left">Woods walkway tower</td>
@@ -4621,21 +4637,21 @@ class="section level2">
 </table>
 </div>
 <hr />
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>AAA<span class="ot">=</span>AA <span class="sc">%&gt;%</span> </span>
-<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
-<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(<span class="fu">cell_fill</span>(<span class="at">color =</span> <span class="st">&quot;Orange&quot;</span>)),</span>
-<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(<span class="at">columns =</span> STUDY)</span>
-<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
-<span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(<span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">&quot;Orange&quot;</span>)),</span>
-<span id="cb20-8"><a href="#cb20-8" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(<span class="at">columns=</span>SEX_AGE, <span class="at">rows =</span> <span class="dv">3</span>)</span>
-<span id="cb20-9"><a href="#cb20-9" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
-<span id="cb20-10"><a href="#cb20-10" tabindex="-1"></a>    <span class="fu">tab_style</span>(</span>
-<span id="cb20-11"><a href="#cb20-11" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(<span class="fu">cell_text</span>(<span class="at">style =</span> <span class="st">&quot;italic&quot;</span>, <span class="at">weight =</span> <span class="st">&quot;bold&quot;</span>)),</span>
-<span id="cb20-12"><a href="#cb20-12" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(<span class="at">columns=</span>Survey_Site, <span class="at">rows =</span> <span class="dv">1</span>)</span>
-<span id="cb20-13"><a href="#cb20-13" tabindex="-1"></a>    )</span>
-<span id="cb20-14"><a href="#cb20-14" tabindex="-1"></a></span>
-<span id="cb20-15"><a href="#cb20-15" tabindex="-1"></a>AAA</span></code></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>AAA<span class="ot">=</span>AA <span class="sc">%&gt;%</span> </span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(<span class="fu">cell_fill</span>(<span class="at">color =</span> <span class="st">&quot;Orange&quot;</span>)),</span>
+<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(<span class="at">columns =</span> STUDY)</span>
+<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-6"><a href="#cb22-6" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb22-7"><a href="#cb22-7" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(<span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">&quot;Orange&quot;</span>)),</span>
+<span id="cb22-8"><a href="#cb22-8" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(<span class="at">columns=</span>SEX_AGE, <span class="at">rows =</span> <span class="dv">3</span>)</span>
+<span id="cb22-9"><a href="#cb22-9" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span> </span>
+<span id="cb22-10"><a href="#cb22-10" tabindex="-1"></a>    <span class="fu">tab_style</span>(</span>
+<span id="cb22-11"><a href="#cb22-11" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(<span class="fu">cell_text</span>(<span class="at">style =</span> <span class="st">&quot;italic&quot;</span>, <span class="at">weight =</span> <span class="st">&quot;bold&quot;</span>)),</span>
+<span id="cb22-12"><a href="#cb22-12" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(<span class="at">columns=</span>Survey_Site, <span class="at">rows =</span> <span class="dv">1</span>)</span>
+<span id="cb22-13"><a href="#cb22-13" tabindex="-1"></a>    )</span>
+<span id="cb22-14"><a href="#cb22-14" tabindex="-1"></a></span>
+<span id="cb22-15"><a href="#cb22-15" tabindex="-1"></a>AAA</span></code></pre></div>
 <div id="nqewbvxlzs" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#nqewbvxlzs table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -5172,24 +5188,24 @@ class="section level2">
 <h1>Formateo condicional</h1>
 <p>Aqui usamos la condición de <strong>SVL</strong> sea debajo un tamaño
 o más grande y se le asigna un color correspondiente.</p>
-<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a>AAAA<span class="ot">=</span> AAA <span class="sc">|&gt;</span> </span>
-<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
-<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">&quot;red&quot;</span>, <span class="at">weight =</span> <span class="st">&quot;bold&quot;</span>),</span>
-<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
-<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a>      <span class="at">columns =</span> <span class="fu">vars</span>(SVL),</span>
-<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a>      <span class="at">rows =</span> SVL <span class="sc">&lt;</span> <span class="dv">38</span></span>
-<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a>    )</span>
-<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a>  ) <span class="sc">|&gt;</span>  </span>
-<span id="cb21-9"><a href="#cb21-9" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
-<span id="cb21-10"><a href="#cb21-10" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">weight =</span> <span class="st">&quot;bold&quot;</span>),</span>
-<span id="cb21-11"><a href="#cb21-11" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
-<span id="cb21-12"><a href="#cb21-12" tabindex="-1"></a>      <span class="at">columns =</span> <span class="fu">vars</span>(SVL),</span>
-<span id="cb21-13"><a href="#cb21-13" tabindex="-1"></a>      <span class="at">rows =</span> SVL <span class="sc">&gt;=</span> <span class="dv">38</span></span>
-<span id="cb21-14"><a href="#cb21-14" tabindex="-1"></a>    )</span>
-<span id="cb21-15"><a href="#cb21-15" tabindex="-1"></a>  )</span>
-<span id="cb21-16"><a href="#cb21-16" tabindex="-1"></a></span>
-<span id="cb21-17"><a href="#cb21-17" tabindex="-1"></a></span>
-<span id="cb21-18"><a href="#cb21-18" tabindex="-1"></a>AAAA</span></code></pre></div>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a>AAAA<span class="ot">=</span> AAA <span class="sc">|&gt;</span> </span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">&quot;red&quot;</span>, <span class="at">weight =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
+<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a>      <span class="at">columns =</span> <span class="fu">vars</span>(SVL),</span>
+<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a>      <span class="at">rows =</span> SVL <span class="sc">&lt;</span> <span class="dv">38</span></span>
+<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a>    )</span>
+<span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a>  ) <span class="sc">|&gt;</span>  </span>
+<span id="cb23-9"><a href="#cb23-9" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb23-10"><a href="#cb23-10" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">&quot;blue&quot;</span>, <span class="at">weight =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb23-11"><a href="#cb23-11" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
+<span id="cb23-12"><a href="#cb23-12" tabindex="-1"></a>      <span class="at">columns =</span> <span class="fu">vars</span>(SVL),</span>
+<span id="cb23-13"><a href="#cb23-13" tabindex="-1"></a>      <span class="at">rows =</span> SVL <span class="sc">&gt;=</span> <span class="dv">38</span></span>
+<span id="cb23-14"><a href="#cb23-14" tabindex="-1"></a>    )</span>
+<span id="cb23-15"><a href="#cb23-15" tabindex="-1"></a>  )</span>
+<span id="cb23-16"><a href="#cb23-16" tabindex="-1"></a></span>
+<span id="cb23-17"><a href="#cb23-17" tabindex="-1"></a></span>
+<span id="cb23-18"><a href="#cb23-18" tabindex="-1"></a>AAAA</span></code></pre></div>
 <div id="jihjsbsgfb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#jihjsbsgfb table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -5726,34 +5742,35 @@ class="section level2">
 <p>Para aceso alos fonts de google vea este enlace</p>
 <p><a href="https://fonts.google.com"
 class="uri">https://fonts.google.com</a></p>
-<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a>small_table<span class="ot">=</span>AAAA <span class="sc">%&gt;%</span> </span>
-<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
-<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(</span>
-<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a>      <span class="at">font =</span> <span class="fu">google_font</span>(<span class="st">&quot;Indie Flower&quot;</span>), </span>
-<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a>      <span class="at">weight =</span> <span class="st">&quot;bold&quot;</span>,</span>
-<span id="cb22-6"><a href="#cb22-6" tabindex="-1"></a>      <span class="at">size =</span> <span class="fu">px</span>(<span class="dv">20</span>)</span>
-<span id="cb22-7"><a href="#cb22-7" tabindex="-1"></a>      ),</span>
-<span id="cb22-8"><a href="#cb22-8" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">list</span>(</span>
-<span id="cb22-9"><a href="#cb22-9" tabindex="-1"></a>      <span class="fu">cells_column_labels</span>(<span class="fu">everything</span>())</span>
-<span id="cb22-10"><a href="#cb22-10" tabindex="-1"></a>  )) <span class="sc">%&gt;%</span> </span>
-<span id="cb22-11"><a href="#cb22-11" tabindex="-1"></a>   <span class="fu">tab_style</span>(</span>
-<span id="cb22-12"><a href="#cb22-12" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(</span>
-<span id="cb22-13"><a href="#cb22-13" tabindex="-1"></a>    <span class="at">font =</span> <span class="fu">google_font</span>(<span class="st">&quot;Redressed&quot;</span>), <span class="at">size =</span> <span class="fu">px</span>(<span class="dv">14</span>)),</span>
-<span id="cb22-14"><a href="#cb22-14" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">list</span>(</span>
-<span id="cb22-15"><a href="#cb22-15" tabindex="-1"></a>      <span class="fu">cells_body</span>(<span class="at">columns =</span> <span class="fu">everything</span>())</span>
-<span id="cb22-16"><a href="#cb22-16" tabindex="-1"></a>  )) <span class="sc">%&gt;%</span> </span>
-<span id="cb22-17"><a href="#cb22-17" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
-<span id="cb22-18"><a href="#cb22-18" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(</span>
-<span id="cb22-19"><a href="#cb22-19" tabindex="-1"></a>    <span class="at">font =</span> <span class="fu">google_font</span>(<span class="st">&quot;Redressed&quot;</span>), <span class="at">size =</span> <span class="fu">px</span>(<span class="dv">14</span>)),</span>
-<span id="cb22-20"><a href="#cb22-20" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">list</span>(<span class="fu">cells_title</span>(<span class="at">groups=</span><span class="fu">c</span>(<span class="st">&quot;subtitle&quot;</span>))</span>
-<span id="cb22-21"><a href="#cb22-21" tabindex="-1"></a>  ))</span>
-<span id="cb22-22"><a href="#cb22-22" tabindex="-1"></a></span>
-<span id="cb22-23"><a href="#cb22-23" tabindex="-1"></a></span>
-<span id="cb22-24"><a href="#cb22-24" tabindex="-1"></a>small_table</span></code></pre></div>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a>small_table<span class="ot">=</span>AAAA <span class="sc">%&gt;%</span> </span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(</span>
+<span id="cb24-4"><a href="#cb24-4" tabindex="-1"></a>      <span class="at">font =</span> <span class="fu">google_font</span>(<span class="st">&quot;Playwrite México Guides&quot;</span>), </span>
+<span id="cb24-5"><a href="#cb24-5" tabindex="-1"></a>      <span class="at">weight =</span> <span class="st">&quot;bold&quot;</span>,</span>
+<span id="cb24-6"><a href="#cb24-6" tabindex="-1"></a>      <span class="at">size =</span> <span class="fu">px</span>(<span class="dv">20</span>)</span>
+<span id="cb24-7"><a href="#cb24-7" tabindex="-1"></a>      ),</span>
+<span id="cb24-8"><a href="#cb24-8" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">list</span>(</span>
+<span id="cb24-9"><a href="#cb24-9" tabindex="-1"></a>      <span class="fu">cells_column_labels</span>(<span class="fu">everything</span>())</span>
+<span id="cb24-10"><a href="#cb24-10" tabindex="-1"></a>  )) <span class="sc">%&gt;%</span> </span>
+<span id="cb24-11"><a href="#cb24-11" tabindex="-1"></a>   <span class="fu">tab_style</span>(</span>
+<span id="cb24-12"><a href="#cb24-12" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(</span>
+<span id="cb24-13"><a href="#cb24-13" tabindex="-1"></a>    <span class="at">font =</span> <span class="fu">google_font</span>(<span class="st">&quot;Roboto&quot;</span>), <span class="at">size =</span> <span class="fu">px</span>(<span class="dv">14</span>)),</span>
+<span id="cb24-14"><a href="#cb24-14" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">list</span>(</span>
+<span id="cb24-15"><a href="#cb24-15" tabindex="-1"></a>      <span class="fu">cells_body</span>(<span class="at">columns =</span> <span class="fu">everything</span>())</span>
+<span id="cb24-16"><a href="#cb24-16" tabindex="-1"></a>  )) <span class="sc">%&gt;%</span> </span>
+<span id="cb24-17"><a href="#cb24-17" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb24-18"><a href="#cb24-18" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">cell_text</span>(</span>
+<span id="cb24-19"><a href="#cb24-19" tabindex="-1"></a>    <span class="at">font =</span> <span class="fu">google_font</span>(<span class="st">&quot;Redressed&quot;</span>), <span class="at">size =</span> <span class="fu">px</span>(<span class="dv">14</span>)),</span>
+<span id="cb24-20"><a href="#cb24-20" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">list</span>(<span class="fu">cells_title</span>(<span class="at">groups=</span><span class="fu">c</span>(<span class="st">&quot;subtitle&quot;</span>))</span>
+<span id="cb24-21"><a href="#cb24-21" tabindex="-1"></a>  ))</span>
+<span id="cb24-22"><a href="#cb24-22" tabindex="-1"></a></span>
+<span id="cb24-23"><a href="#cb24-23" tabindex="-1"></a></span>
+<span id="cb24-24"><a href="#cb24-24" tabindex="-1"></a>small_table</span></code></pre></div>
 <div id="ovrmjsbcwv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>@import url("https://fonts.googleapis.com/css2?family=Redressed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+<style>@charset "UTF-8";
 @import url("https://fonts.googleapis.com/css2?family=Redressed:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Indie+Flower:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Playwrite+México+Guides:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 #ovrmjsbcwv table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
@@ -6211,58 +6228,58 @@ class="uri">https://fonts.google.com</a></p>
       <td colspan="7" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border" style="font-family: Redressed; font-size: 14px;">Datos recolectado por Douglas Reagan</td>
     </tr>
     <tr class="gt_col_headings">
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="font-family: 'Indie Flower'; font-size: 20px; font-weight: bold;" scope="col" id="STUDY">STUDY</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="font-family: 'Indie Flower'; font-size: 20px; font-weight: bold;" scope="col" id="Survey_Site">Survey_Site</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="font-family: 'Indie Flower'; font-size: 20px; font-weight: bold;" scope="col" id="TIME">TIME</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="font-family: 'Indie Flower'; font-size: 20px; font-weight: bold;" scope="col" id="DATE">DATE</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="font-family: 'Indie Flower'; font-size: 20px; font-weight: bold;" scope="col" id="SEASON">SEASON</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="font-family: 'Indie Flower'; font-size: 20px; font-weight: bold;" scope="col" id="SEX_AGE">SEX_AGE</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="font-family: 'Indie Flower'; font-size: 20px; font-weight: bold;" scope="col" id="SVL">SVL</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="font-family: 'Playwrite México Guides'; font-size: 20px; font-weight: bold;" scope="col" id="STUDY">STUDY</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="font-family: 'Playwrite México Guides'; font-size: 20px; font-weight: bold;" scope="col" id="Survey_Site">Survey_Site</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" style="font-family: 'Playwrite México Guides'; font-size: 20px; font-weight: bold;" scope="col" id="TIME">TIME</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="font-family: 'Playwrite México Guides'; font-size: 20px; font-weight: bold;" scope="col" id="DATE">DATE</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="font-family: 'Playwrite México Guides'; font-size: 20px; font-weight: bold;" scope="col" id="SEASON">SEASON</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" style="font-family: 'Playwrite México Guides'; font-size: 20px; font-weight: bold;" scope="col" id="SEX_AGE">SEX_AGE</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" style="font-family: 'Playwrite México Guides'; font-size: 20px; font-weight: bold;" scope="col" id="SVL">SVL</th>
     </tr>
   </thead>
   <tbody class="gt_table_body">
-    <tr><td headers="STUDY" class="gt_row gt_left" style="background-color: #FFA500; font-family: Redressed; font-size: 14px;">Mark/recap</td>
-<td headers="Survey_Site" class="gt_row gt_left" style="font-style: italic; font-weight: bold; font-family: Redressed; font-size: 14px;">North Tower</td>
-<td headers="TIME" class="gt_row gt_center" style="font-family: Redressed; font-size: 14px;">10:46:00</td>
-<td headers="DATE" class="gt_row gt_right" style="font-family: Redressed; font-size: 14px;">3/13/92 0:00</td>
-<td headers="SEASON" class="gt_row gt_left" style="font-family: Redressed; font-size: 14px;">dry</td>
-<td headers="SEX_AGE" class="gt_row gt_left" style="font-family: Redressed; font-size: 14px;">Female</td>
-<td headers="SVL" class="gt_row gt_right" style="font-family: Redressed; font-size: 14px;">NA</td></tr>
-    <tr><td headers="STUDY" class="gt_row gt_left" style="background-color: #FFA500; font-family: Redressed; font-size: 14px;">Mark/recap</td>
-<td headers="Survey_Site" class="gt_row gt_left" style="font-family: Redressed; font-size: 14px;">Woods walkway tower</td>
-<td headers="TIME" class="gt_row gt_center" style="font-family: Redressed; font-size: 14px;">10:15:00</td>
-<td headers="DATE" class="gt_row gt_right" style="font-family: Redressed; font-size: 14px;">2/20/89 0:00</td>
-<td headers="SEASON" class="gt_row gt_left" style="font-family: Redressed; font-size: 14px;">dry</td>
-<td headers="SEX_AGE" class="gt_row gt_left" style="font-family: Redressed; font-size: 14px;">Juvenil<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></td>
-<td headers="SVL" class="gt_row gt_right" style="color: #FF0000; font-weight: bold; font-family: Redressed; font-size: 14px;">29</td></tr>
-    <tr><td headers="STUDY" class="gt_row gt_left" style="background-color: #FFA500; font-family: Redressed; font-size: 14px;">Mark/recap</td>
-<td headers="Survey_Site" class="gt_row gt_left" style="font-family: Redressed; font-size: 14px;">Woods walkway tower</td>
-<td headers="TIME" class="gt_row gt_center" style="font-family: Redressed; font-size: 14px;">11:15:00</td>
-<td headers="DATE" class="gt_row gt_right" style="font-family: Redressed; font-size: 14px;">2/21/89 0:00</td>
-<td headers="SEASON" class="gt_row gt_left" style="font-family: Redressed; font-size: 14px;">dry</td>
-<td headers="SEX_AGE" class="gt_row gt_left" style="color: #FFA500; font-family: Redressed; font-size: 14px;">Male<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2,3</sup></span></td>
-<td headers="SVL" class="gt_row gt_right" style="font-family: Redressed; font-size: 14px;">NA</td></tr>
-    <tr><td headers="STUDY" class="gt_row gt_left" style="background-color: #FFA500; font-family: Redressed; font-size: 14px;">Mark/recap</td>
-<td headers="Survey_Site" class="gt_row gt_left" style="font-family: Redressed; font-size: 14px;">North Tower</td>
-<td headers="TIME" class="gt_row gt_center" style="font-family: Redressed; font-size: 14px;">11:06:00</td>
-<td headers="DATE" class="gt_row gt_right" style="font-family: Redressed; font-size: 14px;">3/16/92 0:00</td>
-<td headers="SEASON" class="gt_row gt_left" style="font-family: Redressed; font-size: 14px;">dry</td>
-<td headers="SEX_AGE" class="gt_row gt_left" style="font-family: Redressed; font-size: 14px;">Juvenil</td>
-<td headers="SVL" class="gt_row gt_right" style="color: #FF0000; font-weight: bold; font-family: Redressed; font-size: 14px;">26</td></tr>
-    <tr><td headers="STUDY" class="gt_row gt_left" style="background-color: #FFA500; font-family: Redressed; font-size: 14px;">Mark/recap</td>
-<td headers="Survey_Site" class="gt_row gt_left" style="font-family: Redressed; font-size: 14px;">North Tower</td>
-<td headers="TIME" class="gt_row gt_center" style="font-family: Redressed; font-size: 14px;">12:31:00</td>
-<td headers="DATE" class="gt_row gt_right" style="font-family: Redressed; font-size: 14px;">3/11/92 0:00</td>
-<td headers="SEASON" class="gt_row gt_left" style="font-family: Redressed; font-size: 14px;">dry</td>
-<td headers="SEX_AGE" class="gt_row gt_left" style="font-family: Redressed; font-size: 14px;">Male</td>
-<td headers="SVL" class="gt_row gt_right" style="color: #0000FF; font-weight: bold; font-family: Redressed; font-size: 14px;">45</td></tr>
-    <tr><td headers="STUDY" class="gt_row gt_left" style="background-color: #FFA500; font-family: Redressed; font-size: 14px;">Mark/recap</td>
-<td headers="Survey_Site" class="gt_row gt_left" style="font-family: Redressed; font-size: 14px;">North Tower</td>
-<td headers="TIME" class="gt_row gt_center" style="font-family: Redressed; font-size: 14px;">01:00:00</td>
-<td headers="DATE" class="gt_row gt_right" style="font-family: Redressed; font-size: 14px;">3/9/92 0:00</td>
-<td headers="SEASON" class="gt_row gt_left" style="font-family: Redressed; font-size: 14px;">dry</td>
-<td headers="SEX_AGE" class="gt_row gt_left" style="font-family: Redressed; font-size: 14px;">Female</td>
-<td headers="SVL" class="gt_row gt_right" style="color: #FF0000; font-weight: bold; font-family: Redressed; font-size: 14px;">37</td></tr>
+    <tr><td headers="STUDY" class="gt_row gt_left" style="background-color: #FFA500; font-family: Roboto; font-size: 14px;">Mark/recap</td>
+<td headers="Survey_Site" class="gt_row gt_left" style="font-style: italic; font-weight: bold; font-family: Roboto; font-size: 14px;">North Tower</td>
+<td headers="TIME" class="gt_row gt_center" style="font-family: Roboto; font-size: 14px;">10:46:00</td>
+<td headers="DATE" class="gt_row gt_right" style="font-family: Roboto; font-size: 14px;">3/13/92 0:00</td>
+<td headers="SEASON" class="gt_row gt_left" style="font-family: Roboto; font-size: 14px;">dry</td>
+<td headers="SEX_AGE" class="gt_row gt_left" style="font-family: Roboto; font-size: 14px;">Female</td>
+<td headers="SVL" class="gt_row gt_right" style="font-family: Roboto; font-size: 14px;">NA</td></tr>
+    <tr><td headers="STUDY" class="gt_row gt_left" style="background-color: #FFA500; font-family: Roboto; font-size: 14px;">Mark/recap</td>
+<td headers="Survey_Site" class="gt_row gt_left" style="font-family: Roboto; font-size: 14px;">Woods walkway tower</td>
+<td headers="TIME" class="gt_row gt_center" style="font-family: Roboto; font-size: 14px;">10:15:00</td>
+<td headers="DATE" class="gt_row gt_right" style="font-family: Roboto; font-size: 14px;">2/20/89 0:00</td>
+<td headers="SEASON" class="gt_row gt_left" style="font-family: Roboto; font-size: 14px;">dry</td>
+<td headers="SEX_AGE" class="gt_row gt_left" style="font-family: Roboto; font-size: 14px;">Juvenil<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></td>
+<td headers="SVL" class="gt_row gt_right" style="color: #FF0000; font-weight: bold; font-family: Roboto; font-size: 14px;">29</td></tr>
+    <tr><td headers="STUDY" class="gt_row gt_left" style="background-color: #FFA500; font-family: Roboto; font-size: 14px;">Mark/recap</td>
+<td headers="Survey_Site" class="gt_row gt_left" style="font-family: Roboto; font-size: 14px;">Woods walkway tower</td>
+<td headers="TIME" class="gt_row gt_center" style="font-family: Roboto; font-size: 14px;">11:15:00</td>
+<td headers="DATE" class="gt_row gt_right" style="font-family: Roboto; font-size: 14px;">2/21/89 0:00</td>
+<td headers="SEASON" class="gt_row gt_left" style="font-family: Roboto; font-size: 14px;">dry</td>
+<td headers="SEX_AGE" class="gt_row gt_left" style="color: #FFA500; font-family: Roboto; font-size: 14px;">Male<span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2,3</sup></span></td>
+<td headers="SVL" class="gt_row gt_right" style="font-family: Roboto; font-size: 14px;">NA</td></tr>
+    <tr><td headers="STUDY" class="gt_row gt_left" style="background-color: #FFA500; font-family: Roboto; font-size: 14px;">Mark/recap</td>
+<td headers="Survey_Site" class="gt_row gt_left" style="font-family: Roboto; font-size: 14px;">North Tower</td>
+<td headers="TIME" class="gt_row gt_center" style="font-family: Roboto; font-size: 14px;">11:06:00</td>
+<td headers="DATE" class="gt_row gt_right" style="font-family: Roboto; font-size: 14px;">3/16/92 0:00</td>
+<td headers="SEASON" class="gt_row gt_left" style="font-family: Roboto; font-size: 14px;">dry</td>
+<td headers="SEX_AGE" class="gt_row gt_left" style="font-family: Roboto; font-size: 14px;">Juvenil</td>
+<td headers="SVL" class="gt_row gt_right" style="color: #FF0000; font-weight: bold; font-family: Roboto; font-size: 14px;">26</td></tr>
+    <tr><td headers="STUDY" class="gt_row gt_left" style="background-color: #FFA500; font-family: Roboto; font-size: 14px;">Mark/recap</td>
+<td headers="Survey_Site" class="gt_row gt_left" style="font-family: Roboto; font-size: 14px;">North Tower</td>
+<td headers="TIME" class="gt_row gt_center" style="font-family: Roboto; font-size: 14px;">12:31:00</td>
+<td headers="DATE" class="gt_row gt_right" style="font-family: Roboto; font-size: 14px;">3/11/92 0:00</td>
+<td headers="SEASON" class="gt_row gt_left" style="font-family: Roboto; font-size: 14px;">dry</td>
+<td headers="SEX_AGE" class="gt_row gt_left" style="font-family: Roboto; font-size: 14px;">Male</td>
+<td headers="SVL" class="gt_row gt_right" style="color: #0000FF; font-weight: bold; font-family: Roboto; font-size: 14px;">45</td></tr>
+    <tr><td headers="STUDY" class="gt_row gt_left" style="background-color: #FFA500; font-family: Roboto; font-size: 14px;">Mark/recap</td>
+<td headers="Survey_Site" class="gt_row gt_left" style="font-family: Roboto; font-size: 14px;">North Tower</td>
+<td headers="TIME" class="gt_row gt_center" style="font-family: Roboto; font-size: 14px;">01:00:00</td>
+<td headers="DATE" class="gt_row gt_right" style="font-family: Roboto; font-size: 14px;">3/9/92 0:00</td>
+<td headers="SEASON" class="gt_row gt_left" style="font-family: Roboto; font-size: 14px;">dry</td>
+<td headers="SEX_AGE" class="gt_row gt_left" style="font-family: Roboto; font-size: 14px;">Female</td>
+<td headers="SVL" class="gt_row gt_right" style="color: #FF0000; font-weight: bold; font-family: Roboto; font-size: 14px;">37</td></tr>
   </tbody>
   <tfoot class="gt_sourcenotes">
     <tr>
@@ -6282,8 +6299,8 @@ class="uri">https://fonts.google.com</a></p>
   </tfoot>
 </table>
 </div>
-<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="fu">library</span>(webshot2)</span>
-<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a><span class="co">#gtsave(small_table, &quot;gt_table_excercise.png&quot;)</span></span></code></pre></div>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="fu">library</span>(webshot2)</span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a><span class="co">#gtsave(small_table, &quot;gt_table_excercise.png&quot;)</span></span></code></pre></div>
 <p><br></p>
 <hr />
 <hr />
@@ -6291,27 +6308,27 @@ class="uri">https://fonts.google.com</a></p>
 </div>
 <div id="flextable-package" class="section level1">
 <h1>flextable package</h1>
-<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="fu">library</span>(flextable)</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="fu">library</span>(flextable)</span></code></pre></div>
 <div id="flexable-website" class="section level3">
 <h3>Flexable website</h3>
 <p><a href="https://ardata-fr.github.io/flextable-book/index.html"
 class="uri">https://ardata-fr.github.io/flextable-book/index.html</a></p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="fu">library</span>(flextable)</span>
-<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a>ft <span class="ot">&lt;-</span> <span class="fu">flextable</span>(airquality[ <span class="fu">sample.int</span>(<span class="dv">10</span>),])</span>
-<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a>ft <span class="ot">&lt;-</span> <span class="fu">add_header_row</span>(ft,</span>
-<span id="cb25-4"><a href="#cb25-4" tabindex="-1"></a>  <span class="at">colwidths =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">2</span>),</span>
-<span id="cb25-5"><a href="#cb25-5" tabindex="-1"></a>  <span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;Air quality&quot;</span>, <span class="st">&quot;Time&quot;</span>)</span>
-<span id="cb25-6"><a href="#cb25-6" tabindex="-1"></a>)</span>
-<span id="cb25-7"><a href="#cb25-7" tabindex="-1"></a>ft <span class="ot">&lt;-</span> <span class="fu">theme_vanilla</span>(ft)</span>
-<span id="cb25-8"><a href="#cb25-8" tabindex="-1"></a>ft <span class="ot">&lt;-</span> <span class="fu">add_footer_lines</span>(ft, <span class="st">&quot;Daily air quality measurements in New York, May to September 1973.&quot;</span>)</span>
-<span id="cb25-9"><a href="#cb25-9" tabindex="-1"></a>ft <span class="ot">&lt;-</span> <span class="fu">color</span>(ft, <span class="at">part =</span> <span class="st">&quot;footer&quot;</span>, <span class="at">color =</span> <span class="st">&quot;#666666&quot;</span>)</span>
-<span id="cb25-10"><a href="#cb25-10" tabindex="-1"></a>ft <span class="ot">&lt;-</span> <span class="fu">set_caption</span>(ft, <span class="at">caption =</span> <span class="st">&quot;New York Air Quality Measurements&quot;</span>)</span>
-<span id="cb25-11"><a href="#cb25-11" tabindex="-1"></a>ft</span></code></pre></div>
-<div class="tabwid"><style>.cl-df277368{}.cl-df1a3810{font-family:'Helvetica';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-df1a382e{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-df1a3838{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(102, 102, 102, 1.00);background-color:transparent;}.cl-df1fa62e{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-df1fa638{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-df1fe60c{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0.75pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-df1fe616{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0.75pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-df1fe617{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0.75pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-df1fe620{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0.75pt solid rgba(102, 102, 102, 1.00);border-top: 0.75pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-df1fe621{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-df277368'><caption style="display:table-caption;margin:0pt;text-align:center;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:3pt;padding-bottom:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;"><span>New York Air Quality Measurements</span></caption><thead><tr style="overflow-wrap:break-word;"><th  colspan="4"class="cl-df1fe60c"><p class="cl-df1fa62e"><span class="cl-df1a3810">Air quality</span></p></th><th  colspan="2"class="cl-df1fe60c"><p class="cl-df1fa62e"><span class="cl-df1a3810">Time</span></p></th></tr><tr style="overflow-wrap:break-word;"><th class="cl-df1fe616"><p class="cl-df1fa62e"><span class="cl-df1a3810">Ozone</span></p></th><th class="cl-df1fe616"><p class="cl-df1fa62e"><span class="cl-df1a3810">Solar.R</span></p></th><th class="cl-df1fe616"><p class="cl-df1fa62e"><span class="cl-df1a3810">Wind</span></p></th><th class="cl-df1fe616"><p class="cl-df1fa62e"><span class="cl-df1a3810">Temp</span></p></th><th class="cl-df1fe616"><p class="cl-df1fa62e"><span class="cl-df1a3810">Month</span></p></th><th class="cl-df1fe616"><p class="cl-df1fa62e"><span class="cl-df1a3810">Day</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-df1fe617"><p class="cl-df1fa62e"><span class="cl-df1a382e">36</span></p></td><td class="cl-df1fe617"><p class="cl-df1fa62e"><span class="cl-df1a382e">118</span></p></td><td class="cl-df1fe617"><p class="cl-df1fa62e"><span class="cl-df1a382e">8.0</span></p></td><td class="cl-df1fe617"><p class="cl-df1fa62e"><span class="cl-df1a382e">72</span></p></td><td class="cl-df1fe617"><p class="cl-df1fa62e"><span class="cl-df1a382e">5</span></p></td><td class="cl-df1fe617"><p class="cl-df1fa62e"><span class="cl-df1a382e">2</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e"></span></p></td><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">194</span></p></td><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">8.6</span></p></td><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">69</span></p></td><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">5</span></p></td><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">10</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">41</span></p></td><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">190</span></p></td><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">7.4</span></p></td><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">67</span></p></td><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">5</span></p></td><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">1</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">23</span></p></td><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">299</span></p></td><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">8.6</span></p></td><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">65</span></p></td><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">5</span></p></td><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">7</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">18</span></p></td><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">313</span></p></td><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">11.5</span></p></td><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">62</span></p></td><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">5</span></p></td><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">4</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">19</span></p></td><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">99</span></p></td><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">13.8</span></p></td><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">59</span></p></td><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">5</span></p></td><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">8</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">12</span></p></td><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">149</span></p></td><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">12.6</span></p></td><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">74</span></p></td><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">5</span></p></td><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">3</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e"></span></p></td><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e"></span></p></td><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">14.3</span></p></td><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">56</span></p></td><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">5</span></p></td><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">5</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">28</span></p></td><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e"></span></p></td><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">14.9</span></p></td><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">66</span></p></td><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">5</span></p></td><td class="cl-df1fe620"><p class="cl-df1fa62e"><span class="cl-df1a382e">6</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-df1fe616"><p class="cl-df1fa62e"><span class="cl-df1a382e">8</span></p></td><td class="cl-df1fe616"><p class="cl-df1fa62e"><span class="cl-df1a382e">19</span></p></td><td class="cl-df1fe616"><p class="cl-df1fa62e"><span class="cl-df1a382e">20.1</span></p></td><td class="cl-df1fe616"><p class="cl-df1fa62e"><span class="cl-df1a382e">61</span></p></td><td class="cl-df1fe616"><p class="cl-df1fa62e"><span class="cl-df1a382e">5</span></p></td><td class="cl-df1fe616"><p class="cl-df1fa62e"><span class="cl-df1a382e">9</span></p></td></tr></tbody><tfoot><tr style="overflow-wrap:break-word;"><td  colspan="6"class="cl-df1fe621"><p class="cl-df1fa638"><span class="cl-df1a3838">Daily air quality measurements in New York, May to September 1973.</span></p></td></tr></tfoot></table></div>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" tabindex="-1"></a><span class="co">#tf &lt;- tempfile(fileext = &quot;.docx&quot;)</span></span>
-<span id="cb26-2"><a href="#cb26-2" tabindex="-1"></a><span class="co">#save_as_pptx(&quot;ft1&quot; = ft, path = &quot;/Users/raymondtremblay/Dropbox/GitHub_Dropbox_Drive/GitHub/Visualizacion_Datos/ft.pptx&quot;)</span></span>
-<span id="cb26-3"><a href="#cb26-3" tabindex="-1"></a></span>
-<span id="cb26-4"><a href="#cb26-4" tabindex="-1"></a><span class="co">#save_as_docx(&quot;ft1&quot; = ft, path = &quot;/Users/raymondtremblay/Dropbox/GitHub_Dropbox_Drive/GitHub/Visualizacion_Datos/ft.docx&quot;)</span></span></code></pre></div>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" tabindex="-1"></a><span class="fu">library</span>(flextable)</span>
+<span id="cb27-2"><a href="#cb27-2" tabindex="-1"></a>ft <span class="ot">&lt;-</span> <span class="fu">flextable</span>(airquality[ <span class="fu">sample.int</span>(<span class="dv">10</span>),])</span>
+<span id="cb27-3"><a href="#cb27-3" tabindex="-1"></a>ft <span class="ot">&lt;-</span> <span class="fu">add_header_row</span>(ft,</span>
+<span id="cb27-4"><a href="#cb27-4" tabindex="-1"></a>  <span class="at">colwidths =</span> <span class="fu">c</span>(<span class="dv">4</span>, <span class="dv">2</span>),</span>
+<span id="cb27-5"><a href="#cb27-5" tabindex="-1"></a>  <span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;Air quality&quot;</span>, <span class="st">&quot;Time&quot;</span>)</span>
+<span id="cb27-6"><a href="#cb27-6" tabindex="-1"></a>)</span>
+<span id="cb27-7"><a href="#cb27-7" tabindex="-1"></a>ft <span class="ot">&lt;-</span> <span class="fu">theme_vanilla</span>(ft)</span>
+<span id="cb27-8"><a href="#cb27-8" tabindex="-1"></a>ft <span class="ot">&lt;-</span> <span class="fu">add_footer_lines</span>(ft, <span class="st">&quot;Daily air quality measurements in New York, May to September 1973.&quot;</span>)</span>
+<span id="cb27-9"><a href="#cb27-9" tabindex="-1"></a>ft <span class="ot">&lt;-</span> <span class="fu">color</span>(ft, <span class="at">part =</span> <span class="st">&quot;footer&quot;</span>, <span class="at">color =</span> <span class="st">&quot;#666666&quot;</span>)</span>
+<span id="cb27-10"><a href="#cb27-10" tabindex="-1"></a>ft <span class="ot">&lt;-</span> <span class="fu">set_caption</span>(ft, <span class="at">caption =</span> <span class="st">&quot;New York Air Quality Measurements&quot;</span>)</span>
+<span id="cb27-11"><a href="#cb27-11" tabindex="-1"></a>ft</span></code></pre></div>
+<div class="tabwid"><style>.cl-257d932c{}.cl-25714d88{font-family:'Helvetica';font-size:11pt;font-weight:bold;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-25714d9c{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-25714da6{font-family:'Helvetica';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(102, 102, 102, 1.00);background-color:transparent;}.cl-2576a076{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-2576a080{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-2576d488{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0.75pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2576d49c{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0.75pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2576d49d{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0.75pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2576d49e{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0.75pt solid rgba(102, 102, 102, 1.00);border-top: 0.75pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-2576d4a6{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(255, 255, 255, 0.00);border-top: 0 solid rgba(255, 255, 255, 0.00);border-left: 0 solid rgba(255, 255, 255, 0.00);border-right: 0 solid rgba(255, 255, 255, 0.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style><table data-quarto-disable-processing='true' class='cl-257d932c'><caption style="display:table-caption;margin:0pt;text-align:center;border-bottom: 0.00pt solid transparent;border-top: 0.00pt solid transparent;border-left: 0.00pt solid transparent;border-right: 0.00pt solid transparent;padding-top:3pt;padding-bottom:3pt;padding-left:3pt;padding-right:3pt;line-height: 1;background-color:transparent;"><span>New York Air Quality Measurements</span></caption><thead><tr style="overflow-wrap:break-word;"><th  colspan="4"class="cl-2576d488"><p class="cl-2576a076"><span class="cl-25714d88">Air quality</span></p></th><th  colspan="2"class="cl-2576d488"><p class="cl-2576a076"><span class="cl-25714d88">Time</span></p></th></tr><tr style="overflow-wrap:break-word;"><th class="cl-2576d49c"><p class="cl-2576a076"><span class="cl-25714d88">Ozone</span></p></th><th class="cl-2576d49c"><p class="cl-2576a076"><span class="cl-25714d88">Solar.R</span></p></th><th class="cl-2576d49c"><p class="cl-2576a076"><span class="cl-25714d88">Wind</span></p></th><th class="cl-2576d49c"><p class="cl-2576a076"><span class="cl-25714d88">Temp</span></p></th><th class="cl-2576d49c"><p class="cl-2576a076"><span class="cl-25714d88">Month</span></p></th><th class="cl-2576d49c"><p class="cl-2576a076"><span class="cl-25714d88">Day</span></p></th></tr></thead><tbody><tr style="overflow-wrap:break-word;"><td class="cl-2576d49d"><p class="cl-2576a076"><span class="cl-25714d9c">36</span></p></td><td class="cl-2576d49d"><p class="cl-2576a076"><span class="cl-25714d9c">118</span></p></td><td class="cl-2576d49d"><p class="cl-2576a076"><span class="cl-25714d9c">8.0</span></p></td><td class="cl-2576d49d"><p class="cl-2576a076"><span class="cl-25714d9c">72</span></p></td><td class="cl-2576d49d"><p class="cl-2576a076"><span class="cl-25714d9c">5</span></p></td><td class="cl-2576d49d"><p class="cl-2576a076"><span class="cl-25714d9c">2</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c"></span></p></td><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">194</span></p></td><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">8.6</span></p></td><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">69</span></p></td><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">5</span></p></td><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">10</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">41</span></p></td><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">190</span></p></td><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">7.4</span></p></td><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">67</span></p></td><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">5</span></p></td><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">1</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">23</span></p></td><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">299</span></p></td><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">8.6</span></p></td><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">65</span></p></td><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">5</span></p></td><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">7</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">18</span></p></td><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">313</span></p></td><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">11.5</span></p></td><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">62</span></p></td><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">5</span></p></td><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">4</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">19</span></p></td><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">99</span></p></td><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">13.8</span></p></td><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">59</span></p></td><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">5</span></p></td><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">8</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">12</span></p></td><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">149</span></p></td><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">12.6</span></p></td><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">74</span></p></td><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">5</span></p></td><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">3</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c"></span></p></td><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c"></span></p></td><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">14.3</span></p></td><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">56</span></p></td><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">5</span></p></td><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">5</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">28</span></p></td><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c"></span></p></td><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">14.9</span></p></td><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">66</span></p></td><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">5</span></p></td><td class="cl-2576d49e"><p class="cl-2576a076"><span class="cl-25714d9c">6</span></p></td></tr><tr style="overflow-wrap:break-word;"><td class="cl-2576d49c"><p class="cl-2576a076"><span class="cl-25714d9c">8</span></p></td><td class="cl-2576d49c"><p class="cl-2576a076"><span class="cl-25714d9c">19</span></p></td><td class="cl-2576d49c"><p class="cl-2576a076"><span class="cl-25714d9c">20.1</span></p></td><td class="cl-2576d49c"><p class="cl-2576a076"><span class="cl-25714d9c">61</span></p></td><td class="cl-2576d49c"><p class="cl-2576a076"><span class="cl-25714d9c">5</span></p></td><td class="cl-2576d49c"><p class="cl-2576a076"><span class="cl-25714d9c">9</span></p></td></tr></tbody><tfoot><tr style="overflow-wrap:break-word;"><td  colspan="6"class="cl-2576d4a6"><p class="cl-2576a080"><span class="cl-25714da6">Daily air quality measurements in New York, May to September 1973.</span></p></td></tr></tfoot></table></div>
+<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" tabindex="-1"></a><span class="co">#tf &lt;- tempfile(fileext = &quot;.docx&quot;)</span></span>
+<span id="cb28-2"><a href="#cb28-2" tabindex="-1"></a><span class="co">#save_as_pptx(&quot;ft1&quot; = ft, path = &quot;/Users/raymondtremblay/Dropbox/GitHub_Dropbox_Drive/GitHub/Visualizacion_Datos/ft.pptx&quot;)</span></span>
+<span id="cb28-3"><a href="#cb28-3" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" tabindex="-1"></a><span class="co">#save_as_docx(&quot;ft1&quot; = ft, path = &quot;/Users/raymondtremblay/Dropbox/GitHub_Dropbox_Drive/GitHub/Visualizacion_Datos/ft.docx&quot;)</span></span></code></pre></div>
 </div>
 </div>
 

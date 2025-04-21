@@ -65,15 +65,52 @@ show_col(pal_aaas("default")(15))
 ```{r}
 library("scales")
 
-# Color palettes = "hallmarks_light", "hallmarks_dark", "signature_substitutions"
+#  Color palettes = "hallmarks_light", "hallmarks_dark", "signature_substitutions"
 show_col(pal_cosmic("hallmarks_dark")(10))
+
+
+show_col(pal_grey()(25)) # gradientes de grises
+
+show_col(pal_hue()(4)) # paleta de 4 colores
+show_col(pal_hue()(9)) # paleta de 9 colores
+show_col(pal_hue(l = 90)(9)) # paleta de 9 colores con hue de 90
+show_col(pal_hue(l = 30)(9)) # paleta de 9 colores con hue de 30
 ```
-    
+
+```{r}
+show_col(pal_viridis()(10))
+show_col(pal_viridis(direction = -1)(6))
+show_col(pal_viridis(begin = 0.2, end = 0.8)(4))
+show_col(pal_viridis(option = "plasma")(6))
+
+
+
+
+```
+
+
+# Diferentes opciones
+
+ - "magma" (or "A")
+
+ - "inferno" (or "B")
+
+ - "plasma" (or "C")
+
+ - "viridis" (or "D")
+
+ - "cividis" (or "E")
+
+ - "rocket" (or "F")
+
+ - "mako" (or "G")
+
+  - "turbo" (or "H")
     
 - Reference:
 
-https://cancer.sanger.ac.uk/cosmic
-\ 
+
+
 
 ***
 
@@ -85,9 +122,94 @@ https://cancer.sanger.ac.uk/cosmic
 
 
 ```{r}
+
+library(ggsci) # Scientific journal and Sci-fi themed color palettes for ggplot2
 # colour_palettes= "category10", "category20", "category20b", "category20c"
 show_col(pal_d3("category20b")(15))
 ```
+
+
+
+###  Paletta de Jama = Journal of the American Medical Association
+
+
+
+```{r}
+library("scales")
+show_col(pal_jama("default")(7))
+```
+
+### Paletta de Lancet = The Lancet
+
+
+```{r}
+library("scales")
+show_col(pal_lancet("lanonc")(9))
+```
+
+
+### Paletta de los jounrals de Fonrtiers. = Frontiers in Neuroscience, Frontiers in Microbiology, Frontiers in Psychology, etc.
+
+scale_color_frontiers(palette = c("default"), alpha = 1, ...)
+
+scale_colour_frontiers(palette = c("default"), alpha = 1, ...)
+
+scale_fill_frontiers(palette = c("default"), alpha = 1, ...)
+
+- *Frontiers Color Palettes*  
+
+    - pal_frontiers
+    - scale_color_frontiers
+    - scale_fill_frontiers       
+
+```{r}
+show_col(pal_frontiers("default")(8))
+
+```
+
+
+```{r}
+library("ggplot2")
+data("diamonds")
+
+ggplot(
+  subset(diamonds, carat >= 2.2),
+  aes(x = table, y = price, colour = cut)
+) +
+  geom_point(alpha = 0.7) +
+  geom_smooth(method = "loess", alpha = 0.1, size = 1, span = 1) +
+  theme_dark() +
+  theme(
+    panel.background = element_rect(fill = "#2D2D2D"),
+    legend.key = element_rect(fill = "#2D2D2D")
+  ) +
+  scale_color_frontiers()
+
+ggplot(
+  subset(diamonds, carat > 2.2 & depth > 55 & depth < 70),
+  aes(x = depth, fill = cut)
+) +
+  geom_histogram(colour = "black", binwidth = 1, position = "dodge") +
+  theme_dark() +
+  theme(
+    panel.background = element_rect(fill = "#2D2D2D")
+  ) +
+  scale_fill_frontiers()
+```
+
+### Paletta de los Simpsons
+
+```{r}
+ggplot(
+  subset(diamonds, carat >= 2.2),
+  aes(x = table, y = price, colour = cut)
+) +
+  geom_point(alpha = 0.7) +
+  geom_smooth(method = "loess", alpha = 0.1, size = 1, span = 1) +
+  theme_bw() +
+  scale_color_simpsons()
+```
+
 
 - Reference:
 

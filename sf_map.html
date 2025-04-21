@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Raymond_L_Tremblay" />
+
+<meta name="date" content="2025-04-14" />
+
+<title>SF_map</title>
+
+<script src="site_libs/header-attrs-2.29/header-attrs.js"></script>
+<script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+
+
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+details > summary > p:only-child {
+  display: inline;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark the anchor link active (and if it's in a dropdown, also mark that active)
+  var dropdown = menuAnchor.closest('li.dropdown');
+  if (window.bootstrap) { // Bootstrap 4+
+    menuAnchor.addClass('active');
+    dropdown.find('> .dropdown-toggle').addClass('active');
+  } else { // Bootstrap 3
+    menuAnchor.parent().addClass('active');
+    dropdown.addClass('active');
+  }
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before, .tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "\e259";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "\e258";
+  font-family: 'Glyphicons Halflings';
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-bs-toggle="collapse" data-target="#navbar" data-bs-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Visualización de Datos</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Módulos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="G1-ggplot2.html">Qué es la visualización de datos y ejemplos historicos</a>
+    </li>
+    <li>
+      <a href="G2-Errores-tipicos-en-la-visualizacion.html">Errores típicos en la visualización</a>
+    </li>
+    <li>
+      <a href="G3-Graficos-por-conteos.html">Gráficos para conteos</a>
+    </li>
+    <li>
+      <a href="G4-Grafico-de-puntos-de-Wilkinson.html">Gráficos de puntos de Wilkinson</a>
+    </li>
+    <li>
+      <a href="G5_geom_area_densidad_freqpoly.html">Gráficos de area y densidad</a>
+    </li>
+    <li>
+      <a href="G6_geom_histogram.html">Histogramas</a>
+    </li>
+    <li>
+      <a href="G7_geom_bar.html">Gráficos de barras</a>
+    </li>
+    <li>
+      <a href="G7b_geom_bar.html">Gráficos de Temperatura y Poblacional</a>
+    </li>
+    <li>
+      <a href="G8_geom_boxplot.html">Gráficos de caja</a>
+    </li>
+    <li>
+      <a href="G8b_geom_violin.html">Gráficos de violín</a>
+    </li>
+    <li>
+      <a href="G9_Facet_Grid.html">Facet Grid</a>
+    </li>
+    <li>
+      <a href="G10_Facet_wrap.html">Facet Wrap</a>
+    </li>
+    <li>
+      <a href="G11_EVALUANDO_SUPUESTOS.html">Evaluando Supuestos</a>
+    </li>
+    <li>
+      <a href="G12_Mapas_Calor.html">Mapas de Calor</a>
+    </li>
+    <li>
+      <a href="G13_geom_line.html">Gráficos con lineas</a>
+    </li>
+    <li>
+      <a href="G14_geom_point_geom_jitter.html">Geom_point y geom_jitter</a>
+    </li>
+    <li>
+      <a href="G15_gganimate.html">Gráficos animados en movimiento</a>
+    </li>
+    <li>
+      <a href="G16_Tablas_Tablas_Tablas.html">Tablas y Tablas</a>
+    </li>
+    <li>
+      <a href="G17_LeafletTaller_abril2023.html">Leaflet</a>
+    </li>
+    <li>
+      <a href="G18_Mapa.html">Mapa de crimenes en Puerto Rico</a>
+    </li>
+    <li>
+      <a href="G19_Palettas_de_color.html">Palettas de Colores</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Instalación básica
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Instalar-R-RStudio.html">Lo básico de RStudio</a>
+    </li>
+    <li>
+      <a href="Introduccion-RMarkdown.html">Lo básico de RMarkdown</a>
+    </li>
+    <li>
+      <a href="Codigos_basicos_en_R.html">R y Cheatsheets</a>
+    </li>
+    <li>
+      <a href="R_basico.html">R Básico #2</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Tareas y Ejercicios
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Ejerc_1.html">Ejercicio Básico</a>
+    </li>
+    <li>
+      <a href="Ejerc_2_geom_point.html">Ejercicio geom_point</a>
+    </li>
+    <li>
+      <a href="Ejerc_3_Wilkinson.html">Ejercicio Wilkinson</a>
+    </li>
+    <li>
+      <a href="Ejerc_4_point_count.html">Ejercicio de gráficos de puntos, conteos y histograma</a>
+    </li>
+    <li>
+      <a href="Ejerc_5_geom_line.html">Ejercicio de gráficos de lineas</a>
+    </li>
+    <li>
+      <a href="Ejerc_6_Covid_19.html">Ejercicio Final COVID19</a>
+    </li>
+    <li>
+      <a href="Ejerc_7_geom_point.html">Ejercicio geom_point</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Los Datos
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="Archivos_de_Datos.html">Archivos de Datos</a>
+    </li>
+    <li>
+      <a href="COVID-19.html">COVID-19</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Calendario
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="schedule.html">Calendario</a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+    Otros paquetes gg
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="ST_ggblanket.html">El paquete ggblanket</a>
+    </li>
+    <li>
+      <a href="ST_gggibous2.html">El paquete gggibous</a>
+    </li>
+    <li>
+      <a href="ST_ggiraph.html">El paquete ggiraph</a>
+    </li>
+    <li>
+      <a href="ST_ggparty.html">El paquete ggparty</a>
+    </li>
+    <li>
+      <a href="ST_ggvenn.html">El paquete ggvenn</a>
+    </li>
+  </ul>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+
+
+<h1 class="title toc-ignore">SF_map</h1>
+<h4 class="author">Raymond_L_Tremblay</h4>
+<h4 class="date">2025-04-14</h4>
+
+</div>
+
+
+<pre class="r"><code>library(sf)</code></pre>
+<pre><code>## Linking to GEOS 3.13.0, GDAL 3.8.5, PROJ 9.5.1; sf_use_s2() is TRUE</code></pre>
+<pre class="r"><code>library(ggplot2)
+library(cowplot)
+library(rcartocolor)
+library(spData)</code></pre>
+<pre><code>## To access larger datasets in this package, install the spDataLarge
+## package with: `install.packages(&#39;spDataLarge&#39;,
+## repos=&#39;https://nowosad.github.io/drat/&#39;, type=&#39;source&#39;)`</code></pre>
+<p>Preparación de datos</p>
+<pre class="r"><code>library(spData) # este es para mapas del mundo
+
+data(&quot;us_states&quot;, package = &quot;spData&quot;)
+
+us_states$NAME # nota que no todos los estados estan presente en la base de datos, falta Alaska.... y todos los teritorios de los EEUU. </code></pre>
+<pre><code>##  [1] &quot;Alabama&quot;              &quot;Arizona&quot;              &quot;Colorado&quot;            
+##  [4] &quot;Connecticut&quot;          &quot;Florida&quot;              &quot;Georgia&quot;             
+##  [7] &quot;Idaho&quot;                &quot;Indiana&quot;              &quot;Kansas&quot;              
+## [10] &quot;Louisiana&quot;            &quot;Massachusetts&quot;        &quot;Minnesota&quot;           
+## [13] &quot;Missouri&quot;             &quot;Montana&quot;              &quot;Nevada&quot;              
+## [16] &quot;New Jersey&quot;           &quot;New York&quot;             &quot;North Dakota&quot;        
+## [19] &quot;Oklahoma&quot;             &quot;Pennsylvania&quot;         &quot;South Carolina&quot;      
+## [22] &quot;South Dakota&quot;         &quot;Texas&quot;                &quot;Vermont&quot;             
+## [25] &quot;West Virginia&quot;        &quot;Arkansas&quot;             &quot;California&quot;          
+## [28] &quot;Delaware&quot;             &quot;District of Columbia&quot; &quot;Illinois&quot;            
+## [31] &quot;Iowa&quot;                 &quot;Kentucky&quot;             &quot;Maine&quot;               
+## [34] &quot;Maryland&quot;             &quot;Michigan&quot;             &quot;Mississippi&quot;         
+## [37] &quot;Nebraska&quot;             &quot;New Hampshire&quot;        &quot;New Mexico&quot;          
+## [40] &quot;North Carolina&quot;       &quot;Ohio&quot;                 &quot;Oregon&quot;              
+## [43] &quot;Rhode Island&quot;         &quot;Tennessee&quot;            &quot;Utah&quot;                
+## [46] &quot;Virginia&quot;             &quot;Washington&quot;           &quot;Wisconsin&quot;           
+## [49] &quot;Wyoming&quot;</code></pre>
+<pre class="r"><code>north_carolina= read_sf(system.file(&quot;shape/nc.shp&quot;, package = &quot;sf&quot;))</code></pre>
+<p>Ambos file debe tener el mismo sistema de coordinación (crs). Aqui
+usamos el crs=9311 que es el sistema de usado por “US National Altlas
+Area projection (USGS)”.</p>
+<p>CRS EPSG:2163</p>
+<p>Its non-deprecated replacement EPSG:9311 will be used instead</p>
+<pre class="r"><code>us_states_9311 = st_transform(us_states, 9311)
+
+north_carolina_9311 = st_transform(north_carolina, 9311)</code></pre>
+<p>Necesitamos el contorno de los estados de los EEUU para poder hacer
+el mapa de PR. El contorno de los estados de los EEUU se puede obtener
+usando el paquete <code>spData</code> y la función
+<code>st_union()</code>.</p>
+<pre class="r"><code>north_carolina_9311_bb = st_as_sfc(st_bbox(north_carolina_9311))</code></pre>
+<p>Ahora crear un mapa</p>
+<p>El proximo paso es crear un mapa de EEUU con North Carolina</p>
+<pre class="r"><code>ggm1=ggplot() +
+  ggplot2::geom_sf(data = us_states_9311, fill = &quot;white&quot;) +
+  ggplot2::geom_sf(data = north_carolina_9311_bb, color = &quot;red&quot;, alpha = 0.5) +
+  theme_void()
+
+ggm1</code></pre>
+<p><img src="sf_map_files/figure-html/sf_map_5-1.png" width="672" /></p>
+<p>Ahora vamos a agregar datos a Carolina de Norte usando los datos de
+natalidad</p>
+<p>Vemos primero la base de datos</p>
+<pre class="r"><code>north_carolina_9311</code></pre>
+<pre><code>## Simple feature collection with 100 features and 14 fields
+## Geometry type: MULTIPOLYGON
+## Dimension:     XY
+## Bounding box:  xmin: 1422263 ymin: -984904.1 xmax: 2192698 ymax: -629133.5
+## Projected CRS: NAD27 / US National Atlas Equal Area
+## # A tibble: 100 × 15
+##     AREA PERIMETER CNTY_ CNTY_ID NAME  FIPS  FIPSNO CRESS_ID BIR74 SID74 NWBIR74
+##  * &lt;dbl&gt;     &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;dbl&gt;    &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt;   &lt;dbl&gt;
+##  1 0.114      1.44  1825    1825 Ashe  37009  37009        5  1091     1      10
+##  2 0.061      1.23  1827    1827 Alle… 37005  37005        3   487     0      10
+##  3 0.143      1.63  1828    1828 Surry 37171  37171       86  3188     5     208
+##  4 0.07       2.97  1831    1831 Curr… 37053  37053       27   508     1     123
+##  5 0.153      2.21  1832    1832 Nort… 37131  37131       66  1421     9    1066
+##  6 0.097      1.67  1833    1833 Hert… 37091  37091       46  1452     7     954
+##  7 0.062      1.55  1834    1834 Camd… 37029  37029       15   286     0     115
+##  8 0.091      1.28  1835    1835 Gates 37073  37073       37   420     0     254
+##  9 0.118      1.42  1836    1836 Warr… 37185  37185       93   968     4     748
+## 10 0.124      1.43  1837    1837 Stok… 37169  37169       85  1612     1     160
+## # ℹ 90 more rows
+## # ℹ 4 more variables: BIR79 &lt;dbl&gt;, SID79 &lt;dbl&gt;, NWBIR79 &lt;dbl&gt;,
+## #   geometry &lt;MULTIPOLYGON [m]&gt;</code></pre>
+<pre class="r"><code>ggm2=ggplot() +
+  geom_sf(data = north_carolina_9311, aes(fill=BIR74)) +
+   scale_fill_carto_c(palette = &quot;Mint&quot;) +
+  theme_void() +
+  theme(legend.position.inside = c(0.4, 0.05),
+        legend.direction = &quot;vertical&quot;,
+        legend.key.width = unit(10, &quot;mm&quot;))
+
+ggm2</code></pre>
+<p><img src="sf_map_files/figure-html/sf_map_7-1.png" width="672" /></p>
+<p>Une el mapa de EEUU con el mapa de North Carolina</p>
+<pre class="r"><code>gg_inset_map1 = ggdraw() +
+  draw_plot(ggm2) +
+  draw_plot(ggm1, x = 0.05, y = 0.65, width = 0.3, height = 0.3)
+
+gg_inset_map1</code></pre>
+<p><img src="sf_map_files/figure-html/sf_map_8-1.png" width="672" /></p>
+<p>Select on states from the <strong>usmap</strong> and
+<strong>choroplethr</strong> packages</p>
+<pre class="r"><code>library(choroplethr)
+library(usmap)
+data(map.states)</code></pre>
+<pre><code>## Warning in data(map.states): data set &#39;map.states&#39; not found</code></pre>
+<pre class="r"><code>require(ggplot2)
+
+
+
+plot_usmap(fill=&quot;grey&quot;, color=&quot;white&quot;, region=&quot;counties&quot;)</code></pre>
+<p><img src="sf_map_files/figure-html/sf_map_9-1.png" width="672" /></p>
+<pre class="r"><code>plot_usmap(fill=&quot;grey&quot;, color=&quot;white&quot;, region=&quot;states&quot;)</code></pre>
+<p><img src="sf_map_files/figure-html/sf_map_9-2.png" width="672" /></p>
+<pre class="r"><code>plot_usmap(include = c(&quot;AK&quot;, &quot;CA&quot;, &quot;NV&quot;, &quot;ID&quot;, &quot;OR&quot;, &quot;FL&quot;, &quot;PR&quot;), regions = &quot;county&quot;) +
+  labs(title = &quot;Western States&quot;)</code></pre>
+<p><img src="sf_map_files/figure-html/sf_map_9-3.png" width="672" /></p>
+<hr />
+<p>Using “tigris” package to get the map of Puerto Rico</p>
+<pre class="r"><code>library(tigris)</code></pre>
+<pre><code>## Retrieving data for the year 2022</code></pre>
+<pre><code>##   |                                                                              |                                                                      |   0%  |                                                                              |                                                                      |   1%  |                                                                              |=                                                                     |   1%  |                                                                              |=                                                                     |   2%  |                                                                              |==                                                                    |   2%  |                                                                              |==                                                                    |   3%  |                                                                              |==                                                                    |   4%  |                                                                              |===                                                                   |   4%  |                                                                              |===                                                                   |   5%  |                                                                              |====                                                                  |   5%  |                                                                              |====                                                                  |   6%  |                                                                              |=====                                                                 |   6%  |                                                                              |=====                                                                 |   7%  |                                                                              |=====                                                                 |   8%  |                                                                              |======                                                                |   8%  |                                                                              |======                                                                |   9%  |                                                                              |=======                                                               |   9%  |                                                                              |=======                                                               |  10%  |                                                                              |=======                                                               |  11%  |                                                                              |========                                                              |  11%  |                                                                              |========                                                              |  12%  |                                                                              |=========                                                             |  12%  |                                                                              |=========                                                             |  13%  |                                                                              |==========                                                            |  14%  |                                                                              |==========                                                            |  15%  |                                                                              |===========                                                           |  15%  |                                                                              |===========                                                           |  16%  |                                                                              |============                                                          |  16%  |                                                                              |============                                                          |  17%  |                                                                              |============                                                          |  18%  |                                                                              |=============                                                         |  18%  |                                                                              |=============                                                         |  19%  |                                                                              |==============                                                        |  19%  |                                                                              |==============                                                        |  20%  |                                                                              |==============                                                        |  21%  |                                                                              |===============                                                       |  21%  |                                                                              |===============                                                       |  22%  |                                                                              |================                                                      |  22%  |                                                                              |================                                                      |  23%  |                                                                              |=================                                                     |  24%  |                                                                              |=================                                                     |  25%  |                                                                              |==================                                                    |  25%  |                                                                              |==================                                                    |  26%  |                                                                              |===================                                                   |  27%  |                                                                              |===================                                                   |  28%  |                                                                              |====================                                                  |  28%  |                                                                              |====================                                                  |  29%  |                                                                              |=====================                                                 |  29%  |                                                                              |=====================                                                 |  30%  |                                                                              |=====================                                                 |  31%  |                                                                              |======================                                                |  31%  |                                                                              |======================                                                |  32%  |                                                                              |=======================                                               |  32%  |                                                                              |=======================                                               |  33%  |                                                                              |========================                                              |  34%  |                                                                              |========================                                              |  35%  |                                                                              |=========================                                             |  35%  |                                                                              |=========================                                             |  36%  |                                                                              |==========================                                            |  37%  |                                                                              |==========================                                            |  38%  |                                                                              |===========================                                           |  38%  |                                                                              |===========================                                           |  39%  |                                                                              |============================                                          |  39%  |                                                                              |============================                                          |  40%  |                                                                              |============================                                          |  41%  |                                                                              |=============================                                         |  41%  |                                                                              |=============================                                         |  42%  |                                                                              |==============================                                        |  42%  |                                                                              |==============================                                        |  43%  |                                                                              |==============================                                        |  44%  |                                                                              |===============================                                       |  44%  |                                                                              |===============================                                       |  45%  |                                                                              |================================                                      |  45%  |                                                                              |================================                                      |  46%  |                                                                              |=================================                                     |  47%  |                                                                              |=================================                                     |  48%  |                                                                              |==================================                                    |  48%  |                                                                              |==================================                                    |  49%  |                                                                              |===================================                                   |  49%  |                                                                              |===================================                                   |  50%  |                                                                              |===================================                                   |  51%  |                                                                              |====================================                                  |  51%  |                                                                              |====================================                                  |  52%  |                                                                              |=====================================                                 |  52%  |                                                                              |=====================================                                 |  53%  |                                                                              |=====================================                                 |  54%  |                                                                              |======================================                                |  54%  |                                                                              |======================================                                |  55%  |                                                                              |=======================================                               |  55%  |                                                                              |=======================================                               |  56%  |                                                                              |========================================                              |  56%  |                                                                              |========================================                              |  57%  |                                                                              |========================================                              |  58%  |                                                                              |=========================================                             |  58%  |                                                                              |=========================================                             |  59%  |                                                                              |==========================================                            |  59%  |                                                                              |==========================================                            |  60%  |                                                                              |==========================================                            |  61%  |                                                                              |===========================================                           |  61%  |                                                                              |===========================================                           |  62%  |                                                                              |============================================                          |  62%  |                                                                              |============================================                          |  63%  |                                                                              |============================================                          |  64%  |                                                                              |=============================================                         |  64%  |                                                                              |=============================================                         |  65%  |                                                                              |==============================================                        |  65%  |                                                                              |==============================================                        |  66%  |                                                                              |===============================================                       |  66%  |                                                                              |===============================================                       |  67%  |                                                                              |===============================================                       |  68%  |                                                                              |================================================                      |  68%  |                                                                              |================================================                      |  69%  |                                                                              |=================================================                     |  69%  |                                                                              |=================================================                     |  70%  |                                                                              |=================================================                     |  71%  |                                                                              |==================================================                    |  71%  |                                                                              |==================================================                    |  72%  |                                                                              |===================================================                   |  72%  |                                                                              |===================================================                   |  73%  |                                                                              |====================================================                  |  74%  |                                                                              |====================================================                  |  75%  |                                                                              |=====================================================                 |  75%  |                                                                              |=====================================================                 |  76%  |                                                                              |======================================================                |  77%  |                                                                              |======================================================                |  78%  |                                                                              |=======================================================               |  78%  |                                                                              |=======================================================               |  79%  |                                                                              |========================================================              |  79%  |                                                                              |========================================================              |  80%  |                                                                              |========================================================              |  81%  |                                                                              |=========================================================             |  81%  |                                                                              |=========================================================             |  82%  |                                                                              |==========================================================            |  82%  |                                                                              |==========================================================            |  83%  |                                                                              |===========================================================           |  84%  |                                                                              |===========================================================           |  85%  |                                                                              |============================================================          |  85%  |                                                                              |============================================================          |  86%  |                                                                              |=============================================================         |  87%  |                                                                              |=============================================================         |  88%  |                                                                              |==============================================================        |  88%  |                                                                              |==============================================================        |  89%  |                                                                              |===============================================================       |  89%  |                                                                              |===============================================================       |  90%  |                                                                              |===============================================================       |  91%  |                                                                              |================================================================      |  91%  |                                                                              |================================================================      |  92%  |                                                                              |=================================================================     |  92%  |                                                                              |=================================================================     |  93%  |                                                                              |==================================================================    |  94%  |                                                                              |==================================================================    |  95%  |                                                                              |===================================================================   |  95%  |                                                                              |===================================================================   |  96%  |                                                                              |====================================================================  |  97%  |                                                                              |====================================================================  |  98%  |                                                                              |===================================================================== |  98%  |                                                                              |===================================================================== |  99%  |                                                                              |======================================================================|  99%  |                                                                              |======================================================================| 100%</code></pre>
+<pre class="r"><code>head(pr_sf)</code></pre>
+<pre><code>## Simple feature collection with 6 features and 12 fields
+## Geometry type: MULTIPOLYGON
+## Dimension:     XY
+## Bounding box:  xmin: -67.9454 ymin: 17.88328 xmax: -65.57577 ymax: 18.45757
+## Geodetic CRS:  NAD83
+##     STATEFP COUNTYFP COUNTYNS       AFFGEOID GEOID     NAME           NAMELSAD
+## 293      72      097 01804529 0500000US72097 72097 Mayagüez Mayagüez Municipio
+## 294      72      031 01804495 0500000US72031 72031 Carolina Carolina Municipio
+## 295      72      113 01804537 0500000US72113 72113    Ponce    Ponce Municipio
+## 296      72      039 01804499 0500000US72039 72039   Ciales   Ciales Municipio
+## 297      72      047 01804503 0500000US72047 72047  Corozal  Corozal Municipio
+## 298      72      037 01804498 0500000US72037 72037    Ceiba    Ceiba Municipio
+##     STUSPS  STATE_NAME LSAD     ALAND    AWATER                       geometry
+## 293     PR Puerto Rico   13 200954972 508925231 MULTIPOLYGON (((-67.18768 1...
+## 294     PR Puerto Rico   13 117529652  38717131 MULTIPOLYGON (((-66.04297 1...
+## 295     PR Puerto Rico   13 297688924 203748247 MULTIPOLYGON (((-66.5299 17...
+## 296     PR Puerto Rico   13 172310193    459604 MULTIPOLYGON (((-66.61112 1...
+## 297     PR Puerto Rico   13 110248542     16284 MULTIPOLYGON (((-66.38303 1...
+## 298     PR Puerto Rico   13  75201649 336178484 MULTIPOLYGON (((-65.58015 1...</code></pre>
+<pre class="r"><code>states &lt;- states(cb = TRUE)
+
+leaflet(states) %&gt;%
+  leaflet::addProviderTiles(&quot;CartoDB.Positron&quot;) %&gt;%
+  leaflet::addPolygons(fillColor = &quot;white&quot;,
+              color = &quot;black&quot;,
+              weight = 0.5) %&gt;%
+  setView(-98.5795, 39.8282, zoom=3)</code></pre>
+<pre class="r"><code>map2 &lt;- ggplot (data = pr_sf)+
+  geom_sf(fill = &#39;#A9A9A9&#39;, color = &quot;white&quot; , aes(geometry = geometry, fill=NA))
+
+map2</code></pre>
+<p><img src="sf_map_files/figure-html/sf_map_14-1.png" width="672" /></p>
+<p>Ahora añademos datos para cada municipio de PR</p>
+<pre class="r"><code>library(readxl)
+PR_POP_2020_2024_pop &lt;- read_excel(&quot;Data/PR_POP_2020_2024-pop.xlsx&quot;)
+
+head(PR_POP_2020_2024_pop)</code></pre>
+<pre><code>## # A tibble: 6 × 6
+##   Municipality Y2020 Y2021 Y2022 Y2023 Y2024
+##   &lt;chr&gt;        &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+## 1 Adjuntas     18008 18026 17896 17887 17981
+## 2 Aguada       38109 38004 37647 37509 37523
+## 3 Aguadilla    55046 54613 53877 53592 53557
+## 4 Aguas Buenas 24189 23974 23521 23260 23125
+## 5 Aibonito     24633 24674 24537 24586 24751
+## 6 Añasco       25569 25414 25003 24796 24689</code></pre>
+<p>Unir los dos archivos</p>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+## ✔ dplyr     1.1.4     ✔ readr     2.1.5
+## ✔ forcats   1.0.0     ✔ stringr   1.5.1
+## ✔ lubridate 1.9.4     ✔ tibble    3.2.1
+## ✔ purrr     1.0.4     ✔ tidyr     1.3.1
+## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter()    masks stats::filter()
+## ✖ dplyr::lag()       masks stats::lag()
+## ✖ lubridate::stamp() masks cowplot::stamp()
+## ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+<pre class="r"><code>pr_sf_pop=left_join(pr_sf, PR_POP_2020_2024_pop, by = c(&quot;NAME&quot; = &quot;Municipality&quot;))
+
+
+pr_sf_pop</code></pre>
+<pre><code>## Simple feature collection with 78 features and 17 fields
+## Geometry type: MULTIPOLYGON
+## Dimension:     XY
+## Bounding box:  xmin: -67.9454 ymin: 17.88328 xmax: -65.22108 ymax: 18.51602
+## Geodetic CRS:  NAD83
+## First 10 features:
+##    STATEFP COUNTYFP COUNTYNS       AFFGEOID GEOID        NAME
+## 1       72      097 01804529 0500000US72097 72097    Mayagüez
+## 2       72      031 01804495 0500000US72031 72031    Carolina
+## 3       72      113 01804537 0500000US72113 72113       Ponce
+## 4       72      039 01804499 0500000US72039 72039      Ciales
+## 5       72      047 01804503 0500000US72047 72047     Corozal
+## 6       72      037 01804498 0500000US72037 72037       Ceiba
+## 7       72      067 01804514 0500000US72067 72067 Hormigueros
+## 8       72      141 01804551 0500000US72141 72141      Utuado
+## 9       72      003 01804481 0500000US72003 72003      Aguada
+## 10      72      023 01804491 0500000US72023 72023   Cabo Rojo
+##                 NAMELSAD STUSPS  STATE_NAME LSAD     ALAND    AWATER  Y2020
+## 1     Mayagüez Municipio     PR Puerto Rico   13 200954972 508925231     NA
+## 2     Carolina Municipio     PR Puerto Rico   13 117529652  38717131 154559
+## 3        Ponce Municipio     PR Puerto Rico   13 297688924 203748247 137153
+## 4       Ciales Municipio     PR Puerto Rico   13 172310193    459604  16975
+## 5      Corozal Municipio     PR Puerto Rico   13 110248542     16284  34551
+## 6        Ceiba Municipio     PR Puerto Rico   13  75201649 336178484  11284
+## 7  Hormigueros Municipio     PR Puerto Rico   13  29384892       481  15618
+## 8       Utuado Municipio     PR Puerto Rico   13 294045395   3982227  28226
+## 9       Aguada Municipio     PR Puerto Rico   13  79923635  38025989  38109
+## 10   Cabo Rojo Municipio     PR Puerto Rico   13 182247776 277245345  47122
+##     Y2021  Y2022  Y2023  Y2024                       geometry
+## 1      NA     NA     NA     NA MULTIPOLYGON (((-67.18768 1...
+## 2  153508 151495 150777 150679 MULTIPOLYGON (((-66.04297 1...
+## 3  134745 132091 130153 129659 MULTIPOLYGON (((-66.5299 17...
+## 4   16939  16729  16684  16698 MULTIPOLYGON (((-66.61112 1...
+## 5   34580  34293  34318  34476 MULTIPOLYGON (((-66.38303 1...
+## 6   11147  10923  10840  10783 MULTIPOLYGON (((-65.58015 1...
+## 7   15567  15405  15327  15290 MULTIPOLYGON (((-67.1588 18...
+## 8   27973  27514  27236  27155 MULTIPOLYGON (((-66.8298 18...
+## 9   38004  37647  37509  37523 MULTIPOLYGON (((-67.23915 1...
+## 10  47098  46695  46646  46820 MULTIPOLYGON (((-67.21378 1...</code></pre>
+<pre class="r"><code>library(ggthemes)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;ggthemes&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:cowplot&#39;:
+## 
+##     theme_map</code></pre>
+<pre class="r"><code>map3 &lt;- ggplot (data = pr_sf_pop)+
+  geom_sf (color = &quot;white&quot; , aes (geometry = geometry, fill= Y2020))+
+  theme_tufte()+
+  scale_fill_gradient2_tableau()
+
+
+map3</code></pre>
+<p><img src="sf_map_files/figure-html/sf_map_17-1.png" width="672" /></p>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

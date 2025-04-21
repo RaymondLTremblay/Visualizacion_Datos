@@ -1,0 +1,227 @@
+---
+title: "SF_map"
+author: "Raymond_L_Tremblay"
+date: "2025-04-14"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r, sf_map_1}
+library(sf)
+library(ggplot2)
+library(cowplot)
+library(rcartocolor)
+library(spData)
+
+```
+
+
+Preparación de datos
+
+
+```{r, sf_map_2}
+library(spData) # este es para mapas del mundo
+
+data("us_states", package = "spData")
+
+us_states$NAME # nota que no todos los estados estan presente en la base de datos, falta Alaska.... y todos los teritorios de los EEUU. 
+
+
+
+north_carolina= read_sf(system.file("shape/nc.shp", package = "sf"))
+
+```
+
+
+Ambos file debe tener el mismo sistema de coordinación (crs). Aqui usamos el crs=9311 que es el sistema de usado por "US National Altlas Area projection (USGS)".
+
+CRS EPSG:2163
+
+Its non-deprecated replacement EPSG:9311 will be used instead
+
+```{r, sf_map_3}
+us_states_9311 = st_transform(us_states, 9311)
+
+north_carolina_9311 = st_transform(north_carolina, 9311)
+
+```
+
+
+Necesitamos el contorno de los estados de los EEUU para poder hacer el mapa de PR. El contorno de los estados de los EEUU se puede obtener usando el paquete `spData` y la función `st_union()`.
+
+```{r, sf_map_4}
+north_carolina_9311_bb = st_as_sfc(st_bbox(north_carolina_9311))
+
+
+```
+
+
+Ahora crear un mapa
+
+El proximo paso es crear un mapa de EEUU con North Carolina
+
+```{r, sf_map_5}
+
+ggm1=ggplot() +
+  ggplot2::geom_sf(data = us_states_9311, fill = "white") +
+  ggplot2::geom_sf(data = north_carolina_9311_bb, color = "red", alpha = 0.5) +
+  theme_void()
+
+ggm1
+```
+
+
+
+Ahora vamos a agregar datos a Carolina de Norte usando los datos de natalidad 
+
+
+Vemos primero la base de datos
+
+```{r, sf_map_6}
+north_carolina_9311
+```
+
+
+
+
+```{r, sf_map_7}
+
+ggm2=ggplot() +
+  geom_sf(data = north_carolina_9311, aes(fill=BIR74)) +
+   scale_fill_carto_c(palette = "Mint") +
+  theme_void() +
+  theme(legend.position.inside = c(0.4, 0.05),
+        legend.direction = "vertical",
+        legend.key.width = unit(10, "mm"))
+
+ggm2
+
+```
+
+
+Une el mapa de EEUU con el mapa de North Carolina
+
+
+```{r, sf_map_8}
+gg_inset_map1 = ggdraw() +
+  draw_plot(ggm2) +
+  draw_plot(ggm1, x = 0.05, y = 0.65, width = 0.3, height = 0.3)
+
+gg_inset_map1
+```
+
+
+
+
+Select on states from the **usmap** and **choroplethr** packages
+
+```{r, sf_map_9}
+library(choroplethr)
+library(usmap)
+data(map.states)
+require(ggplot2)
+
+
+
+plot_usmap(fill="grey", color="white", region="counties")
+
+plot_usmap(fill="grey", color="white", region="states")
+
+plot_usmap(include = c("AK", "CA", "NV", "ID", "OR", "FL", "PR"), regions = "county") +
+  labs(title = "Western States")
+
+  
+```
+
+***
+
+
+Using "tigris " package to get the map of Puerto Rico
+
+```{r, sf_map_10, echo=TRUE, message=FALSE, warning=FALSE}
+library(tigris)
+```
+
+
+```{r, sf_map_11,  echo=FALSE}
+#options(tigris_class = "sf") # sf shape files
+
+pr_sf=counties(state = "PR", cb = TRUE)
+
+
+#pr_sf=tracts(state = "72", cb = TRUE) # el codigo 72 es para Puerto Rico
+```
+
+
+```{r, sf_map_12}
+
+head(pr_sf)
+```
+
+```{r, sf_map_13,   eval=FALSE}
+states <- states(cb = TRUE)
+
+leaflet(states) %>%
+  leaflet::addProviderTiles("CartoDB.Positron") %>%
+  leaflet::addPolygons(fillColor = "white",
+              color = "black",
+              weight = 0.5) %>%
+  setView(-98.5795, 39.8282, zoom=3)
+```
+
+
+```{r, sf_map_14}
+map2 <- ggplot (data = pr_sf)+
+  geom_sf(fill = '#A9A9A9', color = "white" , aes(geometry = geometry, fill=NA))
+
+map2
+```
+
+Ahora añademos datos para cada municipio de PR
+
+```{r, sf_map_15}
+
+library(readxl)
+PR_POP_2020_2024_pop <- read_excel("Data/PR_POP_2020_2024-pop.xlsx")
+
+head(PR_POP_2020_2024_pop)
+```
+
+
+
+Unir los dos archivos 
+
+
+```{r, sf_map_16}
+library(tidyverse)
+pr_sf_pop=left_join(pr_sf, PR_POP_2020_2024_pop, by = c("NAME" = "Municipality"))
+
+
+pr_sf_pop
+```
+
+
+
+```{r, sf_map_17}
+
+library(ggthemes)
+
+map3 <- ggplot (data = pr_sf_pop)+
+  geom_sf (color = "white" , aes (geometry = geometry, fill= Y2020))+
+  theme_tufte()+
+  scale_fill_gradient2_tableau()
+
+
+map3
+
+
+```
+
+
+
+
+

@@ -33,6 +33,7 @@ Los datos provistos por esta aplicación constituyen estadísticas operacionales
 library(readr)
 crimen_pr <- read_csv("Data/crimen_pr.csv")
 crimen= crimen_pr
+head(crimen)
 ```
 
 ***
@@ -44,14 +45,15 @@ library(janitor)
 
 crm <- crimen %>%
   clean_names() %>%
-  rename(longitud = point_y, latitud = point_x)
+  rename(longitud = point_y, 
+         latitud = point_x)
 
 crm
 ```
 
 ***
 
-####  Use una gráfica para verificar si hay coordenadas afuera del perímetro de la isla
+####  Use una gráfica para verificar si hay coordenadas fuera del perímetro de la isla
 
 ```{r}
 crm %>%
@@ -67,7 +69,7 @@ crm %>%
 ```{r}
 crm <- crimen %>%
   clean_names() %>%
-  filter(!is.na(point_x), point_x != 0) %>%
+  filter(!is.na(point_x), point_x != 0) %>% # remueve coordenadas inválidas
   rename(longitud = point_y, latitud = point_x)
 ```
 
@@ -87,6 +89,7 @@ crm %>%
 
 ```{r}
 pr <- map_data("world", region = "Puerto Rico")
+pr
 ```
 
 
@@ -98,6 +101,10 @@ pr <- map_data("world", region = "Puerto Rico")
 ggplot() +
   geom_map(aes(long, lat, map_id = region), fill = "gray",  map = pr, data = pr) 
 ```
+
+
+
+
 
 
 ***
@@ -254,7 +261,9 @@ crm %>%
   filter(delitos_code == "Vehiculo Hurtado") %>%
   leaflet() %>%
   addTiles() %>%
-  addAwesomeMarkers(~longitud, ~latitud,  popup = ~paste0("Delito: ",delitos_code), clusterOptions = markerClusterOptions(), icon = awesomeIcons(icon = "fa-solid fa-car", library = "fa"))
+  addAwesomeMarkers(~longitud, ~latitud,  popup = ~paste0("Delito: ",delitos_code), 
+                    clusterOptions = markerClusterOptions(), 
+                    icon = awesomeIcons(icon = "fa-thin fa-truck", library = "fa"))
 ```
 
 
