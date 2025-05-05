@@ -19,6 +19,7 @@ Install
 ```{r}
 library(scales)
 library(ggsci)
+library(tidyverse)
 ```
 
 
@@ -77,6 +78,16 @@ show_col(pal_hue(l = 90)(9)) # paleta de 9 colores con hue de 90
 show_col(pal_hue(l = 30)(9)) # paleta de 9 colores con hue de 30
 ```
 
+Usar la paletta de "hallmarks_dark" en un gráfico con diamonds
+
+```{r}
+ggplot(diamonds, aes(x = cut, fill = cut))+
+  geom_bar() +
+  scale_fill_cosmic(palette = "hallmarks_dark") +
+  theme(legend.position = "none")
+```
+
+
 ```{r}
 show_col(pal_viridis()(10))
 show_col(pal_viridis(direction = -1)(6))
@@ -128,6 +139,18 @@ library(ggsci) # Scientific journal and Sci-fi themed color palettes for ggplot2
 show_col(pal_d3("category20b")(15))
 ```
 
+USar la paletta de "category20b" en un gráfico con diamonds
+
+```{r}
+ggplot(diamonds, aes(x = carat, y=price, colour=cut))+
+  geom_point() +
+  scale_colour_d3(palette = "category20b") +
+  theme(legend.position = "none")+
+  facet_wrap(~cut)
+```
+
+
+
 
 
 ###  Paletta de Jama = Journal of the American Medical Association
@@ -147,8 +170,18 @@ library("scales")
 show_col(pal_lancet("lanonc")(9))
 ```
 
+Usar la paletta de "lanonc" en un gráfico con diamonds
 
-### Paletta de los jounrals de Fonrtiers. = Frontiers in Neuroscience, Frontiers in Microbiology, Frontiers in Psychology, etc.
+
+```{r}
+ggplot(diamonds, aes(x = cut, fill = cut))+
+  geom_bar() +
+  scale_fill_lancet(palette = "lanonc") +
+  theme(legend.position = "none")
+```
+
+
+### Paletta de los journals de Fonrtiers. = Frontiers in Neuroscience, Frontiers in Microbiology, Frontiers in Psychology, etc.
 
 scale_color_frontiers(palette = c("default"), alpha = 1, ...)
 
@@ -178,13 +211,19 @@ ggplot(
 ) +
   geom_point(alpha = 0.7) +
   geom_smooth(method = "loess", alpha = 0.1, size = 1, span = 1) +
-  theme_dark() +
-  theme(
-    panel.background = element_rect(fill = "#2D2D2D"),
-    legend.key = element_rect(fill = "#2D2D2D")
-  ) +
+  #theme_dark() +
+  #theme(
+  #  panel.background = element_rect(fill = "#2D2D2D"),
+  #  legend.key = element_rect(fill = "#2D2D2D")
+  #) +
   scale_color_frontiers()
+```
 
+
+
+
+
+```{r}
 ggplot(
   subset(diamonds, carat > 2.2 & depth > 55 & depth < 70),
   aes(x = depth, fill = cut)

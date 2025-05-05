@@ -37,7 +37,7 @@ north_carolina= read_sf(system.file("shape/nc.shp", package = "sf"))
 ```
 
 
-Ambos file debe tener el mismo sistema de coordinación (crs). Aqui usamos el crs=9311 que es el sistema de usado por "US National Altlas Area projection (USGS)".
+Ambos file debe tener el mismo sistema de coordinación (crs). Aqui usamos el crs=9311 que es el sistema de usado por "US National Atlas Area projection (USGS)".
 
 CRS EPSG:2163
 
@@ -148,10 +148,11 @@ library(tigris)
 
 
 ```{r, sf_map_11,  echo=FALSE}
-#options(tigris_class = "sf") # sf shape files
+options(tigris_class = "sf") # sf shape files
 
 pr_sf=counties(state = "PR", cb = TRUE)
 
+pr_sf
 
 #pr_sf=tracts(state = "72", cb = TRUE) # el codigo 72 es para Puerto Rico
 ```
@@ -176,7 +177,8 @@ leaflet(states) %>%
 
 ```{r, sf_map_14}
 map2 <- ggplot (data = pr_sf)+
-  geom_sf(fill = '#A9A9A9', color = "white" , aes(geometry = geometry, fill=NA))
+  geom_sf(fill = '#A9A9A9', color = "white" , 
+          aes(geometry = geometry, fill=NA))
 
 map2
 ```
@@ -189,6 +191,17 @@ library(readxl)
 PR_POP_2020_2024_pop <- read_excel("Data/PR_POP_2020_2024-pop.xlsx")
 
 head(PR_POP_2020_2024_pop)
+
+is.data.frame(PR_POP_2020_2024_pop)
+
+str(PR_POP_2020_2024_pop)
+
+PR_POP_2020_2024_tbl =as_tibble(PR_POP_2020_2024_pop)
+
+str(PR_POP_2020_2024_tbl)
+
+
+write.csv(PR_POP_2020_2024_tbl, "Data/PR_POP_2020_2024_tbl.csv")
 ```
 
 
@@ -198,7 +211,8 @@ Unir los dos archivos
 
 ```{r, sf_map_16}
 library(tidyverse)
-pr_sf_pop=left_join(pr_sf, PR_POP_2020_2024_pop, by = c("NAME" = "Municipality"))
+pr_sf_pop=left_join(pr_sf, PR_POP_2020_2024_pop, 
+                    by = c("NAME" = "Municipality"))
 
 
 pr_sf_pop
