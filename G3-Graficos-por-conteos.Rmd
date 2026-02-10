@@ -30,12 +30,9 @@ knitr::opts_chunk$set(echo = TRUE)
 if (!requireNamespace("remotes", quietly = TRUE)) {
   install.packages("remotes")
 }
-remotes::install_github("thomas-neitmann/mdthemes", upgrade = "never")
 
 
 
-
-devtools::install_github("AckerDWM/gg3D")
 
 
 #rprojroot::find_rstudio_root_file()
@@ -63,19 +60,11 @@ La función *geom_point* se utiliza para hacer gráficos con los datos en forma 
 
 Comenzaremos la demostración de *geom_point* primero y luego la de *geom_count*. Así podremos apreciar mejor las ventajas de utilizar el gráfico *geom_count*.
 
-```{r}
-
-library(ggversa)
-
-
-
-```
 
 
 
 
-
-```{r, message=FALSE}
+```{r, message=TRUE}
 # preparar las librerías primero:
 library(ggversa) # la función "library" activa el paquete de **ggversa** donde se encuentra los archivos
 library(ggplot2) # ggplot2 es la librería que se usará para graficar los datos
@@ -103,23 +92,26 @@ Buscar datos
 
 ```{r}
 Anolis
+```
 
-h=head(Anolis, n=10) # la función *head* es para visualizar las primeros 6 filas
+
+
+```{r}
+head(Anolis, n=10) # la función *head* es para visualizar las primeros 6 filas
 
 tail(Anolis)
-h
 
 
 
-h$DATE2=as.Date(h$DATE, "%m/%d/%y") # convertir la columna de fecha de tipo *carácter* a tipo *fecha*
+Anolis$DATE2=as.Date(Anolis$DATE, "%m/%d/%y") # convertir la columna de fecha de tipo *carácter* a tipo *fecha*
 
-
+head(Anolis)
 gt(head(Anolis)) # visualizar las primeras 6 filas de la tabla con el paquete gt
 ```
 
-Las funciones para formatear la tabla son del paquete **gt** = graphics of table
+Las funciones para formatear la tabla son del paquete **gt** = "grammer of tables"
 
-```{r}
+```{r, eval=FALSE}
 h%>%
   gt() %>%
   tab_header(
@@ -150,10 +142,23 @@ En el primer paso se muestran las filas del 1 al 7 usando **head( )** y se selec
 
 ```{r Anolis}
 
-Anolis %>%  # pipe 
-  select(WEIGHT, SVL) %>%  
-  dplyr::filter(WEIGHT<4 & SVL>20) %>% 
+Anolis %>%  # pipe , el paquete margrite
+  select(WEIGHT, SVL) %>% 
   ggplot(aes(x=WEIGHT, y=SVL))+
+           geom_point()
+
+```
+
+
+```{r}
+
+         
+         
+
+Anolis %>%  # pipe 
+  select(WEIGHT, SVL, SEX_AGE) %>%  
+  dplyr::filter(WEIGHT<4 & SVL>20) %>% 
+  ggplot(aes(x=WEIGHT, y=SVL, colour=SEX_AGE))+
   geom_point()+
   ylab("Snout Vent Length of *Anolis*")+
   xlab("Peso en gramos")
@@ -194,17 +199,24 @@ Te saludo estimados <br> colegas
 
 
 ```{r}
-library(mdthemes) # To add  markdown rendered text within a ggplot figure
+
+
+
+library(ggplot2)
+library(ggtext)  # for markdown rendering in titles
 
 Anolis %>%
   select(WEIGHT, SVL) %>%
-  filter(WEIGHT<4 & SVL>20) %>%
-ggplot(aes(x=WEIGHT, y=SVL))+
-  geom_point()+
-  mdthemes::md_theme_classic()+
-    labs(title= "Figura: Relación de SVL y  el peso de *Anolis* en <br> 
-         **El Verde**, Yunque, PR")+
-  ylab("Snout vent length")
+  filter(WEIGHT < 4 & SVL > 20) %>%
+  ggplot(aes(x = WEIGHT, y = SVL)) +
+  geom_point() +
+  labs(
+    title = "Figura: Relación de SVL y el peso de *Anolis* en <br> **El Verde**, Yunque, PR",
+    y = "Snout vent length") +
+  theme( plot.title = element_markdown()  # enables markdown and <br> line breaks
+  )
+
+
 ```
 
 ------------------------------------------------------------------------
@@ -227,7 +239,7 @@ ggplot(aes(SVL, WEIGHT))+
   ylab("Tamaño del hocico a la cloaca")+
   theme(
     axis.title.x=                    # Cambiar el titulo del eje de x
-    element_text(size=10, face="italic", 
+    element_text(size=10, face="italic", family="serif",
                  colour="#EED5B7"),
     axis.title.y=                    # Cambiar el titulo del eje de x
     element_text(size=5, face="bold", 
@@ -293,13 +305,14 @@ Se puede representar la frecuencia en proporción a los datos. En el gráfico si
 
 Anolis %>%
   select(WEIGHT, SVL)%>%
-  filter(WEIGHT<4 & SVL>20)%>%
+  filter(WEIGHT < 4 & SVL > 20)%>%
 ggplot(aes(SVL, WEIGHT))+
-  geom_count(aes(size=..prop.., group=1))+
+  geom_count(aes(size=after_stat(prop)))+
    ylab("Peso en gramos")+
   xlab("Tamaño del hocico a la cloaca")+
   theme(axis.title=element_text(size=10,face="bold"))+
   labs(title="Figura. Puntos en proporción a la frecuencia")
+
 ```
 
 ------------------------------------------------------------------------
@@ -325,7 +338,7 @@ Anolis %>%
   select(WEIGHT, SVL)%>%
   filter(WEIGHT<4 & SVL>20)%>%
 ggplot(aes(SVL, WEIGHT))+
-  geom_count(aes(size=..prop.., group=WEIGHT))+
+  geom_count(aes(size=after_stat(prop), group=SVL))+
   ylab("Peso en gramos")+
   xlab("Tamaño del hocico a la cloaca")+
   theme(axis.title=element_text(size=14,face="bold"))+
@@ -346,12 +359,14 @@ Si hay más de un grupo (digamos, muestras tomadas en la época seca del año y 
 unique(Anolis$SEASON)
 names(Anolis)
 
+unique(Anolis$SEX_AGE)
 
 Anolis %>%
   select(WEIGHT, SVL, SEX_AGE)%>%
   filter(WEIGHT<4 & SVL>20) %>%
 ggplot(aes(SVL, WEIGHT, colour=SEX_AGE))+
-  geom_count(aes(size=..prop.., group=WEIGHT))+
+  geom_count(aes(size=after_stat(prop), group=SEX_AGE))+
+  scale_color_manual(values = c("Female" = "blue", "Juvenil" = "orange", "Male" = "red"))+
   ylab("Peso en gramos")+
   xlab("Tamaño del hocico a la cloaca")+
   theme(axis.title=element_text(size=10,face="bold"))+
@@ -365,15 +380,16 @@ ggplot(aes(SVL, WEIGHT, colour=SEX_AGE))+
 
 En la siguiente demostración, **Figura. Grupos separados por variable discreta**, se representan dos gráficos separados de acuerdo al sitio de muestreo usando **facet_wrap** y al añadir en **aes(, group=la variable)**. Aquí se observa que el muestreo en la localidad llamada *Torre Sur* se hizo solamente en el periodo lluvioso. Note que para crear los dos gráficos separados por una variable discreta se usa **facet_wrap** con una tilde, "\~", seguido del nombre de la variable, que en este caso es la localidad de muestreo, **Survey_Site**. (**facet_wrap** se explica en detalle como un tópico aparte de visualización.)
 
-```{r geom_count4}
+```{r geom_count3}
 #names(Anolis) # para mostrar los nombres de las columnas
 
-  
+ unique(Anolis$PERCH_SUBSTRATE) 
+unique(Anolis$SEASON)
 Anolis %>%
   select(WEIGHT, SVL, SEASON, Survey_Site, PERCH_SUBSTRATE)%>%
   filter(WEIGHT<4 & SVL>20)%>%
 ggplot(aes(SVL, WEIGHT, colour=SEASON))+
-  geom_count(aes(size=..prop.., group=WEIGHT))+
+  geom_count(aes(size=after_stat(prop), group=WEIGHT))+
   ylab("Peso en gramos")+
   xlab("Tamaño del hocico a la cloaca")+
   facet_wrap(~PERCH_SUBSTRATE)+
@@ -402,7 +418,7 @@ Anolis %>%
   filter(WEIGHT<4 & SVL>20)%>%
 ggplot(aes(SVL, WEIGHT, colour=SEASON))+
   geom_count(shape=24,colour="red", fill="yellow",
-             aes(size=..prop.., group=Survey_Site))+
+             aes(size=after_stat(prop), group=Survey_Site))+
   ylab("Peso en gramos")+
   xlab("Tamaño del hocico a la cloaca")+
   facet_wrap(~Survey_Site)+
@@ -437,7 +453,7 @@ Anolis %>%
   filter(WEIGHT<4 & SVL>20)%>%
 ggplot(aes(SVL, WEIGHT, colour=SEASON))+
   geom_count(shape=22, stroke=1.5,alpha=.5,
-             aes(size=..prop.., group=Survey_Site))+
+             aes(size=after_stat(prop), group=Survey_Site))+
   ylab("Peso en gramos")+
   xlab("Tamaño del hocico a la cloaca")+
   facet_wrap(~Survey_Site)+
@@ -465,3 +481,64 @@ A continuación se resumen las opciones y parámetros más importantes de **geom
     -   stroke: para cambiar el grosor del borde del punto
 
 ------------------------------------------------------------------------
+
+
+
+Examples using Billboard data
+
+```{r}
+
+#
+#install.packages(c("httr", "jsonlite", "dplyr", "readr"))
+library(httr)
+library(jsonlite)
+library(dplyr)
+library(readr)
+
+
+```
+```{r}
+
+library(readr)
+billboard <- read_csv("Billboard_data/hot-100-current.csv", locale = locale(encoding = "UTF-8"))
+head(billboard)
+
+
+```
+
+
+```{r, eval=FALSE, include=FALSE}
+
+get_genre_discogs <- function(song, artist, token) {
+  base_url <- "https://api.discogs.com/database/search"
+  query <- list(q = paste(song, artist),
+                type = "release",
+                token = token,
+                per_page = 1)
+  
+  res <- GET(base_url, query = query)
+  data <- fromJSON(content(res, "text"))
+  
+  if (length(data$results) > 0) {
+    genres <- data$results[[1]]$genre
+    styles <- data$results[[1]]$style
+    return(paste(c(genres, styles), collapse = ", "))
+  } else {
+    return(NA)
+  }
+}
+
+```
+
+
+
+```{r, eval=FALSE, include=FALSE}
+#names(billboard)
+#token <- "YOUR_DISCOGS_TOKEN"
+
+#billboard <- billboard %>%
+#  mutate(genre = mapply(get_genre_discogs, title, performer, MoreArgs = list(token = #token)))
+
+#write_csv(billboard, "Billboard_data/hot-100-current-with-genres.csv")
+```
+
