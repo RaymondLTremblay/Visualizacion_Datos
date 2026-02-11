@@ -1,0 +1,168 @@
+---
+title: "Práctica: Wilkinson Dotplots con ggplot2"
+subtitle: "geom_dotplot() con datos reales (ggversa::dipodium y palmerpenguins)"
+author: "Raymond L. Tremblay Lalande"
+date: "`r format(Sys.Date(), '%Y-%m-%d')`"
+output:
+  html_document:
+    toc: true
+    toc_float: true
+    theme: simplex
+    highlight: pygments
+    fig_caption: true
+    css: tutorial.css
+---
+
+
+```{r setup, include=FALSE}
+# Opciones globales: mostrar código pero NO ejecutarlo por defecto
+knitr::opts_chunk$set(
+  echo  = FALSE,
+  eval  = FALSE,
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center",
+  dpi = 150
+)
+```
+
+## Ejercicio para entregar (Palmer Penguins)
+
+### Instrucciones
+
+#### Ejercicio 1) Crea un dotplot de `flipper_length_mm`.
+
+    -Crea un Wilkinson dotplot de la variable:
+
+    - flipper_length_mm (longitud de aleta en mm)
+    
+#### Ejercicio 2) Ajusta `stackdir`, `stackratio`, `fill`, `colour`.
+
+    - Modifica tu gráfico para incluir:
+       - stackdir = "center"
+       - fill = "steelblue"
+       - colour = "black"
+       - stackratio = 0.7
+       - Ocultar el eje Y correctamente
+       
+#### Ejercicio 3) Oculta el eje Y correctamente.
+
+    - Crea un dotplot de:
+      - x = especie (species)
+      - y = longitud de aleta (flipper_length_mm)
+     
+     *Preguntas para responder*:
+
+¿Qué especie parece tener las aletas más largas?
+¿Qué especie tiene mayor variabilidad?
+¿Hay valores atípicos visibles?
+
+
+#### Ejercicio 4) Prueba `binwidth = 1, 2, 5`.
+
+    - Repite el gráfico anterior variando el binwidth:
+       - binwidth = 1
+       - binwidth = 2
+       - binwidth = 5
+      
+      *Pregunta*:
+¿Cómo cambia la interpretabilidad del gráfico al modificar binwidth?
+       
+#### Ejercicio 5) Repite con y sin `drop_na(flipper_length_mm, species)`.
+
+    - Limpieza de datos NA
+
+    *Pregunta*:
+¿Qué diferencias encuentras? ¿Por qué es importante decidir si incluir o excluir NA?
+
+#### Ejercicio 6) Entrega un gráfico final con título y breve interpretación (4–5 líneas).
+
+
+ Gráfico final y análisis
+
+#### Produce un gráfico final pulido con:
+
+
+
+#### Ejercico 7) Entrega además un texto interpretativo de 4–5 líneas, explicando:
+
+ - Diferencias morfológicas entre especies
+ - Posibles razones ecológicas para la variación
+ - Limitaciones del dotplot
+
+```{r penguins-datos, eval= TRUE, echo= TRUE}
+# Dotplot básico
+library(palmerpenguins)
+```
+
+
+
+```{r penguins-ej-1}
+
+ggplot(penguins, aes(flipper_length_mm)) +
+  geom_dotplot() +
+  labs(x = "Longitud de aleta (mm)", y = "Apilamiento (no frecuencia)")
+```
+
+```{r penguins-ej-2}
+# Ajustes estéticos + ocultar eje Y
+ggplot(penguins, aes(flipper_length_mm)) +
+  geom_dotplot(fill = "steelblue", colour = "black",
+               stackdir = "center", stackratio = 0.7) +
+  scale_y_continuous(NULL, breaks = NULL) +
+  labs(x = "Longitud de aleta (mm)")
+```
+
+```{r penguins-ej-3}
+# Comparación por especie (binaxis = "y")
+ggplot(penguins, aes(species, flipper_length_mm, fill = species)) +
+  geom_dotplot(binaxis = "y", stackdir = "center", dotsize = 0.7) +
+  scale_y_continuous(NULL, breaks = NULL) +
+  labs(x = "Especie", y = "Longitud de aleta (mm)", fill = "Especie")
+```
+
+```{r penguins-ej-4}
+# Variar binwidth
+ggplot(penguins, aes(species, flipper_length_mm, fill = species)) +
+  geom_dotplot(binaxis = "y", stackdir = "center",
+               binwidth = 2, dotsize = 0.6) +
+  scale_y_continuous(NULL, breaks = NULL)
+```
+
+```{r penguins-ej-5}
+# Limpieza de NA + gráfico final sugerido
+penguins_clean <- penguins %>% drop_na(flipper_length_mm, species)
+
+ggplot(penguins_clean, aes(species, flipper_length_mm, fill = species)) +
+  geom_dotplot(stackgroups = TRUE, binaxis = "y",
+               method = "histodot", binwidth = 2,
+               stackdir = "center", stackratio = 0.6, dotsize = 0.7) +
+  scale_y_continuous(NULL, breaks = NULL) +
+  scale_fill_brewer(palette = "Set2") +
+  labs(
+    title = "Distribución de longitud de aleta por especie (Palmer Penguins)",
+    x = "Especie", y = NULL, fill = "Especie",
+    caption = "Eje Y oculto (apilamiento visual)."
+  ) +
+  theme(legend.position = "top",
+        plot.title = element_text(face = "bold"))
+```
+
+
+
+Cada pregunta vale 4 puntos (un total 28 puntos)
+---
+
+# Guía rápida de parámetros (referencia)
+
+- `binwidth`: controla el ancho del compartimento (por defecto ≈ rango/30).
+- `binaxis`: `"x"` (predeterminado) o `"y"` para agrupar por eje.
+- `method`: `"dotdensity"` (por densidad) o `"histodot"` (distancias fijas).
+- `binpositions`: `"bygroup"` (pred con `dotdensity`) o `"all"`.
+- `stackdir`: `"up"`, `"down"`, `"center"`, `"centerwhole"`.
+- `stackratio`: cercanía entre puntos; `< 1` más pegados, `> 1` más separados.
+- `dotsize`: tamaño relativo al `binwidth`.
+- `stackgroups`: apilar respetando el grupo (p.ej., `fill`).
+
+---
+
