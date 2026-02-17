@@ -90,7 +90,9 @@ Este primer gráfico muestra el comportamiento general de la variable number_of_
 names(dipodium)
 p_basico <- ggplot(dipodium, aes(number_of_fruits)) +
   geom_dotplot(fill = "yellow", colour = "red", stackratio = 0.9) +
-  labs(x = "Número de frutos", y = "Cantidad / apilamiento (no frecuencia)") +
+  labs(x = "Número de frutos", 
+       y = "Cantidad / apilamiento (no frecuencia)", 
+       title= "Dotplot") +
   theme(axis.title = element_text(size = 14, face = "bold"))
 p_basico
 
@@ -181,7 +183,7 @@ pd
 ```
 
 ```{r grid dotplot, warning=FALSE}
-suppressWarnings(gridExtra::grid.arrange(pa, pb, pc, pd, ncol = 2))
+gridExtra::grid.arrange(pa, pb, pc, pd, ncol = 2)
 ```
 
 ------------------------------------------------------------------------
@@ -208,13 +210,14 @@ g1 <- ggplot(dipodium, aes(number_of_fruits)) +
                stackratio = 0.2, alpha = 0.1) +
   scale_y_continuous(NULL, breaks = NULL) +
   labs(x = "Número de frutos")
+
 g2 <- ggplot(dipodium, aes(number_of_fruits)) +
   geom_dotplot(fill = "blue", colour = "black",
                dotsize = 1, stackdir = "center",
                stackratio = 0.7, alpha = 0.9) +
   scale_y_continuous(NULL, breaks = NULL) +
   labs(x = "Número de frutos")
-suppressWarnings(gridExtra::grid.arrange(g1, g2, ncol = 2))
+gridExtra::grid.arrange(g1, g2, ncol = 2)
 
 
 ```
@@ -222,6 +225,8 @@ suppressWarnings(gridExtra::grid.arrange(g1, g2, ncol = 2))
 ## Organizando los gráficos en filas o en columnas
 
 ```{r grid dotplot2, echo=FALSE, warning=FALSE}
+
+library(gridExtra)
 grid.arrange(g1,g2,nrow=2)
 
 grid.arrange(g1,g2,ncol=2)
@@ -250,6 +255,8 @@ p_dodge1 <- ggplot(dipodium, aes(number_of_fruits, fill = species_name)) +
   scale_y_continuous(NULL, breaks = NULL) +
   labs(x = "Número de frutos", y = NULL) +
   theme(legend.position = "none")
+
+
 p_dodge2 <- ggplot(dipodium, aes(number_of_fruits, fill = species_name)) +
   geom_dotplot(binwidth = 0.3, stackratio = 0.7,
                position = position_dodge(width = 0.7)) +
@@ -276,6 +283,7 @@ Es útil cuando se desea que la estructura de densidad refleje diferencias entre
 Ahora veremos cómo ubicar los puntos uno encima de los otros o sea apilar los puntos pero que a la misma vez la cantidad de puntos cambie de acuerdo al grupo. Continuaremos con el ejemplo anterior de las orquídeas *Dipodium*. En la Figura se usa la opción **stackgroups** en combinación con **binwidth** y **method** para lograr ese efecto, tal como se muestra a continuación:
 
 ```{r dipodium-puntos6}
+dipodium=janitor::clean_names(dipodium) # Esta función limpia los nombres de las variables
 
 p_stackgroups <- ggplot(dipodium, aes(number_of_fruits, fill = species_name)) +
   geom_dotplot(stackgroups = TRUE, binwidth = 0.5,
@@ -307,8 +315,6 @@ conNA <- dipodium %>%
   labs(x = "Especie de orquídea", y = "Número de frutos") +
   theme(legend.position = "none") +
   scale_y_continuous(NULL, breaks = NULL)
-
-
 
 
 sinNA <- dipodium %>%

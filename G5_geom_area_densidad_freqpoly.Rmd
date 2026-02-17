@@ -14,8 +14,8 @@ output:
 knitr::opts_chunk$set(echo = TRUE, message=FALSE, warning=FALSE)
 ```
 
-
 Fecha de la ultima revisión
+
 ```{r echo=FALSE}
 
 Sys.Date()
@@ -25,11 +25,9 @@ Sys.Date()
 knitr::include_graphics(c("Graficos/hex_ggversa.png", "Graficos/hex_Visualizacion_Datos.png"))
 ```
 
-
 # Gráficos de área, densidad y histograma de linea con **geom_dotplot**, **geom_density** y **geom-freqpoly**
 
-***
-
+------------------------------------------------------------------------
 
 Librerías necesarias para producir los gráficos que siguen
 
@@ -40,15 +38,19 @@ library(gridExtra) # Un paquete para organizar las figuras de ggplot2
 library(janitor)
 ```
 
+------------------------------------------------------------------------
 
-***
+# 1. Gráfico de área con **geom_area** 
 
+Este gráfico muestra cómo se distribuyen los valores de la variable continua `distance` al agruparlos en intervalos (bins), igual que en un histograma, pero rellenando el área bajo la curva. A diferencia de un histograma clásico, aquí los límites entre bins se suavizan visualmente, creando una representación más fluida de la frecuencia.
 
-# Gráfico de área con **geom_area**
-## Sección Gráfico De Área
+-   **Eje X:** distancia del individuo al árbol más cercano
 
-El gráfico de área es análogo a un histograma o a un gráfico de barras. En la figura a continuación se observa cómo la cantidad en **X** cambia en frecuencia con respecto a **Y** a lo largo del rango de la variable **X**.  Se observa a continuación que los datos no están agrupados en barras como cuando se usa **geom_histogram** pero representados como un área continua.  Note que en contraste a un histograma, los cambios de frecuencia son suavizados y no discretos.
+-   **Eje Y:** frecuencia de observaciones por intervalo
 
+-   **Interpretación:** Podemos ver dónde se concentra la mayor parte de las distancias. Un área más alta corresponde a intervalos donde se encuentran más observaciones.
+
+Este tipo de gráfico es ideal cuando queremos visualizar la *forma general* de la distribución sin enfatizar las divisiones discretas de un histograma.
 
 ```{r dipodium-area,  echo=TRUE, tidy=FALSE,  warning=FALSE, message=FALSE, fig.align='center'}
 
@@ -61,9 +63,21 @@ a+geom_area(stat="bin", fill="aquamarine", color="black")+
   theme(axis.title=element_text(size=10,face="bold"))
 ```
 
-En este siguiente gráfico se cambia el color de linea que sigue el contorno del área.  Para hacer este cambio se puede identificar el tipo de linea con **linetype**, el color con **color**, el grosor de la linea con **size** y la intensidad del color con **alpha**.  
+## **2. Gráfico de área con estilo de línea y transparencia**
 
+Aquí modificamos varios parámetros estéticos para mostrar cómo `geom_area()` permite un alto nivel de personalización:
 
+-   `linetype = "twodash"` cambia el estilo de la línea de contorno.
+
+-   `color = "black"` define el color del borde del área.
+
+-   `size = 0.5` controla el grosor de la línea.
+
+-   `alpha = 0.1` reduce la opacidad del color de relleno (haciéndolo casi transparente).
+
+**¿Qué nos permite esto?**\
+
+Resaltar el contorno del área sin que el relleno opaque otros elementos del gráfico. Esto es útil cuando el área se superpone con otros elementos o cuando queremos destacar el patrón general pero sin saturar de color.
 
 ```{r dipodium-area2,  echo=TRUE, tidy=FALSE,  warning=FALSE, message=FALSE}
 
@@ -74,13 +88,11 @@ a+geom_area(stat="bin", fill="steelblue1",
   theme(axis.title=element_text(size=10,face="bold"))
 ```
 
-***
+------------------------------------------------------------------------
 
-# Los tipos de **linetype** 
+# Los tipos de **linetype**
 
-Vea las alternativas de "linetype" en este enlace [linetype](http://sape.inf.usi.ch/quick-reference/ggplot2/linetype). Algunas de estas lineas se pueden llamar usando un nombre "blank", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash", o numeración "1F", "F1", "4C88C488", "12345678.  
-
-
+Vea las alternativas de "linetype" en este enlace [linetype](http://sape.inf.usi.ch/quick-reference/ggplot2/linetype). Algunas de estas lineas se pueden llamar usando un nombre "blank", "solid", "dashed", "dotted", "dotdash", "longdash", "twodash", o numeración "1F", "F1", "4C88C488", "12345678.
 
 ```{r}
 par(mar=c(0,0,0,0))
@@ -108,9 +120,15 @@ text(0, 9, "6. '4C88C488'" ,  adj=c(0,.5))
 text(0, 10, "6. '12345678'" ,  adj=c(0,.5))
 ```
 
+## **3. Gráfico con linetype avanzado**
 
-Ahora al gráfico siguiente, se le cambia el color de la línea a negro a la vez que se le cambia el estilo de la línea con *linetype* y el grosor de la misma con *size*.
+Este ejemplo muestra cómo usar un patrón de línea más complejo mediante códigos hexadecimales de `linetype` como `"4C88C488"`.
 
+-   Cambiar el **estilo de línea** puede servir para distinguir múltiples grupos en un gráfico o para mejorar la legibilidad en blanco y negro.
+
+-   `color = "orange"` y `alpha = 0.5` producen un contraste fuerte tanto en el contorno como en la superficie.
+
+Este gráfico demuestra que `geom_area` es altamente personalizable incluso para presentaciones donde los estilos visuales deben ser diferenciables sin usar color.
 
 ```{r dipodium-area3,  echo=TRUE, tidy=FALSE,  warning=FALSE, message=FALSE}
 
@@ -121,12 +139,29 @@ a+geom_area(stat="bin", fill="steelblue1",
   theme(axis.title=element_text(size=10,face="bold"))
 ```
 
-***
+------------------------------------------------------------------------
 
-## geom_area con múltiples grupos
+## **4. Gráfico de área con múltiples años (facetado)**
 
+Este gráfico presenta la distribución del número de camas hospitalarias por cada 1000 habitantes, separando (facetando) cada año en un panel diferente:
 
-Finalmente, en el siguiente gráfico, se muestran los datos de la frecuencia de camas en hospitales por cada 1000 habitantes en diferentes años.  
+-   `facet_wrap(~Year)` crea un panel por cada año.
+
+-   `fill = factor(Year)` asigna un color distinto a cada año.
+
+-   `bins = 30` uniformiza la resolución del análisis.
+
+### **Qué muestra este gráfico**
+
+Permite comparar rápidamente **cómo cambia la distribución de camas entre años**, por ejemplo:
+
+-   si la media sube o baja
+
+-   si la dispersión aumenta (indicando desigualdad entre países)
+
+-   si aparecen nuevos picos o valores extremos
+
+El uso de áreas superpuestas y facetado facilita visualizar tendencias temporales sin mezclar las distribuciones en un solo panel.
 
 ```{r dipodium-area4,  echo=TRUE, tidy=FALSE,  warning=FALSE, message=FALSE, fig.align='center'}
 tail(Camas_Hospital, n=6)
@@ -149,11 +184,25 @@ Camas_Hospital %>%
   count()
 ```
 
-***
+------------------------------------------------------------------------
 
-## La función densidad **aes(after_stat(density))**
+## 5. La función densidad **aes(after_stat(density))**
 
-Uno puede utilizar la opción **stat** a la vez que identifica el eje de **Y** para visualizar la densidad y no la frecuencia de los datos con la siguiente modificación **aes(after_stat(density))**. Esto modifica la visualizar del gráfico a densidad en los datos en vez de mostrar el conteo/frecuencia para cada grupo. Si uno compara las dos gráficas anteriores a estas nuevas gráficas uno observa que la densidad de camas en hospitales por 100,000 cambio con los años habitantes, hubo un aumento en densidad (proporcionalmente más camas en 2006 por habitantes). Nota que no hay un pico cerca de uno en 1996, pero en 2006 la distribución esta más dispersado entre los valores y no concentrado cerca de uno.     
+Aquí se transforma el eje Y para mostrar **densidad** en lugar de **frecuencia**.
+
+-   La fórmula `aes(y = ..density..)` o `aes(after_stat(density))` normaliza el área bajo la curva a 1.
+
+-   Esto facilita comparar años incluso si el número de países en cada año no es el mismo.
+
+### **Interpretación**
+
+En este gráfico, la forma muestra *cómo se distribuye proporcionalmente* el número de camas:
+
+-   En 1996 la densidad tiene un pico claro alrededor de cierto valor.
+
+-   En 2006 la distribución es más dispersa, lo que implica mayor heterogeneidad entre países.
+
+Este cambio es mucho más evidente con una función de densidad que con frecuencias.
 
 ```{r dipodium-area5,  echo=TRUE, tidy=FALSE,  warning=FALSE, message=FALSE, fig.align='center'}
 head(Camas_Hospital)
@@ -165,48 +214,41 @@ a+geom_area(aes(y=..density..),stat="bin", alpha=0.5)+
 
 ```
 
-
-
-
-***
+------------------------------------------------------------------------
 
 ## Opciones y Parametros de **geom_area**:
 
+-   ggplot (el archivo de datos, aes(la variable continua)) +geom_area(stat= bin, x, y, alpha, color, fill, linetype, size)
 
-* ggplot (el archivo de datos, aes(la variable continua))
-  +geom_area(stat= bin, x, y, alpha, color, fill, linetype, size)
+    -   alpha: la intensidad del color
+    -   color: el color de la línea alrededor del área
+    -   fill: el color del área
+    -   linetype: representa el estilo de línea
+    -   size: representa el grosor de la línea
+    -   stat: el método predeterminado es {identity}, que representa los datos, o la transformación estadística
 
-  + alpha: la intensidad del color
-  + color: el color de la línea alrededor del área
-  + fill: el color del área
-  + linetype: representa el estilo de línea
-  + size: representa el grosor de la línea
-  + stat: el método predeterminado es {identity}, que representa los datos, o la transformación estadística
-  
-  
-***
+------------------------------------------------------------------------
 
 ## Gráfico de densidad con **geom_density**
-Un gráfico de densidad, también conocido como una función de probabilidad de densidad, **pdf** o *probability density function* en inglés, se utiliza con variables que contienen datos continuos.  La función de densidad es continua en el rango de los valores, y la suma de todas la probabilidades es igual a uno. Vimos anteriormente que se puede visualizar la densidad también con **geom_area** y **geom_histogram**. La función **geom_density** facilita la producción del gráfico y amplía las alternativas como se explica en breve.
 
+Un gráfico de densidad, también conocido como una función de probabilidad de densidad, **pdf** o *probability density function* en inglés, se utiliza con variables que contienen datos continuos. La función de densidad es continua en el rango de los valores, y la suma de todas la probabilidades es igual a uno. Vimos anteriormente que se puede visualizar la densidad también con **geom_area** y **geom_histogram**. La función **geom_density** facilita la producción del gráfico y amplía las alternativas como se explica en breve.
 
 ### ¿Qué es un kernel?
 
-Estimar la densidad de los datos en un gráfico requiere seleccionar un parámetro, un **kernel**, para suavizar la distribución.  El más utilizado es el **gaussian**, que representa la distribución normal o conocida comúnmente como distribución de forma de campana. Si no se especifica cuál **kernel** utilizar, la distribución normal es la predeterminada; por ejemplo, cuando se especifica **geom_density()** sin ninguna otra opción.  
-Otra alternativa es usar **geom_density(kernel = c(kernel={gaussian})**, u otras alternativas.  Otros parámetros para **kernel** son: 
+Estimar la densidad de los datos en un gráfico requiere seleccionar un parámetro, un **kernel**, para suavizar la distribución. El más utilizado es el **gaussian**, que representa la distribución normal o conocida comúnmente como distribución de forma de campana. Si no se especifica cuál **kernel** utilizar, la distribución normal es la predeterminada; por ejemplo, cuando se especifica **geom_density()** sin ninguna otra opción.\
+Otra alternativa es usar **geom_density(kernel = c(kernel={gaussian})**, u otras alternativas. Otros parámetros para **kernel** son:
 
- - rectangular, 
- - triangular, 
- - epanechnikov,
- - biweight, 
- - cosine, 
- - optcosine,
- - gaussian
- 
+-   rectangular,
+-   triangular,
+-   epanechnikov,
+-   biweight,
+-   cosine,
+-   optcosine,
+-   gaussian
 
-EL **kernel** es un tipo especial de función de probabilidad de densidad que tiene ciertas propiedades específicas, ya sea que esta no sea negativa y con valores reales de manera tal que el gráfico salga simétrico, y que la suma de la integral sea igual a uno. Se añadió también *geom_density* para comparar el resultado de las dos funciones. 
+EL **kernel** es un tipo especial de función de probabilidad de densidad que tiene ciertas propiedades específicas, ya sea que esta no sea negativa y con valores reales de manera tal que el gráfico salga simétrico, y que la suma de la integral sea igual a uno. Se añadió también *geom_density* para comparar el resultado de las dos funciones.
 
-Note que en el gráfico siguiente se usó el parámetro *alpha=0.4*.  Este modifica la transparencia del color azul del parámetro fill=blue.  La intensidad de **alpha=0.4** puede variar de 0 a 1, tal como se ha explicado anteriormente.  En el ejemplo a continuación se utilizan los datos de la *Dipodium rosea* otra vez.  
+Note que en el gráfico siguiente se usó el parámetro *alpha=0.4*. Este modifica la transparencia del color azul del parámetro fill=blue. La intensidad de **alpha=0.4** puede variar de 0 a 1, tal como se ha explicado anteriormente. En el ejemplo a continuación se utilizan los datos de la *Dipodium rosea* otra vez.
 
 ```{r dipodium-densidad, echo=TRUE, fig.pos='H', tidy=FALSE,message=FALSE, warning=FALSE,  fig.align='center'}
 
@@ -223,7 +265,6 @@ a+
 #ggsave("Distance_to_tree.jpeg") #.tiff, .png
 ```
 
-
 ```{r}
 x=rnorm(100, 10, 4)
 
@@ -238,14 +279,11 @@ a+geom_area(aes(y=..density..),stat="bin", alpha=0.5)+
 
 ```
 
-
-
-
-***
+------------------------------------------------------------------------
 
 # geom_density y datos simulados
 
-La función de **geom_density** se puede entender mejor si se evalúa con datos simulados. Vamos a continuación a simular datos con diferentes tamaños de muestra para visualizar las densidades. En la simulación a continuación se crean 4 data frame con 2000, 500, 50 y 10 datos respectivamente con la función **rnorm**. Naturalmente, lo que se observa es que si los datos provienen de una distribución normal, entre más datos se incluyan, la distribución correspondiente se acerca más a como debe lucir una distribución normal.  Pero, lo contrario es que con pocos datos, es probable que la densidad no se asemeje a la distribución teórica (normal).
+La función de **geom_density** se puede entender mejor si se evalúa con datos simulados. Vamos a continuación a simular datos con diferentes tamaños de muestra para visualizar las densidades. En la simulación a continuación se crean 4 data frame con 2000, 500, 50 y 10 datos respectivamente con la función **rnorm**. Naturalmente, lo que se observa es que si los datos provienen de una distribución normal, entre más datos se incluyan, la distribución correspondiente se acerca más a como debe lucir una distribución normal. Pero, lo contrario es que con pocos datos, es probable que la densidad no se asemeje a la distribución teórica (normal).
 
 ```{r random-dist, echo=TRUE, tidy=FALSE,message=FALSE, warning=FALSE}
 
@@ -292,17 +330,13 @@ grid.arrange(a,b,c,d,ncol=2)
 
 Excercise
 
+According to data from Our World in Data, the mean world human height is approximately 170.8 cm for men and 164.7 cm for women, with a standard deviation of around 7 cm for both genders. \## Key points:
 
-According to data from Our World in Data, the mean world human height is approximately 170.8 cm for men and 164.7 cm for women, with a standard deviation of around 7 cm for both genders. 
-## Key points:
-
-  - Male mean: 170.8 cm
-  - Female mean: 164.7 cm
-  - Standard deviation (both genders): around 7 cm 
-
+-   Male mean: 170.8 cm
+-   Female mean: 164.7 cm
+-   Standard deviation (both genders): around 7 cm
 
 DO a figure of the density distribution of male and female human height and compare with the mean and standard deviation of world data
-
 
 ```{r}
 male_students=c(170.6, 180, 167.64, 185.93, 177, 177) # height in cm
@@ -322,7 +356,6 @@ ggplot(female_students)+
 
 ```
 
-
 ```{r}
 
 #set.seed(123987)
@@ -335,12 +368,7 @@ world_female=rnorm(10^6, 164.7, 7)
 head(world_female)
 ```
 
-
 OVERLAY two figures from different data sets
-
-
-
-
 
 ```{r}
 
@@ -364,30 +392,26 @@ male_2=ggplot()+
 male_2
 ```
 
-
-
-***
+------------------------------------------------------------------------
 
 # Opciones y Parametros de **geom_density**:
 
+-   ggplot(el archivo de datos, aes(la variable continua))
 
-* ggplot(el archivo de datos, aes(la variable continua))
+    -   geom_density(kernel= {…}), x, y, alpha, color, fill, linetype, size, weight
+        -   **…** representa el parámetro deseado; ej. gaussian, triangular, rectangular, etc.
+    -   alpha: la intensidad del color
+    -   fill: el color del área
+    -   color: el color de la línea alrededor del área
+    -   linetype: representa el estilo de línea
+    -   size: representa el grosor de la línea
+    -   weight: para modificar el valor original; entonces no sería, por ejemplo, el conteo o suma de los valores si no un valor ponderado (promedio ponderado)
 
-  + geom_density(kernel= {…}), x, y, alpha, color, fill, linetype, size, weight
-     - **…** representa el parámetro deseado; ej. gaussian, triangular, rectangular, etc.
-  + alpha: la intensidad del color
-  + fill: el color del área
-  + color: el color de la línea alrededor del área
-  + linetype: representa el estilo de línea
-  + size: representa el grosor de la línea
-  + weight: para modificar el valor original; entonces no sería, por ejemplo, el conteo o suma de los valores si no un valor ponderado (promedio ponderado)
-  
-    
-***
+------------------------------------------------------------------------
 
 ## Gráfico de frecuencia de polígono con **geom_freqpoly**
 
-El gráfico de frecuencia de polígono es similar al gráfico de área y de densidad, la diferencia es que no se rellena el área con color.  También se puede cambiar la cantidad de compartimentos usando **binwidth**.  En el gráfico de polígono, es solamente la línea la que gráficamos y no hay parámetro de **fill** del área debajo de la línea. 
+El gráfico de frecuencia de polígono es similar al gráfico de área y de densidad, la diferencia es que no se rellena el área con color. También se puede cambiar la cantidad de compartimentos usando **binwidth**. En el gráfico de polígono, es solamente la línea la que gráficamos y no hay parámetro de **fill** del área debajo de la línea.
 
 ```{r dipodium-poligono, echo=TRUE, tidy=FALSE,message=FALSE, warning=FALSE,  fig.align='center'}
 
@@ -399,7 +423,7 @@ a+geom_freqpoly(binwidth=.1, color="#e3cc36")+  # Nota como seleccionar el color
 
 ```
 
-***
+------------------------------------------------------------------------
 
 Se modifica otras opciones como sigue: intensidad del color con **alpha**, el tipo de línea con **linetype** y el grosor de la línea con **size** tal como se muestra a continuación.
 
@@ -418,30 +442,22 @@ geom_freqpoly(alpha=1.0, size=1.0, binwidth=.1, linetype="longdash")+
 DW
 ```
 
-***
+------------------------------------------------------------------------
 
 # Opciones y Parametros de **geom_freqpoly**
 
+-   ggplot(el archivo de datos, aes(la variable continua))
 
+    -   geom_freqpoly(stat={bin}, x, y, alpha, color, linetype, size)
+    -   alpha: la intensidad del color
+    -   color: el color de la línea alrededor del área
+    -   linetype: representa el estilo de línea; vea sección
+    -   size: representa el grosor de la línea
 
-* ggplot(el archivo de datos, aes(la variable continua))
+------------------------------------------------------------------------
 
-  + geom_freqpoly(stat={bin}, x, y, alpha, color, linetype, size)
-  + alpha: la intensidad del color
-  + color: el color de la línea alrededor del área
-  + linetype: representa el estilo de línea; vea sección
-  + size: representa el grosor de la línea
- 
-***
-
-
- 1. Actividad
-  Usar el data set "dipodium" en el paquete "ggversa". Presenta un gráfico de la frecuencia de **flores por planta** con *geom_freqpoly*. 
-    - Cambia el color de la linea
-    - Cambiar la información de los ejes para texto más relevante
-    - Cambiar la intensidad de color de la linea
-    - Cambiar el tipo de linea
-
-
-
-
+1.  Actividad Usar el data set "dipodium" en el paquete "ggversa". Presenta un gráfico de la frecuencia de **flores por planta** con *geom_freqpoly*.
+    -   Cambia el color de la linea
+    -   Cambiar la información de los ejes para texto más relevante
+    -   Cambiar la intensidad de color de la linea
+    -   Cambiar el tipo de linea

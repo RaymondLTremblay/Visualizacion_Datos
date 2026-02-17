@@ -601,7 +601,7 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2026-02-04&quot;</code></pre>
+<pre><code>## [1] &quot;2026-02-17&quot;</code></pre>
 <p><img src="Graficos/hex_ggversa.png" alt="" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" alt="" width="20%" /></p>
 <div
 id="gráficos-de-área-densidad-y-histograma-de-linea-con-geom_dotplot-geom_density-y-geom-freqpoly"
@@ -618,17 +618,25 @@ class="section level1">
 <hr />
 </div>
 <div id="gráfico-de-área-con-geom_area" class="section level1">
-<h1>Gráfico de área con <strong>geom_area</strong></h1>
-<div id="sección-gráfico-de-área" class="section level2">
-<h2>Sección Gráfico De Área</h2>
-<p>El gráfico de área es análogo a un histograma o a un gráfico de
-barras. En la figura a continuación se observa cómo la cantidad en
-<strong>X</strong> cambia en frecuencia con respecto a
-<strong>Y</strong> a lo largo del rango de la variable
-<strong>X</strong>. Se observa a continuación que los datos no están
-agrupados en barras como cuando se usa <strong>geom_histogram</strong>
-pero representados como un área continua. Note que en contraste a un
-histograma, los cambios de frecuencia son suavizados y no discretos.</p>
+<h1>1. Gráfico de área con <strong>geom_area</strong></h1>
+<p>Este gráfico muestra cómo se distribuyen los valores de la variable
+continua <code>distance</code> al agruparlos en intervalos (bins), igual
+que en un histograma, pero rellenando el área bajo la curva. A
+diferencia de un histograma clásico, aquí los límites entre bins se
+suavizan visualmente, creando una representación más fluida de la
+frecuencia.</p>
+<ul>
+<li><p><strong>Eje X:</strong> distancia del individuo al árbol más
+cercano</p></li>
+<li><p><strong>Eje Y:</strong> frecuencia de observaciones por
+intervalo</p></li>
+<li><p><strong>Interpretación:</strong> Podemos ver dónde se concentra
+la mayor parte de las distancias. Un área más alta corresponde a
+intervalos donde se encuentran más observaciones.</p></li>
+</ul>
+<p>Este tipo de gráfico es ideal cuando queremos visualizar la <em>forma
+general</em> de la distribución sin enfatizar las divisiones discretas
+de un histograma.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>DW<span class="ot">=</span>dipodium</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>DW<span class="ot">=</span><span class="fu">clean_names</span>(DW)</span>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(DW, <span class="fu">aes</span>(distance))</span>
@@ -637,11 +645,27 @@ histograma, los cambios de frecuencia son suavizados y no discretos.</p>
 <span id="cb3-6"><a href="#cb3-6" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;Distancia (m) al arbol más cercano&quot;</span>, <span class="at">y=</span><span class="st">&quot;Frecuencia&quot;</span>)<span class="sc">+</span></span>
 <span id="cb3-7"><a href="#cb3-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G5_geom_area_densidad_freqpoly_files/figure-html/dipodium-area-1.png" alt="" width="672" style="display: block; margin: auto;" /></p>
-<p>En este siguiente gráfico se cambia el color de linea que sigue el
-contorno del área. Para hacer este cambio se puede identificar el tipo
-de linea con <strong>linetype</strong>, el color con
-<strong>color</strong>, el grosor de la linea con <strong>size</strong>
-y la intensidad del color con <strong>alpha</strong>.</p>
+<div id="gráfico-de-área-con-estilo-de-línea-y-transparencia"
+class="section level2">
+<h2><strong>2. Gráfico de área con estilo de línea y
+transparencia</strong></h2>
+<p>Aquí modificamos varios parámetros estéticos para mostrar cómo
+<code>geom_area()</code> permite un alto nivel de personalización:</p>
+<ul>
+<li><p><code>linetype = "twodash"</code> cambia el estilo de la línea de
+contorno.</p></li>
+<li><p><code>color = "black"</code> define el color del borde del
+área.</p></li>
+<li><p><code>size = 0.5</code> controla el grosor de la línea.</p></li>
+<li><p><code>alpha = 0.1</code> reduce la opacidad del color de relleno
+(haciéndolo casi transparente).</p></li>
+</ul>
+<p><strong>¿Qué nos permite esto?</strong><br />
+</p>
+<p>Resaltar el contorno del área sin que el relleno opaque otros
+elementos del gráfico. Esto es útil cuando el área se superpone con
+otros elementos o cuando queremos destacar el patrón general pero sin
+saturar de color.</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(DW, <span class="fu">aes</span>(distance))</span>
 <span id="cb4-2"><a href="#cb4-2" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_area</span>(<span class="at">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="at">fill=</span><span class="st">&quot;steelblue1&quot;</span>,</span>
 <span id="cb4-3"><a href="#cb4-3" tabindex="-1"></a>            <span class="at">linetype=</span><span class="st">&quot;twodash&quot;</span>, <span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">size=</span><span class="fl">0.5</span>, <span class="at">alpha=</span><span class="fl">0.1</span>)<span class="sc">+</span></span>
@@ -682,9 +706,21 @@ numeración “1F”, “F1”, “4C88C488”, “12345678.</p>
 <span id="cb5-22"><a href="#cb5-22" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">0</span>, <span class="dv">9</span>, <span class="st">&quot;6. &#39;4C88C488&#39;&quot;</span> ,  <span class="at">adj=</span><span class="fu">c</span>(<span class="dv">0</span>,.<span class="dv">5</span>))</span>
 <span id="cb5-23"><a href="#cb5-23" tabindex="-1"></a><span class="fu">text</span>(<span class="dv">0</span>, <span class="dv">10</span>, <span class="st">&quot;6. &#39;12345678&#39;&quot;</span> ,  <span class="at">adj=</span><span class="fu">c</span>(<span class="dv">0</span>,.<span class="dv">5</span>))</span></code></pre></div>
 <p><img src="G5_geom_area_densidad_freqpoly_files/figure-html/unnamed-chunk-3-1.png" alt="" width="672" /></p>
-<p>Ahora al gráfico siguiente, se le cambia el color de la línea a negro
-a la vez que se le cambia el estilo de la línea con <em>linetype</em> y
-el grosor de la misma con <em>size</em>.</p>
+<div id="gráfico-con-linetype-avanzado" class="section level2">
+<h2><strong>3. Gráfico con linetype avanzado</strong></h2>
+<p>Este ejemplo muestra cómo usar un patrón de línea más complejo
+mediante códigos hexadecimales de <code>linetype</code> como
+<code>"4C88C488"</code>.</p>
+<ul>
+<li><p>Cambiar el <strong>estilo de línea</strong> puede servir para
+distinguir múltiples grupos en un gráfico o para mejorar la legibilidad
+en blanco y negro.</p></li>
+<li><p><code>color = "orange"</code> y <code>alpha = 0.5</code> producen
+un contraste fuerte tanto en el contorno como en la superficie.</p></li>
+</ul>
+<p>Este gráfico demuestra que <code>geom_area</code> es altamente
+personalizable incluso para presentaciones donde los estilos visuales
+deben ser diferenciables sin usar color.</p>
 <div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(DW, <span class="fu">aes</span>(distance))</span>
 <span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a>a<span class="sc">+</span><span class="fu">geom_area</span>(<span class="at">stat=</span><span class="st">&quot;bin&quot;</span>, <span class="at">fill=</span><span class="st">&quot;steelblue1&quot;</span>,</span>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>            <span class="at">linetype=</span><span class="st">&quot;4C88C488&quot;</span>, <span class="at">color=</span><span class="st">&quot;orange&quot;</span>, <span class="at">size=</span>.<span class="dv">4</span>, <span class="at">alpha=</span><span class="fl">0.5</span>)<span class="sc">+</span></span>
@@ -692,11 +728,35 @@ el grosor de la misma con <em>size</em>.</p>
 <span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G5_geom_area_densidad_freqpoly_files/figure-html/dipodium-area3-1.png" alt="" width="672" /></p>
 <hr />
-<div id="geom_area-con-múltiples-grupos" class="section level2">
-<h2>geom_area con múltiples grupos</h2>
-<p>Finalmente, en el siguiente gráfico, se muestran los datos de la
-frecuencia de camas en hospitales por cada 1000 habitantes en diferentes
-años.</p>
+</div>
+<div id="gráfico-de-área-con-múltiples-años-facetado"
+class="section level2">
+<h2><strong>4. Gráfico de área con múltiples años
+(facetado)</strong></h2>
+<p>Este gráfico presenta la distribución del número de camas
+hospitalarias por cada 1000 habitantes, separando (facetando) cada año
+en un panel diferente:</p>
+<ul>
+<li><p><code>facet_wrap(~Year)</code> crea un panel por cada
+año.</p></li>
+<li><p><code>fill = factor(Year)</code> asigna un color distinto a cada
+año.</p></li>
+<li><p><code>bins = 30</code> uniformiza la resolución del
+análisis.</p></li>
+</ul>
+<div id="qué-muestra-este-gráfico" class="section level3">
+<h3><strong>Qué muestra este gráfico</strong></h3>
+<p>Permite comparar rápidamente <strong>cómo cambia la distribución de
+camas entre años</strong>, por ejemplo:</p>
+<ul>
+<li><p>si la media sube o baja</p></li>
+<li><p>si la dispersión aumenta (indicando desigualdad entre
+países)</p></li>
+<li><p>si aparecen nuevos picos o valores extremos</p></li>
+</ul>
+<p>El uso de áreas superpuestas y facetado facilita visualizar
+tendencias temporales sin mezclar las distribuciones en un solo
+panel.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">tail</span>(Camas_Hospital, <span class="at">n=</span><span class="dv">6</span>)</span></code></pre></div>
 <pre><code>##              Pais Year Poblacion  Camas
 ## 129        Turkey 2006  68704721 2.7000
@@ -753,21 +813,32 @@ años.</p>
 ## 2  2006    67</code></pre>
 <hr />
 </div>
+</div>
 <div id="la-función-densidad-aesafter_statdensity"
 class="section level2">
-<h2>La función densidad <strong>aes(after_stat(density))</strong></h2>
-<p>Uno puede utilizar la opción <strong>stat</strong> a la vez que
-identifica el eje de <strong>Y</strong> para visualizar la densidad y no
-la frecuencia de los datos con la siguiente modificación
-<strong>aes(after_stat(density))</strong>. Esto modifica la visualizar
-del gráfico a densidad en los datos en vez de mostrar el
-conteo/frecuencia para cada grupo. Si uno compara las dos gráficas
-anteriores a estas nuevas gráficas uno observa que la densidad de camas
-en hospitales por 100,000 cambio con los años habitantes, hubo un
-aumento en densidad (proporcionalmente más camas en 2006 por
-habitantes). Nota que no hay un pico cerca de uno en 1996, pero en 2006
-la distribución esta más dispersado entre los valores y no concentrado
-cerca de uno.</p>
+<h2>5. La función densidad
+<strong>aes(after_stat(density))</strong></h2>
+<p>Aquí se transforma el eje Y para mostrar <strong>densidad</strong> en
+lugar de <strong>frecuencia</strong>.</p>
+<ul>
+<li><p>La fórmula <code>aes(y = ..density..)</code> o
+<code>aes(after_stat(density))</code> normaliza el área bajo la curva a
+1.</p></li>
+<li><p>Esto facilita comparar años incluso si el número de países en
+cada año no es el mismo.</p></li>
+</ul>
+<div id="interpretación" class="section level3">
+<h3><strong>Interpretación</strong></h3>
+<p>En este gráfico, la forma muestra <em>cómo se distribuye
+proporcionalmente</em> el número de camas:</p>
+<ul>
+<li><p>En 1996 la densidad tiene un pico claro alrededor de cierto
+valor.</p></li>
+<li><p>En 2006 la distribución es más dispersa, lo que implica mayor
+heterogeneidad entre países.</p></li>
+</ul>
+<p>Este cambio es mucho más evidente con una función de densidad que con
+frecuencias.</p>
 <div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">head</span>(Camas_Hospital)</span></code></pre></div>
 <pre><code>##           Pais Year Poblacion Camas
 ## 1      Armenia 1996   3173425  7.13
@@ -783,6 +854,7 @@ cerca de uno.</p>
 <span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G5_geom_area_densidad_freqpoly_files/figure-html/dipodium-area5-1.png" alt="" width="672" style="display: block; margin: auto;" /></p>
 <hr />
+</div>
 </div>
 <div id="opciones-y-parametros-de-geom_area" class="section level2">
 <h2>Opciones y Parametros de <strong>geom_area</strong>:</h2>
