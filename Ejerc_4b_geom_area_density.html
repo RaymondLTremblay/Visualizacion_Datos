@@ -9,15 +9,16 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Raymond L. Tremblay" />
+<meta name="author" content="Raymond_L_Tremblay" />
 
+<meta name="date" content="2026-02-23" />
 
-<title>Archivos de datos</title>
+<title>Ejerc_4b_geom_area_density</title>
 
 <script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
+<link href="site_libs/bootstrap-3.3.5/css/bootstrap.min.css" rel="stylesheet" />
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
@@ -30,10 +31,9 @@
        h6 {font-size: 12px;}
        code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
        pre:not([class]) { background-color: white }</style>
-<script src="site_libs/jqueryui-1.13.2/jquery-ui.min.js"></script>
-<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
-<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -44,13 +44,22 @@
   ul.task-list{list-style: none;}
     </style>
 
+<style type="text/css">code{white-space: pre;}</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
 
 
 
 
 
 
-<link rel="stylesheet" href="tutorial.css" type="text/css" />
 
 
 
@@ -212,69 +221,6 @@ $(document).ready(function () {
 
 
 
-<style type="text/css">
-
-#TOC {
-  margin: 25px 0px 20px 0px;
-}
-@media (max-width: 768px) {
-#TOC {
-  position: relative;
-  width: 100%;
-}
-}
-
-@media print {
-.toc-content {
-  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
-  float: right;
-}
-}
-
-.toc-content {
-  padding-left: 30px;
-  padding-right: 40px;
-}
-
-div.main-container {
-  max-width: 1200px;
-}
-
-div.tocify {
-  width: 20%;
-  max-width: 260px;
-  max-height: 85%;
-}
-
-@media (min-width: 768px) and (max-width: 991px) {
-  div.tocify {
-    width: 25%;
-  }
-}
-
-@media (max-width: 767px) {
-  div.tocify {
-    width: 100%;
-    max-width: none;
-  }
-}
-
-.tocify ul, .tocify li {
-  line-height: 20px;
-}
-
-.tocify-subheader .tocify-item {
-  font-size: 0.90em;
-}
-
-.tocify .list-group-item {
-  border-radius: 0px;
-}
-
-
-</style>
-
-
 
 </head>
 
@@ -282,16 +228,6 @@ div.tocify {
 
 
 <div class="container-fluid main-container">
-
-
-<!-- setup 3col/9col grid for toc_float and main content  -->
-<div class="row">
-<div class="col-xs-12 col-sm-4 col-md-3">
-<div id="TOC" class="tocify">
-</div>
-</div>
-
-<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -494,110 +430,188 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Archivos de datos</h1>
-<h4 class="author">Raymond L. Tremblay</h4>
+<h1 class="title toc-ignore">Ejerc_4b_geom_area_density</h1>
+<h4 class="author">Raymond_L_Tremblay</h4>
+<h4 class="date">2026-02-23</h4>
 
 </div>
 
 
-<p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2026-02-23&quot;</code></pre>
-<p><img src="Graficos/hex_ggversa.png" alt="" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" alt="" width="20%" />
-***</p>
-<p>Lista de Archivos</p>
+<pre class="r"><code>library(ggplot2)
+library(dplyr)</code></pre>
+<div id="cada-pregunta-vale-5-puntos." class="section level2">
+<h2>Cada Pregunta vale 5 puntos.</h2>
 <hr />
-<ol style="list-style-type: decimal">
-<li><a
-href="Data/UNdata_Pop_Size_Caribbean.csv">PoblacionEdad_genero</a></li>
-</ol>
+</div>
+<div id="section" class="section level1">
+<h1></h1>
+</div>
+<div id="economic-example-personal-savings-rate-over-time"
+class="section level1">
+<h1>1. Economic Example: Personal Savings Rate Over Time</h1>
+<p>Imagine you are a data analyst working for a small team within the
+<strong>U.S. Bureau of Economic Analysis (BEA)</strong>. Your group
+monitors long‑term financial trends to help economists and policy makers
+understand how Americans save money over time. One of the most important
+indicators your team studies is the <strong>personal savings
+rate</strong>—the percentage of personal income that individuals save
+rather than spend.</p>
+<p>Your supervisor tells you:</p>
+<blockquote>
+<p>“We need a clear visual showing how the U.S. personal savings rate
+has changed over the years. Something intuitive, something that shows
+<em>flow</em> over time. Use one of the standard datasets we keep for
+training—look for the <code>economics</code> dataset inside the
+<strong>ggplot2</strong> package.”</p>
+</blockquote>
+<p>You lookup the data and confirm that
+<strong><code>economics</code></strong> is a built‑in dataset that ships
+automatically with <strong>ggplot2</strong>. It contains monthly U.S.
+economic indicators collected from the Federal Reserve Bank of St. Louis
+(FRED), including:</p>
 <ul>
-<li>Datos poblacional de las islas del caribe (Datos de las Naciones
-Unidas al siguiente enlace <a
-href="http://data.un.org/Data.aspx?d=POP&amp;f=tableCode%3A22"
-class="uri">http://data.un.org/Data.aspx?d=POP&amp;f=tableCode%3A22</a>)</li>
+<li><p><code>date</code> — monthly date values</p></li>
+<li><p><code>psavert</code> — <em>personal savings rate
+(%)</em></p></li>
+<li><p><code>pce</code>, <code>unemploy</code>, <code>uempmed</code>,
+etc. (other variables you won’t need right now)</p></li>
 </ul>
-<ol start="2" style="list-style-type: decimal">
-<li><a href="Data/DominicanRepublic.csv">DominicanRepublicPop</a></li>
+<p>For your first task, your supervisor wants something simple but
+polished:</p>
+<div id="your-mission" class="section level3">
+<h3><strong>Your Mission</strong></h3>
+<p>Create a <strong>filled area chart</strong> showing how the personal
+savings rate (<code>psavert</code>) changes over time
+(<code>date</code>).</p>
+<p>Specifically, you are expected to:</p>
+<ol style="list-style-type: decimal">
+<li><p>Use <strong><code>geom_area()</code></strong> to draw the filled
+shape beneath the curve.</p></li>
+<li><p>Make sure the plot has clear axis labels and an informative
+title.</p></li>
+<li><p>Use a fill color with soft transparency so the shape feels like
+“economic volume” changing through time.</p></li>
+<li><p>Produce a figure that one could show to a policymaker and expect
+them to understand at a glance.</p></li>
 </ol>
+<hr />
+</div>
+<div id="expected-output-description" class="section level2">
+<h2>✔️ Expected Output (description)</h2>
+<p>Students should produce a plot that shows:</p>
 <ul>
-<li>Datos poblacional de la Republica Dominicana (Igual que #1)</li>
+<li><p><strong>The x‑axis</strong>: dates from the late 1960s to
+present</p></li>
+<li><p><strong>The y‑axis</strong>: % personal savings rate</p></li>
+<li><p><strong>A filled area</strong> under the curve</p></li>
+<li><p><strong>A gentle color and light transparency</strong></p></li>
 </ul>
+<p><em>BONOS: add a horizontal dashed line at the median savings rate to
+provide a reference point for viewers.</em></p>
+<ul>
+<li>An overall impression of long‑term trends in U.S. saving
+behavior</li>
+</ul>
+<p>The final result should look like a smooth “mountain range” of
+savings over time—simple, readable, and ready for interpretation.</p>
 <hr />
-<div id="noaa-usa.gov" class="section level1">
-<h1>NOAA, USA.gov</h1>
-<p>Los siguientes datos provienen del “National Weather sservice” en
-este enlace, <a
-href="https://w2.weather.gov/climate/xmacis.php?wfo=pafc"
-class="uri">https://w2.weather.gov/climate/xmacis.php?wfo=pafc</a></p>
-<ol start="2" style="list-style-type: decimal">
-<li><a href="Data/Anchorage_ALASKA.csv">Anchorage_ALASKA</a></li>
-</ol>
-<hr />
-</div>
-<div id="discovering-statistics-using-r." class="section level1">
-<h1>Discovering Statistics Using R.</h1>
-<p>Los siguientes archivos son de Andy Field, Jeremy Miles and Zoë Field
-son identificado con las siglas “FMF”.</p>
-<p>Lista de archivos de datos</p>
-<ol style="list-style-type: decimal">
-<li><a
-href="Data_files_csv/DownloadFestival.csv">DownloadFestival_FMF.csv</a></li>
-<li><a
-href="Data_files_csv/Alturas_Humanos.csv">Alturas_Humanos.csv</a></li>
-<li><a href="Data_files_csv/Exam%20Anxiety.csv">Exam
-Anxiety_FMF</a></li>
-<li><a href="Data_files_csv/Hiccups.csv">Hiccups_FMF.csv</a></li>
-<li><a
-href="Data_files_csv/DownloadFestival_No_Outlier.csv">DownloadFestival_Outliers_FMF.csv</a></li>
-<li><a href="Data_files_csv/Superhero.csv">Superhero.csv</a></li>
-<li><a href="Data_files_csv/pubs.csv">pubs.csv</a></li>
-</ol>
 <hr />
 </div>
-<div id="archivos-de-rlt" class="section level1">
-<h1>Archivos de RLT</h1>
-<p>Los siguientes datos son de R. L. Tremblay. Estos datos no se pueden
-usar para publicaciones excepto con permiso escrito del autor.</p>
-<ol style="list-style-type: decimal">
-<li><a
-href="Data_files_csv/Lepanthes_eltoroensis_Georges_STUDENT.csv">Lepanthes_eltoroensis.csv</a></li>
-<li><a
-href="Data_files_csv/Lep_rupPetal_All_Data.csv">Lepanthes_rupripetala.csv</a></li>
-<li><a
-href="Data_files_csv/Lepanthes_eltoroensis_Georges_STUDENT.csv">Lepanthes</a></li>
-<li><a
-href="Data_files_csv/Efecto_Huracan_Maria_Student_DATA.csv">Anxiedad y
-Huracan Maria</a></li>
-<li><a href="Data_files_csv/Student_Brassavola.csv">Brassavola
-Orquidea</a></li>
-</ol>
+</div>
+<div id="biological-example-chick-weight-distributions-by-diet"
+class="section level1">
+<h1>2. Biological Example: Chick Weight Distributions by Diet</h1>
+<p>Imagine you are a young researcher in an animal physiology lab
+studying how diet influences growth in juvenile chickens. The lab ran a
+controlled experiment where newly hatched chicks were randomly assigned
+to four different diets. Each chick was weighed repeatedly as it grew.
+Your supervisor tells you:</p>
+<p>“Before we analyze individual growth curves, let’s get a quick sense
+of the overall weight distribution for each diet. Use density curves —
+they’re smooth, intuitive, and perfect for comparing population‑level
+differences.”</p>
+<p>You open the R datasets and find the built‑in
+<code>ChickWeight</code> data frame in the <code>dataset</code> package.
+It contains:</p>
+<div id="your-mission-1" class="section level3">
+<h3><strong>Your Mission</strong></h3>
+<ul>
+<li><p>weight: body weight in grams</p></li>
+<li><p>Time: age (days since birth)</p></li>
+<li><p>Chick: individual ID</p></li>
+<li><p>Diet — diet treatment (1, 2, 3, or 4)</p></li>
+</ul>
+</div>
+<div id="your-mission-2" class="section level3">
+<h3><strong>Your Mission</strong></h3>
+<p>Since weight is a continuous variable and Diet is categorical, this
+is an ideal biological dataset for density plots. Your supervisor wants
+you to produce a visualization that:</p>
+<p>Compares weight distributions between diets. Uses overlaid density
+curves, each with a different color. Uses transparency so overlapping
+regions remain visible. Helps determine whether certain diets tend to
+produce heavier or lighter chicks.</p>
+<ul>
+<li>Generate a density plot where the area is <strong>not
+filled</strong>:</li>
+</ul>
+</div>
+<div id="expected-output-description-1" class="section level2">
+<h2>✔️ Expected Output (description)</h2>
+<p>Each diet has a different colored curve. - All curves are overlaid on
+the same axes.</p>
+<p>- X‑axis = chick weight</p>
+<p>- Y‑axis = density</p>
+<p>- Plot shows how the overall weight distribution differs across diets
+(e.g., Diet 3 tends to produce heavier chicks).</p>
+<p>The final plot should visually communicate growth differences without
+requiring statistical modeling.</p>
+<hr />
 <hr />
 </div>
-<div id="crimenes-en-puerto-rico" class="section level1">
-<h1>Crimenes en PUERTO RICO</h1>
-<p>Los siguientes datos probienen de la base de datos de la Policia de
-Puerto Rico</p>
-<ol start="4" style="list-style-type: decimal">
-<li><a href="Data/crimen_pr.csv">Crimenes en Puerto Rico</a></li>
-</ol>
-<hr />
 </div>
-<div id="descargo-de-responsabilidad" class="section level1">
-<h1>Descargo de responsabilidad</h1>
-<p>Los datos siguientes son archivos públicos disponible en el web. En
-ningún momento uno se responsabiliza de la calidad de los datos. Los
-datos en este curso son para fin de entender el proceso de hacer
-gráficos de calidad. En cada archivo se pone el enlace donde se
-consiguió la información. No hay garantiza que estos enlaces sean
-activos en el futuro.</p>
-<p>Los archivos son de diferentes fuentes. Muchos están disponible en
-enlaces públicos.</p>
+<div id="exercise-density-with-explicit-gaussian-kernel"
+class="section level1">
+<h1>3. 🦷 Exercise — Density with Explicit Gaussian Kernel</h1>
+<p><strong>Dataset</strong>: ToothGrowth <strong>Goal</strong>: Compare
+tooth length distributions across supplement types using
+geom_density(kernel = “gaussian”) and discuss bandwidth effects.</p>
+<div id="story-setup" class="section level2">
+<h2>Story setup</h2>
+<p>You’re assisting in a nutrition/physiology lab testing whether
+vitamin C delivery method changes tooth growth in guinea pigs. Animals
+received vitamin C as either orange juice (OJ) or ascorbic acid (VC) at
+different doses. You want a quick, smooth comparison of tooth length
+(len) across supplement types to see if one tends to yield longer
+teeth.</p>
+<div
+id="what-students-should-produce-that-generates-do-one-of-these-alternatives"
+class="section level3">
+<h3>What students should produce that generates: DO ONE OF THESE
+ALTERNATIVES</h3>
+</div>
+</div>
+<div id="expected-output-description-2" class="section level2">
+<h2>✔️ Expected Output (description)</h2>
+</div>
+<div id="built-in-biological-dataset" class="section level2">
+<h2>Built-in biological dataset</h2>
+<p>data(“ToothGrowth”)</p>
+<p><strong>Variables</strong>:</p>
+<p>- len = tooth length (numeric, continuous)</p>
+<p>- supp = supplement type (“OJ” orange juice, “VC” ascorbic acid)</p>
+<p>- dose = dose level (0.5, 1, 2 mg)</p>
+<ul>
+<li>An overlaid density plot of <strong>len</strong> by
+<strong>supp</strong>, using kernel = “gaussian”.</li>
+<li>A plot showing how bandwidth (via adjust) changes the
+smoothness/interpretation.</li>
+</ul>
+</div>
 </div>
 
 
 
-</div>
-</div>
 
 </div>
 
@@ -630,35 +644,6 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
-<script>
-$(document).ready(function ()  {
-
-    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
-    $('.unlisted.unnumbered').addClass('toc-ignore')
-
-    // move toc-ignore selectors from section div to header
-    $('div.section.toc-ignore')
-        .removeClass('toc-ignore')
-        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
-
-    // establish options
-    var options = {
-      selectors: "h1,h2,h3",
-      theme: "bootstrap3",
-      context: '.toc-content',
-      hashGenerator: function (text) {
-        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
-      },
-      ignoreSelector: ".toc-ignore",
-      scrollTo: 0
-    };
-    options.showAndHide = true;
-    options.smoothScroll = true;
-
-    // tocify
-    var toc = $("#TOC").tocify(options).data("toc-tocify");
-});
-</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>

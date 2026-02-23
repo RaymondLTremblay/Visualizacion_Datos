@@ -36,22 +36,19 @@ library(janitor)
 
 # Histogramas con geom_histogram
 
-Un histograma es una representación gráfica de los datos agrupados en compartimentos o *bins*.  Estos compartimentos incluyen individuos con factores o agrupaciones de valores similares  o cercanos numéricamente. Subsiguiente a la determinación de los compartimentos, se suma la cantidad de observaciones para cada uno de ellos. Un histograma es un tipo de gráfico muy común para visualizar la dispersión de esos datos. Continuaremos con el ejemplo de *Dipodium* para demostrar la función de **geom_histogram** a continuación.
-
-En el primer caso de **geom_histogram** la cantidad de observaciones (datos) se suma de acuerdo a la posición de los compartimentos o *bins*.
-
-En el segundo caso, para mostrar menos barras y ver la agrupación por grupos de 2, se escribe con **geom_histogram (binwidth=1)**. Como se puede apreciar, el número de compartimentos se cambia utilizando el parámetro *binwidth*, donde su valor representa el ancho del compartimento (en nuestro caso es igual a 1).  El número de *bins* predeterminado es 30.  Cada barra representa la **frecuencia** de observaciones en la categoría a un metro de distancia.  En ambos casos se usó color=white (o sea, color blanco) para poner una línea blanca alrededor de cada barra y así diferenciar mejor los grupos o *bins*.  Nota que el programa retorna el mensaje **`stat_bin()` using `bins = 30`. Pick better value with `binwidth`**. Esto porque se acepto la cantidad de compartimiento prederminado.  
- 
-## Calcular el intervalo de los bins
-
-Para calcular el intervalo de los bins se usa la siguiente fórmula: 
+Un histograma es una representación gráfica de datos agrupados en compartimentos o bins. Estos compartimentos incluyen individuos cuyos valores son similares o numéricamente cercanos. Una vez definidos los compartimentos, se suma la cantidad de observaciones que cae dentro de cada uno de ellos. El histograma es un tipo de gráfico muy común para visualizar la dispersión y la distribución de los datos.
+Continuaremos con el ejemplo de Dipodium para demostrar la función geom_histogram a continuación.
+En el primer caso de geom_histogram, la cantidad de observaciones (datos) se agrupa y se suma según la posición de los compartimentos o bins.
+En el segundo caso, para mostrar menos barras y observar mejor la agrupación en intervalos de tamaño 2, se utiliza geom_histogram(binwidth = 1). Como se puede apreciar, el número de compartimentos cambia al utilizar el parámetro binwidth, cuyo valor representa el ancho de cada compartimento (en este caso igual a 1). El número predeterminado de bins es 30.
+Cada barra representa la frecuencia de observaciones en cada categoría a un metro de distancia. En ambos casos se utilizó color = "white" (color blanco) para dibujar una línea alrededor de cada barra y así diferenciar mejor los grupos o bins.
+Nota que el programa retorna el mensaje:
 
 
 
 $$\text{binwidth} = \frac{\text{max}(\text{data}) - \text{min}(\text{data})}{\text{bins}}$$
-Nota que el valor de **bins** es 30 por defecto, pero se puede cambiar a su conveniencia con el parámetro **binwidth**. 
+Nota que el valor predeterminado de bins es 30, pero se puede modificar según sea necesario utilizando el parámetro binwidth.
 
-Hacemos un ejercicio a mano para calcular el intervalo de los bins con un dataset al azar, de una distribución normal con media de 10 y desviación estándar de 2. 
+Ahora haremos un ejercicio a mano para calcular el intervalo de los bins utilizando un conjunto de datos generado al azar, proveniente de una distribución normal con media 10 y desviación estándar 2.
 
 ```{r}
 set.seed(1234) ## usar la misma semilla para reproducibilidad
@@ -69,7 +66,7 @@ max(datos) # valor máximo
 ```
 
 
-Usamos la formula anterior para calcular el intervalo de los *bins*, y queremos 10 bins
+Usamos la formula anterior para calcular el intervalo de los *bins*. para tener 10 bins dividimos la diferencia entre el maximo y el mínimo por 10.
 
 
 ```{r}
@@ -82,11 +79,16 @@ Ahora calculamos los *bins* con la función **cut** para ver la frecuencia de lo
 
 Que quiere decir la parentesis y el corchete en los bins?
 
- - (a,b] significa que el bin incluye el valor a pero no el valor b
- 
- - [a,b] significa que el bin incluye el valor a y el valor b
- - (a,b) significa que el bin no incluye el valor a ni el valor b
- - [a,b) significa que el bin incluye el valor a pero no el valor b
+- (a, b] significa que el bin *no incluye* el valor **a**, pero sí incluye el valor b.
+
+
+- [a, b] significa que el bin incluye tanto el valor a como el valor b.
+
+
+- (a, b) significa que el bin *no incluye* ni el valor **a** ni el valor **b**.
+
+
+- [a, b) significa que el bin incluye el valor a, pero *no incluye* el valor **b**.
  
 
 
@@ -99,7 +101,16 @@ levels(bins) # los niveles de los bins
 
 ## Histograma de la distancia de la orquidea focal al arbol más cercano
 
-En el siguiente histograma, se muestra la distancia de las orquídeas *Dipodium roseum* a los árboles más cercanos.  Este histograma se hizo con la base de datos **dipodium** que se encuentra en el paquete **ggversa**.  Se puede ver que la mayoría de las orquídeas están a menos de 5 metros de los árboles más cercanos.  La función **geom_histogram** se usa para hacer el histograma.  Se puede ver que la función **geom_histogram** tiene varios parámetros que se pueden modificar para cambiar la apariencia del histograma.  En este caso, se cambió el color de las barras a azul y el color de la línea alrededor de las barras a blanco.  También se cambiaron los nombres de los ejes a español.
+En el siguiente histograma se muestra la distancia de las orquídeas Dipodium roseum al árbol más cercano. Este histograma se generó utilizando la base de datos *dipodium*, disponible en el paquete ggversa.
+Se puede observar que la mayoría de las orquídeas se encuentran a menos de 5 metros de los árboles más cercanos. El histograma se construyó mediante la función geom_histogram, la cual permite visualizar la distribución de frecuencias de una variable continua.
+
+La función geom_histogram contiene varios parámetros que se pueden modificar para ajustar la apariencia del gráfico. En este caso:
+
+- Se cambió el color de las barras a azul.
+- Se definió el color de la línea de borde como blanco para separar visualmente los bins.
+- Se modificaron los nombres de los ejes para presentarlos en español.
+
+Estos ajustes permiten mejorar la claridad del gráfico y facilitar su interpretación. Si deseas, también puedo corregir o mejorar la descripción del código que acompaña este texto.
 
 ```{r dipodium-histograma, echo=TRUE, warning=FALSE}
 
@@ -124,7 +135,17 @@ a+geom_histogram(color="white", fill="blue")+
 
 # Cambio del tamaño de los compartimiento con *binwidth*
 
-Este histograma demuestra las distancias de las orquídeas *Dipodium roseum* a los árboles más cercanos. Esta especie de orquídea es parasítica de hongos/micorrizas y no produce fotosíntesis.  La hipótesis es que las micorrizas, **hongos**, reciben nutrientes de las raíces de los árboles y los nutrientes son transferidos a las orquídeas a través de las micorrizas. A consecuencia, se debería hipotéticamente observar una distancia óptima de la orquídea a los árboles que sostienen las micorrizas si la hipótesis tiene alguna veracidad.  Como se explicó antes, en el segundo gráfico, se cambió el binwidth a 1, que representa en este caso la distancia de 1 metro, y los **bins** van de -.5 a .5 m., el segundo **bin** de >0.5 a 1.5 metros y así sucesivamente.
+Este histograma muestra las distancias entre las orquídeas Dipodium roseum y los árboles más cercanos. Esta especie es una orquídea mioheterótrofa obligada, dependiente de hongos micorrícicos para obtener carbono y otros nutrientes, ya que no realiza fotosíntesis.
+
+La hipótesis ecológica subyacente es que las micorrizas —los hongos simbiontes— reciben nutrientes de las raíces de los árboles hospedadores, y esos nutrientes son posteriormente transferidos a las orquídeas a través de las redes micorrícicas. En consecuencia, si esta relación es fuerte, se esperaría observar una distancia óptima entre las orquídeas y los árboles proveedores de recursos. Una distribución muy alejada de los árboles podría indicar menor probabilidad de establecer la relación micorrícica, mientras que distancias demasiado cercanas podrían no ser ecológicamente viables por competencia u otros factores.
+
+En el segundo gráfico, se modificó el parámetro binwidth a 1, lo cual representa un intervalo de 1 metro. Con este ajuste:
+
+ - El primer bin abarca aproximadamente desde –0.5 hasta 0.5 metros.
+ - El segundo bin representa el intervalo >0.5 a 1.5 metros.
+ - Los intervalos continúan de manera equivalente (por ejemplo, 1.5–2.5 m, 2.5–3.5 m, etc.).
+
+Estos cambios permiten visualizar con mayor claridad la agrupación de distancias en unidades ecológicamente significativas, facilitando la interpretación de cómo se distribuyen las orquídeas en relación con sus posibles árboles hospedadores.
 
 ```{r num1, warning=FALSE}
 
@@ -237,7 +258,7 @@ a+geom_histogram(stat="bin", alpha=0.5)+
   scale_x_continuous(breaks=c(1:15))+
   scale_color_manual(values=c("black", "black"))+
   theme(axis.title.x=element_text(angle=180))+  # NOTE the x legend text 
-  theme(axis.text.x=element_text(size=8, angle=90))
+  theme(axis.text.x=element_text(size=8, angle=45))
 
 ```
 

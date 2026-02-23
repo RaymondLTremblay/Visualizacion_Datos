@@ -602,7 +602,7 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2026-02-17&quot;</code></pre>
+<pre><code>## [1] &quot;2026-02-23&quot;</code></pre>
 <p><img src="Graficos/hex_ggversa.png" alt="" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" alt="" width="20%" /></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(ggversa)</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
@@ -610,43 +610,33 @@ div.tocify {
 <hr />
 <div id="histogramas-con-geom_histogram" class="section level1">
 <h1>Histogramas con geom_histogram</h1>
-<p>Un histograma es una representación gráfica de los datos agrupados en
-compartimentos o <em>bins</em>. Estos compartimentos incluyen individuos
-con factores o agrupaciones de valores similares o cercanos
-numéricamente. Subsiguiente a la determinación de los compartimentos, se
-suma la cantidad de observaciones para cada uno de ellos. Un histograma
-es un tipo de gráfico muy común para visualizar la dispersión de esos
-datos. Continuaremos con el ejemplo de <em>Dipodium</em> para demostrar
-la función de <strong>geom_histogram</strong> a continuación.</p>
-<p>En el primer caso de <strong>geom_histogram</strong> la cantidad de
-observaciones (datos) se suma de acuerdo a la posición de los
-compartimentos o <em>bins</em>.</p>
-<p>En el segundo caso, para mostrar menos barras y ver la agrupación por
-grupos de 2, se escribe con <strong>geom_histogram
-(binwidth=1)</strong>. Como se puede apreciar, el número de
-compartimentos se cambia utilizando el parámetro <em>binwidth</em>,
-donde su valor representa el ancho del compartimento (en nuestro caso es
-igual a 1). El número de <em>bins</em> predeterminado es 30. Cada barra
-representa la <strong>frecuencia</strong> de observaciones en la
-categoría a un metro de distancia. En ambos casos se usó color=white (o
-sea, color blanco) para poner una línea blanca alrededor de cada barra y
-así diferenciar mejor los grupos o <em>bins</em>. Nota que el programa
-retorna el mensaje <strong><code>stat_bin()</code> using
-<code>bins = 30</code>. Pick better value with
-<code>binwidth</code></strong>. Esto porque se acepto la cantidad de
-compartimiento prederminado.</p>
-<div id="calcular-el-intervalo-de-los-bins" class="section level2">
-<h2>Calcular el intervalo de los bins</h2>
-<p>Para calcular el intervalo de los bins se usa la siguiente
-fórmula:</p>
+<p>Un histograma es una representación gráfica de datos agrupados en
+compartimentos o bins. Estos compartimentos incluyen individuos cuyos
+valores son similares o numéricamente cercanos. Una vez definidos los
+compartimentos, se suma la cantidad de observaciones que cae dentro de
+cada uno de ellos. El histograma es un tipo de gráfico muy común para
+visualizar la dispersión y la distribución de los datos. Continuaremos
+con el ejemplo de Dipodium para demostrar la función geom_histogram a
+continuación. En el primer caso de geom_histogram, la cantidad de
+observaciones (datos) se agrupa y se suma según la posición de los
+compartimentos o bins. En el segundo caso, para mostrar menos barras y
+observar mejor la agrupación en intervalos de tamaño 2, se utiliza
+geom_histogram(binwidth = 1). Como se puede apreciar, el número de
+compartimentos cambia al utilizar el parámetro binwidth, cuyo valor
+representa el ancho de cada compartimento (en este caso igual a 1). El
+número predeterminado de bins es 30. Cada barra representa la frecuencia
+de observaciones en cada categoría a un metro de distancia. En ambos
+casos se utilizó color = “white” (color blanco) para dibujar una línea
+alrededor de cada barra y así diferenciar mejor los grupos o bins. Nota
+que el programa retorna el mensaje:</p>
 <p><span class="math display">\[\text{binwidth} =
 \frac{\text{max}(\text{data}) -
-\text{min}(\text{data})}{\text{bins}}\]</span> Nota que el valor de
-<strong>bins</strong> es 30 por defecto, pero se puede cambiar a su
-conveniencia con el parámetro <strong>binwidth</strong>.</p>
-<p>Hacemos un ejercicio a mano para calcular el intervalo de los bins
-con un dataset al azar, de una distribución normal con media de 10 y
-desviación estándar de 2.</p>
+\text{min}(\text{data})}{\text{bins}}\]</span> Nota que el valor
+predeterminado de bins es 30, pero se puede modificar según sea
+necesario utilizando el parámetro binwidth.</p>
+<p>Ahora haremos un ejercicio a mano para calcular el intervalo de los
+bins utilizando un conjunto de datos generado al azar, proveniente de
+una distribución normal con media 10 y desviación estándar 2.</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">1234</span>) <span class="do">## usar la misma semilla para reproducibilidad</span></span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a></span>
 <span id="cb3-3"><a href="#cb3-3" tabindex="-1"></a>datos<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">100</span>, <span class="at">mean=</span><span class="dv">10</span>, <span class="at">sd=</span><span class="dv">2</span>)</span>
@@ -673,7 +663,8 @@ desviación estándar de 2.</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">max</span>(datos) <span class="co"># valor máximo</span></span></code></pre></div>
 <pre><code>## [1] 15.09798</code></pre>
 <p>Usamos la formula anterior para calcular el intervalo de los
-<em>bins</em>, y queremos 10 bins</p>
+<em>bins</em>. para tener 10 bins dividimos la diferencia entre el
+maximo y el mínimo por 10.</p>
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>binwidth<span class="ot">=</span>(<span class="fu">max</span>(datos)<span class="sc">-</span><span class="fu">min</span>(datos))<span class="sc">/</span><span class="dv">10</span></span>
 <span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a></span>
 <span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>binwidth</span></code></pre></div>
@@ -683,37 +674,44 @@ desviación estándar de 2.</p>
 bin.</p>
 <p>Que quiere decir la parentesis y el corchete en los bins?</p>
 <ul>
-<li><p>(a,b] significa que el bin incluye el valor a pero no el valor
-b</p></li>
-<li><p>[a,b] significa que el bin incluye el valor a y el valor
-b</p></li>
-<li><p>(a,b) significa que el bin no incluye el valor a ni el valor
-b</p></li>
-<li><p>[a,b) significa que el bin incluye el valor a pero no el valor
-b</p></li>
+<li><p>(a, b] significa que el bin <em>no incluye</em> el valor
+<strong>a</strong>, pero sí incluye el valor b.</p></li>
+<li><p>[a, b] significa que el bin incluye tanto el valor a como el
+valor b.</p></li>
+<li><p>(a, b) significa que el bin <em>no incluye</em> ni el valor
+<strong>a</strong> ni el valor <strong>b</strong>.</p></li>
+<li><p>[a, b) significa que el bin incluye el valor a, pero <em>no
+incluye</em> el valor <strong>b</strong>.</p></li>
 </ul>
 <div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>bins<span class="ot">=</span><span class="fu">cut</span>(datos, <span class="at">breaks=</span><span class="fu">seq</span>(<span class="fu">min</span>(datos), <span class="fu">max</span>(datos), binwidth), <span class="at">right=</span><span class="cn">TRUE</span>)</span>
 <span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a><span class="co">#bins # cada valor y en cual bin estará </span></span>
 <span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a><span class="fu">levels</span>(bins) <span class="co"># los niveles de los bins</span></span></code></pre></div>
 <pre><code>##  [1] &quot;(5.31,6.29]&quot; &quot;(6.29,7.27]&quot; &quot;(7.27,8.25]&quot; &quot;(8.25,9.22]&quot; &quot;(9.22,10.2]&quot;
 ##  [6] &quot;(10.2,11.2]&quot; &quot;(11.2,12.2]&quot; &quot;(12.2,13.1]&quot; &quot;(13.1,14.1]&quot; &quot;(14.1,15.1]&quot;</code></pre>
-</div>
 <div
 id="histograma-de-la-distancia-de-la-orquidea-focal-al-arbol-más-cercano"
 class="section level2">
 <h2>Histograma de la distancia de la orquidea focal al arbol más
 cercano</h2>
-<p>En el siguiente histograma, se muestra la distancia de las orquídeas
-<em>Dipodium roseum</em> a los árboles más cercanos. Este histograma se
-hizo con la base de datos <strong>dipodium</strong> que se encuentra en
-el paquete <strong>ggversa</strong>. Se puede ver que la mayoría de las
-orquídeas están a menos de 5 metros de los árboles más cercanos. La
-función <strong>geom_histogram</strong> se usa para hacer el histograma.
-Se puede ver que la función <strong>geom_histogram</strong> tiene varios
-parámetros que se pueden modificar para cambiar la apariencia del
-histograma. En este caso, se cambió el color de las barras a azul y el
-color de la línea alrededor de las barras a blanco. También se cambiaron
-los nombres de los ejes a español.</p>
+<p>En el siguiente histograma se muestra la distancia de las orquídeas
+Dipodium roseum al árbol más cercano. Este histograma se generó
+utilizando la base de datos <em>dipodium</em>, disponible en el paquete
+ggversa. Se puede observar que la mayoría de las orquídeas se encuentran
+a menos de 5 metros de los árboles más cercanos. El histograma se
+construyó mediante la función geom_histogram, la cual permite visualizar
+la distribución de frecuencias de una variable continua.</p>
+<p>La función geom_histogram contiene varios parámetros que se pueden
+modificar para ajustar la apariencia del gráfico. En este caso:</p>
+<ul>
+<li>Se cambió el color de las barras a azul.</li>
+<li>Se definió el color de la línea de borde como blanco para separar
+visualmente los bins.</li>
+<li>Se modificaron los nombres de los ejes para presentarlos en
+español.</li>
+</ul>
+<p>Estos ajustes permiten mejorar la claridad del gráfico y facilitar su
+interpretación. Si deseas, también puedo corregir o mejorar la
+descripción del código que acompaña este texto.</p>
 <div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
 <span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a><span class="fu">library</span>(ggversa)</span>
 <span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>DW<span class="ot">=</span><span class="fu">clean_names</span>(dipodium) <span class="co"># este archivo de datos se encuentra en el paquete &quot;ggversa&quot;</span></span>
@@ -1351,18 +1349,33 @@ los nombres de los ejes a español.</p>
 <div id="cambio-del-tamaño-de-los-compartimiento-con-binwidth"
 class="section level1">
 <h1>Cambio del tamaño de los compartimiento con <em>binwidth</em></h1>
-<p>Este histograma demuestra las distancias de las orquídeas
-<em>Dipodium roseum</em> a los árboles más cercanos. Esta especie de
-orquídea es parasítica de hongos/micorrizas y no produce fotosíntesis.
-La hipótesis es que las micorrizas, <strong>hongos</strong>, reciben
-nutrientes de las raíces de los árboles y los nutrientes son
-transferidos a las orquídeas a través de las micorrizas. A consecuencia,
-se debería hipotéticamente observar una distancia óptima de la orquídea
-a los árboles que sostienen las micorrizas si la hipótesis tiene alguna
-veracidad. Como se explicó antes, en el segundo gráfico, se cambió el
-binwidth a 1, que representa en este caso la distancia de 1 metro, y los
-<strong>bins</strong> van de -.5 a .5 m., el segundo
-<strong>bin</strong> de &gt;0.5 a 1.5 metros y así sucesivamente.</p>
+<p>Este histograma muestra las distancias entre las orquídeas Dipodium
+roseum y los árboles más cercanos. Esta especie es una orquídea
+mioheterótrofa obligada, dependiente de hongos micorrícicos para obtener
+carbono y otros nutrientes, ya que no realiza fotosíntesis.</p>
+<p>La hipótesis ecológica subyacente es que las micorrizas —los hongos
+simbiontes— reciben nutrientes de las raíces de los árboles
+hospedadores, y esos nutrientes son posteriormente transferidos a las
+orquídeas a través de las redes micorrícicas. En consecuencia, si esta
+relación es fuerte, se esperaría observar una distancia óptima entre las
+orquídeas y los árboles proveedores de recursos. Una distribución muy
+alejada de los árboles podría indicar menor probabilidad de establecer
+la relación micorrícica, mientras que distancias demasiado cercanas
+podrían no ser ecológicamente viables por competencia u otros
+factores.</p>
+<p>En el segundo gráfico, se modificó el parámetro binwidth a 1, lo cual
+representa un intervalo de 1 metro. Con este ajuste:</p>
+<ul>
+<li>El primer bin abarca aproximadamente desde –0.5 hasta 0.5
+metros.</li>
+<li>El segundo bin representa el intervalo &gt;0.5 a 1.5 metros.</li>
+<li>Los intervalos continúan de manera equivalente (por ejemplo, 1.5–2.5
+m, 2.5–3.5 m, etc.).</li>
+</ul>
+<p>Estos cambios permiten visualizar con mayor claridad la agrupación de
+distancias en unidades ecológicamente significativas, facilitando la
+interpretación de cómo se distribuyen las orquídeas en relación con sus
+posibles árboles hospedadores.</p>
 <div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">length</span>(DW<span class="sc">$</span>distance)</span></code></pre></div>
 <pre><code>## [1] 1365</code></pre>
 <div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a>a<span class="ot">=</span><span class="fu">ggplot</span>(DW, <span class="fu">aes</span>(distance))</span>
@@ -1996,7 +2009,7 @@ cambiamos a negro o <strong>black</strong>.</p>
 <span id="cb33-10"><a href="#cb33-10" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks=</span><span class="fu">c</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">15</span>))<span class="sc">+</span></span>
 <span id="cb33-11"><a href="#cb33-11" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;black&quot;</span>, <span class="st">&quot;black&quot;</span>))<span class="sc">+</span></span>
 <span id="cb33-12"><a href="#cb33-12" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.x=</span><span class="fu">element_text</span>(<span class="at">angle=</span><span class="dv">180</span>))<span class="sc">+</span>  <span class="co"># </span><span class="al">NOTE</span><span class="co"> the x legend text </span></span>
-<span id="cb33-13"><a href="#cb33-13" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>, <span class="at">angle=</span><span class="dv">90</span>))</span></code></pre></div>
+<span id="cb33-13"><a href="#cb33-13" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>, <span class="at">angle=</span><span class="dv">45</span>))</span></code></pre></div>
 <pre><code>## `stat_bin()` using `bins = 30`. Pick better value `binwidth`.</code></pre>
 <p><img src="G6_geom_histogram_files/figure-html/dipodium-histogram3-1.png" alt="" width="672" /></p>
 <hr />

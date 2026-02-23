@@ -1,0 +1,224 @@
+---
+title: "Ejerc_4b_geom_area_density"
+author: "Raymond_L_Tremblay"
+date: "2026-02-23"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, message=FALSE, warning=FALSE}
+library(ggplot2)
+library(dplyr)
+```
+
+## Cada Pregunta vale 5 puntos.  
+
+------------------------------------------------------------------------
+
+# 
+
+# 1. Economic Example: Personal Savings Rate Over Time
+
+Imagine you are a data analyst working for a small team within the **U.S. Bureau of Economic Analysis (BEA)**. Your group monitors long‑term financial trends to help economists and policy makers understand how Americans save money over time. One of the most important indicators your team studies is the **personal savings rate**—the percentage of personal income that individuals save rather than spend.
+
+Your supervisor tells you:
+
+> “We need a clear visual showing how the U.S. personal savings rate has changed over the years. Something intuitive, something that shows *flow* over time. Use one of the standard datasets we keep for training—look for the `economics` dataset inside the **ggplot2** package.”
+
+You lookup the data and confirm that **`economics`** is a built‑in dataset that ships automatically with **ggplot2**. It contains monthly U.S. economic indicators collected from the Federal Reserve Bank of St. Louis (FRED), including:
+
+-   `date` — monthly date values
+
+-   `psavert` — *personal savings rate (%)*
+
+-   `pce`, `unemploy`, `uempmed`, etc. (other variables you won’t need right now)
+
+For your first task, your supervisor wants something simple but polished:
+
+### **Your Mission**
+
+Create a **filled area chart** showing how the personal savings rate (`psavert`) changes over time (`date`).
+
+Specifically, you are expected to:
+
+1.  Use **`geom_area()`** to draw the filled shape beneath the curve.
+
+2.  Make sure the plot has clear axis labels and an informative title.
+
+3.  Use a fill color with soft transparency so the shape feels like “economic volume” changing through time.
+
+4.  Produce a figure that one could show to a policymaker and expect them to understand at a glance.
+
+------------------------------------------------------------------------
+
+## ✔️ Expected Output (description)
+
+Students should produce a plot that shows:
+
+-   **The x‑axis**: dates from the late 1960s to present
+
+-   **The y‑axis**: % personal savings rate
+
+-   **A filled area** under the curve
+
+-   **A gentle color and light transparency**
+
+*BONOS: add a horizontal dashed line at the median savings rate to provide a reference point for viewers.*
+
+-   An overall impression of long‑term trends in U.S. saving behavior
+
+The final result should look like a smooth “mountain range” of savings over time—simple, readable, and ready for interpretation.
+
+```{r, eval=FALSE, echo=FALSE}
+med <- median(economics$psavert, na.rm = TRUE)
+
+ggplot(economics, aes(x = date, y = psavert)) +
+  geom_area(fill = "#2C7FB8", alpha = 0.6, color = NA) +
+  geom_hline(yintercept = med, linetype = "dashed", color = "gray40") +
+  labs(title = "US Personal Savings Rate Over Time",
+       y = "Personal savings rate (%)", x = NULL,
+       caption = "Source: ggplot2::economics") +
+  theme_minimal(base_size = 12)
+```
+
+------------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
+# 2. Biological Example: Chick Weight Distributions by Diet
+
+Imagine you are a young researcher in an animal physiology lab studying how diet influences growth in juvenile chickens. The lab ran a controlled experiment where newly hatched chicks were randomly assigned to four different diets. Each chick was weighed repeatedly as it grew. Your supervisor tells you:
+
+“Before we analyze individual growth curves, let’s get a quick sense of the overall weight distribution for each diet. Use density curves — they're smooth, intuitive, and perfect for comparing population‑level differences.”
+
+You open the R datasets and find the built‑in `ChickWeight` data frame in the `dataset` package. It contains:
+
+### **Your Mission**
+
+-   weight: body weight in grams
+
+-   Time: age (days since birth)
+
+-   Chick: individual ID
+
+-   Diet — diet treatment (1, 2, 3, or 4)
+
+### **Your Mission**
+
+Since weight is a continuous variable and Diet is categorical, this is an ideal biological dataset for density plots. Your supervisor wants you to produce a visualization that:
+
+Compares weight distributions between diets. Uses overlaid density curves, each with a different color. Uses transparency so overlapping regions remain visible. Helps determine whether certain diets tend to produce heavier or lighter chicks.
+
+-   Generate a density plot where the area is **not filled**:
+
+## ✔️ Expected Output (description)
+
+Each diet has a different colored curve. - All curves are overlaid on the same axes.
+
+\- X‑axis = chick weight
+
+\- Y‑axis = density
+
+\- Plot shows how the overall weight distribution differs across diets (e.g., Diet 3 tends to produce heavier chicks).
+
+The final plot should visually communicate growth differences without requiring statistical modeling.
+
+```{r, eval=FALSE, echo=FALSE}
+library(ggplot2)
+
+ggplot(ChickWeight, aes(x = weight, color = Diet)) +
+  geom_density(linewidth = 1, alpha = 0.7) +
+  scale_color_brewer(palette = "Dark2") +
+  labs(
+    title = "Distribution of Chick Weights by Diet Treatment",
+    x = "Chick weight (g)",
+    y = "Density",
+    color = "Diet"
+  ) +
+  theme_minimal(base_size = 12)
+```
+
+------------------------------------------------------------------------
+
+------------------------------------------------------------------------
+
+# 3. 🦷 Exercise — Density with Explicit Gaussian Kernel
+
+**Dataset**: ToothGrowth **Goal**: Compare tooth length distributions across supplement types using geom_density(kernel = "gaussian") and discuss bandwidth effects.
+
+## Story setup
+
+You’re assisting in a nutrition/physiology lab testing whether vitamin C delivery method changes tooth growth in guinea pigs. Animals received vitamin C as either orange juice (OJ) or ascorbic acid (VC) at different doses. You want a quick, smooth comparison of tooth length (len) across supplement types to see if one tends to yield longer teeth.
+
+### What students should produce that generates: DO ONE OF THESE ALTERNATIVES
+
+## ✔️ Expected Output (description)
+
+## Built-in biological dataset
+
+data("ToothGrowth")
+
+**Variables**:
+
+\- len = tooth length (numeric, continuous)
+
+\- supp = supplement type ("OJ" orange juice, "VC" ascorbic acid)
+
+\- dose = dose level (0.5, 1, 2 mg)
+
+-   An overlaid density plot of **len** by **supp**, using kernel = "gaussian".
+-   A plot showing how bandwidth (via adjust) changes the smoothness/interpretation.
+
+```{r, eval=FALSE, echo=FALSE}
+library(ggplot2)
+
+# Built-in biological dataset
+data("ToothGrowth")
+# Variables:
+#   len  = tooth length (numeric, continuous)
+#   supp = supplement type ("OJ" orange juice, "VC" ascorbic acid)
+#   dose = dose level (0.5, 1, 2 mg)
+
+# 1) Overlaid densities by supplement with explicit Gaussian kernel
+ggplot(ToothGrowth, aes(x = len, color = supp)) +
+  geom_density(kernel = "gaussian", linewidth = 1.1, alpha = 0.9) +
+  scale_color_brewer(palette = "Dark2") +
+  labs(
+    title = "Tooth Length by Supplement Type",
+    subtitle = "Kernel density with explicit Gaussian kernel",
+    x = "Tooth length (mm)",
+    y = "Density",
+    color = "Supplement"
+  ) +
+  theme_minimal(base_size = 12)
+
+# 2) Show bandwidth sensitivity (narrower vs wider smoothing)
+p_narrow <- ggplot(ToothGrowth, aes(len, color = supp)) +
+  geom_density(kernel = "gaussian", adjust = 0.6, linewidth = 1.1) +
+  scale_color_brewer(palette = "Dark2") +
+  labs(title = "Bandwidth: adjust = 0.6 (more wiggles)", x = "Tooth length", y = "Density") +
+  theme_minimal(12)
+
+p_wide <- ggplot(ToothGrowth, aes(len, color = supp)) +
+  geom_density(kernel = "gaussian", adjust = 1.6, linewidth = 1.1) +
+  scale_color_brewer(palette = "Dark2") +
+  labs(title = "Bandwidth: adjust = 1.6 (smoother)", x = "Tooth length", y = "Density") +
+  theme_minimal(12)
+
+p_narrow
+p_wide
+
+# 3) Optional: Facet by dose to see how dose shifts distributions
+ggplot(ToothGrowth, aes(len, color = supp)) +
+  geom_density(kernel = "gaussian", linewidth = 1.0) +
+  facet_wrap(~ dose, nrow = 1, labeller = label_both) +
+  scale_color_brewer(palette = "Dark2") +
+  labs(
+    title = "Tooth Length Distributions by Dose and Supplement",
+    x = "Tooth length (mm)", y = "Density"
+  ) +
+  theme_minimal(12)
+```

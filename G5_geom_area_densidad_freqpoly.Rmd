@@ -40,7 +40,7 @@ library(janitor)
 
 ------------------------------------------------------------------------
 
-# 1. Gráfico de área con **geom_area** 
+# 1. Gráfico de área con **geom_area**
 
 Este gráfico muestra cómo se distribuyen los valores de la variable continua `distance` al agruparlos en intervalos (bins), igual que en un histograma, pero rellenando el área bajo la curva. A diferencia de un histograma clásico, aquí los límites entre bins se suavizan visualmente, creando una representación más fluida de la frecuencia.
 
@@ -59,7 +59,7 @@ DW=clean_names(DW)
 a=ggplot(DW, aes(distance))
 
 a+geom_area(stat="bin", fill="aquamarine", color="black")+
-  labs(x="Distancia (m) al arbol más cercano", y="Frecuencia")+
+  labs(x="Distancia (m) al árbol más cercano", y="Frecuencia")+
   theme(axis.title=element_text(size=10,face="bold"))
 ```
 
@@ -79,11 +79,11 @@ Aquí modificamos varios parámetros estéticos para mostrar cómo `geom_area()`
 
 Resaltar el contorno del área sin que el relleno opaque otros elementos del gráfico. Esto es útil cuando el área se superpone con otros elementos o cuando queremos destacar el patrón general pero sin saturar de color.
 
-```{r dipodium-area2,  echo=TRUE, tidy=FALSE,  warning=FALSE, message=FALSE}
+```{r dipodium-area2,  echo=TRUE, tidy=FALSE,  warning=TRUE, message=TRUE}
 
 a=ggplot(DW, aes(distance))
 a+geom_area(stat="bin", fill="steelblue1",
-            linetype="twodash", color="black", size=0.5, alpha=0.1)+
+            linetype="twodash", color="black", linewidth=0.5, alpha=0.1)+
   labs(x="Distancia", y="Frecuencia")+
   theme(axis.title=element_text(size=10,face="bold"))
 ```
@@ -134,7 +134,7 @@ Este gráfico demuestra que `geom_area` es altamente personalizable incluso para
 
 a=ggplot(DW, aes(distance))
 a+geom_area(stat="bin", fill="steelblue1",
-            linetype="4C88C488", color="orange", size=.4, alpha=0.5)+
+            linetype="4C88C488", color="orange", linewidth=.4, alpha=0.5)+
   labs(x="Distancia", y="Frecuencia")+
   theme(axis.title=element_text(size=10,face="bold"))
 ```
@@ -173,11 +173,11 @@ a=ggplot(Camas_Hospital, aes(Camas, fill=factor(Year)))
 a+geom_area(stat="bin",bins=30, alpha=0.5)+
   xlab("Número de camas por \n cada 1000 habitantes")+
   ylab("Frecuencia")+
-  scale_y_continuous(breaks=c(0,1,2,3, 5:8))+ # Cambio en la escala de eje
-  scale_x_continuous(breaks=c(0:15))+
+  scale_y_continuous(breaks=c(0,2,4, 6:8))+ # Cambio en la escala de eje
+  scale_x_continuous(breaks=c(5:15))+
   theme(axis.title=element_text(size=10,face="bold"))+
   facet_wrap(~Year)+
-  theme(legend.position=c(0.8, 0.8))
+  theme(legend.position=c(0.5, 0.5))
 
 Camas_Hospital %>% 
   group_by(Year) %>% 
@@ -206,8 +206,8 @@ Este cambio es mucho más evidente con una función de densidad que con frecuenc
 
 ```{r dipodium-area5,  echo=TRUE, tidy=FALSE,  warning=FALSE, message=FALSE, fig.align='center'}
 head(Camas_Hospital)
-a=ggplot(Camas_Hospital, aes(Camas, fill=factor(Year)))
-a+geom_area(aes(y=..density..),stat="bin", alpha=0.5)+
+a = ggplot(Camas_Hospital, aes(Camas, fill = factor(Year)))
+a + geom_area(aes(y = after_stat(density)), stat = "bin", alpha = 0.5)
   xlab("Número de camas por cada 1000 habitantes")+
   ylab("Densidad")+
   theme(axis.title=element_text(size=10,face="bold"))
@@ -255,7 +255,7 @@ Note que en el gráfico siguiente se usó el parámetro *alpha=0.4*. Este modifi
 
 a=ggplot(DW, aes(distance))
 a+
-  geom_area(aes(y=..density..),stat="bin", alpha=0.5)+
+  geom_area(aes(y=after_stat(density)),stat="bin", alpha=0.5)+
   geom_density(kernel = c(kernel="gaussian"),
                alpha=0.4, fill="blue")+
   labs(x="Distancia", y="Densidad")+
@@ -266,12 +266,19 @@ a+
 ```
 
 ```{r}
+
+#set.seed(1234)
 x=rnorm(100, 10, 4)
+x
 
 x=data_frame(x)
 
+mean(x$x)
+sd(x$x)
+
+
 a=ggplot(x, aes(x))
-a+geom_area(aes(y=..density..),stat="bin", alpha=0.5)+
+a+geom_area(aes(y=after_stat(density)),stat="bin", alpha=0.5)+
   geom_density(kernel = c(kernel="gaussian"),
                alpha=0.4, fill="blue")+
   labs(x="values", y="Densidad")+
@@ -339,21 +346,61 @@ According to data from Our World in Data, the mean world human height is approxi
 DO a figure of the density distribution of male and female human height and compare with the mean and standard deviation of world data
 
 ```{r}
-male_students=c(170.6, 180, 167.64, 185.93, 177, 177) # height in cm
-male_students
+male_students=c(170.6, 180, 167.64, 185.93, 177,
+                177, 183, 185.4, 164.59, 187.96,
+                203,167.64,177.8, 180.7) # height in cm
+
 male_students=as.data.frame(male_students)
+male_students
 
-
-female_students=c(152.4, 170.68, 167.64, 121.92, 164.59, 152.4, 152.4, 163, 157)  # height in cm
+female_students=c(165.1, 164.6 , 162.6, 165.1,167.64, 
+                  161.5, 160.3, 167.64, 121.92, 164.59,
+                  152.4, 152.4, 163, 157)  # height in cm
 female_students=as.data.frame(female_students)
 female_students
 ```
 
 ```{r}
-ggplot(female_students)+
-  geom_histogram(aes(female_students))
+ggplot(male_students, aes(male_students))+
+  geom_density(kernel = c(kernel="gaussian"),
+               alpha=0.4, fill="grey")+
+  labs(y="Densidad")+
+  theme(axis.title=element_text(size=10,face="bold"))
 
 
+```
+
+JOin the two data frames above to produce a single data frame with the height of all students, and then produce a density graph with the height of all students.
+
+```{r}
+
+
+height <- data.frame(
+  altura=c(male_students, female_students))
+
+height
+```
+
+Rename the colums to male and female
+
+```{r}
+library(tidyverse)
+
+height=height %>% 
+  rename(male= altura.male_students,
+         female = altura.female_students)
+
+height
+```
+
+Now let's produce a density graph with the height of male and female in the same figure
+
+```{r}
+ggplot(height)+
+  geom_density(aes(male), kernel = c(kernel="gaussian"),
+               alpha=0.4, fill="blue")+
+  geom_density(aes(female, kernel = c(kernel="gaussian"),
+               alpha=0.4, fill="pink"))
 ```
 
 ```{r}
