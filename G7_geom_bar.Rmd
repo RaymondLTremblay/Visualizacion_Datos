@@ -37,6 +37,8 @@ colorize <- function(x, color) {
 knitr::include_graphics(c("Graficos/hex_ggversa.png", "Graficos/hex_Visualizacion_Datos.png"))
 ```
 
+## Activar los paquetes
+
 ```{r, bar_2}
 
 #devtools::install_github("EvaMaeRey/flipbookr")
@@ -45,6 +47,11 @@ library(tidyverse) # paquete para manipulación de datos
 library(ggversa) # paquete con datos 
 library(janitor) # paquete para limpiar los nombres de las columnas
 library(gridExtra) # paquete para organizar los gráficos
+```
+
+### Subir los datos
+
+```{r}
 DW=dipodium
 DW=clean_names(DW)
 
@@ -57,21 +64,25 @@ DW
 
 ***
 
+# Cuando usar geom_bar vs geom_histogram
+
+En ggplot2, las funciones `geom_bar()` y `geom_histogram()` permiten representar datos mediante conteos, pero no son intercambiables porque cada una está diseñada para un tipo específico de variable y un modo particular de cálculo. `geom_bar()` se emplea cuando la variable en el eje x es categórica, ya que calcula automáticamente la frecuencia de observaciones por categoría. En contraste, `geom_histogram()` se utiliza para variables continuas, dividiendo el rango de valores en intervalos (bins) y contando cuántas observaciones caen dentro de cada uno para representar la distribución. Además, cuando los conteos o proporciones ya están pre‑calculados, la geometría apropiada es `geom_col()`, que simplemente representa los valores proporcionados. Por ello, la elección entre ambas funciones depende tanto de la naturaleza discreta o continua de la variable como de si los conteos deben ser generados por el gráfico o provienen de un resumen previo.
+
 # Una variable discreta: Gráfico de barras con **geom_bar**
 
-El gráfico de barras es una representación de la frecuencia de ocurrencia de eventos para valores discretos; por ejemplo, sí o no, o valores categóricos. La función **geom_bar** genera un gráfico que tabula la cantidad de veces que ocurre un evento.  La altura de las barras representa el número de observaciones de una categoría discreta representada en el eje de **X**.  
+El gráfico de barras es una herramienta adecuada para representar la frecuencia de ocurrencia de eventos asociados a valores discretos o categóricos, como respuestas “sí/no”, clases taxonómicas, tratamientos experimentales, entre otros. La función geom_bar() genera este tipo de visualización al contar automáticamente cuántas veces aparece cada categoría en el conjunto de datos. La altura de cada barra refleja, por tanto, el número de observaciones correspondientes a la categoría situada en el eje X.
 
-En el siguiente ejemplo, primero removeremos los **NA** del archivo usando **drop_na()**, es el función que excluye todas las filas que contienen los **NA**.  Nuevamente utilizaremos el archivo de datos de la *Dipodium rosea*:
+En el siguiente ejemplo, comenzaremos por eliminar los valores perdidos utilizando la función `drop_na()`, la cual excluye todas las filas que contienen valores NA. Posteriormente, emplearemos nuevamente el conjunto de datos de *Dipodium rosea* para ilustrar el uso de `geom_bar()`.
 
 ```{r bar_3,  echo=TRUE}
 
 
-# DW$Number_of_Flowers  # Antes de hacer los análisis mira los datos, y vea que hay muchas filas con **NA**, remueve **#** para activar la función. 
+#DW$number_of_flowers  # Antes de hacer los análisis mira los datos, y vea que hay muchas filas con **NA**, remueve **#** para activar la función. 
 
 # Method 1
 
 head(DW, n=7)
-tail(DW, n=7)
+
 ```
 
 
@@ -131,9 +142,10 @@ knitr::include_graphics("Graficos/L_eltoroensis.jpeg")
      - Sube el .html a MSTeam
 
 How to put two ggplot2 plots side by side using the cowplot package in R
+
 ```{r, bar_8, eval=FALSE, echo=FALSE}
 
-a= (Lelto, aes(Adultos))+  # Mire el nombre de las columnas primero
+a= ggplot(Lelto, aes(Adultos))+  # Mire el nombre de las columnas primero
     geom_bar()
 
 b= ggplot(Lelto, aes(Juveniles))+  # Mire el nombre de las columnas primero
@@ -147,7 +159,9 @@ cowplot::plot_grid(a, b, labels = c("A", "B"))
 
 # Multiples grupos 
 
-Ahora le añadiremos una variable discreta que representa las frecuencias de las plantas con frutos y la frecuencia de plantas sin frutos para las posiciones de la flor en la inflorescencia. En el **script** se observa que la variable **Frutos_si_o_no** se identifica como un factor. Esto es necesario porque en el archivo de datos la presencia de frutos y flores fue identificada como 1 o 0 o sea valores numéricos.  Si se hubiera identificado como **Sí** o **No**, no habría la necesidad de identificar que es un factor. En tal caso, es necesario identificar que estos valores son una categoría usando factor. El gráfico presenta las variables discretas una sobre la otra. Note en la Figura al igual que con **geom_histogram**, la frecuencia del segundo grupo es añadida a la frecuencia del primer grupo.
+Ahora incorporaremos una segunda variable discreta que distingue entre plantas **con frutos y plantas sin frutos**, con el fin de representar sus frecuencias a lo largo de las distintas posiciones de la flor en la inflorescencia. En el script se observa que la variable **Frutos_si_o_no** ha sido convertida en un factor. Esto es necesario porque, en el archivo original, la presencia o ausencia de frutos y flores fue codificada numéricamente mediante valores `1` y `0`. Si la columna hubiese utilizado categorías explícitas como “Sí” o “No”, no sería necesario convertirla en factor, ya que `ggplot2` las reconocería directamente como categorías. Sin embargo, al tratarse de valores numéricos, es indispensable especificar que corresponden a clases discretas mediante `factor()`.
+
+El gráfico resultante presenta ambas categorías discretas superpuestas (posición por defecto: "stack"), de modo que la frecuencia del segundo grupo se suma a la del primero, tal como ocurre con `geom_histogram()` cuando se utiliza un segundo factor para apilar las frecuencias. De esta manera, la altura total de cada barra refleja el número acumulado de plantas para ambas categorías en cada posición de la inflorescencia.
 
 ```{r bar_9,  echo=TRUE}
 
@@ -174,7 +188,9 @@ head(Lelto)
 
 # Posicionar las barras uno al lado del otro
 
-Para presentar los grupos uno al lado del otro se usa el parámetro **position ="dodge"**, lo que hará que cada grupo quede posicionado contiguamente. Además, removeremos la leyenda con **guides(fill=FALSE)** como se muestra a continuación con los datos de la *Dipodium rosea*:
+Cuando se trabaja con dos variables discretas, como la posición de la flor en la inflorescencia y la presencia o ausencia de frutos, el comportamiento por defecto de `geom_bar()` es apilar las categorías (posición = "stack"). Sin embargo, en muchas ocasiones es más informativo comparar los grupos directamente, colocándolos uno al lado del otro dentro de cada categoría principal del eje X.
+
+Para lograr esta presentación comparativa se utiliza el argumento:
 
 ```{r dipodium_barra3,  echo=TRUE}
 
@@ -197,7 +213,20 @@ DW%>%
 
 # Posicionar las barras una encima de la otra
 
-En el próximo gráfico, la frecuencia de ambos grupos comienza en cero pero aún saldrán sobrepuestos uno al otro usando **position=identity**
+En el siguiente gráfico exploraremos una alternativa diferente a la apilación automática que realiza `geom_bar()` cuando se trabaja con dos variables discretas. Al utilizar el argumento:
+
+`ggplot2` ya no apila automáticamente las barras ni las coloca una al lado de la otra. En cambio, representa cada barra exactamente en su posición original, iniciando ambas en cero y dibujándolas una encima de la otra en el mismo espacio del eje X.
+En otras palabras, "identity" instruye a `geom_bar()` a no realizar ninguna transformación espacial en la posición de las barras. El resultado es que cada categoría del factor secundario (por ejemplo, **con frutos y sin frutos**) ocupa exactamente el mismo ancho y la misma ubicación sobre el eje horizontal, lo que conduce a una superposición gráfica completa.
+Este comportamiento puede ser útil en situaciones específicas, como cuando:
+
+se desea comparar dos distribuciones exactamente en el mismo espacio,
+se emplea transparencia (`alpha`) para visualizar la superposición,
+se busca resaltar coincidencias o diferencias mediante colores semitransparentes,
+o cuando la densidad visual es relevante para la interpretación.
+
+A continuación se muestra un ejemplo usando los datos de Dipodium rosea. La superposición es total, ya que ambas barras comienzan desde cero en cada posición de la inflorescencia:
+
+
 
 ```{r dipodium_barra3b,  echo=TRUE}
 
@@ -219,8 +248,13 @@ DW%>%
 # Porcentaje porporcional a todos los valores
 
 
-Para mostrar el porcentaje de cada uno de los grupos, tenemos que usar una fórmula para calcular la proporción por grupo usando **y=(..count..)/sum(..count..)**. Así la suma de todas las barras equivale al 100%. Vemos que en las categorías altas (que aparecen más a la derecha en el gráfico) algunas barras están más anchas.  Esto se debe a que, en el archivo de datos, para algunas de estas posiciones de las flores en la inflorescencia no hay información para la segunda especie (la que aparece en azul). Esto se puede resolver añadiendo la información en el archivo original.
+Para representar las proporciones de cada grupo dentro del conjunto total de observaciones, es necesario transformar los conteos en porcentajes. En ggplot2, esto se realiza especificando en el argumento estético y la relación:
 
+**y=(..count..)/sum(..count..)**. 
+
+Esta expresión indica a ggplot2 que tome el conteo de cada barra (..count..) y lo divida entre la suma total de los conteos dentro del conjunto de datos representado. Como consecuencia, la altura de cada barra refleja la proporción de casos dentro de la categoría correspondiente, y la suma de todas las barras del gráfico equivale a 100%.
+
+Este enfoque es muy útil cuando el interés no es comparar números absolutos, sino comprender qué fracción del total representa cada categoría o cada combinación de categorías.
 
 fill=factor(Frutos_si_o_no)
 ```{r dipodium_barra3a,  echo=TRUE}
@@ -244,10 +278,17 @@ DW%>%
 
 ***
 
-# Porcentaje por valos de cada **X**
+# Porcentaje por valores de cada **X**
 
 
-Para que cada barra represente el 100% de los grupos en el eje de **X**, se usa el parámetro **position="fill"**. En el siguiente ejemplo se le añade la variable discreta en este caso; o sea, si la planta tiene frutos (verde) o no (rojo). Ecologicamente se observa que la posición de las flores arriba (>27) en la inflorescencia resulta en menos frutos porcentualmente que las posiciones más abajo.  
+Cuando se desea que cada barra represente el 100% de los grupos dentro de cada categoría del eje X, se emplea el argumento:
+
+
+**position="fill"**.
+
+
+Esta opción transforma automáticamente los conteos en proporciones relativas dentro de cada categoría, de modo que todas las barras tienen la misma altura (equivalente al 100%), y las diferencias entre grupos se expresan como partes proporcionales dentro de cada barra.
+En el siguiente ejemplo se incorpora una variable discreta—en este caso, la presencia de frutos (verde) o su ausencia (rojo). La visualización resultante permite identificar patrones ecológicos relevantes. Por ejemplo, se observa que en las posiciones superiores de la inflorescencia ( > 27 ), el porcentaje de flores que desarrollan frutos es notablemente menor en comparación con las posiciones basales. Esto sugiere una posible disminución en el éxito reproductivo a medida que aumenta la posición de la flor en la inflorescencia, un patrón consistente con gradientes de recursos, limitaciones energéticas o efectos posicionales comunes en plantas con inflorescencias alargadas.
 
 ```{r dipodium_barra4,  echo=TRUE}
 require(scales)
@@ -325,7 +366,7 @@ ggsave("Graficos/Lelto_ejercicio.png")
 
 # Cambiar el orden de las barras
 
-Para cambiar el orden de las barras, se puede usar la función **reorder**. En el siguiente ejemplo, se ordenan las barras de mayor a menor.  En el archivo de datos de la *Dipodium rosea*, se observa que la posición de las flores en la inflorescencia se ordena de mayor a menor. 
+Para modificar el orden en que aparecen las barras en un gráfico, puede utilizarse la función `reorder()`, la cual permite ordenar los niveles de una variable categórica según los valores de otra variable asociada. En el siguiente ejemplo, las barras se ordenan de mayor a menor para facilitar la comparación visual. En el conjunto de datos de *Dipodium rosea*, esto resulta en que las posiciones de las flores en la inflorescencia se muestren ordenadas de la más alta a la más baja, proporcionando una representación más intuitiva del gradiente posicional.
 
 ```{r dipodium_barra5,  echo=TRUE}
 library(forcats)

@@ -37,7 +37,9 @@ library(janitor)
 # Histogramas con geom_histogram
 
 Un histograma es una representación gráfica de datos agrupados en compartimentos o bins. Estos compartimentos incluyen individuos cuyos valores son similares o numéricamente cercanos. Una vez definidos los compartimentos, se suma la cantidad de observaciones que cae dentro de cada uno de ellos. El histograma es un tipo de gráfico muy común para visualizar la dispersión y la distribución de los datos.
-Continuaremos con el ejemplo de Dipodium para demostrar la función geom_histogram a continuación.
+
+Continuaremos con el ejemplo de *Dipodium* para demostrar la función geom_histogram a continuación.
+
 En el primer caso de geom_histogram, la cantidad de observaciones (datos) se agrupa y se suma según la posición de los compartimentos o bins.
 En el segundo caso, para mostrar menos barras y observar mejor la agrupación en intervalos de tamaño 2, se utiliza geom_histogram(binwidth = 1). Como se puede apreciar, el número de compartimentos cambia al utilizar el parámetro binwidth, cuyo valor representa el ancho de cada compartimento (en este caso igual a 1). El número predeterminado de bins es 30.
 Cada barra representa la frecuencia de observaciones en cada categoría a un metro de distancia. En ambos casos se utilizó color = "white" (color blanco) para dibujar una línea alrededor de cada barra y así diferenciar mejor los grupos o bins.
@@ -73,6 +75,7 @@ Usamos la formula anterior para calcular el intervalo de los *bins*. para tener 
 binwidth=(max(datos)-min(datos))/10
 
 binwidth
+min(datos)
 ```
 
 Ahora calculamos los *bins* con la función **cut** para ver la frecuencia de los datos en cada bin. 
@@ -97,6 +100,28 @@ Que quiere decir la parentesis y el corchete en los bins?
 bins=cut(datos, breaks=seq(min(datos), max(datos), binwidth), right=TRUE)
 #bins # cada valor y en cual bin estará 
 levels(bins) # los niveles de los bins
+```
+
+
+
+
+```{r}
+datosdf=as.data.frame(datos)
+datosdf
+
+
+```
+
+
+```{r}
+
+binwidth
+ggplot(datosdf, aes(datos))+
+  geom_histogram(binwidth=binwidth, color="white", fill="blue")
+
+ggplot(datosdf, aes(datos))+
+  geom_histogram(color="white", fill="red")
+
 ```
 
 ## Histograma de la distancia de la orquidea focal al arbol más cercano
@@ -152,8 +177,8 @@ Estos cambios permiten visualizar con mayor claridad la agrupación de distancia
 length(DW$distance)
 
 a=ggplot(DW, aes(distance))
-a+geom_histogram(binwidth=.5,color="white", fill="blue")+
-  labs(x="Distancia", y="Frecuencia")+
+a+geom_histogram(binwidth=.3,color="white", fill="blue")+
+  labs(x="Distancia (m)", y="Frecuencia")+
   theme(axis.title=element_text(size=10,face="bold"))
 ```
 
@@ -175,8 +200,8 @@ str(Camas_Hospital)
 
 unique(Camas_Hospital$Year) # cual son los años de muestreo
 
-a=ggplot(Camas_Hospital, aes(Camas, fill=factor(Year)))
-a+geom_histogram(stat="bin", alpha=.5)+
+ggplot(Camas_Hospital, aes(Camas, fill=factor(Year)))+
+  geom_histogram(stat="bin", alpha=.5, colour="white")+
   xlab("Número de camas por cada 1000 habitantes")+
   ylab("Frecuencia")
 
@@ -232,7 +257,10 @@ a+geom_histogram(color="black", bins=15, alpha=0.9,
   ylab("Frecuencia")+
   scale_y_continuous(breaks=c(0:12))+
   scale_x_continuous(breaks=c(0:15))+
-  theme(axis.title=element_text(size=10,face="bold"))
+  theme(axis.title=element_text(size=10,face="bold"))+
+  theme_minimal()
+
+
 ```
 
 ***
@@ -246,9 +274,9 @@ Otra alternativa es usar dos gráficos para cada año; o sea, uno por cada grupo
 ```{r dipodium-histogram3}
 
 
-a=ggplot(Camas_Hospital, aes(Camas, fill=factor(Year),
-                             color=factor(Year)))
-a+geom_histogram(stat="bin", alpha=0.5)+
+ggplot(Camas_Hospital, aes(Camas, fill=factor(Year),
+                             color=factor(Year)))+
+  geom_histogram(stat="bin", alpha=0.5)+
   xlab("Número de camas \n por cada 1000 habitantes")+
   ylab("Frecuencia")+
   scale_fill_manual(values=c("cyan4", "darkorange"))+
