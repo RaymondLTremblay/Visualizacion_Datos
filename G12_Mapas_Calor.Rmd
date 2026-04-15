@@ -112,18 +112,24 @@ Le cambiamos los colores del gráfico, usando **scale_fill_gradient2**. Asignamo
 
 ```{r heatmap2, warning=FALSE}
 
-ggplot(DWMelt, aes(x=x1, y=y1))+
-  geom_tile(aes(fill=Correlation))+
-  scale_fill_gradient2(low="black",
-                       mid="blue", high="red",
-  guide=guide_colorbar(ticks=FALSE,
-                       barheight=5, limits=c(-.5,1)))+
-  theme_minimal()+
-  labs(x=NULL, y=NULL)+
-  theme(axis.title=element_text(size=20,face="bold"),
-        axis.text.y=element_text(size=10, face="bold"),
-        axis.text.x=element_text(size=8, face="bold", angle = 90, hjust = 1))+
-  labs(fill="Correlación")
+
+library(ggplot2)
+library(grid)  # for unit()
+
+ggplot(DWMelt, aes(x = x1, y = y1)) +
+  geom_tile(aes(fill = Correlation)) +
+  scale_fill_gradient2(
+    low = "black",
+    mid = "blue",
+    high = "red",
+    limits = c(-0.5, 1),
+    guide = guide_colorbar(
+      ticks = FALSE,
+      barheight = unit(5, "cm")
+    ))
+
+    
+
 ```
 
 ***
@@ -136,14 +142,19 @@ En el siguiente gráfico, se cambia el valor intermedio a blanco (para valores m
 
 
 
+
 ```{r heatmap3}
 
 ggplot(DWMelt, aes(x=x1, y=y1))+
   geom_tile(aes(fill=Correlation))+
-  scale_fill_gradient2(low="black",
-                       mid="white", high="red",
-  guide=guide_colorbar(ticks=FALSE,
-                       barheight=5, limits=c(-1,1)))+
+  scale_fill_gradient2(
+    low="black",
+    mid="white",
+    high="red",
+   limits = c(-0.5, 1),
+    guide = guide_colorbar(
+      ticks = FALSE,
+      barheight = unit(5, "cm")))+
   theme_minimal()+
   labs(x=NULL, y=NULL)+
   theme(axis.title=element_text(size=20,face="bold"),
@@ -162,8 +173,10 @@ Se puede también hacer la selección de solamente dos colores con la función *
 
 ggplot(DWMelt, aes(x=x1, y=y1))+
   geom_tile(aes(fill=Correlation))+
-  scale_fill_gradient(low="white",
-                      high="red", limits=c(-1,1))+
+  scale_fill_gradient(
+    low="white",
+    high="red", 
+    limits=c(-1,1))+
   theme_minimal()+labs(x=NULL, y=NULL)+
   theme(
         axis.text.y=element_text(size=10, face="bold"),
@@ -284,18 +297,26 @@ head(DWMeltA)
 ```
 
 
+
+
 ```{r heatmap4A, eval=FALSE, include=FALSE}
 
-ggplot(DWMeltA, aes(x=x1, y=y1))+
-  geom_tile(aes(fill=Correlation))+
-  scale_fill_gradient2(low="black",mid = "white",
-                      high="blue", limits=c(-1,1))+
-  theme_minimal()+labs(x=NULL, y=NULL)+
-  theme(axis.title=element_text(size=20,face="bold"),
-        axis.text.y=element_text(size=10, face="bold"),
-        axis.text.x=element_text(size=8, face="bold", angle = 90, hjust = 1))+
-  labs(fill="Correlación")+
-  xlab("")
+
+library(ggplot2)
+library(grid)  # for unit()
+
+ggplot(DWMelt, aes(x = x1, y = y1)) +
+  geom_tile(aes(fill = Correlation)) +
+  scale_fill_gradient2(
+    low = "black",
+    mid = "blue",
+    high = "red",
+    limits = c(-0.5, 1),
+    guide = guide_colorbar(
+      ticks = FALSE,
+      barheight = unit(5, "cm")
+    ))
+
 ```
 
 

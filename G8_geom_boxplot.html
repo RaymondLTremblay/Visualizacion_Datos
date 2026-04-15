@@ -13,7 +13,7 @@
 
 <title>Gráficos de caja</title>
 
-<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
@@ -601,7 +601,7 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2026-02-25&quot;</code></pre>
+<pre><code>## [1] &quot;2026-04-15&quot;</code></pre>
 <p><img src="Graficos/hex_ggversa.png" alt="" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" alt="" width="20%" /></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(gridExtra)<span class="co"># Para organizar múltiples gráficos juntos</span></span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
@@ -645,9 +645,9 @@ de datos</p>
 </div>
 <div id="teoretical-boxplot" class="section level1">
 <h1>Teoretical boxplot</h1>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>df<span class="ot">=</span><span class="fu">as.tibble</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">8</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">100</span><span class="sc">:</span><span class="dv">120</span>, <span class="dv">125</span><span class="sc">:</span><span class="dv">135</span>,<span class="dv">150</span><span class="sc">:</span><span class="dv">160</span>))</span>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a>df<span class="ot">=</span><span class="fu">as.tibble</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">8</span><span class="sc">:</span><span class="dv">10</span>, <span class="dv">100</span><span class="sc">:</span><span class="dv">120</span>, <span class="dv">125</span><span class="sc">:</span><span class="dv">135</span>,<span class="dv">150</span><span class="sc">:</span><span class="dv">160</span>, <span class="dv">200</span>))</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>df</span></code></pre></div>
-<pre><code>## # A tibble: 47 × 1
+<pre><code>## # A tibble: 48 × 1
 ##    value
 ##    &lt;dbl&gt;
 ##  1     1
@@ -660,7 +660,7 @@ de datos</p>
 ##  8   103
 ##  9   104
 ## 10   105
-## # ℹ 37 more rows</code></pre>
+## # ℹ 38 more rows</code></pre>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a>df <span class="sc">%&gt;%</span> </span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(value, <span class="at">x=</span><span class="dv">1</span>))<span class="sc">+</span> <span class="co"># x=1 representa que hay solamente un grupo</span></span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code></pre></div>
@@ -670,29 +670,36 @@ de datos</p>
 <span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(value, <span class="at">x=</span><span class="dv">1</span>))<span class="sc">+</span> <span class="co"># x=1 representa que hay solamente un grupo</span></span>
 <span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code></pre></div>
 <p><img src="G8_geom_boxplot_files/figure-html/teoretical%20box%20plot-2.png" alt="" width="672" /></p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="co">#names(dipodium)</span></span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a><span class="fu">library</span>(conflicted)</span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>dipodium<span class="ot">=</span><span class="fu">clean_names</span>(dipodium)</span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a><span class="fu">gt</span>(<span class="fu">head</span>(dipodium))</span></code></pre></div>
-<div id="pfghdkoqkg" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#pfghdkoqkg table {
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>x<span class="ot">=</span><span class="fu">rnorm</span>(<span class="dv">1000</span>, <span class="dv">10</span>, <span class="dv">2</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>x <span class="sc">%&gt;%</span> </span>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  <span class="fu">as.tibble</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(value, <span class="at">x=</span><span class="dv">1</span>))<span class="sc">+</span> <span class="co"># x=1 representa que hay solamente un grupo</span></span>
+<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()</span></code></pre></div>
+<p><img src="G8_geom_boxplot_files/figure-html/unnamed-chunk-4-1.png" alt="" width="672" /></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="co">#names(dipodium)</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a><span class="co">#library(conflicted)</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a><span class="fu">library</span>(janitor)</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>dipodium<span class="ot">=</span><span class="fu">clean_names</span>(dipodium)</span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a><span class="fu">gt</span>(<span class="fu">head</span>(dipodium))</span></code></pre></div>
+<div id="ubfqzjxwla" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#ubfqzjxwla table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#pfghdkoqkg thead, #pfghdkoqkg tbody, #pfghdkoqkg tfoot, #pfghdkoqkg tr, #pfghdkoqkg td, #pfghdkoqkg th {
+#ubfqzjxwla thead, #ubfqzjxwla tbody, #ubfqzjxwla tfoot, #ubfqzjxwla tr, #ubfqzjxwla td, #ubfqzjxwla th {
   border-style: none;
 }
 
-#pfghdkoqkg p {
+#ubfqzjxwla p {
   margin: 0;
   padding: 0;
 }
 
-#pfghdkoqkg .gt_table {
+#ubfqzjxwla .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -718,12 +725,12 @@ de datos</p>
   border-left-color: #D3D3D3;
 }
 
-#pfghdkoqkg .gt_caption {
+#ubfqzjxwla .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#pfghdkoqkg .gt_title {
+#ubfqzjxwla .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -735,7 +742,7 @@ de datos</p>
   border-bottom-width: 0;
 }
 
-#pfghdkoqkg .gt_subtitle {
+#ubfqzjxwla .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -747,7 +754,7 @@ de datos</p>
   border-top-width: 0;
 }
 
-#pfghdkoqkg .gt_heading {
+#ubfqzjxwla .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -759,13 +766,13 @@ de datos</p>
   border-right-color: #D3D3D3;
 }
 
-#pfghdkoqkg .gt_bottom_border {
+#ubfqzjxwla .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#pfghdkoqkg .gt_col_headings {
+#ubfqzjxwla .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -780,7 +787,7 @@ de datos</p>
   border-right-color: #D3D3D3;
 }
 
-#pfghdkoqkg .gt_col_heading {
+#ubfqzjxwla .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -800,7 +807,7 @@ de datos</p>
   overflow-x: hidden;
 }
 
-#pfghdkoqkg .gt_column_spanner_outer {
+#ubfqzjxwla .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -812,15 +819,15 @@ de datos</p>
   padding-right: 4px;
 }
 
-#pfghdkoqkg .gt_column_spanner_outer:first-child {
+#ubfqzjxwla .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#pfghdkoqkg .gt_column_spanner_outer:last-child {
+#ubfqzjxwla .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#pfghdkoqkg .gt_column_spanner {
+#ubfqzjxwla .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -832,11 +839,11 @@ de datos</p>
   width: 100%;
 }
 
-#pfghdkoqkg .gt_spanner_row {
+#ubfqzjxwla .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#pfghdkoqkg .gt_group_heading {
+#ubfqzjxwla .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -862,7 +869,7 @@ de datos</p>
   text-align: left;
 }
 
-#pfghdkoqkg .gt_empty_group_heading {
+#ubfqzjxwla .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -877,15 +884,15 @@ de datos</p>
   vertical-align: middle;
 }
 
-#pfghdkoqkg .gt_from_md > :first-child {
+#ubfqzjxwla .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#pfghdkoqkg .gt_from_md > :last-child {
+#ubfqzjxwla .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#pfghdkoqkg .gt_row {
+#ubfqzjxwla .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -904,7 +911,7 @@ de datos</p>
   overflow-x: hidden;
 }
 
-#pfghdkoqkg .gt_stub {
+#ubfqzjxwla .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -917,7 +924,7 @@ de datos</p>
   padding-right: 5px;
 }
 
-#pfghdkoqkg .gt_stub_row_group {
+#ubfqzjxwla .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -931,15 +938,15 @@ de datos</p>
   vertical-align: top;
 }
 
-#pfghdkoqkg .gt_row_group_first td {
+#ubfqzjxwla .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#pfghdkoqkg .gt_row_group_first th {
+#ubfqzjxwla .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#pfghdkoqkg .gt_summary_row {
+#ubfqzjxwla .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -949,16 +956,16 @@ de datos</p>
   padding-right: 5px;
 }
 
-#pfghdkoqkg .gt_first_summary_row {
+#ubfqzjxwla .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#pfghdkoqkg .gt_first_summary_row.thick {
+#ubfqzjxwla .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#pfghdkoqkg .gt_last_summary_row {
+#ubfqzjxwla .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -968,7 +975,7 @@ de datos</p>
   border-bottom-color: #D3D3D3;
 }
 
-#pfghdkoqkg .gt_grand_summary_row {
+#ubfqzjxwla .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -978,7 +985,7 @@ de datos</p>
   padding-right: 5px;
 }
 
-#pfghdkoqkg .gt_first_grand_summary_row {
+#ubfqzjxwla .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -988,7 +995,7 @@ de datos</p>
   border-top-color: #D3D3D3;
 }
 
-#pfghdkoqkg .gt_last_grand_summary_row_top {
+#ubfqzjxwla .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -998,11 +1005,11 @@ de datos</p>
   border-bottom-color: #D3D3D3;
 }
 
-#pfghdkoqkg .gt_striped {
+#ubfqzjxwla .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#pfghdkoqkg .gt_table_body {
+#ubfqzjxwla .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1011,7 +1018,7 @@ de datos</p>
   border-bottom-color: #D3D3D3;
 }
 
-#pfghdkoqkg .gt_footnotes {
+#ubfqzjxwla .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1025,7 +1032,7 @@ de datos</p>
   border-right-color: #D3D3D3;
 }
 
-#pfghdkoqkg .gt_footnote {
+#ubfqzjxwla .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1034,7 +1041,7 @@ de datos</p>
   padding-right: 5px;
 }
 
-#pfghdkoqkg .gt_sourcenotes {
+#ubfqzjxwla .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1048,7 +1055,7 @@ de datos</p>
   border-right-color: #D3D3D3;
 }
 
-#pfghdkoqkg .gt_sourcenote {
+#ubfqzjxwla .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1056,72 +1063,72 @@ de datos</p>
   padding-right: 5px;
 }
 
-#pfghdkoqkg .gt_left {
+#ubfqzjxwla .gt_left {
   text-align: left;
 }
 
-#pfghdkoqkg .gt_center {
+#ubfqzjxwla .gt_center {
   text-align: center;
 }
 
-#pfghdkoqkg .gt_right {
+#ubfqzjxwla .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#pfghdkoqkg .gt_font_normal {
+#ubfqzjxwla .gt_font_normal {
   font-weight: normal;
 }
 
-#pfghdkoqkg .gt_font_bold {
+#ubfqzjxwla .gt_font_bold {
   font-weight: bold;
 }
 
-#pfghdkoqkg .gt_font_italic {
+#ubfqzjxwla .gt_font_italic {
   font-style: italic;
 }
 
-#pfghdkoqkg .gt_super {
+#ubfqzjxwla .gt_super {
   font-size: 65%;
 }
 
-#pfghdkoqkg .gt_footnote_marks {
+#ubfqzjxwla .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#pfghdkoqkg .gt_asterisk {
+#ubfqzjxwla .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#pfghdkoqkg .gt_indent_1 {
+#ubfqzjxwla .gt_indent_1 {
   text-indent: 5px;
 }
 
-#pfghdkoqkg .gt_indent_2 {
+#ubfqzjxwla .gt_indent_2 {
   text-indent: 10px;
 }
 
-#pfghdkoqkg .gt_indent_3 {
+#ubfqzjxwla .gt_indent_3 {
   text-indent: 15px;
 }
 
-#pfghdkoqkg .gt_indent_4 {
+#ubfqzjxwla .gt_indent_4 {
   text-indent: 20px;
 }
 
-#pfghdkoqkg .gt_indent_5 {
+#ubfqzjxwla .gt_indent_5 {
   text-indent: 25px;
 }
 
-#pfghdkoqkg .katex-display {
+#ubfqzjxwla .katex-display {
   display: inline-flex !important;
   margin-bottom: 0.75em !important;
 }
 
-#pfghdkoqkg div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#ubfqzjxwla div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
   height: 0px !important;
 }
 </style>
@@ -1282,34 +1289,36 @@ de datos</p>
   
 </table>
 </div>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>d1<span class="ot">=</span>dipodium <span class="sc">%&gt;%</span> </span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(number_of_fruits, number_of_flowers) <span class="sc">%&gt;%</span> </span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a><span class="co">#d1</span></span></code></pre></div>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>boxplot1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d1, <span class="fu">aes</span>(number_of_fruits, <span class="at">x=</span><span class="dv">1</span>))<span class="sc">+</span> </span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span></span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>           <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> .<span class="dv">5</span>,<span class="at">y=</span> <span class="dv">5</span>, <span class="at">label=</span><span class="st">&quot;Fig. 1&quot;</span>)<span class="sc">+</span></span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;&quot;</span>, <span class="at">y=</span><span class="st">&quot;Cantidad de Frutos&quot;</span>)<span class="sc">+</span></span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>boxplot2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d1, <span class="fu">aes</span>(number_of_fruits, <span class="at">x=</span><span class="dv">1</span>))<span class="sc">+</span></span>
-<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">notch=</span><span class="cn">TRUE</span>) <span class="sc">+</span></span>
-<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>           <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="fl">0.7</span>,<span class="at">y=</span> <span class="dv">7</span>, <span class="at">label=</span><span class="st">&quot;Fig. 2&quot;</span>)<span class="sc">+</span></span>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a>d1<span class="ot">=</span>dipodium <span class="sc">%&gt;%</span> </span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(number_of_fruits, number_of_flowers) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="fu">drop_na</span>()</span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a><span class="co">#d1</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a>boxplot1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d1, <span class="fu">aes</span>(number_of_fruits, <span class="at">x=</span><span class="dv">1</span>))<span class="sc">+</span> </span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>()<span class="sc">+</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>           <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> .<span class="dv">75</span>,<span class="at">y=</span> <span class="dv">5</span>, <span class="at">label=</span><span class="st">&quot;Fig. 1&quot;</span>)<span class="sc">+</span></span>
 <span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;&quot;</span>, <span class="at">y=</span><span class="st">&quot;Cantidad de Frutos&quot;</span>)<span class="sc">+</span></span>
-<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>boxplot3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d1, <span class="fu">aes</span>(number_of_fruits, <span class="at">x=</span><span class="dv">1</span>))<span class="sc">+</span> </span>
-<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">notch=</span><span class="cn">TRUE</span>,<span class="at">colour=</span><span class="st">&quot;blue&quot;</span>,</span>
-<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>           <span class="at">fill=</span><span class="st">&quot;orange&quot;</span>, <span class="at">alpha=</span><span class="fl">0.7</span>, <span class="at">outlier.shape=</span><span class="dv">18</span>,</span>
-<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>           <span class="at">outlier.color=</span><span class="st">&quot;red&quot;</span>, <span class="at">outlier.size=</span><span class="dv">3</span>)<span class="sc">+</span></span>
-<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>           <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="fl">0.7</span>,<span class="at">y=</span> <span class="dv">7</span>, <span class="at">label=</span><span class="st">&quot;Fig. 3&quot;</span>)<span class="sc">+</span></span>
-<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;&quot;</span>, <span class="at">y=</span><span class="st">&quot;Cantidad de Frutos&quot;</span>)<span class="sc">+</span></span>
-<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>boxplot4 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d1, <span class="fu">aes</span>(<span class="fu">factor</span>(number_of_flowers), number_of_fruits))<span class="sc">+</span> </span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">notch=</span><span class="cn">FALSE</span>)<span class="sc">+</span></span>
-<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>           <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">2</span>,<span class="at">y=</span> <span class="dv">10</span>, <span class="at">label=</span><span class="st">&quot;Fig. 4&quot;</span>)<span class="sc">+</span></span>
-<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Cantidad de Frutos&quot;</span>, <span class="at">x=</span><span class="st">&quot;Cantidad de Flores&quot;</span>)<span class="sc">+</span></span>
-<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>   <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>))</span></code></pre></div>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(boxplot1,boxplot2, boxplot3, boxplot4,<span class="at">ncol=</span><span class="dv">2</span>)</span></code></pre></div>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>boxplot1</span></code></pre></div>
+<p><img src="G8_geom_boxplot_files/figure-html/boxplot4-2-1.png" alt="" width="672" /></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>boxplot2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d1, <span class="fu">aes</span>(number_of_fruits, <span class="at">x=</span><span class="dv">1</span>))<span class="sc">+</span></span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">notch=</span><span class="cn">TRUE</span>) <span class="sc">+</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>           <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="fl">0.7</span>,<span class="at">y=</span> <span class="dv">7</span>, <span class="at">label=</span><span class="st">&quot;Fig. 2&quot;</span>)<span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;&quot;</span>, <span class="at">y=</span><span class="st">&quot;Cantidad de Frutos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>boxplot3 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d1, <span class="fu">aes</span>(number_of_fruits, <span class="at">x=</span><span class="dv">1</span>))<span class="sc">+</span> </span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">notch=</span><span class="cn">TRUE</span>,<span class="at">colour=</span><span class="st">&quot;blue&quot;</span>,</span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>           <span class="at">fill=</span><span class="st">&quot;orange&quot;</span>, <span class="at">alpha=</span><span class="fl">0.7</span>, <span class="at">outlier.shape=</span><span class="dv">18</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>           <span class="at">outlier.color=</span><span class="st">&quot;red&quot;</span>, <span class="at">outlier.size=</span><span class="dv">3</span>)<span class="sc">+</span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>           <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="fl">0.7</span>,<span class="at">y=</span> <span class="dv">7</span>, <span class="at">label=</span><span class="st">&quot;Fig. 3&quot;</span>)<span class="sc">+</span></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">&quot;&quot;</span>, <span class="at">y=</span><span class="st">&quot;Cantidad de Frutos&quot;</span>)<span class="sc">+</span></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>boxplot4 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(d1, <span class="fu">aes</span>(<span class="fu">factor</span>(number_of_flowers), number_of_fruits))<span class="sc">+</span> </span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">notch=</span><span class="cn">FALSE</span>)<span class="sc">+</span></span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>           <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">2</span>,<span class="at">y=</span> <span class="dv">10</span>, <span class="at">label=</span><span class="st">&quot;Fig. 4&quot;</span>)<span class="sc">+</span></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Cantidad de Frutos&quot;</span>, <span class="at">x=</span><span class="st">&quot;Cantidad de Flores&quot;</span>)<span class="sc">+</span></span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>   <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">90</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>gridExtra<span class="sc">::</span><span class="fu">grid.arrange</span>(boxplot1,boxplot2, boxplot3, boxplot4,<span class="at">ncol=</span><span class="dv">2</span>)</span></code></pre></div>
 <p><img src="G8_geom_boxplot_files/figure-html/boxplot4-6-1.png" alt="" width="672" /></p>
 <hr />
 <div id="cambiar-el-ancho-de-las-cajas" class="section level3">
@@ -1320,19 +1329,19 @@ produce un diagrama donde el ancho en el eje de <strong>X</strong> es
 proporcional a la raíz cuadrada del número de observaciones en los
 grupos.</p>
 <p><span class="math display">\[x=\sqrt(n)\]</span></p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>dipodium <span class="sc">%&gt;%</span> </span>
-<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(number_of_flowers, number_of_fruits) <span class="sc">%&gt;%</span> </span>
-<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span> </span>
-<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">factor</span>(number_of_flowers), number_of_fruits, </span>
-<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a>             <span class="at">fill=</span><span class="fu">factor</span>(number_of_flowers)))<span class="sc">+</span></span>
-<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">varwidth=</span><span class="cn">TRUE</span>)<span class="sc">+</span></span>
-<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
-<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Cantidad de Flores&quot;</span>)<span class="sc">+</span></span>
-<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Cantidad de Frutos&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a>dipodium <span class="sc">%&gt;%</span> </span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(number_of_flowers, number_of_fruits) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>  <span class="fu">drop_na</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="fu">factor</span>(number_of_flowers), number_of_fruits, </span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>             <span class="at">fill=</span><span class="fu">factor</span>(number_of_flowers)))<span class="sc">+</span></span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>  <span class="fu">geom_boxplot</span>(<span class="at">varwidth=</span><span class="cn">TRUE</span>)<span class="sc">+</span></span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Cantidad de Flores&quot;</span>)<span class="sc">+</span></span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Cantidad de Frutos&quot;</span>)</span></code></pre></div>
 <p><img src="G8_geom_boxplot_files/figure-html/boxplot_flower-1.png" alt="" width="672" /></p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="co"># la función varwidth =TRUE cambia </span></span>
-<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="co">#el ancho de la barras basado en una formula indicado abajo. </span></span>
-<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a><span class="co"># Más datos más ancho la barra. </span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="co"># la función varwidth =TRUE cambia </span></span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="co">#el ancho de la barras basado en una formula indicado abajo. </span></span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a><span class="co"># Más datos más ancho la barra. </span></span></code></pre></div>
 <hr />
 <ol style="list-style-type: decimal">
 <li>Preparar un gráfico de caja (box plot) o tambien llamado <strong>Box

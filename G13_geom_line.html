@@ -9,11 +9,13 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
+<meta name="author" content="Raymond L. Tremblay" />
 
+<meta name="date" content="2026-04-15" />
 
-<title>Geom_line</title>
+<title>Gráficos de Línea con geom_line()</title>
 
-<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
@@ -33,6 +35,7 @@
 <link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
 <script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -118,6 +121,15 @@ code span.va { color: #19177c; } /* Variable */
 code span.vs { color: #4070a0; } /* VerbatimString */
 code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
 </style>
 <script>
 // apply pandoc div.sourceCode style to pre.sourceCode instead
@@ -310,6 +322,9 @@ $(document).ready(function () {
 </style>
 
 <!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
 
 
 
@@ -593,25 +608,56 @@ div.tocify {
 
 <div id="header">
 
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
 
 
-<h1 class="title toc-ignore">Geom_line</h1>
+
+<h1 class="title toc-ignore">Gráficos de Línea con
+<code>geom_line()</code></h1>
+<h4 class="author">Raymond L. Tremblay</h4>
+<h4 class="date">2026-04-15</h4>
 
 </div>
 
 
-<p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2026-02-25&quot;</code></pre>
+<p>Fecha de la última revisión</p>
+<pre><code>## [1] &quot;2026-04-15&quot;</code></pre>
 <p><img src="Graficos/hex_ggversa.png" alt="" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" alt="" width="20%" /></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(ggversa)</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">library</span>(gt)</span></code></pre></div>
+<span id="cb2-3"><a href="#cb2-3" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb2-4"><a href="#cb2-4" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span></code></pre></div>
 <hr />
-<div id="gráficos-de-línea" class="section level2">
-<h2>Gráficos de línea</h2>
+<div id="parte-1-fundamentos-de-geom_line" class="section level1">
+<h1>Parte 1: Fundamentos de <code>geom_line()</code></h1>
+<div id="cuándo-usar-gráficos-de-línea" class="section level2">
+<h2>¿Cuándo usar gráficos de línea?</h2>
+<p>Los gráficos de línea son ideales cuando:</p>
+<ul>
+<li>La variable del eje X tiene un <strong>orden natural</strong>
+(tiempo, secuencia, distancia a lo largo de un transecto).</li>
+<li>Queremos enfatizar la <strong>tendencia</strong> o
+<strong>trayectoria</strong> de los datos, no los puntos
+individuales.</li>
+<li>Necesitamos <strong>comparar trayectorias</strong> de múltiples
+grupos a lo largo de la misma secuencia.</li>
+</ul>
+<p><strong>No</strong> uses gráficos de línea cuando:</p>
+<ul>
+<li>El eje X es categórico sin orden (usa barras o puntos).</li>
+<li>Los datos no tienen continuidad entre observaciones (usa
+<code>geom_point()</code>).</li>
+</ul>
+<hr />
 </div>
 <div id="gráfico-de-línea-básico-con-geom_line" class="section level2">
-<h2>Gráfico de línea básico con <strong>geom_line</strong></h2>
+<h2>Gráfico de línea básico con <code>geom_line()</code></h2>
 <p>Los gráficos de línea se usan frecuentemente cuando hay una variable
 de datos continuos ordenada secuencialmente, como las series en tiempo
 (años, hora, minutos, u otras secuencias). En los ejemplos que veremos a
@@ -626,15 +672,8 @@ identificarla como que contiene valores enteros usando la opción
 <strong>as.integer</strong>.</p>
 <p>En primer lugar, crearemos un nuevo <strong>data.frame</strong> para
 agrupar solamente los nuevos casos de cáncer. Para crear un
-<strong>data.frame</strong> solamente con esos datos se usa la opción
-<strong>which</strong>, con el siguiente procedimiento:</p>
-<p>subconjunto del_archivo[which( el_archivo$la_variable == “la variable
-de interés”),]</p>
-<p>Note que la variable de interés es un conjunto de valores en
-“la_variable” o es una categoría, como en este caso, nuevos casos (o
-“New Cases”). El símbolo “==” significa “que sea exactamente igual
-a…”</p>
-<p>Aquí vemos parte de los datos originales:</p>
+<strong>data.frame</strong> solamente con esos datos se usa la función
+<code>filter()</code> o la opción <code>which()</code>:</p>
 <div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" tabindex="-1"></a><span class="fu">library</span>(ggversa)</span>
 <span id="cb3-2"><a href="#cb3-2" tabindex="-1"></a>Tiroide</span></code></pre></div>
 <pre><code>##    Year     Cases Rate
@@ -717,14 +756,10 @@ a…”</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">unique</span>(Tiroide<span class="sc">$</span>Cases)</span></code></pre></div>
 <pre><code>## [1] New Cases Deaths_US
 ## Levels: Deaths_US New Cases</code></pre>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>subTiroide<span class="ot">=</span>Tiroide <span class="sc">%&gt;%</span> </span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  <span class="fu">filter</span>(Cases<span class="sc">==</span><span class="st">&quot;New Cases&quot;</span>) </span>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>subTiroide <span class="ot">&lt;-</span> Tiroide <span class="sc">%&gt;%</span></span>
+<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  <span class="fu">filter</span>(Cases <span class="sc">==</span> <span class="st">&quot;New Cases&quot;</span>)</span>
 <span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>subTiroide<span class="ot">=</span>Tiroide[<span class="fu">which</span>(Tiroide<span class="sc">$</span>Cases<span class="sc">==</span><span class="st">&quot;New Cases&quot;</span>),]</span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a></span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" tabindex="-1"></a></span>
-<span id="cb7-8"><a href="#cb7-8" tabindex="-1"></a><span class="fu">gt</span>(<span class="fu">head</span>(subTiroide))</span></code></pre></div>
+<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a><span class="fu">gt</span>(<span class="fu">head</span>(subTiroide))</span></code></pre></div>
 <div id="uddirnbogl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
 <style>#uddirnbogl table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
@@ -1207,1588 +1242,855 @@ a…”</p>
 </div>
 <p>El procedimiento para preparar el gráfico de tiroides se presenta a
 continuación:</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">ggplot</span>(subTiroide, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">as.integer</span>(Year), <span class="at">y=</span>Rate))<span class="sc">+</span></span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">1</span>, <span class="at">colour=</span><span class="st">&quot;red&quot;</span>)<span class="sc">+</span></span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">1985</span>,<span class="at">y=</span> <span class="dv">9</span>, <span class="at">size=</span> <span class="dv">3</span>,</span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;Nuevos casos de </span><span class="sc">\n</span><span class="st"> cancer </span><span class="sc">\n</span><span class="st"> de Tiroides&quot;</span>, <span class="at">color=</span><span class="st">&quot;black&quot;</span>)<span class="sc">+</span></span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>    <span class="fu">ylab</span>(<span class="st">&quot;Números de nuevos casos</span><span class="sc">\n</span><span class="st"> de cancer de Tiroides </span><span class="sc">\n</span><span class="st"> por 100,000 habitantes&quot;</span>)<span class="sc">+</span></span>
-<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>    <span class="fu">xlab</span>(<span class="st">&quot;Años&quot;</span>)<span class="sc">+</span></span>
-<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">8</span>,<span class="at">face=</span><span class="st">&quot;italic&quot;</span>),</span>
-<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>        <span class="at">axis.title.y.left =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a><span class="fu">ggplot</span>(subTiroide, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.integer</span>(Year), <span class="at">y =</span> Rate)) <span class="sc">+</span></span>
+<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>, <span class="at">colour =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x =</span> <span class="dv">1985</span>, <span class="at">y =</span> <span class="dv">9</span>, <span class="at">size =</span> <span class="dv">3</span>,</span>
+<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>           <span class="at">label =</span> <span class="st">&quot;Nuevos casos de </span><span class="sc">\n</span><span class="st"> cáncer </span><span class="sc">\n</span><span class="st"> de Tiroides&quot;</span>,</span>
+<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>           <span class="at">color =</span> <span class="st">&quot;black&quot;</span>) <span class="sc">+</span></span>
+<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
+<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Números de nuevos casos</span><span class="sc">\n</span><span class="st"> de cáncer de Tiroides </span><span class="sc">\n</span><span class="st"> por 100,000 habitantes&quot;</span>) <span class="sc">+</span></span>
+<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Años&quot;</span>) <span class="sc">+</span></span>
+<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>, <span class="at">face =</span> <span class="st">&quot;italic&quot;</span>),</span>
+<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>        <span class="at">axis.title.y.left =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G13_geom_line_files/figure-html/graficalinea1-1.png" alt="" width="672" /></p>
 <p>Note que se utilizó la función <strong>annotate</strong> para
 escribir información sobre el gráfico. Esta función será discutida con
 más detalle más adelante.</p>
 <hr />
 </div>
-<div id="gráfico-con-múltiples-líneas-con-geom_line"
-class="section level2">
-<h2>Gráfico con múltiples líneas con geom_line</h2>
-<p>A veces es importante comparar dos o más secuencias de datos. Eso se
-mostrará en la Figura continuando con el mismo ejemplo de tiroides
-anterior pero esta vez se le añadirá la razón de mortandad por
-tiroidismo en EEUU en el mismo gráfico. Usando la función
-<strong>group=</strong> identifica cual son los grupos, si hubiese más
-de dos grupos hubiese una linea para cada grupo. Lo que se observa es
-que aunque hay mucha más gente que es diagnosticada con cáncer de la
+<div id="gráfico-con-múltiples-líneas" class="section level2">
+<h2>Gráfico con múltiples líneas</h2>
+<p>A veces es importante comparar dos o más secuencias de datos. Usando
+la función <code>group =</code> se identifica cuáles son los grupos — si
+hubiese más de dos grupos, habría una línea para cada grupo. Lo que se
+observa es que aunque hay mucha más gente diagnosticada con cáncer de la
 tiroides, la proporción de gente que muere de este tipo de cáncer es
 consistente a través del tiempo.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">ggplot</span>(Tiroide, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">as.integer</span>(Year),</span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>                    <span class="at">y=</span>Rate, <span class="at">group=</span>Cases, <span class="at">color=</span>Cases))<span class="sc">+</span></span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">2</span>)<span class="sc">+</span></span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">1990</span>,<span class="at">y=</span> <span class="dv">8</span>, <span class="at">size=</span><span class="dv">4</span>,</span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;Nuevos casos&quot;</span>)<span class="sc">+</span></span>
-<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">2000</span>,<span class="at">y=</span> <span class="dv">1</span>, <span class="at">size=</span> <span class="dv">4</span>,</span>
-<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;Mortandad&quot;</span>)<span class="sc">+</span></span>
-<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a> <span class="fu">guides</span>(<span class="at">color=</span><span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
-<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Números de nuevos casos</span><span class="sc">\n</span><span class="st"> por 100,000 habitantes&quot;</span>)<span class="sc">+</span></span>
-<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Años&quot;</span>)<span class="sc">+</span></span>
-<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">ggplot</span>(Tiroide, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.integer</span>(Year), <span class="at">y =</span> Rate,</span>
+<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>                    <span class="at">group =</span> Cases, <span class="at">color =</span> Cases)) <span class="sc">+</span></span>
+<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x =</span> <span class="dv">1990</span>, <span class="at">y =</span> <span class="dv">8</span>, <span class="at">size =</span> <span class="dv">4</span>,</span>
+<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a>           <span class="at">label =</span> <span class="st">&quot;Nuevos casos&quot;</span>) <span class="sc">+</span></span>
+<span id="cb9-6"><a href="#cb9-6" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x =</span> <span class="dv">2000</span>, <span class="at">y =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">4</span>,</span>
+<span id="cb9-7"><a href="#cb9-7" tabindex="-1"></a>           <span class="at">label =</span> <span class="st">&quot;Mortandad&quot;</span>) <span class="sc">+</span></span>
+<span id="cb9-8"><a href="#cb9-8" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
+<span id="cb9-9"><a href="#cb9-9" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Números de nuevos casos</span><span class="sc">\n</span><span class="st"> por 100,000 habitantes&quot;</span>) <span class="sc">+</span></span>
+<span id="cb9-10"><a href="#cb9-10" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Años&quot;</span>) <span class="sc">+</span></span>
+<span id="cb9-11"><a href="#cb9-11" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G13_geom_line_files/figure-html/graficalinea2-1.png" alt="" width="672" /></p>
-<p>La función <strong>annonate</strong> nos permitió añadir la
-descripción <strong>Mortandad</strong> a la línea inferior en forma de
-texto <strong>text</strong> a la altura del punto 2000 en el eje de
-<strong>X</strong> y a la altura del punto 1 en el eje de
-<strong>Y</strong>. De igual manera se hizo con la descripción
-<strong>Nuevos Casos</strong> en la coordenada (1990, 8).</p>
 <hr />
 </div>
-<div id="gráfico-de-líneas-con-ejes-expandidos-con-geom_line"
-class="section level2">
-<h2>Gráfico de líneas con ejes expandidos con
-<strong>geom_line</strong></h2>
+<div id="expandir-los-ejes" class="section level2">
+<h2>Expandir los ejes</h2>
 <p>Muchas veces el intervalo de la escala de los ejes no es el óptimo.
-Continuando con el ejemplo anterior, modificamos el eje de
-<strong>X</strong> en la Figura para que incluya el último año (el
-último valor de la secuencia en el eje de <strong>X</strong>). Para ello
-se indica en el mismo código que el límite de <strong>X</strong> en el
-eje se vea a intervalos de 10 años con la función <strong>xlim</strong>.
-Note que para expandir el eje de <strong>Y</strong> se usaría la misma
-técnica.</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">unique</span>(Tiroide<span class="sc">$</span>Cases)</span></code></pre></div>
-<pre><code>## [1] New Cases Deaths_US
-## Levels: Deaths_US New Cases</code></pre>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">ggplot</span>(Tiroide, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">as.integer</span>(Year), <span class="at">y=</span>Rate,</span>
-<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>                    <span class="at">group=</span>Cases, <span class="at">color=</span>Cases))<span class="sc">+</span></span>
-<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">2</span>)<span class="sc">+</span></span>
-<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">1990</span>,<span class="at">y=</span> <span class="dv">10</span>, <span class="at">size=</span><span class="dv">4</span>,</span>
-<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;Nuevos casos&quot;</span>)<span class="sc">+</span></span>
-<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">1995</span>,<span class="at">y=</span> <span class="dv">1</span>, <span class="at">size=</span> <span class="dv">4</span>,</span>
-<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;Mortandad&quot;</span>)<span class="sc">+</span> </span>
-<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">&quot;New Cases&quot;</span><span class="ot">=</span><span class="st">&quot;#00674F&quot;</span>, <span class="st">&quot;Deaths_US&quot;</span><span class="ot">=</span><span class="st">&quot;pink&quot;</span>)) <span class="sc">+</span> </span>
-<span id="cb12-9"><a href="#cb12-9" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
-<span id="cb12-10"><a href="#cb12-10" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Razón&quot;</span>)<span class="sc">+</span></span>
-<span id="cb12-11"><a href="#cb12-11" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Años&quot;</span>)<span class="sc">+</span></span>
-<span id="cb12-12"><a href="#cb12-12" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="fu">min</span>(Tiroide<span class="sc">$</span>Year<span class="dv">-5</span>), <span class="fu">max</span>(Tiroide<span class="sc">$</span>Year<span class="sc">+</span><span class="dv">6</span>))<span class="sc">+</span>  <span class="co"># expandir los ejes</span></span>
-<span id="cb12-13"><a href="#cb12-13" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<p><img src="G13_geom_line_files/figure-html/graficalinea-1.png" alt="" width="672" /></p>
+Para modificar el eje de <strong>X</strong> e incluir el último año, se
+usa <code>xlim()</code> o <code>scale_x_continuous()</code>. También se
+puede cambiar el color de las líneas manualmente con
+<code>scale_color_manual()</code>:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" tabindex="-1"></a><span class="fu">ggplot</span>(Tiroide, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.integer</span>(Year), <span class="at">y =</span> Rate,</span>
+<span id="cb10-2"><a href="#cb10-2" tabindex="-1"></a>                    <span class="at">group =</span> Cases, <span class="at">color =</span> Cases)) <span class="sc">+</span></span>
+<span id="cb10-3"><a href="#cb10-3" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb10-4"><a href="#cb10-4" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x =</span> <span class="dv">1990</span>, <span class="at">y =</span> <span class="dv">10</span>, <span class="at">size =</span> <span class="dv">4</span>, <span class="at">label =</span> <span class="st">&quot;Nuevos casos&quot;</span>) <span class="sc">+</span></span>
+<span id="cb10-5"><a href="#cb10-5" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x =</span> <span class="dv">1995</span>, <span class="at">y =</span> <span class="dv">1</span>, <span class="at">size =</span> <span class="dv">4</span>, <span class="at">label =</span> <span class="st">&quot;Mortandad&quot;</span>) <span class="sc">+</span></span>
+<span id="cb10-6"><a href="#cb10-6" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;New Cases&quot;</span> <span class="ot">=</span> <span class="st">&quot;#00674F&quot;</span>,</span>
+<span id="cb10-7"><a href="#cb10-7" tabindex="-1"></a>                                <span class="st">&quot;Deaths_US&quot;</span> <span class="ot">=</span> <span class="st">&quot;pink&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb10-8"><a href="#cb10-8" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
+<span id="cb10-9"><a href="#cb10-9" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Razón&quot;</span>) <span class="sc">+</span></span>
+<span id="cb10-10"><a href="#cb10-10" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Años&quot;</span>) <span class="sc">+</span></span>
+<span id="cb10-11"><a href="#cb10-11" tabindex="-1"></a>  <span class="fu">xlim</span>(<span class="fu">min</span>(Tiroide<span class="sc">$</span>Year <span class="sc">-</span> <span class="dv">5</span>), <span class="fu">max</span>(Tiroide<span class="sc">$</span>Year <span class="sc">+</span> <span class="dv">6</span>)) <span class="sc">+</span></span>
+<span id="cb10-12"><a href="#cb10-12" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">14</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<p><img src="G13_geom_line_files/figure-html/graficalinea3-1.png" alt="" width="672" /></p>
 <hr />
 </div>
-<div id="gráfico-de-líneas-con-los-puntos-añadidos-con-geom_line"
-class="section level2">
-<h2>Gráfico de líneas con los puntos añadidos con
-<strong>geom_line</strong></h2>
+<div id="añadir-puntos-sobre-la-línea" class="section level2">
+<h2>Añadir puntos sobre la línea</h2>
 <p>A veces nos interesa que la línea muestre los puntos que la componen.
-En el próximo ejemplo, lo mostraremos nuevamente utilizando el ejemplo
-anterior de tiroides. A continuación el código modificado que muestra
-ese efecto añadiendo <strong>geom_point</strong>:</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">ggplot</span>(Tiroide, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">as.integer</span>(Year), <span class="at">y=</span>Rate, </span>
-<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>                    <span class="at">group=</span>Cases,</span>
-<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>                    <span class="at">color=</span>Cases))<span class="sc">+</span></span>
-<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">1</span>)<span class="sc">+</span></span>
-<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">1990</span>,<span class="at">y=</span> <span class="dv">8</span>, <span class="at">size=</span><span class="dv">4</span>,</span>
-<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;Nuevos casos&quot;</span>)<span class="sc">+</span></span>
-<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">2000</span>,<span class="at">y=</span> <span class="dv">2</span>, <span class="at">size=</span><span class="dv">4</span>,</span>
-<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a>           <span class="at">label=</span><span class="st">&quot;Mortandad&quot;</span>)<span class="sc">+</span></span>
-<span id="cb13-9"><a href="#cb13-9" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
-<span id="cb13-10"><a href="#cb13-10" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Razón&quot;</span>)<span class="sc">+</span></span>
-<span id="cb13-11"><a href="#cb13-11" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Años&quot;</span>)<span class="sc">+</span></span>
-<span id="cb13-12"><a href="#cb13-12" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color=</span><span class="st">&quot;black&quot;</span>, <span class="at">size=</span>.<span class="dv">5</span>)<span class="sc">+</span></span>
-<span id="cb13-13"><a href="#cb13-13" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+Se añade <code>geom_point()</code> <strong>después</strong> de
+<code>geom_line()</code> para que los puntos aparezcan encima de la
+línea:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a><span class="fu">ggplot</span>(Tiroide, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.integer</span>(Year), <span class="at">y =</span> Rate,</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a>                    <span class="at">group =</span> Cases, <span class="at">color =</span> Cases)) <span class="sc">+</span></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">size =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x =</span> <span class="dv">1990</span>, <span class="at">y =</span> <span class="dv">8</span>, <span class="at">size =</span> <span class="dv">4</span>, <span class="at">label =</span> <span class="st">&quot;Nuevos casos&quot;</span>) <span class="sc">+</span></span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x =</span> <span class="dv">2000</span>, <span class="at">y =</span> <span class="dv">2</span>, <span class="at">size =</span> <span class="dv">4</span>, <span class="at">label =</span> <span class="st">&quot;Mortandad&quot;</span>) <span class="sc">+</span></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
+<span id="cb11-8"><a href="#cb11-8" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Razón&quot;</span>) <span class="sc">+</span></span>
+<span id="cb11-9"><a href="#cb11-9" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Años&quot;</span>) <span class="sc">+</span></span>
+<span id="cb11-10"><a href="#cb11-10" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
 <p><img src="G13_geom_line_files/figure-html/graficalinea4-1.png" alt="" width="672" /></p>
 <hr />
-<p>Los puntos son variados y representado por un número (0 al 24) o un
-símbolo. Por ejemplo para utilizar los puntos en una gráfica se usa la
-función </p>
+</div>
+<div id="formas-de-los-puntos-shapes" class="section level2">
+<h2>Formas de los puntos (shapes)</h2>
+<p>Los puntos tienen formas variadas representadas por un número (0 al
+25) o un símbolo. La opción <code>fill</code> (para rellenar el punto
+con un color específico) es aplicable solamente a las formas 21 a
+25.</p>
 <div class="figure">
-<img src="G13_geom_line_files/figure-html/PlotSimbolos-1.png" alt="Los simbolos para las gr\'aficas de puntos" width="672" />
+<img src="G13_geom_line_files/figure-html/PlotSimbolos-1.png" alt="Los símbolos para las gráficas de puntos" width="672" />
 <p class="caption">
-Los simbolos para las gr'aficas de puntos
+Los símbolos para las gráficas de puntos
 </p>
 </div>
 <hr />
 </div>
-<div id="gráfico-de-línea-con-los-puntos-en-otro-estilo-con-geom_line"
-class="section level2">
-<h2>Gráfico de línea con los puntos en otro estilo con
-<strong>geom_line</strong></h2>
-<p>Para cambiar el estilo de los puntos en un gráfico de línea se usan
-los parámetros <strong>size, shape, color</strong> y
-<strong>fill</strong>. Como ya habrá notado, estas alternativas para
-modificar la apariencia de los gráficos son comunes en casi todos los
-tipos de gráficos en <strong>ggplot2</strong>. La forma
-<strong>shape</strong> de los puntos predeterminada es un círculo con
-tamaño de 2, <strong>size=2</strong>. La opción de <strong>fill</strong>
-(para rellenar el punto con un color específico) es aplicable solamente
-al parámetro <strong>shape</strong> con valor de 21 al 25.</p>
-<p>Un punto importante que hay que observar es que si las líneas y los
-puntos son de diferentes colores, se tienen que especificar los puntos
-con <strong>geom_point</strong> después de la línea con
-<strong>geom_line</strong> ya que ggplot funciona con capas de
-información. En otras palabras, lo que se especifica primero, sale
-primero.</p>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="fu">ggplot</span>(Tiroide, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">as.integer</span>(Year), <span class="at">y=</span>Rate,</span>
-<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a>                    <span class="at">group=</span>Cases, <span class="at">color=</span>Cases))<span class="sc">+</span></span>
-<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">3</span>)<span class="sc">+</span></span>
-<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">1990</span>, <span class="at">y=</span> <span class="dv">10</span>, <span class="at">label=</span><span class="st">&quot;Nuevos casos&quot;</span>)<span class="sc">+</span></span>
-<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x=</span> <span class="dv">1990</span>, <span class="at">y=</span> <span class="dv">2</span>, <span class="at">label=</span><span class="st">&quot;Mortandad&quot;</span>)<span class="sc">+</span></span>
-<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
-<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Razón&quot;</span>)<span class="sc">+</span></span>
-<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Años&quot;</span>)<span class="sc">+</span></span>
-<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape=</span><span class="st">&quot;|&quot;</span>, <span class="at">size=</span><span class="dv">3</span>, <span class="at">colour=</span><span class="st">&quot;blue&quot;</span>, <span class="at">fill=</span><span class="st">&quot;yellow&quot;</span>)<span class="sc">+</span></span>
-<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<p><img src="G13_geom_line_files/figure-html/graficalinea5-1.png" alt="" width="672" /></p>
+<div id="el-orden-de-las-capas-importa" class="section level2">
+<h2>El orden de las capas importa</h2>
+<p>Si las líneas y los puntos son de diferentes colores, se tienen que
+especificar los puntos con <code>geom_point()</code>
+<strong>después</strong> de <code>geom_line()</code> ya que ggplot
+funciona con capas de información. Lo que se especifica primero, sale
+primero (queda debajo).</p>
+<p><strong>Ejemplo: puntos encima de la línea (correcto):</strong></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a><span class="fu">ggplot</span>(Tiroide, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.integer</span>(Year), <span class="at">y =</span> Rate,</span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>                    <span class="at">group =</span> Cases, <span class="at">color =</span> Cases)) <span class="sc">+</span></span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">21</span>, <span class="at">size =</span> <span class="dv">3</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;white&quot;</span>) <span class="sc">+</span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Razón&quot;</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;Años&quot;</span>) <span class="sc">+</span></span>
+<span id="cb12-7"><a href="#cb12-7" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">2000</span>, <span class="dv">2012</span>)) <span class="sc">+</span></span>
+<span id="cb12-8"><a href="#cb12-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<p><img src="G13_geom_line_files/figure-html/capas-correcto-1.png" alt="" width="672" /></p>
+<p><strong>Ejemplo: puntos debajo de la línea (incorrecto):</strong></p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a><span class="fu">ggplot</span>(Tiroide, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.integer</span>(Year), <span class="at">y =</span> Rate,</span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>                    <span class="at">group =</span> Cases, <span class="at">color =</span> Cases)) <span class="sc">+</span></span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape =</span> <span class="dv">21</span>, <span class="at">size =</span> <span class="dv">4</span>, <span class="at">color =</span> <span class="st">&quot;black&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;white&quot;</span>) <span class="sc">+</span></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">3</span>) <span class="sc">+</span></span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color =</span> <span class="st">&quot;none&quot;</span>) <span class="sc">+</span></span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Razón&quot;</span>) <span class="sc">+</span> <span class="fu">xlab</span>(<span class="st">&quot;Años&quot;</span>) <span class="sc">+</span></span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits =</span> <span class="fu">c</span>(<span class="dv">2000</span>, <span class="dv">2012</span>)) <span class="sc">+</span></span>
+<span id="cb13-8"><a href="#cb13-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
+<p><img src="G13_geom_line_files/figure-html/capas-incorrecto-1.png" alt="" width="672" /></p>
 <hr />
-<div id="ejemplo-de-modificar-el-orden-de-capas" class="section level3">
-<h3>Ejemplo de modificar el orden de capas</h3>
-<p>Nuevamente, si las líneas y los puntos son de diferentes colores, se
-tienen que especificar los puntos <strong>geom_point</strong> después de
-la función <strong>geom_line</strong>. Por ejemplo,se puede ver el
-resultado cuando <strong>geom_point</strong> se específica antes de la
-línea. Los puntos están debajo de la línea, lo que los hace difícil de
-apreciar. Recordemos entonces que el orden de las funciones puede tener
-un impacto muy importante en la producción de un gráfico.</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="fu">ggplot</span>(Tiroide, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">as.integer</span>(Year), <span class="at">y=</span>Rate,</span>
-<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a>                    <span class="at">group=</span>Cases, <span class="at">color=</span>Cases))<span class="sc">+</span></span>
-<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape=</span><span class="dv">22</span>, <span class="at">size=</span><span class="dv">4</span>, <span class="at">color=</span><span class="st">&quot;blue&quot;</span>, <span class="at">fill=</span><span class="st">&quot;white&quot;</span>)<span class="sc">+</span></span>
-<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">3</span>)<span class="sc">+</span></span>
-<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
-<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>  <span class="fu">ylab</span>(<span class="st">&quot;Razón&quot;</span>)<span class="sc">+</span></span>
-<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Años&quot;</span>)<span class="sc">+</span></span>
-<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">limits=</span><span class="fu">c</span>(<span class="dv">2000</span>, <span class="dv">2010</span>))<span class="sc">+</span></span>
-<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))</span></code></pre></div>
-<p><img src="G13_geom_line_files/figure-html/graficalinea6-1.png" alt="" width="672" /></p>
-<p>Tarea</p>
-<ol style="list-style-type: decimal">
-<li>Seleccionar una especies en la base de datos de inaturalist</li>
-<li>Usando la fecha contabiliza la cantidad de observada por años en un
-area determinada.</li>
-<li>Selecciona otra especies del mismo genero de la base de datos de la
-misma area</li>
-<li>Une los data set en un data frame</li>
-<li>Crea un gráfico de la dos especies y el cambio (N) en tiempo por
-especie.</li>
-</ol>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
-<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span>
-<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a><span class="fu">library</span>(rinat)</span>
-<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
-<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a></span>
-<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a></span>
-<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a>cajaPR <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">17.75</span>, <span class="sc">-</span><span class="fl">67.4</span>, <span class="fl">18.75</span>, <span class="sc">-</span><span class="fl">65.15</span>) <span class="co"># Puerto Rico bounding box coordinates the order is c(min long, min lat, max long, max lat)</span></span>
-<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a></span>
-<span id="cb16-10"><a href="#cb16-10" tabindex="-1"></a></span>
-<span id="cb16-11"><a href="#cb16-11" tabindex="-1"></a>bujo <span class="ot">&lt;-</span> <span class="fu">get_inat_obs</span>(<span class="at">taxon_name =</span> <span class="st">&quot;Gymnasio nudipes&quot;</span>, <span class="co"># Puerto Rican owl species</span></span>
-<span id="cb16-12"><a href="#cb16-12" tabindex="-1"></a>             <span class="at">quality =</span> <span class="st">&#39;research&#39;</span>, <span class="co"># only research grade observations</span></span>
-<span id="cb16-13"><a href="#cb16-13" tabindex="-1"></a>             <span class="at">geo =</span> <span class="cn">TRUE</span>, <span class="co"># only observations with coordinates</span></span>
-<span id="cb16-14"><a href="#cb16-14" tabindex="-1"></a>             <span class="at">maxresults =</span> <span class="dv">1000</span>, <span class="co"># maximum number of observations</span></span>
-<span id="cb16-15"><a href="#cb16-15" tabindex="-1"></a>             <span class="at">bounds =</span> cajaPR) <span class="co"># bounding box coordinates</span></span>
-<span id="cb16-16"><a href="#cb16-16" tabindex="-1"></a></span>
-<span id="cb16-17"><a href="#cb16-17" tabindex="-1"></a><span class="fu">gt</span>(<span class="fu">head</span>(bujo))</span></code></pre></div>
-<div id="calidiarqi" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#calidiarqi table {
-  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-#calidiarqi thead, #calidiarqi tbody, #calidiarqi tfoot, #calidiarqi tr, #calidiarqi td, #calidiarqi th {
-  border-style: none;
-}
-
-#calidiarqi p {
-  margin: 0;
-  padding: 0;
-}
-
-#calidiarqi .gt_table {
-  display: table;
-  border-collapse: collapse;
-  line-height: normal;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 16px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-}
-
-#calidiarqi .gt_caption {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-#calidiarqi .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-
-#calidiarqi .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-
-#calidiarqi .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#calidiarqi .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#calidiarqi .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#calidiarqi .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-
-#calidiarqi .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#calidiarqi .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#calidiarqi .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#calidiarqi .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-
-#calidiarqi .gt_spanner_row {
-  border-bottom-style: hidden;
-}
-
-#calidiarqi .gt_group_heading {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  text-align: left;
-}
-
-#calidiarqi .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#calidiarqi .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#calidiarqi .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#calidiarqi .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-
-#calidiarqi .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#calidiarqi .gt_stub_row_group {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-  vertical-align: top;
-}
-
-#calidiarqi .gt_row_group_first td {
-  border-top-width: 2px;
-}
-
-#calidiarqi .gt_row_group_first th {
-  border-top-width: 2px;
-}
-
-#calidiarqi .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#calidiarqi .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-color: #D3D3D3;
-}
-
-#calidiarqi .gt_first_summary_row.thick {
-  border-top-width: 2px;
-}
-
-#calidiarqi .gt_last_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#calidiarqi .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#calidiarqi .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-
-#calidiarqi .gt_last_grand_summary_row_top {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D3D3D3;
-}
-
-#calidiarqi .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-
-#calidiarqi .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#calidiarqi .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#calidiarqi .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#calidiarqi .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#calidiarqi .gt_sourcenote {
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#calidiarqi .gt_left {
-  text-align: left;
-}
-
-#calidiarqi .gt_center {
-  text-align: center;
-}
-
-#calidiarqi .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-#calidiarqi .gt_font_normal {
-  font-weight: normal;
-}
-
-#calidiarqi .gt_font_bold {
-  font-weight: bold;
-}
-
-#calidiarqi .gt_font_italic {
-  font-style: italic;
-}
-
-#calidiarqi .gt_super {
-  font-size: 65%;
-}
-
-#calidiarqi .gt_footnote_marks {
-  font-size: 75%;
-  vertical-align: 0.4em;
-  position: initial;
-}
-
-#calidiarqi .gt_asterisk {
-  font-size: 100%;
-  vertical-align: 0;
-}
-
-#calidiarqi .gt_indent_1 {
-  text-indent: 5px;
-}
-
-#calidiarqi .gt_indent_2 {
-  text-indent: 10px;
-}
-
-#calidiarqi .gt_indent_3 {
-  text-indent: 15px;
-}
-
-#calidiarqi .gt_indent_4 {
-  text-indent: 20px;
-}
-
-#calidiarqi .gt_indent_5 {
-  text-indent: 25px;
-}
-
-#calidiarqi .katex-display {
-  display: inline-flex !important;
-  margin-bottom: 0.75em !important;
-}
-
-#calidiarqi div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
-  height: 0px !important;
-}
-</style>
-<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-  <thead>
-    <tr class="gt_col_headings">
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="scientific_name">scientific_name</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="datetime">datetime</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="description">description</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="place_guess">place_guess</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="latitude">latitude</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="longitude">longitude</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="tag_list">tag_list</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="common_name">common_name</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="url">url</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="image_url">image_url</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="user_login">user_login</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="id">id</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="species_guess">species_guess</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="iconic_taxon_name">iconic_taxon_name</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="taxon_id">taxon_id</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="num_identification_agreements">num_identification_agreements</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="num_identification_disagreements">num_identification_disagreements</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="observed_on_string">observed_on_string</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="observed_on">observed_on</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="time_observed_at">time_observed_at</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="time_zone">time_zone</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="positional_accuracy">positional_accuracy</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="public_positional_accuracy">public_positional_accuracy</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="geoprivacy">geoprivacy</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="taxon_geoprivacy">taxon_geoprivacy</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="coordinates_obscured">coordinates_obscured</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="positioning_method">positioning_method</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="positioning_device">positioning_device</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="user_id">user_id</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="user_name">user_name</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="created_at">created_at</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="updated_at">updated_at</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="quality_grade">quality_grade</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="license">license</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="sound_url">sound_url</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="oauth_application_id">oauth_application_id</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="captive_cultivated">captive_cultivated</th>
-    </tr>
-  </thead>
-  <tbody class="gt_table_body">
-    <tr><td headers="scientific_name" class="gt_row gt_left">Gymnasio nudipes</td>
-<td headers="datetime" class="gt_row gt_right">2026-02-02 05:21:00 -0400</td>
-<td headers="description" class="gt_row gt_left"></td>
-<td headers="place_guess" class="gt_row gt_left">Mameyes II, Río Grande 00745, Puerto Rico</td>
-<td headers="latitude" class="gt_row gt_right">18.39322</td>
-<td headers="longitude" class="gt_row gt_right">-65.76407</td>
-<td headers="tag_list" class="gt_row gt_right"></td>
-<td headers="common_name" class="gt_row gt_left">Puerto Rican Owl</td>
-<td headers="url" class="gt_row gt_left">https://www.inaturalist.org/observations/339529040</td>
-<td headers="image_url" class="gt_row gt_left">https://inaturalist-open-data.s3.amazonaws.com/photos/617673288/medium.jpg</td>
-<td headers="user_login" class="gt_row gt_left">mkdwoodruff</td>
-<td headers="id" class="gt_row gt_right">339529040</td>
-<td headers="species_guess" class="gt_row gt_left">Puerto Rican Owl</td>
-<td headers="iconic_taxon_name" class="gt_row gt_left">Aves</td>
-<td headers="taxon_id" class="gt_row gt_right">1289585</td>
-<td headers="num_identification_agreements" class="gt_row gt_right">4</td>
-<td headers="num_identification_disagreements" class="gt_row gt_right">0</td>
-<td headers="observed_on_string" class="gt_row gt_left">2026/02/02 5:21 AM</td>
-<td headers="observed_on" class="gt_row gt_right">2026-02-02</td>
-<td headers="time_observed_at" class="gt_row gt_left">2026-02-02 09:21:00 UTC</td>
-<td headers="time_zone" class="gt_row gt_left">Puerto Rico</td>
-<td headers="positional_accuracy" class="gt_row gt_right">NA</td>
-<td headers="public_positional_accuracy" class="gt_row gt_right">NA</td>
-<td headers="geoprivacy" class="gt_row gt_right"></td>
-<td headers="taxon_geoprivacy" class="gt_row gt_left">open</td>
-<td headers="coordinates_obscured" class="gt_row gt_left">false</td>
-<td headers="positioning_method" class="gt_row gt_left"></td>
-<td headers="positioning_device" class="gt_row gt_left"></td>
-<td headers="user_id" class="gt_row gt_right">2426657</td>
-<td headers="user_name" class="gt_row gt_left">Michael Woodruff</td>
-<td headers="created_at" class="gt_row gt_left">2026-02-21 06:12:15 UTC</td>
-<td headers="updated_at" class="gt_row gt_left">2026-02-24 20:20:43 UTC</td>
-<td headers="quality_grade" class="gt_row gt_left">research</td>
-<td headers="license" class="gt_row gt_left">CC-BY-NC</td>
-<td headers="sound_url" class="gt_row gt_left"></td>
-<td headers="oauth_application_id" class="gt_row gt_right">NA</td>
-<td headers="captive_cultivated" class="gt_row gt_left">false</td></tr>
-    <tr><td headers="scientific_name" class="gt_row gt_left">Gymnasio nudipes</td>
-<td headers="datetime" class="gt_row gt_right">2026-01-31 05:04:00 -0400</td>
-<td headers="description" class="gt_row gt_left"></td>
-<td headers="place_guess" class="gt_row gt_left">Carenero, Guánica 00653, Puerto Rico</td>
-<td headers="latitude" class="gt_row gt_right">17.98130</td>
-<td headers="longitude" class="gt_row gt_right">-66.87799</td>
-<td headers="tag_list" class="gt_row gt_right"></td>
-<td headers="common_name" class="gt_row gt_left">Puerto Rican Owl</td>
-<td headers="url" class="gt_row gt_left">https://www.inaturalist.org/observations/339263709</td>
-<td headers="image_url" class="gt_row gt_left">https://inaturalist-open-data.s3.amazonaws.com/photos/617132790/medium.jpg</td>
-<td headers="user_login" class="gt_row gt_left">mkdwoodruff</td>
-<td headers="id" class="gt_row gt_right">339263709</td>
-<td headers="species_guess" class="gt_row gt_left">Puerto Rican Owl</td>
-<td headers="iconic_taxon_name" class="gt_row gt_left">Aves</td>
-<td headers="taxon_id" class="gt_row gt_right">1289585</td>
-<td headers="num_identification_agreements" class="gt_row gt_right">7</td>
-<td headers="num_identification_disagreements" class="gt_row gt_right">0</td>
-<td headers="observed_on_string" class="gt_row gt_left">2026/01/31 5:04 AM</td>
-<td headers="observed_on" class="gt_row gt_right">2026-01-31</td>
-<td headers="time_observed_at" class="gt_row gt_left">2026-01-31 09:04:00 UTC</td>
-<td headers="time_zone" class="gt_row gt_left">Puerto Rico</td>
-<td headers="positional_accuracy" class="gt_row gt_right">NA</td>
-<td headers="public_positional_accuracy" class="gt_row gt_right">NA</td>
-<td headers="geoprivacy" class="gt_row gt_right"></td>
-<td headers="taxon_geoprivacy" class="gt_row gt_left">open</td>
-<td headers="coordinates_obscured" class="gt_row gt_left">false</td>
-<td headers="positioning_method" class="gt_row gt_left"></td>
-<td headers="positioning_device" class="gt_row gt_left"></td>
-<td headers="user_id" class="gt_row gt_right">2426657</td>
-<td headers="user_name" class="gt_row gt_left">Michael Woodruff</td>
-<td headers="created_at" class="gt_row gt_left">2026-02-19 06:57:50 UTC</td>
-<td headers="updated_at" class="gt_row gt_left">2026-02-24 20:32:07 UTC</td>
-<td headers="quality_grade" class="gt_row gt_left">research</td>
-<td headers="license" class="gt_row gt_left">CC-BY-NC</td>
-<td headers="sound_url" class="gt_row gt_left"></td>
-<td headers="oauth_application_id" class="gt_row gt_right">NA</td>
-<td headers="captive_cultivated" class="gt_row gt_left">false</td></tr>
-    <tr><td headers="scientific_name" class="gt_row gt_left">Gymnasio nudipes</td>
-<td headers="datetime" class="gt_row gt_right">2025-12-13 19:29:00 -0400</td>
-<td headers="description" class="gt_row gt_left"></td>
-<td headers="place_guess" class="gt_row gt_left">3RP8+RF, Cayey, 00736, Puerto Rico</td>
-<td headers="latitude" class="gt_row gt_right">18.08597</td>
-<td headers="longitude" class="gt_row gt_right">-66.18333</td>
-<td headers="tag_list" class="gt_row gt_right"></td>
-<td headers="common_name" class="gt_row gt_left">Puerto Rican Owl</td>
-<td headers="url" class="gt_row gt_left">https://www.inaturalist.org/observations/337164378</td>
-<td headers="image_url" class="gt_row gt_left">https://inaturalist-open-data.s3.amazonaws.com/photos/612857089/medium.jpg</td>
-<td headers="user_login" class="gt_row gt_left">eric9463</td>
-<td headers="id" class="gt_row gt_right">337164378</td>
-<td headers="species_guess" class="gt_row gt_left">Puerto Rican Owl</td>
-<td headers="iconic_taxon_name" class="gt_row gt_left">Aves</td>
-<td headers="taxon_id" class="gt_row gt_right">1289585</td>
-<td headers="num_identification_agreements" class="gt_row gt_right">4</td>
-<td headers="num_identification_disagreements" class="gt_row gt_right">0</td>
-<td headers="observed_on_string" class="gt_row gt_left">2025-12-13 19:29:00</td>
-<td headers="observed_on" class="gt_row gt_right">2025-12-13</td>
-<td headers="time_observed_at" class="gt_row gt_left">2025-12-13 23:29:00 UTC</td>
-<td headers="time_zone" class="gt_row gt_left">Puerto Rico</td>
-<td headers="positional_accuracy" class="gt_row gt_right">547</td>
-<td headers="public_positional_accuracy" class="gt_row gt_right">547</td>
-<td headers="geoprivacy" class="gt_row gt_right"></td>
-<td headers="taxon_geoprivacy" class="gt_row gt_left">open</td>
-<td headers="coordinates_obscured" class="gt_row gt_left">false</td>
-<td headers="positioning_method" class="gt_row gt_left"></td>
-<td headers="positioning_device" class="gt_row gt_left"></td>
-<td headers="user_id" class="gt_row gt_right">8721030</td>
-<td headers="user_name" class="gt_row gt_left"></td>
-<td headers="created_at" class="gt_row gt_left">2026-02-03 02:37:45 UTC</td>
-<td headers="updated_at" class="gt_row gt_left">2026-02-04 17:53:22 UTC</td>
-<td headers="quality_grade" class="gt_row gt_left">research</td>
-<td headers="license" class="gt_row gt_left">CC-BY-NC</td>
-<td headers="sound_url" class="gt_row gt_left"></td>
-<td headers="oauth_application_id" class="gt_row gt_right">2</td>
-<td headers="captive_cultivated" class="gt_row gt_left">false</td></tr>
-    <tr><td headers="scientific_name" class="gt_row gt_left">Gymnasio nudipes</td>
-<td headers="datetime" class="gt_row gt_right">2026-01-17 18:23:00 -0400</td>
-<td headers="description" class="gt_row gt_left">Se escucha bajito en el audio</td>
-<td headers="place_guess" class="gt_row gt_left">9WRV+GCP, San Juan, 00926, Puerto Rico</td>
-<td headers="latitude" class="gt_row gt_right">18.39306</td>
-<td headers="longitude" class="gt_row gt_right">-66.05590</td>
-<td headers="tag_list" class="gt_row gt_right"></td>
-<td headers="common_name" class="gt_row gt_left">Puerto Rican Owl</td>
-<td headers="url" class="gt_row gt_left">https://www.inaturalist.org/observations/335125107</td>
-<td headers="image_url" class="gt_row gt_left"></td>
-<td headers="user_login" class="gt_row gt_left">genaofjesus</td>
-<td headers="id" class="gt_row gt_right">335125107</td>
-<td headers="species_guess" class="gt_row gt_left">Puerto Rican Owl</td>
-<td headers="iconic_taxon_name" class="gt_row gt_left">Aves</td>
-<td headers="taxon_id" class="gt_row gt_right">1289585</td>
-<td headers="num_identification_agreements" class="gt_row gt_right">1</td>
-<td headers="num_identification_disagreements" class="gt_row gt_right">0</td>
-<td headers="observed_on_string" class="gt_row gt_left">2026-01-17 18:23:00</td>
-<td headers="observed_on" class="gt_row gt_right">2026-01-17</td>
-<td headers="time_observed_at" class="gt_row gt_left">2026-01-17 22:23:00 UTC</td>
-<td headers="time_zone" class="gt_row gt_left">Puerto Rico</td>
-<td headers="positional_accuracy" class="gt_row gt_right">4</td>
-<td headers="public_positional_accuracy" class="gt_row gt_right">4</td>
-<td headers="geoprivacy" class="gt_row gt_right"></td>
-<td headers="taxon_geoprivacy" class="gt_row gt_left">open</td>
-<td headers="coordinates_obscured" class="gt_row gt_left">false</td>
-<td headers="positioning_method" class="gt_row gt_left"></td>
-<td headers="positioning_device" class="gt_row gt_left"></td>
-<td headers="user_id" class="gt_row gt_right">4910981</td>
-<td headers="user_name" class="gt_row gt_left">gena of Jesus</td>
-<td headers="created_at" class="gt_row gt_left">2026-01-17 22:24:09 UTC</td>
-<td headers="updated_at" class="gt_row gt_left">2026-01-19 01:23:59 UTC</td>
-<td headers="quality_grade" class="gt_row gt_left">research</td>
-<td headers="license" class="gt_row gt_left">CC-BY-ND</td>
-<td headers="sound_url" class="gt_row gt_left">https://static.inaturalist.org/sounds/1743762.m4a?1768688651</td>
-<td headers="oauth_application_id" class="gt_row gt_right">2</td>
-<td headers="captive_cultivated" class="gt_row gt_left">false</td></tr>
-    <tr><td headers="scientific_name" class="gt_row gt_left">Gymnasio nudipes</td>
-<td headers="datetime" class="gt_row gt_right">2026-01-04 09:01:44 -0400</td>
-<td headers="description" class="gt_row gt_left"></td>
-<td headers="place_guess" class="gt_row gt_left">C2RV+W4V Reserva Natural Bosque de Piñones, Carolina, Loíza 00772, Puerto Rico</td>
-<td headers="latitude" class="gt_row gt_right">18.44225</td>
-<td headers="longitude" class="gt_row gt_right">-65.95706</td>
-<td headers="tag_list" class="gt_row gt_right"></td>
-<td headers="common_name" class="gt_row gt_left">Puerto Rican Owl</td>
-<td headers="url" class="gt_row gt_left">https://www.inaturalist.org/observations/333799212</td>
-<td headers="image_url" class="gt_row gt_left">https://inaturalist-open-data.s3.amazonaws.com/photos/606036620/medium.jpg</td>
-<td headers="user_login" class="gt_row gt_left">jordi_salguero</td>
-<td headers="id" class="gt_row gt_right">333799212</td>
-<td headers="species_guess" class="gt_row gt_left">Puerto Rican Owl</td>
-<td headers="iconic_taxon_name" class="gt_row gt_left">Aves</td>
-<td headers="taxon_id" class="gt_row gt_right">1289585</td>
-<td headers="num_identification_agreements" class="gt_row gt_right">2</td>
-<td headers="num_identification_disagreements" class="gt_row gt_right">0</td>
-<td headers="observed_on_string" class="gt_row gt_left">2026-01-04 09:01:44</td>
-<td headers="observed_on" class="gt_row gt_right">2026-01-04</td>
-<td headers="time_observed_at" class="gt_row gt_left">2026-01-04 13:01:44 UTC</td>
-<td headers="time_zone" class="gt_row gt_left">Puerto Rico</td>
-<td headers="positional_accuracy" class="gt_row gt_right">212</td>
-<td headers="public_positional_accuracy" class="gt_row gt_right">212</td>
-<td headers="geoprivacy" class="gt_row gt_right"></td>
-<td headers="taxon_geoprivacy" class="gt_row gt_left">open</td>
-<td headers="coordinates_obscured" class="gt_row gt_left">false</td>
-<td headers="positioning_method" class="gt_row gt_left">gps</td>
-<td headers="positioning_device" class="gt_row gt_left">gps</td>
-<td headers="user_id" class="gt_row gt_right">7043071</td>
-<td headers="user_name" class="gt_row gt_left">jordi</td>
-<td headers="created_at" class="gt_row gt_left">2026-01-07 01:49:03 UTC</td>
-<td headers="updated_at" class="gt_row gt_left">2026-01-18 06:30:25 UTC</td>
-<td headers="quality_grade" class="gt_row gt_left">research</td>
-<td headers="license" class="gt_row gt_left">CC-BY-NC</td>
-<td headers="sound_url" class="gt_row gt_left"></td>
-<td headers="oauth_application_id" class="gt_row gt_right">2</td>
-<td headers="captive_cultivated" class="gt_row gt_left">false</td></tr>
-    <tr><td headers="scientific_name" class="gt_row gt_left">Gymnasio nudipes</td>
-<td headers="datetime" class="gt_row gt_right">2026-01-04 08:43:00 -0400</td>
-<td headers="description" class="gt_row gt_left"></td>
-<td headers="place_guess" class="gt_row gt_left">Campamento Piñones, Carolina, Loíza, Puerto Rico</td>
-<td headers="latitude" class="gt_row gt_right">18.44142</td>
-<td headers="longitude" class="gt_row gt_right">-65.95778</td>
-<td headers="tag_list" class="gt_row gt_right"></td>
-<td headers="common_name" class="gt_row gt_left">Puerto Rican Owl</td>
-<td headers="url" class="gt_row gt_left">https://www.inaturalist.org/observations/333505319</td>
-<td headers="image_url" class="gt_row gt_left">https://inaturalist-open-data.s3.amazonaws.com/photos/605490886/medium.jpg</td>
-<td headers="user_login" class="gt_row gt_left">eliezer</td>
-<td headers="id" class="gt_row gt_right">333505319</td>
-<td headers="species_guess" class="gt_row gt_left">Puerto Rican Owl</td>
-<td headers="iconic_taxon_name" class="gt_row gt_left">Aves</td>
-<td headers="taxon_id" class="gt_row gt_right">1289585</td>
-<td headers="num_identification_agreements" class="gt_row gt_right">4</td>
-<td headers="num_identification_disagreements" class="gt_row gt_right">0</td>
-<td headers="observed_on_string" class="gt_row gt_left">2026/01/04 8:43 AM</td>
-<td headers="observed_on" class="gt_row gt_right">2026-01-04</td>
-<td headers="time_observed_at" class="gt_row gt_left">2026-01-04 12:43:00 UTC</td>
-<td headers="time_zone" class="gt_row gt_left">Puerto Rico</td>
-<td headers="positional_accuracy" class="gt_row gt_right">12</td>
-<td headers="public_positional_accuracy" class="gt_row gt_right">12</td>
-<td headers="geoprivacy" class="gt_row gt_right"></td>
-<td headers="taxon_geoprivacy" class="gt_row gt_left">open</td>
-<td headers="coordinates_obscured" class="gt_row gt_left">false</td>
-<td headers="positioning_method" class="gt_row gt_left"></td>
-<td headers="positioning_device" class="gt_row gt_left"></td>
-<td headers="user_id" class="gt_row gt_right">126268</td>
-<td headers="user_name" class="gt_row gt_left">Eliezer Nieves-Rodriguez</td>
-<td headers="created_at" class="gt_row gt_left">2026-01-04 23:14:07 UTC</td>
-<td headers="updated_at" class="gt_row gt_left">2026-01-18 06:30:01 UTC</td>
-<td headers="quality_grade" class="gt_row gt_left">research</td>
-<td headers="license" class="gt_row gt_left">CC-BY-NC</td>
-<td headers="sound_url" class="gt_row gt_left"></td>
-<td headers="oauth_application_id" class="gt_row gt_right">NA</td>
-<td headers="captive_cultivated" class="gt_row gt_left">false</td></tr>
-  </tbody>
-  
+</div>
+<div id="parámetros-de-geom_line" class="section level2">
+<h2>Parámetros de <code>geom_line()</code></h2>
+<table>
+<thead>
+<tr class="header">
+<th>Parámetro</th>
+<th>Descripción</th>
+<th>Ejemplo</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>alpha</code></td>
+<td>Transparencia (0 = invisible, 1 = opaco)</td>
+<td><code>alpha = 0.5</code></td>
+</tr>
+<tr class="even">
+<td><code>color</code></td>
+<td>Color de la línea</td>
+<td><code>color = "red"</code></td>
+</tr>
+<tr class="odd">
+<td><code>linewidth</code></td>
+<td>Ancho de la línea</td>
+<td><code>linewidth = 1.5</code></td>
+</tr>
+<tr class="even">
+<td><code>linetype</code></td>
+<td>Tipo de línea</td>
+<td><code>linetype = "dashed"</code></td>
+</tr>
+<tr class="odd">
+<td><code>group</code></td>
+<td>Variable que define los grupos</td>
+<td><code>group = Species</code></td>
+</tr>
+</tbody>
 </table>
-</div>
-<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
-<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a><span class="co">#bujo$date=ymd_hms(bujo$datetime)</span></span>
-<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a></span>
-<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a><span class="co">#bujo$Year=format(date, format=&quot;%Y&quot;)</span></span>
-<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a></span>
-<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a></span>
-<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a>bujo<span class="sc">$</span>date<span class="ot">=</span><span class="fu">ymd_hms</span>(bujo<span class="sc">$</span>datetime)</span>
-<span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a>bujo<span class="sc">$</span>Year<span class="ot">=</span><span class="fu">format</span>(<span class="fu">as.POSIXct</span>(bujo<span class="sc">$</span>date), <span class="at">format=</span><span class="st">&quot;%Y&quot;</span>)</span>
-<span id="cb17-9"><a href="#cb17-9" tabindex="-1"></a><span class="fu">gt</span>(<span class="fu">head</span>(bujo, <span class="at">n=</span><span class="dv">3</span>))</span></code></pre></div>
-<div id="scgxldprmf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#scgxldprmf table {
-  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-#scgxldprmf thead, #scgxldprmf tbody, #scgxldprmf tfoot, #scgxldprmf tr, #scgxldprmf td, #scgxldprmf th {
-  border-style: none;
-}
-
-#scgxldprmf p {
-  margin: 0;
-  padding: 0;
-}
-
-#scgxldprmf .gt_table {
-  display: table;
-  border-collapse: collapse;
-  line-height: normal;
-  margin-left: auto;
-  margin-right: auto;
-  color: #333333;
-  font-size: 16px;
-  font-weight: normal;
-  font-style: normal;
-  background-color: #FFFFFF;
-  width: auto;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #A8A8A8;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #A8A8A8;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-}
-
-#scgxldprmf .gt_caption {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-
-#scgxldprmf .gt_title {
-  color: #333333;
-  font-size: 125%;
-  font-weight: initial;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-color: #FFFFFF;
-  border-bottom-width: 0;
-}
-
-#scgxldprmf .gt_subtitle {
-  color: #333333;
-  font-size: 85%;
-  font-weight: initial;
-  padding-top: 3px;
-  padding-bottom: 5px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-color: #FFFFFF;
-  border-top-width: 0;
-}
-
-#scgxldprmf .gt_heading {
-  background-color: #FFFFFF;
-  text-align: center;
-  border-bottom-color: #FFFFFF;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#scgxldprmf .gt_bottom_border {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#scgxldprmf .gt_col_headings {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-}
-
-#scgxldprmf .gt_col_heading {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 6px;
-  padding-left: 5px;
-  padding-right: 5px;
-  overflow-x: hidden;
-}
-
-#scgxldprmf .gt_column_spanner_outer {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: normal;
-  text-transform: inherit;
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-left: 4px;
-  padding-right: 4px;
-}
-
-#scgxldprmf .gt_column_spanner_outer:first-child {
-  padding-left: 0;
-}
-
-#scgxldprmf .gt_column_spanner_outer:last-child {
-  padding-right: 0;
-}
-
-#scgxldprmf .gt_column_spanner {
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: bottom;
-  padding-top: 5px;
-  padding-bottom: 5px;
-  overflow-x: hidden;
-  display: inline-block;
-  width: 100%;
-}
-
-#scgxldprmf .gt_spanner_row {
-  border-bottom-style: hidden;
-}
-
-#scgxldprmf .gt_group_heading {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  text-align: left;
-}
-
-#scgxldprmf .gt_empty_group_heading {
-  padding: 0.5px;
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  vertical-align: middle;
-}
-
-#scgxldprmf .gt_from_md > :first-child {
-  margin-top: 0;
-}
-
-#scgxldprmf .gt_from_md > :last-child {
-  margin-bottom: 0;
-}
-
-#scgxldprmf .gt_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  margin: 10px;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 1px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 1px;
-  border-right-color: #D3D3D3;
-  vertical-align: middle;
-  overflow-x: hidden;
-}
-
-#scgxldprmf .gt_stub {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#scgxldprmf .gt_stub_row_group {
-  color: #333333;
-  background-color: #FFFFFF;
-  font-size: 100%;
-  font-weight: initial;
-  text-transform: inherit;
-  border-right-style: solid;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-  padding-left: 5px;
-  padding-right: 5px;
-  vertical-align: top;
-}
-
-#scgxldprmf .gt_row_group_first td {
-  border-top-width: 2px;
-}
-
-#scgxldprmf .gt_row_group_first th {
-  border-top-width: 2px;
-}
-
-#scgxldprmf .gt_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#scgxldprmf .gt_first_summary_row {
-  border-top-style: solid;
-  border-top-color: #D3D3D3;
-}
-
-#scgxldprmf .gt_first_summary_row.thick {
-  border-top-width: 2px;
-}
-
-#scgxldprmf .gt_last_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#scgxldprmf .gt_grand_summary_row {
-  color: #333333;
-  background-color: #FFFFFF;
-  text-transform: inherit;
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#scgxldprmf .gt_first_grand_summary_row {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-top-style: double;
-  border-top-width: 6px;
-  border-top-color: #D3D3D3;
-}
-
-#scgxldprmf .gt_last_grand_summary_row_top {
-  padding-top: 8px;
-  padding-bottom: 8px;
-  padding-left: 5px;
-  padding-right: 5px;
-  border-bottom-style: double;
-  border-bottom-width: 6px;
-  border-bottom-color: #D3D3D3;
-}
-
-#scgxldprmf .gt_striped {
-  background-color: rgba(128, 128, 128, 0.05);
-}
-
-#scgxldprmf .gt_table_body {
-  border-top-style: solid;
-  border-top-width: 2px;
-  border-top-color: #D3D3D3;
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-}
-
-#scgxldprmf .gt_footnotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#scgxldprmf .gt_footnote {
-  margin: 0px;
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#scgxldprmf .gt_sourcenotes {
-  color: #333333;
-  background-color: #FFFFFF;
-  border-bottom-style: none;
-  border-bottom-width: 2px;
-  border-bottom-color: #D3D3D3;
-  border-left-style: none;
-  border-left-width: 2px;
-  border-left-color: #D3D3D3;
-  border-right-style: none;
-  border-right-width: 2px;
-  border-right-color: #D3D3D3;
-}
-
-#scgxldprmf .gt_sourcenote {
-  font-size: 90%;
-  padding-top: 4px;
-  padding-bottom: 4px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
-#scgxldprmf .gt_left {
-  text-align: left;
-}
-
-#scgxldprmf .gt_center {
-  text-align: center;
-}
-
-#scgxldprmf .gt_right {
-  text-align: right;
-  font-variant-numeric: tabular-nums;
-}
-
-#scgxldprmf .gt_font_normal {
-  font-weight: normal;
-}
-
-#scgxldprmf .gt_font_bold {
-  font-weight: bold;
-}
-
-#scgxldprmf .gt_font_italic {
-  font-style: italic;
-}
-
-#scgxldprmf .gt_super {
-  font-size: 65%;
-}
-
-#scgxldprmf .gt_footnote_marks {
-  font-size: 75%;
-  vertical-align: 0.4em;
-  position: initial;
-}
-
-#scgxldprmf .gt_asterisk {
-  font-size: 100%;
-  vertical-align: 0;
-}
-
-#scgxldprmf .gt_indent_1 {
-  text-indent: 5px;
-}
-
-#scgxldprmf .gt_indent_2 {
-  text-indent: 10px;
-}
-
-#scgxldprmf .gt_indent_3 {
-  text-indent: 15px;
-}
-
-#scgxldprmf .gt_indent_4 {
-  text-indent: 20px;
-}
-
-#scgxldprmf .gt_indent_5 {
-  text-indent: 25px;
-}
-
-#scgxldprmf .katex-display {
-  display: inline-flex !important;
-  margin-bottom: 0.75em !important;
-}
-
-#scgxldprmf div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
-  height: 0px !important;
-}
-</style>
-<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
-  <thead>
-    <tr class="gt_col_headings">
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="scientific_name">scientific_name</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="datetime">datetime</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="description">description</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="place_guess">place_guess</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="latitude">latitude</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="longitude">longitude</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="tag_list">tag_list</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="common_name">common_name</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="url">url</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="image_url">image_url</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="user_login">user_login</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="id">id</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="species_guess">species_guess</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="iconic_taxon_name">iconic_taxon_name</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="taxon_id">taxon_id</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="num_identification_agreements">num_identification_agreements</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="num_identification_disagreements">num_identification_disagreements</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="observed_on_string">observed_on_string</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="observed_on">observed_on</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="time_observed_at">time_observed_at</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="time_zone">time_zone</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="positional_accuracy">positional_accuracy</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="public_positional_accuracy">public_positional_accuracy</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="geoprivacy">geoprivacy</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="taxon_geoprivacy">taxon_geoprivacy</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="coordinates_obscured">coordinates_obscured</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="positioning_method">positioning_method</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="positioning_device">positioning_device</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="user_id">user_id</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="user_name">user_name</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="created_at">created_at</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="updated_at">updated_at</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="quality_grade">quality_grade</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="license">license</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="sound_url">sound_url</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="oauth_application_id">oauth_application_id</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="captive_cultivated">captive_cultivated</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="date">date</th>
-      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1" scope="col" id="Year">Year</th>
-    </tr>
-  </thead>
-  <tbody class="gt_table_body">
-    <tr><td headers="scientific_name" class="gt_row gt_left">Gymnasio nudipes</td>
-<td headers="datetime" class="gt_row gt_right">2026-02-02 05:21:00 -0400</td>
-<td headers="description" class="gt_row gt_right"></td>
-<td headers="place_guess" class="gt_row gt_left">Mameyes II, Río Grande 00745, Puerto Rico</td>
-<td headers="latitude" class="gt_row gt_right">18.39322</td>
-<td headers="longitude" class="gt_row gt_right">-65.76407</td>
-<td headers="tag_list" class="gt_row gt_right"></td>
-<td headers="common_name" class="gt_row gt_left">Puerto Rican Owl</td>
-<td headers="url" class="gt_row gt_left">https://www.inaturalist.org/observations/339529040</td>
-<td headers="image_url" class="gt_row gt_left">https://inaturalist-open-data.s3.amazonaws.com/photos/617673288/medium.jpg</td>
-<td headers="user_login" class="gt_row gt_left">mkdwoodruff</td>
-<td headers="id" class="gt_row gt_right">339529040</td>
-<td headers="species_guess" class="gt_row gt_left">Puerto Rican Owl</td>
-<td headers="iconic_taxon_name" class="gt_row gt_left">Aves</td>
-<td headers="taxon_id" class="gt_row gt_right">1289585</td>
-<td headers="num_identification_agreements" class="gt_row gt_right">4</td>
-<td headers="num_identification_disagreements" class="gt_row gt_right">0</td>
-<td headers="observed_on_string" class="gt_row gt_left">2026/02/02 5:21 AM</td>
-<td headers="observed_on" class="gt_row gt_right">2026-02-02</td>
-<td headers="time_observed_at" class="gt_row gt_left">2026-02-02 09:21:00 UTC</td>
-<td headers="time_zone" class="gt_row gt_left">Puerto Rico</td>
-<td headers="positional_accuracy" class="gt_row gt_right">NA</td>
-<td headers="public_positional_accuracy" class="gt_row gt_right">NA</td>
-<td headers="geoprivacy" class="gt_row gt_right"></td>
-<td headers="taxon_geoprivacy" class="gt_row gt_left">open</td>
-<td headers="coordinates_obscured" class="gt_row gt_left">false</td>
-<td headers="positioning_method" class="gt_row gt_right"></td>
-<td headers="positioning_device" class="gt_row gt_right"></td>
-<td headers="user_id" class="gt_row gt_right">2426657</td>
-<td headers="user_name" class="gt_row gt_left">Michael Woodruff</td>
-<td headers="created_at" class="gt_row gt_left">2026-02-21 06:12:15 UTC</td>
-<td headers="updated_at" class="gt_row gt_left">2026-02-24 20:20:43 UTC</td>
-<td headers="quality_grade" class="gt_row gt_left">research</td>
-<td headers="license" class="gt_row gt_left">CC-BY-NC</td>
-<td headers="sound_url" class="gt_row gt_right"></td>
-<td headers="oauth_application_id" class="gt_row gt_right">NA</td>
-<td headers="captive_cultivated" class="gt_row gt_left">false</td>
-<td headers="date" class="gt_row gt_right">2026-02-02 09:21:00</td>
-<td headers="Year" class="gt_row gt_right">2026</td></tr>
-    <tr><td headers="scientific_name" class="gt_row gt_left">Gymnasio nudipes</td>
-<td headers="datetime" class="gt_row gt_right">2026-01-31 05:04:00 -0400</td>
-<td headers="description" class="gt_row gt_right"></td>
-<td headers="place_guess" class="gt_row gt_left">Carenero, Guánica 00653, Puerto Rico</td>
-<td headers="latitude" class="gt_row gt_right">17.98130</td>
-<td headers="longitude" class="gt_row gt_right">-66.87799</td>
-<td headers="tag_list" class="gt_row gt_right"></td>
-<td headers="common_name" class="gt_row gt_left">Puerto Rican Owl</td>
-<td headers="url" class="gt_row gt_left">https://www.inaturalist.org/observations/339263709</td>
-<td headers="image_url" class="gt_row gt_left">https://inaturalist-open-data.s3.amazonaws.com/photos/617132790/medium.jpg</td>
-<td headers="user_login" class="gt_row gt_left">mkdwoodruff</td>
-<td headers="id" class="gt_row gt_right">339263709</td>
-<td headers="species_guess" class="gt_row gt_left">Puerto Rican Owl</td>
-<td headers="iconic_taxon_name" class="gt_row gt_left">Aves</td>
-<td headers="taxon_id" class="gt_row gt_right">1289585</td>
-<td headers="num_identification_agreements" class="gt_row gt_right">7</td>
-<td headers="num_identification_disagreements" class="gt_row gt_right">0</td>
-<td headers="observed_on_string" class="gt_row gt_left">2026/01/31 5:04 AM</td>
-<td headers="observed_on" class="gt_row gt_right">2026-01-31</td>
-<td headers="time_observed_at" class="gt_row gt_left">2026-01-31 09:04:00 UTC</td>
-<td headers="time_zone" class="gt_row gt_left">Puerto Rico</td>
-<td headers="positional_accuracy" class="gt_row gt_right">NA</td>
-<td headers="public_positional_accuracy" class="gt_row gt_right">NA</td>
-<td headers="geoprivacy" class="gt_row gt_right"></td>
-<td headers="taxon_geoprivacy" class="gt_row gt_left">open</td>
-<td headers="coordinates_obscured" class="gt_row gt_left">false</td>
-<td headers="positioning_method" class="gt_row gt_right"></td>
-<td headers="positioning_device" class="gt_row gt_right"></td>
-<td headers="user_id" class="gt_row gt_right">2426657</td>
-<td headers="user_name" class="gt_row gt_left">Michael Woodruff</td>
-<td headers="created_at" class="gt_row gt_left">2026-02-19 06:57:50 UTC</td>
-<td headers="updated_at" class="gt_row gt_left">2026-02-24 20:32:07 UTC</td>
-<td headers="quality_grade" class="gt_row gt_left">research</td>
-<td headers="license" class="gt_row gt_left">CC-BY-NC</td>
-<td headers="sound_url" class="gt_row gt_right"></td>
-<td headers="oauth_application_id" class="gt_row gt_right">NA</td>
-<td headers="captive_cultivated" class="gt_row gt_left">false</td>
-<td headers="date" class="gt_row gt_right">2026-01-31 09:04:00</td>
-<td headers="Year" class="gt_row gt_right">2026</td></tr>
-    <tr><td headers="scientific_name" class="gt_row gt_left">Gymnasio nudipes</td>
-<td headers="datetime" class="gt_row gt_right">2025-12-13 19:29:00 -0400</td>
-<td headers="description" class="gt_row gt_right"></td>
-<td headers="place_guess" class="gt_row gt_left">3RP8+RF, Cayey, 00736, Puerto Rico</td>
-<td headers="latitude" class="gt_row gt_right">18.08597</td>
-<td headers="longitude" class="gt_row gt_right">-66.18333</td>
-<td headers="tag_list" class="gt_row gt_right"></td>
-<td headers="common_name" class="gt_row gt_left">Puerto Rican Owl</td>
-<td headers="url" class="gt_row gt_left">https://www.inaturalist.org/observations/337164378</td>
-<td headers="image_url" class="gt_row gt_left">https://inaturalist-open-data.s3.amazonaws.com/photos/612857089/medium.jpg</td>
-<td headers="user_login" class="gt_row gt_left">eric9463</td>
-<td headers="id" class="gt_row gt_right">337164378</td>
-<td headers="species_guess" class="gt_row gt_left">Puerto Rican Owl</td>
-<td headers="iconic_taxon_name" class="gt_row gt_left">Aves</td>
-<td headers="taxon_id" class="gt_row gt_right">1289585</td>
-<td headers="num_identification_agreements" class="gt_row gt_right">4</td>
-<td headers="num_identification_disagreements" class="gt_row gt_right">0</td>
-<td headers="observed_on_string" class="gt_row gt_left">2025-12-13 19:29:00</td>
-<td headers="observed_on" class="gt_row gt_right">2025-12-13</td>
-<td headers="time_observed_at" class="gt_row gt_left">2025-12-13 23:29:00 UTC</td>
-<td headers="time_zone" class="gt_row gt_left">Puerto Rico</td>
-<td headers="positional_accuracy" class="gt_row gt_right">547</td>
-<td headers="public_positional_accuracy" class="gt_row gt_right">547</td>
-<td headers="geoprivacy" class="gt_row gt_right"></td>
-<td headers="taxon_geoprivacy" class="gt_row gt_left">open</td>
-<td headers="coordinates_obscured" class="gt_row gt_left">false</td>
-<td headers="positioning_method" class="gt_row gt_right"></td>
-<td headers="positioning_device" class="gt_row gt_right"></td>
-<td headers="user_id" class="gt_row gt_right">8721030</td>
-<td headers="user_name" class="gt_row gt_left"></td>
-<td headers="created_at" class="gt_row gt_left">2026-02-03 02:37:45 UTC</td>
-<td headers="updated_at" class="gt_row gt_left">2026-02-04 17:53:22 UTC</td>
-<td headers="quality_grade" class="gt_row gt_left">research</td>
-<td headers="license" class="gt_row gt_left">CC-BY-NC</td>
-<td headers="sound_url" class="gt_row gt_right"></td>
-<td headers="oauth_application_id" class="gt_row gt_right">2</td>
-<td headers="captive_cultivated" class="gt_row gt_left">false</td>
-<td headers="date" class="gt_row gt_right">2025-12-13 23:29:00</td>
-<td headers="Year" class="gt_row gt_right">2025</td></tr>
-  </tbody>
-  
+<p><strong>Tipos de línea disponibles:</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th>Valor</th>
+<th>Nombre</th>
+<th>Apariencia</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td><code>"solid"</code></td>
+<td>————</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td><code>"dashed"</code></td>
+<td>– – – –</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td><code>"dotted"</code></td>
+<td>· · · ·</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td><code>"dotdash"</code></td>
+<td>· – · –</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td><code>"longdash"</code></td>
+<td>—— ——</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td><code>"twodash"</code></td>
+<td>— — —</td>
+</tr>
+</tbody>
 </table>
-</div>
-<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a>bujo2<span class="ot">=</span>bujo <span class="sc">%&gt;%</span> </span>
-<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>  <span class="fu">select</span>(Year) <span class="sc">%&gt;%</span> </span>
-<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a>  <span class="fu">group_by</span>(Year) <span class="sc">%&gt;%</span> </span>
-<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">summarize</span>(<span class="at">n=</span><span class="fu">n</span>())</span>
-<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a></span>
-<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a>bujo2</span></code></pre></div>
-<pre><code>## # A tibble: 13 × 2
-##    Year      n
-##    &lt;chr&gt; &lt;int&gt;
-##  1 2007      1
-##  2 2009      2
-##  3 2013      1
-##  4 2016      4
-##  5 2017      2
-##  6 2019      1
-##  7 2020      2
-##  8 2021     14
-##  9 2022     31
-## 10 2023     27
-## 11 2024     26
-## 12 2025     20
-## 13 2026      7</code></pre>
-<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a><span class="fu">ggplot</span>(bujo2, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">as.integer</span>(Year), <span class="at">y=</span>n))<span class="sc">+</span></span>
-<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">shape=</span><span class="dv">22</span>, <span class="at">size=</span><span class="dv">4</span>, <span class="at">color=</span><span class="st">&quot;blue&quot;</span>, <span class="at">fill=</span><span class="st">&quot;white&quot;</span>)<span class="sc">+</span></span>
-<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">size=</span><span class="dv">3</span>)<span class="sc">+</span></span>
-<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a>  <span class="fu">guides</span>(<span class="at">color=</span><span class="st">&quot;none&quot;</span>)</span></code></pre></div>
-<p><img src="G13_geom_line_files/figure-html/unnamed-chunk-5-1.png" alt="" width="672" /></p>
-</div>
-</div>
-<div id="httpsen.wikipedia.orgwikilist_of_mammals_of_puerto_rico"
-class="section level1">
-<h1><a
-href="https://en.wikipedia.org/wiki/List_of_mammals_of_Puerto_Rico"
-class="uri">https://en.wikipedia.org/wiki/List_of_mammals_of_Puerto_Rico</a></h1>
 <hr />
-<div id="opciones-y-parametros-de-geom_line" class="section level2">
-<h2>Opciones y Parametros de <strong>geom_line</strong></h2>
+</div>
+</div>
+<div id="parte-2-técnicas-avanzadas" class="section level1">
+<h1>Parte 2: Técnicas avanzadas</h1>
+<div id="bandas-de-confianza-con-geom_ribbon" class="section level2">
+<h2>Bandas de confianza con <code>geom_ribbon()</code></h2>
+<p><code>geom_ribbon()</code> permite añadir una banda sombreada
+alrededor de la línea para mostrar incertidumbre (intervalos de
+confianza, error estándar, o rango). Esto es muy útil para mostrar la
+variabilidad en datos de series temporales.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a><span class="co"># Crear datos simulados de temperatura mensual en dos localidades de PR</span></span>
+<span id="cb14-2"><a href="#cb14-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">2026</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" tabindex="-1"></a>meses <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>, <span class="dv">2</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" tabindex="-1"></a>localidad <span class="ot">&lt;-</span> <span class="fu">rep</span>(<span class="fu">c</span>(<span class="st">&quot;Maricao (montaña)&quot;</span>, <span class="st">&quot;Lajas (costa sur)&quot;</span>), <span class="at">each =</span> <span class="dv">12</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" tabindex="-1"></a></span>
+<span id="cb14-6"><a href="#cb14-6" tabindex="-1"></a>temp_media <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb14-7"><a href="#cb14-7" tabindex="-1"></a>  <span class="co"># Maricao: más fresco, menos variación</span></span>
+<span id="cb14-8"><a href="#cb14-8" tabindex="-1"></a>  <span class="fl">19.5</span>, <span class="fl">19.8</span>, <span class="fl">20.5</span>, <span class="fl">21.2</span>, <span class="fl">22.0</span>, <span class="fl">22.8</span>, <span class="fl">23.0</span>, <span class="fl">23.1</span>, <span class="fl">22.7</span>, <span class="fl">22.0</span>, <span class="fl">21.0</span>, <span class="fl">20.0</span>,</span>
+<span id="cb14-9"><a href="#cb14-9" tabindex="-1"></a>  <span class="co"># Lajas: más cálido, más variación</span></span>
+<span id="cb14-10"><a href="#cb14-10" tabindex="-1"></a>  <span class="fl">25.0</span>, <span class="fl">25.2</span>, <span class="fl">25.8</span>, <span class="fl">26.5</span>, <span class="fl">27.2</span>, <span class="fl">28.0</span>, <span class="fl">28.5</span>, <span class="fl">28.6</span>, <span class="fl">28.2</span>, <span class="fl">27.5</span>, <span class="fl">26.5</span>, <span class="fl">25.5</span></span>
+<span id="cb14-11"><a href="#cb14-11" tabindex="-1"></a>)</span>
+<span id="cb14-12"><a href="#cb14-12" tabindex="-1"></a>temp_se <span class="ot">&lt;-</span> <span class="fu">c</span>(</span>
+<span id="cb14-13"><a href="#cb14-13" tabindex="-1"></a>  <span class="fu">rep</span>(<span class="fl">0.8</span>, <span class="dv">12</span>),</span>
+<span id="cb14-14"><a href="#cb14-14" tabindex="-1"></a>  <span class="fu">rep</span>(<span class="fl">1.2</span>, <span class="dv">12</span>)</span>
+<span id="cb14-15"><a href="#cb14-15" tabindex="-1"></a>)</span>
+<span id="cb14-16"><a href="#cb14-16" tabindex="-1"></a></span>
+<span id="cb14-17"><a href="#cb14-17" tabindex="-1"></a>temp_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb14-18"><a href="#cb14-18" tabindex="-1"></a>  <span class="at">Mes       =</span> meses,</span>
+<span id="cb14-19"><a href="#cb14-19" tabindex="-1"></a>  <span class="at">Localidad =</span> localidad,</span>
+<span id="cb14-20"><a href="#cb14-20" tabindex="-1"></a>  <span class="at">Temp_Mean =</span> temp_media,</span>
+<span id="cb14-21"><a href="#cb14-21" tabindex="-1"></a>  <span class="at">Temp_SE   =</span> temp_se</span>
+<span id="cb14-22"><a href="#cb14-22" tabindex="-1"></a>) <span class="sc">%&gt;%</span></span>
+<span id="cb14-23"><a href="#cb14-23" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb14-24"><a href="#cb14-24" tabindex="-1"></a>    <span class="at">CI_low  =</span> Temp_Mean <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> Temp_SE,</span>
+<span id="cb14-25"><a href="#cb14-25" tabindex="-1"></a>    <span class="at">CI_high =</span> Temp_Mean <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> Temp_SE</span>
+<span id="cb14-26"><a href="#cb14-26" tabindex="-1"></a>  )</span>
+<span id="cb14-27"><a href="#cb14-27" tabindex="-1"></a></span>
+<span id="cb14-28"><a href="#cb14-28" tabindex="-1"></a><span class="fu">ggplot</span>(temp_df, <span class="fu">aes</span>(<span class="at">x =</span> Mes, <span class="at">y =</span> Temp_Mean,</span>
+<span id="cb14-29"><a href="#cb14-29" tabindex="-1"></a>                    <span class="at">color =</span> Localidad, <span class="at">fill =</span> Localidad)) <span class="sc">+</span></span>
+<span id="cb14-30"><a href="#cb14-30" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> CI_low, <span class="at">ymax =</span> CI_high),</span>
+<span id="cb14-31"><a href="#cb14-31" tabindex="-1"></a>              <span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">color =</span> <span class="cn">NA</span>) <span class="sc">+</span></span>
+<span id="cb14-32"><a href="#cb14-32" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb14-33"><a href="#cb14-33" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb14-34"><a href="#cb14-34" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>,</span>
+<span id="cb14-35"><a href="#cb14-35" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Ene&quot;</span>,<span class="st">&quot;Feb&quot;</span>,<span class="st">&quot;Mar&quot;</span>,<span class="st">&quot;Abr&quot;</span>,<span class="st">&quot;May&quot;</span>,<span class="st">&quot;Jun&quot;</span>,</span>
+<span id="cb14-36"><a href="#cb14-36" tabindex="-1"></a>                                <span class="st">&quot;Jul&quot;</span>,<span class="st">&quot;Ago&quot;</span>,<span class="st">&quot;Sep&quot;</span>,<span class="st">&quot;Oct&quot;</span>,<span class="st">&quot;Nov&quot;</span>,<span class="st">&quot;Dic&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb14-37"><a href="#cb14-37" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;Maricao (montaña)&quot;</span> <span class="ot">=</span> <span class="st">&quot;#2E86AB&quot;</span>,</span>
+<span id="cb14-38"><a href="#cb14-38" tabindex="-1"></a>                                <span class="st">&quot;Lajas (costa sur)&quot;</span> <span class="ot">=</span> <span class="st">&quot;#D73027&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb14-39"><a href="#cb14-39" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;Maricao (montaña)&quot;</span> <span class="ot">=</span> <span class="st">&quot;#2E86AB&quot;</span>,</span>
+<span id="cb14-40"><a href="#cb14-40" tabindex="-1"></a>                               <span class="st">&quot;Lajas (costa sur)&quot;</span> <span class="ot">=</span> <span class="st">&quot;#D73027&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb14-41"><a href="#cb14-41" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Mes&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Temperatura media (°C)&quot;</span>,</span>
+<span id="cb14-42"><a href="#cb14-42" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Temperatura mensual en dos localidades de Puerto Rico&quot;</span>,</span>
+<span id="cb14-43"><a href="#cb14-43" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">&quot;Línea = media, banda = intervalo de confianza al 95%&quot;</span>) <span class="sc">+</span></span>
+<span id="cb14-44"><a href="#cb14-44" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb14-45"><a href="#cb14-45" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
+<p><img src="G13_geom_line_files/figure-html/ribbon-example-1.png" alt="" width="672" /></p>
+<p><strong>Conceptos clave:</strong></p>
 <ul>
-<li><p>ggplot(el archivo de datos, aes(la variables continua))</p></li>
-<li><p>geom_line(alpha, color, group, fill, size, linetype)</p>
-<ul>
-<li>alpha: la intensidad del color</li>
-<li>color: el color de la línea</li>
-<li>group: identifica los grupos</li>
-<li>linetype: el tipo de línea</li>
-<li>size: el ancho de la línea</li>
-</ul></li>
+<li><code>geom_ribbon()</code> necesita <code>ymin</code> y
+<code>ymax</code> para definir la banda.</li>
+<li>Se coloca <strong>antes</strong> de <code>geom_line()</code> para
+que la línea quede encima.</li>
+<li><code>alpha = 0.2</code> hace la banda semi-transparente.</li>
+<li><code>color = NA</code> en el ribbon elimina el borde de la
+banda.</li>
 </ul>
+<hr />
 </div>
+<div id="líneas-suavizadas-con-geom_smooth" class="section level2">
+<h2>Líneas suavizadas con <code>geom_smooth()</code></h2>
+<p>Cuando los datos tienen mucho ruido, podemos superponer una línea de
+tendencia suavizada. <code>geom_smooth()</code> añade un modelo local
+(LOESS o GAM) sobre los datos:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" tabindex="-1"></a><span class="co"># Datos simulados: conteo de coquíes por noche durante un año</span></span>
+<span id="cb15-2"><a href="#cb15-2" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">99</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" tabindex="-1"></a>dias <span class="ot">&lt;-</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">365</span></span>
+<span id="cb15-4"><a href="#cb15-4" tabindex="-1"></a><span class="co"># Patrón estacional + ruido</span></span>
+<span id="cb15-5"><a href="#cb15-5" tabindex="-1"></a>conteo_coqui <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="dv">30</span> <span class="sc">+</span> <span class="dv">15</span> <span class="sc">*</span> <span class="fu">sin</span>(<span class="dv">2</span> <span class="sc">*</span> pi <span class="sc">*</span> dias <span class="sc">/</span> <span class="dv">365</span> <span class="sc">-</span> pi<span class="sc">/</span><span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb15-6"><a href="#cb15-6" tabindex="-1"></a>                        <span class="fu">rnorm</span>(<span class="dv">365</span>, <span class="dv">0</span>, <span class="dv">8</span>))</span>
+<span id="cb15-7"><a href="#cb15-7" tabindex="-1"></a>conteo_coqui <span class="ot">&lt;-</span> <span class="fu">pmax</span>(<span class="dv">0</span>, conteo_coqui)</span>
+<span id="cb15-8"><a href="#cb15-8" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" tabindex="-1"></a>coqui_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb15-10"><a href="#cb15-10" tabindex="-1"></a>  <span class="at">Dia    =</span> dias,</span>
+<span id="cb15-11"><a href="#cb15-11" tabindex="-1"></a>  <span class="at">Fecha  =</span> <span class="fu">as.Date</span>(<span class="st">&quot;2025-01-01&quot;</span>) <span class="sc">+</span> dias <span class="sc">-</span> <span class="dv">1</span>,</span>
+<span id="cb15-12"><a href="#cb15-12" tabindex="-1"></a>  <span class="at">Conteo =</span> conteo_coqui</span>
+<span id="cb15-13"><a href="#cb15-13" tabindex="-1"></a>)</span>
+<span id="cb15-14"><a href="#cb15-14" tabindex="-1"></a></span>
+<span id="cb15-15"><a href="#cb15-15" tabindex="-1"></a><span class="fu">ggplot</span>(coqui_df, <span class="fu">aes</span>(<span class="at">x =</span> Fecha, <span class="at">y =</span> Conteo)) <span class="sc">+</span></span>
+<span id="cb15-16"><a href="#cb15-16" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">alpha =</span> <span class="fl">0.3</span>, <span class="at">color =</span> <span class="st">&quot;grey50&quot;</span>) <span class="sc">+</span></span>
+<span id="cb15-17"><a href="#cb15-17" tabindex="-1"></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">&quot;loess&quot;</span>, <span class="at">span =</span> <span class="fl">0.15</span>,</span>
+<span id="cb15-18"><a href="#cb15-18" tabindex="-1"></a>              <span class="at">color =</span> <span class="st">&quot;#00674F&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;#00674F&quot;</span>,</span>
+<span id="cb15-19"><a href="#cb15-19" tabindex="-1"></a>              <span class="at">alpha =</span> <span class="fl">0.2</span>, <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb15-20"><a href="#cb15-20" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Fecha&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Coquíes detectados por noche&quot;</span>,</span>
+<span id="cb15-21"><a href="#cb15-21" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Actividad vocal de Eleutherodactylus coqui&quot;</span>,</span>
+<span id="cb15-22"><a href="#cb15-22" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">&quot;Línea gris = datos diarios, línea verde = tendencia LOESS&quot;</span>) <span class="sc">+</span></span>
+<span id="cb15-23"><a href="#cb15-23" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>)</span></code></pre></div>
+<p><img src="G13_geom_line_files/figure-html/smooth-example-1.png" alt="" width="672" /></p>
+<p><strong>Conceptos clave:</strong></p>
+<ul>
+<li><code>method = "loess"</code> ajusta un modelo local. Para datos
+grandes, usa <code>method = "gam"</code>.</li>
+<li><code>span</code> controla cuánto se suaviza (valores pequeños = más
+detalle, valores grandes = más suave).</li>
+<li>La línea original semi-transparente (<code>alpha = 0.3</code>)
+muestra el ruido real.</li>
+</ul>
+<hr />
+</div>
+<div id="líneas-escalonadas-con-geom_step" class="section level2">
+<h2>Líneas escalonadas con <code>geom_step()</code></h2>
+<p>Cuando los cambios ocurren en puntos discretos (no gradualmente),
+<code>geom_step()</code> es más apropiado que <code>geom_line()</code>.
+Esto es útil para datos de supervivencia, precios, o políticas que
+cambian en fechas específicas.</p>
+<p>Aquí usamos datos reales del precio promedio anual del petróleo crudo
+WTI (West Texas Intermediate) en dólares por barril, la referencia
+principal del mercado petrolero de América del Norte. Fuente: U.S.
+Energy Information Administration (EIA) y Trading Economics.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="co"># Precio promedio anual del petróleo crudo WTI (USD/barril)</span></span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a><span class="co"># Fuente: EIA Annual Average + estimaciones 2025-2026</span></span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a><span class="co"># 2020 incluye el colapso por COVID (WTI llegó a -$37.63 en abril 2020)</span></span>
+<span id="cb16-4"><a href="#cb16-4" tabindex="-1"></a><span class="co"># 2022 refleja la invasión rusa de Ucrania</span></span>
+<span id="cb16-5"><a href="#cb16-5" tabindex="-1"></a><span class="co"># 2025-2026 reflejan la crisis del Estrecho de Ormuz (conflicto US-Irán)</span></span>
+<span id="cb16-6"><a href="#cb16-6" tabindex="-1"></a></span>
+<span id="cb16-7"><a href="#cb16-7" tabindex="-1"></a>oil_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb16-8"><a href="#cb16-8" tabindex="-1"></a>  <span class="at">Year =</span> <span class="dv">2015</span><span class="sc">:</span><span class="dv">2026</span>,</span>
+<span id="cb16-9"><a href="#cb16-9" tabindex="-1"></a>  <span class="at">WTI_avg =</span> <span class="fu">c</span>(</span>
+<span id="cb16-10"><a href="#cb16-10" tabindex="-1"></a>    <span class="fl">48.66</span>,   <span class="co"># 2015 — glut, oversupply</span></span>
+<span id="cb16-11"><a href="#cb16-11" tabindex="-1"></a>    <span class="fl">43.29</span>,   <span class="co"># 2016 — OPEC cuts begin</span></span>
+<span id="cb16-12"><a href="#cb16-12" tabindex="-1"></a>    <span class="fl">50.80</span>,   <span class="co"># 2017 — recovery</span></span>
+<span id="cb16-13"><a href="#cb16-13" tabindex="-1"></a>    <span class="fl">65.23</span>,   <span class="co"># 2018 — steady growth</span></span>
+<span id="cb16-14"><a href="#cb16-14" tabindex="-1"></a>    <span class="fl">56.99</span>,   <span class="co"># 2019 — trade war fears</span></span>
+<span id="cb16-15"><a href="#cb16-15" tabindex="-1"></a>    <span class="fl">39.16</span>,   <span class="co"># 2020 — COVID crash (April: -$37.63!)</span></span>
+<span id="cb16-16"><a href="#cb16-16" tabindex="-1"></a>    <span class="fl">67.99</span>,   <span class="co"># 2021 — recovery + reopening</span></span>
+<span id="cb16-17"><a href="#cb16-17" tabindex="-1"></a>    <span class="fl">94.53</span>,   <span class="co"># 2022 — Russia-Ukraine war</span></span>
+<span id="cb16-18"><a href="#cb16-18" tabindex="-1"></a>    <span class="fl">77.61</span>,   <span class="co"># 2023 — stabilization</span></span>
+<span id="cb16-19"><a href="#cb16-19" tabindex="-1"></a>    <span class="fl">75.96</span>,   <span class="co"># 2024 — oversupply concerns</span></span>
+<span id="cb16-20"><a href="#cb16-20" tabindex="-1"></a>    <span class="fl">68.17</span>,   <span class="co"># 2025 — pre-conflict (Jan-Feb avg)</span></span>
+<span id="cb16-21"><a href="#cb16-21" tabindex="-1"></a>    <span class="fl">93.00</span>    <span class="co"># 2026 — Strait of Hormuz crisis (Apr est.)</span></span>
+<span id="cb16-22"><a href="#cb16-22" tabindex="-1"></a>  )</span>
+<span id="cb16-23"><a href="#cb16-23" tabindex="-1"></a>)</span>
+<span id="cb16-24"><a href="#cb16-24" tabindex="-1"></a></span>
+<span id="cb16-25"><a href="#cb16-25" tabindex="-1"></a><span class="fu">ggplot</span>(oil_df, <span class="fu">aes</span>(<span class="at">x =</span> Year, <span class="at">y =</span> WTI_avg)) <span class="sc">+</span></span>
+<span id="cb16-26"><a href="#cb16-26" tabindex="-1"></a>  <span class="co"># Highlight crisis periods</span></span>
+<span id="cb16-27"><a href="#cb16-27" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;rect&quot;</span>, <span class="at">xmin =</span> <span class="fl">2019.5</span>, <span class="at">xmax =</span> <span class="fl">2020.5</span>,</span>
+<span id="cb16-28"><a href="#cb16-28" tabindex="-1"></a>           <span class="at">ymin =</span> <span class="sc">-</span><span class="cn">Inf</span>, <span class="at">ymax =</span> <span class="cn">Inf</span>,</span>
+<span id="cb16-29"><a href="#cb16-29" tabindex="-1"></a>           <span class="at">fill =</span> <span class="st">&quot;#FF9999&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb16-30"><a href="#cb16-30" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;rect&quot;</span>, <span class="at">xmin =</span> <span class="fl">2021.5</span>, <span class="at">xmax =</span> <span class="fl">2022.5</span>,</span>
+<span id="cb16-31"><a href="#cb16-31" tabindex="-1"></a>           <span class="at">ymin =</span> <span class="sc">-</span><span class="cn">Inf</span>, <span class="at">ymax =</span> <span class="cn">Inf</span>,</span>
+<span id="cb16-32"><a href="#cb16-32" tabindex="-1"></a>           <span class="at">fill =</span> <span class="st">&quot;#FFD700&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb16-33"><a href="#cb16-33" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;rect&quot;</span>, <span class="at">xmin =</span> <span class="fl">2025.5</span>, <span class="at">xmax =</span> <span class="fl">2026.5</span>,</span>
+<span id="cb16-34"><a href="#cb16-34" tabindex="-1"></a>           <span class="at">ymin =</span> <span class="sc">-</span><span class="cn">Inf</span>, <span class="at">ymax =</span> <span class="cn">Inf</span>,</span>
+<span id="cb16-35"><a href="#cb16-35" tabindex="-1"></a>           <span class="at">fill =</span> <span class="st">&quot;#FF6B6B&quot;</span>, <span class="at">alpha =</span> <span class="fl">0.2</span>) <span class="sc">+</span></span>
+<span id="cb16-36"><a href="#cb16-36" tabindex="-1"></a>  <span class="fu">geom_step</span>(<span class="at">linewidth =</span> <span class="fl">1.2</span>, <span class="at">color =</span> <span class="st">&quot;#2C3E50&quot;</span>) <span class="sc">+</span></span>
+<span id="cb16-37"><a href="#cb16-37" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">color =</span> <span class="st">&quot;#2C3E50&quot;</span>, <span class="at">fill =</span> <span class="st">&quot;white&quot;</span>, <span class="at">shape =</span> <span class="dv">21</span>,</span>
+<span id="cb16-38"><a href="#cb16-38" tabindex="-1"></a>             <span class="at">stroke =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb16-39"><a href="#cb16-39" tabindex="-1"></a>  <span class="co"># Annotate key events</span></span>
+<span id="cb16-40"><a href="#cb16-40" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x =</span> <span class="dv">2020</span>, <span class="at">y =</span> <span class="dv">32</span>, <span class="at">label =</span> <span class="st">&quot;COVID-19</span><span class="sc">\n</span><span class="st">crash&quot;</span>,</span>
+<span id="cb16-41"><a href="#cb16-41" tabindex="-1"></a>           <span class="at">size =</span> <span class="fl">2.8</span>, <span class="at">color =</span> <span class="st">&quot;#C0392B&quot;</span>, <span class="at">fontface =</span> <span class="st">&quot;italic&quot;</span>) <span class="sc">+</span></span>
+<span id="cb16-42"><a href="#cb16-42" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x =</span> <span class="dv">2022</span>, <span class="at">y =</span> <span class="dv">100</span>, <span class="at">label =</span> <span class="st">&quot;Rusia–</span><span class="sc">\n</span><span class="st">Ucrania&quot;</span>,</span>
+<span id="cb16-43"><a href="#cb16-43" tabindex="-1"></a>           <span class="at">size =</span> <span class="fl">2.8</span>, <span class="at">color =</span> <span class="st">&quot;#8B6914&quot;</span>, <span class="at">fontface =</span> <span class="st">&quot;italic&quot;</span>) <span class="sc">+</span></span>
+<span id="cb16-44"><a href="#cb16-44" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x =</span> <span class="dv">2026</span>, <span class="at">y =</span> <span class="dv">100</span>, <span class="at">label =</span> <span class="st">&quot;Estrecho de</span><span class="sc">\n</span><span class="st">Ormuz&quot;</span>,</span>
+<span id="cb16-45"><a href="#cb16-45" tabindex="-1"></a>           <span class="at">size =</span> <span class="fl">2.8</span>, <span class="at">color =</span> <span class="st">&quot;#C0392B&quot;</span>, <span class="at">fontface =</span> <span class="st">&quot;italic&quot;</span>) <span class="sc">+</span></span>
+<span id="cb16-46"><a href="#cb16-46" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">2015</span><span class="sc">:</span><span class="dv">2026</span>) <span class="sc">+</span></span>
+<span id="cb16-47"><a href="#cb16-47" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">dollar_format</span>(<span class="at">suffix =</span> <span class="st">&quot;&quot;</span>),</span>
+<span id="cb16-48"><a href="#cb16-48" tabindex="-1"></a>                     <span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">30</span>, <span class="dv">100</span>, <span class="dv">10</span>)) <span class="sc">+</span></span>
+<span id="cb16-49"><a href="#cb16-49" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Año&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Precio promedio WTI (USD/barril)&quot;</span>,</span>
+<span id="cb16-50"><a href="#cb16-50" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Precio del petróleo crudo WTI — promedios anuales (2015–2026)&quot;</span>,</span>
+<span id="cb16-51"><a href="#cb16-51" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">&quot;geom_step() muestra cambios discretos anuales | Fuente: EIA, Trading Economics&quot;</span>,</span>
+<span id="cb16-52"><a href="#cb16-52" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Nota: 2025 = promedio Ene-Feb pre-conflicto; 2026 = estimado abril (crisis Ormuz)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb16-53"><a href="#cb16-53" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb16-54"><a href="#cb16-54" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>),</span>
+<span id="cb16-55"><a href="#cb16-55" tabindex="-1"></a>        <span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>, <span class="at">color =</span> <span class="st">&quot;grey50&quot;</span>))</span></code></pre></div>
+<p><img src="G13_geom_line_files/figure-html/step-oil-1.png" alt="" width="672" /></p>
+<p><strong>Conceptos clave:</strong></p>
+<ul>
+<li><code>geom_step()</code> es más apropiado que
+<code>geom_line()</code> aquí porque el precio promedio anual es un
+valor discreto — no cambió gradualmente durante el año.</li>
+<li>Las bandas de color con <code>annotate("rect")</code> resaltan los
+eventos geopolíticos clave que impactaron los precios.</li>
+<li>El colapso de 2020 ($39.16 promedio, con un mínimo histórico de
+-$37.63 en un solo día de abril) y la crisis actual del Estrecho de
+Ormuz ($93+ en abril 2026) son visualmente evidentes.</li>
+</ul>
+<hr />
+</div>
+<div id="líneas-con-segmentos-y-flechas-con-geom_segment"
+class="section level2">
+<h2>Líneas con segmentos y flechas con <code>geom_segment()</code></h2>
+<p><code>geom_segment()</code> permite dibujar segmentos individuales
+entre dos puntos. Combinado con <code>arrow()</code>, es útil para
+mostrar direcciones de cambio o conectar eventos:</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" tabindex="-1"></a><span class="co"># Cambio en población de tres especies antes y después del huracán María</span></span>
+<span id="cb17-2"><a href="#cb17-2" tabindex="-1"></a>huracan_df <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb17-3"><a href="#cb17-3" tabindex="-1"></a>  <span class="at">Especie =</span> <span class="fu">c</span>(<span class="st">&quot;Amazona vittata&quot;</span>, <span class="st">&quot;Buteo platypterus&quot;</span>, <span class="st">&quot;Falco sparverius&quot;</span>),</span>
+<span id="cb17-4"><a href="#cb17-4" tabindex="-1"></a>  <span class="at">Antes   =</span> <span class="fu">c</span>(<span class="dv">56</span>, <span class="dv">450</span>, <span class="dv">320</span>),</span>
+<span id="cb17-5"><a href="#cb17-5" tabindex="-1"></a>  <span class="at">Despues =</span> <span class="fu">c</span>(<span class="dv">28</span>, <span class="dv">380</span>, <span class="dv">285</span>),</span>
+<span id="cb17-6"><a href="#cb17-6" tabindex="-1"></a>  <span class="at">y_pos   =</span> <span class="fu">c</span>(<span class="dv">3</span>, <span class="dv">2</span>, <span class="dv">1</span>)</span>
+<span id="cb17-7"><a href="#cb17-7" tabindex="-1"></a>)</span>
+<span id="cb17-8"><a href="#cb17-8" tabindex="-1"></a></span>
+<span id="cb17-9"><a href="#cb17-9" tabindex="-1"></a><span class="fu">ggplot</span>(huracan_df) <span class="sc">+</span></span>
+<span id="cb17-10"><a href="#cb17-10" tabindex="-1"></a>  <span class="fu">geom_segment</span>(<span class="fu">aes</span>(<span class="at">x =</span> Antes, <span class="at">xend =</span> Despues,</span>
+<span id="cb17-11"><a href="#cb17-11" tabindex="-1"></a>                   <span class="at">y =</span> Especie, <span class="at">yend =</span> Especie,</span>
+<span id="cb17-12"><a href="#cb17-12" tabindex="-1"></a>                   <span class="at">color =</span> Despues <span class="sc">&lt;</span> Antes),</span>
+<span id="cb17-13"><a href="#cb17-13" tabindex="-1"></a>               <span class="at">linewidth =</span> <span class="dv">2</span>,</span>
+<span id="cb17-14"><a href="#cb17-14" tabindex="-1"></a>               <span class="at">arrow =</span> <span class="fu">arrow</span>(<span class="at">length =</span> <span class="fu">unit</span>(<span class="fl">0.3</span>, <span class="st">&quot;cm&quot;</span>), <span class="at">type =</span> <span class="st">&quot;closed&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb17-15"><a href="#cb17-15" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> Antes, <span class="at">y =</span> Especie), <span class="at">size =</span> <span class="dv">4</span>, <span class="at">color =</span> <span class="st">&quot;grey30&quot;</span>) <span class="sc">+</span></span>
+<span id="cb17-16"><a href="#cb17-16" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">x =</span> Despues, <span class="at">y =</span> Especie), <span class="at">size =</span> <span class="dv">4</span>, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>) <span class="sc">+</span></span>
+<span id="cb17-17"><a href="#cb17-17" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;TRUE&quot;</span> <span class="ot">=</span> <span class="st">&quot;#D73027&quot;</span>, <span class="st">&quot;FALSE&quot;</span> <span class="ot">=</span> <span class="st">&quot;#4575B4&quot;</span>),</span>
+<span id="cb17-18"><a href="#cb17-18" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;TRUE&quot;</span> <span class="ot">=</span> <span class="st">&quot;Disminución&quot;</span>, <span class="st">&quot;FALSE&quot;</span> <span class="ot">=</span> <span class="st">&quot;Aumento&quot;</span>),</span>
+<span id="cb17-19"><a href="#cb17-19" tabindex="-1"></a>                     <span class="at">name =</span> <span class="st">&quot;Cambio&quot;</span>) <span class="sc">+</span></span>
+<span id="cb17-20"><a href="#cb17-20" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x =</span> <span class="dv">55</span>, <span class="at">y =</span> <span class="fl">3.3</span>, <span class="at">label =</span> <span class="st">&quot;● Antes   ● Después&quot;</span>,</span>
+<span id="cb17-21"><a href="#cb17-21" tabindex="-1"></a>           <span class="at">size =</span> <span class="dv">3</span>, <span class="at">hjust =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb17-22"><a href="#cb17-22" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Población estimada (individuos)&quot;</span>,</span>
+<span id="cb17-23"><a href="#cb17-23" tabindex="-1"></a>       <span class="at">y =</span> <span class="cn">NULL</span>,</span>
+<span id="cb17-24"><a href="#cb17-24" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Cambio poblacional después del Huracán María (2017)&quot;</span>,</span>
+<span id="cb17-25"><a href="#cb17-25" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">&quot;Punto gris = antes, punto rojo = después, flecha = dirección&quot;</span>) <span class="sc">+</span></span>
+<span id="cb17-26"><a href="#cb17-26" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb17-27"><a href="#cb17-27" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>)</span></code></pre></div>
+<p><img src="G13_geom_line_files/figure-html/segment-example-1.png" alt="" width="672" /></p>
+<hr />
+</div>
+<div id="múltiples-paneles-con-facet_wrap" class="section level2">
+<h2>Múltiples paneles con <code>facet_wrap()</code></h2>
+<p>Cuando hay muchos grupos, poner todas las líneas en un solo gráfico
+puede ser confuso. <code>facet_wrap()</code> divide el gráfico en
+paneles separados.</p>
+<p>Aquí usamos <strong>datos reales</strong> de precipitación promedio
+mensual para cuatro ciudades de Puerto Rico. Los datos provienen de las
+normales climáticas 1991–2020 del NOAA (National Oceanic and Atmospheric
+Administration), publicadas por U.S. Climate Data. Las unidades
+originales (pulgadas) se convierten a milímetros.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="co"># Precipitación mensual promedio (pulgadas) — Normales NOAA 1991–2020</span></span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a><span class="co"># Fuente: https://www.usclimatedata.com/climate/puerto-rico/united-states/7335</span></span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>lluvia_df <span class="ot">&lt;-</span> <span class="fu">tribble</span>(</span>
+<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a>  <span class="sc">~</span>Ciudad,             <span class="sc">~</span>Ene,  <span class="sc">~</span>Feb,  <span class="sc">~</span>Mar,  <span class="sc">~</span>Abr,  <span class="sc">~</span>May,  <span class="sc">~</span>Jun,  <span class="sc">~</span>Jul,  <span class="sc">~</span>Ago,  <span class="sc">~</span>Sep,  <span class="sc">~</span>Oct,  <span class="sc">~</span>Nov,  <span class="sc">~</span>Dic,</span>
+<span id="cb18-6"><a href="#cb18-6" tabindex="-1"></a>  <span class="st">&quot;San Juan (Norte)&quot;</span>,   <span class="fl">4.07</span>,  <span class="fl">2.58</span>,  <span class="fl">2.18</span>,  <span class="fl">4.60</span>,  <span class="fl">5.54</span>,  <span class="fl">4.66</span>,  <span class="fl">6.02</span>,  <span class="fl">6.29</span>,  <span class="fl">6.50</span>,  <span class="fl">5.21</span>,  <span class="fl">7.37</span>,  <span class="fl">4.85</span>,</span>
+<span id="cb18-7"><a href="#cb18-7" tabindex="-1"></a>  <span class="st">&quot;Ponce (Sur)&quot;</span>,        <span class="fl">0.73</span>,  <span class="fl">1.21</span>,  <span class="fl">1.87</span>,  <span class="fl">2.26</span>,  <span class="fl">4.18</span>,  <span class="fl">2.16</span>,  <span class="fl">2.84</span>,  <span class="fl">4.56</span>,  <span class="fl">6.94</span>,  <span class="fl">5.38</span>,  <span class="fl">3.94</span>,  <span class="fl">1.45</span>,</span>
+<span id="cb18-8"><a href="#cb18-8" tabindex="-1"></a>  <span class="st">&quot;Fajardo (Este)&quot;</span>,     <span class="fl">4.42</span>,  <span class="fl">3.07</span>,  <span class="fl">2.70</span>,  <span class="fl">3.41</span>,  <span class="fl">8.36</span>,  <span class="fl">5.44</span>,  <span class="fl">5.91</span>,  <span class="fl">5.40</span>,  <span class="fl">6.84</span>,  <span class="fl">8.00</span>,  <span class="fl">7.99</span>,  <span class="fl">5.75</span>,</span>
+<span id="cb18-9"><a href="#cb18-9" tabindex="-1"></a>  <span class="st">&quot;Mayagüez (Oeste)&quot;</span>,   <span class="fl">1.57</span>,  <span class="fl">2.52</span>,  <span class="fl">3.03</span>,  <span class="fl">4.06</span>,  <span class="fl">7.24</span>,  <span class="fl">6.34</span>,  <span class="fl">8.66</span>,  <span class="fl">9.17</span>, <span class="fl">10.59</span>,  <span class="fl">8.94</span>,  <span class="fl">4.69</span>,  <span class="fl">1.81</span></span>
+<span id="cb18-10"><a href="#cb18-10" tabindex="-1"></a>)</span>
+<span id="cb18-11"><a href="#cb18-11" tabindex="-1"></a></span>
+<span id="cb18-12"><a href="#cb18-12" tabindex="-1"></a><span class="co"># Convertir a formato largo y de pulgadas a milímetros</span></span>
+<span id="cb18-13"><a href="#cb18-13" tabindex="-1"></a>lluvia_long <span class="ot">&lt;-</span> lluvia_df <span class="sc">%&gt;%</span></span>
+<span id="cb18-14"><a href="#cb18-14" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb18-15"><a href="#cb18-15" tabindex="-1"></a>    <span class="at">cols      =</span> Ene<span class="sc">:</span>Dic,</span>
+<span id="cb18-16"><a href="#cb18-16" tabindex="-1"></a>    <span class="at">names_to  =</span> <span class="st">&quot;Mes_nombre&quot;</span>,</span>
+<span id="cb18-17"><a href="#cb18-17" tabindex="-1"></a>    <span class="at">values_to =</span> <span class="st">&quot;Precip_in&quot;</span></span>
+<span id="cb18-18"><a href="#cb18-18" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb18-19"><a href="#cb18-19" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb18-20"><a href="#cb18-20" tabindex="-1"></a>    <span class="at">Precip_mm  =</span> <span class="fu">round</span>(Precip_in <span class="sc">*</span> <span class="fl">25.4</span>, <span class="dv">1</span>),</span>
+<span id="cb18-21"><a href="#cb18-21" tabindex="-1"></a>    <span class="at">Mes        =</span> <span class="fu">match</span>(Mes_nombre, <span class="fu">c</span>(<span class="st">&quot;Ene&quot;</span>,<span class="st">&quot;Feb&quot;</span>,<span class="st">&quot;Mar&quot;</span>,<span class="st">&quot;Abr&quot;</span>,<span class="st">&quot;May&quot;</span>,<span class="st">&quot;Jun&quot;</span>,</span>
+<span id="cb18-22"><a href="#cb18-22" tabindex="-1"></a>                                      <span class="st">&quot;Jul&quot;</span>,<span class="st">&quot;Ago&quot;</span>,<span class="st">&quot;Sep&quot;</span>,<span class="st">&quot;Oct&quot;</span>,<span class="st">&quot;Nov&quot;</span>,<span class="st">&quot;Dic&quot;</span>)),</span>
+<span id="cb18-23"><a href="#cb18-23" tabindex="-1"></a>    <span class="at">Mes_label  =</span> <span class="fu">factor</span>(Mes_nombre,</span>
+<span id="cb18-24"><a href="#cb18-24" tabindex="-1"></a>                        <span class="at">levels =</span> <span class="fu">c</span>(<span class="st">&quot;Ene&quot;</span>,<span class="st">&quot;Feb&quot;</span>,<span class="st">&quot;Mar&quot;</span>,<span class="st">&quot;Abr&quot;</span>,<span class="st">&quot;May&quot;</span>,<span class="st">&quot;Jun&quot;</span>,</span>
+<span id="cb18-25"><a href="#cb18-25" tabindex="-1"></a>                                   <span class="st">&quot;Jul&quot;</span>,<span class="st">&quot;Ago&quot;</span>,<span class="st">&quot;Sep&quot;</span>,<span class="st">&quot;Oct&quot;</span>,<span class="st">&quot;Nov&quot;</span>,<span class="st">&quot;Dic&quot;</span>))</span>
+<span id="cb18-26"><a href="#cb18-26" tabindex="-1"></a>  )</span>
+<span id="cb18-27"><a href="#cb18-27" tabindex="-1"></a></span>
+<span id="cb18-28"><a href="#cb18-28" tabindex="-1"></a><span class="co"># Gráfico con facet_wrap</span></span>
+<span id="cb18-29"><a href="#cb18-29" tabindex="-1"></a><span class="fu">ggplot</span>(lluvia_long, <span class="fu">aes</span>(<span class="at">x =</span> Mes, <span class="at">y =</span> Precip_mm, <span class="at">color =</span> Ciudad)) <span class="sc">+</span></span>
+<span id="cb18-30"><a href="#cb18-30" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">1.1</span>) <span class="sc">+</span></span>
+<span id="cb18-31"><a href="#cb18-31" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">2.2</span>) <span class="sc">+</span></span>
+<span id="cb18-32"><a href="#cb18-32" tabindex="-1"></a>  <span class="fu">facet_wrap</span>(<span class="sc">~</span> Ciudad, <span class="at">ncol =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb18-33"><a href="#cb18-33" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>,</span>
+<span id="cb18-34"><a href="#cb18-34" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;E&quot;</span>,<span class="st">&quot;F&quot;</span>,<span class="st">&quot;M&quot;</span>,<span class="st">&quot;A&quot;</span>,<span class="st">&quot;M&quot;</span>,<span class="st">&quot;J&quot;</span>,</span>
+<span id="cb18-35"><a href="#cb18-35" tabindex="-1"></a>                                <span class="st">&quot;J&quot;</span>,<span class="st">&quot;A&quot;</span>,<span class="st">&quot;S&quot;</span>,<span class="st">&quot;O&quot;</span>,<span class="st">&quot;N&quot;</span>,<span class="st">&quot;D&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb18-36"><a href="#cb18-36" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(</span>
+<span id="cb18-37"><a href="#cb18-37" tabindex="-1"></a>    <span class="st">&quot;San Juan (Norte)&quot;</span>  <span class="ot">=</span> <span class="st">&quot;#2E86AB&quot;</span>,</span>
+<span id="cb18-38"><a href="#cb18-38" tabindex="-1"></a>    <span class="st">&quot;Ponce (Sur)&quot;</span>       <span class="ot">=</span> <span class="st">&quot;#D73027&quot;</span>,</span>
+<span id="cb18-39"><a href="#cb18-39" tabindex="-1"></a>    <span class="st">&quot;Fajardo (Este)&quot;</span>    <span class="ot">=</span> <span class="st">&quot;#4DAF4A&quot;</span>,</span>
+<span id="cb18-40"><a href="#cb18-40" tabindex="-1"></a>    <span class="st">&quot;Mayagüez (Oeste)&quot;</span>  <span class="ot">=</span> <span class="st">&quot;#984EA3&quot;</span></span>
+<span id="cb18-41"><a href="#cb18-41" tabindex="-1"></a>  )) <span class="sc">+</span></span>
+<span id="cb18-42"><a href="#cb18-42" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Mes&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Precipitación (mm)&quot;</span>,</span>
+<span id="cb18-43"><a href="#cb18-43" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Precipitación mensual promedio por región — Puerto Rico&quot;</span>,</span>
+<span id="cb18-44"><a href="#cb18-44" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">&quot;Normales climáticas NOAA 1991–2020 | Fuente: U.S. Climate Data&quot;</span>,</span>
+<span id="cb18-45"><a href="#cb18-45" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Datos convertidos de pulgadas a mm (×25.4)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb18-46"><a href="#cb18-46" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">12</span>) <span class="sc">+</span></span>
+<span id="cb18-47"><a href="#cb18-47" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;none&quot;</span>,</span>
+<span id="cb18-48"><a href="#cb18-48" tabindex="-1"></a>        <span class="at">strip.text =</span> <span class="fu">element_text</span>(<span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb18-49"><a href="#cb18-49" tabindex="-1"></a>        <span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>, <span class="at">color =</span> <span class="st">&quot;grey50&quot;</span>))</span></code></pre></div>
+<p><img src="G13_geom_line_files/figure-html/facet-rainfall-1.png" alt="" width="672" /></p>
+<p><strong>¿Qué patrones se observan?</strong></p>
+<ul>
+<li><strong>Ponce (sur)</strong> es la ciudad más seca, con un mínimo de
+solo 19 mm en enero — está en la “sombra pluviométrica” de la
+cordillera.</li>
+<li><strong>Mayagüez (oeste)</strong> tiene el pico más extremo en
+septiembre (~269 mm), recibiendo la humedad del mar Caribe.</li>
+<li><strong>Fajardo (este)</strong> tiene lluvias elevadas todo el año,
+con un segundo pico en octubre–noviembre por los frentes del
+Atlántico.</li>
+<li><strong>San Juan (norte)</strong> muestra el patrón bimodal clásico:
+un pico en mayo, un descenso relativo en junio–julio, y el máximo en
+noviembre.</li>
+</ul>
+<p><strong>Versión alternativa — todas las ciudades en un solo panel
+para comparar directamente:</strong></p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" tabindex="-1"></a><span class="fu">ggplot</span>(lluvia_long, <span class="fu">aes</span>(<span class="at">x =</span> Mes, <span class="at">y =</span> Precip_mm, <span class="at">color =</span> Ciudad)) <span class="sc">+</span></span>
+<span id="cb19-2"><a href="#cb19-2" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb19-3"><a href="#cb19-3" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb19-4"><a href="#cb19-4" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>,</span>
+<span id="cb19-5"><a href="#cb19-5" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;E&quot;</span>,<span class="st">&quot;F&quot;</span>,<span class="st">&quot;M&quot;</span>,<span class="st">&quot;A&quot;</span>,<span class="st">&quot;M&quot;</span>,<span class="st">&quot;J&quot;</span>,</span>
+<span id="cb19-6"><a href="#cb19-6" tabindex="-1"></a>                                <span class="st">&quot;J&quot;</span>,<span class="st">&quot;A&quot;</span>,<span class="st">&quot;S&quot;</span>,<span class="st">&quot;O&quot;</span>,<span class="st">&quot;N&quot;</span>,<span class="st">&quot;D&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb19-7"><a href="#cb19-7" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(</span>
+<span id="cb19-8"><a href="#cb19-8" tabindex="-1"></a>    <span class="st">&quot;San Juan (Norte)&quot;</span>  <span class="ot">=</span> <span class="st">&quot;#2E86AB&quot;</span>,</span>
+<span id="cb19-9"><a href="#cb19-9" tabindex="-1"></a>    <span class="st">&quot;Ponce (Sur)&quot;</span>       <span class="ot">=</span> <span class="st">&quot;#D73027&quot;</span>,</span>
+<span id="cb19-10"><a href="#cb19-10" tabindex="-1"></a>    <span class="st">&quot;Fajardo (Este)&quot;</span>    <span class="ot">=</span> <span class="st">&quot;#4DAF4A&quot;</span>,</span>
+<span id="cb19-11"><a href="#cb19-11" tabindex="-1"></a>    <span class="st">&quot;Mayagüez (Oeste)&quot;</span>  <span class="ot">=</span> <span class="st">&quot;#984EA3&quot;</span></span>
+<span id="cb19-12"><a href="#cb19-12" tabindex="-1"></a>  )) <span class="sc">+</span></span>
+<span id="cb19-13"><a href="#cb19-13" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Mes&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Precipitación (mm)&quot;</span>,</span>
+<span id="cb19-14"><a href="#cb19-14" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Comparación directa de lluvia mensual — 4 regiones de PR&quot;</span>,</span>
+<span id="cb19-15"><a href="#cb19-15" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">&quot;Normales NOAA 1991–2020&quot;</span>,</span>
+<span id="cb19-16"><a href="#cb19-16" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">&quot;Ciudad&quot;</span>) <span class="sc">+</span></span>
+<span id="cb19-17"><a href="#cb19-17" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb19-18"><a href="#cb19-18" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
+<p><img src="G13_geom_line_files/figure-html/rainfall-overlay-1.png" alt="" width="672" /></p>
+<hr />
+</div>
+<div id="ejes-duales-con-sec_axis" class="section level2">
+<h2>Ejes duales con <code>sec_axis()</code></h2>
+<p>A veces queremos mostrar dos variables con escalas diferentes en el
+mismo gráfico. <strong>Precaución:</strong> los ejes duales pueden ser
+engañosos si no se usan cuidadosamente.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" tabindex="-1"></a><span class="co"># Datos: temperatura y humedad durante un día en el Yunque</span></span>
+<span id="cb20-2"><a href="#cb20-2" tabindex="-1"></a>horas <span class="ot">&lt;-</span> <span class="dv">0</span><span class="sc">:</span><span class="dv">23</span></span>
+<span id="cb20-3"><a href="#cb20-3" tabindex="-1"></a>temp_yunque <span class="ot">&lt;-</span> <span class="dv">22</span> <span class="sc">+</span> <span class="dv">5</span> <span class="sc">*</span> <span class="fu">sin</span>(<span class="dv">2</span> <span class="sc">*</span> pi <span class="sc">*</span> (horas <span class="sc">-</span> <span class="dv">6</span>) <span class="sc">/</span> <span class="dv">24</span>) <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">24</span>, <span class="dv">0</span>, <span class="fl">0.5</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" tabindex="-1"></a>humedad_yunque <span class="ot">&lt;-</span> <span class="dv">90</span> <span class="sc">-</span> <span class="dv">15</span> <span class="sc">*</span> <span class="fu">sin</span>(<span class="dv">2</span> <span class="sc">*</span> pi <span class="sc">*</span> (horas <span class="sc">-</span> <span class="dv">6</span>) <span class="sc">/</span> <span class="dv">24</span>) <span class="sc">+</span> <span class="fu">rnorm</span>(<span class="dv">24</span>, <span class="dv">0</span>, <span class="dv">2</span>)</span>
+<span id="cb20-5"><a href="#cb20-5" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" tabindex="-1"></a>dia_yunque <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb20-7"><a href="#cb20-7" tabindex="-1"></a>  <span class="at">Hora     =</span> horas,</span>
+<span id="cb20-8"><a href="#cb20-8" tabindex="-1"></a>  <span class="at">Temp     =</span> <span class="fu">round</span>(temp_yunque, <span class="dv">1</span>),</span>
+<span id="cb20-9"><a href="#cb20-9" tabindex="-1"></a>  <span class="at">Humedad  =</span> <span class="fu">round</span>(humedad_yunque, <span class="dv">1</span>)</span>
+<span id="cb20-10"><a href="#cb20-10" tabindex="-1"></a>)</span>
+<span id="cb20-11"><a href="#cb20-11" tabindex="-1"></a></span>
+<span id="cb20-12"><a href="#cb20-12" tabindex="-1"></a><span class="co"># Factor de escala para el eje secundario</span></span>
+<span id="cb20-13"><a href="#cb20-13" tabindex="-1"></a>factor_escala <span class="ot">&lt;-</span> <span class="dv">3</span></span>
+<span id="cb20-14"><a href="#cb20-14" tabindex="-1"></a></span>
+<span id="cb20-15"><a href="#cb20-15" tabindex="-1"></a><span class="fu">ggplot</span>(dia_yunque, <span class="fu">aes</span>(<span class="at">x =</span> Hora)) <span class="sc">+</span></span>
+<span id="cb20-16"><a href="#cb20-16" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> Temp), <span class="at">color =</span> <span class="st">&quot;#D73027&quot;</span>, <span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb20-17"><a href="#cb20-17" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="fu">aes</span>(<span class="at">y =</span> Humedad <span class="sc">/</span> factor_escala), <span class="at">color =</span> <span class="st">&quot;#4575B4&quot;</span>,</span>
+<span id="cb20-18"><a href="#cb20-18" tabindex="-1"></a>            <span class="at">linewidth =</span> <span class="fl">1.2</span>, <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>) <span class="sc">+</span></span>
+<span id="cb20-19"><a href="#cb20-19" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(</span>
+<span id="cb20-20"><a href="#cb20-20" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">&quot;Temperatura (°C)&quot;</span>,</span>
+<span id="cb20-21"><a href="#cb20-21" tabindex="-1"></a>    <span class="at">sec.axis =</span> <span class="fu">sec_axis</span>(<span class="sc">~</span> . <span class="sc">*</span> factor_escala, <span class="at">name =</span> <span class="st">&quot;Humedad relativa (%)&quot;</span>)</span>
+<span id="cb20-22"><a href="#cb20-22" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb20-23"><a href="#cb20-23" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="fu">seq</span>(<span class="dv">0</span>, <span class="dv">23</span>, <span class="dv">3</span>)) <span class="sc">+</span></span>
+<span id="cb20-24"><a href="#cb20-24" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Hora del día&quot;</span>,</span>
+<span id="cb20-25"><a href="#cb20-25" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Temperatura y humedad — El Yunque, un día típico&quot;</span>,</span>
+<span id="cb20-26"><a href="#cb20-26" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">&quot;Rojo sólido = temperatura, azul punteado = humedad&quot;</span>) <span class="sc">+</span></span>
+<span id="cb20-27"><a href="#cb20-27" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb20-28"><a href="#cb20-28" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb20-29"><a href="#cb20-29" tabindex="-1"></a>    <span class="at">axis.title.y.left  =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;#D73027&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>),</span>
+<span id="cb20-30"><a href="#cb20-30" tabindex="-1"></a>    <span class="at">axis.title.y.right =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;#4575B4&quot;</span>, <span class="at">face =</span> <span class="st">&quot;bold&quot;</span>)</span>
+<span id="cb20-31"><a href="#cb20-31" tabindex="-1"></a>  )</span></code></pre></div>
+<p><img src="G13_geom_line_files/figure-html/dual-axis-1.png" alt="" width="672" /></p>
+<p><strong>Nota:</strong> El eje secundario en ggplot2 es una
+transformación del eje primario. Se necesita un factor de escala para
+convertir entre las dos unidades.</p>
+<hr />
+</div>
+<div id="resaltar-un-período-con-annotaterect" class="section level2">
+<h2>Resaltar un período con <code>annotate("rect")</code></h2>
+<p>Para destacar un período de interés (un evento, una temporada, una
+intervención), se puede añadir un rectángulo sombreado:</p>
+<div class="sourceCode" id="cb21"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" tabindex="-1"></a><span class="co"># Volver al ejemplo de tiroides con período destacado</span></span>
+<span id="cb21-2"><a href="#cb21-2" tabindex="-1"></a><span class="fu">ggplot</span>(Tiroide, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">as.integer</span>(Year), <span class="at">y =</span> Rate,</span>
+<span id="cb21-3"><a href="#cb21-3" tabindex="-1"></a>                    <span class="at">group =</span> Cases, <span class="at">color =</span> Cases)) <span class="sc">+</span></span>
+<span id="cb21-4"><a href="#cb21-4" tabindex="-1"></a>  <span class="co"># Rectángulo sombreado para el período 2000-2010</span></span>
+<span id="cb21-5"><a href="#cb21-5" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;rect&quot;</span>, <span class="at">xmin =</span> <span class="dv">2000</span>, <span class="at">xmax =</span> <span class="dv">2010</span>,</span>
+<span id="cb21-6"><a href="#cb21-6" tabindex="-1"></a>           <span class="at">ymin =</span> <span class="sc">-</span><span class="cn">Inf</span>, <span class="at">ymax =</span> <span class="cn">Inf</span>,</span>
+<span id="cb21-7"><a href="#cb21-7" tabindex="-1"></a>           <span class="at">alpha =</span> <span class="fl">0.15</span>, <span class="at">fill =</span> <span class="st">&quot;gold&quot;</span>) <span class="sc">+</span></span>
+<span id="cb21-8"><a href="#cb21-8" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="at">x =</span> <span class="dv">2005</span>, <span class="at">y =</span> <span class="dv">14</span>, <span class="at">size =</span> <span class="dv">3</span>,</span>
+<span id="cb21-9"><a href="#cb21-9" tabindex="-1"></a>           <span class="at">label =</span> <span class="st">&quot;Período de mayor</span><span class="sc">\n</span><span class="st"> aumento diagnóstico&quot;</span>,</span>
+<span id="cb21-10"><a href="#cb21-10" tabindex="-1"></a>           <span class="at">fontface =</span> <span class="st">&quot;italic&quot;</span>) <span class="sc">+</span></span>
+<span id="cb21-11"><a href="#cb21-11" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb21-12"><a href="#cb21-12" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="fl">1.5</span>) <span class="sc">+</span></span>
+<span id="cb21-13"><a href="#cb21-13" tabindex="-1"></a>  <span class="fu">scale_color_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;New Cases&quot;</span> <span class="ot">=</span> <span class="st">&quot;#00674F&quot;</span>,</span>
+<span id="cb21-14"><a href="#cb21-14" tabindex="-1"></a>                                <span class="st">&quot;Deaths_US&quot;</span> <span class="ot">=</span> <span class="st">&quot;#D73027&quot;</span>),</span>
+<span id="cb21-15"><a href="#cb21-15" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;Nuevos casos&quot;</span>, <span class="st">&quot;Mortandad&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb21-16"><a href="#cb21-16" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Años&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Razón por 100,000&quot;</span>,</span>
+<span id="cb21-17"><a href="#cb21-17" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Cáncer de tiroides en EE.UU.&quot;</span>,</span>
+<span id="cb21-18"><a href="#cb21-18" tabindex="-1"></a>       <span class="at">color =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb21-19"><a href="#cb21-19" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb21-20"><a href="#cb21-20" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
+<p><img src="G13_geom_line_files/figure-html/highlight-period-1.png" alt="" width="672" /></p>
+<hr />
+</div>
+</div>
+<div id="parte-3-tarea-con-inaturalist" class="section level1">
+<h1>Parte 3: Tarea con iNaturalist</h1>
+<div id="objetivo" class="section level2">
+<h2>Objetivo</h2>
+<p>Comparar las tendencias temporales de observaciones de dos especies
+del mismo género en Puerto Rico usando datos de iNaturalist.</p>
+</div>
+<div id="ejemplo-con-datos-de-rinat" class="section level2">
+<h2>Ejemplo con datos de <code>rinat</code></h2>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span>
+<span id="cb22-2"><a href="#cb22-2" tabindex="-1"></a><span class="fu">library</span>(leaflet)</span>
+<span id="cb22-3"><a href="#cb22-3" tabindex="-1"></a><span class="fu">library</span>(rinat)</span>
+<span id="cb22-4"><a href="#cb22-4" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" tabindex="-1"></a><span class="co"># Definir el bounding box de Puerto Rico</span></span>
+<span id="cb22-6"><a href="#cb22-6" tabindex="-1"></a>cajaPR <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="fl">17.75</span>, <span class="sc">-</span><span class="fl">67.4</span>, <span class="fl">18.75</span>, <span class="sc">-</span><span class="fl">65.15</span>)</span>
+<span id="cb22-7"><a href="#cb22-7" tabindex="-1"></a></span>
+<span id="cb22-8"><a href="#cb22-8" tabindex="-1"></a><span class="co"># Descargar datos para la primera especie</span></span>
+<span id="cb22-9"><a href="#cb22-9" tabindex="-1"></a>sp1 <span class="ot">&lt;-</span> <span class="fu">get_inat_obs</span>(</span>
+<span id="cb22-10"><a href="#cb22-10" tabindex="-1"></a>  <span class="at">taxon_name  =</span> <span class="st">&quot;Gymnasio nudipes&quot;</span>,</span>
+<span id="cb22-11"><a href="#cb22-11" tabindex="-1"></a>  <span class="at">quality     =</span> <span class="st">&quot;research&quot;</span>,</span>
+<span id="cb22-12"><a href="#cb22-12" tabindex="-1"></a>  <span class="at">geo         =</span> <span class="cn">TRUE</span>,</span>
+<span id="cb22-13"><a href="#cb22-13" tabindex="-1"></a>  <span class="at">maxresults  =</span> <span class="dv">1000</span>,</span>
+<span id="cb22-14"><a href="#cb22-14" tabindex="-1"></a>  <span class="at">bounds      =</span> cajaPR</span>
+<span id="cb22-15"><a href="#cb22-15" tabindex="-1"></a>)</span>
+<span id="cb22-16"><a href="#cb22-16" tabindex="-1"></a></span>
+<span id="cb22-17"><a href="#cb22-17" tabindex="-1"></a><span class="co"># Extraer el año de la fecha</span></span>
+<span id="cb22-18"><a href="#cb22-18" tabindex="-1"></a>sp1<span class="sc">$</span>date <span class="ot">&lt;-</span> <span class="fu">ymd_hms</span>(sp1<span class="sc">$</span>datetime)</span>
+<span id="cb22-19"><a href="#cb22-19" tabindex="-1"></a>sp1<span class="sc">$</span>Year <span class="ot">&lt;-</span> <span class="fu">as.integer</span>(<span class="fu">format</span>(sp1<span class="sc">$</span>date, <span class="st">&quot;%Y&quot;</span>))</span>
+<span id="cb22-20"><a href="#cb22-20" tabindex="-1"></a></span>
+<span id="cb22-21"><a href="#cb22-21" tabindex="-1"></a><span class="co"># Contar observaciones por año</span></span>
+<span id="cb22-22"><a href="#cb22-22" tabindex="-1"></a>sp1_conteo <span class="ot">&lt;-</span> sp1 <span class="sc">%&gt;%</span></span>
+<span id="cb22-23"><a href="#cb22-23" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(Year)) <span class="sc">%&gt;%</span></span>
+<span id="cb22-24"><a href="#cb22-24" tabindex="-1"></a>  <span class="fu">group_by</span>(Year) <span class="sc">%&gt;%</span></span>
+<span id="cb22-25"><a href="#cb22-25" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">n =</span> <span class="fu">n</span>(), <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb22-26"><a href="#cb22-26" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Especie =</span> <span class="st">&quot;Gymnasio nudipes&quot;</span>)</span>
+<span id="cb22-27"><a href="#cb22-27" tabindex="-1"></a></span>
+<span id="cb22-28"><a href="#cb22-28" tabindex="-1"></a><span class="fu">gt</span>(<span class="fu">head</span>(sp1_conteo))</span></code></pre></div>
+</div>
+<div id="instrucciones-paso-a-paso" class="section level2">
+<h2>Instrucciones paso a paso</h2>
+<ol style="list-style-type: decimal">
+<li><strong>Selecciona una especie</strong> de iNaturalist en la base de
+datos de PR.</li>
+<li>Usando la fecha, <strong>contabiliza</strong> la cantidad observada
+por año.</li>
+<li><strong>Selecciona otra especie del mismo género</strong> de la
+misma área.</li>
+<li><strong>Une</strong> los conjuntos de datos en un solo data frame
+con <code>bind_rows()</code>.</li>
+<li><strong>Crea un gráfico de líneas</strong> de las dos especies y el
+cambio (N) en tiempo por especie.</li>
+</ol>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" tabindex="-1"></a><span class="co"># Combinar las dos especies</span></span>
+<span id="cb23-2"><a href="#cb23-2" tabindex="-1"></a>ambas <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(sp1_conteo, sp2_conteo)</span>
+<span id="cb23-3"><a href="#cb23-3" tabindex="-1"></a></span>
+<span id="cb23-4"><a href="#cb23-4" tabindex="-1"></a><span class="co"># Gráfico</span></span>
+<span id="cb23-5"><a href="#cb23-5" tabindex="-1"></a><span class="fu">ggplot</span>(ambas, <span class="fu">aes</span>(<span class="at">x =</span> Year, <span class="at">y =</span> n, <span class="at">color =</span> Especie)) <span class="sc">+</span></span>
+<span id="cb23-6"><a href="#cb23-6" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb23-7"><a href="#cb23-7" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> <span class="dv">3</span>, <span class="at">shape =</span> <span class="dv">21</span>, <span class="at">fill =</span> <span class="st">&quot;white&quot;</span>, <span class="at">stroke =</span> <span class="fl">1.2</span>) <span class="sc">+</span></span>
+<span id="cb23-8"><a href="#cb23-8" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb23-9"><a href="#cb23-9" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">&quot;Año&quot;</span>,</span>
+<span id="cb23-10"><a href="#cb23-10" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">&quot;Número de observaciones&quot;</span>,</span>
+<span id="cb23-11"><a href="#cb23-11" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Tendencia de observaciones en iNaturalist — Puerto Rico&quot;</span>,</span>
+<span id="cb23-12"><a href="#cb23-12" tabindex="-1"></a>    <span class="at">color =</span> <span class="st">&quot;Especie&quot;</span></span>
+<span id="cb23-13"><a href="#cb23-13" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb23-14"><a href="#cb23-14" tabindex="-1"></a>  <span class="fu">theme_minimal</span>(<span class="at">base_size =</span> <span class="dv">13</span>) <span class="sc">+</span></span>
+<span id="cb23-15"><a href="#cb23-15" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">&quot;bottom&quot;</span>)</span></code></pre></div>
+<p><strong>Especies sugeridas para explorar:</strong></p>
+<table>
+<colgroup>
+<col width="33%" />
+<col width="33%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Grupo</th>
+<th>Especie 1</th>
+<th>Especie 2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Aves (lechuzas)</td>
+<td><em>Gymnasio nudipes</em></td>
+<td><em>Megascops nudipes</em></td>
+</tr>
+<tr class="even">
+<td>Mamíferos</td>
+<td><em>Rattus norvegicus</em></td>
+<td><em>Rattus rattus</em></td>
+</tr>
+<tr class="odd">
+<td>Plantas (orquídeas)</td>
+<td><em>Ionopsis utricularioides</em></td>
+<td><em>Ionopsis satyrioides</em></td>
+</tr>
+<tr class="even">
+<td>Colibríes</td>
+<td><em>Chlorostilbon maugaeus</em></td>
+<td><em>Anthracothorax viridis</em></td>
+</tr>
+</tbody>
+</table>
+<hr />
+</div>
+</div>
+<div id="parte-4-ejercicios-de-práctica" class="section level1">
+<h1>Parte 4: Ejercicios de práctica</h1>
+<div id="ejercicio-1-construir-un-gráfico-con-ribbon"
+class="section level2">
+<h2>Ejercicio 1: Construir un gráfico con ribbon</h2>
+<p>Usando los datos de <code>coqui_df</code> (creados anteriormente),
+calcula la <strong>media mensual</strong> y el <strong>error
+estándar</strong> del conteo de coquíes, y crea un gráfico con
+<code>geom_ribbon()</code> + <code>geom_line()</code>.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" tabindex="-1"></a><span class="co"># Paso 1: Extraer el mes</span></span>
+<span id="cb24-2"><a href="#cb24-2" tabindex="-1"></a>coqui_mensual <span class="ot">&lt;-</span> coqui_df <span class="sc">%&gt;%</span></span>
+<span id="cb24-3"><a href="#cb24-3" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">Mes =</span> <span class="fu">month</span>(Fecha)) <span class="sc">%&gt;%</span></span>
+<span id="cb24-4"><a href="#cb24-4" tabindex="-1"></a>  <span class="fu">group_by</span>(Mes) <span class="sc">%&gt;%</span></span>
+<span id="cb24-5"><a href="#cb24-5" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb24-6"><a href="#cb24-6" tabindex="-1"></a>    <span class="at">Media =</span> <span class="fu">mean</span>(Conteo),</span>
+<span id="cb24-7"><a href="#cb24-7" tabindex="-1"></a>    <span class="at">SE    =</span> <span class="fu">sd</span>(Conteo) <span class="sc">/</span> <span class="fu">sqrt</span>(<span class="fu">n</span>()),</span>
+<span id="cb24-8"><a href="#cb24-8" tabindex="-1"></a>    <span class="at">.groups =</span> <span class="st">&quot;drop&quot;</span></span>
+<span id="cb24-9"><a href="#cb24-9" tabindex="-1"></a>  ) <span class="sc">%&gt;%</span></span>
+<span id="cb24-10"><a href="#cb24-10" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb24-11"><a href="#cb24-11" tabindex="-1"></a>    <span class="at">CI_low  =</span> Media <span class="sc">-</span> <span class="fl">1.96</span> <span class="sc">*</span> SE,</span>
+<span id="cb24-12"><a href="#cb24-12" tabindex="-1"></a>    <span class="at">CI_high =</span> Media <span class="sc">+</span> <span class="fl">1.96</span> <span class="sc">*</span> SE</span>
+<span id="cb24-13"><a href="#cb24-13" tabindex="-1"></a>  )</span>
+<span id="cb24-14"><a href="#cb24-14" tabindex="-1"></a></span>
+<span id="cb24-15"><a href="#cb24-15" tabindex="-1"></a><span class="co"># Paso 2: Completa el gráfico</span></span>
+<span id="cb24-16"><a href="#cb24-16" tabindex="-1"></a><span class="fu">ggplot</span>(coqui_mensual, <span class="fu">aes</span>(<span class="at">x =</span> ___, <span class="at">y =</span> ___)) <span class="sc">+</span></span>
+<span id="cb24-17"><a href="#cb24-17" tabindex="-1"></a>  <span class="fu">geom_ribbon</span>(<span class="fu">aes</span>(<span class="at">ymin =</span> ___, <span class="at">ymax =</span> ___),</span>
+<span id="cb24-18"><a href="#cb24-18" tabindex="-1"></a>              <span class="at">fill =</span> <span class="st">&quot;___&quot;</span>, <span class="at">alpha =</span> ___) <span class="sc">+</span></span>
+<span id="cb24-19"><a href="#cb24-19" tabindex="-1"></a>  <span class="fu">geom_line</span>(<span class="at">linewidth =</span> ___, <span class="at">color =</span> <span class="st">&quot;___&quot;</span>) <span class="sc">+</span></span>
+<span id="cb24-20"><a href="#cb24-20" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">size =</span> ___, <span class="at">color =</span> <span class="st">&quot;___&quot;</span>) <span class="sc">+</span></span>
+<span id="cb24-21"><a href="#cb24-21" tabindex="-1"></a>  <span class="fu">scale_x_continuous</span>(<span class="at">breaks =</span> <span class="dv">1</span><span class="sc">:</span><span class="dv">12</span>,</span>
+<span id="cb24-22"><a href="#cb24-22" tabindex="-1"></a>                     <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">&quot;E&quot;</span>,<span class="st">&quot;F&quot;</span>,<span class="st">&quot;M&quot;</span>,<span class="st">&quot;A&quot;</span>,<span class="st">&quot;M&quot;</span>,<span class="st">&quot;J&quot;</span>,</span>
+<span id="cb24-23"><a href="#cb24-23" tabindex="-1"></a>                                <span class="st">&quot;J&quot;</span>,<span class="st">&quot;A&quot;</span>,<span class="st">&quot;S&quot;</span>,<span class="st">&quot;O&quot;</span>,<span class="st">&quot;N&quot;</span>,<span class="st">&quot;D&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb24-24"><a href="#cb24-24" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">&quot;Mes&quot;</span>, <span class="at">y =</span> <span class="st">&quot;Coquíes por noche (media ± IC 95%)&quot;</span>,</span>
+<span id="cb24-25"><a href="#cb24-25" tabindex="-1"></a>       <span class="at">title =</span> <span class="st">&quot;Patrón estacional de actividad de coquí&quot;</span>) <span class="sc">+</span></span>
+<span id="cb24-26"><a href="#cb24-26" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code></pre></div>
+</div>
+<div id="ejercicio-2-comparar-linetype-y-geom_step"
+class="section level2">
+<h2>Ejercicio 2: Comparar <code>linetype</code> y
+<code>geom_step()</code></h2>
+<p>Usando los datos de tiroides, crea un gráfico donde:</p>
+<ul>
+<li>Los “New Cases” se muestren con <code>linetype = "solid"</code> y
+<code>geom_line()</code></li>
+<li>Los “Deaths_US” se muestren con <code>linetype = "dashed"</code> y
+<code>geom_line()</code></li>
+<li>Luego, crea una <strong>segunda versión</strong> del mismo gráfico
+usando <code>geom_step()</code> en lugar de
+<code>geom_line()</code>.</li>
+</ul>
+<p><strong>Pregunta:</strong> ¿Cuál representación es más apropiada para
+datos que se miden una vez por año? ¿Por qué?</p>
+</div>
+<div id="ejercicio-3-facet_wrap-con-datos-propios"
+class="section level2">
+<h2>Ejercicio 3: facet_wrap con datos propios</h2>
+<p>Descarga datos de iNaturalist para <strong>4 especies</strong> de un
+mismo orden o familia en Puerto Rico. Crea un gráfico con
+<code>facet_wrap()</code> mostrando la tendencia temporal de cada
+especie en un panel separado.</p>
+</div>
+<div id="ejercicio-4-resaltar-un-evento" class="section level2">
+<h2>Ejercicio 4: Resaltar un evento</h2>
+<p>Usando cualquier conjunto de datos temporal, crea un gráfico de
+líneas que:</p>
+<ol style="list-style-type: decimal">
+<li>Muestre la tendencia a lo largo del tiempo.</li>
+<li>Use <code>annotate("rect")</code> para resaltar un período
+importante (por ejemplo, el paso del Huracán María en septiembre
+2017).</li>
+<li>Añada una etiqueta de texto con <code>annotate("text")</code>
+explicando el evento.</li>
+<li>Use <code>geom_vline()</code> para marcar la fecha exacta del
+evento.</li>
+</ol>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" tabindex="-1"></a><span class="co"># Pista: geom_vline para una línea vertical en una fecha específica</span></span>
+<span id="cb25-2"><a href="#cb25-2" tabindex="-1"></a><span class="fu">geom_vline</span>(<span class="at">xintercept =</span> <span class="fu">as.numeric</span>(<span class="fu">as.Date</span>(<span class="st">&quot;2017-09-20&quot;</span>)),</span>
+<span id="cb25-3"><a href="#cb25-3" tabindex="-1"></a>           <span class="at">linetype =</span> <span class="st">&quot;dashed&quot;</span>, <span class="at">color =</span> <span class="st">&quot;red&quot;</span>, <span class="at">linewidth =</span> <span class="fl">0.8</span>)</span></code></pre></div>
+<hr />
+</div>
+</div>
+<div id="resumen-de-funciones" class="section level1">
+<h1>Resumen de funciones</h1>
+<table>
+<colgroup>
+<col width="50%" />
+<col width="50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Función</th>
+<th>Propósito</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>geom_line()</code></td>
+<td>Línea que conecta puntos en orden</td>
+</tr>
+<tr class="even">
+<td><code>geom_step()</code></td>
+<td>Línea escalonada para cambios discretos</td>
+</tr>
+<tr class="odd">
+<td><code>geom_smooth()</code></td>
+<td>Línea de tendencia suavizada (LOESS/GAM)</td>
+</tr>
+<tr class="even">
+<td><code>geom_ribbon()</code></td>
+<td>Banda de confianza/incertidumbre</td>
+</tr>
+<tr class="odd">
+<td><code>geom_segment()</code></td>
+<td>Segmento entre dos puntos (con flechas opcionales)</td>
+</tr>
+<tr class="even">
+<td><code>geom_point()</code></td>
+<td>Puntos sobre la línea</td>
+</tr>
+<tr class="odd">
+<td><code>geom_vline()</code> / <code>geom_hline()</code></td>
+<td>Líneas de referencia vertical/horizontal</td>
+</tr>
+<tr class="even">
+<td><code>annotate("text")</code></td>
+<td>Texto libre en el gráfico</td>
+</tr>
+<tr class="odd">
+<td><code>annotate("rect")</code></td>
+<td>Rectángulo sombreado para resaltar períodos</td>
+</tr>
+<tr class="even">
+<td><code>facet_wrap()</code></td>
+<td>Paneles separados por grupo</td>
+</tr>
+<tr class="odd">
+<td><code>scale_color_manual()</code></td>
+<td>Colores personalizados por grupo</td>
+</tr>
+<tr class="even">
+<td><code>scale_linetype_manual()</code></td>
+<td>Tipos de línea personalizados por grupo</td>
+</tr>
+<tr class="odd">
+<td><code>sec_axis()</code></td>
+<td>Eje secundario (transformación del primario)</td>
+</tr>
+</tbody>
+</table>
 </div>
 
 
@@ -2826,6 +2128,11 @@ $(document).ready(function () {
 </script>
 
 <!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
 
 <script>
 $(document).ready(function ()  {

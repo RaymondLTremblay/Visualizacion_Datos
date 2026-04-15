@@ -13,7 +13,7 @@
 
 <title>Facet_Grid</title>
 
-<script src="site_libs/header-attrs-2.30/header-attrs.js"></script>
+<script src="site_libs/header-attrs-2.31/header-attrs.js"></script>
 <script src="site_libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <link href="site_libs/bootstrap-3.3.5/css/simplex.min.css" rel="stylesheet" />
@@ -601,7 +601,7 @@ div.tocify {
 
 
 <p>Fecha de la ultima revisión</p>
-<pre><code>## [1] &quot;2026-02-25&quot;</code></pre>
+<pre><code>## [1] &quot;2026-04-15&quot;</code></pre>
 <p><img src="Graficos/hex_ggversa.png" alt="" width="20%" /><img src="Graficos/hex_Visualizacion_Datos.png" alt="" width="20%" /></p>
 <div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
 <span id="cb2-2"><a href="#cb2-2" tabindex="-1"></a><span class="fu">library</span>(ggversa)</span></code></pre></div>
@@ -670,7 +670,16 @@ class="math inline">\(\sim\)</span>SEASON.</p>
 <span id="cb5-5"><a href="#cb5-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Altitud, m&quot;</span>)<span class="sc">+</span></span>
 <span id="cb5-6"><a href="#cb5-6" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
 <span id="cb5-7"><a href="#cb5-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Distancia entre el hocico y la cloaca&quot;</span>)</span></code></pre></div>
+<span id="cb5-8"><a href="#cb5-8" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Distancia entre el hocico y la cloaca&quot;</span>)</span>
+<span id="cb5-9"><a href="#cb5-9" tabindex="-1"></a></span>
+<span id="cb5-10"><a href="#cb5-10" tabindex="-1"></a><span class="fu">unique</span>(Anolis<span class="sc">$</span>SEX_AGE)</span></code></pre></div>
+<pre><code>## [1] &quot;Female&quot;  &quot;Juvenil&quot; &quot;Male&quot;</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a><span class="fu">unique</span>(Anolis<span class="sc">$</span>SEASON)</span></code></pre></div>
+<pre><code>## [1] &quot;dry&quot; &quot;wet&quot;</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">unique</span>(Anolis<span class="sc">$</span>SVL)</span></code></pre></div>
+<pre><code>##  [1]   NA 29.0 26.0 45.0 37.0 36.0 33.0 43.0 38.0 35.0 28.0  0.4 32.0 27.0 48.0
+## [16] 54.0 30.0 39.0 49.0 31.0 44.0 41.0 34.0 47.0 46.0  0.8 40.0  2.7 23.0  3.0
+## [31] 24.0 42.0 22.0 25.0 52.0 20.0  2.2  4.8  2.8</code></pre>
 <p><img src="G9_Facet_Grid_files/figure-html/facetgrid2-1.png" alt="" width="672" /></p>
 <hr />
 </div>
@@ -682,13 +691,13 @@ cm. Con esta representación se puede apreciar mejor que los nuevos
 especímenes nacen en mayores cantidades en el periodo lluvioso. Note que
 el parámetro ahora es <strong>SEX_AGE~SEASON</strong> y
 <strong>scales=free_x</strong>.</p>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a>rr<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SVL, HEIGHT))</span>
-<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a>rr<span class="sc">+</span><span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color=</span>Survey_Site))<span class="sc">+</span></span>
-<span id="cb6-4"><a href="#cb6-4" tabindex="-1"></a>  <span class="fu">facet_grid</span>(SEX_AGE<span class="sc">~</span>SEASON, <span class="at">scales=</span><span class="st">&quot;free_x&quot;</span>)<span class="sc">+</span></span>
-<span id="cb6-5"><a href="#cb6-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Altitud, m&quot;</span>)<span class="sc">+</span></span>
-<span id="cb6-6"><a href="#cb6-6" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
-<span id="cb6-7"><a href="#cb6-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Distancia entre el hocico y la cloaca&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" tabindex="-1"></a>rr<span class="ot">=</span><span class="fu">ggplot</span>(Anolis, <span class="fu">aes</span>(SVL, HEIGHT))</span>
+<span id="cb11-2"><a href="#cb11-2" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" tabindex="-1"></a>rr<span class="sc">+</span><span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color=</span>Survey_Site))<span class="sc">+</span></span>
+<span id="cb11-4"><a href="#cb11-4" tabindex="-1"></a>  <span class="fu">facet_grid</span>(SEX_AGE<span class="sc">~</span>SEASON, <span class="at">scales=</span><span class="st">&quot;free_x&quot;</span>)<span class="sc">+</span></span>
+<span id="cb11-5"><a href="#cb11-5" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Altitud, m&quot;</span>)<span class="sc">+</span></span>
+<span id="cb11-6"><a href="#cb11-6" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
+<span id="cb11-7"><a href="#cb11-7" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Distancia entre el hocico y la cloaca&quot;</span>)</span></code></pre></div>
 <p><img src="G9_Facet_Grid_files/figure-html/facetgrid3-1.png" alt="" width="672" style="display: block; margin: auto;" /></p>
 <hr />
 </div>
@@ -702,64 +711,75 @@ eje de <strong>X</strong>, la descripción de ese eje, que antes estaba
 arriba, ahora pasará abajo. Si se usa en el eje de <strong>Y</strong>,
 la descripción de la derecha pasa a la izquierda. Si se usa el parámetro
 <strong>both</strong> ambas descripciones cambian a su lado opuesto.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" tabindex="-1"></a>rr<span class="sc">+</span><span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color=</span>Survey_Site))<span class="sc">+</span></span>
-<span id="cb7-2"><a href="#cb7-2" tabindex="-1"></a>  <span class="fu">facet_grid</span>(SEX_AGE<span class="sc">~</span>SEASON, <span class="at">switch =</span> <span class="st">&quot;y&quot;</span>)<span class="sc">+</span></span>
-<span id="cb7-3"><a href="#cb7-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Altitud, m&quot;</span>)<span class="sc">+</span></span>
-<span id="cb7-4"><a href="#cb7-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
-<span id="cb7-5"><a href="#cb7-5" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb7-6"><a href="#cb7-6" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Distancia entre el hocico y la cloaca&quot;</span>)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" tabindex="-1"></a>rr<span class="sc">+</span><span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color=</span>Survey_Site))<span class="sc">+</span></span>
+<span id="cb12-2"><a href="#cb12-2" tabindex="-1"></a>  <span class="fu">facet_grid</span>(SEX_AGE<span class="sc">~</span>SEASON, <span class="at">switch =</span> <span class="st">&quot;y&quot;</span>)<span class="sc">+</span></span>
+<span id="cb12-3"><a href="#cb12-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Altitud, m&quot;</span>)<span class="sc">+</span></span>
+<span id="cb12-4"><a href="#cb12-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
+<span id="cb12-5"><a href="#cb12-5" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb12-6"><a href="#cb12-6" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Distancia entre el hocico y la cloaca&quot;</span>)</span></code></pre></div>
 <p><img src="G9_Facet_Grid_files/figure-html/facetgrid4-1.png" alt="" width="672" /></p>
 <hr />
 </div>
 <div id="facet_grid-con-las-escalas-de-los-ejes-variable-en-x-y-y"
 class="section level2">
 <h2>Facet_grid con las escalas de los ejes variable en X y Y</h2>
-<p>La opción de <strong>space</strong> con <strong>facet_grid</strong>,
+<p>La opción de <strong>scale</strong> con <strong>facet_grid</strong>,
 da la oportunidad de modificar el rango de los ejes de
 <strong>Y</strong> y <strong>X</strong>. Por conveniencia, algunos de
 los rangos de los ejes de las figuras anteriores son iguales. Pero si
 uno quisiera que cada figura tuviera su propio rango, uno usa
-<strong>space=free_y</strong> o <strong>free_x</strong> para que sean
+<strong>scale=free_y</strong> o <strong>free_x</strong> para que sean
 proporcionales a la escala de los datos en uno o el otro eje. Sin
 embargo, a veces se quiere que ambos ejes sean proporcionales al rango
 de los datos y en tal caso se usa <strong>free</strong> solamente como
 se demuestra en la Figura.</p>
-<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" tabindex="-1"></a>rr<span class="sc">+</span><span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color=</span>Survey_Site))<span class="sc">+</span></span>
-<span id="cb8-2"><a href="#cb8-2" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span>SEX_AGE, <span class="at">scales=</span><span class="st">&quot;free&quot;</span>)<span class="sc">+</span></span>
-<span id="cb8-3"><a href="#cb8-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Altitud, m&quot;</span>)<span class="sc">+</span></span>
-<span id="cb8-4"><a href="#cb8-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
-<span id="cb8-5"><a href="#cb8-5" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb8-6"><a href="#cb8-6" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Distancia entre el hocico y la cloaca&quot;</span>)<span class="sc">+</span></span>
-<span id="cb8-7"><a href="#cb8-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">60</span>, <span class="at">vjust =</span> <span class="dv">1</span>, <span class="at">hjust=</span><span class="dv">1</span>))<span class="sc">+</span></span>
-<span id="cb8-8"><a href="#cb8-8" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb8-9"><a href="#cb8-9" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">5</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
-<span id="cb8-10"><a href="#cb8-10" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;italic&quot;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" tabindex="-1"></a>rr<span class="sc">+</span><span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color=</span>Survey_Site))<span class="sc">+</span></span>
+<span id="cb13-2"><a href="#cb13-2" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span>SEX_AGE, <span class="at">scales=</span><span class="st">&quot;free&quot;</span>)<span class="sc">+</span></span>
+<span id="cb13-3"><a href="#cb13-3" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">y=</span><span class="st">&quot;Altitud, m&quot;</span>)<span class="sc">+</span></span>
+<span id="cb13-4"><a href="#cb13-4" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position=</span><span class="st">&quot;none&quot;</span>)<span class="sc">+</span></span>
+<span id="cb13-5"><a href="#cb13-5" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">10</span>,<span class="at">face=</span><span class="st">&quot;bold&quot;</span>))<span class="sc">+</span></span>
+<span id="cb13-6"><a href="#cb13-6" tabindex="-1"></a>  <span class="fu">xlab</span>(<span class="st">&quot;Distancia entre el hocico y la cloaca&quot;</span>)<span class="sc">+</span></span>
+<span id="cb13-7"><a href="#cb13-7" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">60</span>, <span class="at">vjust =</span> <span class="dv">1</span>, <span class="at">hjust=</span><span class="dv">1</span>))</span></code></pre></div>
 <p><img src="G9_Facet_Grid_files/figure-html/facetgrid5-1.png" alt="" width="672" /></p>
 <hr />
 <ol style="list-style-type: decimal">
-<li><p>Usando los datos de <strong>diamonds</strong> en el paquete
-<em>ggplot2</em></p>
-<ul>
-<li>evalúa la relación entre el precio de los diamantes y los quilates
-(carat) con geom_point.</li>
-<li>haga un <strong>facet_grid</strong> con la calidad del corte del
-diamantes (cut) y el color del diamante (color).</li>
-<li>No aplique la función <strong>scales=“free”</strong>.</li>
-<li>cambiar los nombres de los ejes a “Quilates” y ” Precio del los
-diamantes”.</li>
-<li>asegurar que la leyenya de precio se pueden leer.</li>
-<li>Someter su gráfico en MSTeam formato .png.</li>
-</ul></li>
+<li>Usando los datos de <strong>diamonds</strong> en el paquete
+<em>ggplot2</em></li>
 </ol>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" tabindex="-1"></a>diamonds</span></code></pre></div>
+<pre><code>## # A tibble: 53,940 × 10
+##    carat cut       color clarity depth table price     x     y     z
+##    &lt;dbl&gt; &lt;ord&gt;     &lt;ord&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+##  1  0.23 Ideal     E     SI2      61.5    55   326  3.95  3.98  2.43
+##  2  0.21 Premium   E     SI1      59.8    61   326  3.89  3.84  2.31
+##  3  0.23 Good      E     VS1      56.9    65   327  4.05  4.07  2.31
+##  4  0.29 Premium   I     VS2      62.4    58   334  4.2   4.23  2.63
+##  5  0.31 Good      J     SI2      63.3    58   335  4.34  4.35  2.75
+##  6  0.24 Very Good J     VVS2     62.8    57   336  3.94  3.96  2.48
+##  7  0.24 Very Good I     VVS1     62.3    57   336  3.95  3.98  2.47
+##  8  0.26 Very Good H     SI1      61.9    55   337  4.07  4.11  2.53
+##  9  0.22 Fair      E     VS2      65.1    61   337  3.87  3.78  2.49
+## 10  0.23 Very Good H     VS1      59.4    61   338  4     4.05  2.39
+## # ℹ 53,930 more rows</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" tabindex="-1"></a><span class="fu">ggplot</span>(diamonds, <span class="fu">aes</span>(<span class="at">y=</span>price,<span class="at">x=</span> carat, <span class="at">colour=</span>clarity))<span class="sc">+</span></span>
+<span id="cb16-2"><a href="#cb16-2" tabindex="-1"></a>         <span class="fu">geom_point</span>()<span class="sc">+</span></span>
+<span id="cb16-3"><a href="#cb16-3" tabindex="-1"></a>  <span class="fu">facet_grid</span>(color<span class="sc">~</span>cut)</span></code></pre></div>
+<p><img src="G9_Facet_Grid_files/figure-html/unnamed-chunk-5-1.png" alt="" width="672" /></p>
+<pre><code>-   evalúa la relación entre el precio de los diamantes y los quilates (carat) con geom\_point.
+-   haga un **facet\_grid** con la calidad del corte del diamantes (cut) y el color del diamante (color).
+-   No aplique la función **scales=&quot;free&quot;**.
+-   cambiar los nombres de los ejes a &quot;Quilates&quot; y &quot; Precio del los diamantes&quot;.
+-   asegurar que la leyenya de precio se pueden leer.
+-   Someter su gráfico en MSTeam formato .png.</code></pre>
 <hr />
 <p><img src="Graficos/Lepanthes_rubripetala.png" alt="" width="45%" style="float:right; padding:10px" /></p>
 <ol start="2" style="list-style-type: decimal">
 <li>Ejercicio para entregar. Valor 20 puntos. Usando los datos de la
 orquídea <em>Lepanthes rubripetala</em>, una especies endémica de Puerto
 Rico. Selecciona la variable números de flores en una planta
-(Num_flowers), El tamaño de las flores (Flower_size) y haga un “box
-plot” para cada población y en “facet_grid” con la población
-(Population). Vea aquí el gráfico, que debería tener.
+(Num_flowers), El tamaño de las flores (Flower_size) y haga un “boxplot”
+para cada población y en “facet_grid” con la población (Population). Vea
+aquí el gráfico, que debería tener.
 <ul>
 <li>Cambie los colores de los puntos de las diferentes poblaciones.</li>
 <li>Añade la información en los ejes en español.</li>
@@ -775,12 +795,12 @@ plot” para cada población y en “facet_grid” con la población
 </ol>
 <p>Esa orquídea diminuta esta limitada a Puerto Rico (endémica) y se
 encuentra mayormente el EL Yunque.</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
-<span id="cb9-2"><a href="#cb9-2" tabindex="-1"></a>Lep_rupPetal_All_Data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;Data_files_csv/Lep_rupPetal_All_Data.csv&quot;</span>)</span>
-<span id="cb9-3"><a href="#cb9-3" tabindex="-1"></a></span>
-<span id="cb9-4"><a href="#cb9-4" tabindex="-1"></a>Leprub<span class="ot">=</span>Lep_rupPetal_All_Data</span>
-<span id="cb9-5"><a href="#cb9-5" tabindex="-1"></a><span class="co">#names(Leprub)</span></span></code></pre></div>
-<p><img src="G9_Facet_Grid_files/figure-html/unnamed-chunk-8-1.png" alt="" width="672" /></p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" tabindex="-1"></a><span class="fu">library</span>(readr)</span>
+<span id="cb18-2"><a href="#cb18-2" tabindex="-1"></a>Lep_rupPetal_All_Data <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;Data_files_csv/Lep_rupPetal_All_Data.csv&quot;</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" tabindex="-1"></a>Leprub<span class="ot">=</span>Lep_rupPetal_All_Data</span>
+<span id="cb18-5"><a href="#cb18-5" tabindex="-1"></a><span class="co">#names(Leprub)</span></span></code></pre></div>
+<p><img src="G9_Facet_Grid_files/figure-html/unnamed-chunk-9-1.png" alt="" width="672" /></p>
 </div>
 </div>
 <div id="opciones-y-parametros-de-facet_grid" class="section level1">

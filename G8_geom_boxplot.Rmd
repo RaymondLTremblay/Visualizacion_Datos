@@ -61,7 +61,7 @@ Las muescas a los lados de un diagrama de caja se pueden interpretar como un int
 # Teoretical boxplot
 
 ```{r teoretical box plot, echo=TRUE}
-df=as.tibble(c(1,8:10, 100:120, 125:135,150:160))
+df=as.tibble(c(1,8:10, 100:120, 125:135,150:160, 200))
 df
 df %>% 
   ggplot(aes(value, x=1))+ # x=1 representa que hay solamente un grupo
@@ -77,11 +77,23 @@ df2 %>%
 
 
 
+```{r}
+
+
+x=rnorm(1000, 10, 2)
+
+x %>% 
+  as.tibble() %>% 
+  ggplot(aes(value, x=1))+ # x=1 representa que hay solamente un grupo
+  geom_boxplot()
+```
+
+
 
 
 ```{r boxplot_4_1, echo=TRUE}
 #names(dipodium)
-library(conflicted)
+#library(conflicted)
 library(janitor)
 library(gt)
 dipodium=clean_names(dipodium)
@@ -97,9 +109,10 @@ d1=dipodium %>%
 ```{r, boxplot4-2}
 boxplot1 <- ggplot(d1, aes(number_of_fruits, x=1))+ 
   geom_boxplot()+
-           annotate("text", x= .5,y= 5, label="Fig. 1")+
+           annotate("text", x= .75,y= 5, label="Fig. 1")+
   labs(x="", y="Cantidad de Frutos")+
   theme(axis.title=element_text(size=10,face="bold"))
+boxplot1
 ```
 
 ```{r, boxplot4_3}
@@ -183,6 +196,26 @@ library(ggplot2)
 ggplot(ElphickBirdData, aes(y=AQBIRDS, fill=SITE))+
   geom_boxplot(notch=TRUE, varwidth=TRUE)
 
+library(tidyverse)
+library(ggversa)
+
+# 1. Cargar datos
+data("ElphickBirdData")
+
+# 2. Seleccionar variables y eliminar NA
+d1 <- ElphickBirdData %>% 
+  select(AQBIRDS, SITE) %>% 
+  drop_na()
+
+# 3. Box plot con notch
+ggplot(d1, aes(x = factor(SITE), y = AQBIRDS)) +
+  geom_boxplot(notch = TRUE) +
+  labs(x = "Sitio de muestreo",
+       y = "Cantidad de aves acuáticas") +
+  theme(axis.text.x = element_text(angle = 90))
+
+# 4. Guardar gráfico
+ggsave("boxplot_AQBIRDS_por_SITE.png", width = 8, height = 6)
 
 ```
 

@@ -48,16 +48,14 @@ colorize <- function(x, color) {
 ## La lista de packetes para analisis de los supuestos
 
 ```{r}
-library(ggplot2)
-library(ggversa)
-library(knitr)
-library(GGally)
-library(tidyverse)
 
-#library(kableExtra)
-library(reshape2)
-library(ggcorrplot)
-library(gridExtra)
+library(ggversa) # para los datos de la becasa de mar y la orquídea Dipodium
+library(GGally) # para el gráfico de correlación
+library(tidyverse) # para la manipulación de los datos
+library(janitor) # para limpiar los nombres de las variables
+library(reshape2) # para transformar los datos a formato largo
+library(ggcorrplot) # para el gráfico de correlación con ggplot
+library(gridExtra) # para organizar múltiples gráficos juntos
 
 ```
 
@@ -112,16 +110,28 @@ Note aquí el **-** (el signo de resta) antes de **which**, que resulta en la se
 ```{r BecasaDeMar, rexample=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
 BecasaDeMar=Godwits
 
-BecasaDeMar=BecasaDeMar[-which(BecasaDeMar$SEX=="0"),]
 
-BecasaDeMar$fSEXO <- factor(BecasaDeMar$SEX,
-            levels = c(1, 2),
-            labels = c("Hembra", "Macho"))
 
-BecasaDeMar$fPERIODO <- factor(BecasaDeMar$PERIOD,
-            levels = c(0, 1, 2),
-            labels = c("Verano", "Pre-migración", "Invierno"))
+library(tidyverse)
 
+BecasaDeMar <- BecasaDeMar %>%
+  filter(SEX != "0") %>%
+  mutate(
+    fSEXO = SEX %>%
+      as.character() %>%
+      fct_recode(
+        Hembra = "1",
+        Macho  = "2"
+      ),
+
+    fPERIODO = PERIOD %>%
+      as.character() %>%
+      fct_recode(
+        Verano         = "0",
+        `Pre-migración` = "1",
+        Invierno       = "2"
+      )
+  )
  head(BecasaDeMar)           
 ```
 
@@ -129,19 +139,15 @@ BecasaDeMar$fPERIODO <- factor(BecasaDeMar$PERIOD,
 
 ```{r BecasaDeMarBP}
 
-BecasaMar <- ggplot(BecasaDeMar,
-                    aes(y=mgconsumed, fSEXO))
-BecasaMar + geom_boxplot(notch=TRUE)+
+ ggplot(BecasaDeMar, aes(y=mgconsumed, fSEXO))+ 
+  geom_boxplot(notch=TRUE)+
             facet_wrap(~fPERIODO)+
   theme(axis.title=element_text(size=12,face="bold"),
         axis.text=element_text(size=12, face="bold"))+
             xlab("Sexo de las aves")+
             ylab("Razón de consumo")
 
-#edad=c(19,19,23,23,19,20,23,35,19, 200)
-#edad=c(19,19, 19,19, 20, 23, 23, 35, 37, 200)
-#mean(edad)
-#median(edad)
+
 ```
 
 ***
@@ -157,41 +163,70 @@ A continuación, completamos el análisis utilizando otra vez los datos de la or
 
 ```{r Homogeneityvariance, rexample=TRUE, echo=TRUE, message=FALSE, warning=FALSE}
 #names(dipodium)
-library(janitor)
-dipodium=janitor::clean_names(dipodium)
-dipodium=dipodium %>% 
-  add_row(number_of_flowers = 60, height_inflo =30)
-names(dipodium)
 
-modelflower=lm(number_of_flowers~height_inflo,
-         data=dipodium)
+
+dipodium <- dipodium %>%
+  clean_names() %>%
+  add_row(
+    number_of_flowers = 60,
+    height_inflo = 30
+  )
+dipodium
+# Optional sanity check
+glimpse(dipodium) # to see the structure of the data frame
+```
+
+
+```{r}
+modelflower <- lm(
+  number_of_flowers ~ height_inflo,
+  data = dipodium)
 
 summary(modelflower)
 ```
+
+
+```{r}
+ggplot(dipodium, aes(number_of_flowers, height_inflo))+
+  geom_point()+
+  geom_smooth( se=FALSE, colour="red")
+```
+
 Lo que observaremos es que la distribución de los residuales luce más o menos uniforme alrededor del promedio de los residuales (el cero).  Hay aproximadamente igual cantidad de valores mayor a cero (por encima de la línea en verde) y menor a cero (por debajo de la línea en verde) que están distribuidos a través de la variable en el eje de **X**, o valores estimados. En adición que los residuales (negativos o positivos) no son limitado a sub grupos de de los valores estimados (en la **X**).   
 
 
  Note que se está aplicando el modelo **modelflower**, y se usan los valores calculados en el modelo **.fitted** y **.resid** para producir el gráfico. Se añade una linea horizontal para identificar el modelo nulo con **geom_hline**.  
 
+
+
+
 ```{r Homogeneityvariance1}
   res<-ggplot(modelflower, aes(.fitted, .resid))+
-  geom_point()+
-  geom_hline(yintercept=0,
+      geom_point()+
+      geom_hline(yintercept=0,
            col="red", linetype="dashed")+
-  theme(axis.title=element_text(size=20,face="bold"),
-        axis.text=element_text(size=20, face="bold"))+
-  xlab("Valores estimados")+
-           ylab("Residuales")+
-  ggtitle("Residuales vs. Valores Estimados")
+      theme(axis.title=element_text(size=20,face="bold"),
+            axis.text=element_text(size=20, face="bold"))+
+            xlab("Valores estimados")+
+            ylab("Residuales")+
+      ggtitle("Residuales vs. Valores Estimados")
 res
 ```
 
 ***
 
 
-## Heterosescasticidad
+## ¿Qué es la heterocedasticidad?
+En un modelo de regresión lineal clásica se asume que los errores tienen varianza constante, es decir:
 
-Ejemplo de heteroescasticidad
+$$Var(ε∣X)=σ2$$
+
+Cuando esa varianza cambia en función de la variable explicativa, hablamos de heterocedasticidad.
+En términos simples:
+
+La dispersión de los datos alrededor de la recta de regresión no es la misma para todos los valores de X.
+
+El caso contrario se llama homocedasticidad.
 
 ```{r}
 set.seed(123)
@@ -375,11 +410,11 @@ a=ggplot(Godwits, aes(mgconsumed)) +
   theme(legend.position = "none") +
   geom_histogram(aes(y=..density..),
                  colour="black", fill="white")+
-  stat_function(fun = dnorm,
-        args = list(mean = mean(Godwits$mgconsumed,
+stat_function(fun = dnorm,
+args = list(mean = mean(Godwits$mgconsumed,
                                 na.rm = TRUE),
-    sd = sd(Godwits$mgconsumed,na.rm = TRUE)),
-    colour = "red", size = 1)
+           sd = sd(Godwits$mgconsumed,na.rm = TRUE)),
+           colour = "red", size = 1)
 
 
 
@@ -409,16 +444,28 @@ Continuaremos con este mismo análisis pero esta vez evaluaremos la distribució
 
 ```{r density3}
 
-library(readxl)
-SparrowElphick <- read_excel("Visualizacion_Datos/Data_files_csv/SparrowElphick.xlsx")
+data(SparrowsElphick)
+#read_csv(
+#  "/Users/raymondtremblay/Dropbox/GitHub_Dropbox_Drive/GitHub/Visualizacion_Datos/Data_files_csv/SparrowElphick.csv"
+#)
+
 Sparrows=SparrowsElphick
 head(Sparrows)
-Sparrows=SparrowsElphick
 
-Sparrows$fMonth<-factor(Sparrows$Month,
-             levels = c(5, 6, 7, 8, 9, 10),
-             labels = c("Mayo", "Junio", "Julio", "Agosto",
-                                   "Sept.", "Oct."))
+
+```
+
+
+```{r}
+library(dplyr)
+
+Sparrows <- Sparrows %>%
+  mutate(
+    fMonth = factor(Month,
+      levels = c(5, 6, 7, 8, 9, 10),
+      labels = c("Mayo", "Junio", "Julio", "Agosto", "Sept.", "Oct.")
+    )
+  )
 
 a=ggplot(Sparrows, aes(wt))+
   geom_histogram(binwidth=1, colour="white")+
@@ -450,9 +497,9 @@ grid.arrange(a,b,ncol=2)
 A continuación se muestra otra alternativa para observar los datos anteriores.  Nada más que estos ahora se representan sustituyendo las funciones **geom_histogram** y **stat_function** por **geom_density** para la construcción de curvas de densidad.  Otra vez utilizaremos la base de datos **SparrowsElphick**.  La curva normal que se genera es tipo gausiana (gaussian en inglés). Nóte que para el segundo conjunto de gráficos, (b), no se le especificó la opción en **kernel** igual a **gaussian** ya que de forma predeterminada la función **geom_density** usa el parámetro **gaussian**; o sea, no es necesario especificarla si eso es lo que se quiere. Una distribución en donde el pico es más alto significa que hay mayor densidad de datos en esa región de la variable en el eje de **X**. Podemos apreciar que la curva de densidad no sigue claramente una distribución normal con respecto a los valores en **X**.
 
 ```{r density4}
-
+names(Sparrows)
 # Note que anteriormente ya habíamos depositado los datos en el data.frame "Sparrows":
-a= ggplot(Sparrows, aes(wt))+
+ggplot(Sparrows, aes(wt))+
   geom_histogram(aes(y=..density..))+
 geom_density(aes(group=fMonth, fill=fMonth),
              kernel="gaussian", alpha=.5)+
@@ -463,7 +510,7 @@ geom_density(aes(group=fMonth, fill=fMonth),
   ylab("Densidad")+
   xlab("Peso")
 
-b= ggplot(Sparrows, aes(wt))+
+ggplot(Sparrows, aes(wt))+
   geom_density(aes(group=fMonth,
                    fill=fMonth),
                alpha=.4)+
@@ -474,8 +521,13 @@ b= ggplot(Sparrows, aes(wt))+
   xlab("Peso")+
   labs(colour="Mes")
 
-grid.arrange(a,b,ncol=1)
+
+
 ```
+
+
+grid.arrange(a,b,ncol=1)
+
 
 ***
 
@@ -553,7 +605,7 @@ Con la función de **ggpairs** podemos calcular las correlaciones entre las vari
 
 ```{r ggpairs, warning=FALSE, message=FALSE}
 names(dipodium) # para ver los nombres de las variables/columnas
-
+library(GGally)
 ggpairs(dipodium[,c(8, 9, 13, 14, 10)], aes(colour=herbivory))
 ```
 

@@ -104,6 +104,11 @@ rr+geom_point(aes(color=Survey_Site))+
   theme(legend.position="none")+
   theme(axis.title=element_text(size=10,face="bold"))+
   xlab("Distancia entre el hocico y la cloaca")
+
+unique(Anolis$SEX_AGE)
+unique(Anolis$SEASON)
+unique(Anolis$SVL)
+
 ```
 
 ------------------------------------------------------------------------
@@ -142,7 +147,7 @@ rr+geom_point(aes(color=Survey_Site))+
 
 ## Facet\_grid con las escalas de los ejes variable en X y Y
 
-La opción de **space** con **facet\_grid**, da la oportunidad de modificar el rango de los ejes de **Y** y **X**. Por conveniencia, algunos de los rangos de los ejes de las figuras anteriores son iguales. Pero si uno quisiera que cada figura tuviera su propio rango, uno usa **space=free\_y** o **free\_x** para que sean proporcionales a la escala de los datos en uno o el otro eje. Sin embargo, a veces se quiere que ambos ejes sean proporcionales al rango de los datos y en tal caso se usa **free** solamente como se demuestra en la Figura.
+La opción de **scale** con **facet\_grid**, da la oportunidad de modificar el rango de los ejes de **Y** y **X**. Por conveniencia, algunos de los rangos de los ejes de las figuras anteriores son iguales. Pero si uno quisiera que cada figura tuviera su propio rango, uno usa **scale=free\_y** o **free\_x** para que sean proporcionales a la escala de los datos en uno o el otro eje. Sin embargo, a veces se quiere que ambos ejes sean proporcionales al rango de los datos y en tal caso se usa **free** solamente como se demuestra en la Figura.
 
 ```{r facetgrid5,  echo=TRUE, tidy=FALSE, message=FALSE, warning=FALSE}
 
@@ -152,15 +157,22 @@ rr+geom_point(aes(color=Survey_Site))+
   theme(legend.position="none")+
   theme(axis.title=element_text(size=10,face="bold"))+
   xlab("Distancia entre el hocico y la cloaca")+
-  theme(axis.text.x = element_text(angle = 60, vjust = 1, hjust=1))+
-  theme(axis.title=element_text(size=10,face="bold"))+
-  theme(axis.text.x=element_text(size=5,face="bold"))+
-  theme(axis.text.y=element_text(size=10,face="italic"))
+  theme(axis.text.x = element_text(angle = 60, vjust = 1, hjust=1))
 ```
 
 ------------------------------------------------------------------------
 
 1.  Usando los datos de **diamonds** en el paquete *ggplot2*
+
+```{r}
+diamonds
+
+
+ggplot(diamonds, aes(y=price,x= carat, colour=clarity))+
+         geom_point()+
+  facet_grid(color~cut)
+```
+
 
     -   evalúa la relación entre el precio de los diamantes y los quilates (carat) con geom\_point.
     -   haga un **facet\_grid** con la calidad del corte del diamantes (cut) y el color del diamante (color).
@@ -172,6 +184,8 @@ rr+geom_point(aes(color=Survey_Site))+
 ```{r, eval=FALSE, echo=FALSE}
 
 names(diamonds)
+
+
 
 ggplot(diamonds, aes(price, carat, colour=cut))+
   geom_point()+
@@ -190,7 +204,7 @@ ggplot(diamonds, aes(price, carat, colour=cut))+
 knitr::include_graphics("Graficos/Lepanthes_rubripetala.png")
 ```
 
-2. Ejercicio para entregar. Valor 20 puntos.  Usando los datos de la orquídea *Lepanthes rubripetala*, una especies endémica de Puerto Rico.  Selecciona la variable números de flores en una planta (Num_flowers), El tamaño de las flores (Flower_size) y haga un "box plot" para cada población y en "facet_grid" con la población (Population).  Vea aquí el gráfico, que debería tener.  
+2. Ejercicio para entregar. Valor 20 puntos.  Usando los datos de la orquídea *Lepanthes rubripetala*, una especies endémica de Puerto Rico.  Selecciona la variable números de flores en una planta (Num_flowers), El tamaño de las flores (Flower_size) y haga un "boxplot" para cada población y en "facet_grid" con la población (Population).  Vea aquí el gráfico, que debería tener.  
     - Cambie los colores de los puntos de las diferentes poblaciones.
     - Añade la información en los ejes en español.
     - Añade un titulo al gráfico.

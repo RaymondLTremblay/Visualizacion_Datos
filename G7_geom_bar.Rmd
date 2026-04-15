@@ -40,8 +40,6 @@ knitr::include_graphics(c("Graficos/hex_ggversa.png", "Graficos/hex_Visualizacio
 ## Activar los paquetes
 
 ```{r, bar_2}
-
-#devtools::install_github("EvaMaeRey/flipbookr")
  
 library(tidyverse) # paquete para manipulación de datos
 library(ggversa) # paquete con datos 
@@ -77,7 +75,7 @@ En el siguiente ejemplo, comenzaremos por eliminar los valores perdidos utilizan
 ```{r bar_3,  echo=TRUE}
 
 
-#DW$number_of_flowers  # Antes de hacer los análisis mira los datos, y vea que hay muchas filas con **NA**, remueve **#** para activar la función. 
+DW$number_of_flowers  # Antes de hacer los análisis mira los datos, y vea que hay muchas filas con **NA**, remueve **#** para activar la función. 
 
 # Method 1
 
@@ -95,11 +93,21 @@ DW %>%
   ylab("Frecuencia")+
   theme(axis.title=element_text(size=14,face="bold"))
 
-
-
 ```
 
 
+
+
+```{r}
+
+#names(DW)
+DW %>% drop_na(pardalinum_or_roseum) %>% 
+  ggplot(aes(pardalinum_or_roseum))+
+  geom_bar(fill="red",color="white")+
+  xlab("Especies de Dipodium")+
+  ylab("Frecuencia")+
+  theme(axis.title=element_text(size=14,face="bold"))
+```
 
 
 
@@ -127,6 +135,7 @@ b+geom_bar(alpha=.3,
 ***
 
 
+
 ```{r, bar_7, echo=FALSE, size='50%', out.extra='style="float:right; padding:10px"',  fig.cap='Figura: Lepanthes eltoroensis, EL Yunque, Puerto Rico'}
 knitr::include_graphics("Graficos/L_eltoroensis.jpeg")
 ```
@@ -135,11 +144,19 @@ knitr::include_graphics("Graficos/L_eltoroensis.jpeg")
 
 1. Seleccione el archivo "Lelto" en el paquete "ggversa".  Seleccione la variable adultos y juvenil, que representa la cantidad de plantas adulto y juvenil que se encuentra en el árbol. Los datos son de una pequeñita orquídea que esta limitado las veredas del "El Toro" y de los "Vientos Alizios" en el Yunque. 
      - Mire el nombre de las columnas primero
-     - haz un grafico de los adultos y otro de los juveniles
+     - haz un gráfico de los adultos y otro de los juveniles
      - Cambie de color las barras en por lo menos una de las graficas
      - Cambie el nombre de los nombres de los ejes
      - Une las dos figuras en una sola
      - Sube el .html a MSTeam
+     
+     
+```{r}
+names(Lelto)
+
+head(Lelto)
+```
+     
 
 How to put two ggplot2 plots side by side using the cowplot package in R
 
@@ -152,6 +169,8 @@ b= ggplot(Lelto, aes(Juveniles))+  # Mire el nombre de las columnas primero
     geom_bar(fill="blue",color="white")
 
 cowplot::plot_grid(a, b, labels = c("A", "B"))
+
+ggsave("Graficos/Lelto_ejercicio.png")
 ```
 
 ***
